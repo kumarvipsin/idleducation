@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Target, Eye, Users } from "lucide-react";
 import {
@@ -11,19 +10,10 @@ import {
 } from "@/components/ui/carousel";
 
 export default function AboutPage() {
-  const teamMembers = [
-    { name: "Jane Doe", role: "Lead Curriculum Designer", image: "https://placehold.co/100x100.png" },
-    { name: "John Smith", role: "Head of Technology", image: "https://placehold.co/100x100.png" },
-    { name: "Emily White", role: "Student Success Manager", image: "https://placehold.co/100x100.png" },
-    { name: "Chris Green", role: "Lead Developer", image: "https://placehold.co/100x100.png" },
-    { name: "Alex Johnson", role: "Instructional Technologist", image: "https://placehold.co/100x100.png" },
-    { name: "Maria Garcia", role: "Content Creator", image: "https://placehold.co/100x100.png" },
-  ];
-
   const carouselImages = [
-    { src: "https://placehold.co/600x400.png", alt: "Team working together", hint: "team collaboration" },
-    { src: "https://placehold.co/600x400.png", alt: "Modern classroom environment", hint: "modern classroom" },
-    { src: "https://placehold.co/600x400.png", alt: "Student using the platform", hint: "student learning" },
+    { src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80", alt: "Team working together", hint: "team collaboration" },
+    { src: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80", alt: "Modern classroom environment", hint: "modern classroom" },
+    { src: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80", alt: "Student using the platform", hint: "student learning" },
   ];
 
   return (
@@ -37,24 +27,18 @@ export default function AboutPage() {
 
       <section className="grid md:grid-cols-2 gap-8 mb-16 items-center">
         <div>
-          <Carousel className="w-full max-w-xl mx-auto">
+          <Carousel className="w-full max-w-xl mx-auto" opts={{ loop: true }}>
             <CarouselContent>
               {carouselImages.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-video items-center justify-center p-0">
-                        <Image
-                          src={image.src}
-                          data-ai-hint={image.hint}
-                          alt={image.alt}
-                          width={600}
-                          height={400}
-                          className="rounded-lg object-cover w-full h-full"
-                        />
-                      </CardContent>
-                    </Card>
-                  </div>
+                    <Image
+                      src={image.src}
+                      data-ai-hint={image.hint}
+                      alt={image.alt}
+                      width={600}
+                      height={400}
+                      className="rounded-xl object-cover w-full aspect-video"
+                    />
                 </CarouselItem>
               ))}
             </CarouselContent>
@@ -90,7 +74,7 @@ export default function AboutPage() {
 
       <section className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12 flex items-center justify-center gap-4">
-          <Users className="w-8 h-8" /> Meet Our Team
+          <Users className="w-8 h-8" /> Our Workspace
         </h2>
         <Carousel
           opts={{
@@ -99,20 +83,18 @@ export default function AboutPage() {
           }}
           className="w-full max-w-6xl mx-auto"
         >
-          <CarouselContent className="-ml-4">
-            {teamMembers.map((member, index) => (
-              <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+          <CarouselContent>
+            {carouselImages.map((image, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
-                  <Card className="pt-6">
-                    <CardContent className="flex flex-col items-center text-center space-y-2">
-                      <Avatar className="w-24 h-24 mb-2">
-                        <AvatarImage src={member.image} alt={member.name} />
-                        <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                      </Avatar>
-                      <h3 className="font-semibold text-lg">{member.name}</h3>
-                      <p className="text-sm text-foreground/80">{member.role}</p>
-                    </CardContent>
-                  </Card>
+                  <Image
+                    src={image.src}
+                    data-ai-hint={image.hint}
+                    alt={image.alt}
+                    width={600}
+                    height={400}
+                    className="rounded-xl object-cover w-full aspect-video"
+                  />
                 </div>
               </CarouselItem>
             ))}
