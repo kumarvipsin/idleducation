@@ -2,6 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Target, Eye, Users } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function AboutPage() {
   const teamMembers = [
@@ -9,6 +16,12 @@ export default function AboutPage() {
     { name: "John Smith", role: "Head of Technology", image: "https://placehold.co/100x100.png" },
     { name: "Emily White", role: "Student Success Manager", image: "https://placehold.co/100x100.png" },
     { name: "Chris Green", role: "Lead Developer", image: "https://placehold.co/100x100.png" },
+  ];
+
+  const carouselImages = [
+    { src: "https://placehold.co/600x400.png", alt: "Team working together", hint: "team collaboration" },
+    { src: "https://placehold.co/600x400.png", alt: "Modern classroom environment", hint: "modern classroom" },
+    { src: "https://placehold.co/600x400.png", alt: "Student using the platform", hint: "student learning" },
   ];
 
   return (
@@ -22,14 +35,30 @@ export default function AboutPage() {
 
       <section className="grid md:grid-cols-2 gap-8 mb-16 items-center max-w-7xl mx-auto">
         <div>
-          <Image
-            src="https://placehold.co/600x400.png"
-            data-ai-hint="team collaboration"
-            alt="Our Team"
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg w-full h-auto"
-          />
+          <Carousel className="w-full max-w-xl mx-auto">
+            <CarouselContent>
+              {carouselImages.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                    <Card>
+                      <CardContent className="flex aspect-video items-center justify-center p-0">
+                        <Image
+                          src={image.src}
+                          data-ai-hint={image.hint}
+                          alt={image.alt}
+                          width={600}
+                          height={400}
+                          className="rounded-lg object-cover w-full h-full"
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
         <div className="space-y-8">
           <Card>
