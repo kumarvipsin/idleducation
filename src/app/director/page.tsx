@@ -7,7 +7,7 @@ export default function DirectorProfilePage() {
       <section className="grid md:grid-cols-3 gap-8 items-center max-w-7xl mx-auto">
         <div className="md:col-span-1 flex flex-col items-center text-center">
           <Avatar className="w-48 h-48 mb-4 border-4 border-primary">
-            <AvatarImage src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80" alt="Director's Photo" data-ai-hint="professional headshot" />
+            <AvatarImage src="https://images.unsplash.com/photo-1752118464988-2914fb27d0f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8dGVhY2hlciUyMHByb2ZpbGV8ZW58MHx8fHwxNzU1OTY3MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="professional headshot" />
             <AvatarFallback>ER</AvatarFallback>
           </Avatar>
           <h1 className="text-3xl font-bold text-primary">Dr. Evelyn Reed</h1>
