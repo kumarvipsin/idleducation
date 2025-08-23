@@ -5,30 +5,6 @@ import Link from "next/link";
 import { BookOpen, BarChart3, Upload, Users, Trophy, Award, Star, Target } from "lucide-react";
 import Image from "next/image";
 
-const achievements = [
-  {
-    icon: <Trophy className="w-10 h-10 text-yellow-500" />,
-    title: "Top of the Class",
-    description: "Achieved the highest score in 'Introduction to Algebra'.",
-  },
-  {
-    icon: <Award className="w-10 h-10 text-blue-500" />,
-    title: "Perfect Attendance",
-    description: "Attended all classes during the Spring semester.",
-  },
-  {
-    icon: <Star className="w-10 h-10 text-red-500" />,
-    title: "Rising Star",
-    description: "Demonstrated outstanding improvement in 'Creative Writing'.",
-  },
-  {
-    icon: <Target className="w-10 h-10 text-green-500" />,
-    title: "History Buff",
-    description: "Completed all assignments in 'World History' ahead of schedule.",
-  },
-];
-
-
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -159,37 +135,6 @@ export default function Home() {
                 <p>"Managing my classes has never been easier. Uploading materials is a breeze, and the platform provides all the tools I need to support my students."</p>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      <section id="achievements" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-primary">Celebrating Student Success</h2>
-              <p className="max-w-[900px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our students are accomplishing great things. Here are a few of their recent achievements.
-              </p>
-            </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-stretch gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4 mt-12">
-            {achievements.map((achievement, index) => (
-              <Card key={index} className="flex flex-col">
-                <CardHeader className="flex-row items-center gap-4 pb-4">
-                  {achievement.icon}
-                  <CardTitle className="text-xl">{achievement.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{achievement.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="flex justify-center mt-12">
-            <Button asChild>
-                <Link href="/student/achievements">View All Achievements</Link>
-            </Button>
           </div>
         </div>
       </section>

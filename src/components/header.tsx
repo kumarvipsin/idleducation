@@ -16,7 +16,7 @@ export function Header() {
         <Link href="/director" className="text-sm font-medium hover:underline underline-offset-4">
           Director's Profile
         </Link>
-        <Link href="/#achievements" className="text-sm font-medium hover:underline underline-offset-4">
+        <Link href="/achievements" className="text-sm font-medium hover:underline underline-offset-4">
           Achievements
         </Link>
         <Button asChild>
