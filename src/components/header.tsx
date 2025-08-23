@@ -16,6 +16,9 @@ export function Header() {
         <Link href="/director" className="text-sm font-medium hover:underline underline-offset-4">
           Director's Profile
         </Link>
+        <Link href="/student/achievements" className="text-sm font-medium hover:underline underline-offset-4">
+          Achievements
+        </Link>
         <Button asChild>
           <Link href="/login">
             <LogIn className="mr-2 h-4 w-4" /> Login
