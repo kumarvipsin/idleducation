@@ -88,9 +88,9 @@ export default function Home() {
 
       <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-12">
             {stats.map((stat, index) => (
-              <div key={index} className="flex flex-col items-center text-center">
+              <div key={index} className="flex flex-col items-center text-center mx-4">
                 <div 
                   className="relative flex items-center justify-center w-48 h-48 rounded-full bg-primary-foreground/10"
                   style={{
