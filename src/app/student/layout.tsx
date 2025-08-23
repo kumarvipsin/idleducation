@@ -49,7 +49,7 @@ export default function StudentLayout({
                   asChild
                   isActive={pathname.startsWith('/student/courses')}
                 >
-                  <Link href="#">
+                  <Link href="/student/courses">
                     <BookOpen />
                     <span>My Courses</span>
                   </Link>
