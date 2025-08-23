@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary/10">
+      <section className="w-full pt-12 md:pt-24 lg:pt-32 bg-primary/10">
         <div className="container px-4 md:px-6">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-4">
@@ -88,7 +88,7 @@ export default function Home() {
 
       <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center text-center">
                 <div 
