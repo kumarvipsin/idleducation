@@ -16,17 +16,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const data = [
-  { year: 2013, selections: 180, topRanker: { name: "Gaurav Agrawal", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2015, selections: 480, topRanker: { name: "Tina Dabi", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2016, selections: 520, topRanker: { name: "Anmol Sher Singh Bedi", rank: 2, img: "https://placehold.co/100x100.png" } },
-  { year: 2017, selections: 550, topRanker: { name: "Sachin Gupta", rank: 3, img: "https://placehold.co/100x100.png" } },
-  { year: 2018, selections: 580, topRanker: { name: "Kanishak Kataria", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2019, selections: 610, topRanker: { name: "Jatin Kishore", rank: 2, img: "https://placehold.co/100x100.png" } },
-  { year: 2020, selections: 630, topRanker: { name: "Shubham Kumar", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2021, selections: 650, topRanker: { name: "Ankita Agarwal", rank: 2, img: "https://placehold.co/100x100.png" } },
-  { year: 2022, selections: 680, topRanker: { name: "Ishita Kishore", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2023, selections: 710, topRanker: { name: "Aditya Srivastava", rank: 1, img: "https://placehold.co/100x100.png" } },
-  { year: 2024, selections: 750, topRanker: { name: "Shakti Dubey", rank: 1, img: "https://placehold.co/100x100.png" } },
+  { year: 2013, selections: 180, topStudent: { name: "Gaurav Agrawal", percentage: 95.2, img: "https://placehold.co/100x100.png" } },
+  { year: 2015, selections: 480, topStudent: { name: "Tina Dabi", percentage: 96.5, img: "https://placehold.co/100x100.png" } },
+  { year: 2016, selections: 520, topStudent: { name: "Anmol Sher Singh Bedi", percentage: 97.1, img: "https://placehold.co/100x100.png" } },
+  { year: 2017, selections: 550, topStudent: { name: "Sachin Gupta", percentage: 97.5, img: "https://placehold.co/100x100.png" } },
+  { year: 2018, selections: 580, topStudent: { name: "Kanishak Kataria", percentage: 97.8, img: "https://placehold.co/100x100.png" } },
+  { year: 2019, selections: 610, topStudent: { name: "Jatin Kishore", percentage: 98.2, img: "https://placehold.co/100x100.png" } },
+  { year: 2020, selections: 630, topStudent: { name: "Shubham Kumar", percentage: 98.5, img: "https://placehold.co/100x100.png" } },
+  { year: 2021, selections: 650, topStudent: { name: "Ankita Agarwal", percentage: 98.8, img: "https://placehold.co/100x100.png" } },
+  { year: 2022, selections: 680, topStudent: { name: "Ishita Kishore", percentage: 99.1, img: "https://placehold.co/100x100.png" } },
+  { year: 2023, selections: 710, topStudent: { name: "Aditya Srivastava", percentage: 99.4, img: "https://placehold.co/100x100.png" } },
+  { year: 2024, selections: 750, topStudent: { name: "Shakti Dubey", percentage: 99.7, img: "https://placehold.co/100x100.png" } },
 ]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -38,8 +38,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="text-primary">{`Selections: ${payload[0].value}`}</p>
         {dataPoint && (
              <div className="mt-2 text-center">
-                <p className="font-semibold">{dataPoint.topRanker.name}</p>
-                <p className="text-sm text-muted-foreground">AIR {dataPoint.topRanker.rank}</p>
+                <p className="font-semibold">{dataPoint.topStudent.name}</p>
+                <p className="text-sm text-muted-foreground">CBSE: {dataPoint.topStudent.percentage}%</p>
              </div>
         )}
       </div>
@@ -50,18 +50,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 const renderCustomizedLabel = (props: any) => {
     const { x, y, width, index } = props;
-    const ranker = data[index].topRanker;
+    const student = data[index].topStudent;
   
     return (
       <g transform={`translate(${x + width / 2},${y})`}>
         <foreignObject x={-40} y={-110} width={80} height={110}>
           <div className="flex flex-col items-center text-center gap-2">
             <Avatar className="w-16 h-16 border-4 border-primary/50 shadow-md">
-              <AvatarImage src={ranker.img} alt={ranker.name} data-ai-hint="student headshot"/>
-              <AvatarFallback>{ranker.name.substring(0,2)}</AvatarFallback>
+              <AvatarImage src={student.img} alt={student.name} data-ai-hint="student headshot"/>
+              <AvatarFallback>{student.name.substring(0,2)}</AvatarFallback>
             </Avatar>
-            <div className="bg-destructive text-destructive-foreground px-2 py-0.5 rounded-md text-xs font-bold shadow-sm">
-              AIR {ranker.rank}
+            <div className="bg-destructive text-destructive-foreground px-2 py-0.5 rounded-md text-xs font-bold shadow-sm whitespace-nowrap">
+              {student.percentage}%
             </div>
           </div>
         </foreignObject>
@@ -101,7 +101,7 @@ export function SelectionsChart() {
             </linearGradient>
           </defs>
           <Bar dataKey="selections" fill="url(#barGradient)" barSize={50} radius={[4, 4, 0, 0]}>
-            <LabelList dataKey="topRanker" content={renderCustomizedLabel} />
+            <LabelList dataKey="topStudent" content={renderCustomizedLabel} />
           </Bar>
           <Line
             type="monotone"
