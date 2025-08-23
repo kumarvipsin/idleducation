@@ -28,7 +28,7 @@ export default function AboutPage() {
             alt="Our Team"
             width={600}
             height={400}
-            className="rounded-lg shadow-lg"
+            className="rounded-lg shadow-lg w-full h-auto"
           />
         </div>
         <div className="space-y-8">
