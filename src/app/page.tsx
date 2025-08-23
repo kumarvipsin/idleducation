@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, BarChart3, Upload, Users } from "lucide-react";
+import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck } from "lucide-react";
 import Image from "next/image";
 import {
   Carousel,
@@ -31,11 +31,18 @@ export default function Home() {
     }
   ];
 
+  const stats = [
+    { value: "200,000+", label: "Downloads", icon: <Download className="h-10 w-10 text-white/80" /> },
+    { value: "500+", label: "UPSC Civils Ranks", icon: <Award className="h-10 w-10 text-white/80" /> },
+    { value: "1,000+", label: "APPSC & TSPSC Ranks", icon: <Star className="h-10 w-10 text-white/80" /> },
+    { value: "500,000+", label: "Aspirants Impacted", icon: <UserCheck className="h-10 w-10 text-white/80" /> },
+  ];
+
   return (
     <div className="flex flex-col">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary/10">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary">
@@ -78,6 +85,29 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-red-600 text-white">
+        <div className="container px-4 md:px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="flex flex-col items-center text-center">
+                <div 
+                  className="relative flex items-center justify-center w-48 h-48 rounded-full bg-red-600"
+                  style={{
+                    boxShadow: 'inset 0 0 0 4px #002D62, inset 0 0 0 6px white'
+                  }}
+                >
+                  <div className="text-center">
+                    <p className="text-4xl font-bold">{stat.value}</p>
+                    <p className="text-lg mt-1">{stat.label}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       <section id="features" className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
