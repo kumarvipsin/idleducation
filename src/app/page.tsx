@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { SelectionsChart } from "@/components/selections-chart";
 
 export default function Home() {
   const heroImages = [
@@ -108,7 +109,6 @@ export default function Home() {
         </div>
       </section>
 
-
       <section id="features" className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -160,7 +160,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/10">
+      <section id="success" className="w-full py-12 md:py-24 lg:py-32 bg-primary/10">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-primary">Our Success Story</h2>
+            <p className="max-w-[900px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              A visual journey of our students' achievements over the years.
+            </p>
+          </div>
+          <SelectionsChart />
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
           <div className="space-y-3">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary">What Our Users Say</h2>
