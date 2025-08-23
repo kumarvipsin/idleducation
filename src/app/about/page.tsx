@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <section className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About LearnScape</h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
           We are dedicated to revolutionizing the educational landscape by providing an intuitive and powerful platform for both students and teachers.
         </p>

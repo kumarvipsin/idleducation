@@ -16,11 +16,11 @@ export default function DirectorProfilePage() {
         <div className="md:col-span-2 space-y-6">
           <h2 className="text-2xl font-semibold text-primary border-b pb-2">A Message from the Director</h2>
           <p className="text-foreground/90 leading-relaxed italic">
-            "At LearnScape, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
+            "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
           </p>
           <h2 className="text-2xl font-semibold text-primary border-b pb-2">Biography</h2>
           <p className="text-foreground/90 leading-relaxed">
-            Dr. Evelyn Reed is a visionary in the field of educational technology with over two decades of experience. Holding a Ph.D. in Education from Stanford University, she has dedicated her career to exploring the intersection of technology and learning. Before founding LearnScape, Dr. Reed was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions worldwide. Her research on digital pedagogy is widely published, and she is a frequent keynote speaker at global education conferences. Dr. Reed's passion for accessible and effective education is the cornerstone of LearnScape's mission.
+            Dr. Evelyn Reed is a visionary in the field of educational technology with over two decades of experience. Holding a Ph.D. in Education from Stanford University, she has dedicated her career to exploring the intersection of technology and learning. Before founding IDL EDUCATION, Dr. Reed was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions worldwide. Her research on digital pedagogy is widely published, and she is a frequent keynote speaker at global education conferences. Dr. Reed's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
           </p>
         </div>
       </section>

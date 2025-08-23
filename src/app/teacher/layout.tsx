@@ -28,7 +28,7 @@ export default function TeacherLayout({
           <SidebarHeader>
             <div className="flex items-center gap-2 p-2">
               <BookOpen className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold">LearnScape</span>
+              <span className="text-lg font-semibold">IDL EDUCATION</span>
             </div>
           </SidebarHeader>
           <SidebarContent>

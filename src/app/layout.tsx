@@ -5,7 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'LearnScape',
+  title: 'IDL EDUCATION',
   description: 'An interactive educational platform for students and teachers.',
 };
 

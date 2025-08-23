@@ -14,7 +14,7 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary">
-                  Welcome to LearnScape
+                  Welcome to IDL EDUCATION
                 </h1>
                 <p className="max-w-[600px] text-foreground/80 md:text-xl">
                   An interactive educational platform designed for seamless learning and teaching experiences.
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="space-y-3">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary">What Our Users Say</h2>
             <p className="mx-auto max-w-[600px] text-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Hear from students and teachers who love using LearnScape.
+              Hear from students and teachers who love using IDL EDUCATION.
             </p>
           </div>
           <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-1 md:gap-12 lg:grid-cols-2 mt-8">
@@ -115,7 +115,7 @@ export default function Home() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p>"LearnScape has transformed the way I study. The interactive courses are so engaging, and I can easily track my progress. It's fantastic!"</p>
+                <p>"IDL EDUCATION has transformed the way I study. The interactive courses are so engaging, and I can easily track my progress. It's fantastic!"</p>
               </CardContent>
             </Card>
             <Card>
