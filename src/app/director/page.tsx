@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function DirectorProfilePage() {
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <section className="grid md:grid-cols-3 gap-8 items-center">
+    <div className="w-full py-12 px-4 md:px-6">
+      <section className="grid md:grid-cols-3 gap-8 items-center max-w-7xl mx-auto">
         <div className="md:col-span-1 flex flex-col items-center text-center">
           <Avatar className="w-48 h-48 mb-4 border-4 border-primary">
             <AvatarImage src="https://placehold.co/200x200.png" alt="Director's Photo" />

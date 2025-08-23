@@ -12,7 +12,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
+    <div className="w-full py-12 px-4 md:px-6">
       <section className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
@@ -20,7 +20,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="grid md:grid-cols-2 gap-8 mb-16 items-center">
+      <section className="grid md:grid-cols-2 gap-8 mb-16 items-center max-w-7xl mx-auto">
         <div>
           <Image
             src="https://placehold.co/600x400.png"
@@ -57,7 +57,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="text-center">
+      <section className="text-center max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Meet Our Team
         </h2>
