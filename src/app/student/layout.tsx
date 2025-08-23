@@ -12,7 +12,7 @@ import {
   SidebarFooter,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Trophy } from 'lucide-react';
 
 export default function StudentLayout({
   children,
@@ -52,6 +52,17 @@ export default function StudentLayout({
                   <Link href="/student/courses">
                     <BookOpen />
                     <span>My Courses</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === '/student/achievements'}
+                >
+                  <Link href="/student/achievements">
+                    <Trophy />
+                    <span>Achievements</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
