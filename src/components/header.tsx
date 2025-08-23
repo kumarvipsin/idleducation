@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BookOpen, LogIn, Menu } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 export function Header() {
   const navLinks = [
@@ -37,6 +37,9 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right">
+            <SheetHeader>
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+            </SheetHeader>
             <nav className="grid gap-6 text-lg font-medium mt-8">
               {navLinks.map((link) => (
                 <Link key={link.href} href={link.href} className="text-foreground hover:text-foreground/80">
