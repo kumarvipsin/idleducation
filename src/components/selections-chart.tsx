@@ -16,16 +16,16 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const data = [
-  { year: 2016, selections: 20, topStudent: { name: "Anmol Sher Singh Bedi", percentage: 97.1, img: "https://placehold.co/100x100.png" } },
-  { year: 2017, selections: 29, topStudent: { name: "Sachin Gupta", percentage: 97.5, img: "https://placehold.co/100x100.png" } },
-  { year: 2018, selections: 38, topStudent: { name: "Kanishak Kataria", percentage: 97.8, img: "https://placehold.co/100x100.png" } },
-  { year: 2019, selections: 47, topStudent: { name: "Jatin Kishore", percentage: 98.2, img: "https://placehold.co/100x100.png" } },
-  { year: 2020, selections: 56, topStudent: { name: "Shubham Kumar", percentage: 98.5, img: "https://placehold.co/100x100.png" } },
-  { year: 2021, selections: 65, topStudent: { name: "Ankita Agarwal", percentage: 98.8, img: "https://placehold.co/100x100.png" } },
-  { year: 2022, selections: 74, topStudent: { name: "Ishita Kishore", percentage: 99.1, img: "https://placehold.co/100x100.png" } },
-  { year: 2023, selections: 83, topStudent: { name: "Aditya Srivastava", percentage: 99.4, img: "https://placehold.co/100x100.png" } },
-  { year: 2024, selections: 92, topStudent: { name: "Shakti Dubey", percentage: 99.7, img: "https://placehold.co/100x100.png" } },
-  { year: 2025, selections: 100, topStudent: { name: "Future Leader", percentage: 99.9, img: "https://placehold.co/100x100.png" } },
+  { year: 2016, selections: 20, topStudent: { name: "Anmol Sher Singh Bedi", percentage: 75.0, img: "https://placehold.co/100x100.png" } },
+  { year: 2017, selections: 29, topStudent: { name: "Sachin Gupta", percentage: 77.2, img: "https://placehold.co/100x100.png" } },
+  { year: 2018, selections: 38, topStudent: { name: "Kanishak Kataria", percentage: 79.4, img: "https://placehold.co/100x100.png" } },
+  { year: 2019, selections: 47, topStudent: { name: "Jatin Kishore", percentage: 81.7, img: "https://placehold.co/100x100.png" } },
+  { year: 2020, selections: 56, topStudent: { name: "Shubham Kumar", percentage: 83.9, img: "https://placehold.co/100x100.png" } },
+  { year: 2021, selections: 65, topStudent: { name: "Ankita Agarwal", percentage: 86.1, img: "https://placehold.co/100x100.png" } },
+  { year: 2022, selections: 74, topStudent: { name: "Ishita Kishore", percentage: 88.3, img: "https://placehold.co/100x100.png" } },
+  { year: 2023, selections: 83, topStudent: { name: "Aditya Srivastava", percentage: 90.6, img: "https://placehold.co/100x100.png" } },
+  { year: 2024, selections: 92, topStudent: { name: "Shakti Dubey", percentage: 92.8, img: "https://placehold.co/100x100.png" } },
+  { year: 2025, selections: 100, topStudent: { name: "Future Leader", percentage: 95.0, img: "https://placehold.co/100x100.png" } },
 ]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
