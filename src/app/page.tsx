@@ -35,7 +35,7 @@ export default function Home() {
     <div className="flex flex-col">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-primary/10">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary">
@@ -54,24 +54,27 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <Carousel className="mx-auto w-full max-w-xl lg:order-last" opts={{ loop: true }}>
-              <CarouselContent>
-                {heroImages.map((image, index) => (
-                  <CarouselItem key={index}>
-                    <Image
-                      src={image.src}
-                      data-ai-hint={image.hint}
-                      alt={image.alt}
-                      width={600}
-                      height={400}
-                      className="aspect-video overflow-hidden rounded-xl object-cover"
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="w-full max-w-2xl mx-auto">
+              <Carousel className="w-full" opts={{ loop: true }}>
+                <CarouselContent>
+                  {heroImages.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div className="aspect-video relative">
+                        <Image
+                          src={image.src}
+                          data-ai-hint={image.hint}
+                          alt={image.alt}
+                          fill
+                          className="object-cover rounded-xl"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+              </Carousel>
+            </div>
           </div>
         </div>
       </section>
