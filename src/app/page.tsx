@@ -86,15 +86,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-red-600 text-white">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center text-center">
                 <div 
-                  className="relative flex items-center justify-center w-48 h-48 rounded-full bg-red-600"
+                  className="relative flex items-center justify-center w-48 h-48 rounded-full bg-primary-foreground/10"
                   style={{
-                    boxShadow: 'inset 0 0 0 4px #002D62, inset 0 0 0 6px white'
+                    boxShadow: 'inset 0 0 0 4px hsl(var(--primary-foreground)), inset 0 0 0 6px hsl(var(--primary))'
                   }}
                 >
                   <div className="text-center">
