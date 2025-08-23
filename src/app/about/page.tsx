@@ -16,6 +16,8 @@ export default function AboutPage() {
     { name: "John Smith", role: "Head of Technology", image: "https://placehold.co/100x100.png" },
     { name: "Emily White", role: "Student Success Manager", image: "https://placehold.co/100x100.png" },
     { name: "Chris Green", role: "Lead Developer", image: "https://placehold.co/100x100.png" },
+    { name: "Alex Johnson", role: "Instructional Technologist", image: "https://placehold.co/100x100.png" },
+    { name: "Maria Garcia", role: "Content Creator", image: "https://placehold.co/100x100.png" },
   ];
 
   const carouselImages = [
@@ -87,21 +89,35 @@ export default function AboutPage() {
       </section>
 
       <section className="text-center max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8 flex items-center justify-center gap-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Meet Our Team
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {teamMembers.map((member) => (
-            <div key={member.name} className="flex flex-col items-center">
-              <Avatar className="w-24 h-24 mb-4">
-                <AvatarImage src={member.image} alt={member.name} />
-                <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-              </Avatar>
-              <h3 className="font-semibold text-lg">{member.name}</h3>
-              <p className="text-sm text-foreground/80">{member.role}</p>
-            </div>
-          ))}
-        </div>
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full max-w-4xl mx-auto"
+        >
+          <CarouselContent>
+            {teamMembers.map((member, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+                <div className="p-1">
+                  <div className="flex flex-col items-center text-center p-4">
+                    <Avatar className="w-24 h-24 mb-4">
+                      <AvatarImage src={member.image} alt={member.name} />
+                      <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-semibold text-lg">{member.name}</h3>
+                    <p className="text-sm text-foreground/80">{member.role}</p>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </section>
     </div>
   );
