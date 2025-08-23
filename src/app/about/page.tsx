@@ -27,7 +27,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="w-full py-12 px-4 md:px-6">
+    <div className="container mx-auto py-12 px-4 md:px-6">
       <section className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
@@ -35,7 +35,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="grid md:grid-cols-2 gap-8 mb-16 items-center max-w-7xl mx-auto">
+      <section className="grid md:grid-cols-2 gap-8 mb-16 items-center">
         <div>
           <Carousel className="w-full max-w-xl mx-auto">
             <CarouselContent>
@@ -88,7 +88,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="text-center max-w-7xl mx-auto">
+      <section className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Meet Our Team
         </h2>
@@ -97,14 +97,14 @@ export default function AboutPage() {
             align: "start",
             loop: true,
           }}
-          className="w-full max-w-4xl mx-auto"
+          className="w-full max-w-6xl mx-auto"
         >
           <CarouselContent>
             {teamMembers.map((member, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+              <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <div className="p-1">
-                  <div className="flex flex-col items-center text-center p-4">
-                    <Avatar className="w-24 h-24 mb-4">
+                  <div className="flex flex-col items-center text-center p-4 space-y-2">
+                    <Avatar className="w-24 h-24 mb-2">
                       <AvatarImage src={member.image} alt={member.name} />
                       <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
