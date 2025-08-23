@@ -8,6 +8,7 @@ export function Header() {
     { href: "/about", label: "About Us" },
     { href: "/director", label: "Director's Profile" },
     { href: "/achievements", label: "Achievements" },
+    { href: "/contact", label: "Contact Us" },
   ];
 
   return (
