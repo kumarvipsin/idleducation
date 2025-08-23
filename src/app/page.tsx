@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { BookOpen, BarChart3, Upload, Users } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -28,10 +29,12 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <img
-              src="https://placehold.co/600x400.png"
+            <Image
+              src="https://images.unsplash.com/photo-1609660100545-05f3799a941b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxlZHVjYXRpb25hbHxlbnwwfHx8fDE3NTU5NjA1MTd8MA&ixlib=rb-4.1.0&q=80&w=1080"
               data-ai-hint="online learning"
               alt="Hero"
+              width={600}
+              height={400}
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
             />
           </div>
