@@ -99,18 +99,20 @@ export default function AboutPage() {
           }}
           className="w-full max-w-6xl mx-auto"
         >
-          <CarouselContent>
+          <CarouselContent className="-ml-4">
             {teamMembers.map((member, index) => (
-              <CarouselItem key={index} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+              <CarouselItem key={index} className="pl-4 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                 <div className="p-1">
-                  <div className="flex flex-col items-center text-center p-4 space-y-2">
-                    <Avatar className="w-24 h-24 mb-2">
-                      <AvatarImage src={member.image} alt={member.name} />
-                      <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <h3 className="font-semibold text-lg">{member.name}</h3>
-                    <p className="text-sm text-foreground/80">{member.role}</p>
-                  </div>
+                  <Card className="pt-6">
+                    <CardContent className="flex flex-col items-center text-center space-y-2">
+                      <Avatar className="w-24 h-24 mb-2">
+                        <AvatarImage src={member.image} alt={member.name} />
+                        <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      </Avatar>
+                      <h3 className="font-semibold text-lg">{member.name}</h3>
+                      <p className="text-sm text-foreground/80">{member.role}</p>
+                    </CardContent>
+                  </Card>
                 </div>
               </CarouselItem>
             ))}
