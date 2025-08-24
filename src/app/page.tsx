@@ -59,6 +59,44 @@ const testimonials = [
   },
 ];
 
+const learningPrograms = [
+  {
+    image: "https://placehold.co/600x400.png",
+    imageHint: "early learning",
+    category: "LKG - Class 3",
+    title: "Early Learn Program",
+    description: "An Active Learning Adventure",
+  },
+  {
+    image: "https://placehold.co/600x400.png",
+    imageHint: "self study",
+    category: "Class 4 - 10",
+    title: "Self-Study Pack",
+    description: "The Learning App",
+  },
+  {
+    image: "https://placehold.co/600x400.png",
+    imageHint: "live classes",
+    category: "Class 4 - 10",
+    title: "Live Classes",
+    description: "Interactive online sessions",
+  },
+  {
+    image: "https://placehold.co/600x400.png",
+    imageHint: "foundation course",
+    category: "Class 8 - 10",
+    title: "Foundation Course",
+    description: "For JEE / NEET",
+  },
+  {
+    image: "https://placehold.co/600x400.png",
+    imageHint: "test preparation",
+    category: "Class 11 - 12",
+    title: "Aakash Byju's Program",
+    description: "Comprehensive test prep",
+  },
+]
+
 export default function Home() {
   const { toast } = useToast();
   const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
@@ -353,6 +391,50 @@ export default function Home() {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
+        </div>
+      </section>
+      
+      <section className="w-full py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold">Explore our Learning Programs</h2>
+            </div>
+            <Carousel
+                opts={{
+                align: "start",
+                loop: true,
+                }}
+                className="w-full max-w-7xl mx-auto"
+            >
+                <CarouselContent>
+                {learningPrograms.map((program, index) => (
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
+                        <div className="p-2">
+                            <Card className="h-full flex flex-col overflow-hidden">
+                                <Image 
+                                    src={program.image}
+                                    alt={program.title}
+                                    data-ai-hint={program.imageHint}
+                                    width={600}
+                                    height={400}
+                                    className="w-full object-cover"
+                                />
+                                <CardContent className="p-4 flex-1 flex flex-col justify-between">
+                                    <div>
+                                        <p className="text-sm font-semibold text-primary">{program.category}</p>
+                                        <h3 className="text-lg font-bold mt-1">{program.title}</h3>
+                                        <p className="text-sm text-muted-foreground">{program.description}</p>
+                                    </div>
+                                    <Button variant="link" className="p-0 h-auto mt-4 self-start">Read more</Button>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </Carousel>
         </div>
       </section>
 
