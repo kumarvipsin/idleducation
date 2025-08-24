@@ -9,14 +9,14 @@ export function Header() {
       <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
         <div className="container mx-auto flex justify-between items-center text-xs font-bold">
           <div className="flex items-center gap-4">
+              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
+                <Instagram className="h-4 w-4" />
+              </Link>
               <Link href="#" className="hover:text-primary-foreground/80" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </Link>
               <Link href="#" className="hover:text-primary-foreground/80" aria-label="Twitter">
                 <Twitter className="h-4 w-4" />
-              </Link>
-              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
-                <Instagram className="h-4 w-4" />
               </Link>
           </div>
           <div className="flex items-center gap-4">
