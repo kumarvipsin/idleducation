@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="w-full py-12 md:py-24 lg:py-32 bg-purple text-purple-foreground">
+       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-purple text-purple-foreground overflow-hidden">
         <div className="container px-4 md:px-6">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-4 items-center">
@@ -204,6 +204,19 @@ export default function Home() {
               </Card>
             </div>
           </div>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full h-[150px] overflow-hidden">
+          <svg className="relative block w-[calc(100%+1.3px)] h-[150px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
+            <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g className="parallax">
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="hsla(var(--primary), 0.7)" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="hsla(var(--primary), 0.5)" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="hsla(var(--primary), 0.3)" />
+              <use xlinkHref="#gentle-wave" x="48" y="7" fill="hsl(var(--primary))" />
+            </g>
+          </svg>
         </div>
       </section>
 
