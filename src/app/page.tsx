@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck, CheckCircle, Smartphone } from "lucide-react";
+import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { SelectionsChart } from "@/components/selections-chart";
 import { Input } from "@/components/ui/input";
@@ -206,6 +206,58 @@ export default function Home() {
                   </Form>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section className="py-12 md:py-24 bg-background">
+        <div className="container px-4 md:px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold">Comprehensive learning programs <br/> & classes for all students</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Become lifelong learners with India's best teachers, engaging video lessons and personalised learning journeys
+            </p>
+          </div>
+          <div className="bg-card p-6 rounded-lg shadow-lg relative">
+            <div className="text-center mb-6">
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white font-bold">
+                Classes 4 - 10
+              </Button>
+            </div>
+            <div className="grid md:grid-cols-3 items-center gap-8">
+              <div className="flex flex-col items-center text-center relative">
+                <Image src="https://placehold.co/300x400.png" data-ai-hint="student learning app" alt="Student with Learning App" width={250} height={350} className="mb-4 object-contain" />
+                <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="w-8 h-8 text-purple-600"/>
+                    <h3 className="text-xl font-bold">The Learning App</h3>
+                </div>
+                <p className="text-muted-foreground mb-2">Personalised learning app to learn anytime, anywhere</p>
+                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
+                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
+              <div className="flex justify-center items-center">
+                 <Image src="https://placehold.co/400x300.png" data-ai-hint="teacher classroom" alt="Teacher in a virtual classroom" width={400} height={300} className="rounded-lg" />
+              </div>
+              <div className="flex flex-col items-center text-center relative">
+                <div className="absolute -top-12 right-0">
+                    <span className="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">NEW</span>
+                </div>
+                 <div className="flex items-center gap-2 mb-2">
+                    <Users className="w-8 h-8 text-purple-600"/>
+                    <h3 className="text-xl font-bold">IDL's Classes</h3>
+                </div>
+                <p className="text-muted-foreground mb-2">Personalised online tutoring program with a unique two teacher model</p>
+                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
+                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
+            </div>
+            <div className="text-center mt-8">
+              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
+                Book a FREE class
+              </Button>
             </div>
           </div>
         </div>
