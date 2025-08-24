@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, User as UserIcon } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, User as UserIcon, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
@@ -7,7 +7,18 @@ export function Header() {
   return (
     <div className="sticky top-0 z-50">
       <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
-        <div className="container mx-auto flex justify-center items-center text-xs font-bold">
+        <div className="container mx-auto flex justify-between items-center text-xs font-bold">
+          <div className="flex items-center gap-4">
+              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Facebook">
+                <Facebook className="h-4 w-4" />
+              </Link>
+              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Twitter">
+                <Twitter className="h-4 w-4" />
+              </Link>
+              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
+                <Instagram className="h-4 w-4" />
+              </Link>
+          </div>
           <div className="flex items-center gap-4">
             <a href="tel:+917011117585" className="flex items-center gap-1 hover:underline">
               <Phone className="h-3 w-3" />
@@ -18,6 +29,7 @@ export function Header() {
               <span>query@idleducation.in</span>
             </a>
           </div>
+          <div className="w-24"></div>
         </div>
       </div>
       <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm border-b">
