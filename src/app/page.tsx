@@ -1,3 +1,4 @@
+'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,8 +9,62 @@ import { SelectionsChart } from "@/components/selections-chart";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useState } from "react";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+
+const formSchema = z.object({
+  sessionMode: z.enum(["online", "offline"]),
+  childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  state: z.string().min(1, { message: "Please select a state." }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+async function bookFreeSession(data: FormValues) {
+  'use server';
+  console.log("Booking session with data:", data);
+  // Here you would typically handle the form data, e.g., send it to a database or an API.
+  return { success: true, message: "Your free session has been booked successfully!" };
+}
 
 export default function Home() {
+  const { toast } = useToast();
+  const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      sessionMode: 'offline',
+      childName: '',
+      mobile: '',
+      email: '',
+      state: '',
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const result = await bookFreeSession(data);
+    if (result.success) {
+      toast({
+        title: "Success!",
+        description: result.message,
+      });
+      form.reset();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+      });
+    }
+  };
+
+
   const stats = [
     { value: "200,000+", label: "Downloads", icon: <Download className="h-10 w-10 text-white/80" /> },
     { value: "500+", label: "UPSC Civils Ranks", icon: <Award className="h-10 w-10 text-white/80" /> },
@@ -39,54 +94,118 @@ export default function Home() {
                   <p className="text-muted-foreground">Learn from India's best teachers</p>
                 </CardHeader>
                 <CardContent>
-                  <form className="space-y-4">
-                    <div>
-                      <Label className="font-semibold">Select the Session Mode</Label>
-                      <div className="grid grid-cols-2 gap-2 mt-2">
-                        <Button variant="outline" className="flex items-center justify-center gap-2">
-                          Online
-                        </Button>
-                        <Button variant="default" className="flex items-center justify-center gap-2 bg-purple text-purple-foreground ring-2 ring-purple-foreground">
-                           <CheckCircle className="w-5 h-5" />
-                           Offline
-                        </Button>
-                      </div>
-                    </div>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="sessionMode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Label className="font-semibold">Select the Session Mode</Label>
+                            <div className="grid grid-cols-2 gap-2 mt-2">
+                              <Button 
+                                type="button" 
+                                variant={sessionMode === 'online' ? 'default' : 'outline'} 
+                                className={`flex items-center justify-center gap-2 ${sessionMode === 'online' ? 'bg-purple text-purple-foreground ring-2 ring-purple-foreground' : ''}`}
+                                onClick={() => {
+                                  setSessionMode('online');
+                                  field.onChange('online');
+                                }}
+                              >
+                                {sessionMode === 'online' && <CheckCircle className="w-5 h-5" />}
+                                Online
+                              </Button>
+                              <Button 
+                                type="button" 
+                                variant={sessionMode === 'offline' ? 'default' : 'outline'} 
+                                className={`flex items-center justify-center gap-2 ${sessionMode === 'offline' ? 'bg-purple text-purple-foreground ring-2 ring-purple-foreground' : ''}`}
+                                onClick={() => {
+                                  setSessionMode('offline');
+                                  field.onChange('offline');
+                                }}
+                              >
+                                {sessionMode === 'offline' && <CheckCircle className="w-5 h-5" />}
+                                Offline
+                              </Button>
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="childName"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1">
+                             <Label htmlFor="child-name" className="font-semibold">Enter Your Details</Label>
+                            <FormControl>
+                              <Input id="child-name" placeholder="Enter Name of your Child" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <div className="space-y-1">
-                      <Label htmlFor="child-name" className="font-semibold">Enter Your Details</Label>
-                      <Input id="child-name" placeholder="Enter Name of your Child" />
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <div className="relative flex-grow">
-                         <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                         <Input id="mobile" type="tel" placeholder="Enter your Mobile Number" className="pl-10" />
-                      </div>
-                      <Button variant="secondary">Send OTP</Button>
-                    </div>
+                      <FormField
+                        control={form.control}
+                        name="mobile"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex items-center gap-2">
+                              <div className="relative flex-grow">
+                                <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                                <FormControl>
+                                  <Input id="mobile" type="tel" placeholder="Enter your Mobile Number" className="pl-10" {...field} />
+                                </FormControl>
+                              </div>
+                              <Button type="button" variant="secondary">Send OTP</Button>
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <div className="space-y-1">
-                      <Input id="email" type="email" placeholder="Email Address" />
-                    </div>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1">
+                            <FormControl>
+                              <Input id="email" type="email" placeholder="Email Address" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="state"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1">
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="State" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="state1">State 1</SelectItem>
+                                <SelectItem value="state2">State 2</SelectItem>
+                                <SelectItem value="state3">State 3</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <div className="space-y-1">
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="State" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="state1">State 1</SelectItem>
-                          <SelectItem value="state2">State 2</SelectItem>
-                          <SelectItem value="state3">State 3</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                      Continue to Schedule
-                    </Button>
-                  </form>
+                      <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? "Scheduling..." : "Continue to Schedule"}
+                      </Button>
+                    </form>
+                  </Form>
                 </CardContent>
               </Card>
             </div>
@@ -96,7 +215,7 @@ export default function Home() {
 
       <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-12">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-12 lg:justify-between">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center text-center mx-4">
                 <div 
