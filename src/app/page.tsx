@@ -115,12 +115,6 @@ const advantageItems = [
     }
   ];
 
-const heroCarouselImages = [
-    { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students collaborating", hint: "student collaboration" },
-    { src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Modern classroom", hint: "modern classroom" },
-    { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Teacher giving a lecture", hint: "teacher lecture" }
-];
-
 export default function Home() {
   const { toast } = useToast();
   const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
@@ -160,27 +154,7 @@ export default function Home() {
         >
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="container px-4 md:px-6 relative z-10">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
-            <div className="flex flex-col justify-center space-y-4 items-center">
-               <Carousel className="w-full max-w-lg" opts={{ loop: true }}>
-                <CarouselContent>
-                    {heroCarouselImages.map((image, index) => (
-                        <CarouselItem key={index}>
-                            <Image 
-                                src={image.src}
-                                alt={image.alt}
-                                data-ai-hint={image.hint}
-                                width={500}
-                                height={500}
-                                className="rounded-xl object-cover w-full aspect-square"
-                            />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-               </Carousel>
-            </div>
+          <div className="flex justify-center">
             <div className="w-full max-w-md mx-auto">
               <Card className="bg-background text-foreground">
                 <CardHeader className="text-center">
