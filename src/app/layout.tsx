@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/context/language-context';
+import { ChatBot } from '@/components/chat-bot';
 
 export const metadata: Metadata = {
   title: 'IDL EDUCATION',
@@ -37,6 +38,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <Toaster />
+            <ChatBot />
           </ThemeProvider>
         </LanguageProvider>
       </body>
