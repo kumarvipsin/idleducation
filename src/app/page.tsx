@@ -137,9 +137,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
-        <div className="absolute inset-0 bg-black/50 z-0"></div>
-        <div className="container px-4 md:px-6 relative z-10">
+       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+         <div className="absolute inset-0 bg-black/50 z-0"></div>
+         <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24 lg:py-32">
           <div className="flex justify-center">
             <div className="w-full max-w-md">
               <Card className="bg-background text-foreground">
@@ -264,6 +264,19 @@ export default function Home() {
               </Card>
             </div>
           </div>
+        </div>
+        <div className="relative w-full h-24 sm:h-32 md:h-48 overflow-hidden">
+          <svg
+            viewBox="0 0 500 150"
+            preserveAspectRatio="none"
+            className="absolute bottom-0 w-full h-full"
+            style={{pointerEvents: 'none'}}
+          >
+            <path
+              d="M-5.38,154.51 C150.00,150.00 349.20,-49.98 503.11,154.51 L500.00,150.00 L0.00,150.00 Z"
+              className="stroke-none fill-muted"
+            ></path>
+          </svg>
         </div>
       </section>
       
