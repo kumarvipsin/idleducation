@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users } from "lucide-react";
+import { Target, Eye, Users, BookOpen, UserCheck, Star } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,6 +14,24 @@ export default function AboutPage() {
     { src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80", alt: "Team working together", hint: "team collaboration" },
     { src: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80", alt: "Modern classroom environment", hint: "modern classroom" },
     { src: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80", alt: "Student using the platform", hint: "student learning" },
+  ];
+
+  const approachItems = [
+    {
+      icon: <UserCheck className="w-8 h-8 text-primary" />,
+      title: "Expert Faculty",
+      description: "Our team consists of experienced educators and subject matter experts who are passionate about teaching and dedicated to student success."
+    },
+    {
+      icon: <BookOpen className="w-8 h-8 text-primary" />,
+      title: "Comprehensive Curriculum",
+      description: "We offer a meticulously designed curriculum that covers all aspects of the syllabus, updated regularly to keep pace with changing exam patterns."
+    },
+    {
+      icon: <Star className="w-8 h-8 text-primary" />,
+      title: "Personalized Mentorship",
+      description: "Every student receives individual attention and guidance. Our mentorship program helps students identify their strengths and overcome their weaknesses."
+    }
   ];
 
   return (
@@ -69,6 +87,30 @@ export default function AboutPage() {
               </p>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      <section className="mb-16">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Our Approach to Excellence</h2>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
+              We believe in a holistic approach to education that combines expert guidance with a supportive learning environment.
+            </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {approachItems.map((item, index) => (
+            <Card key={index} className="text-center">
+              <CardHeader className="flex flex-col items-center gap-4">
+                <div className="bg-primary/10 p-4 rounded-full">
+                  {item.icon}
+                </div>
+                <CardTitle className="text-2xl">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground/80">{item.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
