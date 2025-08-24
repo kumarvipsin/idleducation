@@ -1,14 +1,13 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, User as UserIcon, Facebook, Twitter, Instagram, Info, Globe } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { ThemeToggle } from "./theme-toggle";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
 
 export function Header() {
-  const { t, setLanguage } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className="sticky top-0 z-50">
@@ -61,42 +60,10 @@ export function Header() {
               <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
           </Button>
-          <ThemeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Globe className="h-5 w-5" />
-                <span className="sr-only">Toggle language</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                English
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('hi')}>
-                Hindi
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SettingsToggle />
         </nav>
         <div className="ml-auto md:hidden flex items-center gap-2">
-          <ThemeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Globe className="h-5 w-5" />
-                <span className="sr-only">Toggle language</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setLanguage('en')}>
-                English
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLanguage('hi')}>
-                Hindi
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SettingsToggle />
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
