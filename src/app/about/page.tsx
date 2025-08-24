@@ -35,15 +35,15 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <section className="text-center mb-16">
+    <div className="container mx-auto py-8 px-4 md:px-6">
+      <section className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
           We are dedicated to revolutionizing the educational landscape by providing an intuitive and powerful platform for both students and teachers.
         </p>
       </section>
 
-      <section className="grid md:grid-cols-2 gap-8 mb-16 items-center">
+      <section className="grid md:grid-cols-2 gap-8 mb-12 items-center">
         <div>
           <Carousel className="w-full max-w-xl mx-auto" opts={{ loop: true }}>
             <CarouselContent>
@@ -64,7 +64,7 @@ export default function AboutPage() {
             <CarouselNext />
           </Carousel>
         </div>
-        <div className="space-y-8">
+        <div className="space-y-6">
           <Card>
             <CardHeader className="flex flex-row items-center gap-4">
               <Target className="w-8 h-8 text-primary" />
@@ -90,8 +90,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mb-16">
-        <div className="text-center mb-12">
+      <section className="mb-12">
+        <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Our Approach to Excellence</h2>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
               We believe in a holistic approach to education that combines expert guidance with a supportive learning environment.
@@ -115,7 +115,7 @@ export default function AboutPage() {
       </section>
 
       <section className="text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-12 flex items-center justify-center gap-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Our Workspace
         </h2>
         <Carousel
