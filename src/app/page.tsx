@@ -99,19 +99,16 @@ const learningPrograms = [
 
 const advantageItems = [
     {
-      icon: <Eye className="w-8 h-8 text-primary" />,
       title: "Conceptual clarity through visualisation",
       image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "online lecture"
     },
     {
-      icon: <BrainCircuit className="w-8 h-8 text-primary" />,
       title: "Personalised learning programs",
       image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "knowledge graph"
     },
     {
-      icon: <UserCheck className="w-8 h-8 text-primary" />,
       title: "Unmatched individual attention",
       image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "student attention"
@@ -376,18 +373,19 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 {advantageItems.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center">
-                        <div className="relative mb-4">
-                            <Image 
-                                src={item.image}
-                                alt={item.title}
-                                data-ai-hint={item.imageHint}
-                                width={400}
-                                height={300}
-                                className="relative rounded-lg z-10 object-cover"
-                            />
+                    <div key={index} className="relative overflow-hidden rounded-lg group">
+                        <Image 
+                            src={item.image}
+                            alt={item.title}
+                            data-ai-hint={item.imageHint}
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 p-6">
+                            <h3 className="text-xl font-bold text-white">{item.title}</h3>
                         </div>
-                        <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
                     </div>
                 ))}
             </div>
