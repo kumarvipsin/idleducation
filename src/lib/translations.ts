@@ -50,16 +50,6 @@ const translations = {
             item3: "Unmatched individual attention"
         }
     },
-    explorePrograms: {
-        title: "Explore our Learning Programs",
-        programs: {
-            program1: { category: "LKG - Class 3", title: "Early Learn Program", description: "An Active Learning Adventure" },
-            program2: { category: "Class 4 - 10", title: "Self-Study Pack", description: "The Learning App" },
-            program3: { category: "Class 4 - 10", title: "Live Classes", description: "Interactive online sessions" },
-            program4: { category: "Class 8 - 10", title: "Foundation Course", description: "For JEE / NEET" },
-            program5: { category: "Class 11 - 12", title: "Aakash Byju's Program", description: "Comprehensive test prep" },
-        }
-    },
     testimonials: {
         title: 'What Our Students Say',
         subtitle: 'Hear from students who have benefited from our platform.',
@@ -114,16 +104,6 @@ const translations = {
             item1: "विज़ुअलाइज़ेशन के माध्यम से वैचारिक स्पष्टता",
             item2: "व्यक्तिगत शिक्षण कार्यक्रम",
             item3: "अद्वितीय व्यक्तिगत ध्यान"
-        }
-    },
-    explorePrograms: {
-        title: "हमारे शिक्षण कार्यक्रम देखें",
-        programs: {
-            program1: { category: "एलकेजी - कक्षा 3", title: "प्रारंभिक शिक्षण कार्यक्रम", description: "एक सक्रिय शिक्षण साहसिक" },
-            program2: { category: "कक्षा 4 - 10", title: "स्व-अध्ययन पैक", description: "द लर्निंग ऐप" },
-            program3: { category: "कक्षा 4 - 10", title: "लाइव कक्षाएं", description: "इंटरैक्टिव ऑनलाइन सत्र" },
-            program4: { category: "कक्षा 8 - 10", title: "फाउंडेशन कोर्स", description: "जेईई / एनईईटी के लिए" },
-            program5: { category: "कक्षा 11 - 12", title: "आकाश बायजू का कार्यक्रम", description: "व्यापक परीक्षा तैयारी" },
         }
     },
     testimonials: {

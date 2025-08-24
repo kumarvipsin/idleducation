@@ -64,44 +64,6 @@ const testimonials = [
   },
 ];
 
-const learningPrograms = [
-  {
-    image: "https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    imageHint: "early learning",
-    category: "LKG - Class 3",
-    title: "Early Learn Program",
-    description: "An Active Learning Adventure",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    imageHint: "self study",
-    category: "Class 4 - 10",
-    title: "Self-Study Pack",
-    description: "The Learning App",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    imageHint: "live classes",
-    category: "Class 4 - 10",
-    title: "Live Classes",
-    description: "Interactive online sessions",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8Y2xhc3N8ZW58MHx8fHwxNzU2MDUzNTc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "foundation course",
-    category: "Class 8 - 10",
-    title: "Foundation Course",
-    description: "For JEE / NEET",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjbGFzc3xlbnwwfHx8fDE3NTYwNTM1NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "test preparation",
-    category: "Class 11 - 12",
-    title: "Aakash Byju's Program",
-    description: "Comprehensive test prep",
-  },
-]
-
 const advantageItems = [
     {
       title: "Conceptual clarity through visualisation",
@@ -382,50 +344,6 @@ export default function Home() {
                     </div>
                 ))}
             </div>
-        </div>
-      </section>
-
-      <section className="w-full py-12 md:py-24 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">{t('explorePrograms.title')}</h2>
-            </div>
-            <Carousel
-                opts={{
-                align: "start",
-                loop: true,
-                }}
-                className="w-full max-w-7xl mx-auto"
-            >
-                <CarouselContent>
-                {learningPrograms.map((program, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/4">
-                        <div className="p-2">
-                            <Card className="h-full flex flex-col overflow-hidden">
-                                <Image 
-                                    src={program.image}
-                                    alt={program.title}
-                                    data-ai-hint={program.imageHint}
-                                    width={600}
-                                    height={400}
-                                    className="w-full object-cover aspect-[3/2]"
-                                />
-                                <CardContent className="p-4 flex-1 flex flex-col justify-between">
-                                    <div>
-                                        <p className="text-sm font-semibold text-primary">{t(`explorePrograms.programs.program${index + 1}.category`)}</p>
-                                        <h3 className="text-lg font-bold mt-1">{t(`explorePrograms.programs.program${index + 1}.title`)}</h3>
-                                        <p className="text-sm text-muted-foreground">{t(`explorePrograms.programs.program${index + 1}.description`)}</p>
-                                    </div>
-                                    <Button variant="link" className="p-0 h-auto mt-4 self-start">{t('readMore')}</Button>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </CarouselItem>
-                ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
         </div>
       </section>
 
