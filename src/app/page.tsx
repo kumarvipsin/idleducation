@@ -2,36 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck } from "lucide-react";
+import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck, CheckCircle, Smartphone } from "lucide-react";
 import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { SelectionsChart } from "@/components/selections-chart";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function Home() {
-  const heroImages = [
-    {
-      src: "https://images.unsplash.com/photo-1609660100545-05f3799a941b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxlZHVjYXRpb25hbHxlbnwwfHx8fDE3NTU5NjA1MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      alt: "Student learning online",
-      hint: "online learning"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlZHVjYXRpb258ZW58MHx8fHwxNzU1OTYwNTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      alt: "Graduation ceremony",
-      hint: "graduation success"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzdHVkZW50c3xlbnwwfHx8fDE3NTU5NjA1MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      alt: "Students collaborating",
-      hint: "student collaboration"
-    }
-  ];
-
   const stats = [
     { value: "200,000+", label: "Downloads", icon: <Download className="h-10 w-10 text-white/80" /> },
     { value: "500+", label: "UPSC Civils Ranks", icon: <Award className="h-10 w-10 text-white/80" /> },
@@ -41,47 +19,76 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="w-full pt-12 md:pt-24 lg:pt-32 bg-primary/10">
+       <section className="w-full py-12 md:py-24 lg:py-32 bg-purple text-purple-foreground">
         <div className="container px-4 md:px-6">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-primary">
-                  Welcome to IDL EDUCATION
-                </h1>
-                <p className="max-w-[600px] text-foreground/80 md:text-xl">
-                  An interactive educational platform designed for seamless learning and teaching experiences.
-                </p>
-              </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild size="lg">
-                  <Link href="/login">Student Login</Link>
-                </Button>
-                <Button asChild variant="secondary" size="lg">
-                  <Link href="/login">Teacher Login</Link>
-                </Button>
-              </div>
+            <div className="flex flex-col justify-center space-y-4 items-center">
+               <Image 
+                src="https://placehold.co/600x600.png"
+                alt="Happy Student"
+                data-ai-hint="happy student"
+                width={500}
+                height={500}
+                className="rounded-xl"
+              />
             </div>
-            <div className="w-full max-w-2xl mx-auto">
-              <Carousel className="w-full" opts={{ loop: true }}>
-                <CarouselContent>
-                  {heroImages.map((image, index) => (
-                    <CarouselItem key={index}>
-                      <div className="aspect-video relative">
-                        <Image
-                          src={image.src}
-                          data-ai-hint={image.hint}
-                          alt={image.alt}
-                          fill
-                          className="object-cover rounded-xl"
-                        />
+            <div className="w-full max-w-md mx-auto">
+              <Card className="bg-background text-foreground">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl font-bold">Book your Free Session</CardTitle>
+                  <p className="text-muted-foreground">Learn from India's best teachers</p>
+                </CardHeader>
+                <CardContent>
+                  <form className="space-y-4">
+                    <div>
+                      <Label className="font-semibold">Select the Session Mode</Label>
+                      <div className="grid grid-cols-2 gap-2 mt-2">
+                        <Button variant="outline" className="flex items-center justify-center gap-2">
+                          Online
+                        </Button>
+                        <Button variant="default" className="flex items-center justify-center gap-2 bg-purple text-purple-foreground ring-2 ring-purple-foreground">
+                           <CheckCircle className="w-5 h-5" />
+                           Offline
+                        </Button>
                       </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
-                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
-              </Carousel>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label htmlFor="child-name" className="font-semibold">Enter Your Details</Label>
+                      <Input id="child-name" placeholder="Enter Name of your Child" />
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <div className="relative flex-grow">
+                         <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                         <Input id="mobile" type="tel" placeholder="Enter your Mobile Number" className="pl-10" />
+                      </div>
+                      <Button variant="secondary">Send OTP</Button>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Input id="email" type="email" placeholder="Email Address" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="State" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="state1">State 1</SelectItem>
+                          <SelectItem value="state2">State 2</SelectItem>
+                          <SelectItem value="state3">State 3</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white">
+                      Continue to Schedule
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
