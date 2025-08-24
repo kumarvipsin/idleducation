@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Moon, Sun, Globe, Settings } from "lucide-react"
+import { Moon, Sun, Globe, Cog } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useLanguage } from "@/context/language-context"
 
@@ -26,7 +26,7 @@ export function SettingsToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Settings className="h-[1.2rem] w-[1.2rem]" />
+          <Cog className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Open settings</span>
         </Button>
       </DropdownMenuTrigger>
