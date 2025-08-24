@@ -66,10 +66,10 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => console.log('Language set to English')}>
                 English
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => console.log('Language set to Hindi')}>
                 Hindi
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -85,10 +85,10 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => console.log('Language set to English')}>
                 English
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => console.log('Language set to Hindi')}>
                 Hindi
               </DropdownMenuItem>
             </DropdownMenuContent>
