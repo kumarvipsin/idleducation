@@ -15,6 +15,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
+import { bookFreeSession } from "./actions";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -25,13 +26,6 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
-
-async function bookFreeSession(data: FormValues) {
-  'use server';
-  console.log("Booking session with data:", data);
-  // Here you would typically handle the form data, e.g., send it to a database or an API.
-  return { success: true, message: "Your free session has been booked successfully!" };
-}
 
 export default function Home() {
   const { toast } = useToast();
