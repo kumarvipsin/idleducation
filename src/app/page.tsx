@@ -103,30 +103,6 @@ const testimonials = [
   },
 ];
 
-const advantageItems = [
-    {
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path d="m15 12-2.5 2.5"/><path d="m12 15 2.5-2.5"/></svg>
-      ),
-      line1: "advantage.items.item1.line1",
-      line2: "advantage.items.item1.line2"
-    },
-    {
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M13 10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h2Z"/><path d="M14 9.5V6.5a1 1 0 0 0-1-1H4.5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V14"/><path d="m14.5 13.5 4-4"/><path d="M14 6.5h3.5a1 1 0 0 1 1 1v2.5"/><path d="m18 10-2.5 2.5"/></svg>
-      ),
-      line1: "advantage.items.item2.line1",
-      line2: "advantage.items.item2.line2"
-    },
-    {
-       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z"/><path d="M20 12.2V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8"/></svg>
-      ),
-      line1: "advantage.items.item3.line1",
-      line2: "advantage.items.item3.line2"
-    }
-  ];
-
 export default function Home() {
   const { toast } = useToast();
   const { t, language } = useLanguage();
@@ -291,27 +267,6 @@ export default function Home() {
         </div>
       </section>
       
-      <section className="w-full py-12 md:py-24 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center mb-12 space-y-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('advantage.title')}</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                {advantageItems.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center space-y-4">
-                        <div className="w-40 h-40 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg">
-                          {item.icon}
-                        </div>
-                        <div className="text-center">
-                            <p className="text-lg text-foreground/80">{t(item.line1)}</p>
-                            <p className="text-2xl font-bold text-primary">{t(item.line2)}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-      </section>
-
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">

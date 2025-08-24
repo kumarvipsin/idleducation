@@ -42,23 +42,6 @@ const translations = {
             description: "Details about specialized courses with expert teachers."
         }
     },
-    advantage: {
-        title: "Get the IDL advantage",
-        items: {
-            item1: {
-                line1: "Tell us Your",
-                line2: "VISION"
-            },
-            item2: {
-                line1: "Get a Free",
-                line2: "DEMO"
-            },
-            item3: {
-                line1: "Confirm if you",
-                line2: "LIKE"
-            }
-        }
-    },
     testimonials: {
         title: 'What Our Students Say',
         subtitle: 'Hear from students who have benefited from our platform.',
@@ -105,23 +88,6 @@ const translations = {
         specializedCourses: {
             title: "विशेष पाठ्यक्रम",
             description: "विशेषज्ञ शिक्षकों के साथ विशेष पाठ्यक्रमों के बारे में विवरण।"
-        }
-    },
-    advantage: {
-        title: "आईडीएल का लाभ उठाएं",
-        items: {
-            item1: {
-                line1: "हमें अपना",
-                line2: "विजन बताएं"
-            },
-            item2: {
-                line1: "एक निःशुल्क",
-                line2: "डेमो प्राप्त करें"
-            },
-            item3: {
-                line1: "पसंद आने पर",
-                line2: "पुष्टि करें"
-            }
         }
     },
     testimonials: {
