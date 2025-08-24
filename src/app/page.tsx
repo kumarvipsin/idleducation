@@ -291,86 +291,10 @@ export default function Home() {
         </div>
       </section>
       
-      <section className="py-12 md:py-24 bg-background">
-        <div className="container px-4 md:px-6 space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: t('comprehensiveLearning.title') }}></h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              {t('comprehensiveLearning.subtitle')}
-            </p>
-          </div>
-          <div className="bg-card p-6 rounded-lg shadow-lg relative">
-            <div className="text-center mb-6">
-              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white font-bold">
-                {t('comprehensiveLearning.classes4to10')}
-              </Button>
-            </div>
-            <div className="grid md:grid-cols-2 items-center gap-8 relative">
-              <div className="flex flex-col items-center text-center">
-                <div className="flex items-center gap-2 mb-2">
-                    <BookOpen className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.learningApp.title')}</h3>
-                </div>
-                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.learningApp.description')}</p>
-                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-              
-              <Separator orientation="vertical" className="hidden md:block absolute left-1/2 -translate-x-1/2 h-2/3 top-1/2 -translate-y-1/2" />
-              
-              <div className="flex flex-col items-center text-center">
-                 <div className="flex items-center gap-2 mb-2">
-                    <Users className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.idlClasses.title')}</h3>
-                </div>
-                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.idlClasses.description')}</p>
-                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="bg-card p-6 rounded-lg shadow-lg relative">
-            <div className="grid md:grid-cols-2 items-center gap-8 relative">
-              <div className="flex flex-col items-center text-center">
-                <div className="flex items-center gap-2 mb-2">
-                    <BookOpen className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.anotherProgram.title')}</h3>
-                </div>
-                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.anotherProgram.description')}</p>
-                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-              
-              <Separator orientation="vertical" className="hidden md:block absolute left-1/2 -translate-x-1/2 h-2/3 top-1/2 -translate-y-1/2" />
-              
-              <div className="flex flex-col items-center text-center">
-                 <div className="flex items-center gap-2 mb-2">
-                    <Users className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.specializedCourses.title')}</h3>
-                </div>
-                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.specializedCourses.description')}</p>
-                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="text-center mt-8">
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
-                {t('bookFreeClass')}
-              </Button>
-            </div>
-        </div>
-      </section>
-
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12 space-y-4">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('advantage.title')}</h2>
-                <Separator className="max-w-md mx-auto" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 {advantageItems.map((item, index) => (
