@@ -130,7 +130,7 @@ export default function Home() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: result.message || "Something went wrong. Please try again.",
       });
     }
   };
