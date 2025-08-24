@@ -16,6 +16,7 @@ import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "./actions";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -225,8 +226,8 @@ export default function Home() {
                 Classes 4 - 10
               </Button>
             </div>
-            <div className="grid md:grid-cols-2 items-center gap-8">
-              <div className="flex flex-col items-center text-center relative">
+            <div className="grid md:grid-cols-2 items-center gap-8 relative">
+              <div className="flex flex-col items-center text-center">
                 <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-8 h-8 text-purple-600"/>
                     <h3 className="text-xl font-bold">The Learning App</h3>
@@ -236,10 +237,10 @@ export default function Home() {
                   Know more <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
-              <div className="flex flex-col items-center text-center relative">
-                <div className="absolute -top-12 right-0">
-                    <span className="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">NEW</span>
-                </div>
+              
+              <Separator orientation="vertical" className="hidden md:block absolute left-1/2 -translate-x-1/2 h-2/3 top-1/2 -translate-y-1/2" />
+              
+              <div className="flex flex-col items-center text-center">
                  <div className="flex items-center gap-2 mb-2">
                     <Users className="w-8 h-8 text-purple-600"/>
                     <h3 className="text-xl font-bold">IDL's Classes</h3>
