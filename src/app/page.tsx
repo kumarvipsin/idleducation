@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -154,14 +154,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section 
-        className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center bg-no-repeat"
-        style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}
-        >
+       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="container px-4 md:px-6 relative z-10">
-          <div className="flex justify-center">
-            <div className="w-full max-w-md mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+             <div className="text-white space-y-4">
+                <h1 className="text-4xl md:text-5xl font-bold">{t('bookFreeSession.title')}</h1>
+                <p className="text-lg md:text-xl">{t('bookFreeSession.subtitle')}</p>
+              </div>
+            <div className="w-full max-w-md mx-auto md:mx-0 md:justify-self-end">
               <Card className="bg-background text-foreground">
                 <CardHeader className="text-center">
                   <CardTitle className="text-2xl font-bold">{t('bookFreeSession.title')}</CardTitle>
@@ -450,22 +451,25 @@ export default function Home() {
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-4">
-                    <Card className="h-full flex flex-col">
-                      <CardContent className="p-6 flex-1 flex flex-col justify-between">
-                        <blockquote className="text-lg italic mb-4">
-                          "{language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}"
-                        </blockquote>
-                        <div className="flex items-center gap-4 mt-auto">
-                          <Avatar>
-                            <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
-                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold">{testimonial.name}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.class}</p>
-                          </div>
+                  <div className="p-4 h-full">
+                    <Card className="h-full flex flex-col bg-background shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-6 flex-1 flex flex-col justify-between text-center">
+                        <div className="flex justify-center mb-4">
+                            <Avatar className="w-24 h-24 border-4 border-primary/20">
+                                <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
+                                <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
                         </div>
+                        <div className="mb-4">
+                            <p className="font-bold text-lg">{testimonial.name}</p>
+                            <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                            <div className="flex justify-center mt-2">
+                                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                            </div>
+                        </div>
+                        <blockquote className="text-base italic text-foreground/80 before:content-['“'] after:content-['”']">
+                          {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
+                        </blockquote>
                       </CardContent>
                     </Card>
                   </div>
