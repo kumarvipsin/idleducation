@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, User as UserIcon, Facebook, Twitter, Instagram, Info, Globe } from "lucide-react";
 import { Button } from "./ui/button";
