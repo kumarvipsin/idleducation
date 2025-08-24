@@ -3,9 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, BarChart3, Upload, Users, Download, Star, Award, UserCheck, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { SelectionsChart } from "@/components/selections-chart";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -17,6 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "./actions";
 import { Separator } from "@/components/ui/separator";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -27,6 +27,37 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+const testimonials = [
+  {
+    name: "Aarav Sharma",
+    class: "Class 10 Student",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "student portrait",
+    testimonial: "The personalized learning paths have been a game-changer for my exam preparation. I feel much more confident in my abilities now.",
+  },
+  {
+    name: "Priya Singh",
+    class: "Class 12 Student",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "student headshot",
+    testimonial: "IDL EDUCATION's teachers are incredibly supportive. The two-teacher model ensures that my doubts are always cleared instantly.",
+  },
+  {
+    name: "Rohan Kumar",
+    class: "Class 8 Student",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "young student",
+    testimonial: "Learning has become so much more fun and interactive with the app. I love the engaging video lessons and quizzes!",
+  },
+  {
+    name: "Anika Verma",
+    class: "Parent",
+    avatar: "https://placehold.co/100x100.png",
+    avatarHint: "parent profile",
+    testimonial: "As a parent, I'm thrilled with the progress my child has made. The platform provides detailed reports that help me track his performance.",
+  },
+];
 
 export default function Home() {
   const { toast } = useToast();
@@ -58,14 +89,6 @@ export default function Home() {
       });
     }
   };
-
-
-  const stats = [
-    { value: "200,000+", label: "Downloads", icon: <Download className="h-10 w-10 text-white/80" /> },
-    { value: "500+", label: "UPSC Civils Ranks", icon: <Award className="h-10 w-10 text-white/80" /> },
-    { value: "1,000+", label: "APPSC & TSPSC Ranks", icon: <Star className="h-10 w-10 text-white/80" /> },
-    { value: "500,000+", label: "Aspirants Impacted", icon: <UserCheck className="h-10 w-10 text-white/80" /> },
-  ];
 
   return (
     <div className="flex flex-col">
@@ -286,6 +309,53 @@ export default function Home() {
             </div>
         </div>
       </section>
+
+      <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold">What Our Students Say</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Hear from students who have benefited from our platform.
+            </p>
+          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-4">
+                    <Card className="h-full flex flex-col">
+                      <CardContent className="p-6 flex-1 flex flex-col justify-between">
+                        <blockquote className="text-lg italic mb-4">
+                          "{testimonial.testimonial}"
+                        </blockquote>
+                        <div className="flex items-center gap-4 mt-auto">
+                          <Avatar>
+                            <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
+                            <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-semibold">{testimonial.name}</p>
+                            <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </section>
+
     </div>
   );
 }
