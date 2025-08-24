@@ -13,7 +13,7 @@ export function Header() {
   return (
     <div className="sticky top-0 z-50">
       <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
-        <div className="container mx-auto flex justify-between items-center text-xs font-medium">
+        <div className="container mx-auto flex justify-between items-center text-xs font-bold">
           <div className="hidden sm:flex items-center gap-4">
               <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
