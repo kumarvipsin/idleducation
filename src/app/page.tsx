@@ -68,10 +68,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full py-12 md:py-24 lg:py-32 bg-purple text-purple-foreground overflow-hidden">
-        <div className="container px-4 md:px-6">
+       <section 
+        className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center bg-no-repeat"
+        style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}
+        >
+        <div className="absolute inset-0 bg-black/50 z-0"></div>
+        <div className="container px-4 md:px-6 relative z-10">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
-            <div className="flex flex-col justify-center space-y-4 items-center">
+            <div className="hidden lg:flex flex-col justify-center space-y-4 items-center">
                <Image 
                 src="https://images.unsplash.com/photo-1755548413928-4aaeba7c740e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8aW5zdGl0dXRlJTIwY29hY2hpbmd8ZW58MHx8fHwxNzU2MDUxOTA2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Happy Student"
@@ -204,19 +208,6 @@ export default function Home() {
               </Card>
             </div>
           </div>
-        </div>
-        <div className="absolute bottom-0 left-0 w-full h-[150px] overflow-hidden">
-          <svg className="relative block w-[calc(100%+1.3px)] h-[150px]" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
-            <defs>
-              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-            </defs>
-            <g className="parallax">
-              <use xlinkHref="#gentle-wave" x="48" y="0" fill="hsla(var(--accent), 0.7)" />
-              <use xlinkHref="#gentle-wave" x="48" y="3" fill="hsla(var(--accent), 0.5)" />
-              <use xlinkHref="#gentle-wave" x="48" y="5" fill="hsla(var(--accent), 0.3)" />
-              <use xlinkHref="#gentle-wave" x="48" y="7" fill="hsl(var(--accent))" />
-            </g>
-          </svg>
         </div>
       </section>
     </div>
