@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
@@ -26,6 +26,12 @@ export function Header() {
           <span className="ml-2 text-lg font-semibold">IDL EDUCATION</span>
         </Link>
         <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
+          <Link
+            href="/"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            HOME
+          </Link>
           <Button asChild>
             <Link href="/login">
               <LogIn className="mr-2 h-4 w-4" /> Login
@@ -45,6 +51,10 @@ export function Header() {
                   <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               </SheetHeader>
               <nav className="grid gap-6 text-lg font-medium mt-8">
+                <Link href="/" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                  <HomeIcon className="h-5 w-5" />
+                  HOME
+                </Link>
                 <Button asChild>
                   <Link href="/login">
                     <LogIn className="mr-2 h-4 w-4" /> Login
