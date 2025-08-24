@@ -5,8 +5,11 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { ThemeToggle } from "./theme-toggle";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { useLanguage } from "@/context/language-context";
 
 export function Header() {
+  const { t, setLanguage } = useLanguage();
+
   return (
     <div className="sticky top-0 z-50">
       <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
@@ -45,17 +48,17 @@ export function Header() {
             href="/"
             className="text-sm font-medium hover:underline underline-offset-4"
           >
-            HOME
+            {t('home')}
           </Link>
           <Link
             href="/about"
             className="text-sm font-medium hover:underline underline-offset-4"
           >
-            ABOUT
+            {t('about')}
           </Link>
           <Button asChild>
             <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" /> Login
+              <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
           </Button>
           <ThemeToggle />
@@ -67,10 +70,10 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => console.log('Language set to English')}>
+              <DropdownMenuItem onClick={() => setLanguage('en')}>
                 English
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => console.log('Language set to Hindi')}>
+              <DropdownMenuItem onClick={() => setLanguage('hi')}>
                 Hindi
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -86,10 +89,10 @@ export function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => console.log('Language set to English')}>
+              <DropdownMenuItem onClick={() => setLanguage('en')}>
                 English
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => console.log('Language set to Hindi')}>
+              <DropdownMenuItem onClick={() => setLanguage('hi')}>
                 Hindi
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -108,15 +111,15 @@ export function Header() {
               <nav className="grid gap-6 text-lg font-medium mt-8">
                 <Link href="/" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                   <HomeIcon className="h-5 w-5" />
-                  HOME
+                  {t('home')}
                 </Link>
                 <Link href="/about" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                   <Info className="h-5 w-5" />
-                  ABOUT
+                  {t('about')}
                 </Link>
                 <Button asChild>
                   <Link href="/login">
-                    <LogIn className="mr-2 h-4 w-4" /> Login
+                    <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                   </Link>
                 </Button>
               </nav>

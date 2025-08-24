@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "./actions";
 import { Separator } from "@/components/ui/separator";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { useLanguage } from "@/context/language-context";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -35,6 +36,7 @@ const testimonials = [
     avatar: "https://placehold.co/100x100.png",
     avatarHint: "student portrait",
     testimonial: "The personalized learning paths have been a game-changer for my exam preparation. I feel much more confident in my abilities now.",
+    testimonial_hi: "व्यक्तिगत सीखने के रास्ते मेरी परीक्षा की तैयारी के लिए गेम-चेंजर रहे हैं। अब मुझे अपनी क्षमताओं पर बहुत अधिक विश्वास है।",
   },
   {
     name: "Priya Singh",
@@ -42,6 +44,7 @@ const testimonials = [
     avatar: "https://placehold.co/100x100.png",
     avatarHint: "student headshot",
     testimonial: "IDL EDUCATION's teachers are incredibly supportive. The two-teacher model ensures that my doubts are always cleared instantly.",
+    testimonial_hi: "आईडीएल एजुकेशन के शिक्षक अविश्वसनीय रूप से सहायक हैं। दो-शिक्षक मॉडल यह सुनिश्चित करता है कि मेरी शंकाओं का तुरंत समाधान हो जाए।",
   },
   {
     name: "Rohan Kumar",
@@ -49,6 +52,7 @@ const testimonials = [
     avatar: "https://placehold.co/100x100.png",
     avatarHint: "young student",
     testimonial: "Learning has become so much more fun and interactive with the app. I love the engaging video lessons and quizzes!",
+    testimonial_hi: "ऐप के साथ सीखना बहुत अधिक मजेदार और इंटरैक्टिव हो गया है। मुझे आकर्षक वीडियो पाठ और क्विज़ पसंद हैं!",
   },
   {
     name: "Anika Verma",
@@ -56,6 +60,7 @@ const testimonials = [
     avatar: "https://placehold.co/100x100.png",
     avatarHint: "parent profile",
     testimonial: "As a parent, I'm thrilled with the progress my child has made. The platform provides detailed reports that help me track his performance.",
+    testimonial_hi: "एक अभिभावक के रूप में, मैं अपने बच्चे की प्रगति से बहुत खुश हूँ। प्लेटफ़ॉर्म विस्तृत रिपोर्ट प्रदान करता है जो मुझे उसके प्रदर्शन को ट्रैक करने में मदद करता है।",
   },
 ];
 
@@ -117,6 +122,7 @@ const advantageItems = [
 
 export default function Home() {
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -158,8 +164,8 @@ export default function Home() {
             <div className="w-full max-w-md mx-auto">
               <Card className="bg-background text-foreground">
                 <CardHeader className="text-center">
-                  <CardTitle className="text-2xl font-bold">Book your Free Session</CardTitle>
-                  <p className="text-muted-foreground">Learn from India's best teachers</p>
+                  <CardTitle className="text-2xl font-bold">{t('bookFreeSession.title')}</CardTitle>
+                  <p className="text-muted-foreground">{t('bookFreeSession.subtitle')}</p>
                 </CardHeader>
                 <CardContent>
                   <Form {...form}>
@@ -169,7 +175,7 @@ export default function Home() {
                         name="sessionMode"
                         render={({ field }) => (
                           <FormItem>
-                            <Label className="font-semibold">Select the Session Mode</Label>
+                            <Label className="font-semibold">{t('bookFreeSession.sessionMode')}</Label>
                             <div className="grid grid-cols-2 gap-2 mt-2">
                               <Button 
                                 type="button" 
@@ -181,7 +187,7 @@ export default function Home() {
                                 }}
                               >
                                 {sessionMode === 'online' && <CheckCircle className="w-5 h-5" />}
-                                Online
+                                {t('bookFreeSession.online')}
                               </Button>
                               <Button 
                                 type="button" 
@@ -193,7 +199,7 @@ export default function Home() {
                                 }}
                               >
                                 {sessionMode === 'offline' && <CheckCircle className="w-5 h-5" />}
-                                Offline
+                                {t('bookFreeSession.offline')}
                               </Button>
                             </div>
                             <FormMessage />
@@ -206,9 +212,9 @@ export default function Home() {
                         name="childName"
                         render={({ field }) => (
                           <FormItem className="space-y-1">
-                             <Label htmlFor="child-name" className="font-semibold">Enter Your Details</Label>
+                             <Label htmlFor="child-name" className="font-semibold">{t('bookFreeSession.yourDetails')}</Label>
                             <FormControl>
-                              <Input id="child-name" placeholder="Enter Name of your Child" {...field} />
+                              <Input id="child-name" placeholder={t('bookFreeSession.childNamePlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -224,10 +230,10 @@ export default function Home() {
                               <div className="relative flex-grow w-full">
                                 <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <FormControl>
-                                  <Input id="mobile" type="tel" placeholder="Enter your Mobile Number" className="pl-10" {...field} />
+                                  <Input id="mobile" type="tel" placeholder={t('bookFreeSession.mobilePlaceholder')} className="pl-10" {...field} />
                                 </FormControl>
                               </div>
-                              <Button type="button" variant="secondary" className="w-full sm:w-auto">Send OTP</Button>
+                              <Button type="button" variant="secondary" className="w-full sm:w-auto">{t('bookFreeSession.sendOTP')}</Button>
                             </div>
                             <FormMessage />
                           </FormItem>
@@ -240,7 +246,7 @@ export default function Home() {
                         render={({ field }) => (
                           <FormItem className="space-y-1">
                             <FormControl>
-                              <Input id="email" type="email" placeholder="Email Address" {...field} />
+                              <Input id="email" type="email" placeholder={t('bookFreeSession.emailPlaceholder')} {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -255,7 +261,7 @@ export default function Home() {
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="State" />
+                                  <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -270,7 +276,7 @@ export default function Home() {
                       />
 
                       <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? "Scheduling..." : "Continue to Schedule"}
+                        {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
                       </Button>
                     </form>
                   </Form>
@@ -284,26 +290,26 @@ export default function Home() {
       <section className="py-12 md:py-24 bg-background">
         <div className="container px-4 md:px-6 space-y-8">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold">Comprehensive learning programs <br/> & classes for all students</h2>
+            <h2 className="text-3xl md:text-4xl font-bold" dangerouslySetInnerHTML={{ __html: t('comprehensiveLearning.title') }}></h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Become lifelong learners with India's best teachers, engaging video lessons and personalised learning journeys
+              {t('comprehensiveLearning.subtitle')}
             </p>
           </div>
           <div className="bg-card p-6 rounded-lg shadow-lg relative">
             <div className="text-center mb-6">
               <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white font-bold">
-                Classes 4 - 10
+                {t('comprehensiveLearning.classes4to10')}
               </Button>
             </div>
             <div className="grid md:grid-cols-2 items-center gap-8 relative">
               <div className="flex flex-col items-center text-center">
                 <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">The Learning App</h3>
+                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.learningApp.title')}</h3>
                 </div>
-                <p className="text-muted-foreground mb-2">Personalised learning app to learn anytime, anywhere</p>
+                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.learningApp.description')}</p>
                 <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
               
@@ -312,11 +318,11 @@ export default function Home() {
               <div className="flex flex-col items-center text-center">
                  <div className="flex items-center gap-2 mb-2">
                     <Users className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">IDL's Classes</h3>
+                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.idlClasses.title')}</h3>
                 </div>
-                <p className="text-muted-foreground mb-2">Personalised online tutoring program with a unique two teacher model</p>
+                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.idlClasses.description')}</p>
                 <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
             </div>
@@ -326,11 +332,11 @@ export default function Home() {
               <div className="flex flex-col items-center text-center">
                 <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">Another Program</h3>
+                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.anotherProgram.title')}</h3>
                 </div>
-                <p className="text-muted-foreground mb-2">Description for another great program to attract students.</p>
+                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.anotherProgram.description')}</p>
                 <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
               
@@ -339,18 +345,18 @@ export default function Home() {
               <div className="flex flex-col items-center text-center">
                  <div className="flex items-center gap-2 mb-2">
                     <Users className="w-8 h-8 text-purple-600"/>
-                    <h3 className="text-xl font-bold">Specialized Courses</h3>
+                    <h3 className="text-xl font-bold">{t('comprehensiveLearning.specializedCourses.title')}</h3>
                 </div>
-                <p className="text-muted-foreground mb-2">Details about specialized courses with expert teachers.</p>
+                <p className="text-muted-foreground mb-2">{t('comprehensiveLearning.specializedCourses.description')}</p>
                 <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
-                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                  {t('knowMore')} <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
             </div>
           </div>
           <div className="text-center mt-8">
               <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
-                Book a FREE class
+                {t('bookFreeClass')}
               </Button>
             </div>
         </div>
@@ -359,7 +365,7 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">Get the IDL EDUCATION Advantage</h2>
+                <h2 className="text-3xl md:text-4xl font-bold">{t('advantage.title')}</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 {advantageItems.map((item, index) => (
@@ -374,7 +380,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                         <div className="absolute bottom-0 left-0 p-6">
-                            <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                            <h3 className="text-xl font-bold text-white">{t(`advantage.items.item${index + 1}`)}</h3>
                         </div>
                     </div>
                 ))}
@@ -385,7 +391,7 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">Explore our Learning Programs</h2>
+                <h2 className="text-3xl md:text-4xl font-bold">{t('explorePrograms.title')}</h2>
             </div>
             <Carousel
                 opts={{
@@ -409,11 +415,11 @@ export default function Home() {
                                 />
                                 <CardContent className="p-4 flex-1 flex flex-col justify-between">
                                     <div>
-                                        <p className="text-sm font-semibold text-primary">{program.category}</p>
-                                        <h3 className="text-lg font-bold mt-1">{program.title}</h3>
-                                        <p className="text-sm text-muted-foreground">{program.description}</p>
+                                        <p className="text-sm font-semibold text-primary">{t(`explorePrograms.programs.program${index + 1}.category`)}</p>
+                                        <h3 className="text-lg font-bold mt-1">{t(`explorePrograms.programs.program${index + 1}.title`)}</h3>
+                                        <p className="text-sm text-muted-foreground">{t(`explorePrograms.programs.program${index + 1}.description`)}</p>
                                     </div>
-                                    <Button variant="link" className="p-0 h-auto mt-4 self-start">Read more</Button>
+                                    <Button variant="link" className="p-0 h-auto mt-4 self-start">{t('readMore')}</Button>
                                 </CardContent>
                             </Card>
                         </div>
@@ -429,9 +435,9 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">What Our Students Say</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{t('testimonials.title')}</h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Hear from students who have benefited from our platform.
+              {t('testimonials.subtitle')}
             </p>
           </div>
           <Carousel
@@ -448,7 +454,7 @@ export default function Home() {
                     <Card className="h-full flex flex-col">
                       <CardContent className="p-6 flex-1 flex flex-col justify-between">
                         <blockquote className="text-lg italic mb-4">
-                          "{testimonial.testimonial}"
+                          "{language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}"
                         </blockquote>
                         <div className="flex items-center gap-4 mt-auto">
                           <Avatar>
