@@ -227,7 +227,7 @@ export default function Home() {
             </div>
             <div className="grid md:grid-cols-3 items-center gap-8">
               <div className="flex flex-col items-center text-center relative">
-                <Image src="https://placehold.co/300x400.png" data-ai-hint="student learning app" alt="Student with Learning App" width={250} height={350} className="mb-4 object-contain" />
+                <Image src="https://placehold.co/300x400.png" data-ai-hint="student learning app" alt="Student with Learning App" width={300} height={400} className="mb-4 object-cover w-full h-full aspect-[3/4]" />
                 <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-8 h-8 text-purple-600"/>
                     <h3 className="text-xl font-bold">The Learning App</h3>
@@ -238,7 +238,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="flex justify-center items-center">
-                 <Image src="https://placehold.co/400x300.png" data-ai-hint="teacher classroom" alt="Teacher in a virtual classroom" width={400} height={300} className="rounded-lg" />
+                 <Image src="https://placehold.co/300x400.png" data-ai-hint="teacher classroom" alt="Teacher in a virtual classroom" width={300} height={400} className="rounded-lg object-cover w-full h-full aspect-[3/4]" />
               </div>
               <div className="flex flex-col items-center text-center relative">
                 <div className="absolute -top-12 right-0">
