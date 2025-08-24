@@ -61,35 +61,35 @@ const testimonials = [
 
 const learningPrograms = [
   {
-    image: "https://placehold.co/600x400.png",
+    image: "https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
     imageHint: "early learning",
     category: "LKG - Class 3",
     title: "Early Learn Program",
     description: "An Active Learning Adventure",
   },
   {
-    image: "https://placehold.co/600x400.png",
+    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
     imageHint: "self study",
     category: "Class 4 - 10",
     title: "Self-Study Pack",
     description: "The Learning App",
   },
   {
-    image: "https://placehold.co/600x400.png",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
     imageHint: "live classes",
     category: "Class 4 - 10",
     title: "Live Classes",
     description: "Interactive online sessions",
   },
   {
-    image: "https://placehold.co/600x400.png",
+    image: "https://images.unsplash.com/photo-1532094349884-351d36936c5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
     imageHint: "foundation course",
     category: "Class 8 - 10",
     title: "Foundation Course",
     description: "For JEE / NEET",
   },
   {
-    image: "https://placehold.co/600x400.png",
+    image: "https://images.unsplash.com/photo-1554415707-6e8cf6b3fe23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
     imageHint: "test preparation",
     category: "Class 11 - 12",
     title: "Aakash Byju's Program",
@@ -417,7 +417,7 @@ export default function Home() {
                                     data-ai-hint={program.imageHint}
                                     width={600}
                                     height={400}
-                                    className="w-full object-cover"
+                                    className="w-full object-cover aspect-[3/2]"
                                 />
                                 <CardContent className="p-4 flex-1 flex flex-col justify-between">
                                     <div>
