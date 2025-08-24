@@ -82,14 +82,14 @@ const learningPrograms = [
     description: "Interactive online sessions",
   },
   {
-    image: "https://images.unsplash.com/photo-1532094349884-351d36936c5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+    image: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8Y2xhc3N8ZW58MHx8fHwxNzU2MDUzNTc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "foundation course",
     category: "Class 8 - 10",
     title: "Foundation Course",
     description: "For JEE / NEET",
   },
   {
-    image: "https://images.unsplash.com/photo-1554415707-6e8cf6b3fe23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+    image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjbGFzc3xlbnwwfHx8fDE3NTYwNTM1NzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "test preparation",
     category: "Class 11 - 12",
     title: "Aakash Byju's Program",
