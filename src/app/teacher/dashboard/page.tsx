@@ -58,48 +58,50 @@ export default function TeacherDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Class Name</TableHead>
-                  <TableHead className="text-center">Students</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
-                  <TableHead>
-                    <span className="sr-only">Actions</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {classes.map((cls) => (
-                  <TableRow key={cls.id}>
-                    <TableCell className="font-medium">{cls.name}</TableCell>
-                    <TableCell className="text-center">{cls.students}</TableCell>
-                    <TableCell className="text-center">
-                      <Badge variant={cls.status === 'Active' ? 'default' : 'secondary'}>
-                        {cls.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button aria-haspopup="true" size="icon" variant="ghost">
-                            <MoreVertical className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>View Students</DropdownMenuItem>
-                          <DialogTrigger asChild onSelect={() => setSelectedClass(cls.name)}>
-                            <DropdownMenuItem>Upload Material</DropdownMenuItem>
-                          </DialogTrigger>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead>Class Name</TableHead>
+                    <TableHead className="text-center">Students</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead>
+                        <span className="sr-only">Actions</span>
+                    </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {classes.map((cls) => (
+                    <TableRow key={cls.id}>
+                        <TableCell className="font-medium">{cls.name}</TableCell>
+                        <TableCell className="text-center">{cls.students}</TableCell>
+                        <TableCell className="text-center">
+                        <Badge variant={cls.status === 'Active' ? 'default' : 'secondary'}>
+                            {cls.status}
+                        </Badge>
+                        </TableCell>
+                        <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                <MoreVertical className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem>View Students</DropdownMenuItem>
+                            <DialogTrigger asChild onSelect={() => setSelectedClass(cls.name)}>
+                                <DropdownMenuItem>Upload Material</DropdownMenuItem>
+                            </DialogTrigger>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

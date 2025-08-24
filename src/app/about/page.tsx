@@ -97,7 +97,7 @@ export default function AboutPage() {
               We believe in a holistic approach to education that combines expert guidance with a supportive learning environment.
             </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {approachItems.map((item, index) => (
             <Card key={index} className="text-center">
               <CardHeader className="flex flex-col items-center gap-4">
@@ -127,7 +127,7 @@ export default function AboutPage() {
         >
           <CarouselContent>
             {carouselImages.map((image, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Image
                     src={image.src}
