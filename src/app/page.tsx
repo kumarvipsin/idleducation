@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Eye, BrainCircuit, UserCheck } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -115,6 +115,12 @@ const advantageItems = [
     }
   ];
 
+const heroCarouselImages = [
+    { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students collaborating", hint: "student collaboration" },
+    { src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Modern classroom", hint: "modern classroom" },
+    { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Teacher giving a lecture", hint: "teacher lecture" }
+];
+
 export default function Home() {
   const { toast } = useToast();
   const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
@@ -156,14 +162,24 @@ export default function Home() {
         <div className="container px-4 md:px-6 relative z-10">
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
             <div className="hidden lg:flex flex-col justify-center space-y-4 items-center">
-               <Image 
-                src="https://images.unsplash.com/photo-1719159381916-062fa9f435a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8c21hcnQlMjBjbGFzc3Jvb218ZW58MHx8fHwxNzU2MDUyMTAyfDA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Happy Student"
-                data-ai-hint="happy student"
-                width={500}
-                height={500}
-                className="rounded-xl"
-              />
+               <Carousel className="w-full max-w-lg" opts={{ loop: true }}>
+                <CarouselContent>
+                    {heroCarouselImages.map((image, index) => (
+                        <CarouselItem key={index}>
+                            <Image 
+                                src={image.src}
+                                alt={image.alt}
+                                data-ai-hint={image.hint}
+                                width={500}
+                                height={500}
+                                className="rounded-xl object-cover w-full aspect-square"
+                            />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+               </Carousel>
             </div>
             <div className="w-full max-w-md mx-auto">
               <Card className="bg-background text-foreground">
