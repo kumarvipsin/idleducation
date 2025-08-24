@@ -369,7 +369,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-muted">
+      <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold">Get the IDL EDUCATION Advantage</h2>
@@ -378,7 +378,6 @@ export default function Home() {
                 {advantageItems.map((item, index) => (
                     <div key={index} className="flex flex-col items-center">
                         <div className="relative mb-4">
-                            <div className="absolute inset-0 bg-pink-100 rounded-full transform scale-110"></div>
                             <Image 
                                 src={item.image}
                                 alt={item.title}
