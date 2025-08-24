@@ -119,7 +119,7 @@ export default function Home() {
        <section className="relative w-full py-12 md:py-24 lg:py-32 bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="container px-4 md:px-6 relative z-10">
-          <div className="flex justify-center md:justify-end">
+          <div className="flex justify-center">
             <div className="w-full max-w-md">
               <Card className="bg-background text-foreground">
                 <CardHeader className="text-center">
