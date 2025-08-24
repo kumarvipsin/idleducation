@@ -7,16 +7,16 @@
 
 import { ai } from '@/ai/genkit';
 import { ChatbotInputSchema, type ChatbotInput, ChatbotOutputSchema, type ChatbotOutput } from '@/ai/schemas/chat';
+import { z } from 'zod';
 
 
 export async function askChatbot(input: ChatbotInput): Promise<ChatbotOutput> {
-  const { output } = await chatFlow(input);
-  return output!;
+  return await chatFlow(input);
 }
 
 const prompt = ai.definePrompt({
   name: 'chatbotPrompt',
-  input: { schema: ChatbotInputSchema },
+  input: { schema: z.object({ prompt: ChatbotInputSchema }) },
   output: { schema: ChatbotOutputSchema },
   prompt: `You are a friendly and helpful AI assistant for IDL EDUCATION, an online learning platform.
   Your role is to answer questions from students and parents accurately and concisely.
@@ -43,11 +43,8 @@ const chatFlow = ai.defineFlow(
     inputSchema: ChatbotInputSchema,
     outputSchema: ChatbotOutputSchema,
   },
-  async (prompt) => {
-    const { output } = await ai.generate({
-      prompt,
-      model: ai.model,
-    });
-    return output as string;
+  async (userInput) => {
+    const { output } = await prompt({ prompt: userInput });
+    return output!;
   }
 );
