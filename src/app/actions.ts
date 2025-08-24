@@ -1,6 +1,7 @@
 'use server';
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import 'dotenv/config';
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
