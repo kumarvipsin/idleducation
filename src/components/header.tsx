@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, User as UserIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
@@ -32,6 +32,12 @@ export function Header() {
           >
             HOME
           </Link>
+          <Link
+            href="/about"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            ABOUT
+          </Link>
           <Button asChild>
             <Link href="/login">
               <LogIn className="mr-2 h-4 w-4" /> Login
@@ -54,6 +60,10 @@ export function Header() {
                 <Link href="/" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                   <HomeIcon className="h-5 w-5" />
                   HOME
+                </Link>
+                <Link href="/about" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                  <UserIcon className="h-5 w-5" />
+                  ABOUT
                 </Link>
                 <Button asChild>
                   <Link href="/login">
