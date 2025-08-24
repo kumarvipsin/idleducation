@@ -101,19 +101,19 @@ const advantageItems = [
     {
       icon: <Eye className="w-8 h-8 text-primary" />,
       title: "Conceptual clarity through visualisation",
-      image: "https://placehold.co/400x300.png",
+      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "online lecture"
     },
     {
       icon: <BrainCircuit className="w-8 h-8 text-primary" />,
       title: "Personalised learning programs",
-      image: "https://placehold.co/400x300.png",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "knowledge graph"
     },
     {
       icon: <UserCheck className="w-8 h-8 text-primary" />,
       title: "Unmatched individual attention",
-      image: "https://placehold.co/400x300.png",
+      image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       imageHint: "student attention"
     }
   ];
