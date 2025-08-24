@@ -43,11 +43,20 @@ const translations = {
         }
     },
     advantage: {
-        title: "Get the IDL EDUCATION Advantage",
+        title: "Get the IDL advantage",
         items: {
-            item1: "Conceptual clarity through visualisation",
-            item2: "Personalised learning programs",
-            item3: "Unmatched individual attention"
+            item1: {
+                line1: "Tell us Your",
+                line2: "VISION"
+            },
+            item2: {
+                line1: "Get a Free",
+                line2: "DEMO"
+            },
+            item3: {
+                line1: "Confirm if you",
+                line2: "LIKE"
+            }
         }
     },
     testimonials: {
@@ -99,11 +108,20 @@ const translations = {
         }
     },
     advantage: {
-        title: "आईडीएल एजुकेशन का लाभ उठाएं",
+        title: "आईडीएल का लाभ उठाएं",
         items: {
-            item1: "विज़ुअलाइज़ेशन के माध्यम से वैचारिक स्पष्टता",
-            item2: "व्यक्तिगत शिक्षण कार्यक्रम",
-            item3: "अद्वितीय व्यक्तिगत ध्यान"
+            item1: {
+                line1: "हमें अपना",
+                line2: "विजन बताएं"
+            },
+            item2: {
+                line1: "एक निःशुल्क",
+                line2: "डेमो प्राप्त करें"
+            },
+            item3: {
+                line1: "पसंद आने पर",
+                line2: "पुष्टि करें"
+            }
         }
     },
     testimonials: {

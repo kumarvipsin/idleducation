@@ -105,19 +105,25 @@ const testimonials = [
 
 const advantageItems = [
     {
-      title: "Conceptual clarity through visualisation",
-      image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      imageHint: "online lecture"
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/><path d="m15 12-2.5 2.5"/><path d="m12 15 2.5-2.5"/></svg>
+      ),
+      line1: "advantage.items.item1.line1",
+      line2: "advantage.items.item1.line2"
     },
     {
-      title: "Personalised learning programs",
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      imageHint: "knowledge graph"
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M13 10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h2Z"/><path d="M14 9.5V6.5a1 1 0 0 0-1-1H4.5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V14"/><path d="m14.5 13.5 4-4"/><path d="M14 6.5h3.5a1 1 0 0 1 1 1v2.5"/><path d="m18 10-2.5 2.5"/></svg>
+      ),
+      line1: "advantage.items.item2.line1",
+      line2: "advantage.items.item2.line2"
     },
     {
-      title: "Unmatched individual attention",
-      image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      imageHint: "student attention"
+       icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.4 12.6a2 2 0 1 1 3 3L8 21l-4 1 1-4Z"/><path d="M20 12.2V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8"/></svg>
+      ),
+      line1: "advantage.items.item3.line1",
+      line2: "advantage.items.item3.line2"
     }
   ];
 
@@ -263,7 +269,7 @@ export default function Home() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {indianStates.map(state => (
+                                {indianStates.sort().map(state => (
                                   <SelectItem key={state} value={state}>{state}</SelectItem>
                                 ))}
                               </SelectContent>
@@ -362,23 +368,19 @@ export default function Home() {
 
       <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">{t('advantage.title')}</h2>
+            <div className="text-center mb-12 space-y-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('advantage.title')}</h2>
+                <Separator className="max-w-md mx-auto" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 {advantageItems.map((item, index) => (
-                    <div key={index} className="relative overflow-hidden rounded-lg group">
-                        <Image 
-                            src={item.image}
-                            alt={item.title}
-                            data-ai-hint={item.imageHint}
-                            width={400}
-                            height={300}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute bottom-0 left-0 p-6">
-                            <h3 className="text-xl font-bold text-white">{t(`advantage.items.item${index + 1}`)}</h3>
+                    <div key={index} className="flex flex-col items-center space-y-4">
+                        <div className="w-40 h-40 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg">
+                          {item.icon}
+                        </div>
+                        <div className="text-center">
+                            <p className="text-lg text-foreground/80">{t(item.line1)}</p>
+                            <p className="text-2xl font-bold text-primary">{t(item.line2)}</p>
                         </div>
                     </div>
                 ))}
