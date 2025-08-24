@@ -213,8 +213,8 @@ export default function Home() {
       </section>
       
       <section className="py-12 md:py-24 bg-background">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-8">
+        <div className="container px-4 md:px-6 space-y-8">
+          <div className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold">Comprehensive learning programs <br/> & classes for all students</h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
               Become lifelong learners with India's best teachers, engaging video lessons and personalised learning journeys
@@ -251,7 +251,8 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <Separator className="my-8" />
+          </div>
+          <div className="bg-card p-6 rounded-lg shadow-lg relative">
             <div className="grid md:grid-cols-2 items-center gap-8 relative">
               <div className="flex flex-col items-center text-center">
                 <div className="flex items-center gap-2 mb-2">
@@ -277,12 +278,12 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="text-center mt-8">
+          </div>
+          <div className="text-center mt-8">
               <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
                 Book a FREE class
               </Button>
             </div>
-          </div>
         </div>
       </section>
     </div>
