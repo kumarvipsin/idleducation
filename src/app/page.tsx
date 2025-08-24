@@ -73,7 +73,7 @@ export default function Home() {
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 xl:gap-16 items-center">
             <div className="flex flex-col justify-center space-y-4 items-center">
                <Image 
-                src="https://placehold.co/600x600.png"
+                src="https://images.unsplash.com/photo-1755548413928-4aaeba7c740e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8aW5zdGl0dXRlJTIwY29hY2hpbmd8ZW58MHx8fHwxNzU2MDUxOTA2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Happy Student"
                 data-ai-hint="happy student"
                 width={500}
