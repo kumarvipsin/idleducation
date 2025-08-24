@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -6,13 +7,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { askChatbot } from '@/ai/flows/chat';
-import { MessageSquare, Send, X, Bot, User, Loader, Sparkles } from 'lucide-react';
+import { MessageSquare, Send, X, Bot, User, Sparkles } from 'lucide-react';
 import { Avatar, AvatarFallback } from './ui/avatar';
 
 type Message = {
   sender: 'user' | 'bot';
   text: string;
 };
+
+const suggestedReplies = [
+  "What courses do you offer?",
+  "Tell me about the two-teacher model.",
+  "How can I book a free session?",
+];
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +30,7 @@ export function ChatBot() {
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([{ sender: 'bot', text: "Hello! How can I help you today?" }]);
+      setMessages([{ sender: 'bot', text: "Welcome to IDL EDUCATION! How can I assist you today? Here are a few things you can ask:" }]);
     }
   }, [isOpen, messages.length]);
 
@@ -31,17 +38,16 @@ export function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const handleSendMessage = async (messageText: string) => {
+    if (!messageText.trim() || isLoading) return;
 
-    const userMessage: Message = { sender: 'user', text: input };
+    const userMessage: Message = { sender: 'user', text: messageText };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      const botResponse = await askChatbot(input);
+      const botResponse = await askChatbot(messageText);
       const botMessage: Message = { sender: 'bot', text: botResponse };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
@@ -53,6 +59,15 @@ export function ChatBot() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSendMessage(input);
+  };
+  
+  const handleSuggestedReplyClick = (reply: string) => {
+    handleSendMessage(reply);
   };
 
   return (
@@ -130,8 +145,23 @@ export function ChatBot() {
                 </div>
               </ScrollArea>
             </CardContent>
+             {messages.length === 1 && !isLoading && (
+              <CardFooter className="p-4 border-t flex flex-col items-start gap-2">
+                {suggestedReplies.map((reply, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    className="w-full text-left justify-start"
+                    onClick={() => handleSuggestedReplyClick(reply)}
+                  >
+                    {reply}
+                  </Button>
+                ))}
+              </CardFooter>
+            )}
             <CardFooter className="p-4 border-t">
-              <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
+              <form onSubmit={handleFormSubmit} className="flex w-full items-center space-x-2">
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
