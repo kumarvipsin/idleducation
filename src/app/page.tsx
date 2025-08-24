@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Eye, BrainCircuit, UserCheck } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -96,6 +96,27 @@ const learningPrograms = [
     description: "Comprehensive test prep",
   },
 ]
+
+const advantageItems = [
+    {
+      icon: <Eye className="w-8 h-8 text-primary" />,
+      title: "Conceptual clarity through visualisation",
+      image: "https://placehold.co/400x300.png",
+      imageHint: "online lecture"
+    },
+    {
+      icon: <BrainCircuit className="w-8 h-8 text-primary" />,
+      title: "Personalised learning programs",
+      image: "https://placehold.co/400x300.png",
+      imageHint: "knowledge graph"
+    },
+    {
+      icon: <UserCheck className="w-8 h-8 text-primary" />,
+      title: "Unmatched individual attention",
+      image: "https://placehold.co/400x300.png",
+      imageHint: "student attention"
+    }
+  ];
 
 export default function Home() {
   const { toast } = useToast();
@@ -344,6 +365,32 @@ export default function Home() {
               <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
                 Book a FREE class
               </Button>
+            </div>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold">Get the IDL EDUCATION Advantage</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                {advantageItems.map((item, index) => (
+                    <div key={index} className="flex flex-col items-center">
+                        <div className="relative mb-4">
+                            <div className="absolute inset-0 bg-pink-100 rounded-full transform scale-110"></div>
+                            <Image 
+                                src={item.image}
+                                alt={item.title}
+                                data-ai-hint={item.imageHint}
+                                width={400}
+                                height={300}
+                                className="relative rounded-lg z-10 object-cover"
+                            />
+                        </div>
+                        <h3 className="text-xl font-semibold mt-4">{item.title}</h3>
+                    </div>
+                ))}
             </div>
         </div>
       </section>
