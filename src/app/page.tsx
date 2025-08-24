@@ -251,6 +251,32 @@ export default function Home() {
                 </Link>
               </div>
             </div>
+            <Separator className="my-8" />
+            <div className="grid md:grid-cols-2 items-center gap-8 relative">
+              <div className="flex flex-col items-center text-center">
+                <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="w-8 h-8 text-purple-600"/>
+                    <h3 className="text-xl font-bold">Another Program</h3>
+                </div>
+                <p className="text-muted-foreground mb-2">Description for another great program to attract students.</p>
+                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
+                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
+              
+              <Separator orientation="vertical" className="hidden md:block absolute left-1/2 -translate-x-1/2 h-2/3 top-1/2 -translate-y-1/2" />
+              
+              <div className="flex flex-col items-center text-center">
+                 <div className="flex items-center gap-2 mb-2">
+                    <Users className="w-8 h-8 text-purple-600"/>
+                    <h3 className="text-xl font-bold">Specialized Courses</h3>
+                </div>
+                <p className="text-muted-foreground mb-2">Details about specialized courses with expert teachers.</p>
+                <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
+                  Know more <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </div>
+            </div>
             <div className="text-center mt-8">
               <Button size="lg" className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold px-12 py-6 text-lg">
                 Book a FREE class
