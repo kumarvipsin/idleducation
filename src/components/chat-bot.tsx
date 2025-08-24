@@ -6,8 +6,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { askChatbot } from '@/ai/flows/chat';
-import { MessageSquare, Send, X, Bot, User, Loader } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { MessageSquare, Send, X, Bot, User, Loader, Sparkles } from 'lucide-react';
+import { Avatar, AvatarFallback } from './ui/avatar';
 
 type Message = {
   sender: 'user' | 'bot';
@@ -19,17 +19,16 @@ export function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && messages.length === 0) {
       setMessages([{ sender: 'bot', text: "Hello! How can I help you today?" }]);
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
 
   useEffect(() => {
-    // @ts-ignore
-    scrollAreaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -46,7 +45,6 @@ export function ChatBot() {
       const botMessage: Message = { sender: 'bot', text: botResponse };
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error('Error fetching chatbot response:', error);
       const errorMessage: Message = {
         sender: 'bot',
         text: 'Sorry, something went wrong. Please try again.',
@@ -62,7 +60,7 @@ export function ChatBot() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           size="icon"
-          className="rounded-full w-16 h-16 shadow-lg"
+          className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90 transition-transform hover:scale-110"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-8 w-8" /> : <MessageSquare className="h-8 w-8" />}
@@ -70,14 +68,18 @@ export function ChatBot() {
       </div>
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-50">
-          <Card className="w-[350px] h-[500px] flex flex-col shadow-2xl">
-            <CardHeader className="flex flex-row items-center gap-2">
-              <Bot className="w-6 h-6 text-primary" />
-              <CardTitle>IDL EDUCATION Assistant</CardTitle>
+          <Card className="w-[350px] h-[500px] flex flex-col shadow-2xl rounded-2xl border-border/40">
+            <CardHeader className="flex flex-row items-center gap-3 p-4 border-b">
+                <div className="bg-primary/10 p-2 rounded-full">
+                    <Sparkles className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                    <CardTitle className="text-lg">AI Assistant</CardTitle>
+                </div>
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden">
-              <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
-                <div className="space-y-4">
+            <CardContent className="flex-1 overflow-hidden p-0">
+              <ScrollArea className="h-full">
+                <div className="p-4 space-y-4">
                   {messages.map((message, index) => (
                     <div
                       key={index}
@@ -86,20 +88,20 @@ export function ChatBot() {
                       }`}
                     >
                       {message.sender === 'bot' && (
-                        <Avatar className="w-8 h-8">
-                            <AvatarFallback>
-                                <Bot />
+                        <Avatar className="w-8 h-8 border-2 border-primary/20">
+                            <AvatarFallback className="bg-primary/10">
+                                <Bot className="text-primary"/>
                             </AvatarFallback>
                         </Avatar>
                       )}
                       <div
-                        className={`rounded-lg px-4 py-2 max-w-[80%] ${
+                        className={`rounded-xl px-4 py-2 max-w-[80%] text-sm ${
                           message.sender === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted'
+                            ? 'bg-primary text-primary-foreground rounded-br-none'
+                            : 'bg-muted rounded-bl-none'
                         }`}
                       >
-                        <p className="text-sm">{message.text}</p>
+                        <p>{message.text}</p>
                       </div>
                        {message.sender === 'user' && (
                         <Avatar className="w-8 h-8">
@@ -112,28 +114,32 @@ export function ChatBot() {
                   ))}
                   {isLoading && (
                      <div className="flex items-start gap-3">
-                        <Avatar className="w-8 h-8">
-                            <AvatarFallback>
-                                <Bot />
+                        <Avatar className="w-8 h-8 border-2 border-primary/20">
+                            <AvatarFallback className="bg-primary/10">
+                                <Bot className="text-primary"/>
                             </AvatarFallback>
                         </Avatar>
-                        <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
-                            <Loader className="w-5 h-5 animate-spin" />
+                        <div className="rounded-xl px-4 py-2 max-w-[80%] bg-muted rounded-bl-none flex items-center space-x-2">
+                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse delay-150"></span>
+                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse delay-300"></span>
                         </div>
                     </div>
                   )}
+                   <div ref={messagesEndRef} />
                 </div>
               </ScrollArea>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="p-4 border-t">
               <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question..."
                   disabled={isLoading}
+                  className="rounded-full focus-visible:ring-1"
                 />
-                <Button type="submit" size="icon" disabled={isLoading}>
+                <Button type="submit" size="icon" disabled={isLoading} className="rounded-full">
                   <Send className="h-4 w-4" />
                 </Button>
               </form>
