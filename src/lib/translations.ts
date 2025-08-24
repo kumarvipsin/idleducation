@@ -18,7 +18,7 @@ const translations = {
       sendOTP: 'Send OTP',
       emailPlaceholder: 'Email Address',
       statePlaceholder: 'State',
-      continueToSchedule: 'Continue to Schedule',
+      continueToSchedule: 'SUBMIT',
       scheduling: 'Scheduling...',
     },
     comprehensiveLearning: {
@@ -74,7 +74,7 @@ const translations = {
       sendOTP: 'ओटीपी भेजें',
       emailPlaceholder: 'ईमेल पता',
       statePlaceholder: 'राज्य',
-      continueToSchedule: 'शेड्यूल करने के लिए जारी रखें',
+      continueToSchedule: 'सबमिट करें',
       scheduling: 'शेड्यूल किया जा रहा है...',
     },
     comprehensiveLearning: {
