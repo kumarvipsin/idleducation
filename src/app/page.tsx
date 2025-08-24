@@ -225,9 +225,8 @@ export default function Home() {
                 Classes 4 - 10
               </Button>
             </div>
-            <div className="grid md:grid-cols-3 items-center gap-8">
+            <div className="grid md:grid-cols-2 items-center gap-8">
               <div className="flex flex-col items-center text-center relative">
-                <Image src="https://placehold.co/300x400.png" data-ai-hint="student learning app" alt="Student with Learning App" width={300} height={400} className="mb-4 object-cover w-full h-full aspect-[3/4]" />
                 <div className="flex items-center gap-2 mb-2">
                     <BookOpen className="w-8 h-8 text-purple-600"/>
                     <h3 className="text-xl font-bold">The Learning App</h3>
@@ -236,9 +235,6 @@ export default function Home() {
                 <Link href="#" className="font-semibold text-primary hover:underline flex items-center">
                   Know more <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
-              </div>
-              <div className="flex justify-center items-center">
-                 <Image src="https://placehold.co/300x400.png" data-ai-hint="teacher classroom" alt="Teacher in a virtual classroom" width={300} height={400} className="rounded-lg object-cover w-full h-full aspect-[3/4]" />
               </div>
               <div className="flex flex-col items-center text-center relative">
                 <div className="absolute -top-12 right-0">
