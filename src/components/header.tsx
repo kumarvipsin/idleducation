@@ -7,7 +7,7 @@ export function Header() {
   return (
     <div className="sticky top-0 z-50">
       <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
-        <div className="container mx-auto flex justify-between items-center text-xs">
+        <div className="container mx-auto flex justify-center items-center text-xs font-bold">
           <div className="flex items-center gap-4">
             <a href="tel:+917011117585" className="flex items-center gap-1 hover:underline">
               <Phone className="h-3 w-3" />
