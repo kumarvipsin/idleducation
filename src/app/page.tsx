@@ -211,10 +211,10 @@ export default function Home() {
               <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
             </defs>
             <g className="parallax">
-              <use xlinkHref="#gentle-wave" x="48" y="0" fill="hsla(var(--primary), 0.7)" />
-              <use xlinkHref="#gentle-wave" x="48" y="3" fill="hsla(var(--primary), 0.5)" />
-              <use xlinkHref="#gentle-wave" x="48" y="5" fill="hsla(var(--primary), 0.3)" />
-              <use xlinkHref="#gentle-wave" x="48" y="7" fill="hsl(var(--primary))" />
+              <use xlinkHref="#gentle-wave" x="48" y="0" fill="hsla(var(--accent), 0.7)" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" fill="hsla(var(--accent), 0.5)" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" fill="hsla(var(--accent), 0.3)" />
+              <use xlinkHref="#gentle-wave" x="48" y="7" fill="hsl(var(--accent))" />
             </g>
           </svg>
         </div>
