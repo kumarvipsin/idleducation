@@ -51,18 +51,26 @@ export function HeroSection() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const result = await bookFreeSession(data);
-    if (result.success) {
-      toast({
-        title: "Success!",
-        description: result.message,
-      });
-      form.reset();
-    } else {
-      toast({
+    try {
+      const result = await bookFreeSession(data);
+      if (result.success) {
+        toast({
+          title: "Success!",
+          description: result.message,
+        });
+        form.reset();
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+       toast({
         variant: "destructive",
         title: "Error",
-        description: result.message || "Something went wrong. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
       });
     }
   };
