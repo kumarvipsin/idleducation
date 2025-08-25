@@ -38,7 +38,7 @@ export function Footer() {
                     </a>
                     <a href="mailto:query@idleducation.in" className="flex items-center gap-2 hover:underline">
                     <Mail className="h-5 w-5 shrink-0" />
-                    <span>query@idleducation.in</span>
+                    <span className="font-bold">query@idleducation.in</span>
                     </a>
                 </div>
             </div>
