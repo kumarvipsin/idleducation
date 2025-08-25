@@ -246,17 +246,6 @@ export default function Home() {
     }
   };
   
-  const courses = [
-    { icon: <Sigma className="w-10 h-10 text-primary" />, title: t('courses.math.title'), description: t('courses.math.description') },
-    { icon: <FlaskConical className="w-10 h-10 text-primary" />, title: t('courses.science.title'), description: t('courses.science.description') },
-    { icon: <Landmark className="w-10 h-10 text-primary" />, title: t('courses.history.title'), description: t('courses.history.description') },
-    { icon: <Palette className="w-10 h-10 text-primary" />, title: t('courses.arts.title'), description: t('courses.arts.description') },
-    { icon: <Zap className="w-10 h-10 text-primary" />, title: t('courses.english.title'), description: t('courses.english.description') },
-    { icon: <Atom className="w-10 h-10 text-primary" />, title: t('courses.social.title'), description: t('courses.social.description') },
-    { icon: <Code className="w-10 h-10 text-primary" />, title: t('courses.computer.title'), description: t('courses.computer.description') },
-    { icon: <Globe className="w-10 h-10 text-primary" />, title: t('courses.music.title'), description: t('courses.music.description') },
-  ];
-
   const prepClasses = ['class6', 'class7', 'class8', 'class9', 'class10', 'class11', 'class12', 'demoNotes'];
 
   const whyChooseUsItems = [
@@ -297,49 +286,49 @@ export default function Home() {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "female teacher"
     },
     {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib-rb-4.1.0&q=80&w=1080",
         avatarHint: "female scientist"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
     },
     {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "young professional"
     },
     {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "team working"
     }
   ];
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
          <div className="absolute inset-0 bg-primary/80 z-0"></div>
          <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24 lg:py-32">
           <div className="flex justify-center">
@@ -571,48 +560,6 @@ export default function Home() {
         </div>
       </section>
       
-      <section className="w-full py-12 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('courses.title')}</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              {t('courses.subtitle')}
-            </p>
-          </div>
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full max-w-6xl mx-auto"
-          >
-            <CarouselContent>
-              {courses.map((course, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1 h-full">
-                        <Card className="text-center hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
-                            <CardHeader className="flex-grow">
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-primary/10 p-4 rounded-full">
-                                {course.icon}
-                                </div>
-                            </div>
-                            <CardTitle>{course.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                            <p className="text-muted-foreground">{course.description}</p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </section>
-
        <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
