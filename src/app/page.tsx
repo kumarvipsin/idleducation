@@ -3,6 +3,7 @@
 
 import { HeroSection } from '@/components/landing/hero-section';
 import { PopularPrograms } from '@/components/landing/popular-programs';
+import { OurFeatures } from '@/components/landing/our-features';
 import { ExpertTeam } from '@/components/landing/expert-team';
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="flex flex-col">
       <HeroSection />
       <PopularPrograms />
+      <OurFeatures />
       <ExpertTeam />
       <ToppersTestimonials />
       <StudentTestimonials />
