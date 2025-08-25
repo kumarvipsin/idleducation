@@ -62,7 +62,7 @@ export function PopularPrograms() {
 
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="text-center">
-              <CardTitle>TOP COURSES & CLASSESC</CardTitle>
+              <CardTitle>TOP COURSES & CLASSES</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="flex justify-center mb-6">
