@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette, Zap, Atom, Globe, Code } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette, Zap, Atom, Globe, Code, Award, Target, ClipboardCheck, GraduationCap, FileText, UserCheck } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -147,6 +147,39 @@ export default function Home() {
   ];
 
   const prepClasses = ['class6', 'class7', 'class8', 'class9', 'class10', 'class11', 'class12', 'demoNotes'];
+
+  const whyChooseUsItems = [
+    {
+      icon: <GraduationCap className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.expertFaculty.title'),
+      description: t('whyChooseUs.expertFaculty.description')
+    },
+    {
+      icon: <FileText className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.comprehensiveCurriculum.title'),
+      description: t('whyChooseUs.comprehensiveCurriculum.description')
+    },
+    {
+      icon: <UserCheck className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.personalizedLearning.title'),
+      description: t('whyChooseUs.personalizedLearning.description')
+    },
+    {
+      icon: <Award className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.provenResults.title'),
+      description: t('whyChooseUs.provenResults.description')
+    },
+    {
+      icon: <ClipboardCheck className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.regularAssessments.title'),
+      description: t('whyChooseUs.regularAssessments.description')
+    },
+    {
+      icon: <Users className="w-10 h-10 text-primary" />,
+      title: t('whyChooseUs.twoTeacherModel.title'),
+      description: t('whyChooseUs.twoTeacherModel.description')
+    }
+  ];
 
 
   return (
@@ -371,6 +404,32 @@ export default function Home() {
       </section>
 
       <section className="w-full py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('whyChooseUs.title')}</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              {t('whyChooseUs.subtitle')}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {whyChooseUsItems.map((item, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader className="flex flex-row items-start gap-4">
+                  <div className="bg-primary/10 p-4 rounded-full">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1">
+                    <CardTitle className="text-xl mb-2">{item.title}</CardTitle>
+                    <p className="text-muted-foreground text-sm">{item.description}</p>
+                  </div>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">{t('testimonials.title')}</h2>

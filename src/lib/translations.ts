@@ -68,6 +68,34 @@ const translations = {
       class12: 'Class 12',
       demoNotes: 'Demo Notes',
     },
+    whyChooseUs: {
+      title: 'Why Choose IDL EDUCATION?',
+      subtitle: 'Discover the advantages that make our platform the best choice for your learning journey.',
+      expertFaculty: {
+        title: 'Expert Faculty',
+        description: 'Learn from experienced educators and subject matter experts dedicated to your success.',
+      },
+      comprehensiveCurriculum: {
+        title: 'Comprehensive Curriculum',
+        description: 'Our meticulously designed curriculum covers all aspects of the syllabus.',
+      },
+      personalizedLearning: {
+        title: 'Personalized Learning',
+        description: 'Individual attention and guidance to help you identify strengths and overcome weaknesses.',
+      },
+      provenResults: {
+        title: 'Proven Results',
+        description: 'Our students consistently achieve top scores and secure admissions in leading institutions.',
+      },
+      regularAssessments: {
+        title: 'Regular Assessments',
+        description: 'High-quality mock tests with multi-layer testing and detailed evaluation.',
+      },
+      twoTeacherModel: {
+        title: 'Unique Two-Teacher Model',
+        description: 'Ensuring your doubts are cleared instantly for a seamless learning experience.',
+      },
+    },
     testimonials: {
         title: 'What Our Students Say',
         subtitle: 'Hear from students who have benefited from our platform.',
@@ -141,6 +169,34 @@ const translations = {
       class11: 'कक्षा 11',
       class12: 'कक्षा 12',
       demoNotes: 'डेमो नोट्स',
+    },
+    whyChooseUs: {
+      title: 'आईडीएल एजुकेशन क्यों चुनें?',
+      subtitle: 'उन लाभों की खोज करें जो हमारे मंच को आपकी सीखने की यात्रा के लिए सबसे अच्छा विकल्प बनाते हैं।',
+      expertFaculty: {
+        title: 'विशेषज्ञ संकाय',
+        description: 'आपकी सफलता के लिए समर्पित अनुभवी शिक्षकों और विषय वस्तु विशेषज्ञों से सीखें।',
+      },
+      comprehensiveCurriculum: {
+        title: 'व्यापक पाठ्यक्रम',
+        description: 'हमारे सावधानीपूर्वक डिज़ाइन किए गए पाठ्यक्रम में पाठ्यक्रम के सभी पहलुओं को शामिल किया गया है।',
+      },
+      personalizedLearning: {
+        title: 'व्यक्तिगत शिक्षा',
+        description: 'ताकत पहचानने और कमजोरियों को दूर करने में आपकी मदद करने के लिए व्यक्तिगत ध्यान और मार्गदर्शन।',
+      },
+      provenResults: {
+        title: 'सिद्ध परिणाम',
+        description: 'हमारे छात्र लगातार शीर्ष अंक प्राप्त करते हैं और प्रमुख संस्थानों में प्रवेश सुरक्षित करते हैं।',
+      },
+      regularAssessments: {
+        title: 'नियमित मूल्यांकन',
+        description: 'बहु-स्तरीय परीक्षण और विस्तृत मूल्यांकन के साथ उच्च-गुणवत्ता वाले मॉक टेस्ट।',
+      },
+      twoTeacherModel: {
+        title: 'अद्वितीय दो-शिक्षक मॉडल',
+        description: 'एक सहज सीखने के अनुभव के लिए आपकी शंकाओं का तुरंत समाधान सुनिश्चित करना।',
+      },
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',
