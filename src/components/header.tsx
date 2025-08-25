@@ -14,7 +14,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-start items-center">
                 <div className="flex gap-4 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
@@ -24,17 +24,6 @@ export function Header() {
                         <Mail className="h-4 w-4" />
                         <span className="hidden sm:inline">query@idleducation.in</span>
                     </a>
-                </div>
-                <div className="flex gap-2">
-                    <Link href="#" className="p-1.5 hover:bg-primary-foreground/10 rounded-full" aria-label="Instagram">
-                      <Instagram className="h-4 w-4" />
-                    </Link>
-                    <Link href="#" className="p-1.5 hover:bg-primary-foreground/10 rounded-full" aria-label="Facebook">
-                      <Facebook className="h-4 w-4" />
-                    </Link>
-                    <Link href="#" className="p-1.5 hover:bg-primary-foreground/10 rounded-full" aria-label="Twitter">
-                      <Twitter className="h-4 w-4" />
-                    </Link>
                 </div>
             </div>
         </div>
