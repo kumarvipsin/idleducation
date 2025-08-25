@@ -134,29 +134,6 @@ export default function Home() {
       });
     }
   };
-  
-  const programs = [
-    {
-      icon: <Users className="w-8 h-8 text-primary" />,
-      title: t('comprehensiveLearning.learningApp.title'),
-      description: t('comprehensiveLearning.learningApp.description'),
-    },
-    {
-      icon: <BookOpen className="w-8 h-8 text-primary" />,
-      title: t('comprehensiveLearning.idlClasses.title'),
-      description: t('comprehensiveLearning.idlClasses.description'),
-    },
-    {
-      icon: <CheckCircle className="w-8 h-8 text-primary" />,
-      title: t('comprehensiveLearning.anotherProgram.title'),
-      description: t('comprehensiveLearning.anotherProgram.description'),
-    },
-     {
-      icon: <Star className="w-8 h-8 text-primary" />,
-      title: t('comprehensiveLearning.specializedCourses.title'),
-      description: t('comprehensiveLearning.specializedCourses.description'),
-    },
-  ];
 
   return (
     <div className="flex flex-col">
@@ -300,42 +277,6 @@ export default function Home() {
               className="stroke-none fill-background"
             ></path>
           </svg>
-        </div>
-      </section>
-
-      <section className="w-full py-12 md:py-24 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary" dangerouslySetInnerHTML={{ __html: t('comprehensiveLearning.title') }} />
-            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
-              {t('comprehensiveLearning.subtitle')}
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {programs.map((program, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="flex flex-col items-center gap-4">
-                  <div className="bg-primary/10 p-4 rounded-full">
-                    {program.icon}
-                  </div>
-                  <CardTitle>{program.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{program.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button size="lg" asChild>
-                <Link href="/courses">
-                    {t('comprehensiveLearning.viewAllCourses')} <ChevronRight className="ml-2 w-5 h-5" />
-                </Link>
-            </Button>
-          </div>
-
         </div>
       </section>
       
