@@ -69,28 +69,7 @@ export default function AboutPage() {
         </Card>
       </section>
 
-      <section className="grid md:grid-cols-2 gap-8 mb-8 items-center">
-        <div>
-          <Carousel className="w-full max-w-xl mx-auto" opts={{ loop: true }}>
-            <CarouselContent>
-              {carouselImages.map((image, index) => (
-                <CarouselItem key={index}>
-                    <Image
-                      src={image.src}
-                      data-ai-hint={image.hint}
-                      alt={image.alt}
-                      width={600}
-                      height={400}
-                      className="rounded-xl object-cover w-full aspect-video"
-                    />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-        <div className="space-y-6">
+      <section className="space-y-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center gap-4">
               <Target className="w-8 h-8 text-primary" />
@@ -113,7 +92,6 @@ export default function AboutPage() {
               </p>
             </CardContent>
           </Card>
-        </div>
       </section>
 
       <section className="text-center">
