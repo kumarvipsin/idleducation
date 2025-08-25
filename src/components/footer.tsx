@@ -34,7 +34,7 @@ export function Footer() {
                     </div>
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                     <Phone className="h-5 w-5 shrink-0" />
-                    <span>+91 70 1111 7585</span>
+                    <span className="font-bold">+91 70 1111 7585</span>
                     </a>
                     <a href="mailto:query@idleducation.in" className="flex items-center gap-2 hover:underline">
                     <Mail className="h-5 w-5 shrink-0" />
