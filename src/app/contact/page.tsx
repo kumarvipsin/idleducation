@@ -21,13 +21,6 @@ export default function ContactPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <section className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Get in Touch</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          We'd love to hear from you! Whether you have a question about our platform, features, or anything else, our team is ready to answer all your questions.
-        </p>
-      </section>
-
       <div className="grid md:grid-cols-2 gap-12">
         <Card>
           <CardHeader>
