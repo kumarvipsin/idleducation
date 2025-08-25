@@ -15,7 +15,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-end items-center">
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
@@ -25,10 +25,6 @@ export function Header() {
                         <Mail className="h-4 w-4" />
                         <span className="font-bold">query@idleducation.in</span>
                     </a>
-                </div>
-                 <div className="relative hidden md:block">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-foreground/70" />
-                    <Input type="search" placeholder="Search..." className="pl-9 rounded-full h-8 w-40 lg:w-64 bg-primary/20 text-primary-foreground placeholder:text-primary-foreground/70 border-primary-foreground/30 focus-visible:ring-primary-foreground" />
                 </div>
             </div>
         </div>
