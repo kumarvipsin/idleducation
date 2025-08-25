@@ -26,7 +26,7 @@ export function PopularPrograms() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="text-center">
-              <CardTitle>Academic Programs</CardTitle>
+              <CardTitle>ACADEMIC PROGRAMS</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="flex justify-center mb-6">
