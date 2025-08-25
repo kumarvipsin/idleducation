@@ -12,22 +12,7 @@ export function Header() {
   const brandName = "IDL EDUCATION";
 
   return (
-    <div className="sticky top-0 z-50">
-      <div className="bg-primary text-primary-foreground py-1 px-4 lg:px-6">
-        <div className="container mx-auto flex justify-center items-center text-xs font-bold">
-          <div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-center">
-            <a href="tel:+917011117585" className="flex items-center gap-1 hover:underline">
-              <Phone className="h-3 w-3" />
-              <span>+91 70 1111 7585</span>
-            </a>
-            <a href="mailto:query@idleducation.in" className="flex items-center gap-1 hover:underline">
-              <Mail className="h-3 w-3" />
-              <span>query@idleducation.in</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm border-b">
+    <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm border-b">
         <Link href="/" className="flex items-center justify-center">
           <BookOpen className="h-6 w-6 text-primary" />
           <span className="ml-2 text-lg font-semibold">
@@ -115,7 +100,6 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
-      </header>
-    </div>
+    </header>
   );
 }
