@@ -265,17 +265,22 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="relative w-full h-24 sm:h-32 md:h-48 overflow-hidden">
+        <div className="relative w-full h-[120px] bg-transparent">
           <svg
-            viewBox="0 0 500 150"
-            preserveAspectRatio="none"
             className="absolute bottom-0 w-full h-full"
-            style={{pointerEvents: 'none'}}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
           >
-            <path
-              d="M-5.38,154.51 C150.00,150.00 349.20,-49.98 503.11,154.51 L500.00,150.00 L0.00,150.00 Z"
-              className="stroke-none fill-background"
-            ></path>
+            <g className="parallax fill-background">
+              <use href="#wave-path" x="48" y="0" className="opacity-70" />
+              <use href="#wave-path" x="48" y="3" className="opacity-50" />
+              <use href="#wave-path" x="48" y="5" className="opacity-30" />
+              <use href="#wave-path" x="48" y="7" />
+            </g>
+             <defs>
+                <path id="wave-path" d="M0,160L48,181.3C96,203,192,245,288,261.3C384,277,480,267,576,229.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </defs>
           </svg>
         </div>
       </section>
