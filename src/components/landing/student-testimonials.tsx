@@ -134,44 +134,50 @@ export function StudentTestimonials() {
             {t('testimonials.subtitle')}
           </p>
         </div>
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-6xl mx-auto"
-        >
-          <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="p-4 h-full">
-                  <Card className="h-full flex flex-col bg-muted shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-6 flex-1 flex flex-col justify-between text-center">
-                      <div className="flex justify-center mb-4">
-                          <Avatar className="w-24 h-24 border-4 border-primary/20">
-                              <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
-                              <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                      </div>
-                      <div className="mb-4">
-                          <p className="font-bold text-lg">{testimonial.name}</p>
-                          <p className="text-sm text-muted-foreground">{testimonial.class}</p>
-                          <div className="flex justify-center mt-2">
-                              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
-                          </div>
-                      </div>
-                      <blockquote className="text-base italic text-foreground/80 before:content-['“'] after:content-['”']">
-                        {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
-                      </blockquote>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <div className="relative w-full max-w-6xl mx-auto">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-4 h-full">
+                    <Card className="h-full flex flex-col bg-muted shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-6 flex-1 flex flex-col justify-between text-center">
+                        <div className="flex justify-center mb-4">
+                            <Avatar className="w-24 h-24 border-4 border-primary/20">
+                                <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
+                                <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                        </div>
+                        <div className="mb-4">
+                            <p className="font-bold text-lg">{testimonial.name}</p>
+                            <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                            <div className="flex justify-center mt-2">
+                                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
+                            </div>
+                        </div>
+                        <blockquote className="text-base italic text-foreground/80 before:content-['“'] after:content-['”']">
+                          {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
+                        </blockquote>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:left-[-2rem]" />
+            <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:right-[-2rem]" />
+             <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 md:hidden">
+                <CarouselPrevious className="static translate-y-0" />
+                <CarouselNext className="static translate-y-0" />
+            </div>
+          </Carousel>
+        </div>
       </div>
     </section>
   );
