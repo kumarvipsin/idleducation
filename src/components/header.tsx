@@ -19,11 +19,11 @@ export function Header() {
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
-                        <span className="font-bold">+91 70 1111 7585</span>
+                        <span className="font-extrabold">+91 70 1111 7585</span>
                     </a>
                     <a href="mailto:query@idleducation.in" className="flex items-center gap-2 hover:underline">
                         <Mail className="h-4 w-4" />
-                        <span className="font-bold">query@idleducation.in</span>
+                        <span className="font-extrabold">query@idleducation.in</span>
                     </a>
                 </div>
             </div>
