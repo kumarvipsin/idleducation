@@ -184,6 +184,13 @@ const testimonials = [
   },
 ];
 
+const popularProgramsEn = [
+  "News & Editorials", "Drishti Media", "Optional Subjects", "Classroom Prog.", "Mains Test Series", "Daily MCQs"
+];
+const popularProgramsHi = [
+  "दृष्टि मीडिया", "कक्षा कार्यक्रम", "प्रिलिम्स टेस्ट सीरीज़", "मेन्स प्रैक्टिस प्रश्न", "करेंट अफेयर्स", "प्रैक्टिस टेस्ट"
+];
+
 export default function Home() {
   const { toast } = useToast();
   const { t, language } = useLanguage();
@@ -454,6 +461,80 @@ export default function Home() {
                 <path id="wave-path" d="M0,160L48,181.3C96,203,192,245,288,261.3C384,277,480,267,576,229.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
             </defs>
           </svg>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* English Programs Card */}
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex justify-center mb-6">
+                  <Image src="https://placehold.co/150x60.png" alt="English Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="logo design" />
+                </div>
+                <Carousel
+                  opts={{ align: "start", loop: true }}
+                  className="w-full"
+                >
+                  <CarouselContent>
+                    {Array.from({ length: Math.ceil(popularProgramsEn.length / 4) }).map((_, slideIndex) => (
+                      <CarouselItem key={slideIndex}>
+                        <div className="grid grid-cols-2 gap-4">
+                          {popularProgramsEn.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
+                            <Button key={program} variant="outline" className="h-12 bg-gradient-to-r from-teal-400 to-cyan-500 text-white font-semibold shadow-md hover:from-teal-500 hover:to-cyan-600">
+                              {program}
+                            </Button>
+                          ))}
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
+                  <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+                </Carousel>
+                <div className="mt-8 flex justify-center">
+                  <Button size="lg" className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:from-pink-600 hover:to-red-600">
+                    VISIT ENGLISH WEBSITE
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Hindi Programs Card */}
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className="flex justify-center mb-6">
+                  <Image src="https://placehold.co/150x60.png" alt="Hindi Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="vision logo" />
+                </div>
+                 <Carousel
+                  opts={{ align: "start", loop: true }}
+                  className="w-full"
+                >
+                  <CarouselContent>
+                    {Array.from({ length: Math.ceil(popularProgramsHi.length / 4) }).map((_, slideIndex) => (
+                      <CarouselItem key={slideIndex}>
+                        <div className="grid grid-cols-2 gap-4">
+                          {popularProgramsHi.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
+                            <Button key={program} variant="outline" className="h-12 bg-gradient-to-r from-teal-400 to-cyan-500 text-white font-semibold shadow-md hover:from-teal-500 hover:to-cyan-600">
+                              {program}
+                            </Button>
+                          ))}
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
+                  <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+                </Carousel>
+                <div className="mt-8 flex justify-center">
+                  <Button size="lg" className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:from-pink-600 hover:to-red-600">
+                    हिंदी वेबसाइट पर जाएँ
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
       
