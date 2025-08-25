@@ -63,7 +63,7 @@ export function Header() {
                 {t('contact')}
             </Link>
             <Button asChild>
-                <Link href="/login" className="transition-all duration-300 ease-in-out bg-primary text-primary-foreground hover:bg-transparent hover:text-primary hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
+                <Link href="/login" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-primary to-accent text-primary-foreground hover:shadow-lg hover:shadow-primary/30">
                 <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                 </Link>
             </Button>
