@@ -274,49 +274,49 @@ export default function Home() {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "female teacher"
     },
     {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib-rb-4.1.0&q=80&w=1080",
         avatarHint: "female scientist"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
     },
     {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "young professional"
     },
     {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "team working"
     }
   ];
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
          <div className="absolute inset-0 bg-primary/80 z-0"></div>
          <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24 lg:py-32">
           <div className="flex justify-center">
@@ -482,7 +482,7 @@ export default function Home() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 gap-4">
                           {popularProgramsEn.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
-                            <Button key={program} variant="outline" className="h-12 bg-gradient-to-r from-teal-400 to-cyan-500 text-white font-semibold shadow-md hover:from-teal-500 hover:to-cyan-600">
+                            <Button key={program} variant="outline" className="h-12 bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
                               {program}
                             </Button>
                           ))}
@@ -494,7 +494,7 @@ export default function Home() {
                   <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
                 </Carousel>
                 <div className="mt-8 flex justify-center">
-                  <Button size="lg" className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:from-pink-600 hover:to-red-600">
+                  <Button size="lg" className="bg-accent text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:bg-accent/90">
                     VISIT ENGLISH WEBSITE
                   </Button>
                 </div>
@@ -516,7 +516,7 @@ export default function Home() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 gap-4">
                           {popularProgramsHi.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
-                            <Button key={program} variant="outline" className="h-12 bg-gradient-to-r from-teal-400 to-cyan-500 text-white font-semibold shadow-md hover:from-teal-500 hover:to-cyan-600">
+                            <Button key={program} variant="outline" className="h-12 bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
                               {program}
                             </Button>
                           ))}
@@ -528,7 +528,7 @@ export default function Home() {
                   <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
                 </Carousel>
                 <div className="mt-8 flex justify-center">
-                  <Button size="lg" className="bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:from-pink-600 hover:to-red-600">
+                  <Button size="lg" className="bg-accent text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:bg-accent/90">
                     हिंदी वेबसाइट पर जाएँ
                   </Button>
                 </div>
