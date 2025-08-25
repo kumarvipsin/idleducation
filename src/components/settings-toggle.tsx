@@ -25,7 +25,7 @@ export function SettingsToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon">
           <Cog className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Open settings</span>
         </Button>
