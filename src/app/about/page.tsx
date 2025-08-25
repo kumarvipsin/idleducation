@@ -1,6 +1,7 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users, BookOpen, UserCheck, Star, PenSquare, UserCircle } from "lucide-react";
+import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -13,12 +14,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AboutPage() {
   const carouselImages = [
-    { src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80", alt: "Team working together", hint: "team collaboration" },
-    { src: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80", alt: "Modern classroom environment", hint: "modern classroom" },
-    { src: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80", alt: "Student using the platform", hint: "student learning" },
-    { src: "https://placehold.co/600x400.png", alt: "Collaborative session", hint: "team meeting" },
-    { src: "https://placehold.co/600x400.png", alt: "Teacher helping student", hint: "teacher student" },
-    { src: "https://placehold.co/600x400.png", alt: "Modern office interior", hint: "office interior" },
+    { src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students collaborating", hint: "students collaborating" },
+    { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students learning on laptops", hint: "students learning" },
+    { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Teacher with students", hint: "teacher students" },
+    { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Classroom lecture", hint: "classroom lecture" },
+    { src: "https://images.unsplash.com/photo-1531482615713-2c65a0038b55?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Team meeting in office", hint: "team meeting" },
+    { src: "https://images.unsplash.com/photo-1571260899249-f83be78572c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Modern study area", hint: "study area" },
   ];
 
   return (
