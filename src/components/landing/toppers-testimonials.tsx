@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -6,24 +7,24 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 const videoTestimonials = [
   {
-    title: "Success Story: Emily",
-    embedUrl: "https://www.youtube.com/embed/S2y-2O4p-gY",
+    title: "Success Story: Aditya Srivastava, Rank 1",
+    embedUrl: "https://www.youtube.com/embed/Ao_PE-sES1I",
   },
   {
-    title: "Journey to Excellence: David",
-    embedUrl: "https://www.youtube.com/embed/J13GI4Xik1o",
+    title: "Journey to Excellence: Donuru Ananya Reddy, Rank 3",
+    embedUrl: "https://www.youtube.com/embed/Q4g_4y5_ayY",
   },
   {
-    title: "Achieving Dreams: Sarah",
-    embedUrl: "https://www.youtube.com/embed/h-F-SgL1J-w",
+    title: "Achieving Dreams: Garima Lohia, Rank 2",
+    embedUrl: "https://www.youtube.com/embed/yQ41-40-V1c",
   },
   {
-    title: "Student Spotlight: Michael",
-    embedUrl: "https://www.youtube.com/embed/o-34-L52MkE",
+    title: "Student Spotlight: Ishita Kishore, Rank 1",
+    embedUrl: "https://www.youtube.com/embed/j_u46t5-2yY",
   },
   {
-    title: "Overcoming Challenges: Jessica",
-    embedUrl: "https://www.youtube.com/embed/u_y-c6sY4o4",
+    title: "Overcoming Challenges: Smriti Mishra, Rank 4",
+    embedUrl: "https://www.youtube.com/embed/WbWfI0g_t4I",
   },
 ];
 
