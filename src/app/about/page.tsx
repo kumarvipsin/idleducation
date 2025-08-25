@@ -36,7 +36,7 @@ export default function AboutPage() {
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>
               <h1 className="text-3xl font-bold text-primary">AMOD KUMAR SHARMA</h1>
-              <p className="text-lg text-foreground/80 mt-1">Director & Founder</p>
+              <p className="text-lg text-foreground/80 mt-1">Founder & Managing Director</p>
             </div>
             <div className="md:col-span-2 p-8">
               <Tabs defaultValue="message" className="w-full">
