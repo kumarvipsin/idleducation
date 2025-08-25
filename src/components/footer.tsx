@@ -26,7 +26,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="space-y-2">
-                <h4 className="font-semibold text-lg">Contact Us</h4>
+                <h4 className="font-bold text-lg">Contact Us</h4>
                 <div className="flex flex-col gap-2 text-sm">
                     <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 mt-0.5 shrink-0" />
