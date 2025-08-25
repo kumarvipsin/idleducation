@@ -209,6 +209,20 @@ export default function Home() {
         experience: t('team.member4.experience'),
         avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
+    },
+    {
+        name: t('team.member5.name'),
+        designation: t('team.member5.designation'),
+        experience: t('team.member5.experience'),
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "young professional"
+    },
+    {
+        name: t('team.member6.name'),
+        designation: t('team.member6.designation'),
+        experience: t('team.member6.experience'),
+        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "team working"
     }
   ];
 
