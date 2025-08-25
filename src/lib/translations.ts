@@ -10,7 +10,7 @@ const translations = {
     bookFreeSession: {
       title: 'Book your Free Session',
       subtitle: "Learn from India's best teachers",
-      sessionMode: 'Select the Session Mode',
+      sessionMode: 'Select Mode',
       online: 'Online',
       offline: 'Offline',
       yourDetails: 'Enter Your Details',
@@ -137,7 +137,7 @@ const translations = {
     bookFreeSession: {
       title: 'अपना निःशुल्क सत्र बुक करें',
       subtitle: 'भारत के सर्वश्रेष्ठ शिक्षकों से सीखें',
-      sessionMode: 'सत्र मोड चुनें',
+      sessionMode: 'मोड चुनें',
       online: 'ऑनलाइन',
       offline: 'ऑफलाइन',
       yourDetails: 'अपना विवरण दर्ज करें',
