@@ -134,11 +134,34 @@ export default function Home() {
       });
     }
   };
+  
+  const programs = [
+    {
+      icon: <Users className="w-8 h-8 text-primary" />,
+      title: t('comprehensiveLearning.learningApp.title'),
+      description: t('comprehensiveLearning.learningApp.description'),
+    },
+    {
+      icon: <BookOpen className="w-8 h-8 text-primary" />,
+      title: t('comprehensiveLearning.idlClasses.title'),
+      description: t('comprehensiveLearning.idlClasses.description'),
+    },
+    {
+      icon: <CheckCircle className="w-8 h-8 text-primary" />,
+      title: t('comprehensiveLearning.anotherProgram.title'),
+      description: t('comprehensiveLearning.anotherProgram.description'),
+    },
+     {
+      icon: <Star className="w-8 h-8 text-primary" />,
+      title: t('comprehensiveLearning.specializedCourses.title'),
+      description: t('comprehensiveLearning.specializedCourses.description'),
+    },
+  ];
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
-         <div className="absolute inset-0 bg-primary/50 z-0"></div>
+       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+         <div className="absolute inset-0 bg-primary/80 z-0"></div>
          <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24 lg:py-32">
           <div className="flex justify-center">
             <div className="w-full max-w-md">
@@ -274,9 +297,45 @@ export default function Home() {
           >
             <path
               d="M-5.38,154.51 C150.00,150.00 349.20,-49.98 503.11,154.51 L500.00,150.00 L0.00,150.00 Z"
-              className="stroke-none fill-muted"
+              className="stroke-none fill-background"
             ></path>
           </svg>
+        </div>
+      </section>
+
+      <section className="w-full py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary" dangerouslySetInnerHTML={{ __html: t('comprehensiveLearning.title') }} />
+            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto">
+              {t('comprehensiveLearning.subtitle')}
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {programs.map((program, index) => (
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
+                <CardHeader className="flex flex-col items-center gap-4">
+                  <div className="bg-primary/10 p-4 rounded-full">
+                    {program.icon}
+                  </div>
+                  <CardTitle>{program.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{program.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button size="lg" asChild>
+                <Link href="/courses">
+                    {t('comprehensiveLearning.viewAllCourses')} <ChevronRight className="ml-2 w-5 h-5" />
+                </Link>
+            </Button>
+          </div>
+
         </div>
       </section>
       

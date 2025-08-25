@@ -24,7 +24,7 @@ const translations = {
     comprehensiveLearning: {
         title: 'Comprehensive learning programs <br/> & classes for all students',
         subtitle: "Become lifelong learners with India's best teachers, engaging video lessons and personalised learning journeys",
-        classes4to10: "Classes 4 - 10",
+        classes4to10: "Classes 5 - 12",
         learningApp: {
             title: "The Learning App",
             description: "Personalised learning app to learn anytime, anywhere"
@@ -40,7 +40,8 @@ const translations = {
         specializedCourses: {
             title: "Specialized Courses",
             description: "Details about specialized courses with expert teachers."
-        }
+        },
+        viewAllCourses: "View All Courses"
     },
     testimonials: {
         title: 'What Our Students Say',
@@ -72,7 +73,7 @@ const translations = {
     comprehensiveLearning: {
         title: 'सभी छात्रों के लिए व्यापक शिक्षण कार्यक्रम <br/> और कक्षाएं',
         subtitle: "भारत के सर्वश्रेष्ठ शिक्षकों, आकर्षक वीडियो पाठों और व्यक्तिगत शिक्षण यात्राओं के साथ आजीवन सीखने वाले बनें",
-        classes4to10: "कक्षा 4 - 10",
+        classes4to10: "कक्षा 5 - 12",
         learningApp: {
             title: "द लर्निंग ऐप",
             description: "कभी भी, कहीं भी सीखने के लिए व्यक्तिगत शिक्षण ऐप"
@@ -88,7 +89,8 @@ const translations = {
         specializedCourses: {
             title: "विशेष पाठ्यक्रम",
             description: "विशेषज्ञ शिक्षकों के साथ विशेष पाठ्यक्रमों के बारे में विवरण।"
-        }
+        },
+        viewAllCourses: "सभी पाठ्यक्रम देखें"
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',
