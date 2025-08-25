@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette, Zap, Atom, Globe, Code, Award, Target, ClipboardCheck, GraduationCap, FileText, UserCheck } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette, Zap, Atom, Globe, Code, Award, Target, ClipboardCheck, GraduationCap, FileText, UserCheck, Briefcase } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -181,6 +181,36 @@ export default function Home() {
     }
   ];
 
+  const teamMembers = [
+    {
+        name: t('team.member1.name'),
+        designation: t('team.member1.designation'),
+        experience: t('team.member1.experience'),
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "female teacher"
+    },
+    {
+        name: t('team.member2.name'),
+        designation: t('team.member2.designation'),
+        experience: t('team.member2.experience'),
+        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "male teacher"
+    },
+    {
+        name: t('team.member3.name'),
+        designation: t('team.member3.designation'),
+        experience: t('team.member3.experience'),
+        avatar: "https://images.unsplash.com/photo-1581093404179-a79a33ce1c6c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "female scientist"
+    },
+    {
+        name: t('team.member4.name'),
+        designation: t('team.member4.designation'),
+        experience: t('team.member4.experience'),
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "male professional"
+    }
+  ];
 
   return (
     <div className="flex flex-col">
@@ -413,16 +443,16 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyChooseUsItems.map((item, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="flex flex-row items-start gap-4">
+               <Card key={index} className="text-center hover:shadow-xl transition-shadow duration-300">
+                <CardHeader className="flex flex-col items-center gap-4">
                   <div className="bg-primary/10 p-4 rounded-full">
                     {item.icon}
                   </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-xl mb-2">{item.title}</CardTitle>
-                    <p className="text-muted-foreground text-sm">{item.description}</p>
-                  </div>
+                  <CardTitle className="text-2xl">{item.title}</CardTitle>
                 </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{item.description}</p>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -430,6 +460,56 @@ export default function Home() {
       </section>
 
       <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              {t('team.subtitle')}
+            </p>
+          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent>
+              {teamMembers.map((member, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-4 h-full">
+                    <Card className="h-full flex flex-col text-center bg-background shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+                      <div className="relative">
+                        <Image
+                          src={member.avatar}
+                          alt={member.name}
+                          data-ai-hint={member.avatarHint}
+                          width={400}
+                          height={400}
+                          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      </div>
+                      <CardContent className="p-6 flex-1 flex flex-col justify-end -mt-16 z-10">
+                          <h3 className="text-2xl font-bold text-white">{member.name}</h3>
+                          <p className="text-base text-primary-foreground/80">{member.designation}</p>
+                          <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-primary-foreground/90">
+                              <Briefcase className="w-4 h-4" />
+                              <span>{member.experience}</span>
+                          </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </section>
+      
+      <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">{t('testimonials.title')}</h2>
@@ -448,7 +528,7 @@ export default function Home() {
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-4 h-full">
-                    <Card className="h-full flex flex-col bg-background shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <Card className="h-full flex flex-col bg-muted shadow-lg hover:shadow-xl transition-shadow duration-300">
                       <CardContent className="p-6 flex-1 flex flex-col justify-between text-center">
                         <div className="flex justify-center mb-4">
                             <Avatar className="w-24 h-24 border-4 border-primary/20">

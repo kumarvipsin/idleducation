@@ -96,6 +96,30 @@ const translations = {
         description: 'Ensuring your doubts are cleared instantly for a seamless learning experience.',
       },
     },
+    team: {
+      title: 'Meet Our Expert Team',
+      subtitle: 'Our dedicated team of educators is here to guide you on your learning journey.',
+      member1: {
+        name: 'Dr. Anjali Sharma',
+        designation: 'Mathematics Head',
+        experience: '15+ Years of Experience',
+      },
+      member2: {
+        name: 'Mr. Vikram Singh',
+        designation: 'Science Coordinator',
+        experience: '12+ Years of Experience',
+      },
+      member3: {
+        name: 'Ms. Priya Patel',
+        designation: 'Lead Chemistry Faculty',
+        experience: '10+ Years of Experience',
+      },
+      member4: {
+        name: 'Mr. Rohan Gupta',
+        designation: 'History & Arts Specialist',
+        experience: '8+ Years of Experience',
+      }
+    },
     testimonials: {
         title: 'What Our Students Say',
         subtitle: 'Hear from students who have benefited from our platform.',
@@ -197,6 +221,30 @@ const translations = {
         title: 'अद्वितीय दो-शिक्षक मॉडल',
         description: 'एक सहज सीखने के अनुभव के लिए आपकी शंकाओं का तुरंत समाधान सुनिश्चित करना।',
       },
+    },
+    team: {
+      title: 'हमारी विशेषज्ञ टीम से मिलें',
+      subtitle: 'शिक्षकों की हमारी समर्पित टीम आपकी सीखने की यात्रा पर आपका मार्गदर्शन करने के लिए यहां है।',
+      member1: {
+        name: 'डॉ. अंजलि शर्मा',
+        designation: 'गणित प्रमुख',
+        experience: '15+ वर्ष का अनुभव',
+      },
+      member2: {
+        name: 'श्री विक्रम सिंह',
+        designation: 'विज्ञान समन्वयक',
+        experience: '12+ वर्ष का अनुभव',
+      },
+      member3: {
+        name: 'सुश्री प्रिया पटेल',
+        designation: 'प्रमुख रसायन विज्ञान संकाय',
+        experience: '10+ वर्ष का अनुभव',
+      },
+      member4: {
+        name: 'श्री रोहन गुप्ता',
+        designation: 'इतिहास और कला विशेषज्ञ',
+        experience: '8+ वर्ष का अनुभव',
+      }
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',
