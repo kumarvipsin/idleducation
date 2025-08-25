@@ -434,7 +434,7 @@ export default function Home() {
                         )}
                       />
 
-                      <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white" disabled={form.formState.isSubmitting}>
+                      <Button type="submit" size="lg" className="w-full bg-accent text-accent-foreground" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
                       </Button>
                     </form>
@@ -466,8 +466,13 @@ export default function Home() {
 
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Popular Academic Programs</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Explore our popular programs available in English and Hindi.
+            </p>
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* English Programs Card */}
             <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-6">
                 <div className="flex justify-center mb-6">
@@ -501,7 +506,6 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            {/* Hindi Programs Card */}
             <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-6">
                 <div className="flex justify-center mb-6">
