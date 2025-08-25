@@ -15,7 +15,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-center items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
@@ -25,6 +25,10 @@ export function Header() {
                         <Mail className="h-4 w-4" />
                         <span className="font-bold">query@idleducation.in</span>
                     </a>
+                </div>
+                 <div className="relative hidden md:block">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-foreground/70" />
+                    <Input type="search" placeholder="Search..." className="pl-9 rounded-full h-8 w-40 lg:w-64 bg-primary/20 text-primary-foreground placeholder:text-primary-foreground/70 border-primary-foreground/30 focus-visible:ring-primary-foreground" />
                 </div>
             </div>
         </div>
@@ -62,10 +66,6 @@ export function Header() {
             >
                 {t('contact')}
             </Link>
-            <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input type="search" placeholder="Search..." className="pl-9 rounded-full h-9 w-40 lg:w-64" />
-            </div>
             <Button asChild>
                 <Link href="/login" className="transition-all duration-300 ease-in-out bg-primary text-primary-foreground hover:bg-transparent hover:text-primary hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
                 <LogIn className="mr-2 h-4 w-4" /> {t('login')}
@@ -98,6 +98,10 @@ export function Header() {
                 <SheetHeader>
                     <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 </SheetHeader>
+                 <div className="relative mt-8">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input type="search" placeholder="Search..." className="pl-9 rounded-full w-full" />
+                </div>
                 <nav className="grid gap-6 text-lg font-medium mt-8">
                     <Link href="/" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                     <HomeIcon className="h-5 w-5" />
