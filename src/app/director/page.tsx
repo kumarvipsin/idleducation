@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Target, Eye, Users, BookOpen, UserCheck, Star, PenSquare, UserCircle } from "lucide-react";
@@ -43,16 +44,16 @@ export default function AboutPage() {
     <div className="container mx-auto py-8 px-4 md:px-6">
       
       <section className="my-12">
-        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
+        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-4 sm:p-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             
-            <div className="p-8 space-y-4">
+            <div className="p-4 sm:p-8 space-y-4">
                <div className="flex items-start gap-4">
                  <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
                    <Target className="w-8 h-8 text-primary" />
                  </div>
                  <div>
-                   <h3 className="text-2xl font-bold text-primary mb-2">Our Mission</h3>
+                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">Our Mission</h3>
                    <p className="text-foreground/80 leading-relaxed">
                      To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
                    </p>
@@ -63,7 +64,7 @@ export default function AboutPage() {
                    <Eye className="w-8 h-8 text-primary" />
                  </div>
                  <div>
-                   <h3 className="text-2xl font-bold text-primary mb-2">Our Vision</h3>
+                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">Our Vision</h3>
                    <p className="text-foreground/80 leading-relaxed">
                      To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
                    </p>
@@ -85,10 +86,10 @@ export default function AboutPage() {
                 <AvatarImage src="https://images.unsplash.com/photo-1623880840102-7df0a9f3545b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtZW4lMjBwcm9maWxlJTIwaGFsZiUyMHdlYXIlMjBzdWl0fGVufDB8fHx8MTc1NjEzOTk4M3ww&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="professional headshot" />
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>
-              <h1 className="text-3xl font-bold text-primary">AMOD KUMAR SHARMA</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-primary">AMOD KUMAR SHARMA</h1>
               <p className="text-lg text-foreground/80 mt-1">Director & Founder</p>
             </div>
-            <div className="md:col-span-2 p-8">
+            <div className="md:col-span-2 p-4 sm:p-8">
               <Tabs defaultValue="message" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="message">
