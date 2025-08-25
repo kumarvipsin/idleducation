@@ -46,7 +46,7 @@ export function Footer() {
             <div className="space-y-4 md:col-span-2 lg:col-span-2">
                  <div className="aspect-video w-full">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.225888126903!2d144.9537353153169!3d-37.81720997975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce7e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1622222222222!5m2!1sen!2sus"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3497.893114539209!2d77.0596338753898!3d28.7525385756012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d014df076d16f%3A0x7334be2b321a32f!2sKrishan%20Vihar!5e0!3m2!1sen!2sin!4v1717586282035!5m2!1sen!2sin"
                         width="100%"
                         height="100%"
                         style={{ border: 0 }}
