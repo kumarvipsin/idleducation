@@ -5,8 +5,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function ContactPage() {
+  const courses = [
+    "Mathematics",
+    "Science",
+    "History",
+    "Arts",
+    "English",
+    "Social Studies",
+    "Computer Science",
+    "Music",
+  ];
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <section className="text-center mb-16">
@@ -34,6 +46,25 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="Enter your email" />
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input id="phone" type="tel" placeholder="Enter your phone number" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="course">Course Interested</Label>
+                   <Select>
+                    <SelectTrigger id="course">
+                      <SelectValue placeholder="Select a course" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {courses.map(course => (
+                        <SelectItem key={course} value={course}>{course}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <div className="space-y-2">
