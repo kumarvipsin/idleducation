@@ -14,7 +14,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-center sm:justify-between items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-center items-center">
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
