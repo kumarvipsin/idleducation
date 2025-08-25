@@ -345,13 +345,26 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('schoolPrep.title')}</h2>
-            <Separator className="mt-4 max-w-md mx-auto" />
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Select your class to get started with tailored resources and materials.
+            </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
             {prepClasses.map((prepClass) => (
-              <Button key={prepClass} variant="default" size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                {t(`schoolPrep.${prepClass}`)}
-              </Button>
+              <div key={prepClass} className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+                <Card className="relative overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:shadow-2xl h-40 flex flex-col justify-center items-center text-center">
+                  <div className="absolute top-0 left-0 w-full h-full bg-card/50 backdrop-blur-sm"></div>
+                  <CardContent className="relative z-10 flex flex-col items-center justify-center p-6 space-y-2">
+                    <h3 className="text-4xl font-bold text-primary tracking-tighter">
+                      {t(`schoolPrep.${prepClass}`).split(' ')[1] || t(`schoolPrep.${prepClass}`)}
+                    </h3>
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                      {t(`schoolPrep.${prepClass}`).split(' ')[0]}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
