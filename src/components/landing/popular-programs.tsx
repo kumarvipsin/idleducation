@@ -45,7 +45,7 @@ export function PopularPrograms() {
               </Carousel>
               <div className="mt-8 flex justify-center">
                 <Button size="lg" className="bg-accent text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:bg-accent/90">
-                  VISIT ENGLISH WEBSITE
+                  EXPLORE MORE
                 </Button>
               </div>
             </CardContent>
