@@ -38,10 +38,6 @@ export default function AboutPage() {
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
-      <section className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
-      </section>
-
       <section className="my-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Director</h2>
