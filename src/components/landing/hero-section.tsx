@@ -19,6 +19,7 @@ import { useLanguage } from "@/context/language-context";
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
   childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  classCourse: z.string().min(1, { message: "Please enter your class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -44,6 +45,7 @@ export function HeroSection() {
     defaultValues: {
       sessionMode: 'offline',
       childName: '',
+      classCourse: '',
       mobile: '',
       email: '',
       state: '',
@@ -52,7 +54,7 @@ export function HeroSection() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      const result = await bookFreeSession(data);
+      const result = await bookFreeSession(data as any);
       if (result.success) {
         toast({
           title: "Success!",
@@ -134,6 +136,20 @@ export function HeroSection() {
                            <Label htmlFor="child-name" className="font-semibold">{t('bookFreeSession.yourDetails')}</Label>
                           <FormControl>
                             <Input id="child-name" placeholder={t('bookFreeSession.childNamePlaceholder')} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="classCourse"
+                      render={({ field }) => (
+                        <FormItem className="space-y-1">
+                           <Label htmlFor="class-course" className="font-semibold sr-only">Enter Your Class/Course</Label>
+                          <FormControl>
+                            <Input id="class-course" placeholder="Enter Your Class/Course" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
