@@ -20,7 +20,7 @@ export function PopularPrograms() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="text-center">
-              <CardTitle>ACADEMIC PROGRAMS</CardTitle>
+              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <Carousel
@@ -55,7 +55,7 @@ export function PopularPrograms() {
 
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="text-center">
-              <CardTitle>TOP COURSES & CLASSES</CardTitle>
+              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
                <Carousel
