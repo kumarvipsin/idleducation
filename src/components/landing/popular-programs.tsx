@@ -23,9 +23,6 @@ export function PopularPrograms() {
               <CardTitle>ACADEMIC PROGRAMS</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="flex justify-center mb-6">
-                <Image src="https://placehold.co/150x60.png" alt="English Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="logo design" />
-              </div>
               <Carousel
                 opts={{ align: "start", loop: true }}
                 className="w-full"
@@ -59,9 +56,6 @@ export function PopularPrograms() {
               <CardTitle>TOP COURSES & CLASSES</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="flex justify-center mb-6">
-                <Image src="https://placehold.co/150x60.png" alt="Hindi Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="vision logo" />
-              </div>
                <Carousel
                 opts={{ align: "start", loop: true }}
                 className="w-full"
