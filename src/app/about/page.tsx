@@ -70,37 +70,46 @@ export default function AboutPage() {
       </section>
 
       <section className="my-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/10 to-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className="bg-background p-3 rounded-full border shadow-sm">
-                <Target className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="relative h-64 md:h-auto">
+              <Image 
+                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8"
+                alt="Our Mission and Vision"
+                layout="fill"
+                objectFit="cover"
+                data-ai-hint="team working"
+              />
+            </div>
+            <div className="p-8 space-y-8 bg-background">
+              <div className="flex items-start gap-4">
+                <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
+                  <Target className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-primary mb-2">Our Mission</h3>
+                  <p className="text-foreground/80 leading-relaxed">
+                    To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
+                  </p>
+                </div>
               </div>
-              <CardTitle className="text-2xl">Our Mission</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-foreground/80">
-                To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/10 to-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className="bg-background p-3 rounded-full border shadow-sm">
-                <Eye className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+              <div className="flex items-start gap-4">
+                <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
+                  <Eye className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-primary mb-2">Our Vision</h3>
+                  <p className="text-foreground/80 leading-relaxed">
+                    To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
+                  </p>
+                </div>
               </div>
-              <CardTitle className="text-2xl">Our Vision</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-foreground/80">
-                To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </div>
+        </Card>
       </section>
 
-      <section className="text-center">
+      <section className="text-center my-12">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Our Workspace
         </h2>
