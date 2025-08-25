@@ -133,7 +133,7 @@ export function HeroSection() {
                       name="childName"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                           <Label htmlFor="child-name" className="font-semibold">{t('bookFreeSession.yourDetails')}</Label>
+                           <Label htmlFor="child-name" className="font-semibold text-center block w-full">{t('bookFreeSession.yourDetails')}</Label>
                           <FormControl>
                             <Input id="child-name" placeholder={t('bookFreeSession.childNamePlaceholder')} {...field} />
                           </FormControl>
