@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -8,6 +8,7 @@ import { useLanguage } from "@/context/language-context";
 
 export function Header() {
   const { t } = useLanguage();
+  const brandName = "IDL EDUCATION";
 
   return (
     <div className="sticky top-0 z-50">
@@ -40,7 +41,17 @@ export function Header() {
       <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm border-b">
         <Link href="/" className="flex items-center justify-center">
           <BookOpen className="h-6 w-6 text-primary" />
-          <span className="ml-2 text-lg font-semibold">IDL EDUCATION</span>
+          <span className="ml-2 text-lg font-semibold">
+            {brandName.split('').map((char, index) => (
+              <span
+                key={index}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                {char}
+              </span>
+            ))}
+          </span>
         </Link>
         <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
           <Link
