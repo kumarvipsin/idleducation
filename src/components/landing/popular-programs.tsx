@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const popularProgramsEn = [
-  "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII"
+  "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII", "JEE", "NEET"
 ];
 const popularProgramsHi = [
-  "कक्षा V", "कक्षा VI", "कक्षा VII", "कक्षा VIII", "कक्षा IX", "कक्षा X", "कक्षा XI", "कक्षा XII"
+  "कक्षा V", "कक्षा VI", "कक्षा VII", "कक्षा VIII", "कक्षा IX", "कक्षा X", "कक्षा XI", "कक्षा XII", "जेईई", "नीट"
 ];
 
 export function PopularPrograms() {
@@ -31,10 +31,10 @@ export function PopularPrograms() {
                 className="w-full"
               >
                 <CarouselContent>
-                  {Array.from({ length: Math.ceil(popularProgramsEn.length / 4) }).map((_, slideIndex) => (
+                  {Array.from({ length: Math.ceil(popularProgramsEn.length / 6) }).map((_, slideIndex) => (
                     <CarouselItem key={slideIndex}>
-                      <div className="grid grid-cols-2 gap-4">
-                        {popularProgramsEn.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
+                      <div className="grid grid-cols-3 gap-4">
+                        {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
                           <Button key={program} variant="outline" className="h-12 bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
                             {program}
                           </Button>
@@ -67,10 +67,10 @@ export function PopularPrograms() {
                 className="w-full"
               >
                 <CarouselContent>
-                  {Array.from({ length: Math.ceil(popularProgramsHi.length / 4) }).map((_, slideIndex) => (
+                  {Array.from({ length: Math.ceil(popularProgramsHi.length / 6) }).map((_, slideIndex) => (
                     <CarouselItem key={slideIndex}>
-                      <div className="grid grid-cols-2 gap-4">
-                        {popularProgramsHi.slice(slideIndex * 4, slideIndex * 4 + 4).map((program) => (
+                      <div className="grid grid-cols-3 gap-4">
+                        {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
                           <Button key={program} variant="outline" className="h-12 bg-primary text-primary-foreground font-semibold shadow-md hover:bg-primary/90">
                             {program}
                           </Button>
