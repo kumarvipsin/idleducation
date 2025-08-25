@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare, Bell, UserCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -14,15 +14,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-start items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-center items-center">
                 <div className="flex gap-4 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
-                        <span className="hidden sm:inline">+91 70 1111 7585</span>
+                        <span className="hidden sm:inline font-bold">+91 70 1111 7585</span>
                     </a>
                     <a href="mailto:query@idleducation.in" className="flex items-center gap-2 hover:underline">
                         <Mail className="h-4 w-4" />
-                        <span className="hidden sm:inline">query@idleducation.in</span>
+                        <span className="hidden sm:inline font-bold">query@idleducation.in</span>
                     </a>
                 </div>
             </div>
