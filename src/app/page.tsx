@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette, Zap, Atom, Globe, Code } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -135,28 +135,19 @@ export default function Home() {
     }
   };
   
-    const courses = [
-    {
-      icon: <Sigma className="w-10 h-10 text-primary" />,
-      title: t('courses.math.title'),
-      description: t('courses.math.description'),
-    },
-    {
-      icon: <FlaskConical className="w-10 h-10 text-primary" />,
-      title: t('courses.science.title'),
-      description: t('courses.science.description'),
-    },
-    {
-      icon: <Landmark className="w-10 h-10 text-primary" />,
-      title: t('courses.history.title'),
-      description: t('courses.history.description'),
-    },
-    {
-      icon: <Palette className="w-10 h-10 text-primary" />,
-      title: t('courses.arts.title'),
-      description: t('courses.arts.description'),
-    },
+  const courses = [
+    { icon: <Sigma className="w-10 h-10 text-primary" />, title: t('courses.math.title'), description: t('courses.math.description') },
+    { icon: <FlaskConical className="w-10 h-10 text-primary" />, title: t('courses.science.title'), description: t('courses.science.description') },
+    { icon: <Landmark className="w-10 h-10 text-primary" />, title: t('courses.history.title'), description: t('courses.history.description') },
+    { icon: <Palette className="w-10 h-10 text-primary" />, title: t('courses.arts.title'), description: t('courses.arts.description') },
+    { icon: <Zap className="w-10 h-10 text-primary" />, title: t('courses.english.title'), description: t('courses.english.description') },
+    { icon: <Atom className="w-10 h-10 text-primary" />, title: t('courses.social.title'), description: t('courses.social.description') },
+    { icon: <Code className="w-10 h-10 text-primary" />, title: t('courses.computer.title'), description: t('courses.computer.description') },
+    { icon: <Globe className="w-10 h-10 text-primary" />, title: t('courses.music.title'), description: t('courses.music.description') },
   ];
+
+  const prepClasses = ['class6', 'class7', 'class8', 'class9', 'class10', 'class11', 'class12', 'demoNotes'];
+
 
   return (
     <div className="flex flex-col">
@@ -316,27 +307,57 @@ export default function Home() {
               {t('courses.subtitle')}
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {courses.map((course, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <div className="flex justify-center mb-4">
-                    <div className="bg-primary/10 p-4 rounded-full">
-                      {course.icon}
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent>
+              {courses.map((course, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1 h-full">
+                        <Card className="text-center hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+                            <CardHeader className="flex-grow">
+                            <div className="flex justify-center mb-4">
+                                <div className="bg-primary/10 p-4 rounded-full">
+                                {course.icon}
+                                </div>
+                            </div>
+                            <CardTitle>{course.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                            <p className="text-muted-foreground">{course.description}</p>
+                            </CardContent>
+                        </Card>
                     </div>
-                  </div>
-                  <CardTitle>{course.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{course.description}</p>
-                </CardContent>
-              </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </section>
+
+       <section className="w-full py-12 md:py-24 bg-muted">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('schoolPrep.title')}</h2>
+            <Separator className="mt-4 max-w-md mx-auto" />
+          </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            {prepClasses.map((prepClass) => (
+              <Button key={prepClass} variant="default" size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                {t(`schoolPrep.${prepClass}`)}
+              </Button>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-muted">
+      <section className="w-full py-12 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">{t('testimonials.title')}</h2>

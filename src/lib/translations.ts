@@ -40,6 +40,33 @@ const translations = {
         title: 'Arts',
         description: 'Creative learning programs to nurture artistic talents.',
       },
+      english: {
+        title: 'English',
+        description: 'Improve your language and literature skills with our expert tutors.',
+      },
+      social: {
+        title: 'Social Studies',
+        description: 'Understand the world around you with our engaging curriculum.',
+      },
+      computer: {
+        title: 'Computer Science',
+        description: 'Learn to code and explore the world of technology.',
+      },
+      music: {
+        title: 'Music',
+        description: 'Discover your musical talents with our expert instructors.',
+      },
+    },
+    schoolPrep: {
+      title: 'School Preparation',
+      class6: 'Class 6',
+      class7: 'Class 7',
+      class8: 'Class 8',
+      class9: 'Class 9',
+      class10: 'Class 10',
+      class11: 'Class 11',
+      class12: 'Class 12',
+      demoNotes: 'Demo Notes',
     },
     testimonials: {
         title: 'What Our Students Say',
@@ -87,6 +114,33 @@ const translations = {
         title: 'कला',
         description: 'कलात्मक प्रतिभाओं को पोषित करने के लिए रचनात्मक शिक्षण कार्यक्रम।',
       },
+      english: {
+        title: 'अंग्रेज़ी',
+        description: 'हमारे विशेषज्ञ ट्यूटर्स के साथ अपनी भाषा और साहित्य कौशल में सुधार करें।',
+      },
+      social: {
+        title: 'सामाजिक अध्ययन',
+        description: 'हमारे आकर्षक पाठ्यक्रम के साथ अपने आसपास की दुनिया को समझें।',
+      },
+      computer: {
+        title: 'कंप्यूटर विज्ञान',
+        description: 'कोड करना सीखें और प्रौद्योगिकी की दुनिया का अन्वेषण करें।',
+      },
+      music: {
+        title: 'संगीत',
+        description: 'हमारे विशेषज्ञ प्रशिक्षकों के साथ अपनी संगीत प्रतिभाओं की खोज करें।',
+      },
+    },
+    schoolPrep: {
+      title: 'स्कूल की तैयारी',
+      class6: 'कक्षा 6',
+      class7: 'कक्षा 7',
+      class8: 'कक्षा 8',
+      class9: 'कक्षा 9',
+      class10: 'कक्षा 10',
+      class11: 'कक्षा 11',
+      class12: 'कक्षा 12',
+      demoNotes: 'डेमो नोट्स',
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',
