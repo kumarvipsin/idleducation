@@ -6,44 +6,36 @@ import { Award, BookCheck, MessageSquare, Video, Presentation, ClipboardCheck, H
 
 const features = [
   {
-    icon: <Award className="w-8 h-8 text-white" />,
+    icon: <Award className="w-8 h-8 text-primary" />,
     title: "100% Free Quality Education",
-    color: "bg-red-500",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-white" />,
+    icon: <BookCheck className="w-8 h-8 text-primary" />,
     title: "100% Complete Syllabus",
-    color: "bg-blue-500",
   },
   {
-    icon: <MessageSquare className="w-8 h-8 text-white" />,
+    icon: <MessageSquare className="w-8 h-8 text-primary" />,
     title: "Doubt Solving Sessions",
-    color: "bg-teal-500",
   },
   {
-    icon: <Video className="w-8 h-8 text-white" />,
+    icon: <Video className="w-8 h-8 text-primary" />,
     title: "Recorded Video Lectures",
-    color: "bg-green-500",
   },
   {
-    icon: <Presentation className="w-8 h-8 text-white" />,
+    icon: <Presentation className="w-8 h-8 text-primary" />,
     title: "Live Interactive Classes",
-    color: "bg-purple-500",
   },
   {
-    icon: <ClipboardCheck className="w-8 h-8 text-white" />,
+    icon: <ClipboardCheck className="w-8 h-8 text-primary" />,
     title: "Exam Preparation Videos",
-    color: "bg-yellow-500",
   },
   {
-    icon: <History className="w-8 h-8 text-white" />,
+    icon: <History className="w-8 h-8 text-primary" />,
     title: "Previous Year Questions",
-    color: "bg-pink-500",
   },
   {
-    icon: <Lightbulb className="w-8 h-8 text-white" />,
+    icon: <Lightbulb className="w-8 h-8 text-primary" />,
     title: "Sample Paper & E-Notes",
-    color: "bg-indigo-500",
   },
 ];
 
@@ -62,7 +54,7 @@ export function OurFeatures() {
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
               {features.map((feature, index) => (
                 <div key={index} className="flex items-center gap-4">
-                  <div className={`p-4 rounded-full ${feature.color}`}>
+                  <div className="p-4 rounded-full bg-primary/10">
                     {feature.icon}
                   </div>
                   <h3 className="text-base md:text-lg font-semibold text-foreground">{feature.title}</h3>
