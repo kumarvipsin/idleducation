@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -11,6 +12,13 @@ export const metadata: Metadata = {
   title: 'IDL EDUCATION',
   description: 'An interactive educational platform for students and teachers.',
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
 
 export default function RootLayout({
   children,
