@@ -13,9 +13,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AboutPage() {
   const carouselImages = [
-    { src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80", alt: "Team working together", hint: "team collaboration" },
-    { src: "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80", alt: "Modern classroom environment", hint: "modern classroom" },
-    { src: "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80", alt: "Student using the platform", hint: "student learning" },
+    { src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Team working together", hint: "team collaboration" },
+    { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Modern classroom environment", hint: "modern classroom" },
+    { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Student using the platform", hint: "student learning" },
+    { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students collaborating", hint: "students collaborating" },
+    { src: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8c3R1ZGVudHxlbnwwfHx8fDE3NTYwNzE3NDh8MA&ixlib=rb-4.1.0&q=80&w=1080", alt: "Students in a classroom", hint: "students classroom" },
+    { src: "https://images.unsplash.com/photo-1588072432836-e10032774350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8Y2xhc3Nyb29tfGVufDB8fHx8MTc1NjEwNDM5OHww&ixlib=rb-4.1.0&q=80&w=1080", alt: "Empty modern classroom", hint: "modern classroom" },
   ];
 
   const approachItems = [
@@ -38,82 +41,37 @@ export default function AboutPage() {
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
-      <section className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">About IDL EDUCATION</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          We are dedicated to revolutionizing the educational landscape by providing an intuitive and powerful platform for both students and teachers.
-        </p>
-      </section>
-
-      <section className="grid md:grid-cols-2 gap-8 mb-8 items-center">
-        <div>
-          <Carousel className="w-full max-w-xl mx-auto" opts={{ loop: true }}>
-            <CarouselContent>
-              {carouselImages.map((image, index) => (
-                <CarouselItem key={index}>
-                    <Image
-                      src={image.src}
-                      data-ai-hint={image.hint}
-                      alt={image.alt}
-                      width={600}
-                      height={400}
-                      className="rounded-xl object-cover w-full aspect-video"
-                    />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-        <div className="space-y-6">
-          <Card>
-            <CardHeader className="flex flex-row items-center gap-4">
-              <Target className="w-8 h-8 text-primary" />
-              <CardTitle className="text-2xl">Our Mission</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-foreground/80">
-                To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center gap-4">
-              <Eye className="w-8 h-8 text-primary" />
-              <CardTitle className="text-2xl">Our Vision</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-foreground/80">
-                To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <section className="mb-8">
-        <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Our Approach to Excellence</h2>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-              We believe in a holistic approach to education that combines expert guidance with a supportive learning environment.
-            </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {approachItems.map((item, index) => (
-            <Card key={index} className="text-center">
-              <CardHeader className="flex flex-col items-center gap-4">
-                <div className="bg-primary/10 p-4 rounded-full">
-                  {item.icon}
-                </div>
-                <CardTitle className="text-2xl">{item.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/80">{item.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      
+      <section className="my-12">
+        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            
+            <div className="p-8 space-y-4">
+               <div className="flex items-start gap-4">
+                 <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
+                   <Target className="w-8 h-8 text-primary" />
+                 </div>
+                 <div>
+                   <h3 className="text-2xl font-bold text-primary mb-2">Our Mission</h3>
+                   <p className="text-foreground/80 leading-relaxed">
+                     To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
+                   </p>
+                 </div>
+               </div>
+               <div className="flex items-start gap-4">
+                 <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
+                   <Eye className="w-8 h-8 text-primary" />
+                 </div>
+                 <div>
+                   <h3 className="text-2xl font-bold text-primary mb-2">Our Vision</h3>
+                   <p className="text-foreground/80 leading-relaxed">
+                     To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
+                   </p>
+                 </div>
+               </div>
+            </div>
+          </div>
+        </Card>
       </section>
 
        <section className="my-12">
@@ -124,10 +82,10 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="md:col-span-1 bg-primary/10 p-8 flex flex-col items-center justify-center text-center">
               <Avatar className="w-48 h-48 mb-4 border-4 border-primary shadow-lg">
-                <AvatarImage src="https://images.unsplash.com/photo-1752118464988-2914fb27d0f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8dGVhY2hlciUyMHByb2ZpbGV8ZW58MHx8fHwxNzU1OTY3MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="professional headshot" />
+                <AvatarImage src="https://images.unsplash.com/photo-1740906010746-72aa48cea181?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8b2ZmaWMlMjBtYW5hZ2VyJTIwcHJvZmlsZXxlbnwwfHx8fDE3NTYxMDUyNjh8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="professional headshot" />
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>
-              <h1 className="text-3xl font-bold text-primary">Dr. Evelyn Reed</h1>
+              <h1 className="text-3xl font-bold text-primary">AMOD KUMAR SHARMA</h1>
               <p className="text-lg text-foreground/80 mt-1">Director & Founder</p>
             </div>
             <div className="md:col-span-2 p-8">
@@ -161,7 +119,7 @@ export default function AboutPage() {
         </Card>
       </section>
 
-      <section className="text-center">
+      <section className="text-center my-12">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8 flex items-center justify-center gap-4">
           <Users className="w-8 h-8" /> Our Workspace
         </h2>

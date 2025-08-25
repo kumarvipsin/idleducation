@@ -35,7 +35,7 @@ export default function AboutPage() {
                 <AvatarImage src="https://images.unsplash.com/photo-1740906010746-72aa48cea181?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8b2ZmaWMlMjBtYW5hZ2VyJTIwcHJvZmlsZXxlbnwwfHx8fDE3NTYxMDUyNjh8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="office manager" />
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>
-              <h1 className="text-3xl font-bold text-primary">Dr. Evelyn Reed</h1>
+              <h1 className="text-3xl font-bold text-primary">AMOD KUMAR SHARMA</h1>
               <p className="text-lg text-foreground/80 mt-1">Director & Founder</p>
             </div>
             <div className="md:col-span-2 p-8">
