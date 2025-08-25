@@ -40,8 +40,8 @@ export function PopularPrograms() {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
-                <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary/80" />
+                <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary/80" />
               </Carousel>
               <div className="mt-8 flex justify-center">
                 <Button size="lg" className="bg-accent text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:bg-accent/90">
@@ -73,8 +73,8 @@ export function PopularPrograms() {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
-                <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+                <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary/80" />
+                <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary/80" />
               </Carousel>
               <div className="mt-8 flex justify-center">
                 <Button size="lg" className="bg-accent text-accent-foreground font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:bg-accent/90">
