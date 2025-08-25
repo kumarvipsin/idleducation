@@ -32,7 +32,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="md:col-span-1 bg-primary/10 p-8 flex flex-col items-center justify-center text-center">
               <Avatar className="w-48 h-48 mb-4 border-4 border-primary shadow-lg">
-                <AvatarImage src="https://images.unsplash.com/photo-1752118464988-2914fb27d0f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8dGVhY2hlciUyMHByb2ZpbGV8ZW58MHx8fHwxNzU1OTY3MjM1fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="professional headshot" />
+                <AvatarImage src="https://images.unsplash.com/photo-1740906010746-72aa48cea181?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8b2ZmaWMlMjBtYW5hZ2VyJTIwcHJvZmlsZXxlbnwwfHx8fDE3NTYxMDUyNjh8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Director's Photo" data-ai-hint="office manager" />
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>
               <h1 className="text-3xl font-bold text-primary">Dr. Evelyn Reed</h1>
