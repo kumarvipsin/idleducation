@@ -1,11 +1,12 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
+import { Input } from "./ui/input";
 
 export function Header() {
   const { t } = useLanguage();
@@ -61,6 +62,10 @@ export function Header() {
             >
                 {t('contact')}
             </Link>
+            <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input type="search" placeholder="Search..." className="pl-9 rounded-full h-9 w-40 lg:w-64" />
+            </div>
             <Button asChild>
                 <Link href="/login" className="transition-all duration-300 ease-in-out bg-primary text-primary-foreground hover:bg-transparent hover:text-primary hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
                 <LogIn className="mr-2 h-4 w-4" /> {t('login')}
