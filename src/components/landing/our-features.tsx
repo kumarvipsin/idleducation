@@ -6,35 +6,35 @@ import { Award, BookCheck, MessageSquare, Video, Presentation, ClipboardCheck, H
 
 const features = [
   {
-    icon: <Award className="w-8 h-8 text-primary" />,
+    icon: <Award className="w-10 h-10 text-primary" />,
     title: "100% Free Quality Education",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-primary" />,
+    icon: <BookCheck className="w-10 h-10 text-primary" />,
     title: "100% Complete Syllabus",
   },
   {
-    icon: <MessageSquare className="w-8 h-8 text-primary" />,
+    icon: <MessageSquare className="w-10 h-10 text-primary" />,
     title: "Doubt Solving Sessions",
   },
   {
-    icon: <Video className="w-8 h-8 text-primary" />,
+    icon: <Video className="w-10 h-10 text-primary" />,
     title: "Recorded Video Lectures",
   },
   {
-    icon: <Presentation className="w-8 h-8 text-primary" />,
+    icon: <Presentation className="w-10 h-10 text-primary" />,
     title: "Live Interactive Classes",
   },
   {
-    icon: <ClipboardCheck className="w-8 h-8 text-primary" />,
+    icon: <ClipboardCheck className="w-10 h-10 text-primary" />,
     title: "Exam Preparation Videos",
   },
   {
-    icon: <History className="w-8 h-8 text-primary" />,
+    icon: <History className="w-10 h-10 text-primary" />,
     title: "Previous Year Questions",
   },
   {
-    icon: <Lightbulb className="w-8 h-8 text-primary" />,
+    icon: <Lightbulb className="w-10 h-10 text-primary" />,
     title: "Sample Paper & E-Notes",
   },
 ];
@@ -49,20 +49,18 @@ export function OurFeatures() {
             Everything you need to succeed, all in one place.
           </p>
         </div>
-        <Card className="shadow-lg">
-          <CardContent className="p-8 md:p-12">
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <Card key={index} className="text-center p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out border-transparent hover:border-primary/20">
+                <div className="flex justify-center mb-4">
                   <div className="p-4 rounded-full bg-primary/10">
                     {feature.icon}
                   </div>
-                  <h3 className="text-base md:text-lg font-semibold text-foreground">{feature.title}</h3>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <h3 className="text-base md:text-lg font-semibold text-foreground">{feature.title}</h3>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );
