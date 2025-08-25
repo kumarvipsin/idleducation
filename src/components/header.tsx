@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog } from "lucide-react";
@@ -66,7 +67,7 @@ export function Header() {
           >
             {t('about')}
           </Link>
-          <Button asChild>
+          <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
             <Link href="/login">
               <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
@@ -95,7 +96,7 @@ export function Header() {
                   <Info className="h-5 w-5" />
                   {t('about')}
                 </Link>
-                <Button asChild>
+                <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
                   <Link href="/login">
                     <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                   </Link>
