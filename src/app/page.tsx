@@ -185,10 +185,10 @@ const testimonials = [
 ];
 
 const popularProgramsEn = [
-  "News & Editorials", "Drishti Media", "Optional Subjects", "Classroom Prog.", "Mains Test Series", "Daily MCQs"
+  "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII"
 ];
 const popularProgramsHi = [
-  "दृष्टि मीडिया", "कक्षा कार्यक्रम", "प्रिलिम्स टेस्ट सीरीज़", "मेन्स प्रैक्टिस प्रश्न", "करेंट अफेयर्स", "प्रैक्टिस टेस्ट"
+  "कक्षा V", "कक्षा VI", "कक्षा VII", "कक्षा VIII", "कक्षा IX", "कक्षा X", "कक्षा XI", "कक्षा XII"
 ];
 
 const videoTestimonials = [
@@ -297,49 +297,49 @@ export default function Home() {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "female teacher"
     },
     {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib-rb-4.1.0&q=80&w=1080",
+        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
         avatarHint: "female scientist"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
     },
     {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "young professional"
     },
     {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "team working"
     }
   ];
 
   return (
     <div className="flex flex-col">
-       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+       <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
          <div className="absolute inset-0 bg-primary/80 z-0"></div>
          <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24 lg:py-32">
           <div className="flex justify-center">
@@ -497,6 +497,9 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader className="text-center">
+                <CardTitle>Popular Academic Programs (English)</CardTitle>
+              </CardHeader>
               <CardContent className="p-6">
                 <div className="flex justify-center mb-6">
                   <Image src="https://placehold.co/150x60.png" alt="English Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="logo design" />
@@ -530,6 +533,9 @@ export default function Home() {
             </Card>
 
             <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader className="text-center">
+                <CardTitle>Popular Academic Programs (Hindi)</CardTitle>
+              </CardHeader>
               <CardContent className="p-6">
                 <div className="flex justify-center mb-6">
                   <Image src="https://placehold.co/150x60.png" alt="Hindi Program Logo" width={150} height={60} className="rounded-md" data-ai-hint="vision logo" />
