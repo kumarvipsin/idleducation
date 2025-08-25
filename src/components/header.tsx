@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare, Bell } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare, Bell, UserCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -56,6 +56,12 @@ export function Header() {
             {t('about')}
           </Link>
           <Link
+            href="/director"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            Director
+          </Link>
+          <Link
             href="/contact"
             className="text-sm font-medium hover:underline underline-offset-4"
           >
@@ -101,6 +107,10 @@ export function Header() {
                 <Link href="/about" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                   <Info className="h-5 w-5" />
                   {t('about')}
+                </Link>
+                 <Link href="/director" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                  <UserCircle className="h-5 w-5" />
+                  Director
                 </Link>
                 <Link href="/contact" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                   <MessageSquare className="h-5 w-5" />
