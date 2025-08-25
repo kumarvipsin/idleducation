@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare, Bell } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -13,16 +13,16 @@ export function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="bg-primary text-primary-foreground py-2 px-4 lg:px-6">
+      <div className="bg-primary text-primary-foreground py-1 px-4 lg:px-6">
         <div className="container mx-auto flex justify-between items-center text-xs font-bold">
           <div className="hidden sm:flex items-center gap-4">
-              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
+              <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </Link>
-              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Facebook">
+              <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </Link>
-              <Link href="#" className="hover:text-primary-foreground/80" aria-label="Twitter">
+              <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Twitter">
                 <Twitter className="h-4 w-4" />
               </Link>
           </div>
@@ -74,14 +74,26 @@ export function Header() {
             {t('contact')}
           </Link>
           <Button asChild>
-            <Link href="/login">
+            <Link href="/login" className="transition-all duration-300 ease-in-out bg-primary text-primary-foreground hover:bg-transparent hover:text-primary hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
               <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
           </Button>
+          <Link href="/notifications">
+            <Button variant="outline" size="icon">
+                <Bell className="h-[1.2rem] w-[1.2rem]" />
+                <span className="sr-only">Notifications</span>
+            </Button>
+          </Link>
           <SettingsToggle />
         </nav>
         <div className="ml-auto md:hidden flex items-center gap-2">
           <SettingsToggle />
+           <Link href="/notifications">
+            <Button variant="ghost" size="icon">
+                <Bell className="h-6 w-6" />
+                <span className="sr-only">Notifications</span>
+            </Button>
+          </Link>
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
