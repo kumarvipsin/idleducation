@@ -6,24 +6,24 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 const videoTestimonials = [
   {
-    title: "Anju, Rank 60 - UPSC Topper",
-    embedUrl: "https://www.youtube.com/embed/fm-b-L-p7J4",
+    title: "Success Story: Emily",
+    embedUrl: "https://www.youtube.com/embed/S2y-2O4p-gY",
   },
   {
-    title: "Ishika Singh - UPSC Result 2024",
-    embedUrl: "https://www.youtube.com/embed/9bZkp7q19f0",
+    title: "Journey to Excellence: David",
+    embedUrl: "https://www.youtube.com/embed/J13GI4Xik1o",
   },
   {
-    title: "Teshukant - UPSC CSE 2024 Topper",
-    embedUrl: "https://www.youtube.com/embed/ZU9T1-p_iA4",
+    title: "Achieving Dreams: Sarah",
+    embedUrl: "https://www.youtube.com/embed/h-F-SgL1J-w",
   },
   {
-    title: "Student Success Story 1",
-    embedUrl: "https://www.youtube.com/embed/l-gQLqv9f4o",
+    title: "Student Spotlight: Michael",
+    embedUrl: "https://www.youtube.com/embed/o-34-L52MkE",
   },
   {
-    title: "Student Success Story 2",
-    embedUrl: "https://www.youtube.com/embed/Q4-j5X-4C6M",
+    title: "Overcoming Challenges: Jessica",
+    embedUrl: "https://www.youtube.com/embed/u_y-c6sY4o4",
   },
 ];
 
