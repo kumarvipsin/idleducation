@@ -96,7 +96,6 @@ export function HeroSection() {
                       name="sessionMode"
                       render={({ field }) => (
                         <FormItem>
-                          <Label className="font-semibold text-center block w-full">{t('bookFreeSession.sessionMode')}</Label>
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             <Button 
                               type="button" 
