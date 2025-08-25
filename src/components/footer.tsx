@@ -14,14 +14,14 @@ export function Footer() {
                     Empowering students with quality education to achieve their dreams.
                 </p>
                 <div className="flex gap-4">
+                    <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
+                    <Instagram className="h-6 w-6" />
+                    </Link>
                     <Link href="#" className="hover:text-primary-foreground/80" aria-label="Facebook">
                     <Facebook className="h-6 w-6" />
                     </Link>
                     <Link href="#" className="hover:text-primary-foreground/80" aria-label="Twitter">
                     <Twitter className="h-6 w-6" />
-                    </Link>
-                    <Link href="#" className="hover:text-primary-foreground/80" aria-label="Instagram">
-                    <Instagram className="h-6 w-6" />
                     </Link>
                 </div>
             </div>
