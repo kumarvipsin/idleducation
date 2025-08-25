@@ -4,30 +4,30 @@ import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "luc
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-gray-800 text-gray-200">
         <div className="container mx-auto py-12 px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="space-y-4">
                 <Link href="/" className="flex items-center gap-2">
-                    <BookOpen className="h-8 w-8" />
-                    <span className="text-2xl font-bold">IDL EDUCATION</span>
+                    <BookOpen className="h-8 w-8 text-white" />
+                    <span className="text-2xl font-bold text-white">IDL EDUCATION</span>
                 </Link>
-                <p className="text-sm text-primary-foreground/80">
+                <p className="text-sm text-gray-400">
                     Empowering students with quality education to achieve their dreams.
                 </p>
                 <div className="flex gap-4">
-                    <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Instagram">
+                    <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Instagram">
                       <Instagram className="h-6 w-6" />
                     </Link>
-                    <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Facebook">
+                    <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Facebook">
                       <Facebook className="h-6 w-6" />
                     </Link>
-                    <Link href="#" className="p-2 border border-primary-foreground/50 rounded-full hover:bg-primary-foreground/10" aria-label="Twitter">
+                    <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Twitter">
                       <Twitter className="h-6 w-6" />
                     </Link>
                 </div>
             </div>
             <div className="space-y-2">
-                <h4 className="font-bold text-lg">Contact Us</h4>
+                <h4 className="font-bold text-lg text-white">Contact Us</h4>
                 <div className="flex flex-col gap-2 text-sm">
                     <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 mt-0.5 shrink-0" />
@@ -59,9 +59,9 @@ export function Footer() {
                 </div>
             </div>
         </div>
-      <div className="border-t border-primary-foreground/20 py-6">
+      <div className="border-t border-gray-700 py-6">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center text-xs">
-            <p className="text-primary-foreground/70">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
+            <p className="text-gray-400">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
             <nav className="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
                 <Link href="#" className="hover:underline underline-offset-4">
                 Terms of Service
