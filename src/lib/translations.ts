@@ -21,6 +21,26 @@ const translations = {
       continueToSchedule: 'SUBMIT',
       scheduling: 'Scheduling...',
     },
+    courses: {
+      title: 'Courses We Offer',
+      subtitle: 'Explore our wide range of courses designed for academic excellence.',
+      math: {
+        title: 'Mathematics',
+        description: 'Comprehensive curriculum for classes 6 to 12.',
+      },
+      science: {
+        title: 'Science',
+        description: 'Physics, Chemistry, and Biology for classes 6 to 12.',
+      },
+      history: {
+        title: 'History',
+        description: 'Engaging lessons on world and Indian history for classes 6 to 10.',
+      },
+      arts: {
+        title: 'Arts',
+        description: 'Creative learning programs to nurture artistic talents.',
+      },
+    },
     testimonials: {
         title: 'What Our Students Say',
         subtitle: 'Hear from students who have benefited from our platform.',
@@ -47,6 +67,26 @@ const translations = {
       statePlaceholder: 'राज्य',
       continueToSchedule: 'सबमिट करें',
       scheduling: 'शेड्यूल किया जा रहा है...',
+    },
+    courses: {
+      title: 'हमारे द्वारा प्रदान किए जाने वाले पाठ्यक्रम',
+      subtitle: 'शैक्षणिक उत्कृष्टता के लिए डिज़ाइन किए गए हमारे पाठ्यक्रमों की विस्तृत श्रृंखला का अन्वेषण करें।',
+      math: {
+        title: 'गणित',
+        description: 'कक्षा 6 से 12 के लिए व्यापक पाठ्यक्रम।',
+      },
+      science: {
+        title: 'विज्ञान',
+        description: 'कक्षा 6 से 12 के लिए भौतिकी, रसायन विज्ञान और जीव विज्ञान।',
+      },
+      history: {
+        title: 'इतिहास',
+        description: 'कक्षा 6 से 10 के लिए विश्व और भारतीय इतिहास पर आकर्षक पाठ।',
+      },
+      arts: {
+        title: 'कला',
+        description: 'कलात्मक प्रतिभाओं को पोषित करने के लिए रचनात्मक शिक्षण कार्यक्रम।',
+      },
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',

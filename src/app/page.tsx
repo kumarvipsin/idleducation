@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star } from "lucide-react";
+import { BookOpen, Users, CheckCircle, Smartphone, ChevronRight, Star, Sigma, FlaskConical, Landmark, Palette } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -134,6 +134,29 @@ export default function Home() {
       });
     }
   };
+  
+    const courses = [
+    {
+      icon: <Sigma className="w-10 h-10 text-primary" />,
+      title: t('courses.math.title'),
+      description: t('courses.math.description'),
+    },
+    {
+      icon: <FlaskConical className="w-10 h-10 text-primary" />,
+      title: t('courses.science.title'),
+      description: t('courses.science.description'),
+    },
+    {
+      icon: <Landmark className="w-10 h-10 text-primary" />,
+      title: t('courses.history.title'),
+      description: t('courses.history.description'),
+    },
+    {
+      icon: <Palette className="w-10 h-10 text-primary" />,
+      title: t('courses.arts.title'),
+      description: t('courses.arts.description'),
+    },
+  ];
 
   return (
     <div className="flex flex-col">
@@ -285,6 +308,34 @@ export default function Home() {
         </div>
       </section>
       
+      <section className="w-full py-12 md:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('courses.title')}</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              {t('courses.subtitle')}
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {courses.map((course, index) => (
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex justify-center mb-4">
+                    <div className="bg-primary/10 p-4 rounded-full">
+                      {course.icon}
+                    </div>
+                  </div>
+                  <CardTitle>{course.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{course.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
