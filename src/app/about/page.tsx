@@ -69,10 +69,13 @@ export default function AboutPage() {
         </Card>
       </section>
 
-      <section className="space-y-6 mb-8">
-          <Card>
+      <section className="my-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/10 to-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardHeader className="flex flex-row items-center gap-4">
-              <Target className="w-8 h-8 text-primary" />
+              <div className="bg-background p-3 rounded-full border shadow-sm">
+                <Target className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+              </div>
               <CardTitle className="text-2xl">Our Mission</CardTitle>
             </CardHeader>
             <CardContent>
@@ -81,9 +84,11 @@ export default function AboutPage() {
               </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="group relative overflow-hidden bg-gradient-to-br from-primary/10 to-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
             <CardHeader className="flex flex-row items-center gap-4">
-              <Eye className="w-8 h-8 text-primary" />
+              <div className="bg-background p-3 rounded-full border shadow-sm">
+                <Eye className="w-8 h-8 text-primary transition-transform duration-300 group-hover:scale-110" />
+              </div>
               <CardTitle className="text-2xl">Our Vision</CardTitle>
             </CardHeader>
             <CardContent>
@@ -92,6 +97,7 @@ export default function AboutPage() {
               </p>
             </CardContent>
           </Card>
+        </div>
       </section>
 
       <section className="text-center">
