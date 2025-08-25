@@ -8,23 +8,23 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 const videoTestimonials = [
   {
     title: "Success Story: Aditya Srivastava, Rank 1",
-    embedUrl: "https://www.youtube.com/embed/Ao_PE-sES1I",
+    embedUrl: "https://www.youtube.com/embed/natYsNb2QBM",
   },
   {
-    title: "Journey to Excellence: Donuru Ananya Reddy, Rank 3",
+    title: "Journey to Excellence: Animesh Pradhan, Rank 2",
+    embedUrl: "https://www.youtube.com/embed/ss3o_iY3IVk",
+  },
+  {
+    title: "Achieving Dreams: Donuru Ananya Reddy, Rank 3",
     embedUrl: "https://www.youtube.com/embed/Q4g_4y5_ayY",
   },
   {
-    title: "Achieving Dreams: Garima Lohia, Rank 2",
-    embedUrl: "https://www.youtube.com/embed/yQ41-40-V1c",
+    title: "Student Spotlight: Ruhani, Rank 5",
+    embedUrl: "https://www.youtube.com/embed/xJkOSFf0-b8",
   },
   {
-    title: "Student Spotlight: Ishita Kishore, Rank 1",
-    embedUrl: "https://www.youtube.com/embed/j_u46t5-2yY",
-  },
-  {
-    title: "Overcoming Challenges: Smriti Mishra, Rank 4",
-    embedUrl: "https://www.youtube.com/embed/WbWfI0g_t4I",
+    title: "Overcoming Challenges: Srishti Dabas, Rank 6",
+    embedUrl: "https://www.youtube.com/embed/6IDuTnHG2dM",
   },
 ];
 
