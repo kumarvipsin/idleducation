@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Instagram, Facebook, Twitter, Info, Cog, MessageSquare } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -67,7 +67,13 @@ export function Header() {
           >
             {t('about')}
           </Link>
-          <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
+          <Link
+            href="/contact"
+            className="text-sm font-medium hover:underline underline-offset-4"
+          >
+            {t('contact')}
+          </Link>
+          <Button asChild>
             <Link href="/login">
               <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
@@ -96,7 +102,11 @@ export function Header() {
                   <Info className="h-5 w-5" />
                   {t('about')}
                 </Link>
-                <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
+                <Link href="/contact" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                  <MessageSquare className="h-5 w-5" />
+                  {t('contact')}
+                </Link>
+                <Button asChild>
                   <Link href="/login">
                     <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                   </Link>

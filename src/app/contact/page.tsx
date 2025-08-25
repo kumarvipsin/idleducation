@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,7 +56,7 @@ export default function ContactPage() {
                 <CardContent className="space-y-4 text-base sm:text-lg">
                     <div className="flex items-start sm:items-center gap-4">
                         <MapPin className="w-6 h-6 text-primary mt-1 sm:mt-0" />
-                        <span className="font-bold">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</span>
+                        <span>E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <Phone className="w-6 h-6 text-primary" />

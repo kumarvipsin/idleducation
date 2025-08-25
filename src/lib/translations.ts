@@ -2,6 +2,7 @@ const translations = {
   en: {
     home: 'HOME',
     about: 'ABOUT',
+    contact: 'CONTACT',
     login: 'Login',
     readMore: 'Read more',
     knowMore: 'Know more',
@@ -119,16 +120,6 @@ const translations = {
         designation: 'History & Arts Specialist',
         experience: '8+ Years of Experience',
       },
-      member5: {
-        name: 'Mr. Sameer Khan',
-        designation: 'Physics Expert',
-        experience: '9+ Years of Experience',
-      },
-      member6: {
-        name: 'Ms. Aisha Begum',
-        designation: 'Biology Specialist',
-        experience: '11+ Years of Experience',
-      }
     },
     testimonials: {
         title: 'What Our Students Say',
@@ -138,6 +129,7 @@ const translations = {
   hi: {
     home: 'होम',
     about: 'हमारे बारे में',
+    contact: 'संपर्क करें',
     login: 'लॉग इन करें',
     readMore: 'और पढ़ें',
     knowMore: 'और जानें',
@@ -255,16 +247,6 @@ const translations = {
         designation: 'इतिहास और कला विशेषज्ञ',
         experience: '8+ वर्ष का अनुभव',
       },
-      member5: {
-        name: 'श्री समीर खान',
-        designation: 'भौतिकी विशेषज्ञ',
-        experience: '9+ वर्ष का अनुभव',
-      },
-      member6: {
-        name: 'सुश्री आयशा बेगम',
-        designation: 'जीव विज्ञान विशेषज्ञ',
-        experience: '11+ वर्ष का अनुभव',
-      }
     },
     testimonials: {
         title: 'हमारे छात्र क्या कहते हैं',
