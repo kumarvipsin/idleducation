@@ -14,7 +14,7 @@ export function ExpertTeam() {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "/amod-sharma.jpg",
+        avatar: "/amod.jpeg",
         avatarHint: "male teacher"
     },
     {
