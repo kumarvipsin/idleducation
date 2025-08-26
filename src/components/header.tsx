@@ -1,16 +1,72 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
 import { Input } from "./ui/input";
+import { useAuth } from "@/context/auth-context";
+import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export function Header() {
   const { t } = useLanguage();
+  const { user, loading, logout } = useAuth();
+  const router = useRouter();
   const brandName = "IDL EDUCATION";
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
+
+  const renderAuthButton = () => {
+    if (loading) {
+      return <Button variant="ghost">Loading...</Button>;
+    }
+
+    if (user) {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
+                <AvatarFallback>
+                  <User/>
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">My Account</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    }
+
+    return (
+       <Button asChild>
+          <Link href="/login" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-primary to-accent text-primary-foreground hover:shadow-lg hover:shadow-primary/30">
+          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+          </Link>
+      </Button>
+    );
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
@@ -62,11 +118,7 @@ export function Header() {
             >
                 {t('contact')}
             </Link>
-            <Button asChild>
-                <Link href="/login" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-primary to-accent text-primary-foreground hover:shadow-lg hover:shadow-primary/30">
-                <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-                </Link>
-            </Button>
+            {renderAuthButton()}
             <Link href="/notifications">
                 <Button variant="outline" size="icon">
                     <Bell className="h-[1.2rem] w-[1.2rem]" />
@@ -111,11 +163,17 @@ export function Header() {
                     <MessageSquare className="h-5 w-5" />
                     {t('contact')}
                     </Link>
-                    <Button asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-                    </Link>
-                    </Button>
+                    {user ? (
+                      <Button onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" /> Logout
+                      </Button>
+                    ) : (
+                      <Button asChild>
+                        <Link href="/login">
+                          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+                        </Link>
+                      </Button>
+                    )}
                 </nav>
                 </SheetContent>
             </Sheet>

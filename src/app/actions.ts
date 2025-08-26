@@ -4,7 +4,7 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
 import { auth } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -83,6 +83,7 @@ export async function loginUser(data: LoginValues) {
   const { email, password } = validation.data;
 
   try {
+    // This function is for server-side validation. The actual sign-in state is managed on the client.
     await signInWithEmailAndPassword(auth, email, password);
     return { success: true, message: "Login successful!" };
   } catch (error: any) {
@@ -105,5 +106,19 @@ export async function loginUser(data: LoginValues) {
         break;
     }
     return { success: false, message };
+  }
+}
+
+// Note: The actual signOut operation must be called on the client.
+// This server action is a placeholder and will not work as expected for signing out a user.
+// The client-side implementation will handle the sign-out.
+export async function logoutUser() {
+  try {
+    // This will not sign out the client, as auth state is managed on the client.
+    // await signOut(auth); 
+    return { success: true, message: "Logout successful." };
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return { success: false, message: "Logout failed. Please try again." };
   }
 }

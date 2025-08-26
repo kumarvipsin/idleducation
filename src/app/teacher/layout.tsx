@@ -1,6 +1,7 @@
+
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   SidebarProvider,
   Sidebar,
@@ -13,6 +14,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Upload } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
 
 export default function TeacherLayout({
   children,
@@ -20,6 +22,13 @@ export default function TeacherLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
 
   return (
     <SidebarProvider>
@@ -79,11 +88,9 @@ export default function TeacherLayout({
           <SidebarFooter>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/">
+                <SidebarMenuButton onClick={handleLogout}>
                     <LogOut />
                     <span>Logout</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
