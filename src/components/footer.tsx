@@ -15,7 +15,7 @@ export function Footer() {
                     Empowering students with quality education to achieve their dreams.
                 </p>
                 <div className="flex gap-4">
-                    <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Instagram">
+                    <Link href="https://www.instagram.com/idleducation" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Instagram">
                       <Instagram className="h-6 w-6" />
                     </Link>
                     <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Facebook">
