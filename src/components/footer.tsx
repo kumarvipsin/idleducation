@@ -41,9 +41,9 @@ export function Footer() {
                     <Phone className="h-5 w-5 shrink-0" />
                     <span className="font-bold">+91 8860040010</span>
                     </a>
-                    <a href="mailto:query@idleducation.in" className="flex items-center gap-2 hover:underline">
+                    <a href="mailto:info@idleducation.in" className="flex items-center gap-2 hover:underline">
                     <Mail className="h-5 w-5 shrink-0" />
-                    <span className="font-bold">query@idleducation.in</span>
+                    <span className="font-bold">info@idleducation.in</span>
                     </a>
                 </div>
             </div>
