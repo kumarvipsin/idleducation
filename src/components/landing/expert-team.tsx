@@ -28,15 +28,15 @@ export function ExpertTeam() {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-        avatarHint: "female scientist"
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatarHint: "male professional"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-        avatarHint: "male professional"
+        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNnx8dGVhY2hlcnMlMjB8ZW58MHx8fHwxNzU2MDk5NTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        avatarHint: "female scientist"
     },
     {
         name: t('team.member5.name'),

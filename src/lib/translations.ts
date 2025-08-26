@@ -121,9 +121,9 @@ const translations = {
         experience: '5+ Years of Experience',
       },
       member5: {
-        name: 'Mr. Alex Chen',
-        designation: 'English Language Expert',
-        experience: '7+ Years of Experience',
+        name: 'Vijay Verma',
+        designation: 'Economics',
+        experience: '8+ Years of Experience',
       },
       member6: {
         name: 'Ms. Sofia Rodriguez',
@@ -258,9 +258,9 @@ const translations = {
         experience: '5+ वर्ष का अनुभव',
       },
       member5: {
-        name: 'श्री एलेक्स चेन',
-        designation: 'अंग्रेजी भाषा विशेषज्ञ',
-        experience: '7+ वर्ष का अनुभव',
+        name: 'विजय वर्मा',
+        designation: 'अर्थशास्त्र',
+        experience: '8+ वर्ष का अनुभव',
       },
       member6: {
         name: 'सुश्री सोफिया रोड्रिगेज',
