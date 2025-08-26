@@ -32,7 +32,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-sm hover:bg-secondary/90 text-xs sm:text-sm">
+                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-white hover:bg-[#191970]/90" style={{ backgroundColor: '#191970' }}>
                             {program}
                           </Button>
                         ))}
@@ -46,7 +46,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white bg-[linear-gradient(145deg,rgb(195,240,200),rgb(80,155,245))]">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white hover:bg-[#191970]/90" style={{ backgroundColor: '#191970' }}>
                   EXPLORE MORE
                 </Button>
               </div>
@@ -67,7 +67,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-sm hover:bg-secondary/90 text-xs sm:text-sm">
+                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-white hover:bg-[#191970]/90" style={{ backgroundColor: '#191970' }}>
                             {program}
                           </Button>
                         ))}
@@ -81,7 +81,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white bg-[linear-gradient(145deg,rgb(195,240,200),rgb(80,155,245))]">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white hover:bg-[#191970]/90" style={{ backgroundColor: '#191970' }}>
                   EXPLORE MORE
                 </Button>
               </div>
