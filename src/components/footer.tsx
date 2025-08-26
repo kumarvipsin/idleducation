@@ -4,7 +4,7 @@ import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "luc
 
 export function Footer() {
   return (
-    <footer className="bg-gray-800 text-gray-200">
+    <footer className="bg-black text-gray-200">
         <div className="container mx-auto py-12 px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="space-y-4">
                 <Link href="/" className="flex items-center gap-2">
