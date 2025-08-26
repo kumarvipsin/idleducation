@@ -15,12 +15,12 @@ const popularProgramsHi = [
 
 export function PopularPrograms() {
   return (
-    <section className="w-full py-12 md:py-24 bg-primary text-primary-foreground">
+    <section className="w-full py-12 md:py-24 bg-muted">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-primary/20 border-border/20 text-primary-foreground">
+          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-background border-border/20 text-foreground">
             <CardHeader className="text-center">
-              <CardTitle className="bg-primary/50 text-primary-foreground py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
+              <CardTitle className="bg-primary text-primary-foreground py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <Carousel
@@ -46,16 +46,16 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" variant="secondary" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                 <Button size="lg" variant="default" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                   EXPLORE MORE
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-primary/20 border-border/20 text-primary-foreground">
+          <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-background border-border/20 text-foreground">
             <CardHeader className="text-center">
-              <CardTitle className="bg-primary/50 text-primary-foreground py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
+              <CardTitle className="bg-primary text-primary-foreground py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
                <Carousel
@@ -81,7 +81,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" variant="secondary" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                 <Button size="lg" variant="default" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                   EXPLORE MORE
                 </Button>
               </div>
