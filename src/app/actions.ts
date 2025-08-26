@@ -81,11 +81,18 @@ export async function loginUser(data: LoginValues) {
   }
 
   const { email, password } = validation.data;
+  const adminEmail = process.env.ADMIN_EMAIL;
 
   try {
-    // This function is for server-side validation. The actual sign-in state is managed on the client.
-    await signInWithEmailAndPassword(auth, email, password);
-    return { success: true, message: "Login successful!" };
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    if (user && user.email === adminEmail) {
+      return { success: true, message: "Admin login successful!", role: 'admin' };
+    }
+    
+    // The role from the form is used for redirection purposes on the client
+    return { success: true, message: "Login successful!", role: data.role };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {

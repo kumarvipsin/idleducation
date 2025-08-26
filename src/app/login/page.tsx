@@ -42,7 +42,11 @@ export default function LoginPage() {
         title: "Login Successful",
         description: "Welcome back!",
       });
-      router.push(`/${role}/dashboard`);
+      if (result.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push(`/${result.role}/dashboard`);
+      }
     } else {
       toast({
         variant: "destructive",
