@@ -116,9 +116,9 @@ const translations = {
         experience: '10+ Years of Experience',
       },
       member4: {
-        name: 'Mr. Rohan Gupta',
-        designation: 'History & Arts Specialist',
-        experience: '8+ Years of Experience',
+        name: 'Vidhi Sharma',
+        designation: 'Social Studies',
+        experience: '5+ Years of Experience',
       },
       member5: {
         name: 'Mr. Alex Chen',
@@ -253,9 +253,9 @@ const translations = {
         experience: '10+ वर्ष का अनुभव',
       },
       member4: {
-        name: 'श्री रोहन गुप्ता',
-        designation: 'इतिहास और कला विशेषज्ञ',
-        experience: '8+ वर्ष का अनुभव',
+        name: 'विधि शर्मा',
+        designation: 'सामाजिक अध्ययन',
+        experience: '5+ वर्ष का अनुभव',
       },
       member5: {
         name: 'श्री एलेक्स चेन',
