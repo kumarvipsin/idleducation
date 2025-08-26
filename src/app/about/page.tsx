@@ -70,26 +70,26 @@ export default function AboutPage() {
       </section>
 
       <section className="my-12">
-        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8 bg-background">
+        <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8" style={{ backgroundColor: '#191970' }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="flex items-start gap-4">
-              <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
-                <Target className="w-8 h-8 text-primary" />
+              <div className="bg-white/10 p-3 rounded-full border border-gray-600 shadow-sm">
+                <Target className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">Our Mission</h3>
-                <p className="text-foreground/80 leading-relaxed">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Our Mission</h3>
+                <p className="text-gray-300 leading-relaxed">
                   To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
-                <Eye className="w-8 h-8 text-primary" />
+              <div className="bg-white/10 p-3 rounded-full border border-gray-600 shadow-sm">
+                <Eye className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">Our Vision</h3>
-                <p className="text-foreground/80 leading-relaxed">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Our Vision</h3>
+                <p className="text-gray-300 leading-relaxed">
                   To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
                 </p>
               </div>
