@@ -17,11 +17,11 @@ export function PopularPrograms() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card 
-            className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-white"
-            style={{ backgroundColor: '#1D1842' }}
+            className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-foreground"
+            style={{ backgroundColor: '#64A8F0' }}
           >
             <CardHeader className="text-center">
-              <CardTitle className="bg-white/10 text-white py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
+              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <Carousel
@@ -33,7 +33,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/5 border-gray-600 hover:bg-white/10">
+                          <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-background/80 border-border hover:bg-background">
                             {program}
                           </Button>
                         ))}
@@ -42,8 +42,8 @@ export function PopularPrograms() {
                   ))}
                 </CarouselContent>
                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                    <CarouselPrevious className="static translate-y-0 text-white border-gray-600 hover:bg-white/10" />
-                    <CarouselNext className="static translate-y-0 text-white border-gray-600 hover:bg-white/10" />
+                    <CarouselPrevious className="static translate-y-0 text-primary border-border hover:bg-background" />
+                    <CarouselNext className="static translate-y-0 text-primary border-border hover:bg-background" />
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
@@ -55,11 +55,11 @@ export function PopularPrograms() {
           </Card>
 
           <Card 
-            className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-white"
-            style={{ backgroundColor: '#1D1842' }}
+            className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-foreground"
+            style={{ backgroundColor: '#64A8F0' }}
           >
             <CardHeader className="text-center">
-              <CardTitle className="bg-white/10 text-white py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
+              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
                <Carousel
@@ -71,7 +71,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                           <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/5 border-gray-600 hover:bg-white/10">
+                           <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-background/80 border-border hover:bg-background">
                             {program}
                           </Button>
                         ))}
@@ -80,8 +80,8 @@ export function PopularPrograms() {
                   ))}
                 </CarouselContent>
                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                    <CarouselPrevious className="static translate-y-0 text-white border-gray-600 hover:bg-white/10" />
-                    <CarouselNext className="static translate-y-0 text-white border-gray-600 hover:bg-white/10" />
+                    <CarouselPrevious className="static translate-y-0 text-primary border-border hover:bg-background" />
+                    <CarouselNext className="static translate-y-0 text-primary border-border hover:bg-background" />
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
