@@ -6,35 +6,35 @@ import { Award, BookCheck, MessageSquare, Video, Presentation, ClipboardCheck, H
 
 const features = [
   {
-    icon: <Award className="w-8 h-8 text-primary" />,
+    icon: <Award className="w-8 h-8 text-white" />,
     title: "100% Free Quality Education",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-primary" />,
+    icon: <BookCheck className="w-8 h-8 text-white" />,
     title: "100% Complete Syllabus",
   },
   {
-    icon: <MessageSquare className="w-8 h-8 text-primary" />,
+    icon: <MessageSquare className="w-8 h-8 text-white" />,
     title: "Doubt Solving Sessions",
   },
   {
-    icon: <Video className="w-8 h-8 text-primary" />,
+    icon: <Video className="w-8 h-8 text-white" />,
     title: "Recorded Video Lectures",
   },
   {
-    icon: <Presentation className="w-8 h-8 text-primary" />,
+    icon: <Presentation className="w-8 h-8 text-white" />,
     title: "Live Interactive Classes",
   },
   {
-    icon: <ClipboardCheck className="w-8 h-8 text-primary" />,
+    icon: <ClipboardCheck className="w-8 h-8 text-white" />,
     title: "Exam Preparation Videos",
   },
   {
-    icon: <History className="w-8 h-8 text-primary" />,
+    icon: <History className="w-8 h-8 text-white" />,
     title: "Previous Year Questions",
   },
   {
-    icon: <Lightbulb className="w-8 h-8 text-primary" />,
+    icon: <Lightbulb className="w-8 h-8 text-white" />,
     title: "Sample Paper & E-Notes",
   },
 ];
@@ -51,15 +51,19 @@ export function OurFeatures() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="group p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out border-transparent hover:border-primary/20 flex flex-col items-center justify-center text-center">
+            <Card 
+              key={index} 
+              className="group p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out border-transparent hover:border-primary/20 flex flex-col items-center justify-center text-center"
+              style={{ backgroundColor: '#191970' }}
+            >
                 <div className="mb-4 flex-shrink-0">
-                  <div className="p-4 rounded-full bg-primary/10 group-hover:bg-primary transition-colors duration-300">
-                    <div className="text-primary group-hover:text-primary-foreground transition-colors duration-300">
+                  <div className="p-4 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-300">
+                    <div className="transition-colors duration-300">
                       {feature.icon}
                     </div>
                   </div>
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground flex-grow flex items-center">{feature.title}</h3>
+                <h3 className="text-base md:text-lg font-semibold text-white flex-grow flex items-center">{feature.title}</h3>
             </Card>
           ))}
         </div>
