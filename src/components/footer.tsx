@@ -31,7 +31,7 @@ export function Footer() {
                 <div className="flex flex-col gap-2 text-sm">
                     <div className="flex items-start gap-2">
                     <MapPin className="h-5 w-5 mt-0.5 shrink-0" />
-                    <span className="font-bold">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</span>
+                    <span className="font-bold">Y-25A Budh Vihar, Phase-1, Delhi-110086</span>
                     </div>
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                     <Phone className="h-5 w-5 shrink-0" />
