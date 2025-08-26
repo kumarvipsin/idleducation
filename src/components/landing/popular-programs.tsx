@@ -42,8 +42,8 @@ export function PopularPrograms() {
                   ))}
                 </CarouselContent>
                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                    <CarouselPrevious className="static translate-y-0 text-white border-white/20 hover:bg-white/20" />
-                    <CarouselNext className="static translate-y-0 text-white border-white/20 hover:bg-white/20" />
+                    <CarouselPrevious className="static translate-y-0 text-primary bg-primary-foreground hover:bg-primary-foreground/80" />
+                    <CarouselNext className="static translate-y-0 text-primary bg-primary-foreground hover:bg-primary-foreground/80" />
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
@@ -80,8 +80,8 @@ export function PopularPrograms() {
                   ))}
                 </CarouselContent>
                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                    <CarouselPrevious className="static translate-y-0 text-white border-white/20 hover:bg-white/20" />
-                    <CarouselNext className="static translate-y-0 text-white border-white/20 hover:bg-white/20" />
+                    <CarouselPrevious className="static translate-y-0 text-primary bg-primary-foreground hover:bg-primary-foreground/80" />
+                    <CarouselNext className="static translate-y-0 text-primary bg-primary-foreground hover:bg-primary-foreground/80" />
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
