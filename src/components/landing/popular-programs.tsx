@@ -18,7 +18,7 @@ export function PopularPrograms() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card 
             className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-border/20 text-white"
-            style={{ backgroundColor: '#191970' }}
+            style={{ backgroundColor: '#002349' }}
           >
             <CardHeader className="text-center">
               <CardTitle className="bg-primary text-primary-foreground py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
@@ -56,7 +56,7 @@ export function PopularPrograms() {
 
           <Card 
             className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-border/20 text-white"
-            style={{ backgroundColor: '#191970' }}
+            style={{ backgroundColor: '#002349' }}
           >
             <CardHeader className="text-center">
               <CardTitle className="bg-primary text-primary-foreground py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
