@@ -14,8 +14,8 @@ export default function Home() {
       <HeroSection />
       <PopularPrograms />
       <OurFeatures />
-      <ExpertTeam />
       <ToppersTestimonials />
+      <ExpertTeam />
       <StudentTestimonials />
     </div>
   );
