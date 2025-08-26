@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/context/language-context';
 import { ChatBot } from '@/components/chat-bot';
 import { AuthProvider } from '@/context/auth-context';
+import { AppContent } from '@/components/app-content';
 
 export const metadata: Metadata = {
   title: 'IDL EDUCATION',
@@ -42,13 +43,9 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Header />
-              <main className="flex-grow">
+              <AppContent>
                 {children}
-              </main>
-              <Footer />
-              <Toaster />
-              <ChatBot />
+              </AppContent>
             </ThemeProvider>
           </LanguageProvider>
         </AuthProvider>
