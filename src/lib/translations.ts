@@ -106,9 +106,9 @@ const translations = {
         experience: '10+ Years of Experience',
       },
       member2: {
-        name: 'Mr. Vikram Singh',
-        designation: 'Science Coordinator',
-        experience: '12+ Years of Experience',
+        name: 'Manish Sharma',
+        designation: 'Physics Teacher',
+        experience: '5+ Years of Experience',
       },
       member3: {
         name: 'Ms. Priya Patel',
@@ -233,9 +233,9 @@ const translations = {
         experience: '10+ वर्ष का अनुभव',
       },
       member2: {
-        name: 'श्री विक्रम सिंह',
-        designation: 'विज्ञान समन्वयक',
-        experience: '12+ वर्ष का अनुभव',
+        name: 'मनीष शर्मा',
+        designation: 'भौतिकी शिक्षक',
+        experience: '5+ वर्ष का अनुभव',
       },
       member3: {
         name: 'सुश्री प्रिया पटेल',
