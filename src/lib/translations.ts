@@ -101,9 +101,9 @@ const translations = {
       title: 'Meet Our Expert Team',
       subtitle: 'Our dedicated team of educators is here to guide you on your learning journey.',
       member1: {
-        name: 'Dr. Anjali Sharma',
-        designation: 'Mathematics Head',
-        experience: '15+ Years of Experience',
+        name: 'Amod Sharma',
+        designation: 'Science Teacher',
+        experience: '10+ Years of Experience',
       },
       member2: {
         name: 'Mr. Vikram Singh',
@@ -228,9 +228,9 @@ const translations = {
       title: 'हमारी विशेषज्ञ टीम से मिलें',
       subtitle: 'शिक्षकों की हमारी समर्पित टीम आपकी सीखने की यात्रा पर आपका मार्गदर्शन करने के लिए यहां है।',
       member1: {
-        name: 'डॉ. अंजलि शर्मा',
-        designation: 'गणित प्रमुख',
-        experience: '15+ वर्ष का अनुभव',
+        name: 'अमोद शर्मा',
+        designation: 'विज्ञान शिक्षक',
+        experience: '10+ वर्ष का अनुभव',
       },
       member2: {
         name: 'श्री विक्रम सिंह',
