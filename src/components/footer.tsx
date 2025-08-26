@@ -21,7 +21,7 @@ export function Footer() {
                     <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Facebook">
                       <Facebook className="h-6 w-6" />
                     </Link>
-                    <Link href="#" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Twitter">
+                    <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-600 rounded-full hover:bg-gray-700" aria-label="Twitter">
                       <Twitter className="h-6 w-6" />
                     </Link>
                 </div>
