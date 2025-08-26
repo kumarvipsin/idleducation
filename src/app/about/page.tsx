@@ -71,7 +71,7 @@ export default function AboutPage() {
 
       <section className="my-12">
         <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8" style={{ backgroundColor: '#191970' }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-stretch">
             <div className="flex items-start gap-4">
               <div className="bg-white/10 p-3 rounded-full border border-gray-600 shadow-sm">
                 <Target className="w-8 h-8 text-white" />
@@ -83,6 +83,7 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
+            <div className="w-px bg-gray-600 hidden md:block"></div>
             <div className="flex items-start gap-4">
               <div className="bg-white/10 p-3 rounded-full border border-gray-600 shadow-sm">
                 <Eye className="w-8 h-8 text-white" />
