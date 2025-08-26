@@ -126,9 +126,9 @@ const translations = {
         experience: '8+ Years of Experience',
       },
       member6: {
-        name: 'Ms. Sofia Rodriguez',
-        designation: 'Student Counselor',
-        experience: '6+ Years of Experience',
+        name: 'Vikash Goel',
+        designation: 'Maths & Accounts',
+        experience: '15+ Years of Experience',
       },
     },
     testimonials: {
@@ -263,9 +263,9 @@ const translations = {
         experience: '8+ वर्ष का अनुभव',
       },
       member6: {
-        name: 'सुश्री सोफिया रोड्रिगेज',
-        designation: 'छात्र परामर्शदाता',
-        experience: '6+ वर्ष का अनुभव',
+        name: 'विकास गोयल',
+        designation: 'गणित और लेखा',
+        experience: '15+ वर्ष का अनुभव',
       },
     },
     testimonials: {
