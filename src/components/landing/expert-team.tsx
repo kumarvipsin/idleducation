@@ -65,7 +65,11 @@ export function ExpertTeam() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <Card key={index} className="flex flex-col text-center bg-background shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden border-transparent hover:border-primary/20">
+              <Card 
+                key={index} 
+                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden border-transparent hover:border-primary/20"
+                style={{ backgroundColor: '#191970' }}
+              >
                 <CardContent className="p-6 flex-1 flex flex-col items-center">
                     <div className="relative w-32 h-32 mb-4">
                         <Image
@@ -77,10 +81,10 @@ export function ExpertTeam() {
                             className="w-full h-full object-cover rounded-full border-4 border-primary/10 transition-transform duration-300 group-hover:scale-110"
                         />
                     </div>
-                    <h3 className="text-xl font-bold text-primary">{member.name}</h3>
-                    <p className="text-base text-muted-foreground">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-foreground/80">
-                        <Briefcase className="w-4 h-4 text-primary" />
+                    <h3 className="text-xl font-bold text-white">{member.name}</h3>
+                    <p className="text-base text-gray-300">{member.designation}</p>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-gray-200">
+                        <Briefcase className="w-4 h-4 text-gray-300" />
                         <span>{member.experience}</span>
                     </div>
                 </CardContent>
