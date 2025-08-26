@@ -8,7 +8,7 @@ const popularProgramsEn = [
   "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII", "JEE", "NEET", "CUCT", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
 ];
 const popularProgramsHi = [
-  "कक्षा V", "कक्षा VI", "कक्षा VII", "कक्षा VIII", "कक्षा IX", "कक्षा X", "कक्षा XI", "कक्षा XII", "जेईई", "नीट"
+  "CUCT", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
 ];
 
 export function PopularPrograms() {
