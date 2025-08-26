@@ -107,7 +107,7 @@ const translations = {
       },
       member2: {
         name: 'Manish Sharma',
-        designation: 'Physics Teacher',
+        designation: 'Maths & Physics',
         experience: '5+ Years of Experience',
       },
       member3: {
@@ -119,6 +119,16 @@ const translations = {
         name: 'Mr. Rohan Gupta',
         designation: 'History & Arts Specialist',
         experience: '8+ Years of Experience',
+      },
+      member5: {
+        name: 'Mr. Alex Chen',
+        designation: 'English Language Expert',
+        experience: '7+ Years of Experience',
+      },
+      member6: {
+        name: 'Ms. Sofia Rodriguez',
+        designation: 'Student Counselor',
+        experience: '6+ Years of Experience',
       },
     },
     testimonials: {
@@ -234,7 +244,7 @@ const translations = {
       },
       member2: {
         name: 'मनीष शर्मा',
-        designation: 'भौतिकी शिक्षक',
+        designation: 'गणित और भौतिकी',
         experience: '5+ वर्ष का अनुभव',
       },
       member3: {
@@ -246,6 +256,16 @@ const translations = {
         name: 'श्री रोहन गुप्ता',
         designation: 'इतिहास और कला विशेषज्ञ',
         experience: '8+ वर्ष का अनुभव',
+      },
+      member5: {
+        name: 'श्री एलेक्स चेन',
+        designation: 'अंग्रेजी भाषा विशेषज्ञ',
+        experience: '7+ वर्ष का अनुभव',
+      },
+      member6: {
+        name: 'सुश्री सोफिया रोड्रिगेज',
+        designation: 'छात्र परामर्शदाता',
+        experience: '6+ वर्ष का अनुभव',
       },
     },
     testimonials: {
