@@ -3,6 +3,8 @@
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
+import { auth } from "@/lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -72,27 +74,36 @@ const loginSchema = z.object({
 
 type LoginValues = z.infer<typeof loginSchema>;
 
-// Dummy user data for demonstration
-const users = {
-  'student@example.com': { password: 'password', role: 'student' },
-  'teacher@example.com': { password: 'password', role: 'teacher' },
-};
-
 export async function loginUser(data: LoginValues) {
   const validation = loginSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, message: "Invalid input." };
   }
-  
-  const { email, password, role } = validation.data;
 
-  const user = (users as any)[email];
+  const { email, password } = validation.data;
 
-  if (!user || user.password !== password || user.role !== role) {
-    return { success: false, message: "Invalid email or password." };
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    return { success: true, message: "Login successful!" };
+  } catch (error: any) {
+    let message = "An unknown error occurred.";
+    switch (error.code) {
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        message = 'Invalid email or password.';
+        break;
+      case 'auth/invalid-email':
+        message = 'Please enter a valid email address.';
+        break;
+      case 'auth/user-disabled':
+        message = 'This user account has been disabled.';
+        break;
+      default:
+        console.error("Firebase Auth Error:", error);
+        message = 'Failed to login. Please try again later.';
+        break;
+    }
+    return { success: false, message };
   }
-
-  // In a real application, you would create a session here.
-  // For now, we'll just return success.
-  return { success: true, message: "Login successful!" };
 }
