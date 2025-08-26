@@ -47,7 +47,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-accent text-accent-foreground">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-teal-600 hover:bg-gray-100">
                   EXPLORE MORE
                 </Button>
               </div>
@@ -85,7 +85,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-accent text-accent-foreground">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-teal-600 hover:bg-gray-100">
                   EXPLORE MORE
                 </Button>
               </div>
