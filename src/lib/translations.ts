@@ -111,9 +111,9 @@ const translations = {
         experience: '5+ Years of Experience',
       },
       member3: {
-        name: 'Ms. Priya Patel',
-        designation: 'Lead Chemistry Faculty',
-        experience: '10+ Years of Experience',
+        name: 'Chandra Prakesh',
+        designation: 'Mathematics',
+        experience: '5+ Years of Experience',
       },
       member4: {
         name: 'Vidhi Sharma',
@@ -248,9 +248,9 @@ const translations = {
         experience: '5+ वर्ष का अनुभव',
       },
       member3: {
-        name: 'सुश्री प्रिया पटेल',
-        designation: 'प्रमुख रसायन विज्ञान संकाय',
-        experience: '10+ वर्ष का अनुभव',
+        name: 'चंद्र प्रकाश',
+        designation: 'गणित',
+        experience: '5+ वर्ष का अनुभव',
       },
       member4: {
         name: 'विधि शर्मा',
