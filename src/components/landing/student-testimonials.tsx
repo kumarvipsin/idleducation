@@ -146,7 +146,10 @@ export function StudentTestimonials() {
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-4 h-full">
-                    <Card className="h-full flex flex-col bg-muted shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <Card 
+                      className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 text-white"
+                      style={{ backgroundColor: '#191970' }}
+                    >
                       <CardContent className="p-6 flex-1 flex flex-col justify-between text-center">
                         <div className="flex justify-center mb-4">
                             <Avatar className="w-24 h-24 border-4 border-primary/20">
@@ -156,12 +159,12 @@ export function StudentTestimonials() {
                         </div>
                         <div className="mb-4">
                             <p className="font-bold text-lg">{testimonial.name}</p>
-                            <p className="text-sm text-muted-foreground">{testimonial.class}</p>
+                            <p className="text-sm text-gray-300">{testimonial.class}</p>
                             <div className="flex justify-center mt-2">
                                 {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />)}
                             </div>
                         </div>
-                        <blockquote className="text-base italic text-foreground/80 before:content-['“'] after:content-['”']">
+                        <blockquote className="text-base italic text-gray-200 before:content-['“'] after:content-['”']">
                           {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
                         </blockquote>
                       </CardContent>
