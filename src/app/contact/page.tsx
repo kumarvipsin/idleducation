@@ -268,29 +268,29 @@ export default function ContactPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="mb-12 shadow-lg">
+        <Card className="mb-12 shadow-lg" style={{ backgroundColor: '#191970' }}>
           <CardHeader className="text-center">
             <div className="flex justify-center mb-2">
-              <Send className="w-10 h-10 text-primary" />
+              <Send className="w-10 h-10 text-white" />
             </div>
-            <CardTitle className="text-3xl font-bold">Get In Touch</CardTitle>
-            <p className="text-muted-foreground">We're here to help and answer any question you might have.</p>
+            <CardTitle className="text-3xl font-bold text-white">Get In Touch</CardTitle>
+            <p className="text-gray-300">We're here to help and answer any question you might have.</p>
           </CardHeader>
           <CardContent>
             <form className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-semibold">Name</Label>
+                  <Label htmlFor="name" className="font-semibold text-gray-200">Name</Label>
                   <Input id="name" placeholder="Enter your name" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="font-semibold">Email</Label>
+                  <Label htmlFor="email" className="font-semibold text-gray-200">Email</Label>
                   <Input id="email" type="email" placeholder="Enter your email" />
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-semibold">Phone Number</Label>
+                  <Label htmlFor="phone" className="font-semibold text-gray-200">Phone Number</Label>
                   <div className="flex gap-2">
                     <Select defaultValue="+91">
                       <SelectTrigger className="w-[120px]">
@@ -308,7 +308,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="course" className="font-semibold">Course Interested</Label>
+                  <Label htmlFor="course" className="font-semibold text-gray-200">Course Interested</Label>
                    <Select>
                     <SelectTrigger id="course">
                       <SelectValue placeholder="Select a course" />
@@ -322,7 +322,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message" className="font-semibold">Message</Label>
+                <Label htmlFor="message" className="font-semibold text-gray-200">Message</Label>
                 <Textarea id="message" placeholder="Enter your message" className="min-h-[150px]" />
               </div>
               <Button type="submit" size="lg" className="w-full">
@@ -334,37 +334,37 @@ export default function ContactPage() {
         </Card>
         
         <div className="grid md:grid-cols-3 gap-8 text-center">
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow" style={{ backgroundColor: '#191970' }}>
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <MapPin className="w-8 h-8 text-primary" />
+                    <div className="p-4 bg-white/10 rounded-full">
+                        <MapPin className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle>Our Address</CardTitle>
+                    <CardTitle className="text-white">Our Address</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</p>
+                    <p className="text-gray-300">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</p>
                 </CardContent>
             </Card>
-             <Card className="hover:shadow-lg transition-shadow">
+             <Card className="hover:shadow-lg transition-shadow" style={{ backgroundColor: '#191970' }}>
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <Phone className="w-8 h-8 text-primary" />
+                    <div className="p-4 bg-white/10 rounded-full">
+                        <Phone className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle>Call Us</CardTitle>
+                    <CardTitle className="text-white">Call Us</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">(123) 456-7890</p>
+                    <p className="text-gray-300">(123) 456-7890</p>
                 </CardContent>
             </Card>
-             <Card className="hover:shadow-lg transition-shadow">
+             <Card className="hover:shadow-lg transition-shadow" style={{ backgroundColor: '#191970' }}>
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <Mail className="w-8 h-8 text-primary" />
+                    <div className="p-4 bg-white/10 rounded-full">
+                        <Mail className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle>Email Us</CardTitle>
+                    <CardTitle className="text-white">Email Us</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">contact@idleducation.com</p>
+                    <p className="text-gray-300">contact@idleducation.com</p>
                 </CardContent>
             </Card>
         </div>
