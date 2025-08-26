@@ -102,7 +102,7 @@ const translations = {
       subtitle: 'Our dedicated team of educators is here to guide you on your learning journey.',
       member1: {
         name: 'Amod Sharma',
-        designation: 'Science Teacher',
+        designation: 'Biology & Chemistry',
         experience: '10+ Years of Experience',
       },
       member2: {
@@ -239,7 +239,7 @@ const translations = {
       subtitle: 'शिक्षकों की हमारी समर्पित टीम आपकी सीखने की यात्रा पर आपका मार्गदर्शन करने के लिए यहां है।',
       member1: {
         name: 'अमोद शर्मा',
-        designation: 'विज्ञान शिक्षक',
+        designation: 'जीव विज्ञान और रसायन विज्ञान',
         experience: '10+ वर्ष का अनुभव',
       },
       member2: {
