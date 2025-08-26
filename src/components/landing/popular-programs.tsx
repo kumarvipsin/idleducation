@@ -32,7 +32,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-md border border-primary/20 hover:bg-primary/10 hover:text-primary text-xs sm:text-sm">
+                          <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm hover:bg-primary hover:text-primary-foreground text-xs sm:text-sm">
                             {program}
                           </Button>
                         ))}
@@ -46,7 +46,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out bg-transparent text-primary hover:bg-primary hover:text-primary-foreground hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                   EXPLORE MORE
                 </Button>
               </div>
@@ -67,7 +67,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="secondary" className="h-12 font-semibold shadow-md border border-primary/20 hover:bg-primary/10 hover:text-primary text-xs sm:text-sm">
+                          <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm hover:bg-primary hover:text-primary-foreground text-xs sm:text-sm">
                             {program}
                           </Button>
                         ))}
@@ -81,7 +81,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out bg-transparent text-primary hover:bg-primary hover:text-primary-foreground hover:shadow-[inset_0_0_0_2px_hsl(var(--primary))]">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                   EXPLORE MORE
                 </Button>
               </div>
