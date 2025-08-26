@@ -33,7 +33,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} className="h-12 font-semibold shadow-sm text-xs sm:text-sm">
+                          <Button key={program} className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-blue-900 hover:bg-blue-800 text-white">
                             {program}
                           </Button>
                         ))}
@@ -71,7 +71,7 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                           <Button key={program} className="h-12 font-semibold shadow-sm text-xs sm:text-sm">
+                           <Button key={program} className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-blue-900 hover:bg-blue-800 text-white">
                             {program}
                           </Button>
                         ))}
