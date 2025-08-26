@@ -63,3 +63,36 @@ export async function bookFreeSession(data: FormValues) {
     return { success: false, message: "Failed to book session. Please try again later." };
   }
 }
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1, { message: "Password is required." }),
+  role: z.enum(['student', 'teacher'])
+});
+
+type LoginValues = z.infer<typeof loginSchema>;
+
+// Dummy user data for demonstration
+const users = {
+  'student@example.com': { password: 'password', role: 'student' },
+  'teacher@example.com': { password: 'password', role: 'teacher' },
+};
+
+export async function loginUser(data: LoginValues) {
+  const validation = loginSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid input." };
+  }
+  
+  const { email, password, role } = validation.data;
+
+  const user = (users as any)[email];
+
+  if (!user || user.password !== password || user.role !== role) {
+    return { success: false, message: "Invalid email or password." };
+  }
+
+  // In a real application, you would create a session here.
+  // For now, we'll just return success.
+  return { success: true, message: "Login successful!" };
+}
