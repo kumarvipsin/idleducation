@@ -15,7 +15,7 @@ const popularProgramsHi = [
 
 export function PopularPrograms() {
   return (
-    <section className="w-full py-12 md:py-24 bg-muted">
+    <section className="w-full py-12 md:py-24">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 bg-background border-border/20 text-foreground">
@@ -46,7 +46,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" variant="default" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white bg-[linear-gradient(145deg,rgb(195,240,200),rgb(80,155,245))]">
                   EXPLORE MORE
                 </Button>
               </div>
@@ -81,7 +81,7 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" variant="default" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out text-white bg-[linear-gradient(145deg,rgb(195,240,200),rgb(80,155,245))]">
                   EXPLORE MORE
                 </Button>
               </div>
