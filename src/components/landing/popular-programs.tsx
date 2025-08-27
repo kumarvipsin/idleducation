@@ -3,12 +3,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Link from "next/link";
 
 const popularProgramsEn = [
-  "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII", "JEE", "NEET"
+  { name: "CLASS V", href: "/school" },
+  { name: "CLASS VI", href: "/school" },
+  { name: "CLASS VII", href: "/school" },
+  { name: "CLASS VIII", href: "/school" },
+  { name: "CLASS IX", href: "/school" },
+  { name: "CLASS X", href: "/school" },
+  { name: "CLASS XI", href: "/school" },
+  { name: "CLASS XII", href: "/school" },
+  { name: "JEE", href: "/category/iit-jee" },
+  { name: "NEET", href: "/category/neet" },
 ];
 const popularProgramsHi = [
-  "CUCT", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
+  { name: "CUET", href: "/category/cuet" },
+  { name: "CBSE", href: "/school" },
+  { name: "NIOS", href: "/school" },
+  { name: "SSC", href: "/category/govt-job-exams" },
+  { name: "BANK PO", href: "/category/govt-job-exams" },
+  { name: "RRB", href: "/category/govt-job-exams" },
+  { name: "CLAT", href: "/category/cuet" },
+  { name: "GATE", href: "/category/iit-jee" },
+  { name: "DEFENCE", href: "/category/defence" },
+  { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
 export function PopularPrograms() {
@@ -33,8 +52,8 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                          <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/10 border-white/20 hover:bg-white/20 text-white">
-                            {program}
+                          <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/10 border-white/20 hover:bg-white/20 text-white">
+                            <Link href={program.href}>{program.name}</Link>
                           </Button>
                         ))}
                       </div>
@@ -47,8 +66,8 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-primary hover:bg-gray-100">
-                  EXPLORE MORE
+                 <Button asChild size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-primary hover:bg-gray-100">
+                  <Link href="/school">EXPLORE MORE</Link>
                 </Button>
               </div>
             </CardContent>
@@ -71,8 +90,8 @@ export function PopularPrograms() {
                     <CarouselItem key={slideIndex}>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                         {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                           <Button key={program} variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/10 border-white/20 hover:bg-white/20 text-white">
-                            {program}
+                           <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm bg-white/10 border-white/20 hover:bg-white/20 text-white">
+                            <Link href={program.href}>{program.name}</Link>
                           </Button>
                         ))}
                       </div>
@@ -85,8 +104,8 @@ export function PopularPrograms() {
                 </div>
               </Carousel>
               <div className="mt-16 flex justify-center">
-                 <Button size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-primary hover:bg-gray-100">
-                  EXPLORE MORE
+                 <Button asChild size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-white text-primary hover:bg-gray-100">
+                  <Link href="/">EXPLORE MORE</Link>
                 </Button>
               </div>
             </CardContent>
