@@ -26,7 +26,7 @@ const categories = [
   },
   {
     title: "School Preparation",
-    slug: "school-preparation",
+    slug: "school",
     subcategories: ["Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"],
     icon: <Book className="w-10 h-10 text-yellow-500" />,
     bgColor: "bg-yellow-50",
@@ -84,6 +84,7 @@ export function ExamCategories() {
             const isExpanded = expandedCategories[category.title] || false;
             const hasMore = category.subcategories.length > MAX_SUBCATEGORIES_VISIBLE;
             const visibleSubcategories = isExpanded ? category.subcategories : category.subcategories.slice(0, MAX_SUBCATEGORIES_VISIBLE);
+            const linkPath = category.slug === 'school' ? '/school' : `/category/${category.slug}`;
 
             return (
               <Card key={category.title} className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group ${category.bgColor} ${category.darkBgColor}`}>
@@ -115,7 +116,7 @@ export function ExamCategories() {
                       </div>
                   )}
                   <div className="mt-auto">
-                    <Link href={`/category/${category.slug}`} className="flex items-center font-semibold text-primary hover:underline">
+                    <Link href={linkPath} className="flex items-center font-semibold text-primary hover:underline">
                       Explore Category <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </div>
