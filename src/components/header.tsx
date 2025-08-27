@@ -112,12 +112,6 @@ export function Header() {
             >
                 {t('about')}
             </Link>
-             <Link
-                href="/#testimonials"
-                className="text-sm font-medium hover:underline underline-offset-4"
-            >
-                {t('testimonials.title')}
-            </Link>
             <Link
                 href="/contact"
                 className="text-sm font-medium hover:underline underline-offset-4"
@@ -164,10 +158,6 @@ export function Header() {
                     <Link href="/about" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                     <Info className="h-5 w-5" />
                     {t('about')}
-                    </Link>
-                     <Link href="/#testimonials" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                        <Users className="h-5 w-5" />
-                        {t('testimonials.title')}
                     </Link>
                     <Link href="/contact" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
                     <MessageSquare className="h-5 w-5" />
