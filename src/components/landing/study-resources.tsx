@@ -1,38 +1,28 @@
 
 'use client';
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const resources = [
   {
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
-    image: "/books.png",
-    imageHint: "reference books",
-    buttonText: "Explore",
     bgColor: "bg-blue-50 dark:bg-blue-900/20",
-    href: "#"
+    href: "/resources/reference-books"
   },
   {
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
-    image: "/solutions.png",
-    imageHint: "NCERT solutions",
-    buttonText: "Explore",
     bgColor: "bg-orange-50 dark:bg-orange-900/20",
-    href: "#"
+    href: "/resources/ncert-solutions"
   },
   {
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
-    image: "/notes.png",
-    imageHint: "study notes",
-    buttonText: "Explore",
     bgColor: "bg-green-50 dark:bg-green-900/20",
-    href: "#"
+    href: "/resources/notes"
   },
 ]
 
@@ -49,27 +39,19 @@ export function StudyResources() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {resources.map((resource, index) => (
-            <Card key={index} className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow ${resource.bgColor}`}>
-              <CardContent className="p-6 flex flex-col h-full">
-                <h3 className="text-2xl font-bold mb-2 text-left">{resource.title}</h3>
-                <p className="text-muted-foreground mb-4 flex-grow text-left">{resource.description}</p>
-                <div className="my-4 flex justify-center">
-                    <Image 
-                        src={resource.image} 
-                        alt={resource.title}
-                        data-ai-hint={resource.imageHint}
-                        width={250}
-                        height={200}
-                        className="object-contain h-48 w-auto"
-                    />
-                </div>
-                <div className="text-left mt-auto">
-                    <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                        <Link href={resource.href}>{resource.buttonText}</Link>
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <Link href={resource.href} key={index} className="group block">
+              <Card className={`overflow-hidden shadow-lg h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 ${resource.bgColor}`}>
+                <CardContent className="p-6 flex flex-col h-full">
+                  <h3 className="text-2xl font-bold mb-2 text-left">{resource.title}</h3>
+                  <p className="text-muted-foreground mb-4 flex-grow text-left">{resource.description}</p>
+                  <div className="text-left mt-auto">
+                      <div className="inline-flex items-center font-semibold text-primary group-hover:underline">
+                        Explore <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
