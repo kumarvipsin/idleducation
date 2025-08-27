@@ -138,25 +138,17 @@ export default function CategoryPage() {
             <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex items-center space-x-8">
                     {(subCategories[slug] || subCategories["default"]).map((sub, index) => (
-                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 0 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 1 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
                             {sub}
                         </button>
                     ))}
                 </div>
                 <div className="flex items-center space-x-2">
-                    {Array.from({ length: 10 }).map((_, index) => (
-                        <Button key={index} variant="outline" size="icon" className="rounded-full w-8 h-8">
-                            {/* Placeholder for content */}
-                        </Button>
-                    ))}
+                    {/* Placeholder for content */}
                 </div>
             </div>
         </div>
         <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
-          <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
