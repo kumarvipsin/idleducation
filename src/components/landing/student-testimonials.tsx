@@ -63,8 +63,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
       >
         <QuoteIcon />
         <CardContent className="p-6 pt-16 flex-1 flex flex-col">
-          <ScrollArea className="h-24 flex-grow mb-4 pr-4">
-            <blockquote className="text-sm text-foreground/80">
+          <ScrollArea className="h-24 flex-grow mb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <blockquote className="text-sm text-foreground/80 pr-4">
               {fullText}
             </blockquote>
           </ScrollArea>
