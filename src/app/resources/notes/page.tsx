@@ -4,9 +4,10 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookText } from 'lucide-react';
+import { BookText, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
 type Note = {
   subject: string;
@@ -50,8 +51,11 @@ const classes = Object.keys(notesByClass);
 
 export default function NotesPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const notes = notesByClass[selectedClass] || [];
+  const filteredNotes = notesByClass[selectedClass]?.filter(note =>
+    note.subject.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -61,12 +65,12 @@ export default function NotesPage() {
       </div>
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center overflow-x-auto space-x-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {classes.map((className) => (
             <button
               key={className}
               onClick={() => setSelectedClass(className)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
+              className={`py-1 px-3 whitespace-nowrap text-xs font-medium rounded-full transition-colors
                 ${selectedClass === className 
                   ? 'bg-primary text-primary-foreground' 
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
@@ -78,9 +82,29 @@ export default function NotesPage() {
       </div>
 
       <main className="flex-1">
+        <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+                type="text"
+                placeholder="Search by subject..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-9 w-full md:w-1/2 lg:w-1/3 rounded-full h-9"
+            />
+             {searchTerm && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-0 top-1/2 -translate-y-1/2 h-full rounded-l-none"
+                onClick={() => setSearchTerm('')}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {notes.length > 0 ? (
-            notes.map((note, index) => (
+          {filteredNotes && filteredNotes.length > 0 ? (
+            filteredNotes.map((note, index) => (
               <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group flex flex-col">
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -108,8 +132,8 @@ export default function NotesPage() {
              <div className="col-span-full text-center py-12">
                 <Card className="p-8 inline-block">
                     <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
-                    <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
+                    <p className="text-muted-foreground font-semibold">No notes found matching your criteria.</p>
+                    <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
                 </Card>
             </div>
           )}
