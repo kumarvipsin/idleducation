@@ -83,8 +83,6 @@ export default function ContactPage() {
     { code: "+253", country: "Djibouti" },
     { code: "+1-767", country: "Dominica" },
     { code: "+1-809", country: "Dominican Republic" },
-    { code: "+1-829", country: "Dominican Republic" },
-    { code: "+1-849", country: "Dominican Republic" },
     { code: "+670", country: "East Timor" },
     { code: "+593", country: "Ecuador" },
     { code: "+20", country: "Egypt" },
@@ -195,7 +193,6 @@ export default function ContactPage() {
     { code: "+48", country: "Poland" },
     { code: "+351", country: "Portugal" },
     { code: "+1-787", country: "Puerto Rico" },
-    { code: "+1-939", country: "Puerto Rico" },
     { code: "+974", country: "Qatar" },
     { code: "+242", country: "Republic of the Congo" },
     { code: "+262", country: "Reunion" },
@@ -252,7 +249,6 @@ export default function ContactPage() {
     { code: "+256", country: "Uganda" },
     { code: "+380", country: "Ukraine" },
     { code: "+971", country: "United Arab Emirates" },
-    { code: "+1", country: "United States" },
     { code: "+598", country: "Uruguay" },
     { code: "+998", country: "Uzbekistan" },
     { code: "+678", country: "Vanuatu" },
@@ -298,8 +294,8 @@ export default function ContactPage() {
                         <SelectValue placeholder="Code" />
                       </SelectTrigger>
                       <SelectContent>
-                        {countryCodes.map(country => (
-                          <SelectItem key={`${country.country}-${country.code}`} value={country.code}>
+                        {countryCodes.map((country, index) => (
+                          <SelectItem key={`${country.country}-${country.code}-${index}`} value={country.code}>
                             {country.code} ({country.country})
                           </SelectItem>
                         ))}
