@@ -55,6 +55,7 @@ const categoryData: { [key: string]: any } = {
           price: "2,799",
           originalPrice: "8,000",
           discount: "65% applied",
+          features: { text: "Premium Features Included", badge: "INFINITY" },
         },
         {
           mode: "ONLINE",
@@ -69,6 +70,7 @@ const categoryData: { [key: string]: any } = {
           price: "3,499",
           originalPrice: "3,999",
           discount: "13% applied",
+          features: { text: "New Batch Plans Included", badge: "PRO" },
         },
         {
           mode: "OFFLINE",
@@ -83,6 +85,7 @@ const categoryData: { [key: string]: any } = {
           price: "999",
           originalPrice: null,
           discount: null,
+          features: null,
         }
       ]
   },
@@ -154,7 +157,7 @@ export default function CategoryPage() {
   // CUET specific layout
   return (
      <div className="container mx-auto py-8 px-4 md:px-6">
-       <div className="flex items-center overflow-x-auto space-x-4 mb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+       <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
         <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
         <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
@@ -169,7 +172,7 @@ export default function CategoryPage() {
          {data.courses.map((course: any, index: number) => (
            <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
              <div className="relative">
-                <div className={`absolute top-0 left-0 text-white text-xs font-bold uppercase px-3 py-1 ${course.modeColor} rounded-br-lg`}>
+                <div className={`absolute top-0 left-0 text-white text-xs font-bold uppercase px-3 py-1 ${course.modeColor} rounded-br-lg z-10`}>
                     {course.mode}
                 </div>
                 <Image
@@ -183,30 +186,38 @@ export default function CategoryPage() {
              </div>
              <CardContent className="p-4 flex flex-col flex-grow">
                <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-lg font-bold flex-grow">{course.title}</h3>
+                <h3 className="text-lg font-bold flex-grow truncate">{course.title}</h3>
                 {course.tags.map((tag: string) => (
-                    <Badge key={tag} variant={tag === 'NEW' ? 'default' : 'secondary'}>{tag}</Badge>
+                    <Badge key={tag} variant={tag === 'NEW' ? 'default' : 'secondary'} className="whitespace-nowrap">{tag}</Badge>
                 ))}
                 <MessageCircle className="w-5 h-5 text-muted-foreground" />
                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    <Target className="w-4 h-4" />
-                    <p>{course.target}</p>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <Users className="w-4 h-4" />
+                    <p className="truncate">{course.target}</p>
                 </div>
                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                     <Calendar className="w-4 h-4" />
-                    <p>Starts on {course.startDate} <span className="mx-1">·</span> Ends on {course.endDate}</p>
+                    <p className="truncate">Starts on {course.startDate} <span className="mx-1">·</span> Ends on {course.endDate}</p>
                 </div>
+                
+                {course.features && (
+                  <div className="bg-gray-800 text-white rounded-md p-2 flex justify-between items-center text-sm mb-4">
+                      <span>{course.features.text}</span>
+                      <span className="bg-yellow-500 text-gray-900 font-bold text-xs px-2 py-0.5 rounded-sm">{course.features.badge}</span>
+                  </div>
+                )}
 
-                <div className="mt-auto pt-4 border-t">
-                    <div className="flex justify-between items-center">
+
+                <div className="mt-auto pt-4">
+                    <div className="flex justify-between items-center mb-2">
                         <div>
                             <p className="text-2xl font-bold">₹{course.price}</p>
                             {course.originalPrice && <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>}
                         </div>
                         {course.discount && (
-                            <div className="flex items-center gap-2 text-green-600 font-semibold bg-green-100 px-3 py-1 rounded-full">
-                                <Tag className="w-4 h-4"/>
+                            <div className="flex items-center gap-2 text-green-600 font-semibold bg-green-100 px-3 py-1 rounded-full text-xs">
+                                <Tag className="w-3 h-3"/>
                                 <span>{course.discount}</span>
                             </div>
                         )}
@@ -215,9 +226,19 @@ export default function CategoryPage() {
                         {course.originalPrice ? '(FOR FULL BATCH)' : '(BOOK A SEAT)'}
                      </p>
                 </div>
+
+                <div className="grid grid-cols-2 gap-2 mt-4">
+                    <Button variant="outline">Explore</Button>
+                    <Button>Buy Now</Button>
+                </div>
              </CardContent>
            </Card>
          ))}
+       </div>
+       <div className="mt-12 text-center">
+            <Button variant="outline">
+                View All Batches <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
        </div>
      </div>
   );
