@@ -7,6 +7,7 @@ import { OurFeatures } from '@/components/landing/our-features';
 import { ExpertTeam } from '@/components/landing/expert-team';
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
+import { StudyResources } from '@/components/landing/study-resources';
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <ToppersTestimonials />
       <ExpertTeam />
       <StudentTestimonials />
+      <StudyResources />
     </div>
   );
 }
