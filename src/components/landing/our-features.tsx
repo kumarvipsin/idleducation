@@ -2,31 +2,31 @@
 'use client';
 
 import { Card } from "@/components/ui/card";
-import { Video, FileText, BrainCircuit, School, BookCheck } from "lucide-react";
+import { GraduationCap, BookUp, FileQuestion, MessageSquarePlus, Building } from "lucide-react";
 
 const features = [
   {
-    icon: <Video className="w-8 h-8 text-red-500" />,
+    icon: <GraduationCap className="w-8 h-8 text-primary" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-green-500" />,
+    icon: <BookUp className="w-8 h-8 text-primary" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
   },
   {
-    icon: <FileText className="w-8 h-8 text-blue-500" />,
+    icon: <FileQuestion className="w-8 h-8 text-primary" />,
     title: "10 Million +",
     subtitle: "Tests, sample papers & notes",
   },
   {
-    icon: <BrainCircuit className="w-8 h-8 text-purple-500" />,
+    icon: <MessageSquarePlus className="w-8 h-8 text-primary" />,
     title: "24 x 7",
     subtitle: "Doubt solving sessions",
   },
   {
-    icon: <School className="w-8 h-8 text-yellow-500" />,
+    icon: <Building className="w-8 h-8 text-primary" />,
     title: "100 +",
     subtitle: "Offline centres",
   },
