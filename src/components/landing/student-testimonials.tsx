@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const testimonials = [
     {
@@ -78,10 +79,12 @@ export function StudentTestimonials() {
                     >
                       <QuoteIcon />
                       <CardContent className="p-6 pt-16 flex-1 flex flex-col">
-                        <blockquote className="text-sm text-foreground/80 mb-6 flex-grow">
-                          {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
-                        </blockquote>
-                        <div className="flex items-center gap-4">
+                        <ScrollArea className="h-32 pr-4 mb-6">
+                          <blockquote className="text-sm text-foreground/80">
+                            {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
+                          </blockquote>
+                        </ScrollArea>
+                        <div className="flex items-center gap-4 mt-auto">
                             <Avatar className="w-12 h-12 border-2 border-primary/20">
                                 <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
                                 <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
