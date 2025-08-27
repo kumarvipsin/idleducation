@@ -2,40 +2,20 @@
 'use client';
 
 import { Card } from "@/components/ui/card";
-import { Award, BookCheck, MessageSquare, Video, Presentation, ClipboardCheck, History, Lightbulb } from "lucide-react";
+import { Award, BookCheck, MessageSquare } from "lucide-react";
 
 const features = [
   {
-    icon: <Award className="w-8 h-8 text-white" />,
+    icon: <Award className="w-6 h-6 text-primary" />,
     title: "100% Free Quality Education",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-white" />,
+    icon: <BookCheck className="w-6 h-6 text-primary" />,
     title: "100% Complete Syllabus",
   },
   {
-    icon: <MessageSquare className="w-8 h-8 text-white" />,
+    icon: <MessageSquare className="w-6 h-6 text-primary" />,
     title: "Doubt Solving Sessions",
-  },
-  {
-    icon: <Video className="w-8 h-8 text-white" />,
-    title: "Recorded Video Lectures",
-  },
-  {
-    icon: <Presentation className="w-8 h-8 text-white" />,
-    title: "Live Interactive Classes",
-  },
-  {
-    icon: <ClipboardCheck className="w-8 h-8 text-white" />,
-    title: "Exam Preparation Videos",
-  },
-  {
-    icon: <History className="w-8 h-8 text-white" />,
-    title: "Previous Year Questions",
-  },
-  {
-    icon: <Lightbulb className="w-8 h-8 text-white" />,
-    title: "Sample Paper & E-Notes",
   },
 ];
 
@@ -49,22 +29,21 @@ export function OurFeatures() {
             Everything you need to succeed, all in one place.
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-8">
           {features.map((feature, index) => (
-            <Card 
+            <div 
               key={index} 
-              className="group p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out border-transparent hover:border-primary/20 flex flex-col items-center justify-center text-center"
-              style={{ backgroundColor: '#191970' }}
+              className="group flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors duration-300"
             >
-                <div className="mb-4 flex-shrink-0">
-                  <div className="p-4 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors duration-300">
-                    <div className="transition-colors duration-300">
+                <div className="flex-shrink-0">
+                  <div className="p-3 rounded-full bg-background group-hover:bg-primary/10 transition-colors duration-300">
+                    <div className="transition-colors duration-300 group-hover:text-primary">
                       {feature.icon}
                     </div>
                   </div>
                 </div>
-                <h3 className="text-base md:text-lg font-semibold text-white flex-grow flex items-center">{feature.title}</h3>
-            </Card>
+                <h3 className="text-sm md:text-base font-semibold text-foreground">{feature.title}</h3>
+            </div>
           ))}
         </div>
       </div>
