@@ -55,18 +55,20 @@ export function AcademicExcellence() {
         </div>
 
         <div className="relative mb-4">
-            <div className="flex flex-wrap justify-center items-center gap-2 pb-4">
-            {categories.map((category) => (
+          <div className="flex items-center overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-2 whitespace-nowrap">
+              {categories.map((category) => (
                 <Button
-                key={category}
-                variant={activeCategory === category ? 'default' : 'outline'}
-                className="rounded-full whitespace-nowrap"
-                onClick={() => setActiveCategory(category)}
+                  key={category}
+                  variant={activeCategory === category ? 'default' : 'outline'}
+                  className="rounded-full"
+                  onClick={() => setActiveCategory(category)}
                 >
-                {category}
+                  {category}
                 </Button>
-            ))}
+              ))}
             </div>
+          </div>
         </div>
 
         <Card className="overflow-hidden shadow-lg">
