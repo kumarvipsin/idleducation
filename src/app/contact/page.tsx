@@ -1,5 +1,5 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,6 +20,9 @@ export default function ContactPage() {
   ];
 
   const countryCodes = [
+    { code: "+91", country: "India" },
+    { code: "+1", country: "United States" },
+    { code: "+44", country: "United Kingdom" },
     { code: "+93", country: "Afghanistan" },
     { code: "+355", country: "Albania" },
     { code: "+213", country: "Algeria" },
@@ -116,7 +119,6 @@ export default function ContactPage() {
     { code: "+852", country: "Hong Kong" },
     { code: "+36", country: "Hungary" },
     { code: "+354", country: "Iceland" },
-    { code: "+91", country: "India" },
     { code: "+62", country: "Indonesia" },
     { code: "+98", country: "Iran" },
     { code: "+964", country: "Iraq" },
@@ -250,7 +252,6 @@ export default function ContactPage() {
     { code: "+256", country: "Uganda" },
     { code: "+380", country: "Ukraine" },
     { code: "+971", country: "United Arab Emirates" },
-    { code: "+44", country: "United Kingdom" },
     { code: "+1", country: "United States" },
     { code: "+598", country: "Uruguay" },
     { code: "+998", country: "Uzbekistan" },
@@ -268,29 +269,29 @@ export default function ContactPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="mb-12 shadow-lg bg-primary text-primary-foreground">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-2">
-              <Send className="w-10 h-10 text-primary-foreground" />
-            </div>
-            <CardTitle className="text-3xl font-bold text-primary-foreground">Get In Touch</CardTitle>
-            <p className="text-primary-foreground/80">We're here to help and answer any question you might have.</p>
+        <Card className="mb-12 shadow-lg overflow-hidden">
+          <CardHeader className="text-center p-8 bg-primary text-primary-foreground">
+            <Send className="w-12 h-12 mx-auto mb-4 text-primary-foreground/80" />
+            <CardTitle className="text-3xl font-bold">Get In Touch</CardTitle>
+            <CardDescription className="text-primary-foreground/80 text-lg">
+              We're here to help and answer any question you might have.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-8">
             <form className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-semibold text-primary-foreground/90">Name</Label>
+                  <Label htmlFor="name" className="font-semibold">Name</Label>
                   <Input id="name" placeholder="Enter your name" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="font-semibold text-primary-foreground/90">Email</Label>
+                  <Label htmlFor="email" className="font-semibold">Email</Label>
                   <Input id="email" type="email" placeholder="Enter your email" />
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-semibold text-primary-foreground/90">Phone Number</Label>
+                  <Label htmlFor="phone" className="font-semibold">Phone Number</Label>
                   <div className="flex gap-2">
                     <Select defaultValue="+91">
                       <SelectTrigger className="w-[120px]">
@@ -298,17 +299,17 @@ export default function ContactPage() {
                       </SelectTrigger>
                       <SelectContent>
                         {countryCodes.map(country => (
-                          <SelectItem key={`${country.country}-${country.code}`} value={`${country.country}-${country.code}`}>
+                          <SelectItem key={`${country.country}-${country.code}`} value={country.code}>
                             {country.code} ({country.country})
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <Input id="phone" type="tel" placeholder="Enter your phone number" className="flex-1" />
+                    <Input id="phone" type="tel" placeholder="Enter phone number" className="flex-1" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="course" className="font-semibold text-primary-foreground/90">Course Interested</Label>
+                  <Label htmlFor="course" className="font-semibold">Course Interested In</Label>
                    <Select>
                     <SelectTrigger id="course">
                       <SelectValue placeholder="Select a course" />
@@ -322,10 +323,10 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message" className="font-semibold text-primary-foreground/90">Message</Label>
+                <Label htmlFor="message" className="font-semibold">Message</Label>
                 <Textarea id="message" placeholder="Enter your message" className="min-h-[150px]" />
               </div>
-              <Button type="submit" size="lg" className="w-full" variant="secondary">
+              <Button type="submit" size="lg" className="w-full">
                 <Send className="mr-2 h-4 w-4" />
                 Send Message
               </Button>
@@ -334,37 +335,37 @@ export default function ContactPage() {
         </Card>
         
         <div className="grid md:grid-cols-3 gap-8 text-center">
-            <Card className="hover:shadow-lg transition-shadow bg-primary text-primary-foreground">
+            <Card className="hover:shadow-lg transition-shadow bg-muted/50">
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary-foreground/10 rounded-full">
-                        <MapPin className="w-8 h-8 text-primary-foreground" />
+                    <div className="p-4 bg-primary/10 rounded-full">
+                        <MapPin className="w-8 h-8 text-primary" />
                     </div>
-                    <CardTitle className="text-primary-foreground">Our Address</CardTitle>
+                    <CardTitle>Our Address</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-primary-foreground/80">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</p>
+                    <p className="text-muted-foreground">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</p>
                 </CardContent>
             </Card>
-             <Card className="hover:shadow-lg transition-shadow bg-primary text-primary-foreground">
+             <Card className="hover:shadow-lg transition-shadow bg-muted/50">
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary-foreground/10 rounded-full">
-                        <Phone className="w-8 h-8 text-primary-foreground" />
+                    <div className="p-4 bg-primary/10 rounded-full">
+                        <Phone className="w-8 h-8 text-primary" />
                     </div>
-                    <CardTitle className="text-primary-foreground">Call Us</CardTitle>
+                    <CardTitle>Call Us</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-primary-foreground/80">(123) 456-7890</p>
+                    <p className="text-muted-foreground">(123) 456-7890</p>
                 </CardContent>
             </Card>
-             <Card className="hover:shadow-lg transition-shadow bg-primary text-primary-foreground">
+             <Card className="hover:shadow-lg transition-shadow bg-muted/50">
                 <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary-foreground/10 rounded-full">
-                        <Mail className="w-8 h-8 text-primary-foreground" />
+                    <div className="p-4 bg-primary/10 rounded-full">
+                        <Mail className="w-8 h-8 text-primary" />
                     </div>
-                    <CardTitle className="text-primary-foreground">Email Us</CardTitle>
+                    <CardTitle>Email Us</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-primary-foreground/80">contact@idleducation.com</p>
+                    <p className="text-muted-foreground">contact@idleducation.com</p>
                 </CardContent>
             </Card>
         </div>
@@ -372,5 +373,3 @@ export default function ContactPage() {
     </div>
   );
 }
-
-    
