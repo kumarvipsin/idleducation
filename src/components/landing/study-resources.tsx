@@ -55,11 +55,20 @@ export function StudyResources() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {resources.map((resource, index) => (
-             <Link href={resource.href} key={index} className="block h-full">
-                <Card className={`overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${resource.bgColor}`}>
+             <Link href={resource.href} key={index} className="block h-full group">
+                <Card className={`overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${resource.bgColor}`}>
                 <CardContent className="p-6 flex flex-col h-full text-center">
-                    <h3 className="text-xl font-bold mb-2">{resource.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4 flex-grow">{resource.description}</p>
+                    <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
+                    <p className="text-muted-foreground text-xs mb-4 flex-grow">{resource.description}</p>
+                     <div className="relative aspect-video w-full mb-4 overflow-hidden rounded-md">
+                        <Image
+                            src={resource.imageSrc}
+                            alt={resource.title}
+                            data-ai-hint={resource.imageHint}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                    </div>
                     <div className="mt-auto flex justify-center items-center">
                         <span className="font-semibold text-primary text-sm">Explore</span>
                         <ArrowRight className="ml-2 h-4 w-4 text-primary" />
