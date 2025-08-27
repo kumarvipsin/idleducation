@@ -2,7 +2,6 @@
 'use client';
 
 import { HeroSection } from '@/components/landing/hero-section';
-import { PopularPrograms } from '@/components/landing/popular-programs';
 import { OurFeatures } from '@/components/landing/our-features';
 import { ExpertTeam } from '@/components/landing/expert-team';
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
@@ -16,7 +15,6 @@ export default function Home() {
     <div className="flex flex-col">
       <HeroSection />
       <ExamCategories />
-      <PopularPrograms />
       <OurFeatures />
       <ToppersTestimonials />
       <ExpertTeam />
