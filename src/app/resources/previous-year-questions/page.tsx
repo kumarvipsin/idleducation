@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Search, X } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -55,31 +55,30 @@ export default function PreviousYearQuestionsPage() {
   const papers = papersByClass[selectedClass] || [];
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      <aside className="w-full md:w-1/4 lg:w-1/5">
-        <Card className="p-4 shadow-lg sticky top-24">
-          <h3 className="text-lg font-bold mb-4 text-primary">Filter by Class</h3>
-          <div className="flex flex-col gap-2">
-            {classes.map(className => (
-              <Button
-                key={className}
-                variant={selectedClass === className ? 'default' : 'ghost'}
-                onClick={() => setSelectedClass(className)}
-                className="justify-start"
-              >
-                {className}
-              </Button>
-            ))}
-          </div>
-        </Card>
-      </aside>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Questions for {selectedClass}</h1>
+        <p className="text-muted-foreground">Practice with past exam papers to familiarize yourself with the format and question types.</p>
+      </div>
+      
+      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+        <div className="flex items-center overflow-x-auto space-x-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {classes.map((className) => (
+            <button
+              key={className}
+              onClick={() => setSelectedClass(className)}
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
+                ${selectedClass === className 
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+            >
+              {className}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <main className="flex-1">
-        <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Questions for {selectedClass}</h1>
-            <p className="text-muted-foreground">Practice with past exam papers to familiarize yourself with the format and question types.</p>
-        </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {papers.length > 0 ? (
             papers.map((paper, index) => (

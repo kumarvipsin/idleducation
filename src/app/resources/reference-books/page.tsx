@@ -60,31 +60,30 @@ export default function ReferenceBooksPage() {
   );
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      <aside className="w-full md:w-1/4 lg:w-1/5">
-        <Card className="p-4 shadow-lg sticky top-24">
-          <h3 className="text-lg font-bold mb-4 text-primary">Filter by Class</h3>
-          <div className="flex flex-col gap-2">
-            {classes.map(className => (
-              <Button
-                key={className}
-                variant={selectedClass === className ? 'default' : 'ghost'}
-                onClick={() => setSelectedClass(className)}
-                className="justify-start"
-              >
-                {className}
-              </Button>
-            ))}
-          </div>
-        </Card>
-      </aside>
-
-      <main className="flex-1">
+    <div>
         <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Reference Books for {selectedClass}</h1>
             <p className="text-muted-foreground">Explore our curated list of reference books to deepen your understanding.</p>
         </div>
-        
+
+        <div className="bg-muted/50 rounded-lg p-4 mb-8">
+            <div className="flex items-center overflow-x-auto space-x-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {classes.map((className) => (
+                    <button
+                    key={className}
+                    onClick={() => setSelectedClass(className)}
+                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
+                        ${selectedClass === className 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                    >
+                    {className}
+                    </button>
+                ))}
+            </div>
+        </div>
+      
+      <main className="flex-1">
         <div className="relative mb-6">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
@@ -110,7 +109,7 @@ export default function ReferenceBooksPage() {
           {filteredBooks && filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
               <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
-                <div className="relative aspect-video overflow-hidden">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src={book.imageUrl}
                     alt={book.title}
