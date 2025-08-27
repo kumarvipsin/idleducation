@@ -74,7 +74,7 @@ export default function NcertSolutionsPage() {
             <button
               key={className}
               onClick={() => setSelectedClass(className)}
-              className={`py-1 px-3 whitespace-nowrap text-xs font-medium rounded-full transition-colors
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
                 ${selectedClass === className 
                   ? 'bg-primary text-primary-foreground' 
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}

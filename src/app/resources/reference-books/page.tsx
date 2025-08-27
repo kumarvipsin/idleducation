@@ -23,7 +23,7 @@ const booksByClass: { [key: string]: Book[] } = {
   ],
   'Class 7': [
     { title: 'Mathematics for Class 7', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1592527212953-e53b4742517c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math textbook' },
-    { title: 'History for Class 7', author: 'Romila Thapar', subject: 'History', imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
+    { title: 'History for Class 7', author: 'Romila Thapar', subject: 'History', imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
   ],
   'Class 8': [
     { title: 'Mathematics for Class 8', author: 'R.S. Aggarwal', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'open book' },
@@ -72,7 +72,7 @@ export default function ReferenceBooksPage() {
                     <button
                     key={className}
                     onClick={() => setSelectedClass(className)}
-                    className={`py-1 px-3 whitespace-nowrap text-xs font-medium rounded-full transition-colors
+                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
                         ${selectedClass === className 
                         ? 'bg-primary text-primary-foreground' 
                         : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
