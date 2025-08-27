@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
+import { ArrowRight } from 'lucide-react';
 
 const popularProgramsEn = [
   { name: "CLASS V", href: "/school" },
@@ -73,8 +74,11 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                    <Link href="/school">EXPLORE MORE</Link>
+                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                    <Link href="/school">
+                      EXPLORE MORE
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </CardContent>
@@ -110,8 +114,11 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild size="lg" className="font-bold text-lg px-8 py-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                    <Link href="/">EXPLORE MORE</Link>
+                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                    <Link href="/">
+                      EXPLORE MORE
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </div>
               </CardContent>
