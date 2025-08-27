@@ -7,7 +7,7 @@ import { Video, FileText, BrainCircuit, School } from "lucide-react";
 const features = [
   {
     icon: <Video className="w-8 h-8 text-red-500" />,
-    title: "Daily Live",
+    title: "100% Free Quality Education",
     subtitle: "Interactive classes",
   },
   {
