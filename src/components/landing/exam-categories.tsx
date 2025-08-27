@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Book, Shield, Briefcase, Atom, Stethoscope, Users } from "lucide-react";
@@ -57,7 +58,18 @@ const categories = [
   },
 ];
 
+const MAX_SUBCATEGORIES_VISIBLE = 4;
+
 export function ExamCategories() {
+  const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
+
+  const toggleExpanded = (title: string) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
+  
   return (
     <section className="w-full py-12 md:py-24 bg-muted/20">
       <div className="container mx-auto px-4 md:px-6">
@@ -68,33 +80,49 @@ export function ExamCategories() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
-            <Card key={category.title} className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group ${category.bgColor} ${category.darkBgColor}`}>
-              <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${category.bgColor} ${category.darkBgColor} opacity-50 group-hover:scale-150 transition-transform duration-500`}></div>
-              <CardContent className="p-6 relative z-10 flex flex-col h-full">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-2xl font-bold text-foreground mb-4">{category.title}</h3>
-                  <div className="p-3 bg-background rounded-full shadow-md">
-                    {category.icon}
-                  </div>
-                </div>
-                {category.subcategories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                    {category.subcategories.map((sub) => (
-                        <Button key={sub} variant="outline" size="sm" className="bg-background/50 text-foreground text-xs">
-                        {sub}
-                        </Button>
-                    ))}
+          {categories.map((category) => {
+            const isExpanded = expandedCategories[category.title] || false;
+            const hasMore = category.subcategories.length > MAX_SUBCATEGORIES_VISIBLE;
+            const visibleSubcategories = isExpanded ? category.subcategories : category.subcategories.slice(0, MAX_SUBCATEGORIES_VISIBLE);
+
+            return (
+              <Card key={category.title} className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group ${category.bgColor} ${category.darkBgColor}`}>
+                <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${category.bgColor} ${category.darkBgColor} opacity-50 group-hover:scale-150 transition-transform duration-500`}></div>
+                <CardContent className="p-6 relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-2xl font-bold text-foreground mb-4">{category.title}</h3>
+                    <div className="p-3 bg-background rounded-full shadow-md">
+                      {category.icon}
                     </div>
-                )}
-                <div className="mt-auto">
-                  <Link href={`/category/${category.slug}`} className="flex items-center font-semibold text-primary hover:underline">
-                    Explore Category <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  </div>
+                  {category.subcategories.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                      {visibleSubcategories.map((sub) => (
+                          <Button key={sub} variant="outline" size="sm" className="bg-background/50 text-foreground text-xs">
+                          {sub}
+                          </Button>
+                      ))}
+                      {hasMore && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-primary text-xs font-semibold hover:bg-primary/10"
+                          onClick={() => toggleExpanded(category.title)}
+                        >
+                          {isExpanded ? "View Less" : "More +"}
+                        </Button>
+                      )}
+                      </div>
+                  )}
+                  <div className="mt-auto">
+                    <Link href={`/category/${category.slug}`} className="flex items-center font-semibold text-primary hover:underline">
+                      Explore Category <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
       </div>
     </section>
