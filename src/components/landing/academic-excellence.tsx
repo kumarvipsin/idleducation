@@ -23,9 +23,9 @@ const resultsData = {
     hint: 'graduation ceremony'
   },
   'SSC': {
-    image: 'https://images.unsplash.com/photo-1579567761406-462483c0c1f8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'SSC Toppers',
-    hint: 'government building'
+    hint: 'education'
   },
   'BANK PO': {
     image: 'https://firebasestorage.googleapis.com/v0/b/learnscape-p4l0x.appspot.com/o/1722421303869-ranking.png?alt=media&token=c1303c80-53e7-4001-9a70-8b9a12a524ae',
