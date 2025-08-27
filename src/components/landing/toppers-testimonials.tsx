@@ -4,6 +4,7 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const videoTestimonials = [
   {
@@ -29,6 +30,10 @@ const videoTestimonials = [
 ];
 
 export function ToppersTestimonials() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: true })
+  );
+
   return (
     <section className="w-full py-12 md:py-24">
       <div className="container mx-auto px-4 md:px-8">
@@ -40,6 +45,9 @@ export function ToppersTestimonials() {
         </div>
         <div className="relative w-full max-w-6xl mx-auto">
           <Carousel
+            plugins={[plugin.current]}
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
             opts={{
               align: "start",
               loop: true,
