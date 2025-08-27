@@ -1,11 +1,13 @@
 
 'use client';
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const testimonials = [
     {
@@ -49,9 +51,56 @@ const QuoteIcon = () => (
     </svg>
 );
 
+const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => {
+  const { language, t } = useLanguage();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const fullText = language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial;
+  const isLongText = fullText.length > 150;
+  const displayText = isExpanded ? fullText : `${fullText.substring(0, 150)}${isLongText ? '...' : ''}`;
+
+  return (
+    <div className="p-2 h-full">
+      <Card
+        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-background text-foreground relative overflow-hidden"
+      >
+        <QuoteIcon />
+        <CardContent className="p-6 pt-16 flex-1 flex flex-col">
+          <div className="flex-grow mb-4">
+            <blockquote className="text-sm text-foreground/80">
+              {displayText}
+            </blockquote>
+          </div>
+
+          {isLongText && (
+            <Button
+              variant="link"
+              className="text-primary p-0 h-auto self-start mb-4"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? 'Read Less' : 'Read More'}
+              {isExpanded ? <ChevronUp className="ml-1 h-4 w-4" /> : <ChevronDown className="ml-1 h-4 w-4" />}
+            </Button>
+          )}
+
+          <div className="flex items-center gap-4 mt-auto">
+            <Avatar className="w-12 h-12 border-2 border-primary/20">
+              <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
+              <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-bold text-base">{testimonial.name}</p>
+              <p className="text-xs text-primary font-semibold">{testimonial.achievement}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
 
 export function StudentTestimonials() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
@@ -73,30 +122,7 @@ export function StudentTestimonials() {
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-2 h-full">
-                    <Card 
-                      className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-background text-foreground relative overflow-hidden"
-                    >
-                      <QuoteIcon />
-                      <CardContent className="p-6 pt-16 flex-1 flex flex-col">
-                        <ScrollArea className="h-32 pr-4 mb-6">
-                          <blockquote className="text-sm text-foreground/80">
-                            {language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial}
-                          </blockquote>
-                        </ScrollArea>
-                        <div className="flex items-center gap-4 mt-auto">
-                            <Avatar className="w-12 h-12 border-2 border-primary/20">
-                                <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint}/>
-                                <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <p className="font-bold text-base">{testimonial.name}</p>
-                                <p className="text-xs text-primary font-semibold">{testimonial.achievement}</p>
-                            </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
+                  <TestimonialCard testimonial={testimonial} />
                 </CarouselItem>
               ))}
             </CarouselContent>
