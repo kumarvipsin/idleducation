@@ -59,7 +59,7 @@ export default function SchoolPage() {
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center overflow-x-auto space-x-4">
+        <div className="flex items-center overflow-x-auto space-x-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {classes.map((className) => (
             <button
               key={className}
