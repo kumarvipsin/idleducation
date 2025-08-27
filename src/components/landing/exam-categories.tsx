@@ -99,7 +99,7 @@ export function ExamCategories() {
                   {category.subcategories.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                       {visibleSubcategories.map((sub) => (
-                          <Button key={sub} variant="outline" size="sm" className="bg-background/50 text-foreground text-xs">
+                          <Button key={sub} variant="outline" size="sm" className="bg-background/50 text-foreground text-xs rounded-full">
                           {sub}
                           </Button>
                       ))}
