@@ -307,7 +307,7 @@ export default function ContactPage() {
                       </SelectTrigger>
                       <SelectContent>
                         {countryCodes.map((country, index) => (
-                          <SelectItem key={`${country.country}-${country.code}-${index}`} value={country.code}>
+                          <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
                             {country.code} ({country.country})
                           </SelectItem>
                         ))}
