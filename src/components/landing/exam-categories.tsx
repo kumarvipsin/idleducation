@@ -107,7 +107,7 @@ export function ExamCategories() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-primary text-xs font-semibold hover:bg-primary/10"
+                          className="text-primary text-xs font-semibold hover:bg-primary/10 rounded-full"
                           onClick={() => toggleExpanded(category.title)}
                         >
                           {isExpanded ? "View Less" : "More +"}
