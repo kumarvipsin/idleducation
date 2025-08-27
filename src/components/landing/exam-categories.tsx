@@ -9,6 +9,7 @@ import Link from "next/link";
 const categories = [
   {
     title: "NEET",
+    slug: "neet",
     subcategories: ["Class 11", "Class 12", "Dropper"],
     icon: <Stethoscope className="w-10 h-10 text-red-500" />,
     bgColor: "bg-red-50",
@@ -16,6 +17,7 @@ const categories = [
   },
   {
     title: "IIT JEE",
+    slug: "iit-jee",
     subcategories: ["Class 11", "Class 12", "Dropper"],
     icon: <Atom className="w-10 h-10 text-blue-500" />,
     bgColor: "bg-blue-50",
@@ -23,13 +25,15 @@ const categories = [
   },
   {
     title: "School Preparation",
-    subcategories: ["Class 6", "Class 7", "Class 8", "More +"],
+    slug: "school-preparation",
+    subcategories: ["Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"],
     icon: <Book className="w-10 h-10 text-yellow-500" />,
     bgColor: "bg-yellow-50",
     darkBgColor: "dark:bg-yellow-900/20",
   },
   {
     title: "UPSC",
+    slug: "upsc",
     subcategories: [],
     icon: <Users className="w-10 h-10 text-purple-500" />,
     bgColor: "bg-purple-50",
@@ -37,6 +41,7 @@ const categories = [
   },
   {
     title: "Govt Job Exams",
+    slug: "govt-job-exams",
     subcategories: ["SSC", "Banking", "Teaching", "Judiciary"],
     icon: <Briefcase className="w-10 h-10 text-green-500" />,
     bgColor: "bg-green-50",
@@ -44,6 +49,7 @@ const categories = [
   },
   {
     title: "Defence",
+    slug: "defence",
     subcategories: ["NDA", "CDS", "AFCAT", "Agniveer"],
     icon: <Shield className="w-10 h-10 text-indigo-500" />,
     bgColor: "bg-indigo-50",
@@ -82,7 +88,7 @@ export function ExamCategories() {
                     </div>
                 )}
                 <div className="mt-auto">
-                  <Link href="#" className="flex items-center font-semibold text-primary hover:underline">
+                  <Link href={`/category/${category.slug}`} className="flex items-center font-semibold text-primary hover:underline">
                     Explore Category <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </div>
