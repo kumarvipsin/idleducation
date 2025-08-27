@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const resources = [
   {
@@ -35,40 +36,40 @@ const resources = [
 
 export function StudyResources() {
   return (
-    <section className="w-full py-12 md:py-24 bg-background">
+    <section className="w-full py-8 md:py-16 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Study Resources</h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-primary">Study Resources</h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base">
             A diverse array of learning materials to enhance your educational journey.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {resources.map((resource, index) => (
-            <Link href={resource.href} key={index} className="group block h-full">
-              <Card className={`overflow-hidden shadow-lg h-full transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-2 ${resource.bgColor}`}>
-                <CardContent className="p-6 flex flex-col h-full text-center">
-                   <h3 className="text-2xl font-bold mb-2">{resource.title}</h3>
-                   <p className="text-muted-foreground mb-4 flex-grow">{resource.description}</p>
-                   <div className="my-4">
-                     <Image
-                        src={resource.imageSrc}
-                        alt={resource.title}
-                        data-ai-hint={resource.imageHint}
-                        width={600}
-                        height={400}
-                        className="rounded-lg object-cover w-full aspect-video"
-                     />
-                   </div>
-                  <div className="mt-auto">
-                      <div className="inline-flex items-center font-semibold text-primary group-hover:underline justify-center">
-                        Explore <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+            <Card key={index} className={`overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${resource.bgColor}`}>
+              <CardContent className="p-4 flex flex-col h-full text-center">
+                 <h3 className="text-xl font-bold mb-2">{resource.title}</h3>
+                 <p className="text-muted-foreground text-sm mb-4 flex-grow">{resource.description}</p>
+                 <div className="my-2">
+                   <Image
+                      src={resource.imageSrc}
+                      alt={resource.title}
+                      data-ai-hint={resource.imageHint}
+                      width={400}
+                      height={250}
+                      className="rounded-lg object-cover w-full aspect-video"
+                   />
+                 </div>
+                <div className="mt-auto">
+                    <Button asChild variant="link" className="font-semibold">
+                      <Link href={resource.href}>
+                        Explore <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
