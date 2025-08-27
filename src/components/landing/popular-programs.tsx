@@ -39,9 +39,6 @@ export function PopularPrograms() {
             className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-primary"
             style={{ backgroundColor: '#bee9e8' }}
           >
-            <CardHeader className="text-center">
-              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">ACADEMIC PROGRAMS</CardTitle>
-            </CardHeader>
             <CardContent className="p-6">
               <Carousel
                 opts={{ align: "start", loop: true }}
@@ -77,9 +74,6 @@ export function PopularPrograms() {
             className="shadow-lg hover:shadow-xl transition-shadow duration-300 text-primary"
             style={{ backgroundColor: '#bee9e8' }}
           >
-            <CardHeader className="text-center">
-              <CardTitle className="bg-primary/10 text-primary py-2 px-4 rounded-md inline-block">TOP COURSES & CLASSES</CardTitle>
-            </CardHeader>
             <CardContent className="p-6">
                <Carousel
                 opts={{ align: "start", loop: true }}
