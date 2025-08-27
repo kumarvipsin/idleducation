@@ -68,33 +68,6 @@ export function ExamCategories() {
             PW is preparing students for 35+ exam categories. Scroll down to find the one you are preparing for
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
-            <Card key={category.title} className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative ${category.bgColor}`}>
-              <div className="p-6">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-xl font-bold mb-4">{category.title}</h3>
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {category.tags.map((tag) => (
-                        <Button key={tag} variant="outline" size="sm" className="rounded-full bg-white text-xs px-3 py-1 h-auto">
-                          {tag}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className={`absolute top-0 right-0 h-32 w-32 ${category.accentColor} rounded-bl-full flex items-center justify-center p-4`}>
-                    <category.Icon className="w-16 h-16" />
-                  </div>
-                </div>
-                 <Link href={category.href} className="font-semibold text-foreground/80 hover:text-primary inline-flex items-center group mt-4">
-                  Explore Category
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </Card>
-          ))}
-        </div>
       </div>
     </section>
   );
