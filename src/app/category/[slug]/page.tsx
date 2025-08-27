@@ -135,39 +135,26 @@ export default function CategoryPage() {
         </section>
         <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="border-b mb-8">
-            <div className="flex items-center overflow-x-auto space-x-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {(subCategories[slug] || subCategories["default"]).map((sub, index) => (
-                    <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 1 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
-                        {sub}
-                    </button>
-                ))}
+            <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex items-center space-x-8">
+                    {(subCategories[slug] || subCategories["default"]).map((sub, index) => (
+                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 0 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+                            {sub}
+                        </button>
+                    ))}
+                </div>
+                <div className="flex items-center space-x-2">
+                    {Array.from({ length: 10 }).map((_, index) => (
+                        <Button key={index} variant="outline" size="icon" className="rounded-full w-8 h-8">
+                            {/* Placeholder for content */}
+                        </Button>
+                    ))}
+                </div>
             </div>
         </div>
         <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
           <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="rounded-full whitespace-nowrap">
-                Pricing <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Low to High</DropdownMenuItem>
-              <DropdownMenuItem>High to Low</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="rounded-full whitespace-nowrap">
-                Language <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>English</DropdownMenuItem>
-              <DropdownMenuItem>Hindi</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
           <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
         </div>
