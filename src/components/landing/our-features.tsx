@@ -2,13 +2,18 @@
 'use client';
 
 import { Card } from "@/components/ui/card";
-import { Video, FileText, BrainCircuit, School } from "lucide-react";
+import { Video, FileText, BrainCircuit, School, BookCheck } from "lucide-react";
 
 const features = [
   {
     icon: <Video className="w-8 h-8 text-red-500" />,
     title: "100% Free Quality Education",
     subtitle: "Interactive classes",
+  },
+  {
+    icon: <BookCheck className="w-8 h-8 text-green-500" />,
+    title: "100% Complete Syllabus",
+    subtitle: "Thorough coverage",
   },
   {
     icon: <FileText className="w-8 h-8 text-blue-500" />,
@@ -32,7 +37,7 @@ export function OurFeatures() {
     <section className="w-full py-12 md:py-16 bg-muted/20">
       <div className="container mx-auto px-4 md:px-6">
         <Card className="shadow-lg rounded-xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-0">
             {features.map((feature, index) => (
               <div 
                 key={index} 
@@ -44,10 +49,10 @@ export function OurFeatures() {
                 <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground">{feature.subtitle}</p>
                 {index < features.length - 1 && (
-                   <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1/2 w-px bg-border hidden md:block"></div>
+                   <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1/2 w-px bg-border hidden lg:block"></div>
                 )}
                  {index < features.length - 1 && (
-                    <div className="w-1/2 h-px bg-border mt-4 md:hidden"></div>
+                    <div className="w-1/2 h-px bg-border mt-4 lg:hidden"></div>
                 )}
               </div>
             ))}
