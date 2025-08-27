@@ -37,8 +37,8 @@ const resources = [
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     bgColor: "bg-purple-50 dark:bg-purple-900/20",
     href: "/resources/previous-year-questions",
-    imageSrc: "https://images.unsplash.com/photo-1517842645767-c6f90415ad70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxleGFtJTIwcGFwZXJ8ZW58MHx8fHwxNzU4MzM3ODU1fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "exam paper",
+    imageSrc: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxxdWVzdGlvbiUyMHBhcGVyfGVufDB8fHx8MTc1NjI3ODI4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+    imageHint: "question paper",
   },
 ]
 
