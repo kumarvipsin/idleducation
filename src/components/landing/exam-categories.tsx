@@ -42,7 +42,7 @@ export function ExamCategories() {
             PW is preparing students for 35+ exam categories. Scroll down to find the one you are preparing for
           </p>
         </div>
-        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden" style={{ backgroundColor: '#bee9e8' }}>
+        <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-muted/20">
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
             <div className="flex-1">
