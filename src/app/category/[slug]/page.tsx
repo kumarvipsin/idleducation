@@ -138,7 +138,7 @@ export default function CategoryPage() {
             <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex items-center space-x-8">
                     {(subCategories[slug] || subCategories["default"]).map((sub, index) => (
-                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 1 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 0 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
                             {sub}
                         </button>
                     ))}
@@ -184,13 +184,22 @@ export default function CategoryPage() {
 
   // CUET specific layout
   return (
-     <div className="container mx-auto py-8 px-4 md:px-6">
-       <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
-      </div>
+    <div>
+      <section className="bg-primary/5 py-8 md:py-12">
+        <div className="container mx-auto px-4 md:px-6">
+            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">{data.name} Online Coaching, Complete Course for {data.name} Preparation</h1>
+            <p className="text-base md:text-lg text-foreground/80">
+                {data.name} Online Coaching 2025 provides study material for the required sections. Students can solve mock tests and evaluate their performance in our {data.name} Online Coaching Class.
+            </p>
+        </div>
+      </section>
+      <div className="container mx-auto py-8 px-4 md:px-6">
+        <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
+          <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
+          <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
+          <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
+        </div>
       
        <div className="mb-6">
         <h2 className="text-lg font-semibold">Showing '{data.courses.length}' Total Batches</h2>
@@ -269,5 +278,6 @@ export default function CategoryPage() {
             </Button>
        </div>
      </div>
+    </div>
   );
 }
