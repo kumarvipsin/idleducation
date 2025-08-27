@@ -1,16 +1,122 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
+'use client';
+
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { FileText, Search, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+type QuestionPaper = {
+  subject: string;
+  year: number;
+  imageUrl: string;
+  imageHint: string;
+};
+
+const papersByClass: { [key: string]: QuestionPaper[] } = {
+  'Class 6': [
+    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math book' },
+    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1581093582522-220963a52d29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science textbook' },
+  ],
+  'Class 7': [
+    { subject: 'History', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
+    { subject: 'Geography', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'world map' },
+  ],
+  'Class 8': [
+    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'open book' },
+    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science experiment' },
+  ],
+  'Class 9': [
+    { subject: 'Physics', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1632500022039-651553c7a727?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics equations' },
+    { subject: 'Chemistry', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1554475901-4538adb7524d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry beakers' },
+    { subject: 'Biology', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1576092762791-d01e1b0c01b3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'dna model' },
+  ],
+  'Class 10': [
+    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math problems' },
+    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1532187643623-dbf2f39d20c3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'biology microscope' },
+  ],
+  'Class 11': [
+    { subject: 'Physics', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics textbook' },
+    { subject: 'Chemistry', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1627866762144-4050b1a0d778?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry set' },
+  ],
+  'Class 12': [
+    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math formulas' },
+    { subject: 'Biology', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1582719202042-0655f891a27a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'plant biology' },
+  ],
+};
+
+const classes = Object.keys(papersByClass);
 
 export default function PreviousYearQuestionsPage() {
+  const [selectedClass, setSelectedClass] = useState('Class 10');
+
+  const papers = papersByClass[selectedClass] || [];
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-3xl font-bold text-primary">Previous Year Questions</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground">
-          Practice with past exam papers to get familiar with the format and types of questions. More content will be available here soon.
-        </p>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col md:flex-row gap-8">
+      <aside className="w-full md:w-1/4 lg:w-1/5">
+        <Card className="p-4 shadow-lg sticky top-24">
+          <h3 className="text-lg font-bold mb-4 text-primary">Filter by Class</h3>
+          <div className="flex flex-col gap-2">
+            {classes.map(className => (
+              <Button
+                key={className}
+                variant={selectedClass === className ? 'default' : 'ghost'}
+                onClick={() => setSelectedClass(className)}
+                className="justify-start"
+              >
+                {className}
+              </Button>
+            ))}
+          </div>
+        </Card>
+      </aside>
+
+      <main className="flex-1">
+        <div className="mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Questions for {selectedClass}</h1>
+            <p className="text-muted-foreground">Practice with past exam papers to familiarize yourself with the format and question types.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {papers.length > 0 ? (
+            papers.map((paper, index) => (
+              <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group flex flex-col">
+                <div className="relative aspect-video overflow-hidden">
+                  <Image
+                    src={paper.imageUrl}
+                    alt={`${paper.subject} ${paper.year}`}
+                    data-ai-hint={paper.imageHint}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <h3 className="text-lg font-bold mt-2 truncate">{paper.subject} - {paper.year}</h3>
+                  <div className="mt-auto pt-4">
+                     <Button asChild variant="outline" className="w-full">
+                        <Link href="#">
+                            <FileText className="mr-2 h-4 w-4" />
+                            View Paper
+                        </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+             <div className="col-span-full text-center py-12">
+                <Card className="p-8 inline-block">
+                    <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground font-semibold">No papers found for this class.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class to see available papers.</p>
+                </Card>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
