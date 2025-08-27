@@ -10,7 +10,7 @@ import { ChevronDown, BookOpen, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const classes = [
-  'All Batches', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', 'Arts'
+  'All Batches', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
 const coursesByCategory: { [key: string]: any[] } = {
@@ -46,11 +46,6 @@ const coursesByCategory: { [key: string]: any[] } = {
     { title: 'Chemistry - Class 12', description: 'Advanced topics in chemistry.' },
     { title: 'Biology - Class 12', description: 'Genetics, evolution, and biotechnology.' },
   ],
-  'Arts': [
-      { title: 'History of Arts', description: 'Explore the evolution of art through ages.'},
-      { title: 'Political Science', description: 'Understanding political systems and theories.'},
-      { title: 'Sociology', description: 'Study of social behavior and society.'},
-  ]
 };
 
 // Flatten all courses for 'All Batches'
@@ -107,7 +102,6 @@ export default function SchoolPage() {
         </DropdownMenu>
         <Button variant="outline" className="rounded-full">Power Batch</Button>
         <Button variant="outline" className="rounded-full">Newly Launched</Button>
-        <Button variant="outline" className="rounded-full">CuriousJr</Button>
       </div>
 
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
