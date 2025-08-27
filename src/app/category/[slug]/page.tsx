@@ -1,14 +1,18 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+'use client';
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, Calendar, ChevronDown, MessageCircle, Tag, Target, Users } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 type PageProps = {
   params: { slug: string };
 };
 
-// Mock data for demonstration
 const categoryData: { [key: string]: any } = {
   "neet": { 
       name: "NEET", 
@@ -41,9 +45,48 @@ const categoryData: { [key: string]: any } = {
       name: "CUET", 
       description: "Prepare for the Common University Entrance Test with our structured and detailed courses.",
       courses: [
-        { title: "CUET (UG) 2025", description: "Integrated course for holistic preparation." },
-        { title: "Current Affairs Module", description: "Stay updated with daily, weekly, and monthly coverage." },
-        { title: "General Test Practice", description: "Sharpen your skills with expert feedback." },
+        {
+          mode: "ONLINE",
+          modeColor: "bg-blue-600",
+          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          imageHint: "students collaborating",
+          title: "Pravesh CUET Commerce 2026",
+          tags: ["NEW", "Hinglish"],
+          target: "Targeted Batch for CUET Commerce 2026",
+          startDate: "25 Aug, 2025",
+          endDate: "31 May, 2026",
+          price: "2,799",
+          originalPrice: "8,000",
+          discount: "65% applied",
+        },
+        {
+          mode: "ONLINE",
+          modeColor: "bg-blue-600",
+          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          imageHint: "students learning",
+          title: "Pravesh CUET Science 2026",
+          tags: ["NEW", "Hinglish"],
+          target: "For CUET 2026 Aspirants",
+          startDate: "18 Aug, 2025",
+          endDate: "30 Jun, 2026",
+          price: "3,499",
+          originalPrice: "3,999",
+          discount: "13% applied",
+        },
+        {
+          mode: "OFFLINE",
+          modeColor: "bg-red-600",
+          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          imageHint: "teacher with students",
+          title: "Superclass - Pravesh CUET 2026",
+          tags: ["NEW", "Hinglish"],
+          target: "Targeted Batch for CUET 2026",
+          startDate: "2 May, 2025",
+          endDate: "30 Jun, 2026",
+          price: "999",
+          originalPrice: null,
+          discount: null,
+        }
       ]
   },
   "govt-job-exams": { 
@@ -70,43 +113,136 @@ export default function CategoryPage({ params }: PageProps) {
   const { slug } = params;
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
 
-  return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">{data.name}</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          {data.description}
-        </p>
-      </section>
+  if (slug !== 'cuet') {
+    return (
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <section className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">{data.name}</h1>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
+            {data.description}
+          </p>
+        </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {data.courses.length > 0 ? (
-          data.courses.map((course: {title: string, description: string}, index: number) => (
-            <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <CardHeader>
-                  <BookOpen className="w-10 h-10 text-primary mb-2" />
-                  <CardTitle>{course.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground">{course.description}</p>
-              </CardContent>
-              <div className="p-6 pt-0">
-                <Button asChild className="w-full">
-                  <Link href="#">
-                    View Course <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </Card>
-          ))
-        ) : (
-          <div className="md:col-span-2 lg:col-span-3 text-center">
-             <Card className="p-8">
-                <p className="text-muted-foreground">No courses available in this category yet. Please check back later!</p>
-            </Card>
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {data.courses.length > 0 ? (
+            data.courses.map((course: {title: string, description: string}, index: number) => (
+              <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <CardContent className="flex-grow p-6">
+                    <BookOpen className="w-10 h-10 text-primary mb-4" />
+                    <h3 className="text-xl font-bold mb-2">{course.title}</h3>
+                  <p className="text-muted-foreground">{course.description}</p>
+                </CardContent>
+                <div className="p-6 pt-0">
+                  <Button asChild className="w-full">
+                    <Link href="#">
+                      View Course <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div className="md:col-span-2 lg:col-span-3 text-center">
+              <Card className="p-8">
+                  <p className="text-muted-foreground">No courses available in this category yet. Please check back later!</p>
+              </Card>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  // CUET specific layout
+  return (
+     <div className="container mx-auto py-8 px-4 md:px-6">
+       <div className="flex flex-wrap items-center gap-4 mb-8">
+        <Button variant="outline" className="rounded-full">Online</Button>
+        <Button variant="outline" className="rounded-full">Offline</Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="rounded-full">
+              Pricing <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Low to High</DropdownMenuItem>
+            <DropdownMenuItem>High to Low</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="rounded-full">
+              Language <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>English</DropdownMenuItem>
+            <DropdownMenuItem>Hindi</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Button variant="outline" className="rounded-full">Power Batch</Button>
+        <Button variant="outline" className="rounded-full">Newly Launched</Button>
+      </div>
+      
+       <div className="mb-6">
+        <h2 className="text-lg font-semibold">Showing '{data.courses.length}' Total Batches</h2>
+      </div>
+
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+         {data.courses.map((course: any, index: number) => (
+           <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
+             <div className="relative">
+                <div className={`absolute top-0 left-0 text-white text-xs font-bold uppercase px-3 py-1 ${course.modeColor} rounded-br-lg`}>
+                    {course.mode}
+                </div>
+                <Image
+                    src={course.image}
+                    alt={course.title}
+                    data-ai-hint={course.imageHint}
+                    width={600}
+                    height={400}
+                    className="w-full object-cover aspect-video"
+                />
+             </div>
+             <CardContent className="p-4 flex flex-col flex-grow">
+               <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-lg font-bold flex-grow">{course.title}</h3>
+                {course.tags.map((tag: string) => (
+                    <Badge key={tag} variant={tag === 'NEW' ? 'default' : 'secondary'}>{tag}</Badge>
+                ))}
+                <MessageCircle className="w-5 h-5 text-muted-foreground" />
+               </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                    <Target className="w-4 h-4" />
+                    <p>{course.target}</p>
+                </div>
+                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                    <Calendar className="w-4 h-4" />
+                    <p>Starts on {course.startDate} <span className="mx-1">·</span> Ends on {course.endDate}</p>
+                </div>
+
+                <div className="mt-auto pt-4 border-t">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <p className="text-2xl font-bold">₹{course.price}</p>
+                            {course.originalPrice && <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>}
+                        </div>
+                        {course.discount && (
+                            <div className="flex items-center gap-2 text-green-600 font-semibold bg-green-100 px-3 py-1 rounded-full">
+                                <Tag className="w-4 h-4"/>
+                                <span>{course.discount}</span>
+                            </div>
+                        )}
+                    </div>
+                     <p className="text-xs text-muted-foreground mt-1">
+                        {course.originalPrice ? '(FOR FULL BATCH)' : '(BOOK A SEAT)'}
+                     </p>
+                </div>
+             </CardContent>
+           </Card>
+         ))}
+       </div>
+     </div>
   );
 }
