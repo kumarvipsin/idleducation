@@ -28,8 +28,8 @@ const resources = [
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     bgColor: "bg-green-50 dark:bg-green-900/20",
     href: "/resources/notes",
-    imageSrc: "https://images.unsplash.com/photo-1491841550275-5b462bf48569?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-    imageHint: "notebook paper",
+    imageSrc: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxub3Rlc3xlbnwwfHx8fDE3NTYyNzY5NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    imageHint: "planning notes",
   },
 ]
 
