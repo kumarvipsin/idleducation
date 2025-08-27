@@ -75,7 +75,7 @@ export function AcademicExcellence() {
         </div>
 
         <div className="relative mb-8">
-            <div className="flex items-center space-x-2 overflow-x-auto pb-4 no-scrollbar">
+            <div className="flex flex-wrap justify-center items-center gap-2 pb-4">
             {categories.map((category) => (
                 <Button
                 key={category}
@@ -95,8 +95,9 @@ export function AcademicExcellence() {
             alt={resultsData[activeCategory as keyof typeof resultsData].alt}
             data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
             width={1200}
-            height={600}
-            className="w-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            height={300}
+            className="w-full h-auto object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            style={{ maxHeight: '300px' }}
           />
         </Card>
       </div>
