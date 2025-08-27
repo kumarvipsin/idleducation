@@ -45,7 +45,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students collaborating",
           title: "Pravesh CUET Commerce 2026",
           tags: ["NEW", "Hinglish"],
@@ -60,7 +60,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students learning",
           title: "Pravesh CUET Science 2026",
           tags: ["NEW", "Hinglish"],
@@ -75,7 +75,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "OFFLINE",
           modeColor: "bg-red-600",
-          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "teacher with students",
           title: "Superclass - Pravesh CUET 2026",
           tags: ["NEW", "Hinglish"],
@@ -109,6 +109,14 @@ const categoryData: { [key: string]: any } = {
   },
 };
 
+const subCategories: { [key: string]: string[] } = {
+  "defence": ["All Batches", "NDA", "CDS AFCAT", "Agniveer", "SSB", "AFCAT Offline", "CDS Offline", "SSB Offline"],
+  "iit-jee": ["All Batches", "JEE Main", "JEE Advanced", "Foundation", "Droppers"],
+  "neet": ["All Batches", "NEET UG", "NEET PG", "Foundation"],
+  "default": ["All Batches"]
+};
+
+
 export default function CategoryPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -116,13 +124,25 @@ export default function CategoryPage() {
 
   if (slug !== 'cuet') {
     return (
-      <div className="container mx-auto py-12 px-4 md:px-6">
-        <section className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">{data.name}</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-            {data.description}
-          </p>
+      <div>
+        <section className="bg-primary/5 py-8 md:py-12">
+            <div className="container mx-auto px-4 md:px-6">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">{data.name} Online Coaching, Complete Course for {data.name} Preparation</h1>
+                <p className="text-base md:text-lg text-foreground/80">
+                    {data.name} Online Coaching 2025 provides study material for the required sections. Students can solve mock tests and evaluate their performance in our {data.name} Online Coaching Class.
+                </p>
+            </div>
         </section>
+        <div className="container mx-auto py-12 px-4 md:px-6">
+        <div className="border-b mb-8">
+            <div className="flex items-center overflow-x-auto space-x-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {(subCategories[slug] || subCategories["default"]).map((sub, index) => (
+                    <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 1 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+                        {sub}
+                    </button>
+                ))}
+            </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.courses.length > 0 ? (
@@ -151,6 +171,7 @@ export default function CategoryPage() {
           )}
         </div>
       </div>
+    </div>
     );
   }
 
