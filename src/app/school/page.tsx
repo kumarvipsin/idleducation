@@ -64,7 +64,7 @@ export default function SchoolPage() {
             <button
               key={className}
               onClick={() => setActiveClass(className)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-md transition-colors
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
                 ${activeClass === className 
                   ? 'bg-primary text-primary-foreground' 
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
