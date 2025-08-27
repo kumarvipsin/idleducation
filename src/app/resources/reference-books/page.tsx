@@ -105,7 +105,7 @@ export default function ReferenceBooksPage() {
             )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks && filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
               <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
