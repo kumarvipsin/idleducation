@@ -45,7 +45,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students collaborating",
           title: "Pravesh CUET Commerce 2026",
           tags: ["NEW", "Hinglish"],
@@ -60,7 +60,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students learning",
           title: "Pravesh CUET Science 2026",
           tags: ["NEW", "Hinglish"],
@@ -75,7 +75,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "OFFLINE",
           modeColor: "bg-red-600",
-          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "teacher with students",
           title: "Superclass - Pravesh CUET 2026",
           tags: ["NEW", "Hinglish"],
@@ -143,34 +143,6 @@ export default function CategoryPage() {
                 ))}
             </div>
         </div>
-         <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
-            <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="rounded-full whitespace-nowrap">
-                  Pricing <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Low to High</DropdownMenuItem>
-                <DropdownMenuItem>High to Low</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="rounded-full whitespace-nowrap">
-                  Language <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>English</DropdownMenuItem>
-                <DropdownMenuItem>Hindi</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
-            <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
-         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {data.courses.length > 0 ? (
