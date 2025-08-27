@@ -2,50 +2,57 @@
 'use client';
 
 import { Card } from "@/components/ui/card";
-import { Award, BookCheck, MessageSquare } from "lucide-react";
+import { Video, FileText, BrainCircuit, School } from "lucide-react";
 
 const features = [
   {
-    icon: <Award className="w-6 h-6 text-primary" />,
-    title: "100% Free Quality Education",
+    icon: <Video className="w-8 h-8 text-red-500" />,
+    title: "Daily Live",
+    subtitle: "Interactive classes",
   },
   {
-    icon: <BookCheck className="w-6 h-6 text-primary" />,
-    title: "100% Complete Syllabus",
+    icon: <FileText className="w-8 h-8 text-blue-500" />,
+    title: "10 Million +",
+    subtitle: "Tests, sample papers & notes",
   },
   {
-    icon: <MessageSquare className="w-6 h-6 text-primary" />,
-    title: "Doubt Solving Sessions",
+    icon: <BrainCircuit className="w-8 h-8 text-purple-500" />,
+    title: "24 x 7",
+    subtitle: "Doubt solving sessions",
+  },
+  {
+    icon: <School className="w-8 h-8 text-yellow-500" />,
+    title: "100 +",
+    subtitle: "Offline centres",
   },
 ];
 
 export function OurFeatures() {
   return (
-    <section className="w-full py-12 md:py-24 bg-background">
+    <section className="w-full py-12 md:py-16 bg-muted/20">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Features</h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Everything you need to succeed, all in one place.
-          </p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="group flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors duration-300"
-            >
-                <div className="flex-shrink-0">
-                  <div className="p-3 rounded-full bg-background group-hover:bg-primary/10 transition-colors duration-300">
-                    <div className="transition-colors duration-300 group-hover:text-primary">
-                      {feature.icon}
-                    </div>
-                  </div>
+        <Card className="shadow-lg rounded-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-0">
+            {features.map((feature, index) => (
+              <div 
+                key={index} 
+                className="relative flex flex-col items-center text-center gap-2 p-6"
+              >
+                <div className="flex items-center justify-center h-16 w-16 mb-2">
+                  {feature.icon}
                 </div>
-                <h3 className="text-sm md:text-base font-semibold text-foreground">{feature.title}</h3>
-            </div>
-          ))}
-        </div>
+                <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground">{feature.subtitle}</p>
+                {index < features.length - 1 && (
+                   <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1/2 w-px bg-border hidden md:block"></div>
+                )}
+                 {index < features.length - 1 && (
+                    <div className="w-1/2 h-px bg-border mt-4 md:hidden"></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
     </section>
   );
