@@ -109,7 +109,7 @@ export default function ReferenceBooksPage() {
           {filteredBooks && filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
               <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
-                <div className="relative aspect-[3/4] overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={book.imageUrl}
                     alt={book.title}
