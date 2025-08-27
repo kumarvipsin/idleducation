@@ -74,7 +74,7 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                  <Button asChild className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                     <Link href="/school">
                       EXPLORE MORE
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -114,7 +114,7 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                  <Button asChild className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
                     <Link href="/">
                       EXPLORE MORE
                       <ArrowRight className="ml-2 h-4 w-4" />
