@@ -15,12 +15,12 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection />
+      <ExamCategories />
       <PopularPrograms />
       <OurFeatures />
       <ToppersTestimonials />
       <ExpertTeam />
       <AcademicExcellence />
-      <ExamCategories />
       <StudentTestimonials />
       <StudyResources />
     </div>
