@@ -154,12 +154,12 @@ export default function CategoryPage() {
   // CUET specific layout
   return (
      <div className="container mx-auto py-8 px-4 md:px-6">
-       <div className="flex flex-wrap items-center gap-4 mb-8">
-        <Button variant="outline" className="rounded-full">Online</Button>
-        <Button variant="outline" className="rounded-full">Offline</Button>
+       <div className="flex items-center overflow-x-auto space-x-4 mb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
+        <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-full whitespace-nowrap">
               Pricing <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -170,7 +170,7 @@ export default function CategoryPage() {
         </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-full whitespace-nowrap">
               Language <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -179,8 +179,8 @@ export default function CategoryPage() {
             <DropdownMenuItem>Hindi</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button variant="outline" className="rounded-full">Power Batch</Button>
-        <Button variant="outline" className="rounded-full">Newly Launched</Button>
+        <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
+        <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
       </div>
       
        <div className="mb-6">
