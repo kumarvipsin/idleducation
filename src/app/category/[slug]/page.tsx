@@ -55,7 +55,7 @@ const categoryData: { [key: string]: any } = {
           price: "2,799",
           originalPrice: "8,000",
           discount: "65% applied",
-          features: { text: "Premium Features Included", badge: "INFINITY" },
+          features: { text: "", badge: "INFINITY" },
         },
         {
           mode: "ONLINE",
@@ -70,7 +70,7 @@ const categoryData: { [key: string]: any } = {
           price: "3,499",
           originalPrice: "3,999",
           discount: "13% applied",
-          features: { text: "New Batch Plans Included", badge: "PRO" },
+          features: { text: "", badge: "PRO" },
         },
         {
           mode: "OFFLINE",
@@ -201,7 +201,7 @@ export default function CategoryPage() {
                     <p className="truncate">Starts on {course.startDate} <span className="mx-1">·</span> Ends on {course.endDate}</p>
                 </div>
                 
-                {course.features && (
+                {course.features && course.features.text && (
                   <div className="bg-gray-800 text-white rounded-md p-2 flex justify-between items-center text-sm mb-4">
                       <span>{course.features.text}</span>
                       <span className="bg-yellow-500 text-gray-900 font-bold text-xs px-2 py-0.5 rounded-sm">{course.features.badge}</span>
