@@ -54,7 +54,7 @@ export function AcademicExcellence() {
           </p>
         </div>
 
-        <div className="relative mb-8">
+        <div className="relative mb-4">
             <div className="flex flex-wrap justify-center items-center gap-2 pb-4">
             {categories.map((category) => (
                 <Button
