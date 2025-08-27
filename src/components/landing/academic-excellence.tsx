@@ -55,7 +55,7 @@ export function AcademicExcellence() {
         </div>
 
         <div className="relative mb-4">
-          <div className="flex items-center overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-center items-center overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-2 whitespace-nowrap">
               {categories.map((category) => (
                 <Button
