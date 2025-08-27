@@ -78,17 +78,6 @@ export default function SchoolPage() {
        <div className="flex items-center overflow-x-auto space-x-4 mb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
         <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="rounded-full whitespace-nowrap">
-              Language <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>English</DropdownMenuItem>
-            <DropdownMenuItem>Hindi</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
         <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
         <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
       </div>
