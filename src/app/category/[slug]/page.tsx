@@ -37,13 +37,13 @@ const categoryData: { [key: string]: any } = {
         { title: "Foundation for Middle School", description: "Covering key subjects for Classes 6 to 8." },
       ]
   },
-  "upsc": { 
-      name: "UPSC", 
-      description: "Prepare for the prestigious Civil Services Examination with our structured and detailed courses.",
+  "cuet": { 
+      name: "CUET", 
+      description: "Prepare for the Common University Entrance Test with our structured and detailed courses.",
       courses: [
-        { title: "UPSC Prelims Cum Mains 2025", description: "Integrated course for holistic preparation." },
+        { title: "CUET (UG) 2025", description: "Integrated course for holistic preparation." },
         { title: "Current Affairs Module", description: "Stay updated with daily, weekly, and monthly coverage." },
-        { title: "Essay & Answer Writing Practice", description: "Sharpen your writing skills with expert feedback." },
+        { title: "General Test Practice", description: "Sharpen your skills with expert feedback." },
       ]
   },
   "govt-job-exams": { 

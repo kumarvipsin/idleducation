@@ -33,8 +33,8 @@ const categories = [
     darkBgColor: "dark:bg-yellow-900/20",
   },
   {
-    title: "UPSC",
-    slug: "upsc",
+    title: "CUET",
+    slug: "cuet",
     subcategories: [],
     icon: <Users className="w-10 h-10 text-purple-500" />,
     bgColor: "bg-purple-50",
