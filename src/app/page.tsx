@@ -9,6 +9,7 @@ import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
+import { ExamCategories } from '@/components/landing/exam-categories';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <ToppersTestimonials />
       <ExpertTeam />
       <AcademicExcellence />
+      <ExamCategories />
       <StudentTestimonials />
       <StudyResources />
     </div>
