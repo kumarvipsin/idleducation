@@ -22,7 +22,7 @@ const testimonials = [
     {
       name: "Raja Majhi",
       achievement: "GATE 2024 AIR 1 | GATE",
-      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "male professional",
       testimonial: "I am Kaja Majhi, and I am thrilled to share that I have secured All India Rank 1 (AIR 1) in the GATE 2024 examination in ECE. From the very beginning, Physics Wallah stood out for its structured and comprehensive curriculum. The faculty members, with their in-depth knowledge and teaching expertise, ensured...",
       testimonial_hi: "मैं काजा माझी हूं, और मुझे यह साझा करते हुए बहुत खुशी हो रही है कि मैंने ईसीई में गेट 2024 परीक्षा में अखिल भारतीय रैंक 1 (एआईआर 1) हासिल की है। शुरू से ही, फिजिक्स वाला अपने संरचित और व्यापक पाठ्यक्रम के लिए सबसे अलग रहा। संकाय सदस्यों ने अपने गहन ज्ञान और शिक्षण विशेषज्ञता के साथ सुनिश्चित किया...",
@@ -98,7 +98,7 @@ export function StudentTestimonials() {
             {t('testimonials.subtitle')}
           </p>
         </div>
-        <div className="relative w-full max-w-6xl mx-auto">
+        <div className="relative w-full max-w-5xl mx-auto">
           <Carousel
             opts={{
               align: "start",
