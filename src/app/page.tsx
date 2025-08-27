@@ -16,11 +16,11 @@ export default function Home() {
       <HeroSection />
       <ExamCategories />
       <OurFeatures />
-      <ToppersTestimonials />
       <ExpertTeam />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
+      <ToppersTestimonials />
     </div>
   );
 }
