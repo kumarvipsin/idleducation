@@ -3,6 +3,7 @@
 
 import { Card } from "@/components/ui/card";
 import { GraduationCap, BookUp, FileQuestion, MessageSquarePlus, Building } from "lucide-react";
+import { useEffect, useState, useRef } from 'react';
 
 const features = [
   {
@@ -32,6 +33,77 @@ const features = [
   },
 ];
 
+const AnimatedNumber = ({ text }: { text: string }) => {
+  const [startAnimation, setStartAnimation] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStartAnimation(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  const parts = text.match(/(\d+\s*Million\s*\+)|(\d+\s*x\s*\d+)|(\d+\s*\+)|(\d+%?)/) || [];
+  const numberPart = parts[0];
+
+  if (!numberPart || !startAnimation) {
+    return <>{text}</>;
+  }
+
+  const cleanNumberPart = numberPart.replace(/[^0-9.]/g, '');
+  const target = parseFloat(cleanNumberPart);
+  const prefix = text.substring(0, text.indexOf(numberPart));
+  const suffix = text.substring(text.indexOf(numberPart) + numberPart.length);
+  
+  return (
+    <span ref={ref} className="font-mono">
+      {prefix}
+      <CountUp end={target} duration={2} />
+      {suffix}
+    </span>
+  );
+};
+
+const CountUp = ({ end, duration }: { end: number, duration: number }) => {
+    const [count, setCount] = useState(0);
+    const frameRate = 1000 / 60;
+    const totalFrames = Math.round(duration * 1000 / frameRate);
+
+    useEffect(() => {
+        let frame = 0;
+        const counter = setInterval(() => {
+            frame++;
+            const progress = frame / totalFrames;
+            const currentCount = Math.round(end * progress);
+            setCount(currentCount);
+
+            if (frame === totalFrames) {
+                clearInterval(counter);
+            }
+        }, frameRate);
+    }, [end, duration]);
+
+    return <>{count.toLocaleString()}</>;
+};
+
 export function OurFeatures() {
   return (
     <section className="w-full py-12 md:py-16 bg-muted/20">
@@ -46,7 +118,9 @@ export function OurFeatures() {
                 <div className="flex items-center justify-center h-16 w-16 mb-2">
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-bold text-foreground">{feature.title}</h3>
+                <h3 className="text-lg font-bold text-foreground">
+                  <AnimatedNumber text={feature.title} />
+                </h3>
                 <p className="text-sm text-muted-foreground">{feature.subtitle}</p>
                 {index < features.length - 1 && (
                    <div className="absolute right-0 top-1/2 -translate-y-1/2 h-1/2 w-px bg-border hidden lg:block"></div>
