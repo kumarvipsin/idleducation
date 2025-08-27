@@ -67,8 +67,7 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden border-transparent hover:border-primary/20"
-                style={{ backgroundColor: '#191970' }}
+                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden"
               >
                 <CardContent className="p-6 flex-1 flex flex-col items-center">
                     <div className="relative w-32 h-32 mb-4">
@@ -78,13 +77,13 @@ export function ExpertTeam() {
                             data-ai-hint={member.avatarHint}
                             width={128}
                             height={128}
-                            className="w-full h-full object-cover rounded-full border-4 border-primary/10 transition-transform duration-300 group-hover:scale-110"
+                            className="w-full h-full object-cover rounded-full border-4 border-primary/20 transition-transform duration-300 group-hover:scale-110"
                         />
                     </div>
-                    <h3 className="text-xl font-bold text-white">{member.name}</h3>
-                    <p className="text-base text-gray-300">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-gray-200">
-                        <Briefcase className="w-4 h-4 text-gray-300" />
+                    <h3 className="text-xl font-bold text-card-foreground">{member.name}</h3>
+                    <p className="text-base text-muted-foreground">{member.designation}</p>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-card-foreground">
+                        <Briefcase className="w-4 h-4 text-muted-foreground" />
                         <span>{member.experience}</span>
                     </div>
                 </CardContent>
