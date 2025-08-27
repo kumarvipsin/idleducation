@@ -8,6 +8,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useLanguage } from "@/context/language-context";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const testimonials = [
     {
@@ -21,7 +22,7 @@ const testimonials = [
     {
       name: "Raja Majhi",
       achievement: "GATE 2024 AIR 1 | GATE",
-      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "male professional",
       testimonial: "I am Kaja Majhi, and I am thrilled to share that I have secured All India Rank 1 (AIR 1) in the GATE 2024 examination in ECE. From the very beginning, Physics Wallah stood out for its structured and comprehensive curriculum. The faculty members, with their in-depth knowledge and teaching expertise, ensured...",
       testimonial_hi: "मैं काजा माझी हूं, और मुझे यह साझा करते हुए बहुत खुशी हो रही है कि मैंने ईसीई में गेट 2024 परीक्षा में अखिल भारतीय रैंक 1 (एआईआर 1) हासिल की है। शुरू से ही, फिजिक्स वाला अपने संरचित और व्यापक पाठ्यक्रम के लिए सबसे अलग रहा। संकाय सदस्यों ने अपने गहन ज्ञान और शिक्षण विशेषज्ञता के साथ सुनिश्चित किया...",
@@ -52,11 +53,8 @@ const QuoteIcon = () => (
 );
 
 const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => {
-  const { language, t } = useLanguage();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { language } = useLanguage();
   const fullText = language === 'hi' ? testimonial.testimonial_hi : testimonial.testimonial;
-  const isLongText = fullText.length > 150;
-  const displayText = isExpanded ? fullText : `${fullText.substring(0, 150)}${isLongText ? '...' : ''}`;
 
   return (
     <div className="p-2 h-full">
@@ -65,22 +63,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
       >
         <QuoteIcon />
         <CardContent className="p-6 pt-16 flex-1 flex flex-col">
-          <div className="flex-grow mb-4">
+          <ScrollArea className="h-24 flex-grow mb-4 pr-4">
             <blockquote className="text-sm text-foreground/80">
-              {displayText}
+              {fullText}
             </blockquote>
-          </div>
-
-          {isLongText && (
-            <Button
-              variant="link"
-              className="text-primary p-0 h-auto self-start mb-4"
-              onClick={() => setIsExpanded(!isExpanded)}
-            >
-              {isExpanded ? 'Read Less' : 'Read More'}
-              {isExpanded ? <ChevronUp className="ml-1 h-4 w-4" /> : <ChevronDown className="ml-1 h-4 w-4" />}
-            </Button>
-          )}
+          </ScrollArea>
 
           <div className="flex items-center gap-4 mt-auto">
             <Avatar className="w-12 h-12 border-2 border-primary/20">
