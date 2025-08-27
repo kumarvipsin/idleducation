@@ -8,17 +8,6 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function ContactPage() {
-  const courses = [
-    "Mathematics",
-    "Science",
-    "History",
-    "Arts",
-    "English",
-    "Social Studies",
-    "Computer Science",
-    "Music",
-  ];
-
   const countryCodes = [
     { code: "+91", country: "India" },
     { code: "+1", country: "United States" },
@@ -83,8 +72,6 @@ export default function ContactPage() {
     { code: "+253", country: "Djibouti" },
     { code: "+1-767", country: "Dominica" },
     { code: "+1-809", country: "Dominican Republic" },
-    { code: "+1-829", country: "Dominican Republic" },
-    { code: "+1-849", country: "Dominican Republic" },
     { code: "+670", country: "East Timor" },
     { code: "+593", country: "Ecuador" },
     { code: "+20", country: "Egypt" },
@@ -341,43 +328,6 @@ export default function ContactPage() {
             </form>
           </CardContent>
         </Card>
-        
-        <div className="grid md:grid-cols-3 gap-8 text-center">
-            <Card className="hover:shadow-lg transition-shadow bg-muted/50">
-                <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <MapPin className="w-8 h-8 text-primary" />
-                    </div>
-                    <CardTitle>Our Address</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">E-18 KRISHAN VIHAR, NEAR HARIRAM KANJHWALA ROAD, DELHI-110086</p>
-                </CardContent>
-            </Card>
-             <Card className="hover:shadow-lg transition-shadow bg-muted/50">
-                <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <Phone className="w-8 h-8 text-primary" />
-                    </div>
-                    <CardTitle>Call Us</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">+91 7011117585</p>
-                    <p className="text-muted-foreground">+91 8860040010</p>
-                </CardContent>
-            </Card>
-             <Card className="hover:shadow-lg transition-shadow bg-muted/50">
-                <CardHeader className="flex flex-col items-center gap-4">
-                    <div className="p-4 bg-primary/10 rounded-full">
-                        <Mail className="w-8 h-8 text-primary" />
-                    </div>
-                    <CardTitle>Email Us</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">contact@idleducation.com</p>
-                </CardContent>
-            </Card>
-        </div>
       </div>
     </div>
   );
