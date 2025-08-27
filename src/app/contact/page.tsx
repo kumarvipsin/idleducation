@@ -262,6 +262,15 @@ export default function ContactPage() {
     { code: "+263", country: "Zimbabwe" },
   ];
 
+  const indianStates = [
+    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
+    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  ];
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
@@ -305,14 +314,14 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="course" className="font-semibold">Course Interested In</Label>
+                  <Label htmlFor="state" className="font-semibold">State</Label>
                    <Select>
-                    <SelectTrigger id="course">
-                      <SelectValue placeholder="Select a course" />
+                    <SelectTrigger id="state">
+                      <SelectValue placeholder="Select a state" />
                     </SelectTrigger>
                     <SelectContent>
-                      {courses.map(course => (
-                        <SelectItem key={course} value={course}>{course}</SelectItem>
+                      {indianStates.map(state => (
+                        <SelectItem key={state} value={state}>{state}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
