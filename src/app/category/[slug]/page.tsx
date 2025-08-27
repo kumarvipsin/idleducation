@@ -8,10 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
-type PageProps = {
-  params: { slug: string };
-};
+import { useParams } from "next/navigation";
 
 const categoryData: { [key: string]: any } = {
   "neet": { 
@@ -109,8 +106,9 @@ const categoryData: { [key: string]: any } = {
   },
 };
 
-export default function CategoryPage({ params }: PageProps) {
-  const { slug } = params;
+export default function CategoryPage() {
+  const params = useParams();
+  const slug = params.slug as string;
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
 
   if (slug !== 'cuet') {
