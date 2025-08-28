@@ -7,6 +7,40 @@ import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from '../ui/scroll-area';
+
+const allPrograms = [
+    // EN
+    { name: "CLASS V", href: "/school" },
+    { name: "CLASS VI", href: "/school" },
+    { name: "CLASS VII", href: "/school" },
+    { name: "CLASS VIII", href: "/school" },
+    { name: "CLASS IX", href: "/school" },
+    { name: "CLASS X", href: "/school" },
+    { name: "CLASS XI", href: "/school" },
+    { name: "CLASS XII", href: "/school" },
+    { name: "JEE", href: "/category/iit-jee" },
+    { name: "NEET", href: "/category/neet" },
+    // HI
+    { name: "CUET", href: "/category/cuet" },
+    { name: "CBSE", href: "/school" },
+    { name: "NIOS", href: "/school" },
+    { name: "SSC", href: "/category/govt-job-exams" },
+    { name: "BANK PO", href: "/category/govt-job-exams" },
+    { name: "RRB", href: "/category/govt-job-exams" },
+    { name: "CLAT", href: "/category/cuet" },
+    { name: "GATE", href: "/category/iit-jee" },
+    { name: "DEFENCE", href: "/category/defence" },
+    { name: "DELHI POLICE", href: "/category/govt-job-exams" },
+];
 
 const popularProgramsEn = [
   { name: "CLASS V", href: "/school" },
@@ -32,6 +66,36 @@ const popularProgramsHi = [
   { name: "DEFENCE", href: "/category/defence" },
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
+
+const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string }) => {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-purple text-purple-foreground hover:bg-purple/90">
+                    {triggerText}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>{dialogTitle}</DialogTitle>
+                    <DialogDescription>
+                        Select a category to see more details.
+                    </DialogDescription>
+                </DialogHeader>
+                <ScrollArea className="h-72">
+                    <div className="grid grid-cols-2 gap-4 p-4">
+                        {programs.map((program) => (
+                            <Button key={program.name} asChild variant="outline">
+                                <Link href={program.href}>{program.name}</Link>
+                            </Button>
+                        ))}
+                    </div>
+                </ScrollArea>
+            </DialogContent>
+        </Dialog>
+    )
+}
 
 export function ExamCategories() {
   return (
@@ -74,12 +138,7 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                    <Link href="/school">
-                      EXPLORE MORE
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                    <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsEn} dialogTitle="Explore School & Competitive Exams"/>
                 </div>
               </CardContent>
             </div>
@@ -114,12 +173,7 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                  <Button asChild className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                    <Link href="/">
-                      EXPLORE MORE
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
+                   <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsHi} dialogTitle="Explore All Exam Categories"/>
                 </div>
               </CardContent>
             </div>
