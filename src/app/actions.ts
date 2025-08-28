@@ -19,10 +19,15 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export async function bookFreeSession(data: FormValues) {
+  const validation = formSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check your inputs." };
+  }
+  
   try {
     // Save data to Firestore
     const sessionRef = await addDoc(collection(db, "sessionBookings"), {
-      ...data,
+      ...validation.data,
       createdAt: serverTimestamp(),
     });
     console.log("Document written with ID: ", sessionRef.id);
@@ -49,12 +54,12 @@ export async function bookFreeSession(data: FormValues) {
       subject: "New Free Session Booking Request",
       html: `
         <h2>New Free Session Booking Request</h2>
-        <p><strong>Child's Name:</strong> ${data.childName}</p>
-        <p><strong>Class/Course:</strong> ${data.classCourse}</p>
-        <p><strong>Mobile Number:</strong> ${data.mobile}</p>
-        <p><strong>Email Address:</strong> ${data.email}</p>
-        <p><strong>State:</strong> ${data.state}</p>
-        <p><strong>Session Mode:</strong> ${data.sessionMode}</p>
+        <p><strong>Child's Name:</strong> ${validation.data.childName}</p>
+        <p><strong>Class/Course:</strong> ${validation.data.classCourse}</p>
+        <p><strong>Mobile Number:</strong> ${validation.data.mobile}</p>
+        <p><strong>Email Address:</strong> ${validation.data.email}</p>
+        <p><strong>State:</strong> ${validation.data.state}</p>
+        <p><strong>Session Mode:</strong> ${validation.data.sessionMode}</p>
       `,
     };
 
