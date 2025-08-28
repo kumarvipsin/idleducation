@@ -77,7 +77,7 @@ export default function StudentLayout({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/student/profile'}>
-                  <Link href="/student/dashboard">
+                  <Link href="/student/profile">
                     <User />
                     <span>Profile</span>
                   </Link>
