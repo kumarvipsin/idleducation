@@ -58,7 +58,7 @@ export default function AdminLayout({
                   asChild
                   isActive={pathname.startsWith('/admin/users')}
                 >
-                  <Link href="#">
+                  <Link href="/admin/dashboard">
                     <Users />
                     <span>Users</span>
                   </Link>
@@ -69,7 +69,7 @@ export default function AdminLayout({
                   asChild
                   isActive={pathname.startsWith('/admin/courses')}
                 >
-                  <Link href="#">
+                  <Link href="/admin/dashboard">
                     <BookOpen />
                     <span>Courses</span>
                   </Link>
@@ -77,7 +77,7 @@ export default function AdminLayout({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/admin/profile'}>
-                  <Link href="#">
+                  <Link href="/admin/dashboard">
                     <User />
                     <span>Profile</span>
                   </Link>

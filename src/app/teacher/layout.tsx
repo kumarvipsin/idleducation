@@ -69,7 +69,7 @@ export default function TeacherLayout({
                   asChild
                   isActive={pathname.startsWith('/teacher/materials')}
                 >
-                  <Link href="#">
+                  <Link href="/teacher/dashboard">
                     <Upload />
                     <span>Materials</span>
                   </Link>
@@ -77,7 +77,7 @@ export default function TeacherLayout({
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/teacher/profile'}>
-                  <Link href="#">
+                  <Link href="/teacher/dashboard">
                     <User />
                     <span>Profile</span>
                   </Link>
