@@ -1,7 +1,6 @@
 
 'use server';
 import { z } from "zod";
-import nodemailer from "nodemailer";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -54,7 +53,7 @@ export async function loginUser(data: LoginValues) {
   }
 
   const { email, password } = validation.data;
-  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
