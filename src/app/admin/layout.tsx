@@ -51,18 +51,6 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <Database />
-                    <span>CMS</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <Settings />
-                    <span>Config</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
                   <Link href="/admin/dashboard">
                     <SlidersHorizontal />
@@ -84,18 +72,6 @@ function AdminLayout({
                     <Users />
                     <span>Instructor</span>
                   </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-                <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <ShoppingCart />
-                    <span>Shop</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <Settings2 />
-                    <span>Widget</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
