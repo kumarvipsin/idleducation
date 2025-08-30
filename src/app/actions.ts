@@ -128,12 +128,18 @@ export async function signUpUser(data: SignupValues) {
     const user = userCredential.user;
 
     // Store user role and name in Firestore
-    await setDoc(doc(db, "users", user.uid), {
+    const userDocData: any = {
       name: name,
       email: email,
       role: role,
       createdAt: serverTimestamp(),
-    });
+    };
+
+    if (role === 'student') {
+        userDocData.teacherIds = [];
+    }
+
+    await setDoc(doc(db, "users", user.uid), userDocData);
 
     return { success: true, message: "Account created successfully!", role };
   } catch (error: any) {
@@ -216,7 +222,7 @@ export async function getStudents(teacherId?: string) {
       studentsQuery = query(
         collection(db, "users"), 
         where("role", "==", "student"),
-        where("teacherId", "==", teacherId)
+        where("teacherIds", "array-contains", teacherId)
       );
     } else {
       studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
@@ -242,14 +248,14 @@ export async function getTeachers() {
   }
 }
 
-export async function assignTeacherToStudent(studentId: string, teacherId: string) {
+export async function assignTeachersToStudent(studentId: string, teacherIds: string[]) {
   try {
     const studentDocRef = doc(db, "users", studentId);
-    await updateDoc(studentDocRef, { teacherId: teacherId });
-    return { success: true, message: "Teacher assigned successfully!" };
+    await updateDoc(studentDocRef, { teacherIds: teacherIds });
+    return { success: true, message: "Teachers assigned successfully!" };
   } catch (error) {
-    console.error("Error assigning teacher:", error);
-    return { success: false, message: "Failed to assign teacher." };
+    console.error("Error assigning teachers:", error);
+    return { success: false, message: "Failed to assign teachers." };
   }
 }
 
