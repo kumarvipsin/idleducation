@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 
@@ -36,62 +36,97 @@ function AdminLayout({
       <div className="flex min-h-screen">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center gap-2 p-2">
-              <Shield className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold">ADMIN PANEL</span>
+            <div className="flex items-center gap-2 p-4">
+              <span className="text-lg font-semibold">Supper Admin Panel</span>
             </div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
+                  <Link href="/admin/users">
+                    <User />
+                    <span>User</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/admin/dashboard'}
-                >
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Database />
+                    <span>CMS</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Settings />
+                    <span>Config</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
                   <Link href="/admin/dashboard">
-                    <LayoutDashboard />
+                    <SlidersHorizontal />
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === '/admin/profile'}>
-                  <Link href="/admin/profile">
-                    <User />
-                    <span>Profile</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith('/admin/users')}
-                >
-                  <Link href="/admin/users">
-                    <Users />
-                    <span>Users</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith('/admin/courses')}
-                >
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/courses')}>
                   <Link href="/admin/courses">
                     <BookOpen />
                     <span>Courses</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/admin/dashboard'}
-                >
-                  <Link href="/admin/dashboard">
-                    <LayoutDashboard />
-                    <span>Admin Dashboard</span>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Users />
+                    <span>Instructor</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+                <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <ShoppingCart />
+                    <span>Shop</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <Settings2 />
+                    <span>Widget</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <File />
+                    <span>Pages</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/students')}>
+                  <Link href="/admin/users">
+                    <GraduationCap />
+                    <span>Students</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
+                    <CreditCard />
+                    <span>Payment</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
