@@ -27,7 +27,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -57,14 +56,16 @@ export default function TeacherStudentsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      const result = await getStudents();
-      if (result.success && result.data) {
-        setStudents(result.data as Student[]);
-      }
-    };
-    fetchStudents();
-  }, []);
+    if (user) {
+      const fetchStudents = async () => {
+        const result = await getStudents(user.uid);
+        if (result.success && result.data) {
+          setStudents(result.data as Student[]);
+        }
+      };
+      fetchStudents();
+    }
+  }, [user]);
 
   const handleAddReport = async () => {
     if (!selectedStudent || !month || !report || !user) return;
@@ -97,8 +98,8 @@ export default function TeacherStudentsPage() {
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Card>
         <CardHeader>
-          <CardTitle>Student Management</CardTitle>
-          <CardDescription>View students and add their monthly progress reports.</CardDescription>
+          <CardTitle>My Students</CardTitle>
+          <CardDescription>View your assigned students and add their monthly progress reports.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -110,20 +111,28 @@ export default function TeacherStudentsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {students.map((student) => (
-                <TableRow key={student.id}>
-                  <TableCell className="font-medium">{student.name}</TableCell>
-                  <TableCell>{student.email}</TableCell>
-                  <TableCell className="text-right">
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm" onClick={() => setSelectedStudent(student)}>
-                        <FilePlus className="mr-2 h-4 w-4" />
-                        Add Report
-                      </Button>
-                    </DialogTrigger>
+              {students.length > 0 ? (
+                students.map((student) => (
+                  <TableRow key={student.id}>
+                    <TableCell className="font-medium">{student.name}</TableCell>
+                    <TableCell>{student.email}</TableCell>
+                    <TableCell className="text-right">
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm" onClick={() => setSelectedStudent(student)}>
+                          <FilePlus className="mr-2 h-4 w-4" />
+                          Add Report
+                        </Button>
+                      </DialogTrigger>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center text-muted-foreground">
+                    You have not been assigned any students yet.
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </CardContent>

@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -196,15 +196,47 @@ export async function addProgressReport(data: ProgressReportValues) {
   }
 }
 
-export async function getStudents() {
+export async function getStudents(teacherId?: string) {
   try {
-    const studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
+    let studentsQuery;
+    if (teacherId) {
+      studentsQuery = query(
+        collection(db, "users"), 
+        where("role", "==", "student"),
+        where("teacherId", "==", teacherId)
+      );
+    } else {
+      studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
+    }
     const querySnapshot = await getDocs(studentsQuery);
     const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return { success: true, data: students };
   } catch (error) {
     console.error("Error fetching students:", error);
     return { success: false, message: "Failed to fetch students." };
+  }
+}
+
+export async function getTeachers() {
+  try {
+    const teachersQuery = query(collection(db, "users"), where("role", "==", "teacher"));
+    const querySnapshot = await getDocs(teachersQuery);
+    const teachers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return { success: true, data: teachers };
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    return { success: false, message: "Failed to fetch teachers." };
+  }
+}
+
+export async function assignTeacherToStudent(studentId: string, teacherId: string) {
+  try {
+    const studentDocRef = doc(db, "users", studentId);
+    await updateDoc(studentDocRef, { teacherId: teacherId });
+    return { success: true, message: "Teacher assigned successfully!" };
+  } catch (error) {
+    console.error("Error assigning teacher:", error);
+    return { success: false, message: "Failed to assign teacher." };
   }
 }
 
