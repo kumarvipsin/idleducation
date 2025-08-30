@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -317,5 +317,17 @@ export async function getProgressReportsForTeacher(teacherId: string) {
   } catch (error) {
     console.error("Error fetching progress reports:", error);
     return { success: false, message: "Failed to fetch progress reports." };
+  }
+}
+
+export async function getSessionBookings() {
+  try {
+    const bookingsQuery = query(collection(db, "sessionBookings"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(bookingsQuery);
+    const bookings = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: bookings };
+  } catch (error) {
+    console.error("Error fetching session bookings:", error);
+    return { success: false, message: "Failed to fetch session bookings." };
   }
 }
