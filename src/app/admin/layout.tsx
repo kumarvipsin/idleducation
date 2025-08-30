@@ -99,12 +99,6 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <File />
-                    <span>Pages</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/students')}>
                   <Link href="/admin/users">
                     <GraduationCap />
