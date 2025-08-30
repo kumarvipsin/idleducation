@@ -45,6 +45,16 @@ const loginSchema = z.object({
 
 type LoginValues = z.infer<typeof loginSchema>;
 
+const serializeFirestoreData = (docData: any) => {
+    const data = { ...docData };
+    for (const key in data) {
+        if (data[key] instanceof Timestamp) {
+            data[key] = data[key].toDate().toISOString();
+        }
+    }
+    return data;
+};
+
 export async function loginUser(data: LoginValues) {
   const validation = loginSchema.safeParse(data);
   if (!validation.success) {
@@ -58,28 +68,35 @@ export async function loginUser(data: LoginValues) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Handle admin login separately
-    if (user && user.email === adminEmail) {
-      return { success: true, message: "Admin login successful!", role: 'admin' };
+    let userProfile;
+
+    if (user.email === adminEmail) {
+      userProfile = {
+        uid: user.uid,
+        email: user.email,
+        name: 'Admin',
+        role: 'admin',
+      };
+      return { success: true, message: "Admin login successful!", user: userProfile };
     }
 
-    // Fetch user role from Firestore
-    if (user) {
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const role = userData.role; // 'student' or 'teacher'
-        return { success: true, message: "Login successful!", role };
-      } else {
-        // This case might happen if a user was created in Auth but not in Firestore
-        await signOut(auth); // Sign out the user for safety
-        return { success: false, message: "User data not found. Please contact support." };
-      }
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      userProfile = {
+        uid: user.uid,
+        email: user.email,
+        name: userData.name,
+        role: userData.role,
+        ...serializeFirestoreData(userData),
+      };
+      return { success: true, message: "Login successful!", user: userProfile };
+    } else {
+      await signOut(auth);
+      return { success: false, message: "User data not found. Please contact support." };
     }
-    
-    return { success: false, message: "An unexpected error occurred." };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {
@@ -204,16 +221,6 @@ export async function addProgressReport(data: ProgressReportValues) {
     return { success: false, message: "Failed to add report. Please check permissions." };
   }
 }
-
-const serializeFirestoreData = (docData: any) => {
-    const data = { ...docData };
-    for (const key in data) {
-        if (data[key] instanceof Timestamp) {
-            data[key] = data[key].toDate().toISOString();
-        }
-    }
-    return data;
-};
 
 export async function getStudents(teacherId?: string) {
   try {

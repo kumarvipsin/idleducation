@@ -41,17 +41,22 @@ export default function LoginPage() {
   const handleLogin = async (data: LoginValues) => {
     const result = await loginUser(data);
 
-    if (result.success) {
+    if (result.success && result.user) {
       toast({
         title: "Login Successful",
         description: "Welcome back!",
       });
 
-      // The AuthProvider will handle fetching role and updating state.
-      // We can force a reload to ensure the context picks up the new user.
-      const redirectPath = result.role === 'admin' ? '/admin/dashboard' : `/${result.role}/dashboard`;
+      // Manually set the session storage
+      sessionStorage.setItem('userProfile', JSON.stringify(result.user));
+
+      const redirectPath = result.user.role === 'admin' 
+        ? '/admin/dashboard' 
+        : `/${result.user.role}/dashboard`;
+        
       router.push(redirectPath);
-      router.refresh(); // This ensures the layout gets fresh server data if needed
+      // We call refresh to ensure the AuthProvider re-evaluates the state
+      router.refresh(); 
 
     } else {
       toast({

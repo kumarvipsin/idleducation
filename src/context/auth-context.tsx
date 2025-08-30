@@ -7,7 +7,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
-export interface UserProfile extends FirebaseUser {
+export interface UserProfile extends Partial<FirebaseUser> {
+  uid: string;
   role: 'student' | 'teacher' | 'admin' | null;
   name: string | null;
 }
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Attempt to load user from sessionStorage on initial load
+    // Attempt to load user from session storage first
     try {
       const sessionUser = sessionStorage.getItem('userProfile');
       if (sessionUser) {
@@ -39,13 +40,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        
-        // If user from session storage is already set, no need to re-fetch unless it's a different user
+        // If user is already in state from session, no need to fetch again
         if (user && user.uid === firebaseUser.uid) {
             setLoading(false);
             return;
         }
 
+        // Fetch user details if not found in session
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         let role: UserProfile['role'] = null;
@@ -61,10 +62,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         
         const userProfile: UserProfile = { 
-          ...firebaseUser,
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          displayName: firebaseUser.displayName,
           photoURL: firebaseUser.photoURL,
           emailVerified: firebaseUser.emailVerified,
           role, 
@@ -75,16 +74,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(userProfile);
 
       } else {
+        // User is signed out
         sessionStorage.removeItem('userProfile');
         setUser(null);
       }
       setLoading(false);
     });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+    return () => unsubscribe();
+  }, []); // The empty array ensures this effect runs only once on mount
 
   const logout = async () => {
     await signOut(auth);
