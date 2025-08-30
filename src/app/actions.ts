@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -93,6 +93,9 @@ export async function loginUser(data: LoginValues) {
         break;
       case 'auth/user-disabled':
         message = 'This user account has been disabled.';
+        break;
+      case 'permission-denied':
+        message = 'You do not have permission to access this resource. Please check Firestore rules.';
         break;
       default:
         console.error("Firebase Auth Error:", error);
@@ -196,6 +199,16 @@ export async function addProgressReport(data: ProgressReportValues) {
   }
 }
 
+const serializeFirestoreData = (docData: any) => {
+    const data = { ...docData };
+    for (const key in data) {
+        if (data[key] instanceof Timestamp) {
+            data[key] = data[key].toDate().toISOString();
+        }
+    }
+    return data;
+};
+
 export async function getStudents(teacherId?: string) {
   try {
     let studentsQuery;
@@ -209,7 +222,7 @@ export async function getStudents(teacherId?: string) {
       studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
     }
     const querySnapshot = await getDocs(studentsQuery);
-    const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: students };
   } catch (error) {
     console.error("Error fetching students:", error);
@@ -221,7 +234,7 @@ export async function getTeachers() {
   try {
     const teachersQuery = query(collection(db, "users"), where("role", "==", "teacher"));
     const querySnapshot = await getDocs(teachersQuery);
-    const teachers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const teachers = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: teachers };
   } catch (error) {
     console.error("Error fetching teachers:", error);
@@ -244,7 +257,7 @@ export async function getStudentProgressReports(studentId: string) {
   try {
     const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", studentId));
     const querySnapshot = await getDocs(reportsQuery);
-    const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     // Sort by date or month if needed
     return { success: true, data: reports };
   } catch (error) {
