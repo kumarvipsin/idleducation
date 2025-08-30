@@ -26,11 +26,10 @@ export async function bookFreeSession(data: FormValues) {
   
   try {
     // Save data to Firestore
-    const sessionRef = await addDoc(collection(db, "sessionBookings"), {
+    await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
       createdAt: serverTimestamp(),
     });
-    console.log("Document written with ID: ", sessionRef.id);
 
     // Email sending logic (optional)
     const { GMAIL_EMAIL, GMAIL_APP_PASSWORD } = process.env;
