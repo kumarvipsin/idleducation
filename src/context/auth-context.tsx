@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export interface UserProfile extends FirebaseUser {
   role: 'student' | 'teacher' | 'admin' | null;
-  name: string | null; // Add name to the user profile
+  name: string | null;
 }
 
 interface AuthContextType {
@@ -26,19 +26,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const sessionUser = sessionStorage.getItem('userProfile');
-    if (sessionUser) {
+    // Attempt to load user from sessionStorage on initial load
+    try {
+      const sessionUser = sessionStorage.getItem('userProfile');
+      if (sessionUser) {
         setUser(JSON.parse(sessionUser));
-        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Failed to parse user profile from session storage", error);
     }
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If user is already loaded from session, check if it's the same user
-        const sessionData = sessionUser ? JSON.parse(sessionUser) : null;
-        if (sessionData && sessionData.uid === firebaseUser.uid) {
-            setLoading(false);
-            return;
+        // If user is already in state and matches, no need to fetch again
+        if (user && user.uid === firebaseUser.uid) {
+          setLoading(false);
+          return;
         }
 
         const userDocRef = doc(db, "users", firebaseUser.uid);
@@ -49,13 +52,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           role = userData.role;
-          name = userData.name; // Fetch name from Firestore
+          name = userData.name;
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
           role = 'admin';
-          name = 'Admin'; // Default admin name
+          name = 'Admin';
         }
         
-        const userProfile: UserProfile = { ...firebaseUser, role, name };
+        const userProfile: UserProfile = { 
+          ...firebaseUser, 
+          // We need to manually pick properties because firebaseUser is not a plain object
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          photoURL: firebaseUser.photoURL,
+          emailVerified: firebaseUser.emailVerified,
+          // Our custom properties
+          role, 
+          name 
+        };
         
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         setUser(userProfile);
@@ -68,13 +82,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]); // Added user to dependency array to avoid re-fetching if user is already loaded.
 
   const logout = async () => {
     await signOut(auth);
     sessionStorage.removeItem('userProfile');
     setUser(null);
-    router.push('/');
+    // Use router.push for client-side navigation instead of window.location
+    router.push('/'); 
   };
 
   return (
