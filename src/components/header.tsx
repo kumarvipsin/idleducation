@@ -23,7 +23,7 @@ export function Header() {
     router.push('/');
   };
 
-  const renderAuthButton = () => {
+  const renderAuthSection = () => {
     if (loading) {
       return <Button variant="ghost">Loading...</Button>;
     }
@@ -90,25 +90,29 @@ export function Header() {
             </span>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-            <Link
-                href="/"
-                className="text-sm font-medium hover:underline underline-offset-4"
-            >
-                {t('home')}
-            </Link>
-            <Link
-                href="/about"
-                className="text-sm font-medium hover:underline underline-offset-4"
-            >
-                {t('about')}
-            </Link>
-            <Link
-                href="/contact"
-                className="text-sm font-medium hover:underline underline-offset-4"
-            >
-                {t('contact')}
-            </Link>
-            {renderAuthButton()}
+            {!user && !loading && (
+              <>
+                <Link
+                    href="/"
+                    className="text-sm font-medium hover:underline underline-offset-4"
+                >
+                    {t('home')}
+                </Link>
+                <Link
+                    href="/about"
+                    className="text-sm font-medium hover:underline underline-offset-4"
+                >
+                    {t('about')}
+                </Link>
+                <Link
+                    href="/contact"
+                    className="text-sm font-medium hover:underline underline-offset-4"
+                >
+                    {t('contact')}
+                </Link>
+              </>
+            )}
+            {renderAuthSection()}
             <Link href="/notifications">
                 <Button variant="outline" size="icon">
                     <Bell className="h-[1.2rem] w-[1.2rem]" />
