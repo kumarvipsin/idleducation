@@ -51,19 +51,15 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton>
                     <Database />
                     <span>CMS</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton>
                     <Settings />
                     <span>Config</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -91,27 +87,21 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                 <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton>
                     <ShoppingCart />
                     <span>Shop</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton>
                     <Settings2 />
                     <span>Widget</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton>
                     <File />
                     <span>Pages</span>
-                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
