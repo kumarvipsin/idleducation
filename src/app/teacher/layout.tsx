@@ -15,8 +15,9 @@ import {
 } from '@/components/ui/sidebar';
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Upload, FileText } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
+import withAuth from '@/components/with-auth';
 
-export default function TeacherLayout({
+function TeacherLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -131,3 +132,5 @@ export default function TeacherLayout({
     </SidebarProvider>
   );
 }
+
+export default withAuth(TeacherLayout, ['teacher']);

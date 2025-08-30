@@ -15,8 +15,9 @@ import {
 } from '@/components/ui/sidebar';
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
+import withAuth from '@/components/with-auth';
 
-export default function AdminLayout({
+function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -107,3 +108,5 @@ export default function AdminLayout({
     </SidebarProvider>
   );
 }
+
+export default withAuth(AdminLayout, ['admin']);
