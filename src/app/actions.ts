@@ -274,3 +274,15 @@ export async function getStudentProgressReports(studentId: string) {
     return { success: false, message: "Failed to fetch progress reports." };
   }
 }
+
+export async function getProgressReportsForTeacher(teacherId: string) {
+  try {
+    const reportsQuery = query(collection(db, "progressReports"), where("teacherId", "==", teacherId));
+    const querySnapshot = await getDocs(reportsQuery);
+    const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: reports };
+  } catch (error) {
+    console.error("Error fetching progress reports:", error);
+    return { success: false, message: "Failed to fetch progress reports." };
+  }
+}
