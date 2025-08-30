@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -59,12 +59,28 @@ export async function loginUser(data: LoginValues) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    // Handle admin login separately
     if (user && user.email === adminEmail) {
       return { success: true, message: "Admin login successful!", role: 'admin' };
     }
+
+    // Fetch user role from Firestore
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const role = userData.role; // 'student' or 'teacher'
+        return { success: true, message: "Login successful!", role };
+      } else {
+        // This case might happen if a user was created in Auth but not in Firestore
+        await signOut(auth); // Sign out the user for safety
+        return { success: false, message: "User data not found. Please contact support." };
+      }
+    }
     
-    // The role from the form is used for redirection purposes on the client
-    return { success: true, message: "Login successful!", role: data.role };
+    return { success: false, message: "An unexpected error occurred." };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {
