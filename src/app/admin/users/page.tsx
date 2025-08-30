@@ -12,10 +12,21 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getStudents, getTeachers, assignTeachersToStudent } from "@/app/actions";
+import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, Briefcase, ChevronDown } from "lucide-react";
+import { User, GraduationCap, Briefcase, ChevronDown, KeyRound } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface User {
   id: string;
@@ -28,6 +39,7 @@ interface User {
 export default function AdminUsersPage() {
   const [students, setStudents] = useState<User[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -54,6 +66,18 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handlePasswordReset = async () => {
+    if (!selectedUser) return;
+    const result = await resetUserPassword(selectedUser.email);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    setSelectedUser(null);
+  };
+
+
   const getTeacherNames = (teacherIds: string[] = []) => {
     if (teacherIds.length === 0) return "Not Assigned";
     return teacherIds.map(id => teachers.find(t => t.id === id)?.name).filter(Boolean).join(', ');
@@ -64,7 +88,7 @@ export default function AdminUsersPage() {
       <Card>
         <CardHeader>
           <CardTitle>Student Management</CardTitle>
-          <CardDescription>Assign or unassign teachers to students. To remove a teacher, simply uncheck their name from the list.</CardDescription>
+          <CardDescription>Assign teachers to students or send a password reset email.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -73,7 +97,7 @@ export default function AdminUsersPage() {
                 <TableHead>Student Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Assigned Teachers</TableHead>
-                <TableHead className="w-[250px]">Manage Teachers</TableHead>
+                <TableHead className="w-[250px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -82,11 +106,11 @@ export default function AdminUsersPage() {
                   <TableCell className="font-medium flex items-center gap-2"><GraduationCap className="h-4 w-4"/> {student.name}</TableCell>
                   <TableCell>{student.email}</TableCell>
                   <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
-                  <TableCell>
+                  <TableCell className="flex items-center gap-2">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline">
-                          Manage Assignments <ChevronDown className="ml-2 h-4 w-4" />
+                          Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-56">
@@ -107,6 +131,12 @@ export default function AdminUsersPage() {
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
+                     <AlertDialogTrigger asChild>
+                      <Button variant="ghost" size="icon" onClick={() => setSelectedUser(student)}>
+                        <KeyRound className="h-4 w-4" />
+                        <span className="sr-only">Reset Password</span>
+                      </Button>
+                    </AlertDialogTrigger>
                   </TableCell>
                 </TableRow>
               ))}
@@ -117,8 +147,8 @@ export default function AdminUsersPage() {
       
       <Card>
         <CardHeader>
-          <CardTitle>Teacher List</CardTitle>
-          <CardDescription>A list of all registered teachers.</CardDescription>
+          <CardTitle>Teacher Management</CardTitle>
+          <CardDescription>A list of all registered teachers. You can send a password reset email.</CardDescription>
         </CardHeader>
         <CardContent>
            <Table>
@@ -126,6 +156,7 @@ export default function AdminUsersPage() {
               <TableRow>
                 <TableHead>Teacher Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -133,12 +164,32 @@ export default function AdminUsersPage() {
                 <TableRow key={teacher.id}>
                   <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
                   <TableCell>{teacher.email}</TableCell>
+                  <TableCell className="text-right">
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedUser(teacher)}>
+                         <KeyRound className="mr-2 h-4 w-4" />
+                         Reset Password
+                      </Button>
+                    </AlertDialogTrigger>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action will send a password reset link to <span className="font-medium">{selectedUser?.email}</span>. This cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setSelectedUser(null)}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handlePasswordReset}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp } from "firebase/firestore";
 
 const formSchema = z.object({
@@ -46,6 +46,7 @@ const loginSchema = z.object({
 type LoginValues = z.infer<typeof loginSchema>;
 
 const serializeFirestoreData = (docData: any) => {
+    if (!docData) return null;
     const data = { ...docData };
     for (const key in data) {
         if (data[key] instanceof Timestamp) {
@@ -54,6 +55,7 @@ const serializeFirestoreData = (docData: any) => {
     }
     return data;
 };
+
 
 export async function loginUser(data: LoginValues) {
   const validation = loginSchema.safeParse(data);
@@ -67,7 +69,7 @@ export async function loginUser(data: LoginValues) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-
+    
     let userProfile;
 
     if (user.email === adminEmail) {
@@ -77,26 +79,27 @@ export async function loginUser(data: LoginValues) {
         name: 'Admin',
         role: 'admin',
       };
-      return { success: true, message: "Admin login successful!", user: userProfile };
-    }
-
-    const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      userProfile = {
-        uid: user.uid,
-        email: user.email,
-        name: userData.name,
-        role: userData.role,
-        ...serializeFirestoreData(userData),
-      };
-      return { success: true, message: "Login successful!", user: userProfile };
     } else {
-      await signOut(auth);
-      return { success: false, message: "User data not found. Please contact support." };
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            userProfile = {
+                uid: user.uid,
+                email: user.email,
+                name: userData.name,
+                role: userData.role,
+                ...serializeFirestoreData(userData),
+            };
+        } else {
+            await signOut(auth);
+            return { success: false, message: "User data not found. Please contact support." };
+        }
     }
+
+    return { success: true, message: "Login successful!", user: userProfile };
+
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {
@@ -157,8 +160,17 @@ export async function signUpUser(data: SignupValues) {
     }
 
     await setDoc(doc(db, "users", user.uid), userDocData);
+    
+    const userProfile = {
+      uid: user.uid,
+      email: user.email,
+      name: name,
+      role: role,
+      ...serializeFirestoreData(userDocData),
+    };
 
-    return { success: true, message: "Account created successfully!", role };
+
+    return { success: true, message: "Account created successfully!", user: userProfile };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {
@@ -175,6 +187,23 @@ export async function signUpUser(data: SignupValues) {
         console.error("Firebase Auth Signup Error:", error);
         message = 'Failed to create account. Please try again later.';
         break;
+    }
+    return { success: false, message };
+  }
+}
+
+export async function resetUserPassword(email: string) {
+  if (!email) {
+    return { success: false, message: "Email is required." };
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { success: true, message: `Password reset email sent to ${email}.` };
+  } catch (error: any) {
+    console.error("Password Reset Error:", error);
+    let message = "Failed to send password reset email. Please try again later.";
+    if (error.code === 'auth/user-not-found') {
+      message = "This email is not associated with any account.";
     }
     return { success: false, message };
   }
@@ -226,19 +255,16 @@ export async function getStudents(teacherId?: string) {
   try {
     let studentsQuery;
     if (teacherId) {
-      console.log(`Fetching students for teacherId: ${teacherId}`);
       studentsQuery = query(
         collection(db, "users"), 
         where("role", "==", "student"),
         where("teacherIds", "array-contains", teacherId)
       );
     } else {
-      console.log("Fetching all students");
       studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
     }
     const querySnapshot = await getDocs(studentsQuery);
     const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    console.log(`Found ${students.length} students.`);
     return { success: true, data: students };
   } catch (error) {
     console.error("Error fetching students:", error);
