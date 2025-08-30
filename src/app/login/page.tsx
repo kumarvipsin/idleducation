@@ -49,7 +49,9 @@ export default function LoginPage() {
 
       // The AuthProvider will handle fetching role and updating state.
       // We can force a reload to ensure the context picks up the new user.
-      window.location.href = result.role === 'admin' ? '/admin/dashboard' : `/${result.role}/dashboard`;
+      const redirectPath = result.role === 'admin' ? '/admin/dashboard' : `/${result.role}/dashboard`;
+      router.push(redirectPath);
+      router.refresh(); // This ensures the layout gets fresh server data if needed
 
     } else {
       toast({
