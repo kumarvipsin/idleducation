@@ -29,24 +29,7 @@ export function Header() {
     }
 
     if (user) {
-      const dashboardPath = user.role === 'admin' 
-        ? '/admin/dashboard' 
-        : `/${user.role}/dashboard`;
-      
-      return (
-        <div className="flex items-center gap-2">
-            <Button asChild variant="outline">
-                <Link href={dashboardPath}>
-                    <LayoutDashboard className="mr-2 h-4 w-4"/>
-                    Dashboard
-                </Link>
-            </Button>
-            <Button onClick={handleLogout} variant="ghost">
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-            </Button>
-        </div>
-      );
+      return null;
     }
 
     return (
