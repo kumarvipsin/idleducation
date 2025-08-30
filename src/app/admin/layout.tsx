@@ -84,6 +84,17 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === '/admin/dashboard'}
+                >
+                  <Link href="/admin/dashboard">
+                    <LayoutDashboard />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
           <SidebarFooter>
