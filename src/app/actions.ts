@@ -25,18 +25,18 @@ export async function bookFreeSession(data: FormValues) {
   }
   
   try {
-    // Save data to Firestore
+    // Save data to Firestore first
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
       createdAt: serverTimestamp(),
     });
 
-    // Email sending logic (optional)
+    // Then, attempt to send email if configured
     const { GMAIL_EMAIL, GMAIL_APP_PASSWORD } = process.env;
 
-    if (!GMAIL_EMAIL || !GMAIL_APP_PASSWORD || GMAIL_EMAIL === "your_email@gmail.com") {
+    if (!GMAIL_EMAIL || !GMAIL_APP_PASSWORD) {
       console.warn("Gmail credentials not configured in .env file. Skipping email sending.");
-      return { success: true, message: "Your free session has been booked successfully! (Email sending is disabled)." };
+      return { success: true, message: "Your free session has been booked successfully! (Email confirmation is disabled)." };
     }
 
     const transporter = nodemailer.createTransport({
