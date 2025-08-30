@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
 import { Input } from "./ui/input";
-import { useAuth } from "@/context/auth-context";
+import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -29,8 +29,9 @@ export function Header() {
     }
 
     if (user) {
-      const isAdmin = user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-      const dashboardPath = isAdmin ? '/admin/dashboard' : '/student/dashboard';
+      const dashboardPath = user.role === 'admin' 
+        ? '/admin/dashboard' 
+        : `/${user.role}/dashboard`;
       
       return (
         <div className="flex items-center gap-2">

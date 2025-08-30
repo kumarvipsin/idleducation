@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/app/actions";
 import Link from "next/link";
+import { useAuth } from "@/context/auth-context";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -24,6 +26,7 @@ type LoginValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const studentForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -35,19 +38,19 @@ export default function LoginPage() {
     defaultValues: { email: '', password: '' },
   });
 
-  const handleLogin = async (data: LoginValues, role: 'student' | 'teacher') => {
-    const result = await loginUser({ ...data, role });
+  const handleLogin = async (data: LoginValues) => {
+    const result = await loginUser(data);
 
     if (result.success) {
       toast({
         title: "Login Successful",
         description: "Welcome back!",
       });
-      if (result.role === 'admin') {
-        router.push('/admin/dashboard');
-      } else {
-        router.push(`/${result.role}/dashboard`);
-      }
+
+      // The AuthProvider will handle fetching role and updating state.
+      // We can force a reload to ensure the context picks up the new user.
+      window.location.href = result.role === 'admin' ? '/admin/dashboard' : `/${result.role}/dashboard`;
+
     } else {
       toast({
         variant: "destructive",
@@ -57,8 +60,8 @@ export default function LoginPage() {
     }
   };
 
-  const onStudentSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data, 'student');
-  const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data, 'teacher');
+  const onStudentSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
+  const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-128px)] py-12">
