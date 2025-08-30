@@ -67,11 +67,7 @@ export default function AdminProfilePage() {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <CardTitle>Admin Profile</CardTitle>
-          <CardDescription>View and manage your profile information.</CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           {renderContent()}
         </CardContent>
       </Card>
