@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface User {
   id: string;
@@ -92,57 +93,59 @@ export default function AdminUsersPage() {
             <CardDescription>Assign teachers to students or send a password reset email.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Student Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Assigned Teachers</TableHead>
-                  <TableHead className="w-[250px]">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {students.map((student) => (
-                  <TableRow key={student.id}>
-                    <TableCell className="font-medium flex items-center gap-2"><GraduationCap className="h-4 w-4"/> {student.name}</TableCell>
-                    <TableCell>{student.email}</TableCell>
-                    <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
-                    <TableCell className="flex items-center gap-2">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="outline">
-                            Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                          {teachers.map(teacher => (
-                            <DropdownMenuCheckboxItem
-                              key={teacher.id}
-                              checked={student.teacherIds?.includes(teacher.id)}
-                              onCheckedChange={(checked) => {
-                                const currentTeacherIds = student.teacherIds || [];
-                                const newTeacherIds = checked
-                                  ? [...currentTeacherIds, teacher.id]
-                                  : currentTeacherIds.filter(id => id !== teacher.id);
-                                handleAssignTeachers(student.id, newTeacherIds);
-                              }}
-                            >
-                              {teacher.name}
-                            </DropdownMenuCheckboxItem>
-                          ))}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                       <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={() => setSelectedUser(student)}>
-                          <KeyRound className="h-4 w-4" />
-                          <span className="sr-only">Reset Password</span>
-                        </Button>
-                      </AlertDialogTrigger>
-                    </TableCell>
+            <ScrollArea className="h-[350px]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Student Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Assigned Teachers</TableHead>
+                    <TableHead className="w-[250px]">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {students.map((student) => (
+                    <TableRow key={student.id}>
+                      <TableCell className="font-medium flex items-center gap-2"><GraduationCap className="h-4 w-4"/> {student.name}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
+                      <TableCell className="flex items-center gap-2">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline">
+                              Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-56">
+                            {teachers.map(teacher => (
+                              <DropdownMenuCheckboxItem
+                                key={teacher.id}
+                                checked={student.teacherIds?.includes(teacher.id)}
+                                onCheckedChange={(checked) => {
+                                  const currentTeacherIds = student.teacherIds || [];
+                                  const newTeacherIds = checked
+                                    ? [...currentTeacherIds, teacher.id]
+                                    : currentTeacherIds.filter(id => id !== teacher.id);
+                                  handleAssignTeachers(student.id, newTeacherIds);
+                                }}
+                              >
+                                {teacher.name}
+                              </DropdownMenuCheckboxItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                         <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="icon" onClick={() => setSelectedUser(student)}>
+                            <KeyRound className="h-4 w-4" />
+                            <span className="sr-only">Reset Password</span>
+                          </Button>
+                        </AlertDialogTrigger>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
           </CardContent>
         </Card>
         
@@ -152,31 +155,33 @@ export default function AdminUsersPage() {
             <CardDescription>A list of all registered teachers. You can send a password reset email.</CardDescription>
           </CardHeader>
           <CardContent>
-             <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Teacher Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {teachers.map((teacher) => (
-                  <TableRow key={teacher.id}>
-                    <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
-                    <TableCell>{teacher.email}</TableCell>
-                    <TableCell className="text-right">
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="sm" onClick={() => setSelectedUser(teacher)}>
-                           <KeyRound className="mr-2 h-4 w-4" />
-                           Reset Password
-                        </Button>
-                      </AlertDialogTrigger>
-                    </TableCell>
+            <ScrollArea className="h-[350px]">
+               <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Teacher Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {teachers.map((teacher) => (
+                    <TableRow key={teacher.id}>
+                      <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
+                      <TableCell>{teacher.email}</TableCell>
+                      <TableCell className="text-right">
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="sm" onClick={() => setSelectedUser(teacher)}>
+                             <KeyRound className="mr-2 h-4 w-4" />
+                             Reset Password
+                          </Button>
+                        </AlertDialogTrigger>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
           </CardContent>
         </Card>
         <AlertDialogContent>
