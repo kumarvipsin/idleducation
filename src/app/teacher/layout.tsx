@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Upload } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Upload, FileText } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 
 export default function TeacherLayout({
@@ -56,10 +56,21 @@ export default function TeacherLayout({
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
+                  isActive={pathname.startsWith('/teacher/students')}
+                >
+                  <Link href="/teacher/students">
+                    <Users />
+                    <span>Students</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
                   isActive={pathname.startsWith('/teacher/classes')}
                 >
                   <Link href="/teacher/classes">
-                    <Users />
+                    <BookOpen />
                     <span>My Classes</span>
                   </Link>
                 </SidebarMenuButton>

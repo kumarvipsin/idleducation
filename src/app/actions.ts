@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -41,7 +41,6 @@ export async function bookFreeSession(data: FormValues) {
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, { message: "Password is required." }),
-  role: z.enum(['student', 'teacher'])
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
@@ -166,5 +165,58 @@ export async function logoutUser() {
   } catch (error) {
     console.error("Logout Error:", error);
     return { success: false, message: "Logout failed. Please try again." };
+  }
+}
+
+
+const progressReportSchema = z.object({
+  studentId: z.string(),
+  teacherId: z.string(),
+  month: z.string(),
+  report: z.string().min(10, { message: "Report must be at least 10 characters." }),
+});
+
+type ProgressReportValues = z.infer<typeof progressReportSchema>;
+
+export async function addProgressReport(data: ProgressReportValues) {
+  const validation = progressReportSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided." };
+  }
+
+  try {
+    await addDoc(collection(db, "progressReports"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Progress report added successfully!" };
+  } catch (error) {
+    console.error("Error adding progress report:", error);
+    return { success: false, message: "Failed to add report. Please check permissions." };
+  }
+}
+
+export async function getStudents() {
+  try {
+    const studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
+    const querySnapshot = await getDocs(studentsQuery);
+    const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return { success: true, data: students };
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    return { success: false, message: "Failed to fetch students." };
+  }
+}
+
+export async function getStudentProgressReports(studentId: string) {
+  try {
+    const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", studentId));
+    const querySnapshot = await getDocs(reportsQuery);
+    const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Sort by date or month if needed
+    return { success: true, data: reports };
+  } catch (error) {
+    console.error("Error fetching progress reports:", error);
+    return { success: false, message: "Failed to fetch progress reports." };
   }
 }

@@ -3,7 +3,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "@/components/ui/progress";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartConfig } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { BookCopy, Target } from "lucide-react";
+import { BookCopy, Target, FileText } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/auth-context";
+import { getStudentProgressReports } from "@/app/actions";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const chartData = [
   { month: "January", progress: 15 },
@@ -28,7 +32,29 @@ const courses = [
   { title: "Creative Writing Workshop", description: "Unleash your inner author.", progress: 20, icon: <BookCopy className="w-8 h-8 text-primary" /> },
 ];
 
+interface ProgressReport {
+  id: string;
+  month: string;
+  report: string;
+  createdAt: any;
+}
+
 export default function StudentDashboard() {
+  const { user } = useAuth();
+  const [reports, setReports] = useState<ProgressReport[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      const fetchReports = async () => {
+        const result = await getStudentProgressReports(user.uid);
+        if (result.success && result.data) {
+          setReports(result.data as ProgressReport[]);
+        }
+      };
+      fetchReports();
+    }
+  }, [user]);
+  
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -104,6 +130,33 @@ export default function StudentDashboard() {
               </CardContent>
           </Card>
       </div>
+       <Card>
+        <CardHeader>
+          <CardTitle>Monthly Progress Reports</CardTitle>
+          <CardDescription>Feedback from your teachers on your progress.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {reports.length > 0 ? (
+            <Accordion type="single" collapsible className="w-full">
+              {reports.map((report) => (
+                <AccordionItem value={report.id} key={report.id}>
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Report for {report.month}
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-muted-foreground">{report.report}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : (
+            <p className="text-muted-foreground">No progress reports have been added yet.</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
