@@ -3,8 +3,7 @@
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { onAuthStateChanged, signOut, type User as FirebaseUser } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
 export interface UserProfile extends Partial<FirebaseUser> {
@@ -16,6 +15,7 @@ export interface UserProfile extends Partial<FirebaseUser> {
 interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
+  login: (profile: UserProfile) => void;
   logout: () => Promise<void>;
 }
 
@@ -27,54 +27,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Attempt to load user from session storage first
     try {
       const sessionUser = sessionStorage.getItem('userProfile');
       if (sessionUser) {
-        const parsedUser = JSON.parse(sessionUser);
-        setUser(parsedUser);
+        setUser(JSON.parse(sessionUser));
       }
     } catch (error) {
       console.error("Failed to parse user profile from session storage", error);
+    } finally {
+      setLoading(false);
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        // If user is already in state from session, no need to fetch again
-        if (user && user.uid === firebaseUser.uid) {
-            setLoading(false);
-            return;
-        }
-
-        // Fetch user details if not found in session
-        const userDocRef = doc(db, "users", firebaseUser.uid);
-        const userDoc = await getDoc(userDocRef);
-        let role: UserProfile['role'] = null;
-        let name: UserProfile['name'] = null;
-
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          role = userData.role;
-          name = userData.name;
-        } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
-          role = 'admin';
-          name = 'Admin';
-        }
-        
-        const userProfile: UserProfile = { 
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          photoURL: firebaseUser.photoURL,
-          emailVerified: firebaseUser.emailVerified,
-          role, 
-          name 
-        };
-        
-        sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
-        setUser(userProfile);
-
-      } else {
-        // User is signed out
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser) {
         sessionStorage.removeItem('userProfile');
         setUser(null);
       }
@@ -82,17 +47,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, []); // The empty array ensures this effect runs only once on mount
+  }, []);
+
+  const login = (profile: UserProfile) => {
+    sessionStorage.setItem('userProfile', JSON.stringify(profile));
+    setUser(profile);
+  };
 
   const logout = async () => {
     await signOut(auth);
     sessionStorage.removeItem('userProfile');
     setUser(null);
-    router.push('/'); 
+    router.push('/');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

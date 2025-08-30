@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/app/actions";
 import Link from "next/link";
-import { useAuth } from "@/context/auth-context";
+import { useAuth, type UserProfile } from "@/context/auth-context";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -26,7 +26,7 @@ type LoginValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { login } = useAuth();
 
   const studentForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -47,16 +47,14 @@ export default function LoginPage() {
         description: "Welcome back!",
       });
 
-      // Manually set the session storage
-      sessionStorage.setItem('userProfile', JSON.stringify(result.user));
+      // Update the auth context and session storage
+      login(result.user as UserProfile);
 
       const redirectPath = result.user.role === 'admin' 
         ? '/admin/dashboard' 
         : `/${result.user.role}/dashboard`;
         
       router.push(redirectPath);
-      // We call refresh to ensure the AuthProvider re-evaluates the state
-      router.refresh(); 
 
     } else {
       toast({
