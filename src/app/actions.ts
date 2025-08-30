@@ -3,8 +3,8 @@
 import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { collection, addDoc, serverTimestamp, setDoc, doc } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -82,6 +82,57 @@ export async function loginUser(data: LoginValues) {
       default:
         console.error("Firebase Auth Error:", error);
         message = 'Failed to login. Please try again later.';
+        break;
+    }
+    return { success: false, message };
+  }
+}
+
+const signupSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email(),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  role: z.enum(['student', 'teacher'])
+});
+
+type SignupValues = z.infer<typeof signupSchema>;
+
+export async function signUpUser(data: SignupValues) {
+  const validation = signupSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid input." };
+  }
+
+  const { name, email, password, role } = validation.data;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Store user role and name in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      name: name,
+      email: email,
+      role: role,
+      createdAt: serverTimestamp(),
+    });
+
+    return { success: true, message: "Account created successfully!", role };
+  } catch (error: any) {
+    let message = "An unknown error occurred.";
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        message = 'This email address is already in use.';
+        break;
+      case 'auth/invalid-email':
+        message = 'Please enter a valid email address.';
+        break;
+      case 'auth/weak-password':
+        message = 'The password is too weak. Please use at least 6 characters.';
+        break;
+      default:
+        console.error("Firebase Auth Signup Error:", error);
+        message = 'Failed to create account. Please try again later.';
         break;
     }
     return { success: false, message };
