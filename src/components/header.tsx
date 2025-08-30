@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User, Users } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User, Users, LayoutDashboard } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -29,33 +29,22 @@ export function Header() {
     }
 
     if (user) {
+      const isAdmin = user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+      const dashboardPath = isAdmin ? '/admin/dashboard' : '/student/dashboard';
+      
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback>
-                  <User/>
-                </AvatarFallback>
-              </Avatar>
+        <div className="flex items-center gap-2">
+            <Button asChild variant="outline">
+                <Link href={dashboardPath}>
+                    <LayoutDashboard className="mr-2 h-4 w-4"/>
+                    Dashboard
+                </Link>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">My Account</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <Button onClick={handleLogout} variant="ghost">
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+            </Button>
+        </div>
       );
     }
 
