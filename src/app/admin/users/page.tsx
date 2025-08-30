@@ -64,7 +64,7 @@ export default function AdminUsersPage() {
       <Card>
         <CardHeader>
           <CardTitle>Student Management</CardTitle>
-          <CardDescription>Assign teachers to students.</CardDescription>
+          <CardDescription>Assign or unassign teachers to students. To remove a teacher, simply uncheck their name from the list.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
                 <TableHead>Student Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Assigned Teachers</TableHead>
-                <TableHead className="w-[250px]">Assign Teachers</TableHead>
+                <TableHead className="w-[250px]">Manage Teachers</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -86,7 +86,7 @@ export default function AdminUsersPage() {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="outline">
-                          Select Teachers <ChevronDown className="ml-2 h-4 w-4" />
+                          Manage Assignments <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-56">
