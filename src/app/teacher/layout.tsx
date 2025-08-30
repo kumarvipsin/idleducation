@@ -22,7 +22,7 @@ export default function TeacherLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -121,7 +121,9 @@ export default function TeacherLayout({
         <main className="flex-1">
           <header className="p-4 border-b flex items-center">
             <SidebarTrigger />
-            <h1 className="text-2xl font-semibold ml-4">Teacher Dashboard</h1>
+            <h1 className="text-2xl font-semibold ml-4">
+              {user ? `Hi, ${user.displayName || 'Teacher'}` : 'Teacher Dashboard'}
+            </h1>
           </header>
           <div className="p-4 md:p-6">{children}</div>
         </main>
