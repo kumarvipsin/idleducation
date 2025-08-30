@@ -35,7 +35,7 @@ export function ExpertTeam() {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBzY2llbnRpc3R8ZW58MHx8fHwxNzU2MzE3ODgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+        avatar: "/xyz.png",
         avatarHint: "female scientist"
     },
     {
