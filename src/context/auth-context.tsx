@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export interface UserProfile extends FirebaseUser {
   role: 'student' | 'teacher' | 'admin' | null;
+  name: string | null; // Add name to the user profile
 }
 
 interface AuthContextType {
@@ -43,14 +44,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         let role: UserProfile['role'] = null;
+        let name: UserProfile['name'] = null;
 
         if (userDoc.exists()) {
-          role = userDoc.data().role;
+          const userData = userDoc.data();
+          role = userData.role;
+          name = userData.name; // Fetch name from Firestore
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
           role = 'admin';
+          name = 'Admin'; // Default admin name
         }
         
-        const userProfile: UserProfile = { ...firebaseUser, role };
+        const userProfile: UserProfile = { ...firebaseUser, role, name };
         
         sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         setUser(userProfile);

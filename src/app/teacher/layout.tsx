@@ -122,7 +122,7 @@ export default function TeacherLayout({
           <header className="p-4 border-b flex items-center">
             <SidebarTrigger />
             <h1 className="text-2xl font-semibold ml-4">
-              {user ? `Hi, ${user.displayName || 'Teacher'}` : 'Teacher Dashboard'}
+              {user ? `Hi, ${user.name || 'Teacher'}` : 'Teacher Dashboard'}
             </h1>
           </header>
           <div className="p-4 md:p-6">{children}</div>

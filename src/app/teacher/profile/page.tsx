@@ -33,9 +33,9 @@ export default function TeacherProfilePage() {
           ) : user ? (
             <div className="flex flex-col md:flex-row items-center gap-8">
                 <Avatar className="w-32 h-32 border-4 border-primary shadow-lg">
-                    <AvatarImage src={user.photoURL ?? ''} alt={user.displayName ?? 'Teacher'} />
+                    <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? 'Teacher'} />
                     <AvatarFallback className="text-4xl">
-                        {user.displayName ? user.displayName.charAt(0) : 'T'}
+                        {user.name ? user.name.charAt(0) : 'T'}
                     </AvatarFallback>
                 </Avatar>
                 <div className="space-y-4">
@@ -43,7 +43,7 @@ export default function TeacherProfilePage() {
                         <User className="w-6 h-6 text-muted-foreground"/>
                         <div>
                             <p className="text-sm text-muted-foreground">Name</p>
-                            <p className="font-semibold text-lg">{user.displayName}</p>
+                            <p className="font-semibold text-lg">{user.name}</p>
                         </div>
                     </div>
                      <div className="flex items-center gap-4">
