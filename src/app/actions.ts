@@ -219,16 +219,19 @@ export async function getStudents(teacherId?: string) {
   try {
     let studentsQuery;
     if (teacherId) {
+      console.log(`Fetching students for teacherId: ${teacherId}`);
       studentsQuery = query(
         collection(db, "users"), 
         where("role", "==", "student"),
         where("teacherIds", "array-contains", teacherId)
       );
     } else {
+      console.log("Fetching all students");
       studentsQuery = query(collection(db, "users"), where("role", "==", "student"));
     }
     const querySnapshot = await getDocs(studentsQuery);
     const students = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    console.log(`Found ${students.length} students.`);
     return { success: true, data: students };
   } catch (error) {
     console.error("Error fetching students:", error);
