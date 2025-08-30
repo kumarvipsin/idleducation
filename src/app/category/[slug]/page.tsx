@@ -119,7 +119,7 @@ const subCategories: { [key: string]: string[] } = {
 
 export default function CategoryPage() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
 
   if (slug !== 'cuet') {
