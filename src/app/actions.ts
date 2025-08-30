@@ -25,44 +25,12 @@ export async function bookFreeSession(data: FormValues) {
   }
   
   try {
-    // Save data to Firestore first
+    // Save data to Firestore
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
       createdAt: serverTimestamp(),
     });
 
-    // Then, attempt to send email if configured
-    const { GMAIL_EMAIL, GMAIL_APP_PASSWORD } = process.env;
-
-    if (!GMAIL_EMAIL || !GMAIL_APP_PASSWORD) {
-      console.warn("Gmail credentials not configured in .env file. Skipping email sending.");
-      return { success: true, message: "Your free session has been booked successfully! (Email confirmation is disabled)." };
-    }
-
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: GMAIL_EMAIL,
-        pass: GMAIL_APP_PASSWORD,
-      },
-    });
-
-    const mailOptions = {
-      from: `"IDL EDUCATION" <${GMAIL_EMAIL}>`,
-      to: "idleducation.query@gmail.com",
-      subject: "New Free Session Booking Request",
-      html: `
-        <h2>New Free Session Booking Request</h2>
-        <p><strong>Child's Name:</strong> ${validation.data.childName}</p>
-        <p><strong>Class/Course:</strong> ${validation.data.classCourse}</p>
-        <p><strong>Mobile Number:</strong> ${validation.data.mobile}</p>
-        <p><strong>Email Address:</strong> ${validation.data.email}</p>
-        <p><strong>State:</strong> ${validation.data.state}</p>
-        <p><strong>Session Mode:</strong> ${validation.data.sessionMode}</p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
     return { success: true, message: "Your free session has been booked successfully!" };
 
   } catch (error) {
