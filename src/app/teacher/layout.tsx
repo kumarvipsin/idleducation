@@ -75,6 +75,17 @@ export default function TeacherLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.startsWith('/teacher/reports')}
+                >
+                  <Link href="/teacher/reports">
+                    <FileText />
+                    <span>Progress Reports</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
