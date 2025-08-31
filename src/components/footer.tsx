@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 export function Footer() {
   return (
@@ -54,6 +55,7 @@ export function Footer() {
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
+                            <Separator className="my-3 bg-gray-700"/>
                              <li className="flex items-start justify-center md:justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
