@@ -23,6 +23,13 @@ export function Header() {
     router.push('/');
   };
 
+  const getDashboardPath = (user: UserProfile | null) => {
+    if (!user || !user.role) return '/';
+    return user.role === 'admin' ? '/admin/dashboard' : `/${user.role}/dashboard`;
+  };
+
+  const logoHref = getDashboardPath(user);
+
   const renderAuthSection = () => {
     if (loading) {
       return <Button variant="ghost">Loading...</Button>;
@@ -54,7 +61,7 @@ export function Header() {
             </div>
         </div>
         <div className="px-4 lg:px-6 h-16 flex items-center">
-            <Link href="/" className="flex items-center justify-center">
+            <Link href={logoHref} className="flex items-center justify-center">
             <BookOpen className="h-6 w-6 text-primary" />
             <span className="ml-2 text-lg font-semibold">
                 {brandName.split('').map((char, index) => (
