@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser } from "@/app/actions";
+import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, Briefcase, ChevronDown, KeyRound, CheckCircle } from "lucide-react";
+import { User, GraduationCap, Briefcase, ChevronDown, KeyRound, CheckCircle, XCircle } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
@@ -43,6 +43,7 @@ export default function AdminUsersPage() {
   const [students, setStudents] = useState<User[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -79,6 +80,7 @@ export default function AdminUsersPage() {
       toast({ variant: "destructive", title: "Error", description: result.message });
     }
     setSelectedUser(null);
+    setActionType(null);
   };
 
   const handleApproveUser = async (userId: string) => {
@@ -91,6 +93,18 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleDenyUser = async () => {
+    if (!selectedUser) return;
+    const result = await denyUser(selectedUser.id);
+    if (result.success) {
+        toast({ title: "Success", description: result.message });
+        fetchUsers();
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    setSelectedUser(null);
+    setActionType(null);
+  }
 
   const getTeacherNames = (teacherIds: string[] = []) => {
     if (teacherIds.length === 0) return "Not Assigned";
@@ -103,7 +117,7 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader>
             <CardTitle>Student Management</CardTitle>
-            <CardDescription>Approve new students, assign teachers, or send a password reset email.</CardDescription>
+            <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[350px]">
@@ -114,7 +128,7 @@ export default function AdminUsersPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Assigned Teachers</TableHead>
-                    <TableHead className="w-[250px]">Actions</TableHead>
+                    <TableHead className="w-[350px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -130,10 +144,18 @@ export default function AdminUsersPage() {
                       <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
                       <TableCell className="flex items-center gap-2">
                         {student.status === 'pending' && (
+                          <>
                            <Button size="sm" onClick={() => handleApproveUser(student.id)}>
                               <CheckCircle className="mr-2 h-4 w-4" />
                               Approve
                            </Button>
+                           <AlertDialogTrigger asChild>
+                              <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}>
+                                <XCircle className="mr-2 h-4 w-4" />
+                                Deny
+                              </Button>
+                           </AlertDialogTrigger>
+                          </>
                         )}
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -160,7 +182,7 @@ export default function AdminUsersPage() {
                           </DropdownMenuContent>
                         </DropdownMenu>
                          <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon" onClick={() => setSelectedUser(student)}>
+                          <Button variant="ghost" size="icon" onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
                             <KeyRound className="h-4 w-4" />
                             <span className="sr-only">Reset Password</span>
                           </Button>
@@ -178,12 +200,15 @@ export default function AdminUsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will send a password reset link to <span className="font-medium">{selectedUser?.email}</span>. This cannot be undone.
+              {actionType === 'resetPassword' && `This action will send a password reset link to ${selectedUser?.email}. This cannot be undone.`}
+              {actionType === 'deny' && `This action will deny the registration for ${selectedUser?.name} and remove their data. This cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setSelectedUser(null)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handlePasswordReset}>Continue</AlertDialogAction>
+            <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={actionType === 'resetPassword' ? handlePasswordReset : handleDenyUser}>
+                {actionType === 'deny' ? 'Deny' : 'Continue'}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </div>

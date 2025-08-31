@@ -450,3 +450,16 @@ export async function approveUser(userId: string) {
     return { success: false, message: "Failed to approve user." };
   }
 }
+
+export async function denyUser(userId: string) {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await deleteDoc(userDocRef);
+    // Note: This does not delete the user from Firebase Auth, as it requires Admin SDK.
+    // However, they won't be able to log in as their user document is gone.
+    return { success: true, message: "User denied and data removed." };
+  } catch (error) {
+    console.error("Error denying user:", error);
+    return { success: false, message: "Failed to deny user." };
+  }
+}
