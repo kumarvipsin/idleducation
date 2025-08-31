@@ -1,7 +1,9 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, BarChart, GraduationCap, UserPlus } from "lucide-react";
 import { SessionBookings } from "./session-bookings";
+import { OverviewChart } from "./overview-chart";
 
 export default function AdminDashboard() {
   return (
@@ -44,6 +46,16 @@ export default function AdminDashboard() {
               </CardContent>
           </Card>
       </div>
+      
+      <Card>
+          <CardHeader>
+              <CardTitle>Users Overview</CardTitle>
+              <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
+          </CardHeader>
+          <CardContent className="pl-2">
+              <OverviewChart />
+          </CardContent>
+      </Card>
       
       <SessionBookings />
       
