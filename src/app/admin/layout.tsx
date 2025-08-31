@@ -44,8 +44,8 @@ function AdminLayout({
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')}>
-                  <Link href="/admin/profile" className="h-auto py-2">
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
+                  <Link href="/admin/profile">
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Admin'} />
                       <AvatarFallback>
