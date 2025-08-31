@@ -468,6 +468,18 @@ export async function deleteUpdate(id: string) {
   }
 }
 
+export async function getPendingUsers() {
+  try {
+    const usersQuery = query(collection(db, "users"), where("status", "==", "pending"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(usersQuery);
+    const users = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: users };
+  } catch (error) {
+    console.error("Error fetching pending users:", error);
+    return { success: false, message: "Failed to fetch pending users." };
+  }
+}
+
 export async function approveUser(userId: string) {
   try {
     const userDocRef = doc(db, "users", userId);

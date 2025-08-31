@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
 import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedStudentsCount } from "@/app/actions";
+import { UserApproval } from "./user-approval";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -95,6 +96,10 @@ export default function AdminDashboard() {
           </Card>
       </div>
       
+      <div>
+        <UserApproval />
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="lg:col-span-2">
             <CardHeader>
