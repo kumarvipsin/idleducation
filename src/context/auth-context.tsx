@@ -33,14 +33,13 @@ const serializeFirestoreData = (docData: any) => {
     return data;
 };
 
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
   useEffect(() => {
-    // Try to load user from sessionStorage on initial mount
+    // Try to load user from sessionStorage on initial mount to avoid flicker
     try {
       const storedUser = sessionStorage.getItem('userProfile');
       if (storedUser) {
@@ -51,13 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       sessionStorage.removeItem('userProfile');
     }
     // We are not done loading until Firebase confirms the auth state.
-    // setLoading(false) should only be in onAuthStateChanged
+    // setLoading will be set to false inside onAuthStateChanged
   }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If the user in state is already correct, avoid refetching
+        // If the user in state matches firebase user, we don't need to refetch
         if (user?.uid === firebaseUser.uid) {
             setLoading(false);
             return;
