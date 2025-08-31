@@ -372,3 +372,40 @@ export async function getContactSubmissions() {
     return { success: false, message: "Failed to fetch contact submissions." };
   }
 }
+
+const updateSchema = z.object({
+  title: z.string().min(1, { message: "Title is required." }),
+  description: z.string().min(1, { message: "Description is required." }),
+});
+
+type UpdateValues = z.infer<typeof updateSchema>;
+
+export async function addUpdate(data: UpdateValues) {
+  const validation = updateSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided." };
+  }
+
+  try {
+    await addDoc(collection(db, "updates"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Update posted successfully!" };
+  } catch (error) {
+    console.error("Error adding update:", error);
+    return { success: false, message: "Failed to post update. Please try again." };
+  }
+}
+
+export async function getUpdates() {
+  try {
+    const updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(updatesQuery);
+    const updates = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: updates };
+  } catch (error) {
+    console.error("Error fetching updates:", error);
+    return { success: false, message: "Failed to fetch updates." };
+  }
+}
