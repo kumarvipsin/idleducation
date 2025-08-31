@@ -65,7 +65,7 @@ export async function loginUser(data: LoginValues) {
   }
 
   const { email, password } = validation.data;
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@idleducation.com';
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aksias.sos@outlook.com';
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
