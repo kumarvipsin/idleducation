@@ -14,13 +14,12 @@ export function AppContent({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { user } = useAuth();
   
-  // Define paths where the footer should be hidden even for non-logged-in users
-  const noFooterPaths = ['/login', '/signup'];
+  // Define paths where the footer should be visible
+  const footerVisiblePaths = ['/', '/about', '/contact'];
   
-  // The footer should not be shown if the user is on a dashboard path OR if they are simply logged in.
-  const showFooter = !user && !noFooterPaths.some(path => pathname.startsWith(path));
+  // The footer should only be shown on the specified public pages.
+  const showFooter = footerVisiblePaths.includes(pathname);
 
   return (
     <>
@@ -28,7 +27,7 @@ export function AppContent({
       <main className="flex-grow">
         {children}
       </main>
-      <Footer />
+      {showFooter && <Footer />}
       <Toaster />
       <ChatBot />
     </>
