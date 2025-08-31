@@ -265,9 +265,6 @@ export default function ContactPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="mb-12 shadow-lg overflow-hidden">
-          <CardHeader className="text-center p-8 bg-card text-card-foreground">
-            <CardTitle className="text-3xl font-bold">Contact Us</CardTitle>
-          </CardHeader>
           <CardContent className="p-8">
             <form className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
