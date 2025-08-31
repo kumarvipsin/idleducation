@@ -85,7 +85,7 @@ export function HeroSection() {
           <div className="w-full max-w-md">
             <Card className="bg-background text-foreground">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">{t('bookFreeSession.title')}</CardTitle>
+                <CardTitle className="text-2xl font-bold">Free Demo Bookings</CardTitle>
                 <p className="text-muted-foreground">{t('bookFreeSession.subtitle')}</p>
               </CardHeader>
               <CardContent>
