@@ -18,6 +18,9 @@ export function Footer() {
                       <p className="text-sm text-gray-400">
                           Empowering students with quality education to achieve their dreams.
                       </p>
+                       <p className="text-sm text-gray-400 mt-2">
+                          We develop our content according to the learning cycle of the students. We give most of our efforts and time to research and understand that how a student learns and understands.
+                      </p>
                     </div>
                 </div>
 
