@@ -101,8 +101,8 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
+                  <Link href="/admin/staff">
                     <Users />
                     <span>Staff</span>
                   </Link>
