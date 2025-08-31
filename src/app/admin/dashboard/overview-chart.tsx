@@ -1,6 +1,8 @@
+
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 const data = [
   {
@@ -92,25 +94,15 @@ const data = [
 export function OverviewChart() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
-        <defs>
-          <linearGradient id="colorTotalUsers" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0.1}/>
-          </linearGradient>
-          <linearGradient id="colorTotalStudents" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0.1}/>
-          </linearGradient>
-           <linearGradient id="colorNewStudents" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="hsl(var(--chart-3))" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="hsl(var(--chart-3))" stopOpacity={0.1}/>
-          </linearGradient>
-           <linearGradient id="colorTrainedStudents" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1}/>
-          </linearGradient>
-        </defs>
+      <LineChart
+        data={data}
+        margin={{
+          top: 5,
+          right: 10,
+          left: -10,
+          bottom: 0,
+        }}
+      >
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border) / 0.5)" />
         <XAxis
           dataKey="name"
@@ -126,18 +118,9 @@ export function OverviewChart() {
           axisLine={false}
           tickFormatter={(value) => `${value}`}
         />
-        <Tooltip
+        <ChartTooltip
           cursor={{ fill: 'hsl(var(--accent) / 0.3)' }}
-          contentStyle={{
-            backgroundColor: 'hsl(var(--background))',
-            borderColor: 'hsl(var(--border))',
-            borderRadius: 'var(--radius)',
-            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-          }}
-          labelStyle={{
-            color: 'hsl(var(--foreground))',
-            fontWeight: 'bold',
-          }}
+          content={<ChartTooltipContent />}
         />
         <Legend 
             iconSize={12} 
@@ -145,11 +128,11 @@ export function OverviewChart() {
             verticalAlign="top" 
             align="right"
             />
-        <Bar dataKey="totalUsers" fill="url(#colorTotalUsers)" name="Total Users" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="totalStudents" fill="url(#colorTotalStudents)" name="Total Students" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="newStudents" fill="url(#colorNewStudents)" name="New Students" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="trainedStudents" fill="url(#colorTrainedStudents)" name="Trained Students" radius={[4, 4, 0, 0]} />
-      </BarChart>
+        <Line type="monotone" dataKey="totalUsers" name="Total Users" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-1))' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="totalStudents" name="Total Students" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-2))' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="newStudents" name="New Students" stroke="hsl(var(--chart-3))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-3))' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="trainedStudents" name="Trained Students" stroke="hsl(var(--chart-4))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-4))' }} activeDot={{ r: 6 }}/>
+      </LineChart>
     </ResponsiveContainer>
   );
 }
