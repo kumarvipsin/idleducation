@@ -8,6 +8,7 @@ import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
 import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedStudentsCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
+import { UserCompositionChart } from "./user-composition-chart";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -100,8 +101,8 @@ export default function AdminDashboard() {
         <UserApproval />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <Card className="lg:col-span-3">
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -114,7 +115,16 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-        <div className="lg:col-span-2">
+         <Card className="lg:col-span-2">
+            <CardHeader>
+                <CardTitle>User Composition</CardTitle>
+                <CardDescription>Distribution of students and teachers.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <UserCompositionChart />
+            </CardContent>
+        </Card>
+        <div className="lg:col-span-5">
           <RecentUpdates />
         </div>
       </div>
