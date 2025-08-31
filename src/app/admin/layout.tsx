@@ -43,7 +43,7 @@ function AdminLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              <SidebarMenuItem>
+              <SidebarMenuItem className="my-2">
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
                   <Link href="/admin/profile">
                     <Avatar className="h-10 w-10">
