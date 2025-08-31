@@ -1,30 +1,56 @@
+
 import Link from "next/link";
-import { BookOpen, Facebook, Twitter, Instagram } from "lucide-react";
+import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
-        <div className="container mx-auto py-8 px-4 md:px-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1 text-center md:text-left">
-                    <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-2">
-                        <BookOpen className="h-8 w-8 text-primary-foreground" />
-                        <span className="text-2xl font-bold text-primary-foreground">IDL EDUCATION</span>
+        <div className="container mx-auto py-12 px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                {/* Column 1: Brand Info */}
+                <div>
+                    <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
+                        <BookOpen className="h-8 w-8" />
+                        <span className="text-2xl font-bold">IDL EDUCATION</span>
                     </Link>
-                    <p className="text-sm text-primary-foreground/80 max-w-sm mx-auto md:mx-0">
+                    <p className="text-sm text-primary-foreground/80">
                         Empowering students with quality education to achieve their dreams.
                     </p>
                 </div>
-                <div className="flex items-center gap-4">
-                    <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Instagram">
-                      <Instagram className="h-6 w-6" />
-                    </Link>
-                    <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Facebook">
-                      <Facebook className="h-6 w-6" />
-                    </Link>
-                    <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Twitter">
-                      <Twitter className="h-6 w-6" />
-                    </Link>
+
+                {/* Column 2: Contact Us */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+                    <ul className="space-y-3 text-sm text-primary-foreground/80">
+                        <li className="flex items-center justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0" />
+                            <span>Y-25A Budh Vihar, Phase-1, Delhi-110086</span>
+                        </li>
+                        <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Phone className="h-4 w-4 shrink-0" />
+                            <span>+91 70 1111 7585, +91 8860040010</span>
+                        </li>
+                         <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Mail className="h-4 w-4 shrink-0" />
+                            <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                {/* Column 3: Social Media */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div className="flex items-center justify-center md:justify-start gap-4">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Instagram">
+                          <Instagram className="h-6 w-6" />
+                        </Link>
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Facebook">
+                          <Facebook className="h-6 w-6" />
+                        </Link>
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Twitter">
+                          <Twitter className="h-6 w-6" />
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className="border-t border-primary-foreground/20 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs">
