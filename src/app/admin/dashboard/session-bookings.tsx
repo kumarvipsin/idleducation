@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -38,7 +39,7 @@ export function SessionBookings() {
 
   const renderSkeleton = () => (
     <div className="space-y-2">
-      {[...Array(3)].map((_, i) => (
+      {[...Array(5)].map((_, i) => (
         <div key={i} className="flex items-center space-x-4 p-2">
           <Skeleton className="h-4 w-1/4" />
           <Skeleton className="h-4 w-1/4" />
@@ -56,7 +57,7 @@ export function SessionBookings() {
         <CardDescription>Recent submissions from the landing page form.</CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[300px] w-full">
+        <ScrollArea className="h-[350px] w-full">
           {loading ? renderSkeleton() : (
             <Table>
               <TableHeader>
@@ -85,7 +86,7 @@ export function SessionBookings() {
                         </Badge>
                       </TableCell>
                        <TableCell>{booking.state}</TableCell>
-                      <TableCell>{format(new Date(booking.createdAt), 'PPp')}</TableCell>
+                      <TableCell>{booking.createdAt ? format(new Date(booking.createdAt), 'PPp') : 'N/A'}</TableCell>
                     </TableRow>
                   ))
                 ) : (
