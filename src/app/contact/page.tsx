@@ -266,7 +266,6 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto">
         <Card className="mb-12 shadow-lg overflow-hidden">
           <CardHeader className="text-center p-8 bg-primary text-primary-foreground">
-            <Send className="w-12 h-12 mx-auto mb-4 text-primary-foreground/80" />
             <CardTitle className="text-3xl font-bold">Contact Us</CardTitle>
           </CardHeader>
           <CardContent className="p-8">
