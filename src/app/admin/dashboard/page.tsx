@@ -7,6 +7,7 @@ import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentRegistrations } from "./recent-registrations";
 import { ContactSubmissions } from "./contact-submissions";
+import { RecentUpdates } from "./recent-updates";
 
 export default function AdminDashboard() {
   return (
@@ -85,24 +86,8 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-              <CardHeader>
-                  <CardTitle>User Management</CardTitle>
-                  <CardDescription>Add, edit, or remove users from the platform.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                  <p>User management interface will be here.</p>
-              </CardContent>
-          </Card>
-          <Card>
-              <CardHeader>
-                  <CardTitle>Course Management</CardTitle>
-                  <CardDescription>Create, update, and manage courses and materials.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                  <p>Course management interface will be here.</p>
-              </CardContent>
-          </Card>
+          <RecentUpdates />
+          <SessionBookings />
       </div>
     </div>
   );
