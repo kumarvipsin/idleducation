@@ -267,10 +267,7 @@ export default function ContactPage() {
         <Card className="mb-12 shadow-lg overflow-hidden">
           <CardHeader className="text-center p-8 bg-primary text-primary-foreground">
             <Send className="w-12 h-12 mx-auto mb-4 text-primary-foreground/80" />
-            <CardTitle className="text-3xl font-bold">Get In Touch</CardTitle>
-            <CardDescription className="text-primary-foreground/80 text-lg">
-              We're here to help and answer any question you might have.
-            </CardDescription>
+            <CardTitle className="text-3xl font-bold">Contact Us</CardTitle>
           </CardHeader>
           <CardContent className="p-8">
             <form className="space-y-6">
