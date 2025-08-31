@@ -22,9 +22,21 @@ export function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
                     <ul className="space-y-3 text-sm text-gray-400">
-                         <li className="flex items-center justify-center md:justify-start gap-3">
+                        <li className="flex items-center justify-center md:justify-start gap-3">
                             <Mail className="h-4 w-4 shrink-0" />
-                            <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
+                            <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
+                        </li>
+                        <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Mail className="h-4 w-4 shrink-0" />
+                            <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
+                        </li>
+                        <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Phone className="h-4 w-4 shrink-0" />
+                            <a href="tel:+917011117585" className="hover:underline">+91 7011117585</a>
+                        </li>
+                        <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Phone className="h-4 w-4 shrink-0" />
+                            <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
                         </li>
                     </ul>
                 </div>
