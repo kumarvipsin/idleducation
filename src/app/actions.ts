@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -407,5 +407,34 @@ export async function getUpdates() {
   } catch (error) {
     console.error("Error fetching updates:", error);
     return { success: false, message: "Failed to fetch updates." };
+  }
+}
+
+export async function editUpdate(id: string, data: UpdateValues) {
+  const validation = updateSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided." };
+  }
+
+  try {
+    const updateDocRef = doc(db, "updates", id);
+    await updateDoc(updateDocRef, {
+      ...validation.data,
+    });
+    return { success: true, message: "Update edited successfully!" };
+  } catch (error) {
+    console.error("Error editing update:", error);
+    return { success: false, message: "Failed to edit update. Please try again." };
+  }
+}
+
+export async function deleteUpdate(id: string) {
+  try {
+    const updateDocRef = doc(db, "updates", id);
+    await deleteDoc(updateDocRef);
+    return { success: true, message: "Update deleted successfully!" };
+  } catch (error) {
+    console.error("Error deleting update:", error);
+    return { success: false, message: "Failed to delete update. Please try again." };
   }
 }
