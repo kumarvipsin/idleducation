@@ -113,10 +113,10 @@ export default function AdminStaffPage() {
                     <TableRow>
                       <TableHead>Staff ID</TableHead>
                       <TableHead>Staff Name</TableHead>
+                      <TableHead>Father/Guardian</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Contact</TableHead>
                       <TableHead>Date of Birth</TableHead>
-                      <TableHead>Father/Guardian</TableHead>
                       <TableHead>Address</TableHead>
                       <TableHead>Role</TableHead>
                     </TableRow>
@@ -126,10 +126,10 @@ export default function AdminStaffPage() {
                     <TableRow key={member.id}>
                         <TableCell>{member.staffId}</TableCell>
                         <TableCell className="font-medium flex items-center gap-2"><Users className="h-4 w-4"/> {member.name}</TableCell>
+                        <TableCell>{member.guardianName}</TableCell>
                         <TableCell>{member.email}</TableCell>
                         <TableCell>{member.contact}</TableCell>
                         <TableCell>{member.dob}</TableCell>
-                        <TableCell>{member.guardianName}</TableCell>
                         <TableCell>{member.address}</TableCell>
                         <TableCell className="capitalize">{member.role}</TableCell>
                     </TableRow>
