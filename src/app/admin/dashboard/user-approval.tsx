@@ -44,7 +44,9 @@ export function UserApproval() {
   const fetchUsers = async () => {
     const result = await getPendingUsers();
     if (result.success && result.data) {
-      setUsers(result.data as User[]);
+      // Filter to only show teachers
+      const teachers = (result.data as User[]).filter(user => user.role === 'teacher');
+      setUsers(teachers);
     }
   };
 
@@ -78,8 +80,8 @@ export function UserApproval() {
     <AlertDialog>
       <Card>
         <CardHeader>
-          <CardTitle>Pending User Approvals</CardTitle>
-          <CardDescription>Approve or deny new student and teacher registrations.</CardDescription>
+          <CardTitle>Pending Teacher Approvals</CardTitle>
+          <CardDescription>Approve or deny new teacher registrations.</CardDescription>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[300px]">
@@ -123,7 +125,7 @@ export function UserApproval() {
                 ) : (
                     <TableRow>
                         <TableCell colSpan={4} className="text-center text-muted-foreground">
-                            No pending users.
+                            No pending teachers.
                         </TableCell>
                     </TableRow>
                 )}
