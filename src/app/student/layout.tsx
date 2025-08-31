@@ -16,6 +16,7 @@ import {
 import { BookOpen, LayoutDashboard, User, LogOut, Trophy } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function StudentLayout({
   children,
@@ -23,7 +24,7 @@ function StudentLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -43,6 +44,22 @@ function StudentLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/student/profile')} className="h-auto py-2">
+                  <Link href="/student/profile">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Student'} />
+                      <AvatarFallback>
+                        {user?.name ? user.name.charAt(0).toUpperCase() : 'S'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{user?.name}</span>
+                      <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                    </div>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
@@ -73,14 +90,6 @@ function StudentLayout({
                   <Link href="/student/achievements">
                     <Trophy />
                     <span>Achievements</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === '/student/profile'}>
-                  <Link href="/student/profile">
-                    <User />
-                    <span>Profile</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

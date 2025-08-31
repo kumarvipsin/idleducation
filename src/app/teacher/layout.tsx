@@ -16,6 +16,7 @@ import {
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Upload, FileText } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function TeacherLayout({
   children,
@@ -43,6 +44,22 @@ function TeacherLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/teacher/profile')} className="h-auto py-2">
+                  <Link href="/teacher/profile">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Teacher'} />
+                      <AvatarFallback>
+                        {user?.name ? user.name.charAt(0).toUpperCase() : 'T'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{user?.name}</span>
+                      <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                    </div>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
@@ -95,14 +112,6 @@ function TeacherLayout({
                   <Link href="/teacher/materials">
                     <Upload />
                     <span>Materials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === '/teacher/profile'}>
-                  <Link href="/teacher/profile">
-                    <User />
-                    <span>Profile</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
