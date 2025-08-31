@@ -21,7 +21,7 @@ const formSchema = z.object({
   childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
 });
 
@@ -181,7 +181,7 @@ export function HeroSection() {
                       name="email"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                          <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
+                          <FormLabel>Email Address</FormLabel>
                           <FormControl>
                             <Input id="email" type="email" placeholder={t('bookFreeSession.emailPlaceholder')} {...field} />
                           </FormControl>
