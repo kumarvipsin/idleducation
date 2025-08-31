@@ -35,23 +35,34 @@ const serializeFirestoreData = (docData: any) => {
 
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = sessionStorage.getItem('userProfile');
-      try {
-        return storedUser ? JSON.parse(storedUser) : null;
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  });
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
+  useEffect(() => {
+    // Try to load user from sessionStorage on initial mount
+    try {
+      const storedUser = sessionStorage.getItem('userProfile');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (e) {
+      console.error("Failed to parse user profile from session storage", e);
+      sessionStorage.removeItem('userProfile');
+    }
+    // We are not done loading until Firebase confirms the auth state.
+    // setLoading(false) should only be in onAuthStateChanged
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
+        // If the user in state is already correct, avoid refetching
+        if (user?.uid === firebaseUser.uid) {
+            setLoading(false);
+            return;
+        }
+
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
@@ -93,7 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   const login = (profile: UserProfile) => {
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
