@@ -5,7 +5,7 @@ import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell } from "lucide
 import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RecentRegistrations } from "./recent-registrations";
 
 export default function AdminDashboard() {
   return (
@@ -65,36 +65,7 @@ export default function AdminDashboard() {
         </Card>
         
         <div className="space-y-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Registrations</CardTitle>
-                    <CardDescription>Today's newest students.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                     <div className="flex items-center gap-4">
-                        <Avatar className="h-9 w-9">
-                           <AvatarImage src="https://picsum.photos/50/50" alt="Avatar" data-ai-hint="female person" />
-                           <AvatarFallback>OM</AvatarFallback>
-                        </Avatar>
-                        <div className="grid gap-1">
-                           <p className="text-sm font-medium leading-none">Olivia Martin</p>
-                           <p className="text-sm text-muted-foreground">olivia.martin@email.com</p>
-                        </div>
-                        <div className="ml-auto font-medium">Class 10</div>
-                     </div>
-                     <div className="flex items-center gap-4">
-                        <Avatar className="h-9 w-9">
-                            <AvatarImage src="https://picsum.photos/50/51" alt="Avatar" data-ai-hint="male person"/>
-                           <AvatarFallback>JL</AvatarFallback>
-                        </Avatar>
-                        <div className="grid gap-1">
-                           <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                           <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
-                        </div>
-                        <div className="ml-auto font-medium">Class 9</div>
-                     </div>
-                </CardContent>
-            </Card>
+            <RecentRegistrations />
              <Card>
                 <CardHeader>
                     <CardTitle>Recent Activity</CardTitle>
