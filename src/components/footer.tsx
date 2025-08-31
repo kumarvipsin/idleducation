@@ -26,9 +26,25 @@ export function Footer() {
                             <Mail className="h-4 w-4 shrink-0" />
                             <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
                         </li>
-                        <li className="flex items-center justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0" />
+                        <li className="flex items-start justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
                             <span>E-18 Krishan Vihar, Delhi-110086</span>
+                        </li>
+                         <li className="flex items-start justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                            <span>123 Learning Lane, Education City, Mumbai-400001</span>
+                        </li>
+                         <li className="flex items-start justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                            <span>45 Knowledge Park, Gachibowli, Hyderabad-500032</span>
+                        </li>
+                         <li className="flex items-start justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                            <span>789 Scholar Street, Salt Lake, Kolkata-700091</span>
+                        </li>
+                         <li className="flex items-start justify-center md:justify-start gap-3">
+                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                            <span>101 Wisdom Way, Koramangala, Bengaluru-560034</span>
                         </li>
                     </ul>
                 </div>
