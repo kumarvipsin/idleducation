@@ -16,8 +16,8 @@ export function AppContent({
   const pathname = usePathname();
   const { user } = useAuth();
   
-  // Define paths where the footer should be hidden
-  const noFooterPaths = ['/login', '/signup', '/admin', '/teacher', '/student'];
+  // Define paths where the footer should be hidden even for non-logged-in users
+  const noFooterPaths = ['/login', '/signup'];
   
   // The footer should not be shown if the user is on a dashboard path OR if they are simply logged in.
   const showFooter = !user && !noFooterPaths.some(path => pathname.startsWith(path));
