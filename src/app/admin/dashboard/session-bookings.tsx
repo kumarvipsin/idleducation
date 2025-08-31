@@ -53,7 +53,7 @@ export function SessionBookings() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Free Session Bookings</CardTitle>
+        <CardTitle>Free Demo Bookings</CardTitle>
         <CardDescription>Recent submissions from the landing page form.</CardDescription>
       </CardHeader>
       <CardContent>
