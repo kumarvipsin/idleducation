@@ -284,7 +284,7 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="font-semibold">Phone Number</Label>
                   <div className="flex gap-2">
-                    <Select defaultValue="+91">
+                    <Select defaultValue="+91-India">
                       <SelectTrigger className="w-[120px]">
                         <SelectValue placeholder="Code" />
                       </SelectTrigger>
