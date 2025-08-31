@@ -47,23 +47,23 @@ export function Footer() {
                     <ul className="space-y-3 text-sm text-gray-400">
                         <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>E-18 Krishan Vihar, Delhi-110086</span>
+                            <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                         </li>
                          <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>123 Learning Lane, Education City, Mumbai-400001</span>
+                            <span>Mukherjee Nagar, Delhi-110009</span>
                         </li>
                          <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>45 Knowledge Park, Gachibowli, Hyderabad-500032</span>
+                            <span>Mangol Puri, Delhi-110083</span>
                         </li>
                          <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>789 Scholar Street, Salt Lake, Kolkata-700091</span>
+                            <span>Budh Vihar, Delhi-110086</span>
                         </li>
                          <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>101 Wisdom Way, Koramangala, Bengaluru-560034</span>
+                            <span>Krishan Vihar, Delhi-110086</span>
                         </li>
                     </ul>
                 </div>
