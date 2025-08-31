@@ -7,10 +7,10 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
                 {/* Column 1: Brand Info */}
                 <div>
-                    <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
+                    <Link href="/" className="flex items-center justify-start gap-2 mb-4">
                         <BookOpen className="h-8 w-8" />
                         <span className="text-2xl font-bold">IDL EDUCATION</span>
                     </Link>
@@ -29,19 +29,19 @@ export function Footer() {
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="bg-gray-900 p-4 rounded-md">
                         <ul className="space-y-3 text-sm text-gray-400">
-                            <li className="flex items-center justify-center md:justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3">
                                 <Mail className="h-4 w-4 shrink-0" />
                                 <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
                             </li>
-                            <li className="flex items-center justify-center md:justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3">
                                 <Mail className="h-4 w-4 shrink-0" />
                                 <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
                             </li>
-                            <li className="flex items-center justify-center md:justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3">
                                 <Phone className="h-4 w-4 shrink-0" />
                                 <a href="tel:+917011117585" className="hover:underline">+91 7011117585</a>
                             </li>
-                            <li className="flex items-center justify-center md:justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3">
                                 <Phone className="h-4 w-4 shrink-0" />
                                 <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
                             </li>
@@ -54,24 +54,24 @@ export function Footer() {
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
                     <div className="bg-gray-900 p-4 rounded-md">
                         <ul className="space-y-3 text-sm text-gray-400">
-                            <li className="flex items-start justify-center md:justify-start gap-3">
+                            <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
                             <Separator className="my-3 bg-gray-700"/>
-                             <li className="flex items-start justify-center md:justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
                             </li>
-                             <li className="flex items-start justify-center md:justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Mangol Puri, Delhi-110083</span>
                             </li>
-                             <li className="flex items-start justify-center md:justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Budh Vihar, Delhi-110086</span>
                             </li>
-                             <li className="flex items-start justify-center md:justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
                                 <span>Krishan Vihar, Delhi-110086</span>
                             </li>
@@ -82,7 +82,7 @@ export function Footer() {
                 {/* Column 4: Social Media */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Social Media</h3>
-                    <div className="flex items-center justify-center md:justify-start gap-4">
+                    <div className="flex items-center justify-start gap-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
