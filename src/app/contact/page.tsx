@@ -272,7 +272,7 @@ export default function ContactPage() {
             <form className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-semibold">Name</Label>
+                  <Label htmlFor="name" className="font-semibold">Name <span className="text-destructive">*</span></Label>
                   <Input id="name" placeholder="Enter your name" />
                 </div>
                 <div className="space-y-2">
@@ -282,7 +282,7 @@ export default function ContactPage() {
               </div>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-semibold">Phone Number</Label>
+                  <Label htmlFor="phone" className="font-semibold">Phone Number <span className="text-destructive">*</span></Label>
                   <div className="flex gap-2">
                     <Select defaultValue="+91-India">
                       <SelectTrigger className="w-[120px]">
@@ -300,7 +300,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="state" className="font-semibold">State</Label>
+                  <Label htmlFor="state" className="font-semibold">State <span className="text-destructive">*</span></Label>
                    <Select>
                     <SelectTrigger id="state">
                       <SelectValue placeholder="Select a state" />
