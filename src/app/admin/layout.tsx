@@ -19,7 +19,7 @@ import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
-import { getSessionBookings } from '@/app/actions';
+import { getNewSessionBookingsCount } from '@/app/actions';
 
 function AdminLayout({
   children,
@@ -32,14 +32,14 @@ function AdminLayout({
   const [bookingCount, setBookingCount] = React.useState(0);
 
   React.useEffect(() => {
-    const fetchBookings = async () => {
-      const result = await getSessionBookings();
-      if (result.success && result.data) {
-        setBookingCount(result.data.length);
+    const fetchBookingsCount = async () => {
+      const result = await getNewSessionBookingsCount();
+      if (result.success) {
+        setBookingCount(result.count);
       }
     };
-    fetchBookings();
-  }, []);
+    fetchBookingsCount();
+  }, [pathname]); // Refetch on path change to update after marking as seen
 
 
   const handleLogout = async () => {

@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -27,6 +27,7 @@ export async function bookFreeSession(data: FormValues) {
     // Save data to Firestore
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
+      status: 'new', // Add status for new bookings
       createdAt: serverTimestamp(),
     });
 
@@ -330,6 +331,33 @@ export async function getSessionBookings() {
   } catch (error) {
     console.error("Error fetching session bookings:", error);
     return { success: false, message: "Failed to fetch session bookings." };
+  }
+}
+
+export async function getNewSessionBookingsCount() {
+  try {
+    const bookingsQuery = query(collection(db, "sessionBookings"), where("status", "==", "new"));
+    const querySnapshot = await getDocs(bookingsQuery);
+    return { success: true, count: querySnapshot.size };
+  } catch (error) {
+    console.error("Error fetching new session bookings count:", error);
+    return { success: false, message: "Failed to fetch new session bookings count." };
+  }
+}
+
+export async function markAllBookingsAsSeen() {
+  try {
+    const newBookingsQuery = query(collection(db, "sessionBookings"), where("status", "==", "new"));
+    const querySnapshot = await getDocs(newBookingsQuery);
+    const batch = writeBatch(db);
+    querySnapshot.docs.forEach(doc => {
+      batch.update(doc.ref, { status: 'seen' });
+    });
+    await batch.commit();
+    return { success: true, message: "All new bookings marked as seen." };
+  } catch (error) {
+    console.error("Error marking bookings as seen:", error);
+    return { success: false, message: "Failed to mark bookings as seen." };
   }
 }
 

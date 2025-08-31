@@ -2,13 +2,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getSessionBookings } from '@/app/actions';
+import { getSessionBookings, markAllBookingsAsSeen } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { CheckCheck } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface Booking {
   id: string;
@@ -19,23 +22,39 @@ interface Booking {
   sessionMode: 'online' | 'offline';
   state: string;
   createdAt: string;
+  status?: 'new' | 'seen';
 }
 
 export function SessionBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasNewBookings, setHasNewBookings] = useState(false);
+  const { toast } = useToast();
+
+  const fetchBookings = async () => {
+    setLoading(true);
+    const result = await getSessionBookings();
+    if (result.success && result.data) {
+      const bookingsData = result.data as Booking[];
+      setBookings(bookingsData);
+      setHasNewBookings(bookingsData.some(b => b.status === 'new'));
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      setLoading(true);
-      const result = await getSessionBookings();
-      if (result.success && result.data) {
-        setBookings(result.data as Booking[]);
-      }
-      setLoading(false);
-    };
     fetchBookings();
   }, []);
+
+  const handleMarkAllAsSeen = async () => {
+    const result = await markAllBookingsAsSeen();
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchBookings(); // Refresh the list
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
 
   const renderSkeleton = () => (
     <div className="space-y-2">
@@ -52,9 +71,17 @@ export function SessionBookings() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Free Demo Bookings</CardTitle>
-        <CardDescription>Recent submissions from the landing page form.</CardDescription>
+      <CardHeader className="flex flex-row items-start justify-between">
+        <div>
+          <CardTitle>Free Demo Bookings</CardTitle>
+          <CardDescription>Recent submissions from the landing page form.</CardDescription>
+        </div>
+        {hasNewBookings && (
+          <Button size="sm" onClick={handleMarkAllAsSeen}>
+            <CheckCheck className="mr-2 h-4 w-4" />
+            Mark all as seen
+          </Button>
+        )}
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[350px] w-full">
@@ -73,7 +100,7 @@ export function SessionBookings() {
               <TableBody>
                 {bookings.length > 0 ? (
                   bookings.map((booking) => (
-                    <TableRow key={booking.id}>
+                    <TableRow key={booking.id} className={booking.status === 'new' ? 'bg-primary/5' : ''}>
                       <TableCell className="font-medium">{booking.childName}</TableCell>
                       <TableCell>{booking.classCourse}</TableCell>
                       <TableCell>
