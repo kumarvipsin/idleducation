@@ -1,4 +1,5 @@
 
+'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,8 +7,50 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+import { submitContactForm } from "@/app/actions";
+
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  countryCode: z.string(),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  state: z.string().min(1, { message: "Please select a state." }),
+  message: z.string().optional(),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 
 export default function ContactPage() {
+  const { toast } = useToast();
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      countryCode: "+91-India",
+      phone: '',
+      state: '',
+      message: '',
+    },
+  });
+
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    const result = await submitContactForm(data);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      form.reset();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
+
+
   const countryCodes = [
     { code: "+91", country: "India" },
     { code: "+1", country: "United States" },
@@ -265,60 +308,127 @@ export default function ContactPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="mb-12 shadow-lg overflow-hidden">
+          <CardHeader className="text-center p-8 bg-background">
+            <CardTitle className="text-3xl font-bold">Contact Us</CardTitle>
+          </CardHeader>
           <CardContent className="p-8">
-            <form className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="font-semibold">Name <span className="text-destructive">*</span></Label>
-                  <Input id="name" placeholder="Enter your name" />
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="Enter your email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="font-semibold">Email</Label>
-                  <Input id="email" type="email" placeholder="Enter your email" />
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-semibold">Phone Number <span className="text-destructive">*</span></Label>
-                  <div className="flex gap-2">
-                    <Select defaultValue="+91-India">
-                      <SelectTrigger className="w-[120px]">
-                        <SelectValue placeholder="Code" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countryCodes.map((country, index) => (
-                          <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
-                            {country.code} ({country.country})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Input id="phone" type="tel" placeholder="Enter phone number" className="flex-1" />
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
+                    <div className="flex gap-2">
+                       <FormField
+                          control={form.control}
+                          name="countryCode"
+                          render={({ field }) => (
+                            <FormItem>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="w-[120px]">
+                                    <SelectValue placeholder="Code" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {countryCodes.map((country, index) => (
+                                    <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
+                                      {country.code} ({country.country})
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                       <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem className="flex-1">
+                              <FormControl>
+                                <Input type="tel" placeholder="Enter phone number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                    </div>
                   </div>
+                   <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>State <span className="text-destructive">*</span></FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a state" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {indianStates.map(state => (
+                                <SelectItem key={state} value={state}>{state}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state" className="font-semibold">State <span className="text-destructive">*</span></Label>
-                   <Select>
-                    <SelectTrigger id="state">
-                      <SelectValue placeholder="Select a state" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {indianStates.map(state => (
-                        <SelectItem key={state} value={state}>{state}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message" className="font-semibold">Message</Label>
-                <Textarea id="message" placeholder="Enter your message" className="min-h-[150px]" />
-              </div>
-              <Button type="submit" size="lg" className="w-full">
-                <Send className="mr-2 h-4 w-4" />
-                Send Message
-              </Button>
-            </form>
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Enter your message" className="min-h-[150px]" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting}>
+                   {form.formState.isSubmitting ? 'Sending...' : (
+                    <>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       </div>

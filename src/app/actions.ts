@@ -331,3 +331,44 @@ export async function getSessionBookings() {
     return { success: false, message: "Failed to fetch session bookings." };
   }
 }
+
+const contactFormSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  countryCode: z.string(),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  state: z.string().min(1, { message: "Please select a state." }),
+  message: z.string().optional(),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+export async function submitContactForm(data: ContactFormValues) {
+  const validation = contactFormSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check your inputs." };
+  }
+
+  try {
+    await addDoc(collection(db, "contactSubmissions"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Your message has been sent successfully!" };
+  } catch (error) {
+    console.error("Error submitting contact form:", error);
+    return { success: false, message: "Failed to send message. Please try again later." };
+  }
+}
+
+export async function getContactSubmissions() {
+  try {
+    const submissionsQuery = query(collection(db, "contactSubmissions"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(submissionsQuery);
+    const submissions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: submissions };
+  } catch (error) {
+    console.error("Error fetching contact submissions:", error);
+    return { success: false, message: "Failed to fetch contact submissions." };
+  }
+}
