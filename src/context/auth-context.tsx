@@ -39,29 +39,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   
   useEffect(() => {
-    // Try to load user from sessionStorage on initial mount to avoid flicker
-    try {
-      const storedUser = sessionStorage.getItem('userProfile');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (e) {
-      console.error("Failed to parse user profile from session storage", e);
-      sessionStorage.removeItem('userProfile');
-    }
-    // We are not done loading until Firebase confirms the auth state.
-    // setLoading will be set to false inside onAuthStateChanged
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If the user in state matches firebase user, we don't need to refetch
-        if (user?.uid === firebaseUser.uid) {
-            setLoading(false);
-            return;
-        }
-
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
@@ -89,7 +68,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
-          // If user exists in Firebase Auth but not Firestore (and is not admin), log them out.
           await signOut(auth);
           sessionStorage.removeItem('userProfile');
           setUser(null);
@@ -103,7 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   const login = (profile: UserProfile) => {
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
