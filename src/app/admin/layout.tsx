@@ -93,8 +93,8 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/teachers')}>
+                  <Link href="/admin/teachers">
                     <Briefcase />
                     <span>Teacher</span>
                   </Link>
