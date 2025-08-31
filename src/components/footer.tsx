@@ -35,7 +35,7 @@ export function Footer() {
                 
                 {/* Column 3: Social Media */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+                    <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="flex items-center justify-center md:justify-start gap-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Instagram">
                           <Instagram className="h-6 w-6" />
