@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -490,4 +490,41 @@ export async function denyUser(userId: string) {
     console.error("Error denying user:", error);
     return { success: false, message: "Failed to deny user." };
   }
+}
+
+async function getCount(q: any) {
+    try {
+        const snapshot = await getCountFromServer(q);
+        return { success: true, count: snapshot.data().count };
+    } catch (error) {
+        console.error("Error getting count from server: ", error);
+        return { success: false, message: "Failed to fetch count." };
+    }
+}
+
+export async function getTotalUsersCount() {
+    const q = query(collection(db, "users"));
+    return getCount(q);
+}
+
+export async function getTotalStudentsCount() {
+    const q = query(collection(db, "users"), where("role", "==", "student"));
+    return getCount(q);
+}
+
+export async function getNewStudentsCount() {
+    const q = query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "approved"));
+    return getCount(q);
+}
+
+export async function getTrainedStudentsCount() {
+    // This is a placeholder, as "trained" is not defined. 
+    // We'll count approved students who have an assigned teacher.
+    const q = query(
+      collection(db, "users"), 
+      where("role", "==", "student"), 
+      where("status", "==", "approved"),
+      where("teacherIds", "!=", [])
+    );
+    return getCount(q);
 }
