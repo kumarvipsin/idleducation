@@ -40,17 +40,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const sessionUser = sessionStorage.getItem('userProfile');
-    if (sessionUser) {
-      try {
-        setUser(JSON.parse(sessionUser));
-      } catch (error) {
-        console.error("Failed to parse user profile from session storage", error);
-        sessionStorage.removeItem('userProfile');
-      }
-    }
-    setLoading(false); // Initial load from session storage is done
-
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         // If there's a firebase user, let's ensure our profile is up to date
