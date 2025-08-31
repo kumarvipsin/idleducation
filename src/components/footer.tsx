@@ -26,14 +26,6 @@ export function Footer() {
                             <MapPin className="h-4 w-4 shrink-0" />
                             <span>Y-25A Budh Vihar, Phase-1, Delhi-110086</span>
                         </li>
-                        <li className="flex items-center justify-center md:justify-start gap-3">
-                            <Phone className="h-4 w-4 shrink-0" />
-                            <span>+91 70 1111 7585, +91 8860040010</span>
-                        </li>
-                         <li className="flex items-center justify-center md:justify-start gap-3">
-                            <Mail className="h-4 w-4 shrink-0" />
-                            <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
-                        </li>
                     </ul>
                 </div>
                 
