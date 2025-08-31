@@ -1,60 +1,192 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, FileText, Megaphone, Calendar } from "lucide-react";
 
-const notifications = [
-  {
-    icon: <Megaphone className="w-6 h-6 text-primary" />,
-    title: "New Course Announcement!",
-    description: "We're excited to launch 'Introduction to Python Programming' starting next month. Enroll now to get an early bird discount.",
-    date: "2 hours ago",
-  },
-  {
-    icon: <FileText className="w-6 h-6 text-primary" />,
-    title: "Algebra 101 Materials Updated",
-    description: "New practice worksheets and an interactive quiz have been added to the 'Introduction to Algebra' course.",
-    date: "1 day ago",
-  },
-  {
-    icon: <Calendar className="w-6 h-6 text-primary" />,
-    title: "Upcoming Webinar",
-    description: "Join our free webinar on 'Effective Study Techniques for Exams' this Friday at 4 PM. Don't miss out!",
-    date: "3 days ago",
-  },
-  {
-    icon: <Bell className="w-6 h-6 text-primary" />,
-    title: "Welcome to IDL EDUCATION!",
-    description: "We're glad to have you here. Explore our courses and start your learning journey today.",
-    date: "1 week ago",
-  },
-];
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Bell, FileText, Megaphone, Calendar, PlusCircle } from "lucide-react";
+import { getUpdates, addUpdate } from '@/app/actions'; // Assuming addUpdate is needed here for a potential feature
+import { useToast } from '@/hooks/use-toast';
+import { formatDistanceToNow } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useAuth } from '@/context/auth-context';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+
+
+interface Update {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+}
+
+const iconMap: { [key: string]: React.ReactNode } = {
+    "New Course Announcement!": <Megaphone className="w-6 h-6 text-primary" />,
+    "Algebra 101 Materials Updated": <FileText className="w-6 h-6 text-primary" />,
+    "Upcoming Webinar": <Calendar className="w-6 h-6 text-primary" />,
+    default: <Bell className="w-6 h-6 text-primary" />,
+};
+
+const getIconForTitle = (title: string) => {
+    // Basic logic to assign icons based on keywords
+    if (title.toLowerCase().includes('course')) return iconMap["New Course Announcement!"];
+    if (title.toLowerCase().includes('material')) return iconMap["Algebra 101 Materials Updated"];
+    if (title.toLowerCase().includes('webinar')) return iconMap["Upcoming Webinar"];
+    return iconMap.default;
+};
+
 
 export default function NotificationsPage() {
-  return (
-    <div className="container mx-auto py-8 px-4 md:px-6">
-      <Card className="max-w-4xl mx-auto bg-background">
-        <CardHeader>
-          <CardTitle>Recent Updates</CardTitle>
-          <CardDescription>Here's what's new.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {notifications.map((notification, index) => (
-              <div key={index} className="flex items-start gap-4 p-4 rounded-lg border bg-background hover:bg-muted transition-colors">
-                <div className="bg-primary/10 p-3 rounded-full">
-                    {notification.icon}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{notification.title}</h3>
-                  <p className="text-sm text-muted-foreground">{notification.description}</p>
-                </div>
-                <div className="text-xs text-muted-foreground whitespace-nowrap">
-                  {notification.date}
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+  const [updates, setUpdates] = useState<Update[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  const fetchUpdates = async () => {
+    setLoading(true);
+    const result = await getUpdates();
+    if (result.success && result.data) {
+      setUpdates(result.data as Update[]);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUpdates();
+  }, []);
+
+  const handleAddPost = async () => {
+    if (newTitle && newDescription) {
+      setIsSubmitting(true);
+      const result = await addUpdate({ title: newTitle, description: newDescription });
+      if (result.success) {
+        toast({ title: "Success", description: "Update posted successfully!" });
+        setNewTitle('');
+        setNewDescription('');
+        setIsDialogOpen(false);
+        fetchUpdates(); // Re-fetch updates to show the new one
+      } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+      }
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderSkeleton = () => (
+    <div className="space-y-6">
+      {[...Array(4)].map((_, i) => (
+         <div key={i} className="flex items-start gap-4 p-4 rounded-lg border">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex-1 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+            </div>
+            <Skeleton className="h-4 w-1/4" />
+        </div>
+      ))}
     </div>
+  );
+
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <div className="container mx-auto py-8 px-4 md:px-6">
+        <Card className="max-w-4xl mx-auto bg-card">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+                <CardTitle>Recent Updates</CardTitle>
+                <CardDescription>Here's what's new.</CardDescription>
+            </div>
+             {user?.role === 'admin' && (
+              <DialogTrigger asChild>
+                <Button size="sm">
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  New Post
+                </Button>
+              </DialogTrigger>
+            )}
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              renderSkeleton()
+            ) : (
+              <div className="space-y-6">
+                {updates.length > 0 ? (
+                  updates.map((update) => (
+                    <div key={update.id} className="flex items-start gap-4 p-4 rounded-lg border bg-background hover:bg-muted transition-colors">
+                      <div className="bg-primary/10 p-3 rounded-full">
+                          {getIconForTitle(update.title)}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg">{update.title}</h3>
+                        <p className="text-sm text-muted-foreground">{update.description}</p>
+                      </div>
+                      <div className="text-xs text-muted-foreground whitespace-nowrap">
+                        {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-muted-foreground py-8">No recent updates.</p>
+                )}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create New Post</DialogTitle>
+          <DialogDescription>
+            Add a new update or announcement for all users to see.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">
+              Title
+            </Label>
+            <Input
+              id="title"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="col-span-3"
+              placeholder="e.g., New Course Available"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-right">
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              className="col-span-3"
+              placeholder="Enter the details of the announcement."
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={handleAddPost} disabled={isSubmitting}>
+            {isSubmitting ? 'Posting...' : 'Post Update'}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
