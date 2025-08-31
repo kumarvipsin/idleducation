@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -8,9 +9,22 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Bell, FileText, Megaphone, Calendar, Edit, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Bell, FileText, Megaphone, Calendar, Edit, Trash2, PlusCircle } from 'lucide-react';
 
-const notifications = [
+const initialNotifications = [
   {
     icon: <Megaphone className="w-6 h-6 text-primary" />,
     title: "New Course Announcement!",
@@ -32,11 +46,40 @@ const notifications = [
 ];
 
 export function RecentUpdates() {
+  const [notifications, setNotifications] = useState(initialNotifications);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [newDescription, setNewDescription] = useState('');
+
+  const handleAddPost = () => {
+    if (newTitle && newDescription) {
+      const newNotification = {
+        icon: <Bell className="w-6 h-6 text-primary" />,
+        title: newTitle,
+        description: newDescription,
+        date: 'Just now',
+      };
+      setNotifications([newNotification, ...notifications]);
+      setNewTitle('');
+      setNewDescription('');
+      setIsDialogOpen(false);
+    }
+  };
+
   return (
-    <Card>
-        <CardHeader>
-          <CardTitle>Recent Updates</CardTitle>
-          <CardDescription>A quick look at the latest platform announcements.</CardDescription>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Recent Updates</CardTitle>
+            <CardDescription>A quick look at the latest platform announcements.</CardDescription>
+          </div>
+          <DialogTrigger asChild>
+            <Button size="sm">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              New Post
+            </Button>
+          </DialogTrigger>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -57,5 +100,43 @@ export function RecentUpdates() {
           </div>
         </CardContent>
       </Card>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create New Post</DialogTitle>
+          <DialogDescription>
+            Add a new update or announcement for all users to see.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">
+              Title
+            </Label>
+            <Input
+              id="title"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="col-span-3"
+              placeholder="e.g., New Course Available"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-right">
+              Description
+            </Label>
+            <Textarea
+              id="description"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              className="col-span-3"
+              placeholder="Enter the details of the announcement."
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={handleAddPost}>Post Update</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
