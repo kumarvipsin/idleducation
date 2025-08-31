@@ -13,7 +13,7 @@ export function Footer() {
                         <BookOpen className="h-8 w-8" />
                         <span className="text-2xl font-bold">IDL EDUCATION</span>
                     </Link>
-                    <div className="bg-gray-800 p-4 rounded-md">
+                    <div className="bg-gray-900 p-4 rounded-md">
                       <p className="text-sm text-gray-400">
                           Empowering students with quality education to achieve their dreams.
                       </p>
@@ -23,7 +23,7 @@ export function Footer() {
                 {/* Column 2: Connect With Us */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
-                    <div className="bg-gray-800 p-4 rounded-md">
+                    <div className="bg-gray-900 p-4 rounded-md">
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li className="flex items-center justify-center md:justify-start gap-3">
                                 <Mail className="h-4 w-4 shrink-0" />
@@ -48,7 +48,7 @@ export function Footer() {
                 {/* Column 3: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
-                    <div className="bg-gray-800 p-4 rounded-md">
+                    <div className="bg-gray-900 p-4 rounded-md">
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li className="flex items-start justify-center md:justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1" />
