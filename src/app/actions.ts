@@ -85,6 +85,12 @@ export async function loginUser(data: LoginValues) {
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
+
+            if (userData.status === 'pending') {
+                await signOut(auth);
+                return { success: false, message: "Your account is pending approval. Please wait for an admin to approve it." };
+            }
+
             userProfile = {
                 uid: user.uid,
                 email: user.email,
@@ -153,6 +159,7 @@ export async function signUpUser(data: SignupValues) {
       email: email,
       role: role,
       createdAt: serverTimestamp(),
+      status: 'pending', // Set initial status to pending
     };
 
     if (role === 'student') {
@@ -161,16 +168,10 @@ export async function signUpUser(data: SignupValues) {
 
     await setDoc(doc(db, "users", user.uid), userDocData);
     
-    const userProfile = {
-      uid: user.uid,
-      email: user.email,
-      name: name,
-      role: role,
-      ...serializeFirestoreData(userDocData),
-    };
+    // Log out user immediately after signup, forcing them to wait for approval
+    await signOut(auth);
 
-
-    return { success: true, message: "Account created successfully!", user: userProfile };
+    return { success: true, message: "Account created successfully! Please wait for an admin to approve your account before you can log in." };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {
@@ -436,5 +437,16 @@ export async function deleteUpdate(id: string) {
   } catch (error) {
     console.error("Error deleting update:", error);
     return { success: false, message: "Failed to delete update. Please try again." };
+  }
+}
+
+export async function approveUser(userId: string) {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, { status: 'approved' });
+    return { success: true, message: "User approved successfully!" };
+  } catch (error) {
+    console.error("Error approving user:", error);
+    return { success: false, message: "Failed to approve user." };
   }
 }

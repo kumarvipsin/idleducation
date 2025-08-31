@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,9 +42,9 @@ export default function SignupPage() {
     if (result.success) {
       toast({
         title: "Account Created",
-        description: "You have been successfully signed up!",
+        description: result.message,
       });
-      router.push(`/${result.role}/dashboard`);
+      router.push('/login');
     } else {
       toast({
         variant: "destructive",
