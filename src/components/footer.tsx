@@ -38,22 +38,22 @@ export function Footer() {
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="flex items-center justify-center md:justify-start gap-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Instagram">
-                          <Instagram className="h-6 w-6" />
+                          <Instagram className="h-4 w-4" />
                         </Link>
                         <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Facebook">
-                          <Facebook className="h-6 w-6" />
+                          <Facebook className="h-4 w-4" />
                         </Link>
                         <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Twitter">
-                          <Twitter className="h-6 w-6" />
+                          <Twitter className="h-4 w-4" />
                         </Link>
                          <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="LinkedIn">
-                          <Linkedin className="h-6 w-6" />
+                          <Linkedin className="h-4 w-4" />
                         </Link>
                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Telegram">
-                          <Send className="h-6 w-6" />
+                          <Send className="h-4 w-4" />
                         </Link>
                         <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="YouTube">
-                          <Youtube className="h-6 w-6" />
+                          <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
                 </div>
