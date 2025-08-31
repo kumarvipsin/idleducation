@@ -202,7 +202,7 @@ export function RecentUpdates() {
   );
 
   return (
-    <AlertDialog>
+    <>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
@@ -245,7 +245,8 @@ export function RecentUpdates() {
                     <div className="text-xs text-muted-foreground whitespace-nowrap mr-2">
                       {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                     </div>
-                     <DropdownMenu>
+                    <AlertDialog>
+                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon" className="h-6 w-6">
                             <MoreVertical className="h-4 w-4" />
@@ -256,14 +257,30 @@ export function RecentUpdates() {
                             <Edit className="mr-2 h-4 w-4" />
                             Edit
                           </DropdownMenuItem>
-                           <AlertDialogTrigger asChild>
-                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
                               <Trash2 className="mr-2 h-4 w-4 text-destructive" />
                               <span className="text-destructive">Delete</span>
                             </DropdownMenuItem>
                           </AlertDialogTrigger>
                         </DropdownMenuContent>
                       </DropdownMenu>
+
+                      <AlertDialogContent>
+                          <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                              This action cannot be undone. This will permanently delete the post titled "<span className="font-semibold">{deletingUpdate?.title}</span>".
+                          </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                          <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeletePost} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                              Delete
+                          </AlertDialogAction>
+                          </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 ))
               ) : (
@@ -285,21 +302,6 @@ export function RecentUpdates() {
               <PostForm onSubmit={handleEditPost} isSubmitting={isSubmitting} buttonText="Save Changes" />
           </DialogContent>
       </Dialog>
-
-      <AlertDialogContent>
-          <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the post titled "<span className="font-semibold">{deletingUpdate?.title}</span>".
-          </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeletePost} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
-          </AlertDialogAction>
-          </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    </>
   );
 }
