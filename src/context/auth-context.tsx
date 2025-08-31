@@ -35,35 +35,56 @@ const serializeFirestoreData = (docData: any) => {
 
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = sessionStorage.getItem('userProfile');
+      try {
+        return storedUser ? JSON.parse(storedUser) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If there's a firebase user, let's ensure our profile is up to date
-        // This prevents stale data if the user's role changes, for example.
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
+        
+        let userProfile: UserProfile | null = null;
+
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            const userProfile: UserProfile = {
+            userProfile = {
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
                 name: userData.name,
                 role: userData.role,
                 ...serializeFirestoreData(userData),
             };
-            setUser(userProfile);
-            sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
-        } else {
-            // This might happen if user is in auth but not in firestore.
-            // In this case, we log them out.
-             await signOut(auth);
-             sessionStorage.removeItem('userProfile');
-             setUser(null);
+        } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+            userProfile = {
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: 'Admin',
+              role: 'admin',
+            };
         }
+
+        if (userProfile) {
+          setUser(userProfile);
+          sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
+        } else {
+          // If user exists in Firebase Auth but not Firestore (and is not admin), log them out.
+          await signOut(auth);
+          sessionStorage.removeItem('userProfile');
+          setUser(null);
+        }
+
       } else {
         sessionStorage.removeItem('userProfile');
         setUser(null);
