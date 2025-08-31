@@ -46,6 +46,48 @@ const data = [
     newStudents: Math.floor(Math.random() * 300) + 100,
     trainedStudents: Math.floor(Math.random() * 400) + 200,
   },
+  {
+    name: 'Jul',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
+  {
+    name: 'Aug',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
+  {
+    name: 'Sep',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
+  {
+    name: 'Oct',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
+  {
+    name: 'Nov',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
+  {
+    name: 'Dec',
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    totalStudents: Math.floor(Math.random() * 800) + 400,
+    newStudents: Math.floor(Math.random() * 300) + 100,
+    trainedStudents: Math.floor(Math.random() * 400) + 200,
+  },
 ];
 
 export function OverviewChart() {

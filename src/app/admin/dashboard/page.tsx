@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Users, BookOpen, BarChart, GraduationCap, UserPlus } from "lucide-react";
 import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function AdminDashboard() {
   return (
@@ -52,8 +53,12 @@ export default function AdminDashboard() {
               <CardTitle>Users Overview</CardTitle>
               <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
           </CardHeader>
-          <CardContent className="pl-2">
-              <OverviewChart />
+          <CardContent>
+            <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+              <div className="w-full min-w-[700px]">
+                <OverviewChart />
+              </div>
+            </ScrollArea>
           </CardContent>
       </Card>
       
