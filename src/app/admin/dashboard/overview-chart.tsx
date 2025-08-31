@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Defs, LinearGradient, Stop } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 
 const data = [
   {
@@ -94,24 +94,24 @@ export function OverviewChart() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
-        <Defs>
-          <LinearGradient id="colorTotalUsers" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.8}/>
-            <Stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0.1}/>
-          </LinearGradient>
-          <LinearGradient id="colorTotalStudents" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.8}/>
-            <Stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0.1}/>
-          </LinearGradient>
-           <LinearGradient id="colorNewStudents" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="5%" stopColor="hsl(var(--chart-3))" stopOpacity={0.8}/>
-            <Stop offset="95%" stopColor="hsl(var(--chart-3))" stopOpacity={0.1}/>
-          </LinearGradient>
-           <LinearGradient id="colorTrainedStudents" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8}/>
-            <Stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1}/>
-          </LinearGradient>
-        </Defs>
+        <defs>
+          <linearGradient id="colorTotalUsers" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0.1}/>
+          </linearGradient>
+          <linearGradient id="colorTotalStudents" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0.1}/>
+          </linearGradient>
+           <linearGradient id="colorNewStudents" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="hsl(var(--chart-3))" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="hsl(var(--chart-3))" stopOpacity={0.1}/>
+          </linearGradient>
+           <linearGradient id="colorTrainedStudents" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1}/>
+          </linearGradient>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border) / 0.5)" />
         <XAxis
           dataKey="name"
