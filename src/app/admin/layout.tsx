@@ -93,6 +93,14 @@ function AdminLayout({
                <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="#">
+                    <Users />
+                    <span>Staff</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="#">
                     <CreditCard />
                     <span>Payment</span>
                   </Link>
