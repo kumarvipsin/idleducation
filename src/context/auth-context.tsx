@@ -34,22 +34,18 @@ const serializeFirestoreData = (docData: any) => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = sessionStorage.getItem('userProfile');
-      return storedUser ? JSON.parse(storedUser) : null;
-    }
-    return null;
-  });
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
   useEffect(() => {
+    const storedUser = sessionStorage.getItem('userProfile');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If we already have a user from sessionStorage, don't set loading to true again
-        if (!user) setLoading(true);
-
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
@@ -77,6 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
+          // This case handles when a Firebase user exists but has no profile data
           await signOut(auth);
           sessionStorage.removeItem('userProfile');
           setUser(null);
@@ -89,17 +86,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, []);
 
   const login = (profile: UserProfile) => {
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
     setUser(profile);
+    setLoading(false); // Ensure loading is false after login
   };
 
   const logout = async () => {
     await signOut(auth);
     sessionStorage.removeItem('userProfile');
     setUser(null);
+    setLoading(false);
     router.push('/');
   };
 
