@@ -67,10 +67,6 @@ export default function StudentProfilePage() {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <CardTitle>My Profile</CardTitle>
-          <CardDescription>View and manage your profile information.</CardDescription>
-        </CardHeader>
         <CardContent className="p-6">
           {renderContent()}
         </CardContent>
