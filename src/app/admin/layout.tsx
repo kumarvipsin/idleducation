@@ -12,11 +12,14 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarTrigger,
+  SidebarMenuBadge,
 } from '@/components/ui/sidebar';
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import React from 'react';
+import { getSessionBookings } from '@/app/actions';
 
 function AdminLayout({
   children,
@@ -26,6 +29,18 @@ function AdminLayout({
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const router = useRouter();
+  const [bookingCount, setBookingCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const fetchBookings = async () => {
+      const result = await getSessionBookings();
+      if (result.success && result.data) {
+        setBookingCount(result.data.length);
+      }
+    };
+    fetchBookings();
+  }, []);
+
 
   const handleLogout = async () => {
     await logout();
@@ -83,6 +98,7 @@ function AdminLayout({
                     <span>Demo</span>
                   </Link>
                 </SidebarMenuButton>
+                {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
