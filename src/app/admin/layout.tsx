@@ -42,6 +42,14 @@ function AdminLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')}>
+                  <Link href="/admin/profile">
+                    <User />
+                    <span>Admin Profile</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                   <Link href="/admin/users">
