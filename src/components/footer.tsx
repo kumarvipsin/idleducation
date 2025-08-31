@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
                 {/* Column 1: Brand Info */}
                 <div>
                     <Link href="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
@@ -26,6 +26,13 @@ export function Footer() {
                             <Mail className="h-4 w-4 shrink-0" />
                             <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
                         </li>
+                    </ul>
+                </div>
+
+                {/* Column 3: Our Branch */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
+                    <ul className="space-y-3 text-sm text-gray-400">
                         <li className="flex items-start justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0 mt-1" />
                             <span>E-18 Krishan Vihar, Delhi-110086</span>
@@ -49,7 +56,7 @@ export function Footer() {
                     </ul>
                 </div>
                 
-                {/* Column 3: Social Media */}
+                {/* Column 4: Social Media */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="flex items-center justify-center md:justify-start gap-4">
