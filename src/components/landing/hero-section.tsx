@@ -11,7 +11,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "@/app/actions";
 import { useLanguage } from "@/context/language-context";
@@ -96,6 +96,7 @@ export function HeroSection() {
                       name="sessionMode"
                       render={({ field }) => (
                         <FormItem>
+                          <FormLabel>Select Mode <span className="text-destructive">*</span></FormLabel>
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             <Button 
                               type="button" 
@@ -132,7 +133,7 @@ export function HeroSection() {
                       name="childName"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                           <Label htmlFor="child-name" className="font-semibold text-center block w-full">{t('bookFreeSession.yourDetails')}</Label>
+                           <FormLabel>Child's Name <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                             <Input id="child-name" placeholder={t('bookFreeSession.childNamePlaceholder')} {...field} />
                           </FormControl>
@@ -146,7 +147,7 @@ export function HeroSection() {
                       name="classCourse"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                           <Label htmlFor="class-course" className="font-semibold sr-only">Enter Your Class/Course</Label>
+                           <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                             <Input id="class-course" placeholder="Enter Your Class/Course" {...field} />
                           </FormControl>
@@ -160,6 +161,7 @@ export function HeroSection() {
                       name="mobile"
                       render={({ field }) => (
                         <FormItem>
+                           <FormLabel>Mobile Number <span className="text-destructive">*</span></FormLabel>
                           <div className="flex flex-col sm:flex-row items-center gap-2">
                             <div className="relative flex-grow w-full">
                               <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -179,6 +181,7 @@ export function HeroSection() {
                       name="email"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
+                          <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                             <Input id="email" type="email" placeholder={t('bookFreeSession.emailPlaceholder')} {...field} />
                           </FormControl>
@@ -192,6 +195,7 @@ export function HeroSection() {
                       name="state"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
+                          <FormLabel>State <span className="text-destructive">*</span></FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
