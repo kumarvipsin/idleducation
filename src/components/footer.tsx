@@ -20,7 +20,7 @@ export function Footer() {
 
                 {/* Column 2: Contact Us */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+                    <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <ul className="space-y-3 text-sm text-gray-400">
                         <li className="flex items-center justify-center md:justify-start gap-3">
                             <Mail className="h-4 w-4 shrink-0" />
