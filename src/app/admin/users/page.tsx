@@ -149,41 +149,6 @@ export default function AdminUsersPage() {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader>
-            <CardTitle>Teacher Management</CardTitle>
-            <CardDescription>A list of all registered teachers. You can send a password reset email.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[350px]">
-               <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Teacher Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {teachers.map((teacher) => (
-                    <TableRow key={teacher.id}>
-                      <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
-                      <TableCell>{teacher.email}</TableCell>
-                      <TableCell className="text-right">
-                        <AlertDialogTrigger asChild>
-                          <Button variant="outline" size="sm" onClick={() => setSelectedUser(teacher)}>
-                             <KeyRound className="mr-2 h-4 w-4" />
-                             Reset Password
-                          </Button>
-                        </AlertDialogTrigger>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ScrollArea>
-          </CardContent>
-        </Card>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
