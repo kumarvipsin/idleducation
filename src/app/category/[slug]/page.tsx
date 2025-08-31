@@ -108,8 +108,7 @@ const subCategories: { [key: string]: string[] } = {
 };
 
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default function CategoryPage({ params: { slug } }: { params: { slug: string } }) {
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
   const subs = subCategories[slug] || subCategories["default"];
 
