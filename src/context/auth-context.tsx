@@ -34,7 +34,20 @@ const serializeFirestoreData = (docData: any) => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = sessionStorage.getItem('userProfile');
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser);
+        } catch (e) {
+          console.error("Failed to parse user profile from session storage", e);
+          return null;
+        }
+      }
+    }
+    return null;
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
@@ -68,6 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
+          // This case handles when a firebase user exists but has no profile data in firestore
           await signOut(auth);
           sessionStorage.removeItem('userProfile');
           setUser(null);
