@@ -42,7 +42,7 @@ function StudentLayout({
               <span className="text-lg font-semibold">IDL EDUCATION</span>
             </div>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent className="mt-5">
             <SidebarMenu>
               <SidebarMenuItem className="my-4">
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/student/profile')} className="h-auto py-2">

@@ -41,7 +41,7 @@ function AdminLayout({
               <span className="text-lg font-semibold">Admin Panel</span>
             </div>
           </SidebarHeader>
-          <SidebarContent>
+          <SidebarContent className="mt-5">
             <SidebarMenu>
               <SidebarMenuItem className="my-4">
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
