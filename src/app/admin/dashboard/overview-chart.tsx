@@ -2,7 +2,7 @@
 'use client';
 
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
-import { ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
 const data = [
   {
@@ -91,9 +91,28 @@ const data = [
   },
 ];
 
+const chartConfig = {
+  totalUsers: {
+    label: "Total Users",
+    color: "hsl(var(--chart-1))",
+  },
+  totalStudents: {
+    label: "Total Students",
+    color: "hsl(var(--chart-2))",
+  },
+  newStudents: {
+    label: "New Students",
+    color: "hsl(var(--chart-3))",
+  },
+  trainedStudents: {
+    label: "Trained Students",
+    color: "hsl(var(--chart-4))",
+  },
+} satisfies ChartConfig
+
 export function OverviewChart() {
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ChartContainer config={chartConfig} className="w-full h-[350px]">
       <LineChart
         data={data}
         margin={{
@@ -128,11 +147,11 @@ export function OverviewChart() {
             verticalAlign="top" 
             align="right"
             />
-        <Line type="monotone" dataKey="totalUsers" name="Total Users" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-1))' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="totalStudents" name="Total Students" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-2))' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="newStudents" name="New Students" stroke="hsl(var(--chart-3))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-3))' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="trainedStudents" name="Trained Students" stroke="hsl(var(--chart-4))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--chart-4))' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="totalUsers" stroke="var(--color-totalUsers)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-totalUsers)' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="totalStudents" stroke="var(--color-totalStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-totalStudents)' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="newStudents" stroke="var(--color-newStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-newStudents)' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="trainedStudents" stroke="var(--color-trainedStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-trainedStudents)' }} activeDot={{ r: 6 }}/>
       </LineChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 }
