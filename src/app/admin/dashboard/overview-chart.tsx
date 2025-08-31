@@ -4,93 +4,6 @@ import * as React from "react"
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
-const fullYearData = [
-  {
-    name: 'Jan',
-    totalUsers: 520,
-    totalStudents: 450,
-    newStudents: 120,
-    trainedStudents: 210,
-  },
-  {
-    name: 'Feb',
-    totalUsers: 630,
-    totalStudents: 540,
-    newStudents: 150,
-    trainedStudents: 250,
-  },
-  {
-    name: 'Mar',
-    totalUsers: 740,
-    totalStudents: 630,
-    newStudents: 180,
-    trainedStudents: 300,
-  },
-  {
-    name: 'Apr',
-    totalUsers: 820,
-    totalStudents: 700,
-    newStudents: 200,
-    trainedStudents: 340,
-  },
-  {
-    name: 'May',
-    totalUsers: 950,
-    totalStudents: 810,
-    newStudents: 240,
-    trainedStudents: 400,
-  },
-  {
-    name: 'Jun',
-    totalUsers: 1100,
-    totalStudents: 940,
-    newStudents: 280,
-    trainedStudents: 470,
-  },
-  {
-    name: 'Jul',
-    totalUsers: 1250,
-    totalStudents: 1070,
-    newStudents: 310,
-    trainedStudents: 520,
-  },
-  {
-    name: 'Aug',
-    totalUsers: 1380,
-    totalStudents: 1180,
-    newStudents: 340,
-    trainedStudents: 580,
-  },
-  {
-    name: 'Sep',
-    totalUsers: 1500,
-    totalStudents: 1280,
-    newStudents: 370,
-    trainedStudents: 630,
-  },
-  {
-    name: 'Oct',
-    totalUsers: 1620,
-    totalStudents: 1390,
-    newStudents: 400,
-    trainedStudents: 680,
-  },
-  {
-    name: 'Nov',
-    totalUsers: 1750,
-    totalStudents: 1500,
-    newStudents: 430,
-    trainedStudents: 740,
-  },
-  {
-    name: 'Dec',
-    totalUsers: 1900,
-    totalStudents: 1650,
-    newStudents: 460,
-    trainedStudents: 800,
-  },
-];
-
 const chartConfig = {
   totalUsers: {
     label: "Total Users",
@@ -111,9 +24,98 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function OverviewChart() {
-  const [data, setData] = React.useState<typeof fullYearData>([]);
+  const [data, setData] = React.useState<any[]>([]);
 
   React.useEffect(() => {
+    // In a real application, you would fetch this data from your backend.
+    // For this example, we'll simulate it.
+    const fullYearData = [
+      {
+        name: 'Jan',
+        totalUsers: 520,
+        totalStudents: 450,
+        newStudents: 120,
+        trainedStudents: 210,
+      },
+      {
+        name: 'Feb',
+        totalUsers: 630,
+        totalStudents: 540,
+        newStudents: 150,
+        trainedStudents: 250,
+      },
+      {
+        name: 'Mar',
+        totalUsers: 740,
+        totalStudents: 630,
+        newStudents: 180,
+        trainedStudents: 300,
+      },
+      {
+        name: 'Apr',
+        totalUsers: 820,
+        totalStudents: 700,
+        newStudents: 200,
+        trainedStudents: 340,
+      },
+      {
+        name: 'May',
+        totalUsers: 950,
+        totalStudents: 810,
+        newStudents: 240,
+        trainedStudents: 400,
+      },
+      {
+        name: 'Jun',
+        totalUsers: 1100,
+        totalStudents: 940,
+        newStudents: 280,
+        trainedStudents: 470,
+      },
+      {
+        name: 'Jul',
+        totalUsers: 1250,
+        totalStudents: 1070,
+        newStudents: 310,
+        trainedStudents: 520,
+      },
+      {
+        name: 'Aug',
+        totalUsers: 1380,
+        totalStudents: 1180,
+        newStudents: 340,
+        trainedStudents: 580,
+      },
+      {
+        name: 'Sep',
+        totalUsers: 1500,
+        totalStudents: 1280,
+        newStudents: 370,
+        trainedStudents: 630,
+      },
+      {
+        name: 'Oct',
+        totalUsers: 1620,
+        totalStudents: 1390,
+        newStudents: 400,
+        trainedStudents: 680,
+      },
+      {
+        name: 'Nov',
+        totalUsers: 1750,
+        totalStudents: 1500,
+        newStudents: 430,
+        trainedStudents: 740,
+      },
+      {
+        name: 'Dec',
+        totalUsers: 1900,
+        totalStudents: 1650,
+        newStudents: 460,
+        trainedStudents: 800,
+      },
+    ];
+    
     const currentMonth = new Date().getMonth();
     setData(fullYearData.slice(0, currentMonth + 1));
   }, []);
