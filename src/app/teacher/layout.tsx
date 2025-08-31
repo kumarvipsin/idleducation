@@ -44,7 +44,7 @@ function TeacherLayout({
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-               <SidebarMenuItem>
+               <SidebarMenuItem className="my-4">
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/teacher/profile')} className="h-auto py-2">
                   <Link href="/teacher/profile">
                     <Avatar className="h-10 w-10">
