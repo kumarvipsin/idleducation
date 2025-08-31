@@ -60,6 +60,8 @@ function StudentLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+            </SidebarMenu>
+            <SidebarMenu className="mt-6">
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
