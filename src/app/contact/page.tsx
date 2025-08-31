@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -308,9 +307,6 @@ export default function ContactPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="mb-12 shadow-lg overflow-hidden">
-          <CardHeader className="text-center p-8 bg-background">
-            <CardTitle className="text-3xl font-bold">Contact Us</CardTitle>
-          </CardHeader>
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
