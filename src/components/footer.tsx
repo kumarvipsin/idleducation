@@ -26,6 +26,10 @@ export function Footer() {
                             <MapPin className="h-4 w-4 shrink-0" />
                             <span>E-18 Krishan Vihar, Delhi-110086</span>
                         </li>
+                         <li className="flex items-center justify-center md:justify-start gap-3">
+                            <Mail className="h-4 w-4 shrink-0" />
+                            <a href="mailto:query@idleducation.in" className="hover:underline">query@idleducation.in</a>
+                        </li>
                     </ul>
                 </div>
                 
