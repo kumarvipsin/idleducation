@@ -31,12 +31,6 @@ const notifications = [
 export default function NotificationsPage() {
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
-      <section className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Notifications</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          Stay updated with the latest announcements, course updates, and news from IDL EDUCATION.
-        </p>
-      </section>
       <Card className="max-w-4xl mx-auto" style={{ backgroundColor: '#191970' }}>
         <CardHeader>
           <CardTitle className="text-white">Recent Updates</CardTitle>
