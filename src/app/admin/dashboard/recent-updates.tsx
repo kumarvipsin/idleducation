@@ -64,18 +64,126 @@ const getIconForTitle = (title: string) => {
     return iconMap[title] || iconMap.default;
 };
 
+const AddPostForm = ({ onPostAdded }: { onPostAdded: () => void }) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleAddPost = async () => {
+    if (title && description) {
+      setIsSubmitting(true);
+      const result = await addUpdate({ title, description });
+      if (result.success) {
+        toast({ title: "Success", description: "Update posted successfully!" });
+        onPostAdded();
+      } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+      }
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="grid gap-4 py-4">
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="add-title" className="text-right">
+            Title
+          </Label>
+          <Input
+            id="add-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="col-span-3"
+            placeholder="e.g., New Course Available"
+          />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="add-description" className="text-right">
+            Description
+          </Label>
+          <Textarea
+            id="add-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="col-span-3"
+            placeholder="Enter the details of the announcement."
+          />
+        </div>
+      </div>
+      <DialogFooter>
+        <Button onClick={handleAddPost} disabled={isSubmitting}>
+          {isSubmitting ? 'Posting...' : 'Post Update'}
+        </Button>
+      </DialogFooter>
+    </>
+  );
+};
+
+const EditPostForm = ({ update, onPostEdited }: { update: Update, onPostEdited: () => void }) => {
+  const [title, setTitle] = useState(update.title);
+  const [description, setDescription] = useState(update.description);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleEditPost = async () => {
+    if (title && description) {
+      setIsSubmitting(true);
+      const result = await editUpdate(update.id, { title, description });
+       if (result.success) {
+        toast({ title: "Success", description: "Update edited successfully!" });
+        onPostEdited();
+      } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+      }
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+     <>
+      <div className="grid gap-4 py-4">
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor={`edit-title-${update.id}`} className="text-right">
+            Title
+          </Label>
+          <Input
+            id={`edit-title-${update.id}`}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="col-span-3"
+            placeholder="e.g., New Course Available"
+          />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor={`edit-description-${update.id}`} className="text-right">
+            Description
+          </Label>
+          <Textarea
+            id={`edit-description-${update.id}`}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="col-span-3"
+            placeholder="Enter the details of the announcement."
+          />
+        </div>
+      </div>
+      <DialogFooter>
+        <Button onClick={handleEditPost} disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </DialogFooter>
+    </>
+  )
+}
 
 export function RecentUpdates() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingUpdate, setEditingUpdate] = useState<Update | null>(null);
   const [deletingUpdate, setDeletingUpdate] = useState<Update | null>(null);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const fetchUpdates = async () => {
@@ -90,43 +198,15 @@ export function RecentUpdates() {
   useEffect(() => {
     fetchUpdates();
   }, []);
-
-  const resetForm = () => {
-    setTitle('');
-    setDescription('');
-    setEditingUpdate(null);
+  
+  const handlePostAdded = () => {
+    setIsAddDialogOpen(false);
+    fetchUpdates();
   }
 
-  const handleAddPost = async () => {
-    if (title && description) {
-      setIsSubmitting(true);
-      const result = await addUpdate({ title, description });
-      if (result.success) {
-        toast({ title: "Success", description: "Update posted successfully!" });
-        resetForm();
-        setIsAddDialogOpen(false);
-        fetchUpdates(); 
-      } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
-      }
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleEditPost = async () => {
-    if (editingUpdate && title && description) {
-      setIsSubmitting(true);
-      const result = await editUpdate(editingUpdate.id, { title, description });
-       if (result.success) {
-        toast({ title: "Success", description: "Update edited successfully!" });
-        resetForm();
-        setIsEditDialogOpen(false);
-        fetchUpdates();
-      } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
-      }
-      setIsSubmitting(false);
-    }
+  const handlePostEdited = () => {
+    setEditingUpdate(null);
+    fetchUpdates();
   }
 
   const handleDeletePost = async () => {
@@ -141,14 +221,6 @@ export function RecentUpdates() {
         setDeletingUpdate(null);
     }
   }
-
-  const openEditDialog = (update: Update) => {
-    setEditingUpdate(update);
-    setTitle(update.title);
-    setDescription(update.description);
-    setIsEditDialogOpen(true);
-  }
-
 
   const renderSkeleton = () => (
     <div className="space-y-6">
@@ -165,51 +237,15 @@ export function RecentUpdates() {
     </div>
   );
 
-  const PostForm = ({ onSubmit, isSubmitting: isSubmittingProp, buttonText }: { onSubmit: () => void, isSubmitting: boolean, buttonText: string }) => (
-    <>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="title" className="text-right">
-            Title
-          </Label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="col-span-3"
-            placeholder="e.g., New Course Available"
-          />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="description" className="text-right">
-            Description
-          </Label>
-          <Textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="col-span-3"
-            placeholder="Enter the details of the announcement."
-          />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button onClick={onSubmit} disabled={isSubmittingProp}>
-          {isSubmittingProp ? 'Saving...' : buttonText}
-        </Button>
-      </DialogFooter>
-    </>
-  );
-
   return (
-    <>
+    <AlertDialog>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Recent Updates</CardTitle>
             <CardDescription>A quick look at the latest platform announcements.</CardDescription>
           </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={(isOpen) => { setIsAddDialogOpen(isOpen); if (!isOpen) resetForm(); }}>
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm">
                 <PlusCircle className="mr-2 h-4 w-4" />
@@ -223,7 +259,7 @@ export function RecentUpdates() {
                     Add a new update or announcement for all users to see.
                 </DialogDescription>
                 </DialogHeader>
-                <PostForm onSubmit={handleAddPost} isSubmitting={isSubmitting} buttonText="Post Update" />
+                <AddPostForm onPostAdded={handlePostAdded} />
             </DialogContent>
           </Dialog>
         </CardHeader>
@@ -245,42 +281,42 @@ export function RecentUpdates() {
                     <div className="text-xs text-muted-foreground whitespace-nowrap mr-2">
                       {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                     </div>
-                    <AlertDialog>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-6 w-6">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem onClick={() => openEditDialog(update)}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
+                    
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-6 w-6">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setEditingUpdate(update)}>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                          </DialogTrigger>
+                           {editingUpdate && editingUpdate.id === update.id && (
+                             <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                  <DialogTitle>Edit Post</DialogTitle>
+                                  <DialogDescription>
+                                    Make changes to your post here. Click save when you're done.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <EditPostForm update={editingUpdate} onPostEdited={handlePostEdited} />
+                              </DialogContent>
+                          )}
+                        </Dialog>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
+                            <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                            <span className="text-destructive">Delete</span>
                           </DropdownMenuItem>
-                          <AlertDialogTrigger asChild>
-                            <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
-                              <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-                              <span className="text-destructive">Delete</span>
-                            </DropdownMenuItem>
-                          </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                        </AlertDialogTrigger>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
 
-                      <AlertDialogContent>
-                          <AlertDialogHeader>
-                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete the post titled "<span className="font-semibold">{deletingUpdate?.title}</span>".
-                          </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                          <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeletePost} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                              Delete
-                          </AlertDialogAction>
-                          </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
                   </div>
                 ))
               ) : (
@@ -291,17 +327,21 @@ export function RecentUpdates() {
         </CardContent>
       </Card>
 
-      <Dialog open={isEditDialogOpen} onOpenChange={(isOpen) => { setIsEditDialogOpen(isOpen); if (!isOpen) resetForm(); }}>
-          <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-              <DialogTitle>Edit Post</DialogTitle>
-              <DialogDescription>
-                  Make changes to your post here. Click save when you're done.
-              </DialogDescription>
-              </DialogHeader>
-              <PostForm onSubmit={handleEditPost} isSubmitting={isSubmitting} buttonText="Save Changes" />
-          </DialogContent>
-      </Dialog>
-    </>
+      <AlertDialogContent>
+          <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the post titled "<span className="font-semibold">{deletingUpdate?.title}</span>".
+          </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeletePost} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+          </AlertDialogAction>
+          </AlertDialogFooter>
+      </AlertDialogContent>
+
+    </AlertDialog>
   );
 }
