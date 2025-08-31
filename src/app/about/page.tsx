@@ -29,9 +29,6 @@ export default function AboutPage() {
       <section className="my-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">About IDL EDUCATION</h2>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
-            A premier online learning platform dedicated to providing quality education for students from Class 4 to Class 10.
-          </p>
            <Button asChild className="mt-6">
             <Link href="/director">Meet Our Director</Link>
           </Button>
