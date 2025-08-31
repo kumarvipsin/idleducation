@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell } from "lucide-react";
@@ -51,7 +50,7 @@ export default function AdminDashboard() {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-3">
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -64,23 +63,6 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-        
-        <div className="space-y-6">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex items-start gap-4">
-                        <Bell className="h-6 w-6 text-primary mt-1" />
-                        <div>
-                            <p className="text-sm font-medium">New Session Booked</p>
-                            <p className="text-sm text-muted-foreground">A new free session was booked by Rohan. <span className="font-semibold">Check bookings</span>.</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
       </div>
 
     </div>
