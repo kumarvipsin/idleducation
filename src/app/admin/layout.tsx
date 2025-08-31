@@ -68,14 +68,6 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/courses')}>
-                  <Link href="/admin/courses">
-                    <BookOpen />
-                    <span>Courses</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/mail')}>
                   <Link href="/admin/mail">
