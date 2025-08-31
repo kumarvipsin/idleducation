@@ -561,3 +561,73 @@ export async function getDeniedStudentsCount() {
     const q = query(collection(db, "deniedUsers"), where("role", "==", "student"));
     return getCount(q);
 }
+
+
+export async function getMonthlyUserStats() {
+    try {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        const monthlyDataPromises = Array.from({ length: currentMonth + 1 }, async (_, i) => {
+            const monthName = monthNames[i];
+            const startDate = new Date(currentYear, i, 1);
+            const endDate = new Date(currentYear, i + 1, 1);
+
+            const usersQuery = query(collection(db, "users"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
+            const usersSnapshot = await getDocs(usersQuery);
+
+            let newStudents = 0;
+            usersSnapshot.docs.forEach(doc => {
+                if (doc.data().role === 'student' && doc.data().status === 'approved') {
+                    newStudents++;
+                }
+            });
+
+            return {
+                name: monthName,
+                newStudents: newStudents,
+            };
+        });
+
+        const monthlyData = await Promise.all(monthlyDataPromises);
+
+        // Fetch total counts for cumulative calculations
+        const [totalUsersRes, totalStudentsRes, trainedStudentsRes] = await Promise.all([
+            getDocs(query(collection(db, "users"))),
+            getDocs(query(collection(db, "users"), where("role", "==", "student"))),
+            getDocs(query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "approved"), where("teacherIds", "!=", [])))
+        ]);
+
+        const allUsers = totalUsersRes.docs.map(doc => doc.data());
+        const allStudents = totalStudentsRes.docs.map(doc => doc.data());
+        const allTrainedStudents = trainedStudentsRes.docs.map(doc => doc.data());
+
+        // Calculate cumulative data
+        let cumulativeUsers = 0;
+        let cumulativeStudents = 0;
+        let cumulativeTrained = 0;
+
+        const chartData = monthlyData.map(monthStat => {
+            const monthIndex = monthNames.indexOf(monthStat.name);
+            
+            cumulativeUsers += allUsers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
+            cumulativeStudents += allStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
+            cumulativeTrained += allTrainedStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
+            
+            return {
+                ...monthStat,
+                totalUsers: cumulativeUsers,
+                totalStudents: cumulativeStudents,
+                trainedStudents: cumulativeTrained,
+            };
+        });
+
+
+        return { success: true, data: chartData };
+    } catch (error) {
+        console.error("Error fetching monthly user stats:", error);
+        return { success: false, message: "Failed to fetch monthly stats." };
+    }
+}
