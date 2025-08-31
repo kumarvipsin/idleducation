@@ -13,12 +13,14 @@ export function Footer() {
                         <BookOpen className="h-8 w-8" />
                         <span className="text-2xl font-bold">IDL EDUCATION</span>
                     </Link>
-                    <p className="text-sm text-gray-400">
-                        Empowering students with quality education to achieve their dreams.
-                    </p>
+                    <div className="bg-gray-800 p-4 rounded-md">
+                      <p className="text-sm text-gray-400">
+                          Empowering students with quality education to achieve their dreams.
+                      </p>
+                    </div>
                 </div>
 
-                {/* Column 2: Contact Us */}
+                {/* Column 2: Connect With Us */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="bg-gray-800 p-4 rounded-md">
