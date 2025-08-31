@@ -46,28 +46,30 @@ export function Footer() {
                 {/* Column 3: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
-                    <ul className="space-y-3 text-sm text-gray-400">
-                        <li className="flex items-start justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
-                        </li>
-                         <li className="flex items-start justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>Mukherjee Nagar, Delhi-110009</span>
-                        </li>
-                         <li className="flex items-start justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>Mangol Puri, Delhi-110083</span>
-                        </li>
-                         <li className="flex items-start justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>Budh Vihar, Delhi-110086</span>
-                        </li>
-                         <li className="flex items-start justify-center md:justify-start gap-3">
-                            <MapPin className="h-4 w-4 shrink-0 mt-1" />
-                            <span>Krishan Vihar, Delhi-110086</span>
-                        </li>
-                    </ul>
+                    <div className="bg-gray-800 p-4 rounded-md">
+                        <ul className="space-y-3 text-sm text-gray-400">
+                            <li className="flex items-start justify-center md:justify-start gap-3">
+                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
+                            </li>
+                             <li className="flex items-start justify-center md:justify-start gap-3">
+                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <span>Mukherjee Nagar, Delhi-110009</span>
+                            </li>
+                             <li className="flex items-start justify-center md:justify-start gap-3">
+                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <span>Mangol Puri, Delhi-110083</span>
+                            </li>
+                             <li className="flex items-start justify-center md:justify-start gap-3">
+                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <span>Budh Vihar, Delhi-110086</span>
+                            </li>
+                             <li className="flex items-start justify-center md:justify-start gap-3">
+                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <span>Krishan Vihar, Delhi-110086</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 
                 {/* Column 4: Social Media */}
