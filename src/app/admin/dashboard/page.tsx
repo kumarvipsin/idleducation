@@ -1,21 +1,21 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase } from "lucide-react";
 import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ContactSubmissions } from "./contact-submissions";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTrainedStudentsCount, getDeniedStudentsCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedStudentsCount } from "@/app/actions";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalUsers: '0',
     totalStudents: '0',
     newStudents: '0',
-    trainedStudents: '0',
+    totalTeachers: '0',
     deniedStudents: '0',
   });
 
@@ -25,13 +25,13 @@ export default function AdminDashboard() {
         totalUsersRes,
         totalStudentsRes,
         newStudentsRes,
-        trainedStudentsRes,
+        totalTeachersRes,
         deniedStudentsRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
         getNewStudentsCount(),
-        getTrainedStudentsCount(),
+        getTotalTeachersCount(),
         getDeniedStudentsCount(),
       ]);
 
@@ -39,7 +39,7 @@ export default function AdminDashboard() {
         totalUsers: totalUsersRes.success ? String(totalUsersRes.count) : 'N/A',
         totalStudents: totalStudentsRes.success ? String(totalStudentsRes.count) : 'N/A',
         newStudents: newStudentsRes.success ? String(newStudentsRes.count) : 'N/A',
-        trainedStudents: '881', // Placeholder as logic is not fully defined
+        totalTeachers: totalTeachersRes.success ? String(totalTeachersRes.count) : 'N/A',
         deniedStudents: deniedStudentsRes.success ? String(deniedStudentsRes.count) : 'N/A',
       });
     }
@@ -79,11 +79,11 @@ export default function AdminDashboard() {
           </Card>
            <Card className="bg-yellow-100/60 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Trained Students</CardTitle>
-                  <BarChart className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                  <CardTitle className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Total Teachers</CardTitle>
+                  <Briefcase className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{stats.trainedStudents}</div>
+                  <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{stats.totalTeachers}</div>
               </CardContent>
           </Card>
            <Card className="bg-red-100/60 dark:bg-red-900/30 border-red-200 dark:border-red-800">

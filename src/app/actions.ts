@@ -523,6 +523,11 @@ export async function getTotalStudentsCount() {
     return getCount(q);
 }
 
+export async function getTotalTeachersCount() {
+    const q = query(collection(db, "users"), where("role", "==", "teacher"));
+    return getCount(q);
+}
+
 export async function getNewStudentsCount() {
     const q = query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "approved"));
     return getCount(q);
