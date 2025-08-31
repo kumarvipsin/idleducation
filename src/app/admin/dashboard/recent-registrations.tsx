@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { collection, query, where, orderBy, limit, getDocs, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,6 +14,7 @@ interface Student {
   email: string;
   photoURL?: string;
   classCourse?: string;
+  createdAt: Timestamp;
 }
 
 export function RecentRegistrations() {
@@ -25,15 +26,26 @@ export function RecentRegistrations() {
       try {
         const studentsQuery = query(
           collection(db, 'users'),
-          where('role', '==', 'student'),
-          orderBy('createdAt', 'desc'),
-          limit(3)
+          where('role', '==', 'student')
         );
         const querySnapshot = await getDocs(studentsQuery);
-        const recentStudents = querySnapshot.docs.map(doc => ({
+        
+        const allStudents = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
         })) as Student[];
+
+        // Sort by createdAt date descending to get the most recent
+        allStudents.sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+                return b.createdAt.toMillis() - a.createdAt.toMillis();
+            }
+            return 0;
+        });
+
+        // Get the top 3
+        const recentStudents = allStudents.slice(0, 3);
+        
         setStudents(recentStudents);
       } catch (error) {
         console.error('Error fetching recent students:', error);
