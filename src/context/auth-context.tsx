@@ -39,11 +39,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('userProfile');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    // Attempt to load user from sessionStorage on initial load
+    try {
+      const storedUser = sessionStorage.getItem('userProfile');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error("Failed to parse user profile from sessionStorage", error);
     }
-    
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const userDocRef = doc(db, "users", firebaseUser.uid);
@@ -70,28 +75,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (userProfile) {
+          // If a user is found, update state and sessionStorage
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
-          // This case handles when a Firebase user exists but has no profile data
-          await signOut(auth);
-          sessionStorage.removeItem('userProfile');
+          // This case handles when a Firebase user exists but has no profile data in Firestore.
+          // This is an invalid state, so we log them out.
+          await signOut(auth); 
           setUser(null);
+          sessionStorage.removeItem('userProfile');
         }
       } else {
-        sessionStorage.removeItem('userProfile');
-        setUser(null);
+        // Firebase confirms no user is signed in.
+        // We only clear the state if there isn't already a user from sessionStorage.
+        // The actual clearing of sessionStorage should only happen on explicit logout.
+        if (user) {
+          // This can happen if the token expires. Let's log them out fully.
+          setUser(null);
+          sessionStorage.removeItem('userProfile');
+        }
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
+  // We run this effect only once on mount. The `user` dependency is removed to prevent re-runs that clear state.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = (profile: UserProfile) => {
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
     setUser(profile);
-    setLoading(false); // Ensure loading is false after login
+    setLoading(false);
   };
 
   const logout = async () => {
