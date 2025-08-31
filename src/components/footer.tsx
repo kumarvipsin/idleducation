@@ -41,13 +41,13 @@ export function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
                     <div className="flex items-center justify-center md:justify-start gap-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground" aria-label="Instagram">
                           <Instagram className="h-6 w-6" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground" aria-label="Facebook">
                           <Facebook className="h-6 w-6" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground" aria-label="Twitter">
                           <Twitter className="h-6 w-6" />
                         </Link>
                     </div>
