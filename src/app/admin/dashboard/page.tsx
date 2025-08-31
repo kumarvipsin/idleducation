@@ -1,14 +1,14 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle } from "lucide-react";
 import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ContactSubmissions } from "./contact-submissions";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTrainedStudentsCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTrainedStudentsCount, getDeniedStudentsCount } from "@/app/actions";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -16,6 +16,7 @@ export default function AdminDashboard() {
     totalStudents: '0',
     newStudents: '0',
     trainedStudents: '0',
+    deniedStudents: '0',
   });
 
   useEffect(() => {
@@ -24,12 +25,14 @@ export default function AdminDashboard() {
         totalUsersRes,
         totalStudentsRes,
         newStudentsRes,
-        trainedStudentsRes
+        trainedStudentsRes,
+        deniedStudentsRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
         getNewStudentsCount(),
-        getTrainedStudentsCount()
+        getTrainedStudentsCount(),
+        getDeniedStudentsCount(),
       ]);
 
       setStats({
@@ -37,6 +40,7 @@ export default function AdminDashboard() {
         totalStudents: totalStudentsRes.success ? String(totalStudentsRes.count) : 'N/A',
         newStudents: newStudentsRes.success ? String(newStudentsRes.count) : 'N/A',
         trainedStudents: '881', // Placeholder as logic is not fully defined
+        deniedStudents: deniedStudentsRes.success ? String(deniedStudentsRes.count) : 'N/A',
       });
     }
 
@@ -45,7 +49,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           <Card className="bg-blue-100/60 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Users</CardTitle>
@@ -80,6 +84,15 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                   <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{stats.trainedStudents}</div>
+              </CardContent>
+          </Card>
+           <Card className="bg-red-100/60 dark:bg-red-900/30 border-red-200 dark:border-red-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-red-800 dark:text-red-200">Denied Students</CardTitle>
+                  <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+              </CardHeader>
+              <CardContent>
+                  <div className="text-2xl font-bold text-red-900 dark:text-red-100">{stats.deniedStudents}</div>
               </CardContent>
           </Card>
       </div>

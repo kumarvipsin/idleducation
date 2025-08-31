@@ -482,10 +482,21 @@ export async function approveUser(userId: string) {
 export async function denyUser(userId: string) {
   try {
     const userDocRef = doc(db, "users", userId);
-    await deleteDoc(userDocRef);
-    // Note: This does not delete the user from Firebase Auth, as it requires Admin SDK.
-    // However, they won't be able to log in as their user document is gone.
-    return { success: true, message: "User denied and data removed." };
+    const userDoc = await getDoc(userDocRef);
+
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      // Add to deniedUsers collection
+      await setDoc(doc(db, "deniedUsers", userId), {
+        ...userData,
+        deniedAt: serverTimestamp(),
+      });
+      // Delete from users collection
+      await deleteDoc(userDocRef);
+      return { success: true, message: "User denied and data moved." };
+    } else {
+      return { success: false, message: "User not found." };
+    }
   } catch (error) {
     console.error("Error denying user:", error);
     return { success: false, message: "Failed to deny user." };
@@ -526,5 +537,10 @@ export async function getTrainedStudentsCount() {
       where("status", "==", "approved"),
       where("teacherIds", "!=", [])
     );
+    return getCount(q);
+}
+
+export async function getDeniedStudentsCount() {
+    const q = query(collection(db, "deniedUsers"), where("role", "==", "student"));
     return getCount(q);
 }
