@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ContactSubmissions } from "./contact-submissions";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
 import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedStudentsCount } from "@/app/actions";
@@ -110,8 +109,9 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-        <RecentUpdates />
-        <ContactSubmissions />
+        <div className="lg:col-span-2">
+          <RecentUpdates />
+        </div>
       </div>
 
     </div>
