@@ -1,182 +1,35 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { askChatbot } from '@/ai/flows/chat';
-import { MessageSquare, Send, X, Bot, User, Sparkles } from 'lucide-react';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import Link from 'next/link';
 
-type Message = {
-  sender: 'user' | 'bot';
-  text: string;
-};
+const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    {...props}
+  >
+    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 6.555 0 11.895 5.335 11.895 11.891 0 6.556-5.34 11.894-11.894 11.894-1.995 0-3.901-.52-5.586-1.458l-6.273 1.655zm6.318-8.719c.422.795 1.125 1.485 1.933 1.95.807.466 1.733.7 2.68.7a6.49 6.49 0 0 0 5.483-3.23c.313-.538.484-1.158.483-1.799.001-2.021-1.631-3.657-3.658-3.657-1.01 0-1.928.413-2.592 1.078-.663.665-1.079 1.582-1.078 2.591.002.26.042.516.12.762.077.246.189.479.331.696.142.217.309.418.498.599.19.18.402.343.633.486.23.143.48.27.741.378.261.108.537.2.82.287.283.087.576.16.88.216.304.056.618.098.94.124.321.026.65.038.981.036 1.272-.023 2.458-.574 3.33-1.485.872-.911 1.34-2.129 1.325-3.414-.016-1.284-.499-2.502-1.372-3.414-.872-.911-2.089-1.396-3.373-1.41-1.284-.015-2.502.468-3.413 1.34- .911.872-1.396 2.09-1.41 3.374-.015 1.284.468 2.502 1.34 3.413z"/>
+  </svg>
+);
 
-const suggestedReplies = [
-  "What courses do you offer?",
-  "Tell me about the two-teacher model.",
-  "How can I book a free session?",
-];
 
 export function ChatBot() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      setMessages([{ sender: 'bot', text: "Welcome to IDL EDUCATION! How can I assist you today? Here are a few things you can ask:" }]);
-    }
-  }, [isOpen, messages.length]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleSendMessage = async (messageText: string) => {
-    if (!messageText.trim() || isLoading) return;
-
-    const userMessage: Message = { sender: 'user', text: messageText };
-    setMessages((prev) => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-
-    try {
-      const botResponse = await askChatbot(messageText);
-      const botMessage: Message = { sender: 'bot', text: botResponse };
-      setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
-      const errorMessage: Message = {
-        sender: 'bot',
-        text: 'Sorry, something went wrong. Please try again.',
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleSendMessage(input);
-  };
-  
-  const handleSuggestedReplyClick = (reply: string) => {
-    handleSendMessage(reply);
-  };
-
   return (
-    <>
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          size="icon"
-          className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90 transition-transform hover:scale-110"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="h-8 w-8" /> : <MessageSquare className="h-8 w-8" />}
-        </Button>
-      </div>
-      {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50">
-          <Card className="w-[350px] h-[500px] flex flex-col shadow-2xl rounded-2xl border-border/40">
-            <CardHeader className="flex flex-row items-center gap-3 p-4 border-b">
-                <div className="bg-primary/10 p-2 rounded-full">
-                    <Sparkles className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                    <CardTitle className="text-lg">AI Assistant</CardTitle>
-                </div>
-            </CardHeader>
-            <CardContent className="flex-1 overflow-hidden p-0">
-              <ScrollArea className="h-full">
-                <div className="p-4 space-y-4">
-                  {messages.map((message, index) => (
-                    <div
-                      key={index}
-                      className={`flex items-start gap-3 ${
-                        message.sender === 'user' ? 'justify-end' : ''
-                      }`}
-                    >
-                      {message.sender === 'bot' && (
-                        <Avatar className="w-8 h-8 border-2 border-primary/20">
-                            <AvatarFallback className="bg-primary/10">
-                                <Bot className="text-primary"/>
-                            </AvatarFallback>
-                        </Avatar>
-                      )}
-                      <div
-                        className={`rounded-xl px-4 py-2 max-w-[80%] text-sm ${
-                          message.sender === 'user'
-                            ? 'bg-primary text-primary-foreground rounded-br-none'
-                            : 'bg-muted rounded-bl-none'
-                        }`}
-                      >
-                        <p>{message.text}</p>
-                      </div>
-                       {message.sender === 'user' && (
-                        <Avatar className="w-8 h-8">
-                            <AvatarFallback>
-                                <User />
-                            </AvatarFallback>
-                        </Avatar>
-                      )}
-                    </div>
-                  ))}
-                  {isLoading && (
-                     <div className="flex items-start gap-3">
-                        <Avatar className="w-8 h-8 border-2 border-primary/20">
-                            <AvatarFallback className="bg-primary/10">
-                                <Bot className="text-primary"/>
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="rounded-xl px-4 py-2 max-w-[80%] bg-muted rounded-bl-none flex items-center space-x-2">
-                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse delay-150"></span>
-                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse delay-300"></span>
-                        </div>
-                    </div>
-                  )}
-                   <div ref={messagesEndRef} />
-                </div>
-              </ScrollArea>
-            </CardContent>
-             {messages.length === 1 && !isLoading && (
-              <CardFooter className="p-4 border-t flex flex-col items-start gap-2">
-                {suggestedReplies.map((reply, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="sm"
-                    className="w-full text-left justify-start"
-                    onClick={() => handleSuggestedReplyClick(reply)}
-                  >
-                    {reply}
-                  </Button>
-                ))}
-              </CardFooter>
-            )}
-            <CardFooter className="p-4 border-t">
-              <form onSubmit={handleFormSubmit} className="flex w-full items-center space-x-2">
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask a question..."
-                  disabled={isLoading}
-                  className="rounded-full focus-visible:ring-1"
-                />
-                <Button type="submit" size="icon" disabled={isLoading} className="rounded-full">
-                  <Send className="h-4 w-4" />
-                </Button>
-              </form>
-            </CardFooter>
-          </Card>
-        </div>
-      )}
-    </>
+    <div className="fixed bottom-6 right-6 z-50">
+      <Button
+        asChild
+        size="icon"
+        className="rounded-full w-16 h-16 shadow-lg bg-[#25D366] hover:bg-[#128C7E] text-white transition-transform hover:scale-110"
+      >
+        <Link href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer">
+          <WhatsAppIcon />
+        </Link>
+      </Button>
+    </div>
   );
 }
