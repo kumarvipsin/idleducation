@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell } from "lucide-react";
@@ -5,6 +6,7 @@ import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentRegistrations } from "./recent-registrations";
+import { ContactSubmissions } from "./contact-submissions";
 
 export default function AdminDashboard() {
   return (
@@ -81,8 +83,6 @@ export default function AdminDashboard() {
             </Card>
         </div>
       </div>
-      
-      <SessionBookings />
 
       <div className="grid gap-6 md:grid-cols-2">
           <Card>
