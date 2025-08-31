@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
@@ -31,7 +32,7 @@ export default function DirectorPage() {
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="md:col-span-1 bg-muted/40 p-8 flex flex-col items-center justify-center text-center">
               <Avatar className="w-48 h-48 mb-4 border-4 border-primary shadow-lg">
-                <AvatarImage src="/amodpro.jpg" alt="Director's Photo" data-ai-hint="professional headshot" />
+                <Image src="/amodpro.jpg" alt="Director's Photo" width={192} height={192} data-ai-hint="professional headshot" className="aspect-square h-full w-full" />
                 <AvatarFallback>AK</AvatarFallback>
               </Avatar>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground">AMOD KUMAR SHARMA</h1>
