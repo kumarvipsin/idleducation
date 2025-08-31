@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid, Defs, LinearGradient, Stop } from 'recharts';
 
 const data = [
   {
@@ -94,32 +94,62 @@ export function OverviewChart() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+        <Defs>
+          <LinearGradient id="colorTotalUsers" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.8}/>
+            <Stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0.1}/>
+          </LinearGradient>
+          <LinearGradient id="colorTotalStudents" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="5%" stopColor="hsl(var(--chart-2))" stopOpacity={0.8}/>
+            <Stop offset="95%" stopColor="hsl(var(--chart-2))" stopOpacity={0.1}/>
+          </LinearGradient>
+           <LinearGradient id="colorNewStudents" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="5%" stopColor="hsl(var(--chart-3))" stopOpacity={0.8}/>
+            <Stop offset="95%" stopColor="hsl(var(--chart-3))" stopOpacity={0.1}/>
+          </LinearGradient>
+           <LinearGradient id="colorTrainedStudents" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8}/>
+            <Stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1}/>
+          </LinearGradient>
+        </Defs>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border) / 0.5)" />
         <XAxis
           dataKey="name"
-          stroke="#888888"
+          stroke="hsl(var(--muted-foreground))"
           fontSize={12}
           tickLine={false}
           axisLine={false}
         />
         <YAxis
-          stroke="#888888"
+          stroke="hsl(var(--muted-foreground))"
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `${value}`}
         />
         <Tooltip
+          cursor={{ fill: 'hsl(var(--accent) / 0.3)' }}
           contentStyle={{
             backgroundColor: 'hsl(var(--background))',
             borderColor: 'hsl(var(--border))',
+            borderRadius: 'var(--radius)',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          }}
+          labelStyle={{
+            color: 'hsl(var(--foreground))',
+            fontWeight: 'bold',
           }}
         />
-        <Legend iconSize={10} wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-        <Bar dataKey="totalUsers" fill="hsl(var(--chart-1))" name="Total Users" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="totalStudents" fill="hsl(var(--chart-2))" name="Total Students" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="newStudents" fill="hsl(var(--chart-3))" name="New Students" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="trainedStudents" fill="hsl(var(--chart-4))" name="Trained Students" radius={[4, 4, 0, 0]} />
+        <Legend 
+            iconSize={12} 
+            wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+            verticalAlign="top" 
+            align="right"
+            />
+        <Bar dataKey="totalUsers" fill="url(#colorTotalUsers)" name="Total Users" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="totalStudents" fill="url(#colorTotalStudents)" name="Total Students" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="newStudents" fill="url(#colorNewStudents)" name="New Students" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="trainedStudents" fill="url(#colorTrainedStudents)" name="Trained Students" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );
