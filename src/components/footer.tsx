@@ -45,7 +45,7 @@ export function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="border-t border-primary-foreground/20 mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs">
+            <div className="border-t border-primary-foreground/20 mt-4 pt-3 flex flex-col sm:flex-row justify-between items-center text-xs">
                 <p className="text-primary-foreground/80">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                 <nav className="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
                     <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground hover:underline underline-offset-4">
