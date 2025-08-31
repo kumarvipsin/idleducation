@@ -112,11 +112,11 @@ const chartConfig = {
 
 export function OverviewChart() {
   return (
-    <ChartContainer config={chartConfig} className="w-full h-[350px]">
+    <ChartContainer config={chartConfig} className="w-full h-[300px]">
       <LineChart
         data={data}
         margin={{
-          top: 5,
+          top: 10,
           right: 10,
           left: -10,
           bottom: 0,
@@ -147,10 +147,10 @@ export function OverviewChart() {
             verticalAlign="top" 
             align="right"
             />
-        <Line type="monotone" dataKey="totalUsers" stroke="var(--color-totalUsers)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-totalUsers)' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="totalStudents" stroke="var(--color-totalStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-totalStudents)' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="newStudents" stroke="var(--color-newStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-newStudents)' }} activeDot={{ r: 6 }}/>
-        <Line type="monotone" dataKey="trainedStudents" stroke="var(--color-trainedStudents)" strokeWidth={2} dot={{ r: 4, fill: 'var(--color-trainedStudents)' }} activeDot={{ r: 6 }}/>
+        <Line type="monotone" dataKey="totalUsers" stroke="var(--color-totalUsers)" strokeWidth={2} dot={false} activeDot={{ r: 5 }}/>
+        <Line type="monotone" dataKey="totalStudents" stroke="var(--color-totalStudents)" strokeWidth={2} dot={false} activeDot={{ r: 5 }}/>
+        <Line type="monotone" dataKey="newStudents" stroke="var(--color-newStudents)" strokeWidth={2} strokeDasharray="5 5" dot={false} activeDot={{ r: 5 }}/>
+        <Line type="monotone" dataKey="trainedStudents" stroke="var(--color-trainedStudents)" strokeWidth={2} strokeDasharray="3 4 5 2" dot={false} activeDot={{ r: 5 }}/>
       </LineChart>
     </ChartContainer>
   );

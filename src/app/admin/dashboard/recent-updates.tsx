@@ -45,6 +45,7 @@ import { addUpdate, getUpdates, editUpdate, deleteUpdate } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface Update {
   id: string;
@@ -54,10 +55,10 @@ interface Update {
 }
 
 const iconMap: { [key: string]: React.ReactNode } = {
-    "New Course Announcement!": <Megaphone className="w-6 h-6 text-primary" />,
-    "Algebra 101 Materials Updated": <FileText className="w-6 h-6 text-primary" />,
-    "Upcoming Webinar": <Calendar className="w-6 h-6 text-primary" />,
-    default: <Bell className="w-6 h-6 text-primary" />,
+    "New Course Announcement!": <Megaphone className="w-5 h-5 text-primary" />,
+    "Algebra 101 Materials Updated": <FileText className="w-5 h-5 text-primary" />,
+    "Upcoming Webinar": <Calendar className="w-5 h-5 text-primary" />,
+    default: <Bell className="w-5 h-5 text-primary" />,
 };
 
 const getIconForTitle = (title: string) => {
@@ -223,15 +224,14 @@ export function RecentUpdates() {
   }
 
   const renderSkeleton = () => (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {[...Array(3)].map((_, i) => (
         <div key={i} className="flex items-start gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-10 w-10 rounded-full" />
           <div className="flex-1 space-y-2">
             <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-4 w-full" />
           </div>
-          <Skeleton className="h-4 w-1/4" />
         </div>
       ))}
     </div>
@@ -243,7 +243,7 @@ export function RecentUpdates() {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Recent Updates</CardTitle>
-            <CardDescription>A quick look at the latest platform announcements.</CardDescription>
+            <CardDescription>Latest platform announcements.</CardDescription>
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
@@ -264,66 +264,68 @@ export function RecentUpdates() {
           </Dialog>
         </CardHeader>
         <CardContent>
-          {loading ? (
-            renderSkeleton()
-          ) : (
-            <div className="space-y-6">
-              {updates.length > 0 ? (
-                updates.map((update) => (
-                  <div key={update.id} className="flex items-start gap-4">
-                      <div className="bg-primary/10 p-3 rounded-full">
-                        {getIconForTitle(update.title)}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{update.title}</h3>
-                      <p className="text-xs text-muted-foreground">{update.description}</p>
-                    </div>
-                    <div className="text-xs text-muted-foreground whitespace-nowrap mr-2">
-                      {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                    </div>
-                    
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-6 w-6">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setEditingUpdate(update)}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                              </DropdownMenuItem>
-                          </DialogTrigger>
-                           {editingUpdate && editingUpdate.id === update.id && (
-                             <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                  <DialogTitle>Edit Post</DialogTitle>
-                                  <DialogDescription>
-                                    Make changes to your post here. Click save when you're done.
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <EditPostForm update={editingUpdate} onPostEdited={handlePostEdited} />
-                              </DialogContent>
-                          )}
-                        </Dialog>
-                        <AlertDialogTrigger asChild>
-                          <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
-                            <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-                            <span className="text-destructive">Delete</span>
-                          </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+          <ScrollArea className="h-[300px] w-full pr-4">
+            {loading ? (
+              renderSkeleton()
+            ) : (
+              <div className="space-y-4">
+                {updates.length > 0 ? (
+                  updates.map((update) => (
+                    <div key={update.id} className="flex items-start gap-3">
+                        <div className="bg-primary/10 p-2 rounded-full mt-1">
+                          {getIconForTitle(update.title)}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-sm">{update.title}</h3>
+                        <p className="text-xs text-muted-foreground">{update.description}</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                        </p>
+                      </div>
+                      
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                               <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setEditingUpdate(update)}>
+                                  <Edit className="mr-2 h-4 w-4" />
+                                  Edit
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                             {editingUpdate && editingUpdate.id === update.id && (
+                               <DialogContent className="sm:max-w-[425px]">
+                                  <DialogHeader>
+                                    <DialogTitle>Edit Post</DialogTitle>
+                                    <DialogDescription>
+                                      Make changes to your post here. Click save when you're done.
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <EditPostForm update={editingUpdate} onPostEdited={handlePostEdited} />
+                                </DialogContent>
+                            )}
+                          </Dialog>
+                          <AlertDialogTrigger asChild>
+                            <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
+                              <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                              <span className="text-destructive">Delete</span>
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
 
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-muted-foreground">No recent updates.</p>
-              )}
-            </div>
-          )}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-muted-foreground py-12">No recent updates.</p>
+                )}
+              </div>
+            )}
+          </ScrollArea>
         </CardContent>
       </Card>
 

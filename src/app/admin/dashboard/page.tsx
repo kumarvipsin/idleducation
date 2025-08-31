@@ -51,28 +51,25 @@ export default function AdminDashboard() {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-3">
+        <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
             </CardHeader>
             <CardContent>
               <ScrollArea className="w-full whitespace-nowrap rounded-lg">
-                <div className="w-full min-w-[700px]">
+                <div className="w-full min-w-[600px]">
                   <OverviewChart />
                 </div>
               </ScrollArea>
             </CardContent>
         </Card>
+        <RecentUpdates />
       </div>
 
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SessionBookings />
         <ContactSubmissions />
-      </div>
-
-      <div>
-        <RecentUpdates />
       </div>
     </div>
   );
