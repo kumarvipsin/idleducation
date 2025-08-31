@@ -81,9 +81,6 @@ export function Footer() {
                         <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                         <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="LinkedIn">
-                          <Linkedin className="h-4 w-4" />
-                        </Link>
                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
