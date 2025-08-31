@@ -13,7 +13,8 @@ export function AppContent({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const showFooter = !pathname.startsWith('/login');
+  const noFooterPaths = ['/login', '/admin', '/teacher', '/student'];
+  const showFooter = !noFooterPaths.some(path => pathname.startsWith(path));
 
   return (
     <>
