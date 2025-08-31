@@ -24,7 +24,7 @@ export function Footer() {
                     <ul className="space-y-3 text-sm text-primary-foreground/80">
                         <li className="flex items-center justify-center md:justify-start gap-3">
                             <MapPin className="h-4 w-4 shrink-0" />
-                            <span>Y-25A Budh Vihar, Phase-1, Delhi-110086</span>
+                            <span>E-18 Krishan Vihar, Delhi-110086</span>
                         </li>
                     </ul>
                 </div>
