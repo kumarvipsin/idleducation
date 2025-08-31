@@ -5,7 +5,6 @@ import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell } from "lucide
 import { SessionBookings } from "./session-bookings";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { RecentRegistrations } from "./recent-registrations";
 import { ContactSubmissions } from "./contact-submissions";
 import { RecentUpdates } from "./recent-updates";
 
@@ -67,7 +66,6 @@ export default function AdminDashboard() {
         </Card>
         
         <div className="space-y-6">
-            <RecentRegistrations />
              <Card>
                 <CardHeader>
                     <CardTitle>Recent Activity</CardTitle>
