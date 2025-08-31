@@ -30,7 +30,7 @@ const withAuth = <P extends object>(
       }
     }, [user, loading, router]);
 
-    if (loading) {
+    if (loading || !user) {
       return (
         <div className="flex items-center justify-center h-screen">
             <div className="space-y-4">
@@ -42,7 +42,7 @@ const withAuth = <P extends object>(
       );
     }
     
-    if (!user || (user.role && !allowedRoles.includes(user.role))) {
+    if (user.role && !allowedRoles.includes(user.role)) {
       return null;
     }
 
