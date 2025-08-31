@@ -85,8 +85,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-          <RecentUpdates />
+      <div className="grid gap-6">
           <SessionBookings />
       </div>
     </div>
