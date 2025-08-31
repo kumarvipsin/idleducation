@@ -68,15 +68,6 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold text-green-900 dark:text-green-100">{stats.totalStudents}</div>
               </CardContent>
           </Card>
-           <Card className="bg-pink-100/60 dark:bg-pink-900/30 border-pink-200 dark:border-pink-800">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-pink-800 dark:text-pink-200">Approved Students</CardTitle>
-                  <UserPlus className="h-4 w-4 text-pink-600 dark:text-pink-400" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold text-pink-900 dark:text-pink-100">{stats.newStudents}</div>
-              </CardContent>
-          </Card>
            <Card className="bg-yellow-100/60 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Total Teachers</CardTitle>
@@ -84,6 +75,15 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                   <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{stats.totalTeachers}</div>
+              </CardContent>
+          </Card>
+           <Card className="bg-pink-100/60 dark:bg-pink-900/30 border-pink-200 dark:border-pink-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-pink-800 dark:text-pink-200">Approved Students</CardTitle>
+                  <UserPlus className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+              </CardHeader>
+              <CardContent>
+                  <div className="text-2xl font-bold text-pink-900 dark:text-pink-100">{stats.newStudents}</div>
               </CardContent>
           </Card>
            <Card className="bg-red-100/60 dark:bg-red-900/30 border-red-200 dark:border-red-800">
