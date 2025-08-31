@@ -36,6 +36,11 @@ const indianStates = [
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
+const allPrograms = [
+    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
+    "JEE", "NEET", "CUET", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
+];
+
 export function HeroSection() {
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -147,10 +152,19 @@ export function HeroSection() {
                       name="classCourse"
                       render={({ field }) => (
                         <FormItem className="space-y-1">
-                           <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
-                          <FormControl>
-                            <Input id="class-course" placeholder="Enter Your Class/Course" {...field} />
-                          </FormControl>
+                          <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
+                           <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a Class or Course" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {allPrograms.map(program => (
+                                <SelectItem key={program} value={program}>{program}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                           <FormMessage />
                         </FormItem>
                       )}
