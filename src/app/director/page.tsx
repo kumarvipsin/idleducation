@@ -32,7 +32,7 @@ export default function DirectorPage() {
             <div className="md:col-span-1 bg-muted/40 p-8 flex flex-col items-center justify-center text-center">
               <Avatar className="w-48 h-48 mb-4 border-4 border-primary shadow-lg">
                 <AvatarImage src="/amodpro.jpg" alt="Director's Photo" data-ai-hint="professional headshot" />
-                <AvatarFallback>ER</AvatarFallback>
+                <AvatarFallback>AK</AvatarFallback>
               </Avatar>
               <h1 className="text-2xl md:text-3xl font-bold text-foreground">AMOD KUMAR SHARMA</h1>
               <p className="text-lg text-muted-foreground mt-1">Founder & Managing Director</p>
@@ -56,10 +56,10 @@ export default function DirectorPage() {
                 </TabsContent>
                 <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed space-y-4">
                   <p>
-                    Dr. Evelyn Reed is a visionary in the field of educational technology with over two decades of experience. Holding a Ph.D. in Education from Stanford University, she has dedicated her career to exploring the intersection of technology and learning.
+                    Amod Kumar Sharma is a visionary in the field of educational technology with over two decades of experience. He has dedicated his career to exploring the intersection of technology and learning.
                   </p>
                   <p>
-                    Before founding IDL EDUCATION, Dr. Reed was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions worldwide. Her research on digital pedagogy is widely published, and she is a frequent keynote speaker at global education conferences. Dr. Reed's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
+                    Before founding IDL EDUCATION, Mr. Sharma was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions nationwide. His research on digital pedagogy is widely published, and he is a frequent keynote speaker at global education conferences. Mr. Sharma's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
                   </p>
                 </TabsContent>
               </Tabs>
