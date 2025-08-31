@@ -52,7 +52,7 @@ export function UserCompositionChart() {
   }
 
   return (
-    <ChartContainer config={chartConfig} className="mx-auto aspect-square h-[250px]">
+    <ChartContainer config={chartConfig} className="mx-auto aspect-square h-[250px] relative">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -69,7 +69,6 @@ export function UserCompositionChart() {
        {totalUsers > 0 && (
             <div
                 className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center text-center"
-                style={{top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}
             >
                 <div className="text-2xl font-bold">
                     {totalUsers.toLocaleString()}
