@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -109,7 +108,7 @@ export function ExamCategories() {
         </div>
         <Card
           className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-          style={{ backgroundColor: '#bbdefb' }}
+          style={{ backgroundColor: '#03045e' }}
         >
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
