@@ -16,6 +16,7 @@ import {
 import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function AdminLayout({
   children,
@@ -23,7 +24,7 @@ function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -37,27 +38,28 @@ function AdminLayout({
         <Sidebar>
           <SidebarHeader>
             <div className="flex items-center gap-2 p-4">
-              <span className="text-lg font-semibold">Supper Admin Panel</span>
+              <span className="text-lg font-semibold">Admin Panel</span>
             </div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')}>
-                  <Link href="/admin/profile">
-                    <User />
-                    <span>Admin Profile</span>
+                  <Link href="/admin/profile" className="h-auto py-2">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Admin'} />
+                      <AvatarFallback>
+                        {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">{user?.name}</span>
+                      <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                    </div>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
-                  <Link href="/admin/users">
-                    <User />
-                    <span>User</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
                   <Link href="/admin/dashboard">
@@ -83,7 +85,7 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/students')}>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                   <Link href="/admin/users">
                     <GraduationCap />
                     <span>Students</span>
