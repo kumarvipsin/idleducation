@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react";
+import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 
 export function Footer() {
   return (
@@ -45,6 +45,15 @@ export function Footer() {
                         </Link>
                         <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Twitter">
                           <Twitter className="h-6 w-6" />
+                        </Link>
+                         <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="LinkedIn">
+                          <Linkedin className="h-6 w-6" />
+                        </Link>
+                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Telegram">
+                          <Send className="h-6 w-6" />
+                        </Link>
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="YouTube">
+                          <Youtube className="h-6 w-6" />
                         </Link>
                     </div>
                 </div>
