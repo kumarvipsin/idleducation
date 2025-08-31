@@ -28,7 +28,7 @@ export function AppContent({
       <main className="flex-grow">
         {children}
       </main>
-      {showFooter && <Footer />}
+      <Footer />
       <Toaster />
       <ChatBot />
     </>
