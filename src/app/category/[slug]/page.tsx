@@ -36,7 +36,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students collaborating",
           title: "Pravesh CUET Commerce 2026",
           tags: ["NEW", "Hinglish"],
@@ -51,7 +51,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "ONLINE",
           modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "students learning",
           title: "Pravesh CUET Science 2026",
           tags: ["NEW", "Hinglish"],
@@ -66,7 +66,7 @@ const categoryData: { [key: string]: any } = {
         {
           mode: "OFFLINE",
           modeColor: "bg-red-600",
-          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
           imageHint: "teacher with students",
           title: "Superclass - Pravesh CUET 2026",
           tags: ["NEW", "Hinglish"],
@@ -108,8 +108,7 @@ const subCategories: { [key: string]: string[] } = {
 };
 
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+export default function CategoryPage({ params: { slug } }: { params: { slug: string } }) {
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
   const subs = subCategories[slug] || subCategories["default"];
 
