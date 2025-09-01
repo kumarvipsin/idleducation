@@ -699,3 +699,24 @@ export async function getMonthlyUserStats() {
         return { success: false, message: "Failed to fetch monthly stats." };
     }
 }
+
+export async function getActiveUsersCount() {
+    const q = query(collection(db, "users"), where("status", "==", "approved"));
+    return getCount(q);
+}
+
+export async function getMonthlyActiveUsersCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const q = query(collection(db, "users"), where("status", "==", "approved"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
+    return getCount(q);
+}
+
+export async function getYearlyActiveUsersCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), 0, 1);
+    const endDate = new Date(now.getFullYear() + 1, 0, 1);
+    const q = query(collection(db, "users"), where("status", "==", "approved"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
+    return getCount(q);
+}

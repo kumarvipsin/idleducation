@@ -1,12 +1,12 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle, Megaphone } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle, Megaphone, UserCheck } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount, getYearlyActiveUsersCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -23,6 +23,9 @@ export default function AdminDashboard() {
     monthlySubmissions: '0',
     totalUpdates: '0',
     monthlyUpdates: '0',
+    activeUsers: '0',
+    monthlyActiveUsers: '0',
+    yearlyActiveUsers: '0',
   });
 
   useEffect(() => {
@@ -39,6 +42,9 @@ export default function AdminDashboard() {
         monthlySubmissionsRes,
         totalUpdatesRes,
         monthlyUpdatesRes,
+        activeUsersRes,
+        monthlyActiveUsersRes,
+        yearlyActiveUsersRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
@@ -51,6 +57,9 @@ export default function AdminDashboard() {
         getMonthlyContactSubmissionsCount(),
         getTotalUpdatesCount(),
         getMonthlyUpdatesCount(),
+        getActiveUsersCount(),
+        getMonthlyActiveUsersCount(),
+        getYearlyActiveUsersCount(),
       ]);
 
       setStats({
@@ -65,6 +74,9 @@ export default function AdminDashboard() {
         monthlySubmissions: monthlySubmissionsRes.success ? String(monthlySubmissionsRes.count) : 'N/A',
         totalUpdates: totalUpdatesRes.success ? String(totalUpdatesRes.count) : 'N/A',
         monthlyUpdates: monthlyUpdatesRes.success ? String(monthlyUpdatesRes.count) : 'N/A',
+        activeUsers: activeUsersRes.success ? String(activeUsersRes.count) : 'N/A',
+        monthlyActiveUsers: monthlyActiveUsersRes.success ? String(monthlyActiveUsersRes.count) : 'N/A',
+        yearlyActiveUsers: yearlyActiveUsersRes.success ? String(yearlyActiveUsersRes.count) : 'N/A',
       });
     }
 
@@ -149,6 +161,21 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">+{stats.monthlyUpdates} this month</p>
               </CardContent>
           </Card>
+      </div>
+
+       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                <UserCheck className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div className="text-2xl font-bold">{stats.activeUsers}</div>
+                <p className="text-xs text-muted-foreground">
+                  +{stats.monthlyActiveUsers} this month, +{stats.yearlyActiveUsers} this year
+                </p>
+            </CardContent>
+        </Card>
       </div>
       
       <div>
