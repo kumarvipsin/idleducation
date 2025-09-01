@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser } from "@/app/actions";
+import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, Briefcase, ChevronDown, KeyRound, CheckCircle, XCircle } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { User, GraduationCap, Briefcase, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,14 +36,14 @@ interface User {
   email: string;
   role: 'student' | 'teacher';
   teacherIds?: string[];
-  status: 'pending' | 'approved';
+  status: 'pending' | 'approved' | 'inactive';
 }
 
 export default function AdminUsersPage() {
   const [students, setStudents] = useState<User[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | null>(null);
+  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -105,10 +105,33 @@ export default function AdminUsersPage() {
     setSelectedUser(null);
     setActionType(null);
   }
+  
+  const handleToggleStatus = async () => {
+    if (!selectedUser) return;
+    const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
+    const result = await setUserStatus(selectedUser.id, newStatus);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchUsers();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    setSelectedUser(null);
+    setActionType(null);
+  }
 
   const getTeacherNames = (teacherIds: string[] = []) => {
     if (teacherIds.length === 0) return "Not Assigned";
     return teacherIds.map(id => teachers.find(t => t.id === id)?.name).filter(Boolean).join(', ');
+  };
+  
+  const getBadgeVariant = (status: User['status']) => {
+    switch (status) {
+        case 'approved': return 'default';
+        case 'pending': return 'secondary';
+        case 'inactive': return 'destructive';
+        default: return 'outline';
+    }
   };
 
   return (
@@ -120,7 +143,7 @@ export default function AdminUsersPage() {
             <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[350px]">
+            <ScrollArea className="h-[calc(100vh-250px)]">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -128,7 +151,7 @@ export default function AdminUsersPage() {
                     <TableHead>Email</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Assigned Teachers</TableHead>
-                    <TableHead className="w-[350px]">Actions</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -137,13 +160,13 @@ export default function AdminUsersPage() {
                       <TableCell className="font-medium flex items-center gap-2"><GraduationCap className="h-4 w-4"/> {student.name}</TableCell>
                       <TableCell>{student.email}</TableCell>
                        <TableCell>
-                        <Badge variant={student.status === 'approved' ? 'default' : 'secondary'} className="capitalize">
+                        <Badge variant={getBadgeVariant(student.status)} className="capitalize">
                           {student.status}
                         </Badge>
                       </TableCell>
                       <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
-                      <TableCell className="flex items-center gap-2">
-                        {student.status === 'pending' && (
+                      <TableCell className="text-right space-x-2">
+                        {student.status === 'pending' ? (
                           <>
                            <Button size="sm" onClick={() => handleApproveUser(student.id)}>
                               <CheckCircle className="mr-2 h-4 w-4" />
@@ -156,37 +179,54 @@ export default function AdminUsersPage() {
                               </Button>
                            </AlertDialogTrigger>
                           </>
+                        ) : (
+                          <>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                  Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-56">
+                                {teachers.map(teacher => (
+                                  <DropdownMenuCheckboxItem
+                                    key={teacher.id}
+                                    checked={student.teacherIds?.includes(teacher.id)}
+                                    onCheckedChange={(checked) => {
+                                      const currentTeacherIds = student.teacherIds || [];
+                                      const newTeacherIds = checked
+                                        ? [...currentTeacherIds, teacher.id]
+                                        : currentTeacherIds.filter(id => id !== teacher.id);
+                                      handleAssignTeachers(student.id, newTeacherIds);
+                                    }}
+                                  >
+                                    {teacher.name}
+                                  </DropdownMenuCheckboxItem>
+                                ))}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            <DropdownMenu>
+                               <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="sm">Actions</Button>
+                               </DropdownMenuTrigger>
+                               <DropdownMenuContent>
+                                  <AlertDialogTrigger asChild>
+                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
+                                       {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                                       {student.status === 'approved' ? 'Deactivate' : 'Activate'}
+                                     </DropdownMenuItem>
+                                   </AlertDialogTrigger>
+                                   <AlertDialogTrigger asChild>
+                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
+                                       <KeyRound className="mr-2 h-4 w-4" />
+                                       Reset Password
+                                     </DropdownMenuItem>
+                                   </AlertDialogTrigger>
+                               </DropdownMenuContent>
+                            </DropdownMenu>
+                          </>
                         )}
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline">
-                              Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent className="w-56">
-                            {teachers.map(teacher => (
-                              <DropdownMenuCheckboxItem
-                                key={teacher.id}
-                                checked={student.teacherIds?.includes(teacher.id)}
-                                onCheckedChange={(checked) => {
-                                  const currentTeacherIds = student.teacherIds || [];
-                                  const newTeacherIds = checked
-                                    ? [...currentTeacherIds, teacher.id]
-                                    : currentTeacherIds.filter(id => id !== teacher.id);
-                                  handleAssignTeachers(student.id, newTeacherIds);
-                                }}
-                              >
-                                {teacher.name}
-                              </DropdownMenuCheckboxItem>
-                            ))}
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                         <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon" onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
-                            <KeyRound className="h-4 w-4" />
-                            <span className="sr-only">Reset Password</span>
-                          </Button>
-                        </AlertDialogTrigger>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -200,14 +240,19 @@ export default function AdminUsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              {actionType === 'resetPassword' && `This action will send a password reset link to ${selectedUser?.email}. This cannot be undone.`}
-              {actionType === 'deny' && `This action will deny the registration for ${selectedUser?.name} and remove their data. This cannot be undone.`}
+              {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
+              {actionType === 'deny' && `This will deny the registration for ${selectedUser?.name} and remove their data.`}
+              {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={actionType === 'resetPassword' ? handlePasswordReset : handleDenyUser}>
-                {actionType === 'deny' ? 'Deny' : 'Continue'}
+            <AlertDialogAction onClick={() => {
+                if (actionType === 'resetPassword') handlePasswordReset();
+                else if (actionType === 'deny') handleDenyUser();
+                else if (actionType === 'toggleStatus') handleToggleStatus();
+            }}>
+                Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
