@@ -44,20 +44,20 @@ export function Footer() {
                     <div className="bg-gray-900 p-4 rounded-md">
                         <ul className="space-y-3 text-sm text-gray-400">
                             <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
                                 <Phone className="h-4 w-4 shrink-0" />
                                 <a href="tel:+917011117585" className="hover:underline">+91 7011117585</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
                                 <Phone className="h-4 w-4 shrink-0" />
                                 <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
+                            </li>
+                            <li className="flex items-center justify-start gap-3">
+                                <Mail className="h-4 w-4 shrink-0" />
+                                <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
+                            </li>
+                            <li className="flex items-center justify-start gap-3">
+                                <Mail className="h-4 w-4 shrink-0" />
+                                <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
                             </li>
                         </ul>
                     </div>
