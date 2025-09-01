@@ -88,7 +88,7 @@ export default function AdminDashboard() {
           </Card>
            <Card className="bg-red-100/60 dark:bg-red-900/30 border-red-200 dark:border-red-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-red-800 dark:text-red-200">Denied Students</CardTitle>
+                  <CardTitle className="text-sm font-medium text-red-800 dark:text-red-200">Deny Users</CardTitle>
                   <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
               </CardHeader>
               <CardContent>
