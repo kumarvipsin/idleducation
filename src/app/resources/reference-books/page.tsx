@@ -7,23 +7,66 @@ import { Button } from '@/components/ui/button';
 import { Book, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 
-type Book = {
+type Note = {
   title: string;
-  author: string;
-  subject: string;
-  imageUrl: string;
-  imageHint: string;
+  description: string;
+  language: string;
+  bgColor: string;
+  textColor: string;
+  buttons: { text: string; href: string; }[];
 };
 
-const booksByClass: { [key: string]: Book[] } = {
-  'Class 6': [],
-  'Class 7': [],
-  'Class 8': [],
-  'Class 9': [],
-  'Class 10': [],
-  'Class 11': [],
-  'Class 12': [],
+const topCourses = [
+    {
+        title: "Maths",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-sky-500",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "Science",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+    {
+        title: "Science",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+];
+
+const booksByClass: { [key: string]: Note[] } = {
+  'Class 6': topCourses,
+  'Class 7': topCourses,
+  'Class 8': topCourses,
+  'Class 9': topCourses,
+  'Class 10': topCourses,
+  'Class 11': topCourses,
+  'Class 12': topCourses,
 };
 
 const classes = Object.keys(booksByClass);
@@ -33,9 +76,7 @@ export default function ReferenceBooksPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredBooks = booksByClass[selectedClass]?.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.subject.toLowerCase().includes(searchTerm.toLowerCase())
+    book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -87,22 +128,24 @@ export default function ReferenceBooksPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks && filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
-              <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={book.imageUrl}
-                    alt={book.title}
-                    data-ai-hint={book.imageHint}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-4">
-                  <span className="text-xs font-semibold uppercase text-primary bg-primary/10 py-1 px-2 rounded-full">{book.subject}</span>
-                  <h3 className="text-lg font-bold mt-2 truncate">{book.title}</h3>
-                  <p className="text-sm text-muted-foreground">by {book.author}</p>
-                </CardContent>
-              </Card>
+               <div key={index} className="p-1 h-full">
+                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${book.bgColor}`}>
+                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
+                    <h3 className={`text-xl font-semibold mb-2 ${book.textColor}`}>
+                        {book.title}
+                    </h3>
+                      {book.description && <p className={`text-sm mb-2 ${book.textColor}`}>{book.description}</p>}
+                      {book.language && <p className={`text-xs ${book.textColor}`}>{book.language}</p>}
+                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
+                        {book.buttons.map((button: any) => (
+                        <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                            <Link href={button.href}>{button.text}</Link>
+                        </Button>
+                        ))}
+                    </div>
+                    </CardContent>
+                </Card>
+              </div>
             ))
           ) : (
              <div className="col-span-full text-center py-12">
