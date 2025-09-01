@@ -9,7 +9,7 @@ import { useLanguage } from "@/context/language-context";
 import { Input } from "./ui/input";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export function Header() {
@@ -27,6 +27,11 @@ export function Header() {
     if (!user || !user.role) return '/';
     return user.role === 'admin' ? '/admin/dashboard' : `/${user.role}/dashboard`;
   };
+  
+  const getProfilePath = (user: UserProfile | null) => {
+    if (!user || !user.role) return '/';
+    return `/${user.role}/profile`;
+  }
 
   const logoHref = getDashboardPath(user);
 
@@ -36,7 +41,48 @@ export function Header() {
     }
 
     if (user) {
-      return null;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              <Avatar className="h-10 w-10">
+                 <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                <AvatarFallback>
+                  {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user.name}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+               <Link href={getDashboardPath(user)}>
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={getProfilePath(user)}>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     }
 
     return (
@@ -76,8 +122,6 @@ export function Header() {
             </span>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-            {!user && !loading && (
-              <>
                 <Link
                     href="/"
                     className="text-sm font-medium hover:underline underline-offset-4"
@@ -96,8 +140,6 @@ export function Header() {
                 >
                     {t('contact')}
                 </Link>
-              </>
-            )}
             {renderAuthSection()}
             <Link href="/notifications">
                 <Button variant="outline" size="icon">
