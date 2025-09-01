@@ -28,7 +28,9 @@ const topCourses = [
         ],
     },
     {
-        title: "UPSC Civil Services: Prelims Test Series",
+        title: "Science",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
         bgColor: "bg-[#2a9d8f]",
         textColor: "text-white",
         buttons: [
