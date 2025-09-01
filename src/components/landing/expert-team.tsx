@@ -67,7 +67,8 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden"
+                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardContent className="p-6 flex-1 flex flex-col items-center">
                     <div className="relative w-32 h-32 mb-4">
