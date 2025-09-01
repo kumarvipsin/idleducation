@@ -92,6 +92,14 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
+                  <Link href="/admin/messages">
+                    <MessageSquare />
+                    <span>Contact Us</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
                   <Link href="/admin/demo">
                     <Presentation />
@@ -99,14 +107,6 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
                 {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
-                  <Link href="/admin/messages">
-                    <MessageSquare />
-                    <span>Contact Us</span>
-                  </Link>
-                </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
