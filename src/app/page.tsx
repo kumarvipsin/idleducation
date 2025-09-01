@@ -9,11 +9,13 @@ import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { ExamCategories } from '@/components/landing/exam-categories';
+import { TopCourses } from '@/components/landing/top-courses';
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection />
+      <TopCourses />
       <ExamCategories />
       <OurFeatures />
       <ExpertTeam />
