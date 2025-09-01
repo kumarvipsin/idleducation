@@ -598,6 +598,23 @@ export async function getMonthlyContactSubmissionsCount() {
     return getCount(q);
 }
 
+export async function getTotalUpdatesCount() {
+    const q = query(collection(db, "updates"));
+    return getCount(q);
+}
+
+export async function getMonthlyUpdatesCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const q = query(
+        collection(db, "updates"),
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
+    );
+    return getCount(q);
+}
 
 export async function getMonthlyUserStats() {
     try {

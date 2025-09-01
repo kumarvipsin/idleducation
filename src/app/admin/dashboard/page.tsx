@@ -1,12 +1,12 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle, Megaphone } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -21,6 +21,8 @@ export default function AdminDashboard() {
     monthlyBookings: '0',
     totalSubmissions: '0',
     monthlySubmissions: '0',
+    totalUpdates: '0',
+    monthlyUpdates: '0',
   });
 
   useEffect(() => {
@@ -35,6 +37,8 @@ export default function AdminDashboard() {
         monthlyBookingsRes,
         totalSubmissionsRes,
         monthlySubmissionsRes,
+        totalUpdatesRes,
+        monthlyUpdatesRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
@@ -45,6 +49,8 @@ export default function AdminDashboard() {
         getMonthlySessionBookingsCount(),
         getTotalContactSubmissionsCount(),
         getMonthlyContactSubmissionsCount(),
+        getTotalUpdatesCount(),
+        getMonthlyUpdatesCount(),
       ]);
 
       setStats({
@@ -57,6 +63,8 @@ export default function AdminDashboard() {
         monthlyBookings: monthlyBookingsRes.success ? String(monthlyBookingsRes.count) : 'N/A',
         totalSubmissions: totalSubmissionsRes.success ? String(totalSubmissionsRes.count) : 'N/A',
         monthlySubmissions: monthlySubmissionsRes.success ? String(monthlySubmissionsRes.count) : 'N/A',
+        totalUpdates: totalUpdatesRes.success ? String(totalUpdatesRes.count) : 'N/A',
+        monthlyUpdates: monthlyUpdatesRes.success ? String(monthlyUpdatesRes.count) : 'N/A',
       });
     }
 
@@ -65,7 +73,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
           <Card className="bg-blue-100/60 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Users</CardTitle>
@@ -129,6 +137,16 @@ export default function AdminDashboard() {
               <CardContent>
                   <div className="text-2xl font-bold text-teal-900 dark:text-teal-100">{stats.totalSubmissions}</div>
                   <p className="text-xs text-muted-foreground">+{stats.monthlySubmissions} this month</p>
+              </CardContent>
+          </Card>
+          <Card className="bg-purple-100/60 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-purple-800 dark:text-purple-200">Recent Updates</CardTitle>
+                  <Megaphone className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+              </CardHeader>
+              <CardContent>
+                  <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">{stats.totalUpdates}</div>
+                  <p className="text-xs text-muted-foreground">+{stats.monthlyUpdates} this month</p>
               </CardContent>
           </Card>
       </div>
