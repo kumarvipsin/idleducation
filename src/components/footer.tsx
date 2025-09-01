@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -84,6 +85,17 @@ export function Footer() {
                         </Link>
                         <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
+                        </Link>
+                    </div>
+                    <div className="mt-4">
+                        <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
+                            <Image 
+                                src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
+                                alt="Get it on Google Play"
+                                width={135}
+                                height={40}
+                                className="h-auto"
+                            />
                         </Link>
                     </div>
                 </div>
