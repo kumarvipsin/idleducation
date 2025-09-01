@@ -28,7 +28,6 @@ export default function AboutPage() {
     <div className="container mx-auto py-8 px-4 md:px-6">
       <section className="my-12">
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">IDL Learning App - Learn Smart</h1>
           <Button asChild className="mt-6">
             <Link href="/director">Meet Our Director</Link>
           </Button>
