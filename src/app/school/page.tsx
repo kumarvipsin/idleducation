@@ -58,7 +58,6 @@ const topCourses = [
 ];
 
 const coursesByCategory: { [key: string]: any[] } = {
-  'All Batches': topCourses,
   'Class 5': topCourses,
   'Class 6': topCourses,
   'Class 7': topCourses,
@@ -68,6 +67,7 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 11': topCourses,
   'Class 12': topCourses,
 };
+coursesByCategory['All Batches'] = Object.values(coursesByCategory).flat();
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
