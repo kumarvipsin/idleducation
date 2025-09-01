@@ -125,10 +125,10 @@ export default function ReferenceBooksPage() {
             )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredBooks && filteredBooks.length > 0 ? (
             filteredBooks.map((book, index) => (
-               <div key={index} className="p-1 h-full">
+               <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                 <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${book.bgColor}`}>
                     <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
                     <h3 className={`text-xl font-semibold mb-2 ${book.textColor}`}>
@@ -148,7 +148,7 @@ export default function ReferenceBooksPage() {
               </div>
             ))
           ) : (
-             <div className="col-span-full text-center py-12">
+             <div className="col-span-full text-center py-12 animate-fade-in-up">
                 <Card className="p-8 inline-block">
                     <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                     <p className="text-muted-foreground font-semibold">No books found matching your criteria.</p>
