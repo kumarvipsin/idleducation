@@ -8,6 +8,7 @@ import { BookCheck, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { TopCourses } from '@/components/landing/top-courses';
 
 type Solution = {
   subject: string;
@@ -143,6 +144,7 @@ export default function NcertSolutionsPage() {
           )}
         </div>
       </main>
+      <TopCourses />
     </div>
   );
 }

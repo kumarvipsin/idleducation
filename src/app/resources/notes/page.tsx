@@ -8,6 +8,7 @@ import { BookText, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { TopCourses } from '@/components/landing/top-courses';
 
 type Note = {
   subject: string;
@@ -139,6 +140,7 @@ export default function NotesPage() {
           )}
         </div>
       </main>
+      <TopCourses />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Book, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
+import { TopCourses } from '@/components/landing/top-courses';
 
 type Book = {
   title: string;
@@ -136,6 +137,7 @@ export default function ReferenceBooksPage() {
           )}
         </div>
       </main>
+      <TopCourses />
     </div>
   );
 }
