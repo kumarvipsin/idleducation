@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -9,19 +10,63 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 
 type Note = {
-  subject: string;
-  imageUrl: string;
-  imageHint: string;
+  title: string;
+  description: string;
+  language: string;
+  bgColor: string;
+  textColor: string;
+  buttons: { text: string; href: string; }[];
 };
 
+const topCourses = [
+    {
+        title: "Maths",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-sky-500",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "Science",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+    {
+        title: "Science",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+];
+
 const notesByClass: { [key: string]: Note[] } = {
-  'Class 6': [],
-  'Class 7': [],
-  'Class 8': [],
-  'Class 9': [],
-  'Class 10': [],
-  'Class 11': [],
-  'Class 12': [],
+  'Class 6': topCourses,
+  'Class 7': topCourses,
+  'Class 8': topCourses,
+  'Class 9': topCourses,
+  'Class 10': topCourses,
+  'Class 11': topCourses,
+  'Class 12': topCourses,
 };
 
 const classes = Object.keys(notesByClass);
@@ -31,7 +76,7 @@ export default function NotesPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredNotes = notesByClass[selectedClass]?.filter(note =>
-    note.subject.toLowerCase().includes(searchTerm.toLowerCase())
+    note.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -82,28 +127,24 @@ export default function NotesPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredNotes && filteredNotes.length > 0 ? (
             filteredNotes.map((note, index) => (
-              <Card key={index} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow group flex flex-col">
-                <div className="relative aspect-video overflow-hidden">
-                  <Image
-                    src={note.imageUrl}
-                    alt={note.subject}
-                    data-ai-hint={note.imageHint}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-lg font-bold mt-2 truncate">{note.subject}</h3>
-                  <div className="mt-auto pt-4">
-                     <Button asChild variant="outline" className="w-full">
-                        <Link href="#">
-                            <BookText className="mr-2 h-4 w-4" />
-                            View Notes
-                        </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={index} className="p-1 h-full">
+                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${note.bgColor}`}>
+                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
+                    <h3 className={`text-xl font-semibold mb-2 ${note.textColor}`}>
+                        {note.title}
+                    </h3>
+                      {note.description && <p className={`text-sm mb-2 ${note.textColor}`}>{note.description}</p>}
+                      {note.language && <p className={`text-xs ${note.textColor}`}>{note.language}</p>}
+                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
+                        {note.buttons.map((button: any) => (
+                        <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                            <Link href={button.href}>{button.text}</Link>
+                        </Button>
+                        ))}
+                    </div>
+                    </CardContent>
+                </Card>
+              </div>
             ))
           ) : (
              <div className="col-span-full text-center py-12">
