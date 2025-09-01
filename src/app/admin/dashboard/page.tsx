@@ -121,7 +121,7 @@ export default function AdminDashboard() {
           </Card>
           <Card className="bg-indigo-100/60 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-indigo-800 dark:text-indigo-200">Demo Bookings</CardTitle>
+                  <CardTitle className="text-sm font-medium text-indigo-800 dark:text-indigo-200">Free Demo Bookings</CardTitle>
                   <Presentation className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               </CardHeader>
               <CardContent>
