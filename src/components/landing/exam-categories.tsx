@@ -18,14 +18,14 @@ import { ScrollArea } from '../ui/scroll-area';
 
 const allPrograms = [
     // EN
-    { name: "CLASS V", href: "/school" },
-    { name: "CLASS VI", href: "/school" },
-    { name: "CLASS VII", href: "/school" },
-    { name: "CLASS VIII", href: "/school" },
-    { name: "CLASS IX", href: "/school" },
-    { name: "CLASS X", href: "/school" },
-    { name: "CLASS XI", href: "/school" },
-    { name: "CLASS XII", href: "/school" },
+    { name: "CLASS V", href: "/school?class=Class 5" },
+    { name: "CLASS VI", href: "/school?class=Class 6" },
+    { name: "CLASS VII", href: "/school?class=Class 7" },
+    { name: "CLASS VIII", href: "/school?class=Class 8" },
+    { name: "CLASS IX", href: "/school?class=Class 9" },
+    { name: "CLASS X", href: "/school?class=Class 10" },
+    { name: "CLASS XI", href: "/school?class=Class 11" },
+    { name: "CLASS XII", href: "/school?class=Class 12" },
     { name: "JEE", href: "/category/iit-jee" },
     { name: "NEET", href: "/category/neet" },
     // HI
@@ -42,14 +42,14 @@ const allPrograms = [
 ];
 
 const popularProgramsEn = [
-  { name: "CLASS V", href: "/school" },
-  { name: "CLASS VI", href: "/school" },
-  { name: "CLASS VII", href: "/school" },
-  { name: "CLASS VIII", href: "/school" },
-  { name: "CLASS IX", href: "/school" },
-  { name: "CLASS X", href: "/school" },
-  { name: "CLASS XI", href: "/school" },
-  { name: "CLASS XII", href: "/school" },
+  { name: "CLASS V", href: "/school?class=Class 5" },
+  { name: "CLASS VI", href: "/school?class=Class 6" },
+  { name: "CLASS VII", href: "/school?class=Class 7" },
+  { name: "CLASS VIII", href: "/school?class=Class 8" },
+  { name: "CLASS IX", href: "/school?class=Class 9" },
+  { name: "CLASS X", href: "/school?class=Class 10" },
+  { name: "CLASS XI", href: "/school?class=Class 11" },
+  { name: "CLASS XII", href: "/school?class=Class 12" },
   { name: "JEE", href: "/category/iit-jee" },
   { name: "NEET", href: "/category/neet" },
 ];
