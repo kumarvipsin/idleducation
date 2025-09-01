@@ -18,7 +18,7 @@ const features = [
   },
   {
     icon: <FileQuestion className="w-8 h-8 text-primary" />,
-    title: "10 Million +",
+    title: "1000+",
     subtitle: "Tests, sample papers & notes",
   },
   {
