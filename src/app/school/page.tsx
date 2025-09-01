@@ -56,13 +56,13 @@ const topCourses = [
 
 const coursesByCategory: { [key: string]: any[] } = {
   'All Batches': topCourses,
-  'Class 6': [],
-  'Class 7': [],
-  'Class 8': [],
-  'Class 9': [],
-  'Class 10': [],
-  'Class 11': [],
-  'Class 12': [],
+  'Class 6': topCourses,
+  'Class 7': topCourses,
+  'Class 8': topCourses,
+  'Class 9': topCourses,
+  'Class 10': topCourses,
+  'Class 11': topCourses,
+  'Class 12': topCourses,
 };
 
 export default function SchoolPage() {
