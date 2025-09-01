@@ -191,8 +191,8 @@ export default function AdminDashboard() {
         <UserApproval />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <Card className="lg:col-span-3">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -214,7 +214,7 @@ export default function AdminDashboard() {
                 <UserCompositionChart />
             </CardContent>
         </Card>
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-3">
           <RecentUpdates />
         </div>
       </div>
