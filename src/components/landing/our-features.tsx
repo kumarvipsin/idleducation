@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card } from "@/components/ui/card";
@@ -28,7 +27,7 @@ const features = [
   },
   {
     icon: <Building className="w-8 h-8 text-primary" />,
-    title: "100 +",
+    title: "5 +",
     subtitle: "Offline centres",
   },
 ];
