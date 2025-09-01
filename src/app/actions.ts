@@ -702,20 +702,29 @@ export async function getMonthlyUserStats() {
             where("createdAt", ">=", fiscalYearStart), 
             where("createdAt", "<=", fiscalYearEnd)
         );
+        const allTeachersQuery = query(
+            collection(db, "users"), 
+            where("role", "==", "teacher"),
+            where("createdAt", ">=", fiscalYearStart), 
+            where("createdAt", "<=", fiscalYearEnd)
+        );
         
-        const [totalUsersRes, totalStudentsRes, trainedStudentsRes] = await Promise.all([
+        const [totalUsersRes, totalStudentsRes, trainedStudentsRes, totalTeachersRes] = await Promise.all([
             getDocs(allUsersQuery),
             getDocs(allStudentsQuery),
-            getDocs(allTrainedStudentsQuery)
+            getDocs(allTrainedStudentsQuery),
+            getDocs(allTeachersQuery),
         ]);
 
         const allUsers = totalUsersRes.docs.map(doc => doc.data());
         const allStudents = totalStudentsRes.docs.map(doc => doc.data());
         const allTrainedStudents = trainedStudentsRes.docs.map(doc => doc.data());
+        const allTeachers = totalTeachersRes.docs.map(doc => doc.data());
         
         let cumulativeUsers = 0;
         let cumulativeStudents = 0;
         let cumulativeTrained = 0;
+        let cumulativeTeachers = 0;
 
         const chartData = monthlyData.map(monthStat => {
             const monthIndex = monthNames.indexOf(monthStat.name);
@@ -724,12 +733,14 @@ export async function getMonthlyUserStats() {
             cumulativeUsers += allUsers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
             cumulativeStudents += allStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
             cumulativeTrained += allTrainedStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
+            cumulativeTeachers += allTeachers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
             
             return {
                 ...monthStat,
                 totalUsers: cumulativeUsers,
                 totalStudents: cumulativeStudents,
                 trainedStudents: cumulativeTrained,
+                totalTeachers: cumulativeTeachers,
             };
         });
 

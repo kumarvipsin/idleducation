@@ -23,6 +23,10 @@ const chartConfig = {
     label: "Trained Students",
     color: "hsl(var(--chart-4))",
   },
+  totalTeachers: {
+    label: "Total Teachers",
+    color: "hsl(var(--chart-5))",
+  },
 } satisfies ChartConfig
 
 export function OverviewChart() {
@@ -85,6 +89,7 @@ export function OverviewChart() {
         <Line type="monotone" dataKey="totalStudents" stroke="var(--color-totalStudents)" strokeWidth={2} dot={false} activeDot={{ r: 5 }}/>
         <Line type="monotone" dataKey="newStudents" stroke="var(--color-newStudents)" strokeWidth={2} strokeDasharray="5 5" dot={false} activeDot={{ r: 5 }}/>
         <Line type="monotone" dataKey="trainedStudents" stroke="var(--color-trainedStudents)" strokeWidth={2} strokeDasharray="3 4 5 2" dot={false} activeDot={{ r: 5 }}/>
+        <Line type="monotone" dataKey="totalTeachers" stroke="var(--color-totalTeachers)" strokeWidth={2} dot={false} activeDot={{ r: 5 }}/>
       </LineChart>
     </ChartContainer>
   );
