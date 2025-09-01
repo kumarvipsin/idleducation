@@ -705,6 +705,11 @@ export async function getActiveUsersCount() {
     return getCount(q);
 }
 
+export async function getInactiveUsersCount() {
+    const q = query(collection(db, "users"), where("status", "==", "inactive"));
+    return getCount(q);
+}
+
 export async function getMonthlyActiveUsersCount() {
     const now = new Date();
     const startDate = new Date(now.getFullYear(), now.getMonth(), 1);

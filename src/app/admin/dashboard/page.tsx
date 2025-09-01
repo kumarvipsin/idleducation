@@ -1,12 +1,12 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle, Megaphone, UserCheck } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle, Megaphone, UserCheck, UserX } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount, getInactiveUsersCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -25,6 +25,7 @@ export default function AdminDashboard() {
     monthlyUpdates: '0',
     activeUsers: '0',
     monthlyActiveUsers: '0',
+    inactiveUsers: '0',
   });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function AdminDashboard() {
         monthlyUpdatesRes,
         activeUsersRes,
         monthlyActiveUsersRes,
+        inactiveUsersRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
@@ -57,6 +59,7 @@ export default function AdminDashboard() {
         getMonthlyUpdatesCount(),
         getActiveUsersCount(),
         getMonthlyActiveUsersCount(),
+        getInactiveUsersCount(),
       ]);
 
       setStats({
@@ -73,6 +76,7 @@ export default function AdminDashboard() {
         monthlyUpdates: monthlyUpdatesRes.success ? String(monthlyUpdatesRes.count) : 'N/A',
         activeUsers: activeUsersRes.success ? String(activeUsersRes.count) : 'N/A',
         monthlyActiveUsers: monthlyActiveUsersRes.success ? String(monthlyActiveUsersRes.count) : 'N/A',
+        inactiveUsers: inactiveUsersRes.success ? String(inactiveUsersRes.count) : 'N/A',
       });
     }
 
@@ -170,6 +174,15 @@ export default function AdminDashboard() {
                 <p className="text-xs text-muted-foreground">
                   +{stats.monthlyActiveUsers} this month
                 </p>
+            </CardContent>
+        </Card>
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Inactive Users</CardTitle>
+                <UserX className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+                <div className="text-2xl font-bold">{stats.inactiveUsers}</div>
             </CardContent>
         </Card>
       </div>
