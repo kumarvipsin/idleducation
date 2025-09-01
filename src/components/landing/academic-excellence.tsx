@@ -78,7 +78,7 @@ export function AcademicExcellence() {
             data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
             width={1200}
             height={300}
-            className="w-full h-auto object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+            className="w-full h-auto object-cover transition-transform duration-300 ease-in-out"
             style={{ maxHeight: '300px' }}
           />
         </Card>
