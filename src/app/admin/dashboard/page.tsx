@@ -6,7 +6,7 @@ import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount, getYearlyActiveUsersCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -25,7 +25,6 @@ export default function AdminDashboard() {
     monthlyUpdates: '0',
     activeUsers: '0',
     monthlyActiveUsers: '0',
-    yearlyActiveUsers: '0',
   });
 
   useEffect(() => {
@@ -44,7 +43,6 @@ export default function AdminDashboard() {
         monthlyUpdatesRes,
         activeUsersRes,
         monthlyActiveUsersRes,
-        yearlyActiveUsersRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
@@ -59,7 +57,6 @@ export default function AdminDashboard() {
         getMonthlyUpdatesCount(),
         getActiveUsersCount(),
         getMonthlyActiveUsersCount(),
-        getYearlyActiveUsersCount(),
       ]);
 
       setStats({
@@ -76,7 +73,6 @@ export default function AdminDashboard() {
         monthlyUpdates: monthlyUpdatesRes.success ? String(monthlyUpdatesRes.count) : 'N/A',
         activeUsers: activeUsersRes.success ? String(activeUsersRes.count) : 'N/A',
         monthlyActiveUsers: monthlyActiveUsersRes.success ? String(monthlyActiveUsersRes.count) : 'N/A',
-        yearlyActiveUsers: yearlyActiveUsersRes.success ? String(yearlyActiveUsersRes.count) : 'N/A',
       });
     }
 
@@ -172,7 +168,7 @@ export default function AdminDashboard() {
             <CardContent>
                 <div className="text-2xl font-bold">{stats.activeUsers}</div>
                 <p className="text-xs text-muted-foreground">
-                  +{stats.monthlyActiveUsers} this month, +{stats.yearlyActiveUsers} this year
+                  +{stats.monthlyActiveUsers} this month
                 </p>
             </CardContent>
         </Card>
