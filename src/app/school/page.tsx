@@ -17,7 +17,7 @@ const classes = [
 
 const topCourses = [
     {
-        title: "UPSC Foundation Course (Online)",
+        title: "Maths",
         bgColor: "bg-[#f4a261]",
         textColor: "text-white",
         buttons: [
