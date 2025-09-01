@@ -631,17 +631,42 @@ export async function getMonthlyUpdatesCount() {
     return getCount(q);
 }
 
+const getFiscalYearBoundaries = (date: Date) => {
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
+    let fiscalYearStart, fiscalYearEnd;
+
+    if (currentMonth >= 3) { // April (month 3) to December
+        fiscalYearStart = new Date(currentYear, 3, 1);
+        fiscalYearEnd = new Date(currentYear + 1, 3, 0, 23, 59, 59, 999);
+    } else { // January to March
+        fiscalYearStart = new Date(currentYear - 1, 3, 1);
+        fiscalYearEnd = new Date(currentYear, 3, 0, 23, 59, 59, 999);
+    }
+    return { fiscalYearStart, fiscalYearEnd };
+};
+
 export async function getMonthlyUserStats() {
     try {
         const now = new Date();
-        const currentYear = now.getFullYear();
-        const currentMonth = now.getMonth();
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const { fiscalYearStart } = getFiscalYearBoundaries(now);
+        const fiscalYear = fiscalYearStart.getFullYear();
 
-        const monthlyDataPromises = Array.from({ length: currentMonth + 1 }, async (_, i) => {
+        const monthNames = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+        
+        const currentFiscalMonthIndex = (now.getMonth() - 3 + 12) % 12;
+
+        const monthlyDataPromises = Array.from({ length: 12 }, async (_, i) => {
             const monthName = monthNames[i];
-            const startDate = new Date(currentYear, i, 1);
-            const endDate = new Date(currentYear, i + 1, 1);
+            const month = (i + 3) % 12;
+            const year = month < 3 ? fiscalYear + 1 : fiscalYear;
+            
+            const startDate = new Date(year, month, 1);
+            const endDate = new Date(year, month + 1, 1);
+
+            if (startDate > now) {
+                return null;
+            }
 
             const usersQuery = query(collection(db, "users"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
             const usersSnapshot = await getDocs(usersQuery);
@@ -653,36 +678,47 @@ export async function getMonthlyUserStats() {
                 }
             });
 
-            return {
-                name: monthName,
-                newStudents: newStudents,
-            };
+            return { name: monthName, newStudents };
         });
 
-        const monthlyData = await Promise.all(monthlyDataPromises);
+        const monthlyDataWithNulls = await Promise.all(monthlyDataPromises);
+        const monthlyData = monthlyDataWithNulls.filter(Boolean) as { name: string, newStudents: number }[];
 
-        // Fetch total counts for cumulative calculations
+        // Fetch total counts for cumulative calculations within the fiscal year
+        const { fiscalYearEnd } = getFiscalYearBoundaries(now);
+
+        const allUsersQuery = query(collection(db, "users"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
+        const allStudentsQuery = query(collection(db, "users"), where("role", "==", "student"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
+        const allTrainedStudentsQuery = query(
+            collection(db, "users"), 
+            where("role", "==", "student"), 
+            where("status", "==", "approved"), 
+            where("teacherIds", "!=", []), 
+            where("createdAt", ">=", fiscalYearStart), 
+            where("createdAt", "<=", fiscalYearEnd)
+        );
+        
         const [totalUsersRes, totalStudentsRes, trainedStudentsRes] = await Promise.all([
-            getDocs(query(collection(db, "users"))),
-            getDocs(query(collection(db, "users"), where("role", "==", "student"))),
-            getDocs(query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "approved"), where("teacherIds", "!=", [])))
+            getDocs(allUsersQuery),
+            getDocs(allStudentsQuery),
+            getDocs(allTrainedStudentsQuery)
         ]);
 
         const allUsers = totalUsersRes.docs.map(doc => doc.data());
         const allStudents = totalStudentsRes.docs.map(doc => doc.data());
         const allTrainedStudents = trainedStudentsRes.docs.map(doc => doc.data());
-
-        // Calculate cumulative data
+        
         let cumulativeUsers = 0;
         let cumulativeStudents = 0;
         let cumulativeTrained = 0;
 
         const chartData = monthlyData.map(monthStat => {
             const monthIndex = monthNames.indexOf(monthStat.name);
+            const fiscalMonthIndex = (monthIndex + 3) % 12;
             
-            cumulativeUsers += allUsers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
-            cumulativeStudents += allStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
-            cumulativeTrained += allTrainedStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === monthIndex).length;
+            cumulativeUsers += allUsers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
+            cumulativeStudents += allStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
+            cumulativeTrained += allTrainedStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
             
             return {
                 ...monthStat,
@@ -692,13 +728,13 @@ export async function getMonthlyUserStats() {
             };
         });
 
-
         return { success: true, data: chartData };
     } catch (error) {
         console.error("Error fetching monthly user stats:", error);
         return { success: false, message: "Failed to fetch monthly stats." };
     }
 }
+
 
 export async function getActiveUsersCount() {
     const q = query(collection(db, "users"), where("status", "==", "approved"));
