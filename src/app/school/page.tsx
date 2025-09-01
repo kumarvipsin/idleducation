@@ -108,12 +108,12 @@ function SchoolPageContent() {
         <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
       </div>
        <h2 className="text-2xl font-bold mb-6">{activeClass} Courses</h2>
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+       <div key={activeClass} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {courses.length > 0 ? (
           courses.map((course, index) => {
             if (course.bgColor) {
                 return (
-                    <div key={index} className="p-1 h-full">
+                    <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                         <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
                             <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
                             <h3 className={`text-xl font-semibold mb-2 ${course.textColor}`}>
@@ -135,7 +135,7 @@ function SchoolPageContent() {
             }
             if (course.title && course.description) {
               return (
-                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                   <CardHeader>
                       <BookOpen className="w-10 h-10 text-primary mb-2" />
                       <CardTitle>{course.title}</CardTitle>
@@ -154,7 +154,7 @@ function SchoolPageContent() {
               );
             }
             return (
-                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
+                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                     <div className="relative">
                         <div className={`absolute top-0 left-0 text-white text-xs font-bold uppercase px-3 py-1 ${course.modeColor} rounded-br-lg z-10`}>
                             {course.mode}
@@ -220,7 +220,7 @@ function SchoolPageContent() {
           })
         ) : (
           <div className="md:col-span-2 lg:col-span-4 text-center">
-             <Card className="p-8">
+             <Card className="p-8 animate-fade-in-up">
                 <p className="text-muted-foreground">No courses available for this class yet. Please check back later!</p>
             </Card>
           </div>
