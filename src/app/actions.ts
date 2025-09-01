@@ -557,8 +557,8 @@ export async function getTrainedStudentsCount() {
     return getCount(q);
 }
 
-export async function getDeniedStudentsCount() {
-    const q = query(collection(db, "deniedUsers"), where("role", "==", "student"));
+export async function getDeniedUsersCount() {
+    const q = query(collection(db, "deniedUsers"));
     return getCount(q);
 }
 

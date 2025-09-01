@@ -6,7 +6,7 @@ import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedStudentsCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -16,7 +16,7 @@ export default function AdminDashboard() {
     totalStudents: '0',
     newStudents: '0',
     totalTeachers: '0',
-    deniedStudents: '0',
+    deniedUsers: '0',
   });
 
   useEffect(() => {
@@ -26,13 +26,13 @@ export default function AdminDashboard() {
         totalStudentsRes,
         newStudentsRes,
         totalTeachersRes,
-        deniedStudentsRes,
+        deniedUsersRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
         getNewStudentsCount(),
         getTotalTeachersCount(),
-        getDeniedStudentsCount(),
+        getDeniedUsersCount(),
       ]);
 
       setStats({
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
         totalStudents: totalStudentsRes.success ? String(totalStudentsRes.count) : 'N/A',
         newStudents: newStudentsRes.success ? String(newStudentsRes.count) : 'N/A',
         totalTeachers: totalTeachersRes.success ? String(totalTeachersRes.count) : 'N/A',
-        deniedStudents: deniedStudentsRes.success ? String(deniedStudentsRes.count) : 'N/A',
+        deniedUsers: deniedUsersRes.success ? String(deniedUsersRes.count) : 'N/A',
       });
     }
 
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
                   <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-red-900 dark:text-red-100">{stats.deniedStudents}</div>
+                  <div className="text-2xl font-bold text-red-900 dark:text-red-100">{stats.deniedUsers}</div>
               </CardContent>
           </Card>
       </div>
