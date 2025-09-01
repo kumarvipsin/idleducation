@@ -104,7 +104,7 @@ function AdminLayout({
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
                   <Link href="/admin/messages">
                     <MessageSquare />
-                    <span>Contact Submissions</span>
+                    <span>Contact Us</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
