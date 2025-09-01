@@ -131,7 +131,7 @@ export default function AdminDashboard() {
           </Card>
            <Card className="bg-teal-100/60 dark:bg-teal-900/30 border-teal-200 dark:border-teal-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-teal-800 dark:text-teal-200">Contact Submissions</CardTitle>
+                  <CardTitle className="text-sm font-medium text-teal-800 dark:text-teal-200">Contact Us</CardTitle>
                   <MessageCircle className="h-4 w-4 text-teal-600 dark:text-teal-400" />
               </CardHeader>
               <CardContent>
