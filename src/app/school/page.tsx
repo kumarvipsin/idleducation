@@ -30,7 +30,7 @@ coursesByCategory['All Batches'] = Object.values(coursesByCategory).flat();
 
 
 export default function SchoolPage() {
-  const [activeClass, setActiveClass] = useState('Class 8');
+  const [activeClass, setActiveClass] = useState('All Batches');
   const courses = coursesByCategory[activeClass] || [];
 
   return (
