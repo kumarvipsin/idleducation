@@ -64,19 +64,6 @@ const coursesByCategory: { [key: string]: any[] } = {
       discount: "12% applied",
       features: { text: "Weekly Tests Included", badge: "PRO" },
     },
-     {
-        powerBatch: true,
-        image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-        imageHint: "teacher pointing",
-        title: "ACE POWER BATCH",
-        target: "TARGET 2026 | For Class 7",
-        discount: 25,
-        features: [
-            { icon: <Tv />, text: "Interactive Live Learning" },
-            { icon: <MessageCircle />, text: "One-on-One Doubt Solving" },
-            { icon: <UserCheck />, text: "Personal Academic Mentor" },
-        ],
-    },
   ],
   'Class 8': [
         {
@@ -108,19 +95,6 @@ const coursesByCategory: { [key: string]: any[] } = {
           originalPrice: "4,900",
           discount: "12% applied",
           features: { text: "Premium Features Included", badge: "INFINITY" },
-        },
-        {
-          powerBatch: true,
-          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-          imageHint: "students collaborating",
-          title: "UMANG POWER BATCH",
-          target: "TARGET 2026 | For Class 8",
-          discount: 30,
-          features: [
-            { icon: <Tv />, text: "Interactive Live Learning" },
-            { icon: <MessageCircle />, text: "One-on-One Doubt Solving" },
-            { icon: <UserCheck />, text: "Personal Academic Mentor" },
-          ],
         },
   ],
   'Class 9': [
@@ -171,19 +145,6 @@ const coursesByCategory: { [key: string]: any[] } = {
       discount: "22% applied",
       features: { text: "Includes Test Series", badge: "INFINITY" },
     },
-    {
-        powerBatch: true,
-        image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-        imageHint: "group discussion",
-        title: "BOARD POWER BATCH",
-        target: "TARGET 2026 | For Class 10",
-        discount: 35,
-        features: [
-            { icon: <Tv />, text: "Interactive Live Learning" },
-            { icon: <MessageCircle />, text: "One-on-One Doubt Solving" },
-            { icon: <UserCheck />, text: "Personal Academic Mentor" },
-        ],
-    },
   ],
   'Class 11': [
     {
@@ -232,19 +193,6 @@ const coursesByCategory: { [key: string]: any[] } = {
       originalPrice: "6,000",
       discount: "17% applied",
       features: { text: "Practical Exam Prep", badge: "INFINITY" },
-    },
-    {
-        powerBatch: true,
-        image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-        imageHint: "graduation ceremony",
-        title: "FINAL LAP POWER BATCH",
-        target: "TARGET 2026 | For Class 12",
-        discount: 40,
-        features: [
-            { icon: <Tv />, text: "Interactive Live Learning" },
-            { icon: <MessageCircle />, text: "One-on-One Doubt Solving" },
-            { icon: <UserCheck />, text: "Personal Academic Mentor" },
-        ],
     },
   ],
 };
