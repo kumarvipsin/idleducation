@@ -54,12 +54,6 @@ const topCourses = [
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "#" }],
     },
-    {
-        title: "Advanced Mathematics Course",
-        bgColor: "bg-teal-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
-    }
 ];
 
 const coursesByCategory: { [key: string]: any[] } = {
