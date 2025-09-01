@@ -96,7 +96,7 @@ export function Footer() {
                                     alt="Get it on Google Play"
                                     width={135}
                                     height={40}
-                                    className="h-auto"
+                                    className="h-auto filter grayscale"
                                 />
                             </Link>
                             <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
@@ -105,7 +105,7 @@ export function Footer() {
                                     alt="Download on the App Store"
                                     width={120}
                                     height={40}
-                                    className="h-auto"
+                                    className="h-auto filter grayscale"
                                 />
                             </Link>
                         </div>
