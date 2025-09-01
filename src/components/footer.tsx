@@ -8,32 +8,7 @@ export function Footer() {
     <footer className="bg-black text-white">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                {/* Column 1: Connect With Us */}
-                <div>
-                    <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
-                    <div className="bg-gray-900 p-4 rounded-md">
-                        <ul className="space-y-3 text-sm text-gray-400">
-                            <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0" />
-                                <a href="tel:+917011117585" className="hover:underline">+91 7011117585</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0" />
-                                <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Column 2: Our Branch */}
+                {/* Column 1: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
                     <div className="bg-gray-900 p-4 rounded-md">
@@ -62,7 +37,32 @@ export function Footer() {
                         </ul>
                     </div>
                 </div>
-                
+
+                {/* Column 2: Connect With Us */}
+                <div>
+                    <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+                    <div className="bg-gray-900 p-4 rounded-md">
+                        <ul className="space-y-3 text-sm text-gray-400">
+                            <li className="flex items-center justify-start gap-3">
+                                <Mail className="h-4 w-4 shrink-0" />
+                                <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
+                            </li>
+                            <li className="flex items-center justify-start gap-3">
+                                <Mail className="h-4 w-4 shrink-0" />
+                                <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
+                            </li>
+                            <li className="flex items-center justify-start gap-3">
+                                <Phone className="h-4 w-4 shrink-0" />
+                                <a href="tel:+917011117585" className="hover:underline">+91 7011117585</a>
+                            </li>
+                            <li className="flex items-center justify-start gap-3">
+                                <Phone className="h-4 w-4 shrink-0" />
+                                <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
                 {/* Column 3: Social Media */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Social Media</h3>
