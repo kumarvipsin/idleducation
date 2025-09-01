@@ -18,6 +18,8 @@ const classes = [
 const topCourses = [
     {
         title: "Maths",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
         bgColor: "bg-[#f4a261]",
         textColor: "text-white",
         buttons: [
@@ -103,10 +105,12 @@ export default function SchoolPage() {
                     <div key={index} className="p-1 h-full">
                         <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
                             <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                            <h3 className={`text-xl font-semibold mb-8 min-h-[6rem] flex items-center ${course.textColor}`}>
+                            <h3 className={`text-xl font-semibold mb-2 ${course.textColor}`}>
                                 {course.title}
                             </h3>
-                            <div className="flex items-center justify-center gap-2 mt-auto">
+                             {course.description && <p className={`text-sm mb-2 ${course.textColor}`}>{course.description}</p>}
+                             {course.language && <p className={`text-xs ${course.textColor}`}>{course.language}</p>}
+                            <div className="flex items-center justify-center gap-2 mt-auto pt-4">
                                 {course.buttons.map((button: any) => (
                                 <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
                                     <Link href={button.href}>{button.text}</Link>
