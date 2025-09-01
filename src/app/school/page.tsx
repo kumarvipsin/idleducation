@@ -15,7 +15,47 @@ const classes = [
   'All Batches', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
+const topCourses = [
+    {
+        title: "UPSC Foundation Course (Online)",
+        bgColor: "bg-[#f4a261]",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "UPSC Civil Services: Prelims Test Series",
+        bgColor: "bg-[#2a9d8f]",
+        textColor: "text-white",
+        buttons: [
+        { text: "ENGLISH", href: "#" },
+        { text: "हिन्दी", href: "#" },
+        ],
+    },
+    {
+        title: "Drishti Publications' books and magazines on Amazon",
+        bgColor: "bg-[#8367c7]",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+    {
+        title: "हिंदी साहित्य (वैकल्पिक): ऑनलाइन कोर्स",
+        bgColor: "bg-[#f4a261]",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    },
+    {
+        title: "Advanced Mathematics Course",
+        bgColor: "bg-teal-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "#" }],
+    }
+];
+
 const coursesByCategory: { [key: string]: any[] } = {
+  'All Batches': topCourses,
   'Class 6': [],
   'Class 7': [],
   'Class 8': [],
@@ -24,10 +64,6 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 11': [],
   'Class 12': [],
 };
-
-// Flatten all courses for 'All Batches'
-coursesByCategory['All Batches'] = Object.values(coursesByCategory).flat();
-
 
 export default function SchoolPage() {
   const [activeClass, setActiveClass] = useState('All Batches');
@@ -59,43 +95,27 @@ export default function SchoolPage() {
         <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
       </div>
        <h2 className="text-2xl font-bold mb-6">{activeClass} Courses</h2>
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {courses.length > 0 ? (
           courses.map((course, index) => {
-            if (course.powerBatch) {
+            if (course.bgColor) {
                 return (
-                    <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group bg-[#fdf3e6] border-[#f4a261]">
-                        <CardContent className="p-4 flex flex-col flex-grow items-center text-center">
-                            <div className="flex items-center gap-2 mb-2">
-                                <Badge variant="destructive" className="bg-orange-500 text-white">Hinglish</Badge>
-                                <Badge className="bg-black text-white gap-1"><Zap className="w-4 h-4"/> POWER BATCH</Badge>
-                            </div>
-                            <p className="text-sm text-gray-600 font-semibold mt-2">#ExamReadyWithPowerBatch</p>
-                            <h3 className="text-xl font-bold text-gray-800 mt-1">{course.title}</h3>
-                            <p className="text-sm text-gray-600">{course.target}</p>
-                            <div className="my-4">
-                                <p className="text-xs text-gray-700">GET UP TO</p>
-                                <p className="text-7xl font-extrabold text-orange-500 leading-none">
-                                    {course.discount}<span className="text-5xl">%</span> <span className="text-5xl align-top">OFF</span>
-                                </p>
-                            </div>
-                            <div className="flex justify-around w-full text-xs text-gray-700 mb-4">
-                                {course.features.map((feature: any, idx: number) => (
-                                    <div key={idx} className="flex flex-col items-center gap-1">
-                                        {feature.icon}
-                                        <span>{feature.text}</span>
-                                    </div>
+                    <div key={index} className="p-1 h-full">
+                        <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
+                            <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
+                            <h3 className={`text-xl font-semibold mb-8 min-h-[6rem] flex items-center ${course.textColor}`}>
+                                {course.title}
+                            </h3>
+                            <div className="flex items-center justify-center gap-2 mt-auto">
+                                {course.buttons.map((button: any) => (
+                                <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                                    <Link href={button.href}>{button.text}</Link>
+                                </Button>
                                 ))}
                             </div>
-                             <Button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold rounded-full text-lg">Enroll Now!</Button>
-                             <p className="text-xs text-gray-500 mt-1">Learn Today, Lead Tomorrow.</p>
-                             <p className="text-xs text-gray-500 mt-1">📞 9513392724</p>
-                        </CardContent>
-                         <div className="grid grid-cols-2 gap-0 mt-auto">
-                            <Button variant="outline" className="rounded-none rounded-bl-lg">Explore Now</Button>
-                            <Button className="rounded-none rounded-br-lg">Buy Now</Button>
-                        </div>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </div>
                 );
             }
             if (course.title && course.description) {
@@ -184,7 +204,7 @@ export default function SchoolPage() {
             );
           })
         ) : (
-          <div className="md:col-span-2 lg:col-span-3 text-center">
+          <div className="md:col-span-2 lg:col-span-4 text-center">
              <Card className="p-8">
                 <p className="text-muted-foreground">No courses available for this class yet. Please check back later!</p>
             </Card>
