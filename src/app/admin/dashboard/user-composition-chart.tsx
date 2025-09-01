@@ -3,17 +3,25 @@
 import * as React from 'react';
 import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
-import { getTotalStudentsCount, getTotalTeachersCount } from '@/app/actions';
+import { getNewStudentsCount, getDeniedUsersCount, getActiveUsersCount, getInactiveUsersCount } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const chartConfig = {
-  students: {
-    label: 'Students',
+  approvedStudents: {
+    label: 'Approved Students',
     color: 'hsl(var(--chart-1))',
   },
-  teachers: {
-    label: 'Teachers',
+  activeUsers: {
+    label: 'Active Users',
     color: 'hsl(var(--chart-2))',
+  },
+  inactiveUsers: {
+    label: 'Inactive Users',
+    color: 'hsl(var(--chart-3))',
+  },
+  deniedUsers: {
+    label: 'Denied Users',
+    color: 'hsl(var(--chart-4))',
   },
 } satisfies ChartConfig;
 
@@ -22,24 +30,35 @@ export function UserCompositionChart() {
 
   React.useEffect(() => {
     async function fetchData() {
-      const [studentsRes, teachersRes] = await Promise.all([
-        getTotalStudentsCount(),
-        getTotalTeachersCount(),
+      const [
+        approvedStudentsRes,
+        activeUsersRes,
+        inactiveUsersRes,
+        deniedUsersRes,
+      ] = await Promise.all([
+        getNewStudentsCount(),
+        getActiveUsersCount(),
+        getInactiveUsersCount(),
+        getDeniedUsersCount(),
       ]);
 
-      const studentsCount = studentsRes.success ? studentsRes.count : 0;
-      const teachersCount = teachersRes.success ? teachersRes.count : 0;
-
+      const approvedStudentsCount = approvedStudentsRes.success ? approvedStudentsRes.count : 0;
+      const activeUsersCount = activeUsersRes.success ? activeUsersRes.count : 0;
+      const inactiveUsersCount = inactiveUsersRes.success ? inactiveUsersRes.count : 0;
+      const deniedUsersCount = deniedUsersRes.success ? deniedUsersRes.count : 0;
+      
       setData([
-        { name: 'students', value: studentsCount, fill: 'var(--color-students)' },
-        { name: 'teachers', value: teachersCount, fill: 'var(--color-teachers)' },
+        { name: 'approvedStudents', value: approvedStudentsCount, fill: 'var(--color-approvedStudents)' },
+        { name: 'activeUsers', value: activeUsersCount, fill: 'var(--color-activeUsers)' },
+        { name: 'inactiveUsers', value: inactiveUsersCount, fill: 'var(--color-inactiveUsers)' },
+        { name: 'deniedUsers', value: deniedUsersCount, fill: 'var(--color-deniedUsers)' },
       ]);
     }
 
     fetchData();
   }, []);
 
-  const totalUsers = React.useMemo(() => {
+  const total = React.useMemo(() => {
     return data?.reduce((acc, curr) => acc + curr.value, 0) || 0;
   }, [data]);
 
@@ -66,13 +85,13 @@ export function UserCompositionChart() {
             </Pie>
         </PieChart>
       </ResponsiveContainer>
-       {totalUsers > 0 && (
+       {total > 0 && (
             <div
                 className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center text-center"
             >
                 <div className="text-2xl font-bold">
-                    {totalUsers.toLocaleString()}
-                    <div className="text-sm font-normal text-muted-foreground">Total Users</div>
+                    {total.toLocaleString()}
+                    <div className="text-sm font-normal text-muted-foreground">Total</div>
                 </div>
             </div>
         )}

@@ -208,7 +208,7 @@ export default function AdminDashboard() {
          <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle>User Composition</CardTitle>
-                <CardDescription>Distribution of students and teachers.</CardDescription>
+                <CardDescription>Distribution of various user statuses.</CardDescription>
             </CardHeader>
             <CardContent>
                 <UserCompositionChart />
