@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,9 +10,10 @@ import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageCircle, Tag,
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
+import { useSearchParams } from 'next/navigation';
 
 const classes = [
-  'All Batches', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
+  'All Batches', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
 const topCourses = [
@@ -58,6 +59,7 @@ const topCourses = [
 
 const coursesByCategory: { [key: string]: any[] } = {
   'All Batches': topCourses,
+  'Class 5': [],
   'Class 6': topCourses,
   'Class 7': topCourses,
   'Class 8': topCourses,
@@ -67,8 +69,17 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 12': topCourses,
 };
 
-export default function SchoolPage() {
+function SchoolPageContent() {
+  const searchParams = useSearchParams();
+  const classParam = searchParams.get('class');
   const [activeClass, setActiveClass] = useState('All Batches');
+
+  useEffect(() => {
+    if (classParam && classes.includes(classParam)) {
+      setActiveClass(classParam);
+    }
+  }, [classParam]);
+
   const courses = coursesByCategory[activeClass] || [];
 
   return (
@@ -216,5 +227,13 @@ export default function SchoolPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SchoolPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SchoolPageContent />
+    </Suspense>
   );
 }
