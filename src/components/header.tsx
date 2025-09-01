@@ -11,12 +11,33 @@ import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { useEffect, useState } from "react";
+import { getUpdates } from "@/app/actions";
+import { formatDistanceToNow } from 'date-fns';
+
+interface Update {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+}
 
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
   const router = useRouter();
   const brandName = "IDL EDUCATION";
+  const [updates, setUpdates] = useState<Update[]>([]);
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      const result = await getUpdates(3); // Fetch only the 3 most recent updates
+      if (result.success && result.data) {
+        setUpdates(result.data as Update[]);
+      }
+    };
+    fetchUpdates();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -141,12 +162,37 @@ export function Header() {
                     {t('contact')}
                 </Link>
             {renderAuthSection()}
-            <Link href="/notifications">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
                     <Bell className="h-[1.2rem] w-[1.2rem]" />
                     <span className="sr-only">Notifications</span>
                 </Button>
-            </Link>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80">
+                <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {updates.length > 0 ? (
+                  updates.map(update => (
+                    <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
+                        <p className="font-semibold">{update.title}</p>
+                        <p className="text-xs text-muted-foreground">{update.description}</p>
+                        <p className="text-xs text-muted-foreground self-end">
+                          {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                        </p>
+                    </DropdownMenuItem>
+                  ))
+                ) : (
+                  <DropdownMenuItem>No new updates.</DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/notifications" className="text-center justify-center">
+                    View all notifications
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <SettingsToggle />
             </nav>
             <div className="ml-auto md:hidden flex items-center gap-2">

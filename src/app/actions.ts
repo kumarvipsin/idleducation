@@ -4,7 +4,7 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit } from "firebase/firestore";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -431,9 +431,14 @@ export async function addUpdate(data: UpdateValues) {
   }
 }
 
-export async function getUpdates() {
+export async function getUpdates(count?: number) {
   try {
-    const updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"));
+    let updatesQuery;
+    if (count) {
+        updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"), limit(count));
+    } else {
+        updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"));
+    }
     const querySnapshot = await getDocs(updatesQuery);
     const updates = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: updates };
