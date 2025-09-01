@@ -35,7 +35,6 @@ const booksByClass: { [key: string]: Book[] } = {
     { title: 'Chemistry for Class 9', author: 'S. Chand', subject: 'Chemistry', imageUrl: 'https://images.unsplash.com/photo-1554475901-4538adb7524d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry beakers' },
   ],
   'Class 10': [
-    { title: 'Mathematics for Class 10', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math problems' },
     { title: 'Biology for Class 10', author: 'S. Chand', subject: 'Biology', imageUrl: 'https://images.unsplash.com/photo-1532187643623-dbf2f39d20c3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'biology microscope' },
   ],
   'Class 11': [
@@ -137,7 +136,7 @@ export default function ReferenceBooksPage() {
           )}
         </div>
       </main>
-      <TopCourses />
+      
     </div>
   );
 }
