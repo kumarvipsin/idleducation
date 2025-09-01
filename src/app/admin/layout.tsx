@@ -95,7 +95,7 @@ function AdminLayout({
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
                   <Link href="/admin/demo">
                     <Presentation />
-                    <span>Demo</span>
+                    <span>Free Demo</span>
                   </Link>
                 </SidebarMenuButton>
                 {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
