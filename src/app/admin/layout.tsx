@@ -150,16 +150,6 @@ function AdminLayout({
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={handleLogout}>
-                    <LogOut />
-                    <span>Logout</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarFooter>
         </Sidebar>
         <main className="flex-1">
           <header className="p-4 border-b flex items-center">
