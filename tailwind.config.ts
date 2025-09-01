@@ -11,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['"Josefin Sans"', 'sans-serif'],
+        headline: ['"Josefin Sans"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
