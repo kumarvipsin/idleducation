@@ -91,6 +91,10 @@ export async function loginUser(data: LoginValues) {
                 await signOut(auth);
                 return { success: false, message: "Your account is pending approval. Please wait for an admin to approve it." };
             }
+            if (userData.status === 'inactive') {
+                await signOut(auth);
+                return { success: false, message: "Your account is currently inactive. Please contact support." };
+            }
 
             userProfile = {
                 uid: user.uid,
@@ -512,6 +516,17 @@ export async function denyUser(userId: string) {
   } catch (error) {
     console.error("Error denying user:", error);
     return { success: false, message: "Failed to deny user." };
+  }
+}
+
+export async function setUserStatus(userId: string, status: 'approved' | 'inactive') {
+  try {
+    const userDocRef = doc(db, "users", userId);
+    await updateDoc(userDocRef, { status });
+    return { success: true, message: `User status updated to ${status}.` };
+  } catch (error) {
+    console.error(`Error setting user status to ${status}:`, error);
+    return { success: false, message: "Failed to update user status." };
   }
 }
 
