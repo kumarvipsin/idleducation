@@ -1,12 +1,12 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -17,6 +17,8 @@ export default function AdminDashboard() {
     newStudents: '0',
     totalTeachers: '0',
     deniedUsers: '0',
+    totalBookings: '0',
+    monthlyBookings: '0',
   });
 
   useEffect(() => {
@@ -27,12 +29,16 @@ export default function AdminDashboard() {
         newStudentsRes,
         totalTeachersRes,
         deniedUsersRes,
+        totalBookingsRes,
+        monthlyBookingsRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
         getNewStudentsCount(),
         getTotalTeachersCount(),
         getDeniedUsersCount(),
+        getTotalSessionBookingsCount(),
+        getMonthlySessionBookingsCount(),
       ]);
 
       setStats({
@@ -41,6 +47,8 @@ export default function AdminDashboard() {
         newStudents: newStudentsRes.success ? String(newStudentsRes.count) : 'N/A',
         totalTeachers: totalTeachersRes.success ? String(totalTeachersRes.count) : 'N/A',
         deniedUsers: deniedUsersRes.success ? String(deniedUsersRes.count) : 'N/A',
+        totalBookings: totalBookingsRes.success ? String(totalBookingsRes.count) : 'N/A',
+        monthlyBookings: monthlyBookingsRes.success ? String(monthlyBookingsRes.count) : 'N/A',
       });
     }
 
@@ -49,7 +57,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           <Card className="bg-blue-100/60 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Users</CardTitle>
@@ -93,6 +101,16 @@ export default function AdminDashboard() {
               </CardHeader>
               <CardContent>
                   <div className="text-2xl font-bold text-red-900 dark:text-red-100">{stats.deniedUsers}</div>
+              </CardContent>
+          </Card>
+          <Card className="bg-indigo-100/60 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-indigo-800 dark:text-indigo-200">Demo Bookings</CardTitle>
+                  <Presentation className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+              </CardHeader>
+              <CardContent>
+                  <div className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">{stats.totalBookings}</div>
+                  <p className="text-xs text-muted-foreground">+{stats.monthlyBookings} this month</p>
               </CardContent>
           </Card>
       </div>

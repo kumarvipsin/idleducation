@@ -562,6 +562,24 @@ export async function getDeniedUsersCount() {
     return getCount(q);
 }
 
+export async function getTotalSessionBookingsCount() {
+    const q = query(collection(db, "sessionBookings"));
+    return getCount(q);
+}
+
+export async function getMonthlySessionBookingsCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const q = query(
+        collection(db, "sessionBookings"),
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
+    );
+    return getCount(q);
+}
+
 
 export async function getMonthlyUserStats() {
     try {
