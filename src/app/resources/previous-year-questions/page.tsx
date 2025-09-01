@@ -8,7 +8,6 @@ import { FileText, Search, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { TopCourses } from '@/components/landing/top-courses';
 
 type QuestionPaper = {
   subject: string;
@@ -18,35 +17,13 @@ type QuestionPaper = {
 };
 
 const papersByClass: { [key: string]: QuestionPaper[] } = {
-  'Class 6': [
-    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math book' },
-    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1581093582522-220963a52d29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science textbook' },
-  ],
-  'Class 7': [
-    { subject: 'History', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
-    { subject: 'Geography', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'world map' },
-  ],
-  'Class 8': [
-    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'open book' },
-    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science experiment' },
-  ],
-  'Class 9': [
-    { subject: 'Physics', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1632500022039-651553c7a727?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics equations' },
-    { subject: 'Chemistry', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1554475901-4538adb7524d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry beakers' },
-    { subject: 'Biology', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1576092762791-d01e1b0c01b3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'dna model' },
-  ],
-  'Class 10': [
-    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math problems' },
-    { subject: 'Science', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1532187643623-dbf2f39d20c3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'biology microscope' },
-  ],
-  'Class 11': [
-    { subject: 'Physics', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics textbook' },
-    { subject: 'Chemistry', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1627866762144-4050b1a0d778?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry set' },
-  ],
-  'Class 12': [
-    { subject: 'Maths', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math formulas' },
-    { subject: 'Biology', year: 2023, imageUrl: 'https://images.unsplash.com/photo-1582719202042-0655f891a27a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'plant biology' },
-  ],
+  'Class 6': [],
+  'Class 7': [],
+  'Class 8': [],
+  'Class 9': [],
+  'Class 10': [],
+  'Class 11': [],
+  'Class 12': [],
 };
 
 const classes = Object.keys(papersByClass);
@@ -141,7 +118,6 @@ export default function PreviousYearQuestionsPage() {
           )}
         </div>
       </main>
-      <TopCourses />
     </div>
   );
 }
