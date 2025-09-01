@@ -39,7 +39,9 @@ const topCourses = [
         ],
     },
     {
-        title: "Drishti Publications' books and magazines on Amazon",
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
         bgColor: "bg-[#8367c7]",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "#" }],
