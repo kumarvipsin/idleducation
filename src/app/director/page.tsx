@@ -35,7 +35,7 @@ export default function DirectorPage() {
                 <AvatarImage src="/amodpro.jpg" alt="Director's Photo" />
                 <AvatarFallback>AK</AvatarFallback>
               </Avatar>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground whitespace-nowrap">AMOD KUMAR SHARMA</h1>
+              <h1 className="text-xl md:text-2xl font-bold text-foreground whitespace-nowrap">AMOD KUMAR SHARMA</h1>
               <p className="text-lg text-muted-foreground mt-1">Founder & Managing Director</p>
             </div>
             <div className="md:col-span-2 p-4 sm:p-8">
