@@ -7,24 +7,8 @@ export function Footer() {
   return (
     <footer className="bg-black text-white">
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
-                {/* Column 1: Brand Info */}
-                <div>
-                    <Link href="/" className="flex items-center justify-start gap-2 mb-4">
-                        <BookOpen className="h-8 w-8" />
-                        <span className="text-2xl font-bold">IDL EDUCATION</span>
-                    </Link>
-                    <div className="bg-gray-900 p-4 rounded-md">
-                      <p className="text-sm text-gray-400">
-                          Empowering students with quality education to achieve their dreams.
-                      </p>
-                       <p className="text-sm text-gray-400 mt-2">
-                          We develop our content according to the learning cycle of the students. We give most of our efforts and time to research and understand that how a student learns and understands.
-                      </p>
-                    </div>
-                </div>
-
-                {/* Column 2: Connect With Us */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                {/* Column 1: Connect With Us */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
                     <div className="bg-gray-900 p-4 rounded-md">
@@ -49,7 +33,7 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Column 3: Our Branch */}
+                {/* Column 2: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
                     <div className="bg-gray-900 p-4 rounded-md">
@@ -79,7 +63,7 @@ export function Footer() {
                     </div>
                 </div>
                 
-                {/* Column 4: Social Media */}
+                {/* Column 3: Social Media */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Social Media</h3>
                     <div className="flex items-center justify-start gap-4">
