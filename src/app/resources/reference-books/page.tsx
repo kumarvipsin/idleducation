@@ -19,31 +19,29 @@ type Book = {
 
 const booksByClass: { [key: string]: Book[] } = {
   'Class 6': [
-    { title: 'Mathematics for Class 6', author: 'R.S. Aggarwal', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math book' },
-    { title: 'Science for Class 6', author: 'Lakhmir Singh', subject: 'Science', imageUrl: 'https://images.unsplash.com/photo-1581093582522-220963a52d29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science textbook' },
+    { title: 'Mathematics for Class 6', author: 'R.S. Aggarwal', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1974&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math book' },
+    { title: 'Science for Class 6', author: 'Lakhmir Singh', subject: 'Science', imageUrl: 'https://images.unsplash.com/photo-1581093582522-220963a52d29?q=80&w=2070&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science textbook' },
   ],
   'Class 7': [
-    { title: 'Mathematics for Class 7', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1592527212953-e53b4742517c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math textbook' },
-    { title: 'History for Class 7', author: 'Romila Thapar', subject: 'History', imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
+    { title: 'Mathematics for Class 7', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1592527212953-e53b4742517c?q=80&w=1974&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math textbook' },
+    { title: 'History for Class 7', author: 'Romila Thapar', subject: 'History', imageUrl: 'https://images.unsplash.com/photo-1569033397943-9376a4a1a5a8?q=80&w=1974&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'history book' },
   ],
   'Class 8': [
-    { title: 'Mathematics for Class 8', author: 'R.S. Aggarwal', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'open book' },
-    { title: 'Science for Class 8', author: 'Lakhmir Singh', subject: 'Science', imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science experiment' },
+    { title: 'Mathematics for Class 8', author: 'R.S. Aggarwal', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'open book' },
+    { title: 'Science for Class 8', author: 'Lakhmir Singh', subject: 'Science', imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=2070&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'science experiment' },
   ],
   'Class 9': [
-    { title: 'Concepts of Physics', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1632500022039-651553c7a727?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics equations' },
-    { title: 'Chemistry for Class 9', author: 'S. Chand', subject: 'Chemistry', imageUrl: 'https://images.unsplash.com/photo-1554475901-4538adb7524d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry beakers' },
+    { title: 'Concepts of Physics', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1632500022039-651553c7a727?q=80&w=1974&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics equations' },
+    { title: 'Chemistry for Class 9', author: 'S. Chand', subject: 'Chemistry', imageUrl: 'https://images.unsplash.com/photo-1554475901-4538adb7524d?q=80&w=2070&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry beakers' },
   ],
-  'Class 10': [
-    { title: 'Biology for Class 10', author: 'S. Chand', subject: 'Biology', imageUrl: 'https://images.unsplash.com/photo-1532187643623-dbf2f39d20c3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'biology microscope' },
-  ],
+  'Class 10': [],
   'Class 11': [
-    { title: 'Concepts of Physics Vol 1', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics textbook' },
-    { title: 'Organic Chemistry', author: 'O.P. Tandon', subject: 'Chemistry', imageUrl: 'https://images.unsplash.com/photo-1627866762144-4050b1a0d778?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry set' },
+    { title: 'Concepts of Physics Vol 1', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics textbook' },
+    { title: 'Organic Chemistry', author: 'O.P. Tandon', subject: 'Chemistry', imageUrl: 'https://images.unsplash.com/photo-1627866762144-4050b1a0d778?q=80&w=1974&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'chemistry set' },
   ],
   'Class 12': [
-    { title: 'Concepts of Physics Vol 2', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics book' },
-    { title: 'Mathematics for Class 12', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math formulas' },
+    { title: 'Concepts of Physics Vol 2', author: 'H.C. Verma', subject: 'Physics', imageUrl: 'https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?q=80&w=2072&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'physics book' },
+    { title: 'Mathematics for Class 12', author: 'R.D. Sharma', subject: 'Maths', imageUrl: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?q=80&w=2070&auto=format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8', imageHint: 'math formulas' },
   ],
 };
 
