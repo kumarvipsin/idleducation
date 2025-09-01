@@ -59,7 +59,7 @@ const topCourses = [
 
 const coursesByCategory: { [key: string]: any[] } = {
   'All Batches': topCourses,
-  'Class 5': [],
+  'Class 5': topCourses,
   'Class 6': topCourses,
   'Class 7': topCourses,
   'Class 8': topCourses,
