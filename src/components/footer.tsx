@@ -87,25 +87,28 @@ export function Footer() {
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
-                    <div className="mt-4 flex items-center gap-2">
-                        <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
-                            <Image 
-                                src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
-                                alt="Get it on Google Play"
-                                width={135}
-                                height={40}
-                                className="h-auto"
-                            />
-                        </Link>
-                         <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
-                            <Image 
-                                src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
-                                alt="Download on the App Store"
-                                width={120}
-                                height={40}
-                                className="h-auto"
-                            />
-                        </Link>
+                    <div className="mt-6">
+                        <h4 className="text-md font-semibold mb-2">IDL Learning App - Learn Smart</h4>
+                        <div className="flex items-center gap-2">
+                            <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
+                                <Image 
+                                    src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
+                                    alt="Get it on Google Play"
+                                    width={135}
+                                    height={40}
+                                    className="h-auto"
+                                />
+                            </Link>
+                            <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
+                                <Image 
+                                    src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
+                                    alt="Download on the App Store"
+                                    width={120}
+                                    height={40}
+                                    className="h-auto"
+                                />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
