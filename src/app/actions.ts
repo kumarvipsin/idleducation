@@ -580,6 +580,24 @@ export async function getMonthlySessionBookingsCount() {
     return getCount(q);
 }
 
+export async function getTotalContactSubmissionsCount() {
+    const q = query(collection(db, "contactSubmissions"));
+    return getCount(q);
+}
+
+export async function getMonthlyContactSubmissionsCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const q = query(
+        collection(db, "contactSubmissions"),
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
+    );
+    return getCount(q);
+}
+
 
 export async function getMonthlyUserStats() {
     try {

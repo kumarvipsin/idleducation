@@ -1,12 +1,12 @@
 
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation } from "lucide-react";
+import { Users, BookOpen, BarChart, GraduationCap, UserPlus, Bell, XCircle, Briefcase, Presentation, MessageCircle } from "lucide-react";
 import { OverviewChart } from "./overview-chart";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentUpdates } from "./recent-updates";
 import React, { useEffect, useState } from "react";
-import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount } from "@/app/actions";
+import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
 
@@ -19,6 +19,8 @@ export default function AdminDashboard() {
     deniedUsers: '0',
     totalBookings: '0',
     monthlyBookings: '0',
+    totalSubmissions: '0',
+    monthlySubmissions: '0',
   });
 
   useEffect(() => {
@@ -31,6 +33,8 @@ export default function AdminDashboard() {
         deniedUsersRes,
         totalBookingsRes,
         monthlyBookingsRes,
+        totalSubmissionsRes,
+        monthlySubmissionsRes,
       ] = await Promise.all([
         getTotalUsersCount(),
         getTotalStudentsCount(),
@@ -39,6 +43,8 @@ export default function AdminDashboard() {
         getDeniedUsersCount(),
         getTotalSessionBookingsCount(),
         getMonthlySessionBookingsCount(),
+        getTotalContactSubmissionsCount(),
+        getMonthlyContactSubmissionsCount(),
       ]);
 
       setStats({
@@ -49,6 +55,8 @@ export default function AdminDashboard() {
         deniedUsers: deniedUsersRes.success ? String(deniedUsersRes.count) : 'N/A',
         totalBookings: totalBookingsRes.success ? String(totalBookingsRes.count) : 'N/A',
         monthlyBookings: monthlyBookingsRes.success ? String(monthlyBookingsRes.count) : 'N/A',
+        totalSubmissions: totalSubmissionsRes.success ? String(totalSubmissionsRes.count) : 'N/A',
+        monthlySubmissions: monthlySubmissionsRes.success ? String(monthlySubmissionsRes.count) : 'N/A',
       });
     }
 
@@ -57,7 +65,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
           <Card className="bg-blue-100/60 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Users</CardTitle>
@@ -111,6 +119,16 @@ export default function AdminDashboard() {
               <CardContent>
                   <div className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">{stats.totalBookings}</div>
                   <p className="text-xs text-muted-foreground">+{stats.monthlyBookings} this month</p>
+              </CardContent>
+          </Card>
+           <Card className="bg-teal-100/60 dark:bg-teal-900/30 border-teal-200 dark:border-teal-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-teal-800 dark:text-teal-200">Contact Submissions</CardTitle>
+                  <MessageCircle className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+              </CardHeader>
+              <CardContent>
+                  <div className="text-2xl font-bold text-teal-900 dark:text-teal-100">{stats.totalSubmissions}</div>
+                  <p className="text-xs text-muted-foreground">+{stats.monthlySubmissions} this month</p>
               </CardContent>
           </Card>
       </div>
