@@ -82,6 +82,10 @@ export function HeroSection() {
     }
   };
 
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
   return (
     <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
       <div className="absolute inset-0 bg-primary/80 z-0"></div>
@@ -140,7 +144,16 @@ export function HeroSection() {
                         <FormItem className="space-y-1">
                            <FormLabel>Child's Name <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input id="child-name" placeholder={t('bookFreeSession.childNamePlaceholder')} {...field} />
+                            <Input 
+                              id="child-name" 
+                              placeholder={t('bookFreeSession.childNamePlaceholder')} 
+                              {...field}
+                              onChange={(e) => {
+                                const formatted = capitalizeWords(e.target.value);
+                                e.target.value = formatted;
+                                field.onChange(e);
+                              }}
+                             />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
