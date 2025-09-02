@@ -39,6 +39,9 @@ export function OurFeatures() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Features</h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Discover the key features that make our platform the best choice for your learning needs.
+          </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
           {features.map((feature, index) => (
