@@ -83,7 +83,11 @@ export function HeroSection() {
   };
 
   const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, char => char.toUpperCase());
+    return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
   };
 
   return (
@@ -150,8 +154,7 @@ export function HeroSection() {
                               {...field}
                               onChange={(e) => {
                                 const formatted = capitalizeWords(e.target.value);
-                                e.target.value = formatted;
-                                field.onChange(e);
+                                field.onChange(formatted);
                               }}
                              />
                           </FormControl>
@@ -213,8 +216,7 @@ export function HeroSection() {
                               placeholder={t('bookFreeSession.emailPlaceholder')} 
                               {...field}
                               onChange={(e) => {
-                                e.target.value = e.target.value.toLowerCase();
-                                field.onChange(e);
+                                field.onChange(e.target.value.toLowerCase());
                               }}
                             />
                           </FormControl>
