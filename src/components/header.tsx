@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -120,7 +120,7 @@ export function Header() {
   const navLinks = [
     { href: '/', label: t('home'), icon: <HomeIcon className="h-5 w-5" /> },
     { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" /> },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
+    { href: '/admission', label: t('admissionForm'), icon: <FileText className="h-5 w-5" /> },
   ];
 
   const loggedInNavLinks = [
@@ -214,7 +214,7 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[--sidebar-width-mobile] p-0">
+                <SheetContent side="right" className="w-[--sidebar-width-mobile] p-0" style={{"--sidebar-width-mobile": "16rem"} as React.CSSProperties}>
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle className="text-lg flex items-center gap-2">
                       <BookOpen className="h-6 w-6 text-primary" />
@@ -241,7 +241,7 @@ export function Header() {
                   <div className="border-t p-4">
                     {user ? (
                       <div>
-                          <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
                               <Avatar className="h-12 w-12 border-2 border-primary">
                                   <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
                                   <AvatarFallback>
