@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileQuestion, MessageSquarePlus, Building } from "lucide-react";
+import { GraduationCap, BookUp, FileQuestion, MessageSquarePlus, Building, Users } from "lucide-react";
 import { useEffect, useState, useRef } from 'react';
 
 const features = [
@@ -31,6 +31,11 @@ const features = [
     title: "5 +",
     subtitle: "Offline centres",
   },
+  {
+    icon: <Users className="w-10 h-10 text-white" />,
+    title: "100+",
+    subtitle: "Teachers",
+  },
 ];
 
 export function OurFeatures() {
@@ -43,7 +48,7 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
           {features.map((feature, index) => (
             <Card 
               key={index} 
