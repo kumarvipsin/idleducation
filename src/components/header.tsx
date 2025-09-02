@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User, Users, LayoutDashboard } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User, Users, LayoutDashboard, Separator } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -218,20 +218,28 @@ export function Header() {
                 <SheetHeader>
                     <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 </SheetHeader>
-                <nav className="grid gap-6 text-lg font-medium mt-8">
-                  {navLinks.map(({ href, label, icon }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
-                    >
-                      {icon}
-                      {label}
-                    </Link>
-                  ))}
+                <nav className="flex flex-col justify-between h-full py-8">
+                  <div>
+                    <div className="grid gap-6 text-lg font-medium">
+                      {navLinks.map(({ href, label, icon }) => (
+                        <Link
+                          key={href}
+                          href={href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+                        >
+                          {icon}
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {user && <Separator className="my-6" />}
+                  </div>
+
+                  <div>
                     {user ? (
-                      <>
+                      <div className="grid gap-6 text-lg font-medium">
                         {loggedInNavLinks.map(({ href, label, icon }) => (
                           <Link
                             key={href}
@@ -243,10 +251,14 @@ export function Header() {
                             {label}
                           </Link>
                         ))}
-                        <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
-                          <LogOut className="mr-2 h-4 w-4" /> Logout
-                        </Button>
-                      </>
+                        <button
+                          onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                          className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                        >
+                          <LogOut className="h-5 w-5" />
+                          Logout
+                        </button>
+                      </div>
                     ) : (
                       <Button asChild>
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
@@ -254,6 +266,7 @@ export function Header() {
                         </Link>
                       </Button>
                     )}
+                  </div>
                 </nav>
                 </SheetContent>
             </Sheet>
