@@ -11,7 +11,7 @@ export function ChatBot() {
         <Button
           asChild
           size="icon"
-          className="relative rounded-full w-12 h-12 shadow-lg bg-green-500 hover:bg-green-600 text-white transition-transform hover:scale-110"
+          className="relative rounded-full w-12 h-12 shadow-lg bg-gradient-to-br from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white transition-transform hover:scale-110"
         >
           <Link href="tel:+918860040010">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
