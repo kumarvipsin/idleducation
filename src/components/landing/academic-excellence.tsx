@@ -12,12 +12,12 @@ const resultsData = {
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto-format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto-format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
@@ -81,7 +81,7 @@ export function AcademicExcellence() {
         </div>
 
         <Card className="overflow-hidden shadow-lg">
-            <div className="relative w-full aspect-video md:aspect-[2.4/1]">
+            <div className="relative w-full aspect-[2/1] md:aspect-[3/1]">
                 <Image
                 key={activeCategory}
                 src={resultsData[activeCategory as keyof typeof resultsData].image}
