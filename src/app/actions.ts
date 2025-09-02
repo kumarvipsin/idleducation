@@ -806,3 +806,15 @@ export async function getNextStudentId() {
     return { success: false, message: "Failed to generate student ID." };
   }
 }
+
+export async function getAdmissions() {
+  try {
+    const admissionsQuery = query(collection(db, "admissions"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(admissionsQuery);
+    const admissions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: admissions };
+  } catch (error) {
+    console.error("Error fetching admissions:", error);
+    return { success: false, message: "Failed to fetch admissions." };
+  }
+}
