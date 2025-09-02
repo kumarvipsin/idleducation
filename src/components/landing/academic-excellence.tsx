@@ -7,7 +7,7 @@ import { Card } from '../ui/card';
 
 const resultsData = {
   'CUET': {
-    image: '/cuet-result.jpg',
+    image: '/cuet.jpg',
     alt: 'CUET Toppers',
     hint: 'students celebrating'
   },
@@ -81,7 +81,16 @@ export function AcademicExcellence() {
         </div>
 
         <Card className="overflow-hidden shadow-lg">
-          <div className="w-full h-auto" style={{ height: '300px' }}></div>
+            <div className="relative w-full aspect-video md:aspect-[2.4/1]">
+                <Image
+                key={activeCategory}
+                src={resultsData[activeCategory as keyof typeof resultsData].image}
+                alt={resultsData[activeCategory as keyof typeof resultsData].alt}
+                data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
+                fill
+                className="object-cover animate-fade-in-up"
+                />
+            </div>
         </Card>
       </div>
     </section>
