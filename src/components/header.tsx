@@ -120,7 +120,7 @@ export function Header() {
   const navLinks = [
     { href: '/', label: t('home'), icon: <HomeIcon className="h-5 w-5" /> },
     { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" /> },
-    { href: '/admission', label: t('admissionForm'), icon: <FileText className="h-5 w-5" /> },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
   ];
 
   const loggedInNavLinks = [
@@ -131,13 +131,17 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-center items-center">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 items-center">
                     <a href="tel:+917011117585" className="flex items-center gap-2 hover:underline">
                         <Phone className="h-4 w-4" />
                         <span className="font-extrabold">+91 70 1111 7585</span>
                     </a>
                 </div>
+                 <Link href="/admission" className="flex items-center gap-2 hover:underline">
+                    <FileText className="h-4 w-4" />
+                    <span>{t('admissionForm')}</span>
+                </Link>
             </div>
         </div>
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center">
