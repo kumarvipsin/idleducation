@@ -6,6 +6,7 @@ import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit, startAt } from "firebase/firestore";
 import { format } from "date-fns";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -817,4 +818,44 @@ export async function getAdmissions() {
     console.error("Error fetching admissions:", error);
     return { success: false, message: "Failed to fetch admissions." };
   }
+}
+
+export async function submitAdmissionForm(formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const studentPhoto = rawFormData.studentPhoto as File;
+
+    const admissionData = {
+        studentId: rawFormData.studentId as string,
+        studentName: rawFormData.studentName as string,
+        fatherName: rawFormData.fatherName as string,
+        fatherOccupation: rawFormData.fatherOccupation as string || '',
+        motherName: rawFormData.motherName as string,
+        motherOccupation: rawFormData.motherOccupation as string || '',
+        dob: rawFormData.dob as string,
+        email: rawFormData.email as string,
+        phone: rawFormData.phone as string,
+        address: rawFormData.address as string,
+        classApplied: rawFormData.classApplied as string,
+        previousSchool: rawFormData.previousSchool as string || '',
+        additionalInfo: rawFormData.additionalInfo as string || '',
+    };
+    
+    try {
+        const storage = getStorage();
+        const photoRef = ref(storage, `student_photos/${admissionData.studentId}-${studentPhoto.name}`);
+        const snapshot = await uploadBytes(photoRef, studentPhoto);
+        const studentPhotoUrl = await getDownloadURL(snapshot.ref);
+
+        await addDoc(collection(db, "admissions"), {
+            ...admissionData,
+            studentPhotoUrl,
+            createdAt: serverTimestamp(),
+            status: 'submitted',
+        });
+        
+        return { success: true, message: "Admission form submitted successfully." };
+    } catch (error) {
+        console.error("Error submitting admission form:", error);
+        return { success: false, message: "Failed to submit admission form." };
+    }
 }

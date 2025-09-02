@@ -11,13 +11,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { getNextStudentId } from "@/app/actions";
+import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -50,7 +47,6 @@ type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 export default function AdmissionPage() {
   const { toast } = useToast();
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const pdfRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<AdmissionFormValues>({
@@ -180,20 +176,28 @@ export default function AdmissionPage() {
 
   const onSubmit: SubmitHandler<AdmissionFormValues> = async (data) => {
     try {
-        // Here you would normally upload the photo to Firebase Storage
-        // and get the URL to save in Firestore. For simplicity, we are
-        // omitting the photo from Firestore storage in this example.
-        const { studentPhoto, ...formData } = data;
-
-        await addDoc(collection(db, "admissions"), {
-            ...formData,
-            createdAt: serverTimestamp(),
-            status: 'submitted',
+        const formData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+            if (value) {
+                formData.append(key, value);
+            }
         });
-        toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
-        generatePdf(data);
-        form.reset();
-        setPhotoPreview(null);
+
+        const result = await submitAdmissionForm(formData);
+
+        if (result.success) {
+            toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
+            generatePdf(data);
+            form.reset();
+            setPhotoPreview(null);
+            // Fetch the next ID for the new form
+            const nextIdResult = await getNextStudentId();
+            if (nextIdResult.success && nextIdResult.studentId) {
+                form.setValue('studentId', nextIdResult.studentId);
+            }
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
     } catch (error) {
         console.error("Error submitting admission form:", error);
         toast({ variant: "destructive", title: "Error", description: "Failed to submit form. Please try again later." });
@@ -207,7 +211,7 @@ export default function AdmissionPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg overflow-hidden" ref={pdfRef}>
+        <Card className="shadow-lg overflow-hidden">
           <CardHeader className="text-center bg-primary text-primary-foreground p-8">
             <CardTitle className="text-3xl font-bold">Student Admission Form</CardTitle>
             <CardDescription className="text-primary-foreground/80 mt-2">
