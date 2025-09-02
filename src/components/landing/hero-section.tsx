@@ -194,7 +194,16 @@ export function HeroSection() {
                         <FormItem className="space-y-1">
                           <FormLabel>Email Address</FormLabel>
                           <FormControl>
-                            <Input id="email" type="email" placeholder={t('bookFreeSession.emailPlaceholder')} {...field} />
+                            <Input 
+                              id="email" 
+                              type="email" 
+                              placeholder={t('bookFreeSession.emailPlaceholder')} 
+                              {...field}
+                              onChange={(e) => {
+                                e.target.value = e.target.value.toLowerCase();
+                                field.onChange(e);
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
