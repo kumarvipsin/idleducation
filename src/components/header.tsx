@@ -304,28 +304,31 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[--sidebar-width-mobile] p-0" style={{"--sidebar-width-mobile": "16rem"} as React.CSSProperties}>
-                <div className="flex flex-col justify-between h-full">
-                  <div className="py-6 px-4">
-                    <nav className="grid gap-4 text-base font-medium">
-                      {navLinks.map(({ href, label, icon }) => (
-                        <Link
-                          key={href}
-                          href={href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center gap-4 px-3 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-                        >
-                          {icon}
-                          {label}
-                        </Link>
-                      ))}
-                    </nav>
+                <SheetContent side="right" className="w-full max-w-[--sidebar-width-mobile] p-0 flex flex-col" style={{"--sidebar-width-mobile": "16rem"} as React.CSSProperties}>
+                    <SheetHeader>
+                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                    </SheetHeader>
+                    <div className="overflow-y-auto flex-grow">
+                        <div className="py-6 px-4">
+                        <nav className="grid gap-4 text-base font-medium">
+                        {navLinks.map(({ href, label, icon }) => (
+                            <Link
+                            key={href}
+                            href={href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`flex items-center gap-4 px-3 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+                            >
+                            {icon}
+                            {label}
+                            </Link>
+                        ))}
+                        </nav>
+                    </div>
                   </div>
 
-                  <div className="mt-auto">
+                  <div className="mt-auto shrink-0">
                     {renderMobileAuthSection()}
                   </div>
-                </div>
                 </SheetContent>
             </Sheet>
             </div>
