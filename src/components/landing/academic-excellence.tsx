@@ -22,7 +22,7 @@ const resultsData = {
     hint: 'graduation ceremony'
   },
   'JEE': {
-    image: 'https://images.unsplash.com/photo-1681567012715-4990694c5aa9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxqZWUlMjByZXN1bHQlMjBiYW5uZXIlMjB3aXRoJTIwMjAlMjBzdHVkZW50fGVufDB8fHx8MTc1Njc5MTI3MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1681567012715-4990694c5aa9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxqZWUlMjByZXN1bHQlMjBiYW5uZXIlMjB3aXRoJTIwMjAlMjBzdHVkZW50fGVufDB8fHx8MTc1Njc5MTI3MHww&ixlib-rb-4.1.0&q=80&w=1080',
     alt: 'JEE Toppers',
     hint: 'students studying'
   },
@@ -32,7 +32,7 @@ const resultsData = {
     hint: 'medical students'
   },
   'SSC': {
-    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib-rb-4.1.0&q=80&w=1080',
     alt: 'SSC Toppers',
     hint: 'education'
   },
@@ -81,15 +81,7 @@ export function AcademicExcellence() {
         </div>
 
         <Card className="overflow-hidden shadow-lg">
-          <Image
-            src={resultsData[activeCategory as keyof typeof resultsData].image}
-            alt={resultsData[activeCategory as keyof typeof resultsData].alt}
-            data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
-            width={1200}
-            height={300}
-            className="w-full h-auto object-cover transition-transform duration-300 ease-in-out"
-            style={{ maxHeight: '300px' }}
-          />
+          <div className="w-full h-auto" style={{ height: '300px' }}></div>
         </Card>
       </div>
     </section>
