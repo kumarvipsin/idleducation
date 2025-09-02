@@ -30,12 +30,23 @@ export function Header() {
   const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
 
   useEffect(() => {
     const fetchUpdates = async () => {
       const result = await getUpdates(3); // Fetch only the 3 most recent updates
       if (result.success && result.data) {
-        setUpdates(result.data as Update[]);
+        const fetchedUpdates = result.data as Update[];
+        setUpdates(fetchedUpdates);
+
+        if (fetchedUpdates.length > 0) {
+          const lastChecked = localStorage.getItem('lastCheckedUpdate');
+          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
+          
+          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
+            setHasNewUpdates(true);
+          }
+        }
       }
     };
     fetchUpdates();
@@ -44,6 +55,13 @@ export function Header() {
   const handleLogout = async () => {
     await logout();
     router.push('/');
+  };
+
+  const handleNotificationOpenChange = (open: boolean) => {
+    if (open) {
+      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
+      setHasNewUpdates(false);
+    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -164,10 +182,16 @@ export function Header() {
                   </Link>
                 ))}
             {renderAuthSection()}
-            <DropdownMenu>
+            <DropdownMenu onOpenChange={handleNotificationOpenChange}>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" className="relative">
                     <Bell className="h-[1.2rem] w-[1.2rem]" />
+                    {hasNewUpdates && (
+                        <span className="absolute top-0 right-0 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                    )}
                     <span className="sr-only">Notifications</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -200,8 +224,14 @@ export function Header() {
             <div className="ml-auto md:hidden flex items-center gap-2">
             <SettingsToggle />
             <Link href="/notifications">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="relative">
                     <Bell className="h-6 w-6" />
+                    {hasNewUpdates && (
+                        <span className="absolute top-1 right-1 flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                    )}
                     <span className="sr-only">Notifications</span>
                 </Button>
             </Link>
