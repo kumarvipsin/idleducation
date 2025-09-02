@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { getUpdates } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
+import { Skeleton } from "./ui/skeleton";
 
 interface Update {
   id: string;
@@ -147,9 +148,20 @@ export function Header() {
   ];
 
   const renderMobileAuthSection = () => {
+    if (loading) {
+        return (
+            <div className="flex items-center gap-3">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <div className="w-full space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
+    }
     if (user) {
       return (
-        <div>
+        <>
           <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
             <Avatar className="h-12 w-12 border-2 border-primary">
               <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
@@ -182,17 +194,10 @@ export function Header() {
               Logout
             </button>
           </div>
-        </div>
-      );
-    } else {
-       return (
-        <Button asChild className="w-full">
-          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-            <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-          </Link>
-        </Button>
+        </>
       );
     }
+    return null;
   };
 
   return (
@@ -298,9 +303,9 @@ export function Header() {
                       {brandName}
                     </SheetTitle>
                 </SheetHeader>
-                <nav className="flex flex-col justify-between h-full">
+                <div className="flex flex-col justify-between h-full">
                   <div className="py-6 px-4">
-                    <div className="grid gap-4 text-lg font-medium">
+                    <nav className="grid gap-4 text-lg font-medium">
                       {navLinks.map(({ href, label, icon }) => (
                         <Link
                           key={href}
@@ -312,13 +317,19 @@ export function Header() {
                           {label}
                         </Link>
                       ))}
-                    </div>
+                    </nav>
                   </div>
 
                   <div className="border-t p-4">
-                    {renderMobileAuthSection()}
+                    {user ? renderMobileAuthSection() : (
+                      <Button asChild className="w-full">
+                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+                        </Link>
+                      </Button>
+                    )}
                   </div>
-                </nav>
+                </div>
                 </SheetContent>
             </Sheet>
             </div>
