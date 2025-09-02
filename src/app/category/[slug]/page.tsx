@@ -32,53 +32,7 @@ const categoryData: { [key: string]: any } = {
   "cuet": { 
       name: "CUET", 
       description: "Prepare for the Common University Entrance Test with our structured and detailed courses.",
-      courses: [
-        {
-          mode: "ONLINE",
-          modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-          imageHint: "students collaborating",
-          title: "Pravesh CUET Commerce 2026",
-          tags: ["NEW", "Hinglish"],
-          target: "Targeted Batch for CUET Commerce 2026",
-          startDate: "25 Aug, 2025",
-          endDate: "31 May, 2026",
-          price: "2,799",
-          originalPrice: "8,000",
-          discount: "65% applied",
-          features: { text: "", badge: "INFINITY" },
-        },
-        {
-          mode: "ONLINE",
-          modeColor: "bg-blue-600",
-          image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-          imageHint: "students learning",
-          title: "Pravesh CUET Science 2026",
-          tags: ["NEW", "Hinglish"],
-          target: "For CUET 2026 Aspirants",
-          startDate: "18 Aug, 2025",
-          endDate: "30 Jun, 2026",
-          price: "3,499",
-          originalPrice: "3,999",
-          discount: "13% applied",
-          features: { text: "", badge: "PRO" },
-        },
-        {
-          mode: "OFFLINE",
-          modeColor: "bg-red-600",
-          image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-          imageHint: "teacher with students",
-          title: "Superclass - Pravesh CUET 2026",
-          tags: ["NEW", "Hinglish"],
-          target: "Targeted Batch for CUET 2026",
-          startDate: "2 May, 2025",
-          endDate: "30 Jun, 2026",
-          price: "999",
-          originalPrice: null,
-          discount: null,
-          features: null,
-        }
-      ]
+      courses: []
   },
   "govt-job-exams": { 
       name: "Government Job Exams", 
@@ -98,12 +52,18 @@ const categoryData: { [key: string]: any } = {
         { title: "AFCAT (Air Force Common Admission Test)", description: "Your gateway to a career in the Indian Air Force." },
       ]
   },
+  "nios": {
+    name: "NIOS",
+    description: "Prepare for the National Institute of Open Schooling exams with our specialized courses.",
+    courses: []
+  },
 };
 
 const subCategories: { [key: string]: string[] } = {
   "defence": ["All Batches", "NDA", "CDS AFCAT", "Agniveer", "SSB", "AFCAT Offline", "CDS Offline", "SSB Offline"],
   "iit-jee": ["All Batches", "JEE Main", "JEE Advanced", "Foundation", "Droppers"],
   "neet": ["All Batches", "NEET UG", "NEET PG", "Foundation"],
+  "nios": ["All Batches", "Class 10", "Class 12"],
   "default": ["All Batches"]
 };
 
