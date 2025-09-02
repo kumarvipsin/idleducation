@@ -107,7 +107,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-          className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-primary via-primary to-accent"
+          className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-b from-primary to-accent"
         >
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
