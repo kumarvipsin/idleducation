@@ -28,7 +28,7 @@ export function ExpertTeam() {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
     },
     {
@@ -55,7 +55,7 @@ export function ExpertTeam() {
   ];
 
   return (
-    <section className="w-full py-12 md:py-24 bg-muted">
+    <section className="w-full py-12 md:py-24 bg-muted/40">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
@@ -70,7 +70,7 @@ export function ExpertTeam() {
                 className="group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-full h-40 bg-gradient-to-r from-primary/10 to-accent/10"></div>
+                <div className="w-full h-40 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20"></div>
                 <div className="absolute top-20 w-32 h-32">
                     <Image
                         src={member.avatar}
