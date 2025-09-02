@@ -209,14 +209,10 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="right">
+                <SheetContent side="right" className="w-[--sidebar-width-mobile]">
                 <SheetHeader>
                     <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 </SheetHeader>
-                 <div className="relative mt-8">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input type="search" placeholder="Search..." className="pl-9 rounded-full w-full" />
-                </div>
                 <nav className="grid gap-6 text-lg font-medium mt-8">
                   {navLinks.map(({ href, label, icon }) => (
                     <Link
