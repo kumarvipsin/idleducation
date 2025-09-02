@@ -20,6 +20,7 @@ const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
   childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
+  countryCode: z.string(),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -41,6 +42,12 @@ const allPrograms = [
     "JEE", "NEET", "CUET", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
 ];
 
+const countryCodes = [
+    { code: "+91", country: "India" },
+    { code: "+1", country: "United States" },
+    { code: "+44", country: "United Kingdom" },
+];
+
 export function HeroSection() {
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -51,6 +58,7 @@ export function HeroSection() {
       sessionMode: 'offline',
       childName: '',
       classCourse: '',
+      countryCode: "+91-India",
       mobile: '',
       email: '',
       state: '',
@@ -91,7 +99,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
       <div className="absolute inset-0 bg-primary/80 z-0"></div>
       <div className="container px-4 md:px-6 relative z-10 py-4 md:py-8 lg:py-12">
         <div className="flex justify-center">
@@ -186,22 +194,47 @@ export function HeroSection() {
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="mobile"
-                      render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Mobile Number <span className="text-destructive">*</span></FormLabel>
-                          <div className="relative">
-                            <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <FormControl>
-                              <Input id="mobile" type="tel" placeholder={t('bookFreeSession.mobilePlaceholder')} className="pl-10" {...field} />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-1">
+                        <FormLabel>Mobile Number <span className="text-destructive">*</span></FormLabel>
+                        <div className="flex gap-2">
+                            <FormField
+                                control={form.control}
+                                name="countryCode"
+                                render={({ field }) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger className="w-[120px]">
+                                        <SelectValue placeholder="Code" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {countryCodes.map((country) => (
+                                        <SelectItem key={country.code} value={`${country.code}-${country.country}`}>
+                                            {country.code}
+                                        </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="mobile"
+                                render={({ field }) => (
+                                <FormItem className="flex-1">
+                                    <FormControl>
+                                    <Input id="mobile" type="tel" placeholder={t('bookFreeSession.mobilePlaceholder')} {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
 
                     <FormField
                       control={form.control}
