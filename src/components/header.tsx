@@ -214,53 +214,68 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[--sidebar-width-mobile]">
-                <SheetHeader>
-                    <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <SheetContent side="right" className="w-[--sidebar-width-mobile] p-0">
+                <SheetHeader className="p-4 border-b">
+                    <SheetTitle className="text-lg flex items-center gap-2">
+                      <BookOpen className="h-6 w-6 text-primary" />
+                      {brandName}
+                    </SheetTitle>
                 </SheetHeader>
-                <nav className="flex flex-col justify-between h-full py-8">
-                  <div>
-                    <div className="grid gap-6 text-lg font-medium">
+                <nav className="flex flex-col justify-between h-full">
+                  <div className="py-6 px-4">
+                    <div className="grid gap-4 text-lg font-medium">
                       {navLinks.map(({ href, label, icon }) => (
                         <Link
                           key={href}
                           href={href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+                          className={`flex items-center gap-4 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                         >
                           {icon}
                           {label}
                         </Link>
                       ))}
                     </div>
-
                   </div>
 
-                  <div>
+                  <div className="border-t p-4">
                     {user ? (
-                      <div className="grid gap-6 text-lg font-medium">
-                        <Separator className="my-2" />
-                        {loggedInNavLinks.map(({ href, label, icon }) => (
-                          <Link
-                            key={href}
-                            href={href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
-                          >
-                            {icon}
-                            {label}
-                          </Link>
-                        ))}
-                        <button
-                          onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                          className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                        >
-                          <LogOut className="h-5 w-5" />
-                          Logout
-                        </button>
+                      <div>
+                          <div className="flex items-center gap-3 mb-4">
+                              <Avatar className="h-12 w-12 border-2 border-primary">
+                                  <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                                  <AvatarFallback>
+                                      {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+                                  </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                  <p className="font-semibold">{user.name}</p>
+                                  <p className="text-xs text-muted-foreground">{user.email}</p>
+                              </div>
+                          </div>
+                          <div className="grid gap-2">
+                              {loggedInNavLinks.map(({ href, label, icon }) => (
+                                <Link
+                                  key={href}
+                                  href={href}
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                  className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+                                >
+                                  {icon}
+                                  {label}
+                                </Link>
+                              ))}
+                              <button
+                                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
+                              >
+                                <LogOut className="h-5 w-5" />
+                                Logout
+                              </button>
+                          </div>
                       </div>
                     ) : (
-                      <Button asChild>
+                      <Button asChild className="w-full">
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                           <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                         </Link>
