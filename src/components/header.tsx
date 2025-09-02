@@ -123,6 +123,11 @@ export function Header() {
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
   ];
 
+  const loggedInNavLinks = [
+    { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
+    { href: getProfilePath(user), label: 'Profile', icon: <User className="h-5 w-5" /> },
+  ];
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
@@ -226,9 +231,22 @@ export function Header() {
                     </Link>
                   ))}
                     {user ? (
-                      <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
-                        <LogOut className="mr-2 h-4 w-4" /> Logout
-                      </Button>
+                      <>
+                        {loggedInNavLinks.map(({ href, label, icon }) => (
+                          <Link
+                            key={href}
+                            href={href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+                          >
+                            {icon}
+                            {label}
+                          </Link>
+                        ))}
+                        <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
+                          <LogOut className="mr-2 h-4 w-4" /> Logout
+                        </Button>
+                      </>
                     ) : (
                       <Button asChild>
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
