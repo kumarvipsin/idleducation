@@ -90,8 +90,8 @@ export function HeroSection() {
           <div className="w-full max-w-md">
             <Card className="bg-background text-foreground">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Free Demo Bookings</CardTitle>
-                <p className="text-muted-foreground">{t('bookFreeSession.subtitle')}</p>
+                <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
+                <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -237,7 +237,7 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="relative w-full h-[120px] bg-transparent">
+      <div className="relative w-full h-[60px] md:h-[120px] bg-transparent">
         <svg
           className="absolute bottom-0 w-full h-full"
           xmlns="http://www.w3.org/2000/svg"

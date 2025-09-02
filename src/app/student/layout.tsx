@@ -111,7 +111,7 @@ function StudentLayout({
         <main className="flex-1">
             <header className="p-4 border-b flex items-center">
                 <SidebarTrigger />
-                <h1 className="text-2xl font-semibold ml-4">Student Dashboard</h1>
+                <h1 className="text-xl md:text-2xl font-semibold ml-4">Student Dashboard</h1>
             </header>
             <div className="p-4 md:p-6">{children}</div>
         </main>

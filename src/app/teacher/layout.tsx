@@ -133,7 +133,7 @@ function TeacherLayout({
         <main className="flex-1">
           <header className="p-4 border-b flex items-center">
             <SidebarTrigger />
-            <h1 className="text-2xl font-semibold ml-4">
+            <h1 className="text-xl md:text-2xl font-semibold ml-4">
               {user ? `Hi, ${user.name || 'Teacher'}` : 'Teacher Dashboard'}
             </h1>
           </header>

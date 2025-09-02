@@ -69,8 +69,8 @@ export default function LoginPage() {
   const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-128px)] py-12">
-      <Tabs defaultValue="student" className="w-[400px]">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-128px)] py-12 px-4">
+      <Tabs defaultValue="student" className="w-full max-w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="student">
             <GraduationCap className="mr-2 h-4 w-4" /> Student
