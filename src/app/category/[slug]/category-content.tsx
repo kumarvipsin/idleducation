@@ -89,10 +89,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
         </div>
       
-       <div className="mb-6">
-        <h2 className="text-lg font-semibold">Showing '{data.courses.length}' Total Batches</h2>
-      </div>
-
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
          {data.courses.map((course: any, index: number) => (
            <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
@@ -112,7 +108,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
              <CardContent className="p-4 flex flex-col flex-grow">
                <div className="flex items-center gap-2 mb-2">
                 <h3 className="text-lg font-bold flex-grow truncate">{course.title}</h3>
-                {course.tags.map((tag: string) => (
+                {course.tags && course.tags.map((tag: string) => (
                     <Badge key={tag} variant={tag === 'NEW' ? 'default' : 'secondary'} className="whitespace-nowrap">{tag}</Badge>
                 ))}
                 <MessageCircle className="w-5 h-5 text-muted-foreground" />
