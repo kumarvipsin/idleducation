@@ -21,14 +21,14 @@ export function ExpertTeam() {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "male professional"
     },
     {
@@ -42,7 +42,7 @@ export function ExpertTeam() {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "young professional"
     },
     {
@@ -67,24 +67,25 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="flex flex-col text-center shadow-lg hover:shadow-xl transition-shadow duration-300 group overflow-hidden animate-fade-in-up"
+                className="group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CardContent className="p-6 flex-1 flex flex-col items-center">
-                    <div className="relative w-32 h-32 mb-4">
-                        <Image
-                            src={member.avatar}
-                            alt={member.name}
-                            data-ai-hint={member.avatarHint}
-                            width={128}
-                            height={128}
-                            className="w-full h-full object-cover rounded-full border-4 border-primary/20 transition-transform duration-300 group-hover:scale-110"
-                        />
-                    </div>
+                <div className="w-full h-40 bg-gradient-to-r from-primary/10 to-accent/10"></div>
+                <div className="absolute top-20 w-32 h-32">
+                    <Image
+                        src={member.avatar}
+                        alt={member.name}
+                        data-ai-hint={member.avatarHint}
+                        width={128}
+                        height={128}
+                        className="w-full h-full object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
+                    />
+                </div>
+                <CardContent className="p-6 pt-20 flex-1 flex flex-col items-center">
                     <h3 className="text-xl font-bold text-card-foreground">{member.name}</h3>
-                    <p className="text-base text-muted-foreground">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-card-foreground">
-                        <Briefcase className="w-4 h-4 text-muted-foreground" />
+                    <p className="text-base text-primary font-semibold">{member.designation}</p>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                        <Briefcase className="w-4 h-4" />
                         <span>{member.experience}</span>
                     </div>
                 </CardContent>
