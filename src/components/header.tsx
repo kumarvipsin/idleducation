@@ -8,7 +8,7 @@ import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
 import { Input } from "./ui/input";
 import { useAuth, type UserProfile } from "@/context/auth-context";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useEffect, useState } from "react";
@@ -26,8 +26,10 @@ export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -114,6 +116,12 @@ export function Header() {
       </Button>
     );
   };
+  
+  const navLinks = [
+    { href: '/', label: t('home'), icon: <HomeIcon className="h-5 w-5" /> },
+    { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" /> },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
@@ -143,24 +151,15 @@ export function Header() {
             </span>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                <Link
-                    href="/"
-                    className="text-sm font-medium hover:underline underline-offset-4"
-                >
-                    {t('home')}
-                </Link>
-                <Link
-                    href="/about"
-                    className="text-sm font-medium hover:underline underline-offset-4"
-                >
-                    {t('about')}
-                </Link>
-                <Link
-                    href="/contact"
-                    className="text-sm font-medium hover:underline underline-offset-4"
-                >
-                    {t('contact')}
-                </Link>
+                {navLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
+                  >
+                    {label}
+                  </Link>
+                ))}
             {renderAuthSection()}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -203,7 +202,7 @@ export function Header() {
                     <span className="sr-only">Notifications</span>
                 </Button>
             </Link>
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                     <Menu className="h-6 w-6" />
@@ -219,25 +218,24 @@ export function Header() {
                     <Input type="search" placeholder="Search..." className="pl-9 rounded-full w-full" />
                 </div>
                 <nav className="grid gap-6 text-lg font-medium mt-8">
-                    <Link href="/" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <HomeIcon className="h-5 w-5" />
-                    {t('home')}
+                  {navLinks.map(({ href, label, icon }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center gap-4 px-2.5 hover:text-foreground ${pathname === href ? 'text-primary font-semibold' : 'text-muted-foreground'}`}
+                    >
+                      {icon}
+                      {label}
                     </Link>
-                    <Link href="/about" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <Info className="h-5 w-5" />
-                    {t('about')}
-                    </Link>
-                    <Link href="/contact" className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                    <MessageSquare className="h-5 w-5" />
-                    {t('contact')}
-                    </Link>
+                  ))}
                     {user ? (
-                      <Button onClick={handleLogout}>
+                      <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
                         <LogOut className="mr-2 h-4 w-4" /> Logout
                       </Button>
                     ) : (
                       <Button asChild>
-                        <Link href="/login">
+                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                           <LogIn className="mr-2 h-4 w-4" /> {t('login')}
                         </Link>
                       </Button>
