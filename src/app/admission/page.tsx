@@ -119,7 +119,7 @@ export default function AdmissionPage() {
     if (photoPreview) {
        const img = new Image();
        img.src = photoPreview;
-       doc.addImage(img, 'JPEG', doc.internal.pageSize.getWidth() - padding - 40, padding, 40, 50);
+       doc.addImage(img, 'JPEG', doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
     }
     
     doc.setFontSize(12);
@@ -218,7 +218,7 @@ export default function AdmissionPage() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <FormField
+                   <FormField
                     control={form.control}
                     name="studentId"
                     render={({ field }) => (
@@ -242,13 +242,13 @@ export default function AdmissionPage() {
                         <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
                         <FormControl>
                             <label className="cursor-pointer">
-                                <div className="w-full h-32 rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
+                                <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
                                 {photoPreview ? (
-                                    <Image src={photoPreview} alt="Student photo preview" width={128} height={128} className="object-contain h-full"/>
+                                    <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
                                 ) : (
-                                    <div className="text-center text-muted-foreground">
+                                    <div className="text-center text-muted-foreground p-2">
                                         <Camera className="w-8 h-8 mx-auto mb-2" />
-                                        <p className="text-sm">Click to upload photo</p>
+                                        <p className="text-xs">Click to upload photo (35x45mm)</p>
                                     </div>
                                 )}
                                 </div>
