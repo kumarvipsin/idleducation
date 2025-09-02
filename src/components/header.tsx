@@ -304,7 +304,7 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="bottom" className="w-full p-0 flex flex-col">
+                <SheetContent side="top" className="w-full p-0 flex flex-col bg-background/80 backdrop-blur-sm rounded-b-lg">
                     <SheetHeader>
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
