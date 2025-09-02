@@ -22,6 +22,11 @@ const features = [
     subtitle: "Tests, sample papers & notes",
   },
   {
+    icon: <Users className="w-10 h-10 text-white" />,
+    title: "100+",
+    subtitle: "Teachers",
+  },
+  {
     icon: <MessageSquarePlus className="w-10 h-10 text-white" />,
     title: "24 x 7",
     subtitle: "Doubt solving sessions",
@@ -30,11 +35,6 @@ const features = [
     icon: <Building className="w-10 h-10 text-white" />,
     title: "5 +",
     subtitle: "Offline centres",
-  },
-  {
-    icon: <Users className="w-10 h-10 text-white" />,
-    title: "100+",
-    subtitle: "Teachers",
   },
 ];
 
