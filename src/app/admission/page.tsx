@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,6 +51,7 @@ export default function AdmissionPage() {
   const { toast } = useToast();
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const pdfRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -98,6 +99,7 @@ export default function AdmissionPage() {
       };
       reader.readAsDataURL(file);
       form.setValue('studentPhoto', file);
+      form.clearErrors('studentPhoto');
     }
   };
   
@@ -223,21 +225,25 @@ export default function AdmissionPage() {
                       <FormItem>
                         <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
                         <FormControl>
-                            <div className="flex items-center gap-4">
-                               <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                            <label className="cursor-pointer">
+                                <div className="w-full h-32 rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
                                 {photoPreview ? (
-                                    <Image src={photoPreview} alt="Student photo preview" width={96} height={96} className="object-cover w-full h-full"/>
+                                    <Image src={photoPreview} alt="Student photo preview" width={128} height={128} className="object-contain h-full"/>
                                 ) : (
-                                    <Camera className="w-8 h-8 text-muted-foreground" />
+                                    <div className="text-center text-muted-foreground">
+                                        <Camera className="w-8 h-8 mx-auto mb-2" />
+                                        <p className="text-sm">Click to upload photo</p>
+                                    </div>
                                 )}
                                 </div>
                                 <Input 
                                     type="file" 
                                     accept="image/*" 
                                     onChange={handlePhotoChange}
-                                    className="max-w-xs"
+                                    className="hidden"
+                                    ref={fileInputRef}
                                  />
-                            </div>
+                            </label>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
