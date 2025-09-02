@@ -48,18 +48,18 @@ export function StudyResources() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
-                <Card className="overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card">
-                <CardContent className="p-6 flex flex-col h-full text-center items-center">
-                    <div className="mb-4 bg-primary/10 p-4 rounded-full transition-transform duration-300 group-hover:scale-110">
+                <Card className="relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card p-6">
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="mb-4 bg-background p-4 rounded-full w-fit shadow-sm border">
                         {resource.icon}
                     </div>
-                    <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
                     <p className="text-muted-foreground text-sm mb-4 flex-grow">{resource.description}</p>
-                    <div className="mt-auto flex justify-center items-center text-primary font-semibold group-hover:underline underline-offset-4">
+                    <div className="mt-auto flex justify-start items-center text-primary font-semibold group-hover:underline underline-offset-4">
                         <span className="text-sm">Explore</span>
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
-                </CardContent>
+                  </div>
                 </Card>
             </Link>
           ))}
