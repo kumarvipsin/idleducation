@@ -150,7 +150,7 @@ export function Header() {
   const renderMobileAuthSection = () => {
     if (loading) {
         return (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 p-4 border-t">
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <div className="w-full space-y-2">
                     <Skeleton className="h-4 w-3/4" />
@@ -161,7 +161,7 @@ export function Header() {
     }
     if (user) {
       return (
-        <>
+        <div className="p-4 border-t">
           <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
             <Avatar className="h-12 w-12 border-2 border-primary">
               <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
@@ -194,7 +194,7 @@ export function Header() {
               Logout
             </button>
           </div>
-        </>
+        </div>
       );
     }
     return (
@@ -305,13 +305,7 @@ export function Header() {
                 </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[--sidebar-width-mobile] p-0" style={{"--sidebar-width-mobile": "16rem"} as React.CSSProperties}>
-                <SheetHeader className="p-4 border-b">
-                    <SheetTitle className="text-lg flex items-center gap-2">
-                      <BookOpen className="h-6 w-6 text-primary" />
-                      {brandName}
-                    </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col justify-between h-[calc(100%-4rem)]">
+                <div className="flex flex-col justify-between h-full">
                   <div className="py-6 px-4">
                     <nav className="grid gap-4 text-base font-medium">
                       {navLinks.map(({ href, label, icon }) => (
