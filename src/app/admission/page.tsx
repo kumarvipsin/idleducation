@@ -1,9 +1,10 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +24,9 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 const admissionFormSchema = z.object({
   studentName: z.string().min(2, { message: "Student name must be at least 2 characters." }),
   fatherName: z.string().min(2, { message: "Father's name must be at least 2 characters." }),
+  fatherOccupation: z.string().optional(),
   motherName: z.string().min(2, { message: "Mother's name must be at least 2 characters." }),
+  motherOccupation: z.string().optional(),
   dob: z.string().min(1, { message: "Date of birth is required." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
@@ -52,7 +55,9 @@ export default function AdmissionPage() {
     defaultValues: {
       studentName: '',
       fatherName: '',
+      fatherOccupation: '',
       motherName: '',
+      motherOccupation: '',
       dob: '',
       email: '',
       phone: '',
@@ -109,7 +114,11 @@ export default function AdmissionPage() {
     y += lineHeight;
     doc.text(`Father's Name: ${data.fatherName}`, padding, y);
     y += lineHeight;
+    doc.text(`Father's Occupation: ${data.fatherOccupation || 'N/A'}`, padding, y);
+    y += lineHeight;
     doc.text(`Mother's Name: ${data.motherName}`, padding, y);
+    y += lineHeight;
+    doc.text(`Mother's Occupation: ${data.motherOccupation || 'N/A'}`, padding, y);
     y += lineHeight * 2;
     
     // Contact Details
@@ -258,12 +267,46 @@ export default function AdmissionPage() {
                   />
                    <FormField
                     control={form.control}
+                    name="fatherOccupation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Father's Occupation</FormLabel>
+                        <FormControl>
+                           <div className="relative">
+                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" />
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                 </div>
+                 <div className="grid sm:grid-cols-2 gap-6">
+                   <FormField
+                    control={form.control}
                     name="motherName"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
                         <FormControl>
                            <Input placeholder="Mother's Full Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                   <FormField
+                    control={form.control}
+                    name="motherOccupation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mother's Occupation</FormLabel>
+                        <FormControl>
+                           <div className="relative">
+                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" />
+                            </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
