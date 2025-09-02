@@ -218,7 +218,23 @@ export default function AdmissionPage() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid sm:grid-cols-2 gap-6">
-                 <FormField
+                  <FormField
+                    control={form.control}
+                    name="studentId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student ID</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
                     control={form.control}
                     name="studentPhoto"
                     render={({ field }) => (
@@ -244,22 +260,6 @@ export default function AdmissionPage() {
                                     ref={fileInputRef}
                                  />
                             </label>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="studentId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Student ID</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
-                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
