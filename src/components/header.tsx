@@ -304,7 +304,7 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-full max-w-[--sidebar-width-mobile] p-0 flex flex-col" style={{"--sidebar-width-mobile": "14rem"} as React.CSSProperties}>
+                <SheetContent side="bottom" className="w-full p-0 flex flex-col">
                     <SheetHeader>
                         <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
                     </SheetHeader>
