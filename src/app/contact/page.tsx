@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -52,8 +53,6 @@ export default function ContactPage() {
 
   const countryCodes = [
     { code: "+91", country: "India" },
-    { code: "+1", country: "United States" },
-    { code: "+44", country: "United Kingdom" },
     { code: "+93", country: "Afghanistan" },
     { code: "+355", country: "Albania" },
     { code: "+213", country: "Algeria" },
@@ -281,6 +280,8 @@ export default function ContactPage() {
     { code: "+256", country: "Uganda" },
     { code: "+380", country: "Ukraine" },
     { code: "+971", country: "United Arab Emirates" },
+    { code: "+44", country: "United Kingdom" },
+    { code: "+1", country: "United States" },
     { code: "+598", country: "Uruguay" },
     { code: "+998", country: "Uzbekistan" },
     { code: "+678", country: "Vanuatu" },
@@ -292,7 +293,7 @@ export default function ContactPage() {
     { code: "+967", country: "Yemen" },
     { code: "+260", country: "Zambia" },
     { code: "+263", country: "Zimbabwe" },
-  ];
+  ].sort((a, b) => a.country.localeCompare(b.country));
 
   const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
