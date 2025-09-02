@@ -24,7 +24,7 @@ const features = [
   {
     icon: <Users className="w-10 h-10 text-white" />,
     title: "100+",
-    subtitle: "Teachers",
+    subtitle: "Expert Teachers",
   },
   {
     icon: <MessageSquarePlus className="w-10 h-10 text-white" />,
