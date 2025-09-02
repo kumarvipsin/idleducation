@@ -12,7 +12,7 @@ const resultsData = {
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto-format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
@@ -27,7 +27,7 @@ const resultsData = {
     hint: 'students studying'
   },
   'NEET': {
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
@@ -42,7 +42,7 @@ const resultsData = {
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: 'https://images.unsplash.com/photo-1621293291359-582875154b2b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1621293291359-582875154b2b?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
