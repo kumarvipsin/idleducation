@@ -146,6 +146,61 @@ export function Header() {
     { href: getProfilePath(user), label: 'Profile', icon: <User className="h-5 w-5" /> },
   ];
 
+  const renderMobileAuthSection = () => {
+    if (loading) {
+      return (
+        <Button disabled className="w-full">
+          Loading...
+        </Button>
+      );
+    }
+    if (user) {
+      return (
+        <div>
+          <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
+            <Avatar className="h-12 w-12 border-2 border-primary">
+              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+              <AvatarFallback>
+                {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold">{user.name}</p>
+              <p className="text-xs text-muted-foreground">{user.email}</p>
+            </div>
+          </div>
+          <div className="grid gap-2">
+            {loggedInNavLinks.map(({ href, label, icon }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+              >
+                {icon}
+                {label}
+              </Link>
+            ))}
+            <button
+              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
+            >
+              <LogOut className="h-5 w-5" />
+              Logout
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <Button asChild className="w-full">
+        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+        </Link>
+      </Button>
+    );
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
@@ -267,48 +322,7 @@ export function Header() {
                   </div>
 
                   <div className="border-t p-4">
-                    {user ? (
-                      <div>
-                          <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
-                              <Avatar className="h-12 w-12 border-2 border-primary">
-                                  <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
-                                  <AvatarFallback>
-                                      {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-                                  </AvatarFallback>
-                              </Avatar>
-                              <div>
-                                  <p className="font-semibold">{user.name}</p>
-                                  <p className="text-xs text-muted-foreground">{user.email}</p>
-                              </div>
-                          </div>
-                          <div className="grid gap-2">
-                              {loggedInNavLinks.map(({ href, label, icon }) => (
-                                <Link
-                                  key={href}
-                                  href={href}
-                                  onClick={() => setIsMobileMenuOpen(false)}
-                                  className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-                                >
-                                  {icon}
-                                  {label}
-                                </Link>
-                              ))}
-                              <button
-                                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                                className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
-                              >
-                                <LogOut className="h-5 w-5" />
-                                Logout
-                              </button>
-                          </div>
-                      </div>
-                    ) : (
-                      <Button asChild className="w-full">
-                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-                        </Link>
-                      </Button>
-                    )}
+                    {renderMobileAuthSection()}
                   </div>
                 </nav>
                 </SheetContent>
