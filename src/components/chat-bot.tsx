@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -8,16 +7,19 @@ import { Phone } from 'lucide-react';
 export function ChatBot() {
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      <Button
-        asChild
-        size="icon"
-        className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-transform hover:scale-110"
-      >
-        <Link href="tel:+918860040010">
-          <Phone className="h-8 w-8" />
-          <span className="sr-only">Call Us</span>
-        </Link>
-      </Button>
+      <div className="relative">
+        <Button
+          asChild
+          size="icon"
+          className="relative rounded-full w-16 h-16 shadow-lg bg-green-500 hover:bg-green-600 text-white transition-transform hover:scale-110"
+        >
+          <Link href="tel:+918860040010">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <Phone className="h-8 w-8 relative" />
+            <span className="sr-only">Call Us</span>
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }
