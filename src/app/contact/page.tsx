@@ -25,33 +25,7 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
-
-export default function ContactPage() {
-  const { toast } = useToast();
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      countryCode: "+91-India",
-      phone: '',
-      state: '',
-      message: '',
-    },
-  });
-
-  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    const result = await submitContactForm(data);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-      form.reset();
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-  };
-
-
-  const countryCodes = [
+const countryCodes = [
     { code: "+91", country: "India" },
     { code: "+93", country: "Afghanistan" },
     { code: "+355", country: "Albania" },
@@ -295,14 +269,58 @@ export default function ContactPage() {
     { code: "+263", country: "Zimbabwe" },
   ].sort((a, b) => a.country.localeCompare(b.country));
 
-  const indianStates = [
+const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
     "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
     "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
     "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
     "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
     "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-  ];
+];
+
+const phoneLengthByCountryCode: { [key: string]: number } = {
+  "+91": 10,
+  "+1": 10,
+  "+44": 10,
+  "+61": 9,
+  "+86": 11,
+  // Add more country codes and their lengths as needed
+};
+
+
+export default function ContactPage() {
+  const { toast } = useToast();
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      countryCode: "+91-India",
+      phone: '',
+      state: '',
+      message: '',
+    },
+  });
+  
+  const selectedCountryCode = form.watch("countryCode");
+
+  const getPhoneLength = (countryCodeValue: string) => {
+    const code = countryCodeValue.split('-')[0];
+    return phoneLengthByCountryCode[code] || 10; // Default to 10 if not found
+  };
+  
+  const maxLength = getPhoneLength(selectedCountryCode);
+
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    const result = await submitContactForm(data);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      form.reset();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
+
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -372,7 +390,7 @@ export default function ContactPage() {
                           render={({ field }) => (
                             <FormItem className="flex-1">
                               <FormControl>
-                                <Input type="tel" placeholder="Enter phone number" {...field} />
+                                <Input type="tel" placeholder="Enter phone number" {...field} maxLength={maxLength} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>

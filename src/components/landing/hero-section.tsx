@@ -286,6 +286,14 @@ const countryCodes = [
     { code: "+263", country: "Zimbabwe" },
 ].sort((a, b) => a.country.localeCompare(b.country));
 
+const phoneLengthByCountryCode: { [key: string]: number } = {
+  "+91": 10,
+  "+1": 10,
+  "+44": 10,
+  "+61": 9,
+  "+86": 11,
+  // Add more country codes and their lengths as needed
+};
 
 export function HeroSection() {
   const { toast } = useToast();
@@ -303,6 +311,16 @@ export function HeroSection() {
       state: '',
     },
   });
+  
+  const selectedCountryCode = form.watch("countryCode");
+
+  const getPhoneLength = (countryCodeValue: string) => {
+    const code = countryCodeValue.split('-')[0];
+    return phoneLengthByCountryCode[code] || 10; // Default to 10 if not found
+  };
+  
+  const maxLength = getPhoneLength(selectedCountryCode);
+
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
@@ -479,7 +497,7 @@ export function HeroSection() {
                                             field.onChange(value);
                                         }
                                       }}
-                                      maxLength={10}
+                                      maxLength={maxLength}
                                     />
                                     </FormControl>
                                     <FormMessage />
