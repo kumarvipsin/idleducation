@@ -3,20 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
-const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="32"
-    height="32"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    {...props}
-  >
-    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 6.555 0 11.895 5.335 11.895 11.891 0 6.556-5.34 11.894-11.894 11.894-1.995 0-3.901-.52-5.586-1.458l-6.273 1.655zm6.318-8.719c.422.795 1.125 1.485 1.933 1.95.807.466 1.733.7 2.68.7a6.49 6.49 0 0 0 5.483-3.23c.313-.538.484-1.158.483-1.799.001-2.021-1.631-3.657-3.658-3.657-1.01 0-1.928.413-2.592 1.078-.663.665-1.079 1.582-1.078 2.591.002.26.042.516.12.762.077.246.189.479.331.696.142.217.309.418.498.599.19.18.402.343.633.486.23.143.48.27.741.378.261.108.537.2.82.287.283.087.576.16.88.216.304.056.618.098.94.124.321.026.65.038.981.036 1.272-.023 2.458-.574 3.33-1.485.872-.911 1.34-2.129 1.325-3.414-.016-1.284-.499-2.502-1.372-3.414-.872-.911-2.089-1.396-3.373-1.41-1.284-.015-2.502.468-3.413 1.34- .911.872-1.396 2.09-1.41 3.374-.015 1.284.468 2.502 1.34 3.413z"/>
-  </svg>
-);
-
+import { Phone } from 'lucide-react';
 
 export function ChatBot() {
   return (
@@ -24,10 +11,11 @@ export function ChatBot() {
       <Button
         asChild
         size="icon"
-        className="rounded-full w-16 h-16 shadow-lg bg-[#25D366] hover:bg-[#128C7E] text-white transition-transform hover:scale-110"
+        className="rounded-full w-16 h-16 shadow-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-transform hover:scale-110"
       >
-        <Link href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer">
-          <WhatsAppIcon />
+        <Link href="tel:+918860040010">
+          <Phone className="h-8 w-8" />
+          <span className="sr-only">Call Us</span>
         </Link>
       </Button>
     </div>
