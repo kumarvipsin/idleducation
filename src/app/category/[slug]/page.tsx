@@ -52,43 +52,43 @@ const categoryData: { [key: string]: any } = {
         { title: "AFCAT (Air Force Common Admission Test)", description: "Your gateway to a career in the Indian Air Force." },
       ]
   },
-  "nios": {
-    name: "NIOS",
-    description: "Prepare for the National Institute of Open Schooling exams with our specialized courses.",
-    courses: [
-      {
-        title: "NIOS Class 10",
-        description: "Full syllabus coverage for NIOS secondary course.",
-        language: "English | Hindi",
-        bgColor: "bg-sky-500",
-        textColor: "text-white",
-        buttons: [{ text: "View Details", href: "#" }],
-      },
-      {
-        title: "NIOS Class 12 - Science",
-        description: "Physics, Chemistry, Biology, and Maths for NIOS senior secondary.",
-        language: "English | Hindi",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
-        buttons: [{ text: "View Details", href: "#" }],
-      },
-      {
-        title: "NIOS Class 12 - Commerce",
-        description: "Accountancy, Business Studies, Economics for NIOS.",
-        language: "English | Hindi",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
-        buttons: [{ text: "View Details", href: "#" }],
-      },
-      {
-        title: "NIOS Class 12 - Arts",
-        description: "History, Geography, Political Science for NIOS.",
-        language: "English | Hindi",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
-        buttons: [{ text: "View Details", href: "#" }],
-      },
-    ]
+  "nios": { 
+      name: "NIOS", 
+      description: "Prepare for the National Institute of Open Schooling exams with our specialized courses.",
+      courses: [
+        {
+            title: "NIOS Class 10",
+            description: "Full syllabus coverage for NIOS secondary course.",
+            language: "English | Hindi",
+            bgColor: "bg-sky-500",
+            textColor: "text-white",
+            buttons: [{ text: "View Details", href: "#" }],
+        },
+        {
+            title: "NIOS Class 12 - Science",
+            description: "Physics, Chemistry, Biology, and Maths for NIOS senior secondary.",
+            language: "English | Hindi",
+            bgColor: "bg-amber-500",
+            textColor: "text-white",
+            buttons: [{ text: "View Details", href: "#" }],
+        },
+        {
+            title: "NIOS Class 12 - Commerce",
+            description: "Accountancy, Business Studies, Economics for NIOS.",
+            language: "English | Hindi",
+            bgColor: "bg-emerald-500",
+            textColor: "text-white",
+            buttons: [{ text: "View Details", href: "#" }],
+        },
+        {
+            title: "NIOS Class 12 - Arts",
+            description: "History, Geography, Political Science for NIOS.",
+            language: "English | Hindi",
+            bgColor: "bg-indigo-500",
+            textColor: "text-white",
+            buttons: [{ text: "View Details", href: "#" }],
+        },
+      ]
   },
 };
 
