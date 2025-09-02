@@ -147,13 +147,6 @@ export function Header() {
   ];
 
   const renderMobileAuthSection = () => {
-    if (loading) {
-      return (
-        <Button disabled className="w-full">
-          Loading...
-        </Button>
-      );
-    }
     if (user) {
       return (
         <div>
@@ -191,14 +184,15 @@ export function Header() {
           </div>
         </div>
       );
+    } else {
+       return (
+        <Button asChild className="w-full">
+          <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+            <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+          </Link>
+        </Button>
+      );
     }
-    return (
-      <Button asChild className="w-full">
-        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-        </Link>
-      </Button>
-    );
   };
 
   return (
