@@ -1,12 +1,11 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, Search, LogOut, User, Users, LayoutDashboard, Separator } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
-import { Input } from "./ui/input";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -14,6 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useEffect, useState } from "react";
 import { getUpdates } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
+import { Separator } from "./ui/separator";
 
 interface Update {
   id: string;
@@ -234,12 +234,12 @@ export function Header() {
                       ))}
                     </div>
 
-                    {user && <Separator className="my-6" />}
                   </div>
 
                   <div>
                     {user ? (
                       <div className="grid gap-6 text-lg font-medium">
+                        <Separator className="my-2" />
                         {loggedInNavLinks.map(({ href, label, icon }) => (
                           <Link
                             key={href}
