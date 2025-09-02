@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,13 +15,15 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { getNextStudentId } from "@/app/actions";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const admissionFormSchema = z.object({
+  studentId: z.string(),
   studentName: z.string().min(2, { message: "Student name must be at least 2 characters." }),
   fatherName: z.string().min(2, { message: "Father's name must be at least 2 characters." }),
   fatherOccupation: z.string().optional(),
@@ -53,6 +55,7 @@ export default function AdmissionPage() {
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
     defaultValues: {
+      studentId: '',
       studentName: '',
       fatherName: '',
       fatherOccupation: '',
@@ -68,6 +71,23 @@ export default function AdmissionPage() {
       studentPhoto: undefined,
     },
   });
+
+  useEffect(() => {
+    async function fetchStudentId() {
+        const result = await getNextStudentId();
+        if (result.success && result.studentId) {
+            form.setValue('studentId', result.studentId);
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Could not generate student ID. Please refresh the page.",
+            });
+        }
+    }
+    fetchStudentId();
+  }, [form, toast]);
+
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -108,6 +128,8 @@ export default function AdmissionPage() {
     doc.text("Personal Details", padding, y);
     y += lineHeight;
     doc.setFont('helvetica', 'normal');
+    doc.text(`Student ID: ${data.studentId}`, padding, y);
+    y += lineHeight;
     doc.text(`Student Name: ${data.studentName}`, padding, y);
     y += lineHeight;
     doc.text(`Date of Birth: ${data.dob}`, padding, y);
@@ -193,6 +215,7 @@ export default function AdmissionPage() {
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="grid sm:grid-cols-2 gap-6">
                  <FormField
                     control={form.control}
                     name="studentPhoto"
@@ -220,6 +243,23 @@ export default function AdmissionPage() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="studentId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student ID</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
                     control={form.control}
@@ -413,7 +453,7 @@ export default function AdmissionPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting}>
+                <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting || !form.getValues('studentId')}>
                    {form.formState.isSubmitting ? 'Submitting...' : (
                     <>
                       <Send className="mr-2 h-4 w-4" />

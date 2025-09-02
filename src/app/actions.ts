@@ -4,7 +4,8 @@ import { z } from "zod";
 import 'dotenv/config';
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit, startAt } from "firebase/firestore";
+import { format } from "date-fns";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -768,4 +769,40 @@ export async function getMonthlyActiveUsersCount() {
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const q = query(collection(db, "users"), where("status", "==", "approved"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
     return getCount(q);
+}
+
+export async function getNextStudentId() {
+  try {
+    const today = new Date();
+    const datePrefix = format(today, 'ddMMyy');
+
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+    const admissionsQuery = query(
+      collection(db, "admissions"),
+      where("createdAt", ">=", startOfDay),
+      where("createdAt", "<=", endOfDay),
+      orderBy("createdAt", "desc"),
+      limit(1)
+    );
+
+    const querySnapshot = await getDocs(admissionsQuery);
+    
+    let nextSequence = 101;
+
+    if (!querySnapshot.empty) {
+      const lastAdmission = querySnapshot.docs[0].data();
+      const lastId = lastAdmission.studentId;
+      const lastSequence = parseInt(lastId.split('-')[1], 10);
+      nextSequence = lastSequence + 1;
+    }
+
+    const studentId = `${datePrefix}-${nextSequence}`;
+    
+    return { success: true, studentId: studentId };
+  } catch (error) {
+    console.error("Error generating next student ID:", error);
+    return { success: false, message: "Failed to generate student ID." };
+  }
 }
