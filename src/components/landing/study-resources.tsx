@@ -57,7 +57,7 @@ export function StudyResources() {
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} text-white`}>
                   <div className="p-6 flex flex-col h-full">
-                    <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
+                    <h3 className="text-xl font-extrabold mb-2">{resource.title}</h3>
                     <p className="text-sm mb-4 flex-grow opacity-90">{resource.description}</p>
                     <div className="mt-auto flex justify-start items-center font-semibold group-hover:underline underline-offset-4">
                         <span className="text-sm">Explore</span>
