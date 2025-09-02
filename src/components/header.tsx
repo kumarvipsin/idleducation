@@ -197,7 +197,15 @@ export function Header() {
         </>
       );
     }
-    return null;
+    return (
+       <div className="border-t p-4">
+        <Button asChild className="w-full">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <LogIn className="mr-2 h-4 w-4" /> {t('login')}
+            </Link>
+        </Button>
+      </div>
+    );
   };
 
   return (
@@ -303,15 +311,15 @@ export function Header() {
                       {brandName}
                     </SheetTitle>
                 </SheetHeader>
-                <div className="flex flex-col justify-between h-full">
+                <div className="flex flex-col justify-between h-[calc(100%-4rem)]">
                   <div className="py-6 px-4">
-                    <nav className="grid gap-4 text-lg font-medium">
+                    <nav className="grid gap-4 text-base font-medium">
                       {navLinks.map(({ href, label, icon }) => (
                         <Link
                           key={href}
                           href={href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center gap-4 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+                          className={`flex items-center gap-4 px-3 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                         >
                           {icon}
                           {label}
@@ -320,14 +328,8 @@ export function Header() {
                     </nav>
                   </div>
 
-                  <div className="border-t p-4">
-                    {user ? renderMobileAuthSection() : (
-                      <Button asChild className="w-full">
-                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          <LogIn className="mr-2 h-4 w-4" /> {t('login')}
-                        </Link>
-                      </Button>
-                    )}
+                  <div className="mt-auto">
+                    {renderMobileAuthSection()}
                   </div>
                 </div>
                 </SheetContent>
