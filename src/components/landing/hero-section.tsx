@@ -91,6 +91,7 @@ export function HeroSection() {
   };
 
   const capitalizeWords = (str: string) => {
+    if (!str) return '';
     return str
         .toLowerCase()
         .split(' ')
@@ -226,7 +227,21 @@ export function HeroSection() {
                                 render={({ field }) => (
                                 <FormItem className="flex-1">
                                     <FormControl>
-                                    <Input id="mobile" type="tel" placeholder={t('bookFreeSession.mobilePlaceholder')} {...field} />
+                                    <Input 
+                                      id="mobile" 
+                                      type="tel" 
+                                      placeholder={t('bookFreeSession.mobilePlaceholder')} 
+                                      {...field}
+                                      onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, '');
+                                        if (value.startsWith('0')) {
+                                            field.onChange(value.substring(1));
+                                        } else {
+                                            field.onChange(value);
+                                        }
+                                      }}
+                                      maxLength={10}
+                                    />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
