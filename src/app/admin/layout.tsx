@@ -116,6 +116,14 @@ function AdminLayout({
                 </SidebarMenuButton>
                 {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
               </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admission-form')}>
+                  <Link href="/admin/admissions">
+                    <FileText />
+                    <span>Admission Form</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
                   <Link href="/admin/updates">
