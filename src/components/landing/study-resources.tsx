@@ -13,8 +13,7 @@ const resources = [
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
-    bgColor: "bg-blue-100 dark:bg-blue-900/30",
-    textColor: "text-blue-800 dark:text-blue-200"
+    gradient: "from-blue-500 to-indigo-600",
   },
   {
     image: "https://images.unsplash.com/photo-1596495578065-450763f0d420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwcmVjZWl2aW5nJTIwYXdhcmR8ZW58MHx8fHwxNzU2MjY5ODU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -22,8 +21,7 @@ const resources = [
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
     href: "/resources/ncert-solutions",
-    bgColor: "bg-green-100 dark:bg-green-900/30",
-    textColor: "text-green-800 dark:text-green-200"
+    gradient: "from-green-500 to-teal-600",
   },
   {
     image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMG5vdGVzfGVufDB8fHx8MTc1NjI4MDU3NHww&ixlib=rb-4.1.0&q=80&w=1080",
@@ -31,8 +29,7 @@ const resources = [
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     href: "/resources/notes",
-    bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
-    textColor: "text-yellow-800 dark:text-yellow-200"
+    gradient: "from-yellow-500 to-orange-600",
   },
   {
     image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib=rb-4.1.0&q=80&w=1080",
@@ -40,8 +37,7 @@ const resources = [
     title: "Previous Year Questions",
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     href: "/resources/previous-year-questions",
-    bgColor: "bg-purple-100 dark:bg-purple-900/30",
-    textColor: "text-purple-800 dark:text-purple-200"
+    gradient: "from-purple-500 to-pink-600",
   },
 ]
 
@@ -59,23 +55,15 @@ export function StudyResources() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
-                <Card className="overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card">
-                  <Image
-                    src={resource.image}
-                    alt={resource.title}
-                    data-ai-hint={resource.imageHint}
-                    width={400}
-                    height={250}
-                    className="w-full object-cover aspect-video"
-                  />
-                  <CardContent className="p-4 flex flex-col h-full">
-                    <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
-                    <p className="text-muted-foreground text-sm mb-4 flex-grow">{resource.description}</p>
-                    <div className="mt-auto flex justify-start items-center text-primary font-semibold group-hover:underline underline-offset-4">
+                <Card className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} text-white`}>
+                  <div className="p-6 flex flex-col h-full">
+                    <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
+                    <p className="text-sm mb-4 flex-grow opacity-90">{resource.description}</p>
+                    <div className="mt-auto flex justify-start items-center font-semibold group-hover:underline underline-offset-4">
                         <span className="text-sm">Explore</span>
                         <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
-                  </CardContent>
+                  </div>
                 </Card>
             </Link>
           ))}
