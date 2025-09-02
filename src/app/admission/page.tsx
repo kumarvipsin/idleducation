@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { useRef, useState } from "react";
+import Image from "next/image";
+
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const admissionFormSchema = z.object({
   studentName: z.string().min(2, { message: "Student name must be at least 2 characters." }),
@@ -24,12 +31,22 @@ const admissionFormSchema = z.object({
   classApplied: z.string().min(1, { message: "Please select a class." }),
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
+  studentPhoto: z.any()
+    .refine((file) => file, "Student photo is required.")
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 2MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      ".jpg, .jpeg, .png and .webp files are accepted."
+    ),
 });
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 
 export default function AdmissionPage() {
   const { toast } = useToast();
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const pdfRef = useRef<HTMLDivElement>(null);
+
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
     defaultValues: {
@@ -43,18 +60,107 @@ export default function AdmissionPage() {
       classApplied: '',
       previousSchool: '',
       additionalInfo: '',
+      studentPhoto: undefined,
     },
   });
 
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      form.setValue('studentPhoto', file);
+    }
+  };
+  
+  const generatePdf = (data: AdmissionFormValues) => {
+    const doc = new jsPDF();
+    const padding = 15;
+    const lineHeight = 10;
+    let y = padding;
+
+    // Title
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text("IDL EDUCATION Admission Form", doc.internal.pageSize.getWidth() / 2, y, { align: 'center' });
+    y += lineHeight * 2;
+    
+    // Photo
+    if (photoPreview) {
+       const img = new Image();
+       img.src = photoPreview;
+       doc.addImage(img, 'JPEG', doc.internal.pageSize.getWidth() - padding - 40, padding, 40, 50);
+    }
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+
+    // Personal Details
+    doc.setFont('helvetica', 'bold');
+    doc.text("Personal Details", padding, y);
+    y += lineHeight;
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Student Name: ${data.studentName}`, padding, y);
+    y += lineHeight;
+    doc.text(`Date of Birth: ${data.dob}`, padding, y);
+    y += lineHeight;
+    doc.text(`Father's Name: ${data.fatherName}`, padding, y);
+    y += lineHeight;
+    doc.text(`Mother's Name: ${data.motherName}`, padding, y);
+    y += lineHeight * 2;
+    
+    // Contact Details
+    doc.setFont('helvetica', 'bold');
+    doc.text("Contact Details", padding, y);
+    y += lineHeight;
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Email: ${data.email}`, padding, y);
+    y += lineHeight;
+    doc.text(`Phone: ${data.phone}`, padding, y);
+    y += lineHeight;
+    doc.text(`Address: ${data.address}`, padding, y, { maxWidth: doc.internal.pageSize.getWidth() - padding * 2 });
+    y += lineHeight * 3;
+
+    // Academic Details
+    doc.setFont('helvetica', 'bold');
+    doc.text("Academic Details", padding, y);
+    y += lineHeight;
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Applying for Class: ${data.classApplied}`, padding, y);
+    y += lineHeight;
+    doc.text(`Previous School: ${data.previousSchool || 'N/A'}`, padding, y);
+    y += lineHeight;
+    doc.text(`Additional Info: ${data.additionalInfo || 'N/A'}`, padding, y, { maxWidth: doc.internal.pageSize.getWidth() - padding * 2 });
+    y += lineHeight * 5;
+
+    // Signature
+    doc.line(padding, y, doc.internal.pageSize.getWidth() - padding, y);
+    y += 5;
+    doc.setFont('helvetica', 'italic');
+    doc.text("Authorized Signature", padding, y);
+
+    doc.save(`${data.studentName}_Admission_Form.pdf`);
+  };
+
   const onSubmit: SubmitHandler<AdmissionFormValues> = async (data) => {
     try {
+        // Here you would normally upload the photo to Firebase Storage
+        // and get the URL to save in Firestore. For simplicity, we are
+        // omitting the photo from Firestore storage in this example.
+        const { studentPhoto, ...formData } = data;
+
         await addDoc(collection(db, "admissions"), {
-            ...data,
+            ...formData,
             createdAt: serverTimestamp(),
             status: 'submitted',
         });
         toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
+        generatePdf(data);
         form.reset();
+        setPhotoPreview(null);
     } catch (error) {
         console.error("Error submitting admission form:", error);
         toast({ variant: "destructive", title: "Error", description: "Failed to submit form. Please try again later." });
@@ -68,7 +174,7 @@ export default function AdmissionPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg overflow-hidden">
+        <Card className="shadow-lg overflow-hidden" ref={pdfRef}>
           <CardHeader className="text-center bg-primary text-primary-foreground p-8">
             <CardTitle className="text-3xl font-bold">Student Admission Form</CardTitle>
             <CardDescription className="text-primary-foreground/80 mt-2">
@@ -78,6 +184,33 @@ export default function AdmissionPage() {
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                 <FormField
+                    control={form.control}
+                    name="studentPhoto"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
+                        <FormControl>
+                            <div className="flex items-center gap-4">
+                               <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                                {photoPreview ? (
+                                    <Image src={photoPreview} alt="Student photo preview" width={96} height={96} className="object-cover w-full h-full"/>
+                                ) : (
+                                    <Camera className="w-8 h-8 text-muted-foreground" />
+                                )}
+                                </div>
+                                <Input 
+                                    type="file" 
+                                    accept="image/*" 
+                                    onChange={handlePhotoChange}
+                                    className="max-w-xs"
+                                 />
+                            </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
                     control={form.control}
@@ -241,7 +374,7 @@ export default function AdmissionPage() {
                    {form.formState.isSubmitting ? 'Submitting...' : (
                     <>
                       <Send className="mr-2 h-4 w-4" />
-                      Submit Application
+                      Submit & Download PDF
                     </>
                   )}
                 </Button>
