@@ -12,11 +12,12 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Image from "next/image";
 
 const phoneRegex = /^\d{10}$/;
 
@@ -37,6 +38,7 @@ const admissionFormSchema = z.object({
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
   branch: z.string().min(1, { message: "Please select a branch." }),
+  studentPhoto: z.instanceof(File).optional(),
 });
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
@@ -44,6 +46,8 @@ type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -97,9 +101,13 @@ export default function AdmissionPage() {
     y += lineHeight * 2;
     
     // Photo Placeholder
-    doc.rect(doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
-    doc.setFontSize(8);
-    doc.text("Affix Photo", doc.internal.pageSize.getWidth() - padding - 35 + 17.5, padding + 25, { align: 'center' });
+    if (photoPreview) {
+      doc.addImage(photoPreview, 'JPEG', doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
+    } else {
+      doc.rect(doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
+      doc.setFontSize(8);
+      doc.text("Affix Photo", doc.internal.pageSize.getWidth() - padding - 35 + 17.5, padding + 25, { align: 'center' });
+    }
     
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
@@ -180,14 +188,13 @@ export default function AdmissionPage() {
     try {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
-            if (value) {
+            if (value instanceof File) {
+                formData.append(key, value);
+            } else if (value) {
                 formData.append(key, value as string);
             }
         });
         
-        formData.append('studentPhoto', new File([], ''));
-
-
         const result = await submitAdmissionForm(formData);
 
         if (result.success) {
@@ -195,6 +202,8 @@ export default function AdmissionPage() {
             generatePdf(data);
             setIsPreviewOpen(false);
             form.reset();
+            setPhotoPreview(null);
+            if(fileInputRef.current) fileInputRef.current.value = '';
             const nextIdResult = await getNextStudentId();
             if (nextIdResult.success && nextIdResult.studentId) {
                 form.setValue('studentId', nextIdResult.studentId);
@@ -286,11 +295,50 @@ export default function AdmissionPage() {
                               )}
                             />
                         </div>
-                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
-                            <div className="text-center text-muted-foreground p-2">
-                                <p className="text-xs">Affix Student's Photo</p>
-                            </div>
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="studentPhoto"
+                            render={({ field: { onChange, value, ...rest } }) => (
+                                <FormItem>
+                                    <FormLabel htmlFor="photo-upload" className="cursor-pointer">
+                                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                                           {photoPreview ? (
+                                                <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                                           ) : (
+                                                <div className="text-center text-muted-foreground p-2">
+                                                    <Upload className="w-6 h-6 mx-auto mb-2" />
+                                                    <p className="text-xs">Upload Photo</p>
+                                                </div>
+                                           )}
+                                        </div>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="photo-upload"
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="image/png, image/jpeg"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                const file = e.target.files?.[0];
+                                                onChange(file);
+                                                if (file) {
+                                                    const reader = new FileReader();
+                                                    reader.onloadend = () => {
+                                                        setPhotoPreview(reader.result as string);
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                } else {
+                                                    setPhotoPreview(null);
+                                                }
+                                            }}
+                                            {...rest}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                  </div>
 
@@ -541,6 +589,18 @@ export default function AdmissionPage() {
           </DialogHeader>
           <ScrollArea className="max-h-[60vh] p-4 border rounded-md">
             <div className="space-y-4 text-sm">
+                <div className="flex justify-center mb-4">
+                  <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border">
+                      {photoPreview ? (
+                          <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                      ) : (
+                          <div className="text-center text-muted-foreground p-2">
+                              <User className="w-8 h-8 mx-auto mb-2" />
+                              <p className="text-xs">No Photo</p>
+                          </div>
+                      )}
+                  </div>
+                </div>
                 <h3 className="font-bold text-lg border-b pb-2">Student Information</h3>
                 <div className="grid grid-cols-2 gap-2">
                     <p><strong>Student ID:</strong> {currentValues.studentId}</p>
