@@ -86,7 +86,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-          <Card>
+          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Users</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold">{stats.totalUsers}</div>
               </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Students</CardTitle>
                   <GraduationCap className="h-4 w-4 text-muted-foreground" />
@@ -104,7 +104,7 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold">{stats.totalStudents}</div>
               </CardContent>
           </Card>
-           <Card>
+           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Teachers</CardTitle>
                   <Briefcase className="h-4 w-4 text-muted-foreground" />
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold">{stats.totalTeachers}</div>
               </CardContent>
           </Card>
-           <Card>
+           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Approved Students</CardTitle>
                   <UserPlus className="h-4 w-4 text-muted-foreground" />
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold">{stats.newStudents}</div>
               </CardContent>
           </Card>
-           <Card>
+           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Deny Users</CardTitle>
                   <XCircle className="h-4 w-4 text-muted-foreground" />
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
                   <div className="text-2xl font-bold">{stats.deniedUsers}</div>
               </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Free Demo</CardTitle>
                   <Presentation className="h-4 w-4 text-muted-foreground" />
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">+{stats.monthlyBookings} this month</p>
               </CardContent>
           </Card>
-           <Card>
+           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Contact Us</CardTitle>
                   <MessageCircle className="h-4 w-4 text-muted-foreground" />
@@ -151,7 +151,7 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">+{stats.monthlySubmissions} this month</p>
               </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Recent Updates</CardTitle>
                   <Megaphone className="h-4 w-4 text-muted-foreground" />
@@ -164,7 +164,7 @@ export default function AdminDashboard() {
       </div>
 
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Active Users</CardTitle>
                 <UserCheck className="h-4 w-4 text-muted-foreground" />
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
                 </p>
             </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Inactive Users</CardTitle>
                 <UserX className="h-4 w-4 text-muted-foreground" />
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="lg:col-span-2 xl:col-span-1">
+        <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-         <Card className="lg:col-span-2 xl:col-span-1">
+         <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
             <CardHeader>
                 <CardTitle>User Composition</CardTitle>
                 <CardDescription>Distribution of various user statuses.</CardDescription>

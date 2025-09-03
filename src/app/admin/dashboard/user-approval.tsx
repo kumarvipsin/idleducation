@@ -78,7 +78,7 @@ export function UserApproval() {
 
   return (
     <AlertDialog>
-      <Card>
+      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
         <CardHeader>
           <CardTitle>Pending Teacher Approvals</CardTitle>
           <CardDescription>Approve or deny new teacher registrations.</CardDescription>

@@ -239,7 +239,7 @@ export function RecentUpdates() {
 
   return (
     <AlertDialog>
-      <Card>
+      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Recent Updates</CardTitle>
