@@ -232,7 +232,7 @@ export default function AdmissionPage() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="flex flex-col sm:flex-row gap-6 items-start">
-                  <div className="flex-1 space-y-2">
+                  <div className="space-y-2">
                     <div className="text-center border p-2 rounded-md">
                       <p className="font-bold text-lg">IDL EDUCATION</p>
                       <p className="text-xs text-muted-foreground">(Institute Of Distance Learning, Pvt. LTd.)</p>
@@ -246,7 +246,7 @@ export default function AdmissionPage() {
                           <FormControl>
                             <div className="relative">
                               <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider" />
+                              <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider w-48" />
                             </div>
                           </FormControl>
                           <FormMessage />
