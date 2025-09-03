@@ -1,5 +1,6 @@
 
 import { CategoryContent } from "./category-content";
+import { use } from 'react';
 
 const categoryData: { [key: string]: any } = {
   "neet": { 
@@ -102,7 +103,7 @@ const subCategories: { [key: string]: string[] } = {
 
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+  const { slug } = use(Promise.resolve(params));
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
   const subs = subCategories[slug] || subCategories["default"];
 
