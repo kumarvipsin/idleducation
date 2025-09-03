@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,6 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitContactForm } from "@/app/actions";
-import { ExpertTeam } from "@/components/landing/expert-team";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -448,7 +446,6 @@ export default function ContactPage() {
           </CardContent>
         </Card>
       </div>
-      <ExpertTeam />
     </div>
   );
 }
