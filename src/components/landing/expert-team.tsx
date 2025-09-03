@@ -5,9 +5,36 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { Briefcase } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export function ExpertTeam() {
   const { t } = useLanguage();
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 10% of the section is visible
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
 
   const teamMembers = [
     {
@@ -55,7 +82,7 @@ export function ExpertTeam() {
   ];
 
   return (
-    <section className="w-full py-12 md:py-24 bg-muted/40">
+    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-muted/40">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
@@ -67,7 +94,7 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden animate-fade-in-up"
+                className={`group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="w-full h-40 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20"></div>
