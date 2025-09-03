@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -288,8 +287,6 @@ export default function AdmissionPage() {
                  </div>
 
                  <Separator />
-
-                <h3 className="text-lg font-bold text-gray-700">Personal Details</h3>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
