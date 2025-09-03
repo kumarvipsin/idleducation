@@ -3,7 +3,6 @@
 
 import { HeroSection } from '@/components/landing/hero-section';
 import { OurFeatures } from '@/components/landing/our-features';
-import { ExpertTeam } from '@/components/landing/expert-team';
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
@@ -16,7 +15,6 @@ export default function Home() {
       <HeroSection />
       <ExamCategories />
       <OurFeatures />
-      <ExpertTeam />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
