@@ -225,7 +225,6 @@ export default function AdmissionPage() {
           <header className="bg-gray-800 text-white p-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} data-ai-hint="logo" />
                 <div>
                   <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
                   <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
