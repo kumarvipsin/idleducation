@@ -216,11 +216,6 @@ export default function AdmissionPage() {
                 <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
                 <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
               </div>
-              <div className="text-sm text-right space-y-1">
-                <p className="flex items-center justify-end gap-2"><Phone className="w-4 h-4" /> 011 45035713</p>
-                <p className="flex items-center justify-end gap-2"><Globe className="w-4 h-4" /> www.idleducation.in</p>
-                <p className="flex items-center justify-end gap-2"><Mail className="w-4 h-4" /> info@idleducation.in</p>
-              </div>
             </div>
           </header>
           <div className="bg-gray-200 text-gray-700 text-center py-2">
