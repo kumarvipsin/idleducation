@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -211,7 +212,7 @@ export default function AdmissionPage() {
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
           <header className="bg-[#03045e] text-white p-4">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col items-center justify-center gap-2 text-center">
               <div>
                 <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
                 <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
