@@ -14,8 +14,8 @@ export function ExpertTeam() {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "https://images.unsplash.com/photo-1601655781320-205e34c94eb1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtYWxlJTIwdGVhY2hlcnxlbnwwfHx8fDE3NTYzMTM1ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-        avatarHint: "male teacher"
+        avatar: "/amod.jpg",
+        avatarHint: "Amod Sharma"
     },
     {
         name: t('team.member2.name'),
