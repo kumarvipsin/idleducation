@@ -224,7 +224,6 @@ export default function AdmissionPage() {
   ];
   
   const branches = [
-    "KRISHAN VIHAR",
     "Mukherjee Nagar, Delhi-110009",
     "Mangol Puri, Delhi-110083",
     "Budh Vihar, Delhi-110086",
@@ -271,7 +270,7 @@ export default function AdmissionPage() {
                                 <FormLabel className="font-bold whitespace-nowrap">Branch :</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="w-auto">
                                         <SelectValue placeholder="Select a branch" />
                                     </SelectTrigger>
                                     </FormControl>
