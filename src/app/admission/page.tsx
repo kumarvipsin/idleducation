@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,10 +12,11 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
-import { useRef, useState, useEffect } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const phoneRegex = /^\d{10}$/;
 
@@ -42,6 +43,7 @@ type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 
 export default function AdmissionPage() {
   const { toast } = useToast();
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -161,6 +163,19 @@ export default function AdmissionPage() {
     doc.save(`${data.studentName}_Admission_Form.pdf`);
   };
 
+  const handlePreview = async () => {
+    const isValid = await form.trigger();
+    if (isValid) {
+      setIsPreviewOpen(true);
+    } else {
+       toast({
+        variant: "destructive",
+        title: "Incomplete Form",
+        description: "Please fill all the required fields before previewing.",
+      });
+    }
+  }
+
   const onSubmit: SubmitHandler<AdmissionFormValues> = async (data) => {
     try {
         const formData = new FormData();
@@ -170,8 +185,6 @@ export default function AdmissionPage() {
             }
         });
         
-        // As photo upload is removed, we'll pass a placeholder or handle it server-side.
-        // For now, let's assume photo is not mandatory for submission action.
         formData.append('studentPhoto', new File([], ''));
 
 
@@ -180,8 +193,8 @@ export default function AdmissionPage() {
         if (result.success) {
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
             generatePdf(data);
+            setIsPreviewOpen(false);
             form.reset();
-            // Fetch the next ID for the new form
             const nextIdResult = await getNextStudentId();
             if (nextIdResult.success && nextIdResult.studentId) {
                 form.setValue('studentId', nextIdResult.studentId);
@@ -206,6 +219,8 @@ export default function AdmissionPage() {
     "Budh Vihar, Delhi-110086",
     "Burari, Delhi-110084"
   ];
+  
+  const currentValues = form.getValues();
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -219,13 +234,13 @@ export default function AdmissionPage() {
               </div>
             </div>
           </header>
-          <div className="bg-gray-100 text-center py-4">
+          <div className="bg-gray-100 text-center py-2">
               <h2 className="text-lg font-bold tracking-widest">ADMISSION FORM</h2>
           </div>
           
           <CardContent className="p-8 bg-gray-50">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="md:col-span-2 space-y-2 text-sm">
                         <p>To,</p>
@@ -508,19 +523,70 @@ export default function AdmissionPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting || !form.getValues('studentId')}>
-                   {form.formState.isSubmitting ? 'Submitting...' : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      Submit & Download PDF
-                    </>
-                  )}
+                <Button type="button" size="lg" className="w-full" onClick={handlePreview} disabled={!form.getValues('studentId')}>
+                    <FileText className="mr-2 h-4 w-4" />
+                    Preview Form
                 </Button>
               </form>
             </Form>
           </CardContent>
         </Card>
       </div>
+      
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Admission Form Preview</DialogTitle>
+            <DialogDescription>Please review the details below before submitting.</DialogDescription>
+          </DialogHeader>
+          <ScrollArea className="max-h-[60vh] p-4 border rounded-md">
+            <div className="space-y-4 text-sm">
+                <h3 className="font-bold text-lg border-b pb-2">Student Information</h3>
+                <div className="grid grid-cols-2 gap-2">
+                    <p><strong>Student ID:</strong> {currentValues.studentId}</p>
+                    <p><strong>Branch:</strong> {currentValues.branch}</p>
+                    <p><strong>Name:</strong> {currentValues.studentName}</p>
+                    <p><strong>DOB:</strong> {currentValues.dob}</p>
+                    <p><strong>Email:</strong> {currentValues.email}</p>
+                    <p><strong>Phone:</strong> {currentValues.studentPhone || 'N/A'}</p>
+                </div>
+                <p><strong>Address:</strong> {currentValues.address}</p>
+                
+                <h3 className="font-bold text-lg border-b pb-2 pt-4">Family Information</h3>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <p><strong>Father:</strong> {currentValues.fatherName}</p>
+                        <p><strong>Occupation:</strong> {currentValues.fatherOccupation || 'N/A'}</p>
+                        <p><strong>Phone:</strong> {currentValues.fatherPhone || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <p><strong>Mother:</strong> {currentValues.motherName}</p>
+                        <p><strong>Occupation:</strong> {currentValues.motherOccupation || 'N/A'}</p>
+                        <p><strong>Phone:</strong> {currentValues.motherPhone || 'N/A'}</p>
+                    </div>
+                </div>
+
+                <h3 className="font-bold text-lg border-b pb-2 pt-4">Academic Information</h3>
+                <div className="grid grid-cols-2 gap-2">
+                    <p><strong>Class Applied:</strong> {currentValues.classApplied}</p>
+                    <p><strong>Previous School:</strong> {currentValues.previousSchool || 'N/A'}</p>
+                </div>
+                <p><strong>Additional Info:</strong> {currentValues.additionalInfo || 'N/A'}</p>
+            </div>
+          </ScrollArea>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>Edit</Button>
+            <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? 'Submitting...' : (
+                  <>
+                    <Send className="mr-2 h-4 w-4" />
+                    Submit & Download PDF
+                  </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
