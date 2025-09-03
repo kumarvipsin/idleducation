@@ -231,9 +231,10 @@ export default function AdmissionPage() {
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="flex flex-col sm:flex-row gap-6 items-start">
+                
+                <div className="grid sm:grid-cols-2 gap-6 items-end">
                   <div className="space-y-2">
-                    <div className="text-center border p-2 rounded-md">
+                     <div className="text-center border p-2 rounded-md">
                       <p className="font-bold text-lg">IDL EDUCATION</p>
                       <p className="text-xs text-muted-foreground">(Institute Of Distance Learning, Pvt. LTd.)</p>
                     </div>
@@ -288,6 +289,8 @@ export default function AdmissionPage() {
                     />
                   </div>
                 </div>
+
+
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
                     control={form.control}
