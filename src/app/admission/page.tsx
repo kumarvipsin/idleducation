@@ -231,54 +231,58 @@ export default function AdmissionPage() {
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid sm:grid-cols-2 gap-6">
-                   <FormField
-                    control={form.control}
-                    name="studentId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Student ID</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="studentPhoto"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <label className="cursor-pointer">
-                                <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
-                                {photoPreview ? (
-                                    <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                                ) : (
-                                    <div className="text-center text-muted-foreground p-2">
-                                        <Camera className="w-8 h-8 mx-auto mb-2" />
-                                        <p className="text-xs">Click to upload photo (35x45mm)</p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <div className="flex-1 space-y-8">
+                    <FormField
+                      control={form.control}
+                      name="studentId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Student ID</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="sm:ml-auto">
+                     <FormField
+                        control={form.control}
+                        name="studentPhoto"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <label className="cursor-pointer">
+                                    <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
+                                    {photoPreview ? (
+                                        <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                                    ) : (
+                                        <div className="text-center text-muted-foreground p-2">
+                                            <Camera className="w-8 h-8 mx-auto mb-2" />
+                                            <p className="text-xs">Click to upload photo (35x45mm)</p>
+                                        </div>
+                                    )}
                                     </div>
-                                )}
-                                </div>
-                                <Input 
-                                    type="file" 
-                                    accept="image/*" 
-                                    onChange={handlePhotoChange}
-                                    className="hidden"
-                                    ref={fileInputRef}
-                                 />
-                            </label>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                                    <Input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={handlePhotoChange}
+                                        className="hidden"
+                                        ref={fileInputRef}
+                                    />
+                                </label>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                  </div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
