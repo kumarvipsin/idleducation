@@ -41,19 +41,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Attempt to load user from sessionStorage first for faster UI response
-        try {
-          const storedUser = sessionStorage.getItem('userProfile');
-          if (storedUser) {
-            const parsedUser = JSON.parse(storedUser);
-            if(parsedUser.uid === firebaseUser.uid) {
-               setUser(parsedUser);
-               setLoading(false); // We have a user, no need to wait for firestore
-            }
-          }
-        } catch (error) {
-          console.error("Failed to parse user profile from sessionStorage", error);
-        }
+        // Immediately set loading to true when auth state changes to fetch user details
+        setLoading(true);
 
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
@@ -82,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
+          // If no profile found, treat as logged out
           await signOut(auth); 
           setUser(null);
           sessionStorage.removeItem('userProfile');
