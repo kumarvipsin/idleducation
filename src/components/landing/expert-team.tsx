@@ -96,21 +96,20 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className={`group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'} border-t-4 border-primary`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="w-full h-40 bg-gradient-to-b from-blue-100 to-transparent dark:from-blue-900/20 dark:to-transparent"></div>
-                <div className="absolute top-20 w-32 h-32">
-                    <Image
-                        src={member.avatar}
-                        alt={member.name}
-                        data-ai-hint={member.avatarHint}
-                        width={128}
-                        height={128}
-                        className="w-full h-full object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
-                    />
-                </div>
-                <CardContent className="p-6 pt-20 flex-1 flex flex-col items-center bg-gradient-to-b from-transparent to-blue-50 dark:from-transparent dark:to-blue-900/10 w-full">
+                <CardContent className="p-6 flex-1 flex flex-col items-center">
+                    <div className="w-32 h-32 mb-4">
+                        <Image
+                            src={member.avatar}
+                            alt={member.name}
+                            data-ai-hint={member.avatarHint}
+                            width={128}
+                            height={128}
+                            className="w-full h-full object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
+                        />
+                    </div>
                     <h3 className="text-xl font-bold text-card-foreground">{member.name}</h3>
                     <p className="text-base font-semibold text-primary">{member.designation}</p>
                     <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
