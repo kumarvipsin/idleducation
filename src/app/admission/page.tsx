@@ -30,10 +30,9 @@ const admissionFormSchema = z.object({
   motherOccupation: z.string().optional(),
   dob: z.string().min(1, { message: "Date of birth is required." }),
   email: z.string().email({ message: "Please enter a valid email." }),
-  studentPhone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
-  motherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
-  landline: z.string().optional(),
+  studentPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
+  fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
+  motherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
   address: z.string().min(5, { message: "Address is required." }),
   classApplied: z.string().min(1, { message: "Please select a class." }),
   previousSchool: z.string().optional(),
@@ -68,7 +67,6 @@ export default function AdmissionPage() {
       studentPhone: '',
       fatherPhone: '',
       motherPhone: '',
-      landline: '',
       address: '',
       classApplied: '',
       previousSchool: '',
@@ -156,13 +154,11 @@ export default function AdmissionPage() {
     doc.setFont('helvetica', 'normal');
     doc.text(`Email: ${data.email}`, padding, y);
     y += lineHeight;
-    doc.text(`Student Phone: ${data.studentPhone}`, padding, y);
+    doc.text(`Student Phone: ${data.studentPhone || 'N/A'}`, padding, y);
     y += lineHeight;
-    doc.text(`Father's Phone: ${data.fatherPhone || 'N/A'}`, padding, y);
+    doc.text(`Father's Phone: ${data.fatherPhone}`, padding, y);
     y += lineHeight;
-    doc.text(`Mother's Phone: ${data.motherPhone || 'N/A'}`, padding, y);
-    y += lineHeight;
-    doc.text(`Landline: ${data.landline || 'N/A'}`, padding, y);
+    doc.text(`Mother's Phone: ${data.motherPhone}`, padding, y);
     y += lineHeight;
     doc.text(`Address: ${data.address}`, padding, y, { maxWidth: doc.internal.pageSize.getWidth() - padding * 2 });
     y += lineHeight * 3;
@@ -399,7 +395,7 @@ export default function AdmissionPage() {
                     name="studentPhone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Student's Phone Number <span className="text-destructive">*</span></FormLabel>
+                        <FormLabel>Student's Phone Number</FormLabel>
                         <FormControl>
                             <div className="relative">
                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -417,7 +413,7 @@ export default function AdmissionPage() {
                       name="fatherPhone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Father's Contact</FormLabel>
+                          <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                               <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -433,7 +429,7 @@ export default function AdmissionPage() {
                       name="motherPhone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mother's Contact</FormLabel>
+                          <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                               <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -445,22 +441,6 @@ export default function AdmissionPage() {
                       )}
                     />
                  </div>
-                 <FormField
-                    control={form.control}
-                    name="landline"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Landline Number</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input type="tel" placeholder="Landline with STD code" {...field} className="pl-9" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                  <FormField
                     control={form.control}
                     name="address"
