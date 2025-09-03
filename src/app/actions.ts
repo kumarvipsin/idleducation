@@ -844,11 +844,14 @@ export async function submitAdmissionForm(formData: FormData) {
     };
     
     try {
-        const storage = getStorage();
-        const photoRef = ref(storage, `student_photos/${admissionData.studentId}-${studentPhoto.name}`);
-        const snapshot = await uploadBytes(photoRef, studentPhoto);
-        const studentPhotoUrl = await getDownloadURL(snapshot.ref);
-
+        let studentPhotoUrl = '';
+        if (studentPhoto && studentPhoto.size > 0) {
+            const storage = getStorage();
+            const photoRef = ref(storage, `student_photos/${admissionData.studentId}-${studentPhoto.name}`);
+            const snapshot = await uploadBytes(photoRef, studentPhoto);
+            studentPhotoUrl = await getDownloadURL(snapshot.ref);
+        }
+        
         await addDoc(collection(db, "admissions"), {
             ...admissionData,
             studentPhotoUrl,
@@ -862,5 +865,3 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: false, message: "Failed to submit admission form." };
     }
 }
-
-    

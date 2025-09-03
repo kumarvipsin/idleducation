@@ -17,9 +17,6 @@ import Image from "next/image";
 import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
 const phoneRegex = /^\d{10}$/;
 
 const admissionFormSchema = z.object({
@@ -39,21 +36,12 @@ const admissionFormSchema = z.object({
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
   branch: z.string().min(1, { message: "Please select a branch." }),
-  studentPhoto: z.any()
-    .refine((file) => file, "Student photo is required.")
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 2MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      ".jpg, .jpeg, .png and .webp files are accepted."
-    ),
 });
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 
 export default function AdmissionPage() {
   const { toast } = useToast();
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -74,7 +62,6 @@ export default function AdmissionPage() {
       previousSchool: '',
       additionalInfo: '',
       branch: 'Mukherjee Nagar, Delhi-110009',
-      studentPhoto: undefined,
     },
   });
 
@@ -95,19 +82,6 @@ export default function AdmissionPage() {
   }, [form, toast]);
 
 
-  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-      form.setValue('studentPhoto', file);
-      form.clearErrors('studentPhoto');
-    }
-  };
-  
   const generatePdf = (data: AdmissionFormValues) => {
     const doc = new jsPDF();
     const padding = 15;
@@ -120,12 +94,10 @@ export default function AdmissionPage() {
     doc.text("IDL EDUCATION Admission Form", doc.internal.pageSize.getWidth() / 2, y, { align: 'center' });
     y += lineHeight * 2;
     
-    // Photo
-    if (photoPreview) {
-       const img = new Image();
-       img.src = photoPreview;
-       doc.addImage(img, 'JPEG', doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
-    }
+    // Photo Placeholder
+    doc.rect(doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
+    doc.setFontSize(8);
+    doc.text("Affix Photo", doc.internal.pageSize.getWidth() - padding - 35 + 17.5, padding + 25, { align: 'center' });
     
     doc.setFontSize(12);
     doc.setFont('helvetica', 'normal');
@@ -194,9 +166,14 @@ export default function AdmissionPage() {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             if (value) {
-                formData.append(key, value);
+                formData.append(key, value as string);
             }
         });
+        
+        // As photo upload is removed, we'll pass a placeholder or handle it server-side.
+        // For now, let's assume photo is not mandatory for submission action.
+        formData.append('studentPhoto', new File([], ''));
+
 
         const result = await submitAdmissionForm(formData);
 
@@ -204,7 +181,6 @@ export default function AdmissionPage() {
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
             generatePdf(data);
             form.reset();
-            setPhotoPreview(null);
             // Fetch the next ID for the new form
             const nextIdResult = await getNextStudentId();
             if (nextIdResult.success && nextIdResult.studentId) {
@@ -303,37 +279,11 @@ export default function AdmissionPage() {
                               )}
                             />
                         </div>
-                         <FormField
-                            control={form.control}
-                            name="studentPhoto"
-                            render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="sr-only">Student's Photo</FormLabel>
-                                <FormControl>
-                                    <label className="cursor-pointer">
-                                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
-                                        {photoPreview ? (
-                                            <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                                        ) : (
-                                            <div className="text-center text-muted-foreground p-2">
-                                                <Camera className="w-8 h-8 mx-auto mb-2" />
-                                                <p className="text-xs">Upload Photo</p>
-                                            </div>
-                                        )}
-                                        </div>
-                                        <Input 
-                                            type="file" 
-                                            accept="image/*" 
-                                            onChange={handlePhotoChange}
-                                            className="hidden"
-                                            ref={fileInputRef}
-                                        />
-                                    </label>
-                                </FormControl>
-                                <FormMessage className="text-center" />
-                            </FormItem>
-                            )}
-                        />
+                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                            <div className="text-center text-muted-foreground p-2">
+                                <p className="text-xs">Affix Student's Photo</p>
+                            </div>
+                        </div>
                     </div>
                  </div>
 
