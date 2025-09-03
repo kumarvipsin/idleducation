@@ -1,11 +1,11 @@
-
 'use client';
 
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Facebook, Twitter, Instagram } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 export function ExpertTeam() {
   const { t } = useLanguage();
@@ -96,27 +96,32 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-background ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-[#03045e] pt-8 pb-4 flex justify-center items-center">
-                    <div className="w-32 h-32">
-                        <Image
+                <div className="bg-muted/30 pt-8 pb-4 flex justify-center items-center">
+                    <div className="relative w-40 h-40">
+                        <div className="absolute inset-0 rounded-full bg-blue-500 transform transition-transform duration-300 group-hover:scale-105"></div>
+                         <Image
                             src={member.avatar}
                             alt={member.name}
                             data-ai-hint={member.avatarHint}
-                            width={128}
-                            height={128}
-                            className="w-full h-full object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
+                            width={160}
+                            height={160}
+                            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[148px] h-[148px] object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
                         />
                     </div>
                 </div>
-                <CardContent className="p-6 flex-1 flex flex-col items-center bg-[#03045e] text-white">
-                    <h3 className="text-xl font-bold">{member.name}</h3>
-                    <p className="text-base font-semibold text-blue-300">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-blue-200">
-                        <Briefcase className="w-4 h-4" />
-                        <span>{member.experience}</span>
+                <CardContent className="p-6 flex-1 flex flex-col items-center">
+                    <h3 className="text-xl font-bold uppercase tracking-wide text-foreground">{member.name}</h3>
+                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.designation}</p>
+                    <p className="text-sm text-muted-foreground mt-4 h-16">
+                        {member.experience}
+                    </p>
+                    <div className="mt-4 flex items-center justify-center gap-4">
+                       <Link href="#" className="text-muted-foreground hover:text-primary"><Facebook className="w-5 h-5"/></Link>
+                       <Link href="#" className="text-muted-foreground hover:text-primary"><Twitter className="w-5 h-5"/></Link>
+                       <Link href="#" className="text-muted-foreground hover:text-primary"><Instagram className="w-5 h-5"/></Link>
                     </div>
                 </CardContent>
               </Card>
