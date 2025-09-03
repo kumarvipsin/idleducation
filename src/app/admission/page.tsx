@@ -223,6 +223,10 @@ export default function AdmissionPage() {
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
           <CardHeader className="text-center bg-primary text-primary-foreground p-8">
+            <div className="mb-4">
+              <p className="font-bold text-2xl">IDL EDUCATION</p>
+              <p className="text-sm text-primary-foreground/80">(Institute Of Distance Learning, Pvt. LTd.)</p>
+            </div>
             <CardTitle className="text-3xl font-bold">Student Admission Form</CardTitle>
             <CardDescription className="text-primary-foreground/80 mt-2">
               Please fill out the form below to apply for admission.
@@ -233,11 +237,7 @@ export default function AdmissionPage() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 
                 <div className="grid sm:grid-cols-2 gap-6 items-end">
-                  <div className="space-y-2">
-                     <div className="text-center border p-2 rounded-md">
-                      <p className="font-bold text-lg">IDL EDUCATION</p>
-                      <p className="text-xs text-muted-foreground">(Institute Of Distance Learning, Pvt. LTd.)</p>
-                    </div>
+                  <div>
                     <FormField
                       control={form.control}
                       name="studentId"
