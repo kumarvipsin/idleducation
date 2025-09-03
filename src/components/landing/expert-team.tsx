@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from "next/image";
@@ -99,7 +98,7 @@ export function ExpertTeam() {
                 className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-gradient-to-b from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-950 pt-8 pb-4 flex justify-center items-center">
+                <div className="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-950/50 pt-8 pb-4 flex justify-center items-center">
                     <div className="w-32 h-32">
                         <Image
                             src={member.avatar}
