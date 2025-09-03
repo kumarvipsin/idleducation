@@ -76,7 +76,6 @@ export default function AboutPage() {
       
       <section className="my-12">
         <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-8 text-center">Parts of Our Mission</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                 <div>
                     <h3 className="text-xl font-bold mb-2">Simple Language</h3>
