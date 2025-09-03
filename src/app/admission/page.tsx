@@ -12,6 +12,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
@@ -47,7 +48,9 @@ export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [formImage, setFormImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -88,93 +91,54 @@ export default function AdmissionPage() {
   }, [form, toast]);
 
 
-  const generatePdf = (data: AdmissionFormValues) => {
-    const doc = new jsPDF();
-    const padding = 15;
-    const lineHeight = 10;
-    let y = padding;
-
-    // Title
-    doc.setFontSize(22);
-    doc.setFont('helvetica', 'bold');
-    doc.text("IDL EDUCATION Admission Form", doc.internal.pageSize.getWidth() / 2, y, { align: 'center' });
-    y += lineHeight * 2;
+  const generatePdf = (imageData: string, studentName: string) => {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
     
-    // Photo Placeholder
-    if (photoPreview) {
-      doc.addImage(photoPreview, 'JPEG', doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
-    } else {
-      doc.rect(doc.internal.pageSize.getWidth() - padding - 35, padding, 35, 45);
-      doc.setFontSize(8);
-      doc.text("Affix Photo", doc.internal.pageSize.getWidth() - padding - 35 + 17.5, padding + 25, { align: 'center' });
-    }
-    
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'normal');
+    const img = new (window as any).Image();
+    img.src = imageData;
+    img.onload = () => {
+      const imgWidth = img.width;
+      const imgHeight = img.height;
+      const ratio = imgWidth / imgHeight;
+      
+      let finalImgWidth = pdfWidth;
+      let finalImgHeight = pdfWidth / ratio;
 
-    // Personal Details
-    doc.setFont('helvetica', 'bold');
-    doc.text("Personal Details", padding, y);
-    y += lineHeight;
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Branch: ${data.branch}`, padding, y);
-    y += lineHeight;
-    doc.text(`Student ID: ${data.studentId}`, padding, y);
-    y += lineHeight;
-    doc.text(`Student Name: ${data.studentName}`, padding, y);
-    y += lineHeight;
-    doc.text(`Date of Birth: ${data.dob}`, padding, y);
-    y += lineHeight;
-    doc.text(`Father's Name: ${data.fatherName}`, padding, y);
-    y += lineHeight;
-    doc.text(`Father's Occupation: ${data.fatherOccupation || 'N/A'}`, padding, y);
-    y += lineHeight;
-    doc.text(`Mother's Name: ${data.motherName}`, padding, y);
-    y += lineHeight;
-    doc.text(`Mother's Occupation: ${data.motherOccupation || 'N/A'}`, padding, y);
-    y += lineHeight * 2;
-    
-    // Contact Details
-    doc.setFont('helvetica', 'bold');
-    doc.text("Contact Details", padding, y);
-    y += lineHeight;
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Email: ${data.email}`, padding, y);
-    y += lineHeight;
-    doc.text(`Student Phone: ${data.studentPhone || 'N/A'}`, padding, y);
-    y += lineHeight;
-    doc.text(`Father's Phone: ${data.fatherPhone}`, padding, y);
-    y += lineHeight;
-    doc.text(`Mother's Phone: ${data.motherPhone}`, padding, y);
-    y += lineHeight;
-    doc.text(`Address: ${data.address}`, padding, y, { maxWidth: doc.internal.pageSize.getWidth() - padding * 2 });
-    y += lineHeight * 3;
+      if (finalImgHeight > pdfHeight) {
+        finalImgHeight = pdfHeight;
+        finalImgWidth = pdfHeight * ratio;
+      }
+      
+      const x = (pdfWidth - finalImgWidth) / 2;
+      const y = (pdfHeight - finalImgHeight) / 2;
 
-    // Academic Details
-    doc.setFont('helvetica', 'bold');
-    doc.text("Academic Details", padding, y);
-    y += lineHeight;
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Applying for Class: ${data.classApplied}`, padding, y);
-    y += lineHeight;
-    doc.text(`Previous School: ${data.previousSchool || 'N/A'}`, padding, y);
-    y += lineHeight;
-    doc.text(`Additional Info: ${data.additionalInfo || 'N/A'}`, padding, y, { maxWidth: doc.internal.pageSize.getWidth() - padding * 2 });
-    y += lineHeight * 5;
-
-    // Signature
-    doc.line(padding, y, doc.internal.pageSize.getWidth() - padding, y);
-    y += 5;
-    doc.setFont('helvetica', 'italic');
-    doc.text("Authorized Signature", padding, y);
-
-    doc.save(`${data.studentName}_Admission_Form.pdf`);
+      pdf.addImage(imageData, 'PNG', x, y, finalImgWidth, finalImgHeight);
+      pdf.save(`${studentName}_Admission_Form.pdf`);
+    };
   };
 
   const handlePreview = async () => {
     const isValid = await form.trigger();
-    if (isValid) {
-      setIsPreviewOpen(true);
+    if (isValid && formRef.current) {
+      try {
+        const canvas = await html2canvas(formRef.current, {
+          scale: 2, // Increase resolution for better quality
+          useCORS: true,
+          backgroundColor: '#ffffff'
+        });
+        const imageData = canvas.toDataURL('image/png');
+        setFormImage(imageData);
+        setIsPreviewOpen(true);
+      } catch (error) {
+        console.error("Error generating form preview:", error);
+        toast({
+          variant: "destructive",
+          title: "Preview Error",
+          description: "Could not generate a preview of the form.",
+        });
+      }
     } else {
        toast({
         variant: "destructive",
@@ -199,8 +163,11 @@ export default function AdmissionPage() {
 
         if (result.success) {
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
-            generatePdf(data);
+            if (formImage) {
+              generatePdf(formImage, data.studentName);
+            }
             setIsPreviewOpen(false);
+            setFormImage(null);
             form.reset();
             setPhotoPreview(null);
             if(fileInputRef.current) fileInputRef.current.value = '';
@@ -229,410 +196,373 @@ export default function AdmissionPage() {
     "Burari, Delhi-110084"
   ];
   
-  const currentValues = form.getValues();
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg overflow-hidden">
-          <header className="bg-[#03045e] text-white p-4">
-            <div className="flex flex-col items-center justify-center gap-2 text-center">
-              <div>
-                <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
-                <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
-              </div>
+        <div ref={formRef}>
+            <Card className="shadow-lg overflow-hidden">
+            <header className="bg-[#03045e] text-white p-4">
+                <div className="flex flex-col items-center justify-center gap-2 text-center">
+                <div>
+                    <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
+                    <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+                </div>
+                </div>
+            </header>
+            <div className="bg-gray-100 text-center py-2">
+                <h2 className="text-lg font-bold tracking-widest">ADMISSION FORM</h2>
             </div>
-          </header>
-          <div className="bg-gray-100 text-center py-2">
-              <h2 className="text-lg font-bold tracking-widest">ADMISSION FORM</h2>
-          </div>
-          
-          <CardContent className="p-8 bg-gray-50">
-            <Form {...form}>
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="md:col-span-2 space-y-2 text-sm">
-                        <p>To,</p>
-                        <p>The Managing Director,</p>
-                        <p>IDL EDUCATION PVT. LTD.</p>
-                        <FormField
-                            control={form.control}
-                            name="branch"
-                            render={({ field }) => (
-                                <FormItem className="flex items-center gap-2">
-                                <FormLabel className="font-bold whitespace-nowrap">Branch :</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                    <SelectTrigger className="w-auto">
-                                        <SelectValue placeholder="Select a branch" />
-                                    </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                    {branches.map(b => (
-                                        <SelectItem key={b} value={b}>{b}</SelectItem>
-                                    ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="space-y-4 md:ml-auto">
-                         <div className="flex items-center gap-2">
-                            <FormLabel className="font-bold">Registration No.:</FormLabel>
-                             <FormField
-                              control={form.control}
-                              name="studentId"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="sr-only">Registration No.</FormLabel>
-                                  <FormControl>
-                                      <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider flex-1" />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
+            
+            <CardContent className="p-8 bg-gray-50">
+                <Form {...form}>
+                <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="md:col-span-2 space-y-2 text-sm">
+                            <p>To,</p>
+                            <p>The Managing Director,</p>
+                            <p>IDL EDUCATION PVT. LTD.</p>
+                            <FormField
+                                control={form.control}
+                                name="branch"
+                                render={({ field }) => (
+                                    <FormItem className="flex items-center gap-2">
+                                    <FormLabel className="font-bold whitespace-nowrap">Branch :</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger className="w-auto">
+                                            <SelectValue placeholder="Select a branch" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                        {branches.map(b => (
+                                            <SelectItem key={b} value={b}>{b}</SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                         </div>
-                        <FormField
-                            control={form.control}
-                            name="studentPhoto"
-                            render={({ field: { onChange, value, ...rest } }) => (
-                                <FormItem>
-                                    <FormLabel htmlFor="photo-upload" className="cursor-pointer">
-                                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
-                                           {photoPreview ? (
-                                                <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                                           ) : (
-                                                <div className="text-center text-muted-foreground p-2">
-                                                    <Upload className="w-6 h-6 mx-auto mb-2" />
-                                                    <p className="text-xs">Upload Photo</p>
-                                                </div>
-                                           )}
-                                        </div>
-                                    </FormLabel>
+                        <div className="space-y-4 md:ml-auto">
+                            <div className="flex items-center gap-2">
+                                <FormLabel className="font-bold">Registration No.:</FormLabel>
+                                <FormField
+                                control={form.control}
+                                name="studentId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel className="sr-only">Registration No.</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            id="photo-upload"
-                                            ref={fileInputRef}
-                                            type="file"
-                                            accept="image/png, image/jpeg"
-                                            className="hidden"
-                                            onChange={(e) => {
-                                                const file = e.target.files?.[0];
-                                                onChange(file);
-                                                if (file) {
-                                                    const reader = new FileReader();
-                                                    reader.onloadend = () => {
-                                                        setPhotoPreview(reader.result as string);
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                } else {
-                                                    setPhotoPreview(null);
-                                                }
-                                            }}
-                                            {...rest}
-                                        />
+                                        <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider flex-1" />
                                     </FormControl>
                                     <FormMessage />
-                                </FormItem>
-                            )}
+                                    </FormItem>
+                                )}
+                                />
+                            </div>
+                            <FormField
+                                control={form.control}
+                                name="studentPhoto"
+                                render={({ field: { onChange, value, ...rest } }) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="photo-upload" className="cursor-pointer">
+                                            <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                                            {photoPreview ? (
+                                                    <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                                            ) : (
+                                                    <div className="text-center text-muted-foreground p-2">
+                                                        <Upload className="w-6 h-6 mx-auto mb-2" />
+                                                        <p className="text-xs">Upload Photo</p>
+                                                    </div>
+                                            )}
+                                            </div>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                id="photo-upload"
+                                                ref={fileInputRef}
+                                                type="file"
+                                                accept="image/png, image/jpeg"
+                                                className="hidden"
+                                                onChange={(e) => {
+                                                    const file = e.target.files?.[0];
+                                                    onChange(file);
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onloadend = () => {
+                                                            setPhotoPreview(reader.result as string);
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    } else {
+                                                        setPhotoPreview(null);
+                                                    }
+                                                }}
+                                                {...rest}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="studentName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Student's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Full Name" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="dob"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="fatherName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input placeholder="Father's Full Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="fatherOccupation"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Father's Occupation</FormLabel>
+                            <FormControl>
+                            <div className="relative">
+                                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="motherName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input placeholder="Mother's Full Name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="motherOccupation"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mother's Occupation</FormLabel>
+                            <FormControl>
+                            <div className="relative">
+                                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="example@email.com" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="studentPhone"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Student's Phone Number</FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                        control={form.control}
+                        name="fatherPhone"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="motherPhone"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
                         />
                     </div>
-                 </div>
-
-                 <Separator />
-
-                <div className="grid sm:grid-cols-2 gap-6">
-                   <FormField
-                    control={form.control}
-                    name="studentName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Student's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Full Name" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="dob"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                          <Input type="date" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                 <div className="grid sm:grid-cols-2 gap-6">
-                   <FormField
-                    control={form.control}
-                    name="fatherName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                           <Input placeholder="Father's Full Name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="fatherOccupation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Father's Occupation</FormLabel>
-                        <FormControl>
-                           <div className="relative">
-                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                 </div>
-                 <div className="grid sm:grid-cols-2 gap-6">
-                   <FormField
-                    control={form.control}
-                    name="motherName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                           <Input placeholder="Mother's Full Name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
-                    control={form.control}
-                    name="motherOccupation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Mother's Occupation</FormLabel>
-                        <FormControl>
-                           <div className="relative">
-                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                 </div>
-                 <div className="grid sm:grid-cols-2 gap-6">
-                   <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                               <Input type="email" placeholder="example@email.com" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="studentPhone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Student's Phone Number</FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                               <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                 </div>
-                 <div className="grid sm:grid-cols-2 gap-6">
                     <FormField
-                      control={form.control}
-                      name="fatherPhone"
-                      render={({ field }) => (
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
-                          <FormControl>
-                              <div className="relative">
-                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
-                              </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="motherPhone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
-                          <FormControl>
-                              <div className="relative">
-                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
-                              </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                 </div>
-                 <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                 <div className="grid sm:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="classApplied"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Applying for Class <span className="text-destructive">*</span></FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a class" />
-                              </SelectTrigger>
+                            <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} />
                             </FormControl>
-                            <SelectContent>
-                              {classes.map(c => (
-                                <SelectItem key={c} value={c}>{c}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
+                            <FormMessage />
                         </FormItem>
-                      )}
+                        )}
                     />
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                        control={form.control}
+                        name="classApplied"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Applying for Class <span className="text-destructive">*</span></FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a class" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                {classes.map(c => (
+                                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                                ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="previousSchool"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Previous School Name (if any)</FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Last school attended" {...field} className="pl-9"/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    </div>
                     <FormField
-                      control={form.control}
-                      name="previousSchool"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="additionalInfo"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Previous School Name (if any)</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                               <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                               <Input placeholder="Last school attended" {...field} className="pl-9"/>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
+                        <FormLabel>Additional Information</FormLabel>
+                        <FormControl>
+                            <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} />
+                        </FormControl>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
-                 </div>
-                 <FormField
-                  control={form.control}
-                  name="additionalInfo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Additional Information</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="button" size="lg" className="w-full" onClick={handlePreview} disabled={!form.getValues('studentId')}>
-                    <FileText className="mr-2 h-4 w-4" />
-                    Preview Form
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                </form>
+                </Form>
+            </CardContent>
+            </Card>
+        </div>
+        <div className="mt-8">
+            <Button type="button" size="lg" className="w-full" onClick={handlePreview} disabled={!form.getValues('studentId')}>
+                <FileText className="mr-2 h-4 w-4" />
+                Preview Form
+            </Button>
+        </div>
       </div>
       
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
             <DialogTitle>Admission Form Preview</DialogTitle>
             <DialogDescription>Please review the details below before submitting.</DialogDescription>
           </DialogHeader>
-          <ScrollArea className="max-h-[60vh] p-4 border rounded-md">
-            <div className="space-y-4 text-sm">
-                <div className="flex justify-center mb-4">
-                  <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border">
-                      {photoPreview ? (
-                          <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                      ) : (
-                          <div className="text-center text-muted-foreground p-2">
-                              <User className="w-8 h-8 mx-auto mb-2" />
-                              <p className="text-xs">No Photo</p>
-                          </div>
-                      )}
-                  </div>
-                </div>
-                <h3 className="font-bold text-lg border-b pb-2">Student Information</h3>
-                <div className="grid grid-cols-2 gap-2">
-                    <p><strong>Student ID:</strong> {currentValues.studentId}</p>
-                    <p><strong>Branch:</strong> {currentValues.branch}</p>
-                    <p><strong>Name:</strong> {currentValues.studentName}</p>
-                    <p><strong>DOB:</strong> {currentValues.dob}</p>
-                    <p><strong>Email:</strong> {currentValues.email}</p>
-                    <p><strong>Phone:</strong> {currentValues.studentPhone || 'N/A'}</p>
-                </div>
-                <p><strong>Address:</strong> {currentValues.address}</p>
-                
-                <h3 className="font-bold text-lg border-b pb-2 pt-4">Family Information</h3>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <p><strong>Father:</strong> {currentValues.fatherName}</p>
-                        <p><strong>Occupation:</strong> {currentValues.fatherOccupation || 'N/A'}</p>
-                        <p><strong>Phone:</strong> {currentValues.fatherPhone || 'N/A'}</p>
-                    </div>
-                    <div>
-                        <p><strong>Mother:</strong> {currentValues.motherName}</p>
-                        <p><strong>Occupation:</strong> {currentValues.motherOccupation || 'N/A'}</p>
-                        <p><strong>Phone:</strong> {currentValues.motherPhone || 'N/A'}</p>
-                    </div>
-                </div>
-
-                <h3 className="font-bold text-lg border-b pb-2 pt-4">Academic Information</h3>
-                <div className="grid grid-cols-2 gap-2">
-                    <p><strong>Class Applied:</strong> {currentValues.classApplied}</p>
-                    <p><strong>Previous School:</strong> {currentValues.previousSchool || 'N/A'}</p>
-                </div>
-                <p><strong>Additional Info:</strong> {currentValues.additionalInfo || 'N/A'}</p>
-            </div>
+          <ScrollArea className="max-h-[70vh] p-1 border rounded-md">
+            {formImage ? (
+              <Image src={formImage} alt="Admission form preview" width={800} height={1120} className="w-full h-auto" />
+            ) : (
+              <p>Generating preview...</p>
+            )}
           </ScrollArea>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>Edit</Button>
