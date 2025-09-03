@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
+import { Target, Eye, Users, PenSquare, UserCircle, Briefcase } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -11,16 +11,9 @@ import {
 } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ExpertTeam } from "@/components/landing/expert-team";
 
 export default function DirectorPage() {
-  const carouselImages = [
-    { src: "/d4d319a.jpeg", alt: "Our Workspace", hint: "workspace office" },
-    { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students learning on laptops", hint: "students learning" },
-    { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Teacher with students", hint: "teacher students" },
-    { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Classroom lecture", hint: "classroom lecture" },
-    { src: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8c3R1ZGVudHxlbnwwfHx8fDE3NTYwNzE3NDh8MA&ixlib=rb-4.1.0&q=80&w=1080", alt: "Team meeting in office", hint: "team meeting" },
-    { src: "https://images.unsplash.com/photo-1588072432836-e10032774350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8Y2xhc3Nyb29tfGVufDB8fHx8MTc1NjEwNDM5OHww&ixlib=rb-4.1.0&q=80&w=1080", alt: "Modern study area", hint: "classroom" },
-  ];
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
@@ -98,39 +91,7 @@ export default function DirectorPage() {
         </Card>
       </section>
 
-      <section className="text-center my-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8 flex items-center justify-center gap-4">
-          <Users className="w-8 h-8" /> Our Workspace
-        </h2>
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-6xl mx-auto"
-        >
-          <CarouselContent>
-            {carouselImages.map((image, index) => (
-              <CarouselItem key={index} className="basis-full sm:basis-1/2 lg:basis-1/3">
-                <div className="p-1">
-                  <Image
-                    src={image.src}
-                    data-ai-hint={image.hint}
-                    alt={image.alt}
-                    width={600}
-                    height={400}
-                    className="rounded-xl object-cover w-full aspect-video"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-            <CarouselPrevious className="static translate-y-0" />
-            <CarouselNext className="static translate-y-0" />
-          </div>
-        </Carousel>
-      </section>
+      <ExpertTeam />
     </div>
   );
 }
