@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -14,7 +14,7 @@ const testimonials = [
     {
       name: "Anmol Rathore",
       achievement: "UPSC CSE 2023 AIR 7 | UPSC",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "woman professional",
       testimonial: "I used to regularly follow the youtube videos, prelims booster videos and specially editorial discussion from where I made important pointers. I also watched some history videos like Buddhism, Jainism as the topics were explained very clearly... all these were very...",
       testimonial_hi: "मैं नियमित रूप से यूट्यूब वीडियो, प्रीलिम्स बूस्टर वीडियो और विशेष रूप से संपादकीय चर्चा का पालन करता था, जहां से मैंने महत्वपूर्ण बिंदु बनाए। मैंने बौद्ध धर्म, जैन धर्म जैसे कुछ इतिहास वीडियो भी देखे क्योंकि विषयों को बहुत स्पष्ट रूप से समझाया गया था... ये सभी बहुत...",
@@ -22,7 +22,7 @@ const testimonials = [
     {
       name: "Raja Majhi",
       achievement: "GATE 2024 AIR 1 | GATE",
-      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "male professional",
       testimonial: "I am Kaja Majhi, and I am thrilled to share that I have secured All India Rank 1 (AIR 1) in the GATE 2024 examination in ECE. From the very beginning, Physics Wallah stood out for its structured and comprehensive curriculum. The faculty members, with their in-depth knowledge and teaching expertise, ensured...",
       testimonial_hi: "मैं काजा माझी हूं, और मुझे यह साझा करते हुए बहुत खुशी हो रही है कि मैंने ईसीई में गेट 2024 परीक्षा में अखिल भारतीय रैंक 1 (एआईआर 1) हासिल की है। शुरू से ही, फिजिक्स वाला अपने संरचित और व्यापक पाठ्यक्रम के लिए सबसे अलग रहा। संकाय सदस्यों ने अपने गहन ज्ञान और शिक्षण विशेषज्ञता के साथ सुनिश्चित किया...",
@@ -30,7 +30,7 @@ const testimonials = [
     {
       name: "Amit Kumar Mandal",
       achievement: "IBPS Topper | Banking",
-      avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "male teacher",
       testimonial: "PW helped me in establishing the basics of every subject through which I was able to progress quickly and was also able to increase my speed and also maintaining accuracy.",
       testimonial_hi: "पीडब्ल्यू ने मुझे हर विषय की मूल बातें स्थापित करने में मदद की, जिसके माध्यम से मैं तेजी से प्रगति करने में सक्षम था और अपनी गति बढ़ाने के साथ-साथ सटीकता बनाए रखने में भी सक्षम था।",
@@ -38,7 +38,7 @@ const testimonials = [
     {
       name: "Priya Singh",
       achievement: "Class 12 Topper | CBSE",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto-format=fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "female student",
       testimonial: "IDL EDUCATION's teachers are incredibly supportive. The two-teacher model ensures that my doubts are always cleared instantly.",
       testimonial_hi: "आईडीएल एजुकेशन के शिक्षक अविश्वसनीय रूप से सहायक हैं। दो-शिक्षक मॉडल यह सुनिश्चित करता है कि मेरी शंकाओं का तुरंत समाधान हो जाए।",
@@ -88,17 +88,45 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
 
 export function StudentTestimonials() {
   const { t } = useLanguage();
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
 
   return (
-    <section id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
+    <section ref={sectionRef} id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
+      <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('testimonials.title')}</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             {t('testimonials.subtitle')}
           </p>
         </div>
-        <div className="relative w-full max-w-5xl mx-auto">
+        <div className={`relative w-full max-w-5xl mx-auto ${isVisible ? 'animate-fade-in-up' : ''}`} style={{ animationDelay: '0.2s' }}>
           <Carousel
             opts={{
               align: "start",

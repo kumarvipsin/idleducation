@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from '../ui/scroll-area';
+import { useEffect, useRef, useState } from 'react';
 
 const allPrograms = [
     // EN
@@ -98,17 +99,47 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText
 }
 
 export function ExamCategories() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
   return (
-    <section className="w-full py-12 md:py-24 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
+    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
+      <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
           <h2 className="text-3xl md:text-4xl font-bold">Exam Categories</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             PW is preparing students for 35+ exam categories. Scroll down to find the one you are preparing for
           </p>
         </div>
         <Card
-          className="shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-b from-primary from-2% to-black"
+          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-b from-primary from-2% to-black ${isVisible ? 'animate-fade-in-up' : ''}`}
+          style={{ animationDelay: '0.2s' }}
         >
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
