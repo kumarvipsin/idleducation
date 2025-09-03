@@ -232,24 +232,28 @@ export default function AdmissionPage() {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="flex flex-col sm:flex-row gap-6">
-                  <div className="flex-1 space-y-8">
-                    <FormField
-                      control={form.control}
-                      name="studentId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Student ID</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono" />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                   <div className="flex-1 space-y-2">
+                      <div className="text-center border p-2 rounded-md">
+                        <p className="font-bold text-lg">IDL EDUCATION</p>
+                        <p className="text-xs text-muted-foreground">(Institute Of Distance Learning, Pvt. LTd.)</p>
+                      </div>
+                      <FormField
+                        control={form.control}
+                        name="studentId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="sr-only">Student ID</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider" />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   <div className="sm:ml-auto">
                      <FormField
                         control={form.control}
