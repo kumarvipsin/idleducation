@@ -23,7 +23,10 @@ interface Admission {
   motherOccupation?: string;
   dob: string;
   email: string;
-  phone: string;
+  studentPhone: string;
+  fatherPhone?: string;
+  motherPhone?: string;
+  landline?: string;
   address: string;
   classApplied: string;
   previousSchool?: string;
@@ -91,7 +94,7 @@ export default function AdminAdmissionsPage() {
                       <TableCell>{admission.classApplied}</TableCell>
                       <TableCell>
                         <div>{admission.email}</div>
-                        <div>{admission.phone}</div>
+                        <div>{admission.studentPhone}</div>
                       </TableCell>
                       <TableCell>
                         {admission.createdAt ? format(new Date(admission.createdAt), 'PPp') : 'N/A'}
@@ -143,17 +146,24 @@ export default function AdminAdmissionsPage() {
                               <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground"/><strong>Name:</strong> {selectedAdmission.studentName}</p>
                               <p className="flex items-center gap-2"><Calendar className="h-4 w-4 text-muted-foreground"/><strong>DOB:</strong> {selectedAdmission.dob}</p>
                               <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground"/><strong>Email:</strong> {selectedAdmission.email}</p>
-                              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Phone:</strong> {selectedAdmission.phone}</p>
+                              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Student Phone:</strong> {selectedAdmission.studentPhone}</p>
                           </div>
                           <p className="flex items-start gap-2"><Home className="h-4 w-4 text-muted-foreground mt-1"/><strong>Address:</strong> {selectedAdmission.address}</p>
                           
                           <h3 className="font-bold text-lg border-b pb-2 pt-4">Family Information</h3>
-                          <div className="grid grid-cols-2 gap-2">
-                              <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground"/><strong>Father:</strong> {selectedAdmission.fatherName}</p>
-                              <p className="flex items-center gap-2"><Briefcase className="h-4 w-4 text-muted-foreground"/><strong>Occupation:</strong> {selectedAdmission.fatherOccupation || 'N/A'}</p>
-                              <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground"/><strong>Mother:</strong> {selectedAdmission.motherName}</p>
-                              <p className="flex items-center gap-2"><Briefcase className="h-4 w-4 text-muted-foreground"/><strong>Occupation:</strong> {selectedAdmission.motherOccupation || 'N/A'}</p>
+                          <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground"/><strong>Father:</strong> {selectedAdmission.fatherName}</p>
+                                <p className="flex items-center gap-2 pl-6"><Briefcase className="h-4 w-4 text-muted-foreground"/><strong>Occupation:</strong> {selectedAdmission.fatherOccupation || 'N/A'}</p>
+                                <p className="flex items-center gap-2 pl-6"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Phone:</strong> {selectedAdmission.fatherPhone || 'N/A'}</p>
+                              </div>
+                               <div>
+                                <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground"/><strong>Mother:</strong> {selectedAdmission.motherName}</p>
+                                <p className="flex items-center gap-2 pl-6"><Briefcase className="h-4 w-4 text-muted-foreground"/><strong>Occupation:</strong> {selectedAdmission.motherOccupation || 'N/A'}</p>
+                                <p className="flex items-center gap-2 pl-6"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Phone:</strong> {selectedAdmission.motherPhone || 'N/A'}</p>
+                              </div>
                           </div>
+                           <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Landline:</strong> {selectedAdmission.landline || 'N/A'}</p>
 
                           <h3 className="font-bold text-lg border-b pb-2 pt-4">Academic Information</h3>
                           <div className="grid grid-cols-2 gap-2">
@@ -169,3 +179,5 @@ export default function AdminAdmissionsPage() {
     </Dialog>
   );
 }
+
+    

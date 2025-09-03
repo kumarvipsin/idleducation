@@ -833,7 +833,10 @@ export async function submitAdmissionForm(formData: FormData) {
         motherOccupation: rawFormData.motherOccupation as string || '',
         dob: rawFormData.dob as string,
         email: rawFormData.email as string,
-        phone: rawFormData.phone as string,
+        studentPhone: rawFormData.studentPhone as string,
+        fatherPhone: rawFormData.fatherPhone as string || '',
+        motherPhone: rawFormData.motherPhone as string || '',
+        landline: rawFormData.landline as string || '',
         address: rawFormData.address as string,
         classApplied: rawFormData.classApplied as string,
         previousSchool: rawFormData.previousSchool as string || '',
@@ -859,3 +862,5 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: false, message: "Failed to submit admission form." };
     }
 }
+
+    
