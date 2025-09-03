@@ -96,11 +96,11 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'} border-t-4 border-primary`}
+                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <CardContent className="p-6 flex-1 flex flex-col items-center">
-                    <div className="w-32 h-32 mb-4">
+                <div className="bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 pt-8 pb-4 flex justify-center items-center">
+                    <div className="w-32 h-32">
                         <Image
                             src={member.avatar}
                             alt={member.name}
@@ -110,9 +110,11 @@ export function ExpertTeam() {
                             className="w-full h-full object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
                         />
                     </div>
-                    <h3 className="text-xl font-bold text-card-foreground">{member.name}</h3>
-                    <p className="text-base font-semibold text-primary">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                </div>
+                <CardContent className="p-6 flex-1 flex flex-col items-center bg-[#03045e] text-white">
+                    <h3 className="text-xl font-bold">{member.name}</h3>
+                    <p className="text-base font-semibold text-blue-300">{member.designation}</p>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-blue-200">
                         <Briefcase className="w-4 h-4" />
                         <span>{member.experience}</span>
                     </div>
