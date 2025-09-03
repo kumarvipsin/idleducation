@@ -14,15 +14,17 @@ const resources = [
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
-    gradient: "from-blue-500 to-indigo-600",
+    gradient: "from-blue-100 to-indigo-200",
+    textColor: "text-blue-900",
   },
   {
-    image: "https://images.unsplash.com/photo-1596495578065-450763f0d420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwcmVjZWl2aW5nJTIwYXdhcmR8ZW58MHx8fHwxNzU2MjY5ODU3fDA&ixlib-rb-4.1.0&q=80&w=1080",
+    image: "https://images.unsplash.com/photo-1596495578065-450763f0d420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwcmVjZWl2aW5nJTIwYXdhcmR8ZW58MHx8fHwxNzU2MjY5ODU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "student award",
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
     href: "/resources/ncert-solutions",
-    gradient: "from-green-500 to-teal-600",
+    gradient: "from-green-100 to-teal-200",
+    textColor: "text-green-900",
   },
   {
     image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMG5vdGVzfGVufDB8fHx8MTc1NjI4MDU3NHww&ixlib-rb-4.1.0&q=80&w=1080",
@@ -30,7 +32,8 @@ const resources = [
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     href: "/resources/notes",
-    gradient: "from-yellow-500 to-orange-600",
+    gradient: "from-yellow-100 to-orange-200",
+    textColor: "text-yellow-900",
   },
   {
     image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib-rb-4.1.0&q=80&w=1080",
@@ -38,7 +41,8 @@ const resources = [
     title: "Previous Year Questions",
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     href: "/resources/previous-year-questions",
-    gradient: "from-purple-500 to-pink-600",
+    gradient: "from-purple-100 to-pink-200",
+    textColor: "text-purple-900",
   },
 ]
 
@@ -86,7 +90,7 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} text-white ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} ${resource.textColor} ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                   <div className="p-6 flex flex-col h-full">
