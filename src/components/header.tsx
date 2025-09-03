@@ -53,11 +53,6 @@ export function Header() {
     fetchUpdates();
   }, []);
 
-  const handleLogout = async () => {
-    await logout();
-    router.push('/');
-  };
-
   const handleNotificationOpenChange = (open: boolean) => {
     if (open) {
       localStorage.setItem('lastCheckedUpdate', Date.now().toString());
