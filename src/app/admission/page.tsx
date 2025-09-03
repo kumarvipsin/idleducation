@@ -224,11 +224,9 @@ export default function AdmissionPage() {
         <Card className="shadow-lg overflow-hidden">
           <header className="bg-gray-800 text-white p-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div>
-                  <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
-                  <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
-                </div>
+              <div>
+                <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
+                <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
               </div>
               <div className="text-sm text-right space-y-1">
                 <p className="flex items-center justify-end gap-2"><Phone className="w-4 h-4" /> 011 45035713</p>
@@ -254,7 +252,7 @@ export default function AdmissionPage() {
                         <p>IDL EDUCATION PVT. LTD.</p>
                         <p>Branch : KRISHAN VIHAR</p>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-4 md:ml-auto">
                          <div className="flex items-center gap-2">
                             <FormLabel className="font-bold">Registration No.:</FormLabel>
                              <FormField
