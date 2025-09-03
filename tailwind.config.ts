@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         body: ['"Josefin Sans"', 'sans-serif'],
         headline: ['"Josefin Sans"', 'sans-serif'],
+        script: ['"Dancing Script"', 'cursive'],
         code: ['monospace'],
       },
       colors: {

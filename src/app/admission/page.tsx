@@ -236,7 +236,7 @@ export default function AdmissionPage() {
             </div>
           </header>
           <div className="bg-gray-200 text-gray-700 text-center py-2">
-            <p className="font-serif italic text-lg">Your Dream & Desire + Our efforts = Success</p>
+            <p className="font-script text-lg italic">Your Dream & Desire + Our efforts = Success</p>
           </div>
           <div className="bg-gray-100 text-center py-4">
               <h2 className="text-xl font-bold tracking-widest">ADMISSION FORM</h2>
