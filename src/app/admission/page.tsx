@@ -235,7 +235,7 @@ export default function AdmissionPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
-          <header className="bg-gray-800 text-white p-4">
+          <header className="bg-[#03045e] text-white p-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
                 <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
