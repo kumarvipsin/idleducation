@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin } from 'lucide-react';
 
 interface Admission {
   id: string;
@@ -32,6 +32,7 @@ interface Admission {
   additionalInfo?: string;
   createdAt: string;
   studentPhotoUrl?: string; // Assuming the photo URL is stored
+  branch?: string;
 }
 
 export default function AdminAdmissionsPage() {
@@ -147,6 +148,7 @@ export default function AdminAdmissionsPage() {
                               <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground"/><strong>Email:</strong> {selectedAdmission.email}</p>
                               <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground"/><strong>Student Phone:</strong> {selectedAdmission.studentPhone || 'N/A'}</p>
                           </div>
+                          <p className="flex items-start gap-2"><MapPin className="h-4 w-4 text-muted-foreground mt-1"/><strong>Branch:</strong> {selectedAdmission.branch || 'N/A'}</p>
                           <p className="flex items-start gap-2"><Home className="h-4 w-4 text-muted-foreground mt-1"/><strong>Address:</strong> {selectedAdmission.address}</p>
                           
                           <h3 className="font-bold text-lg border-b pb-2 pt-4">Family Information</h3>

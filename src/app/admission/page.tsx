@@ -1,9 +1,10 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,6 +38,7 @@ const admissionFormSchema = z.object({
   classApplied: z.string().min(1, { message: "Please select a class." }),
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
+  branch: z.string().min(1, { message: "Please select a branch." }),
   studentPhoto: z.any()
     .refine((file) => file, "Student photo is required.")
     .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 2MB.`)
@@ -71,6 +73,7 @@ export default function AdmissionPage() {
       classApplied: '',
       previousSchool: '',
       additionalInfo: '',
+      branch: 'KRISHAN VIHAR',
       studentPhoto: undefined,
     },
   });
@@ -132,6 +135,8 @@ export default function AdmissionPage() {
     doc.text("Personal Details", padding, y);
     y += lineHeight;
     doc.setFont('helvetica', 'normal');
+    doc.text(`Branch: ${data.branch}`, padding, y);
+    y += lineHeight;
     doc.text(`Student ID: ${data.studentId}`, padding, y);
     y += lineHeight;
     doc.text(`Student Name: ${data.studentName}`, padding, y);
@@ -217,6 +222,14 @@ export default function AdmissionPage() {
   const classes = [
     "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"
   ];
+  
+  const branches = [
+    "KRISHAN VIHAR",
+    "Mukherjee Nagar, Delhi-110009",
+    "Mangol Puri, Delhi-110083",
+    "Budh Vihar, Delhi-110086",
+    "Burari, Delhi-110084"
+  ];
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -250,7 +263,28 @@ export default function AdmissionPage() {
                         <p>To,</p>
                         <p>The Managing Director,</p>
                         <p>IDL EDUCATION PVT. LTD.</p>
-                        <p>Branch : KRISHAN VIHAR</p>
+                        <FormField
+                            control={form.control}
+                            name="branch"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center gap-2">
+                                <FormLabel className="font-bold whitespace-nowrap">Branch :</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a branch" />
+                                    </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                    {branches.map(b => (
+                                        <SelectItem key={b} value={b}>{b}</SelectItem>
+                                    ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <div className="space-y-4 md:ml-auto">
                          <div className="flex items-center gap-2">

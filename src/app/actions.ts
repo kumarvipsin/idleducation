@@ -840,6 +840,7 @@ export async function submitAdmissionForm(formData: FormData) {
         classApplied: rawFormData.classApplied as string,
         previousSchool: rawFormData.previousSchool as string || '',
         additionalInfo: rawFormData.additionalInfo as string || '',
+        branch: rawFormData.branch as string,
     };
     
     try {
