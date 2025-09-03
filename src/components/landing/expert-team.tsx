@@ -28,21 +28,21 @@ export function ExpertTeam() {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-        avatarHint: "male professional"
+        avatar: "/chandu.jpg",
+        avatarHint: "Chandra Prakesh"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
         avatar: "/vidhi.jpg",
-        avatarHint: "female scientist"
+        avatarHint: "Vidhi Sharma"
     },
     {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto-format&fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+        avatar: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=2070&auto-format=fit=crop&ixlib.rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
         avatarHint: "young professional"
     },
     {
