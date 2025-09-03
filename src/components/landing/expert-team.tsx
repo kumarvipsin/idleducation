@@ -41,11 +41,11 @@ export function ExpertTeam() {
 
   const teamMembers = [
     {
-        name: t('team.member1.name'),
-        designation: t('team.member1.designation'),
-        experience: t('team.member1.experience'),
-        avatar: "/amod.jpg",
-        avatarHint: "Amod Sharma"
+        name: t('team.member5.name'),
+        designation: t('team.member5.designation'),
+        experience: t('team.member5.experience'),
+        avatar: "/vijay.jpg",
+        avatarHint: "Vijay Verma"
     },
     {
         name: t('team.member2.name'),
@@ -55,13 +55,6 @@ export function ExpertTeam() {
         avatarHint: "Manish Sharma"
     },
     {
-        name: t('team.member3.name'),
-        designation: t('team.member3.designation'),
-        experience: t('team.member3.experience'),
-        avatar: "/chandu.jpg",
-        avatarHint: "Chandra Prakesh"
-    },
-    {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
@@ -69,11 +62,18 @@ export function ExpertTeam() {
         avatarHint: "Vidhi Sharma"
     },
     {
-        name: t('team.member5.name'),
-        designation: t('team.member5.designation'),
-        experience: t('team.member5.experience'),
-        avatar: "/vijay.jpg",
-        avatarHint: "Vijay Verma"
+        name: t('team.member3.name'),
+        designation: t('team.member3.designation'),
+        experience: t('team.member3.experience'),
+        avatar: "/chandu.jpg",
+        avatarHint: "Chandra Prakesh"
+    },
+    {
+        name: t('team.member1.name'),
+        designation: t('team.member1.designation'),
+        experience: t('team.member1.experience'),
+        avatar: "/amod.jpg",
+        avatarHint: "Amod Sharma"
     },
     {
         name: t('team.member6.name'),
