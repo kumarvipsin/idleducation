@@ -34,22 +34,26 @@ const serializeFirestoreData = (docData: any) => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    if (typeof window !== 'undefined') {
-      const storedUser = sessionStorage.getItem('userProfile');
-      return storedUser ? JSON.parse(storedUser) : null;
-    }
-    return null;
-  });
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
   useEffect(() => {
+    // Attempt to load user from sessionStorage on initial load
+    try {
+      const storedUser = sessionStorage.getItem('userProfile');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+        console.error("Failed to parse user from sessionStorage", error);
+        sessionStorage.removeItem('userProfile');
+    }
+    // We still set loading to true to allow Firebase to verify the session
+    setLoading(true);
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Immediately set loading to true when auth state changes to fetch user details
-        setLoading(true);
-
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
@@ -77,7 +81,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
-          // If no profile found, treat as logged out
           await signOut(auth); 
           setUser(null);
           sessionStorage.removeItem('userProfile');
