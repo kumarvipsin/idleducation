@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function DirectorPage() {
   const carouselImages = [
-    { src: "/owp1.jpg", alt: "Our Workspace", hint: "workspace office" },
+    { src: "/d4d319a.jpeg", alt: "Our Workspace", hint: "workspace office" },
     { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Students learning on laptops", hint: "students learning" },
     { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Teacher with students", hint: "teacher students" },
     { src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8", alt: "Classroom lecture", hint: "classroom lecture" },
