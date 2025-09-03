@@ -1,10 +1,9 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +14,7 @@ import jsPDF from 'jspdf';
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
+import { Separator } from "@/components/ui/separator";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -222,74 +222,93 @@ export default function AdmissionPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
-          <CardHeader className="text-center bg-primary text-primary-foreground p-6 md:p-8">
-            <div className="mb-4">
-              <p className="font-bold text-xl md:text-2xl">IDL EDUCATION</p>
-              <p className="text-xs md:text-sm text-primary-foreground/80">(Institute Of Distance Learning, Pvt. LTd.)</p>
+          <header className="bg-gray-800 text-white p-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} data-ai-hint="logo" />
+                <div>
+                  <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
+                  <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+                </div>
+              </div>
+              <div className="text-sm text-right space-y-1">
+                <p className="flex items-center justify-end gap-2"><Phone className="w-4 h-4" /> 011 45035713</p>
+                <p className="flex items-center justify-end gap-2"><Globe className="w-4 h-4" /> www.idleducation.in</p>
+                <p className="flex items-center justify-end gap-2"><Mail className="w-4 h-4" /> info@idleducation.in</p>
+              </div>
             </div>
-            <CardTitle className="text-2xl md:text-3xl font-bold">Student Admission Form</CardTitle>
-            <CardDescription className="text-primary-foreground/80 mt-2 text-sm md:text-base">
-              Please fill out the form below to apply for admission.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-8">
+          </header>
+          <div className="bg-gray-200 text-gray-700 text-center py-2">
+            <p className="font-serif italic text-lg">Your Dream & Desire + Our efforts = Success</p>
+          </div>
+          <div className="bg-gray-100 text-center py-4">
+              <h2 className="text-xl font-bold tracking-widest">ADMISSION FORM</h2>
+          </div>
+          
+          <CardContent className="p-8 bg-gray-50">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                
-                <div className="grid sm:grid-cols-2 gap-6 items-end">
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="md:col-span-2 space-y-2 text-sm">
+                        <p>To,</p>
+                        <p>The Managing Director,</p>
+                        <p>IDL EDUCATION PVT. LTD.</p>
+                        <p>Branch : KRISHAN VIHAR</p>
+                    </div>
                     <div className="space-y-4">
+                         <div className="flex items-center gap-2">
+                            <FormLabel className="font-bold">Registration No.:</FormLabel>
+                             <FormField
+                              control={form.control}
+                              name="studentId"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="sr-only">Registration No.</FormLabel>
+                                  <FormControl>
+                                      <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider flex-1" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                        </div>
                          <FormField
-                          control={form.control}
-                          name="studentId"
-                          render={({ field }) => (
+                            control={form.control}
+                            name="studentPhoto"
+                            render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="sr-only">Student ID</FormLabel>
-                              <FormControl>
-                                <div className="relative">
-                                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider w-48" />
-                                </div>
-                              </FormControl>
-                              <FormMessage />
+                                <FormLabel className="sr-only">Student's Photo</FormLabel>
+                                <FormControl>
+                                    <label className="cursor-pointer">
+                                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
+                                        {photoPreview ? (
+                                            <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                                        ) : (
+                                            <div className="text-center text-muted-foreground p-2">
+                                                <Camera className="w-8 h-8 mx-auto mb-2" />
+                                                <p className="text-xs">Upload Photo</p>
+                                            </div>
+                                        )}
+                                        </div>
+                                        <Input 
+                                            type="file" 
+                                            accept="image/*" 
+                                            onChange={handlePhotoChange}
+                                            className="hidden"
+                                            ref={fileInputRef}
+                                        />
+                                    </label>
+                                </FormControl>
+                                <FormMessage className="text-center" />
                             </FormItem>
-                          )}
+                            )}
                         />
                     </div>
-                  <div className="sm:ml-auto">
-                     <FormField
-                        control={form.control}
-                        name="studentPhoto"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Student's Photo <span className="text-destructive">*</span></FormLabel>
-                            <FormControl>
-                                <label className="cursor-pointer">
-                                    <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground hover:border-primary transition-colors">
-                                    {photoPreview ? (
-                                        <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                                    ) : (
-                                        <div className="text-center text-muted-foreground p-2">
-                                            <Camera className="w-8 h-8 mx-auto mb-2" />
-                                            <p className="text-xs">Click to upload photo (35x45mm)</p>
-                                        </div>
-                                    )}
-                                    </div>
-                                    <Input 
-                                        type="file" 
-                                        accept="image/*" 
-                                        onChange={handlePhotoChange}
-                                        className="hidden"
-                                        ref={fileInputRef}
-                                    />
-                                </label>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                  </div>
-                </div>
+                 </div>
 
+                 <Separator />
+
+                <h3 className="text-lg font-bold text-gray-700">Personal Details</h3>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                    <FormField
