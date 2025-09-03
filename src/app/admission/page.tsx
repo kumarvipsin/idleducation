@@ -222,13 +222,13 @@ export default function AdmissionPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
-          <CardHeader className="text-center bg-primary text-primary-foreground p-8">
+          <CardHeader className="text-center bg-primary text-primary-foreground p-6 md:p-8">
             <div className="mb-4">
-              <p className="font-bold text-2xl">IDL EDUCATION</p>
-              <p className="text-sm text-primary-foreground/80">(Institute Of Distance Learning, Pvt. LTd.)</p>
+              <p className="font-bold text-xl md:text-2xl">IDL EDUCATION</p>
+              <p className="text-xs md:text-sm text-primary-foreground/80">(Institute Of Distance Learning, Pvt. LTd.)</p>
             </div>
-            <CardTitle className="text-3xl font-bold">Student Admission Form</CardTitle>
-            <CardDescription className="text-primary-foreground/80 mt-2">
+            <CardTitle className="text-2xl md:text-3xl font-bold">Student Admission Form</CardTitle>
+            <CardDescription className="text-primary-foreground/80 mt-2 text-sm md:text-base">
               Please fill out the form below to apply for admission.
             </CardDescription>
           </CardHeader>
@@ -237,24 +237,24 @@ export default function AdmissionPage() {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 
                 <div className="grid sm:grid-cols-2 gap-6 items-end">
-                  <div>
-                    <FormField
-                      control={form.control}
-                      name="studentId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="sr-only">Student ID</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider w-48" />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                    <div className="space-y-4">
+                         <FormField
+                          control={form.control}
+                          name="studentId"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="sr-only">Student ID</FormLabel>
+                              <FormControl>
+                                <div className="relative">
+                                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                  <Input placeholder="Generating ID..." {...field} readOnly className="pl-9 font-mono text-center tracking-wider w-48" />
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                    </div>
                   <div className="sm:ml-auto">
                      <FormField
                         control={form.control}
