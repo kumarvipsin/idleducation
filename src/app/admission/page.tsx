@@ -220,7 +220,7 @@ export default function AdmissionPage() {
             </div>
           </header>
           <div className="bg-gray-100 text-center py-4">
-              <h2 className="text-xl font-bold tracking-widest">ADMISSION FORM</h2>
+              <h2 className="text-lg font-bold tracking-widest">ADMISSION FORM</h2>
           </div>
           
           <CardContent className="p-8 bg-gray-50">
