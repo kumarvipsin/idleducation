@@ -78,7 +78,7 @@ export function ExpertTeam() {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWxlJTIwdGVhY2hlcnxlbnwwfHx8fDE3NTYyMDAyODl8MA&ixlib-rb-4.1.0&q=80&w=1080",
+        avatar: "https://images.unsplash.com/flagged/photo-1559475555-b26777ed3ab4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWxlJTIwdGVhY2hlcnxlbnwwfHx8fDE3NTYyMDAyODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
         avatarHint: "male teacher"
     }
   ];
@@ -99,7 +99,7 @@ export function ExpertTeam() {
                 className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-gradient-to-b from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-950/50 pt-8 pb-4 flex justify-center items-center">
+                <div className="bg-[#03045e] pt-8 pb-4 flex justify-center items-center">
                     <div className="w-32 h-32">
                         <Image
                             src={member.avatar}
