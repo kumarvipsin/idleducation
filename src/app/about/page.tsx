@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ExpertTeam } from "@/components/landing/expert-team";
 
 export default function AboutPage() {
   return (
@@ -53,6 +54,7 @@ export default function AboutPage() {
           </div>
         </Card>
       </section>
+      <ExpertTeam />
     </div>
   );
 }
