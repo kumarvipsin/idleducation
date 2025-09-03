@@ -93,13 +93,18 @@ export function ExpertTeam() {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
+            {teamMembers.map((member, index) => {
+              const isAmod = member.name.includes("Amod");
+              return (
               <Card 
                 key={index} 
-                className={`group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`group relative flex flex-col items-center text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : 'opacity-0'} ${isAmod ? 'text-white' : ''}`}
+                style={{ 
+                  animationDelay: `${index * 0.1}s`,
+                  backgroundColor: isAmod ? '#002366' : '' 
+                }}
               >
-                <div className="w-full h-40 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20"></div>
+                <div className={`w-full h-40 ${isAmod ? 'bg-slate-700/50' : 'bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20'}`}></div>
                 <div className="absolute top-20 w-32 h-32">
                     <Image
                         src={member.avatar}
@@ -111,15 +116,15 @@ export function ExpertTeam() {
                     />
                 </div>
                 <CardContent className="p-6 pt-20 flex-1 flex flex-col items-center">
-                    <h3 className="text-xl font-bold text-card-foreground">{member.name}</h3>
-                    <p className="text-base text-primary font-semibold">{member.designation}</p>
-                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                    <h3 className={`text-xl font-bold ${isAmod ? 'text-white' : 'text-card-foreground'}`}>{member.name}</h3>
+                    <p className={`text-base font-semibold ${isAmod ? 'text-blue-300' : 'text-primary'}`}>{member.designation}</p>
+                    <div className={`mt-4 flex items-center justify-center gap-2 text-sm ${isAmod ? 'text-gray-300' : 'text-muted-foreground'}`}>
                         <Briefcase className="w-4 h-4" />
                         <span>{member.experience}</span>
                     </div>
                 </CardContent>
               </Card>
-            ))}
+            )})}
           </div>
       </div>
     </section>
