@@ -20,6 +20,7 @@ import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
 import { getNewSessionBookingsCount } from '@/app/actions';
+import { MobileBottomNav } from '@/components/mobile-bottom-nav';
 
 function AdminLayout({
   children,
@@ -47,10 +48,17 @@ function AdminLayout({
     router.push('/');
   };
 
+  const mobileNavLinks = [
+    { href: '/admin/dashboard', label: 'Dashboard', icon: <SlidersHorizontal /> },
+    { href: '/admin/admissions', label: 'Admissions', icon: <FileText /> },
+    { href: '/admin/users', label: 'Students', icon: <GraduationCap /> },
+    { href: '/admin/teachers', label: 'Teachers', icon: <Briefcase /> },
+  ];
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
-        <Sidebar>
+        <Sidebar className="hidden md:flex">
           <SidebarHeader>
             <div className="flex items-center gap-2 p-4">
               <span className="text-lg font-semibold">Admin Panel</span>
@@ -159,13 +167,14 @@ function AdminLayout({
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
-        <main className="flex-1">
+        <main className="flex-1 pb-16 md:pb-0">
           <header className="p-4 border-b flex items-center">
             <SidebarTrigger />
             <h1 className="text-xl md:text-2xl font-semibold ml-4">Admin Dashboard</h1>
           </header>
           <div className="p-4 md:p-6">{children}</div>
         </main>
+        <MobileBottomNav links={mobileNavLinks} />
       </div>
     </SidebarProvider>
   );

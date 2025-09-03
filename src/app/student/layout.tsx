@@ -17,6 +17,7 @@ import { BookOpen, LayoutDashboard, User, LogOut, Trophy } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { MobileBottomNav } from '@/components/mobile-bottom-nav';
 
 function StudentLayout({
   children,
@@ -32,10 +33,17 @@ function StudentLayout({
     router.push('/');
   };
 
+  const mobileNavLinks = [
+    { href: '/student/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
+    { href: '/student/courses', label: 'Courses', icon: <BookOpen /> },
+    { href: '/student/achievements', label: 'Achievements', icon: <Trophy /> },
+    { href: '/student/profile', label: 'Profile', icon: <User /> },
+  ];
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
-        <Sidebar>
+        <Sidebar className="hidden md:flex">
           <SidebarHeader>
             <div className="flex items-center gap-2 p-2">
               <BookOpen className="h-6 w-6 text-primary" />
@@ -108,13 +116,14 @@ function StudentLayout({
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex-1">
+        <main className="flex-1 pb-16 md:pb-0">
             <header className="p-4 border-b flex items-center">
                 <SidebarTrigger />
                 <h1 className="text-xl md:text-2xl font-semibold ml-4">Student Dashboard</h1>
             </header>
             <div className="p-4 md:p-6">{children}</div>
         </main>
+        <MobileBottomNav links={mobileNavLinks} />
       </div>
     </SidebarProvider>
   );
