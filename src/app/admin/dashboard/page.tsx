@@ -83,116 +83,60 @@ export default function AdminDashboard() {
     fetchStats();
   }, []);
 
+  const statCards = [
+    { title: "Total Users", value: stats.totalUsers, icon: <Users className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Total Students", value: stats.totalStudents, icon: <GraduationCap className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Total Teachers", value: stats.totalTeachers, icon: <Briefcase className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Approved Students", value: stats.newStudents, icon: <UserPlus className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Deny Users", value: stats.deniedUsers, icon: <XCircle className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Free Demo", value: stats.totalBookings, monthly: stats.monthlyBookings, icon: <Presentation className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Contact Us", value: stats.totalSubmissions, monthly: stats.monthlySubmissions, icon: <MessageCircle className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Recent Updates", value: stats.totalUpdates, monthly: stats.monthlyUpdates, icon: <Megaphone className="h-4 w-4 text-muted-foreground" /> },
+  ];
+  
+  const userStatusCards = [
+      { title: "Active Users", value: stats.activeUsers, monthly: stats.monthlyActiveUsers, icon: <UserCheck className="h-4 w-4 text-muted-foreground" /> },
+      { title: "Inactive Users", value: stats.inactiveUsers, icon: <UserX className="h-4 w-4 text-muted-foreground" /> },
+  ]
+
   return (
     <div className="space-y-6">
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalUsers}</div>
-              </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Students</CardTitle>
-                  <GraduationCap className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalStudents}</div>
-              </CardContent>
-          </Card>
-           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Teachers</CardTitle>
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalTeachers}</div>
-              </CardContent>
-          </Card>
-           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Approved Students</CardTitle>
-                  <UserPlus className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.newStudents}</div>
-              </CardContent>
-          </Card>
-           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Deny Users</CardTitle>
-                  <XCircle className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.deniedUsers}</div>
-              </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Free Demo</CardTitle>
-                  <Presentation className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalBookings}</div>
-                  <p className="text-xs text-muted-foreground">+{stats.monthlyBookings} this month</p>
-              </CardContent>
-          </Card>
-           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Contact Us</CardTitle>
-                  <MessageCircle className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalSubmissions}</div>
-                  <p className="text-xs text-muted-foreground">+{stats.monthlySubmissions} this month</p>
-              </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Recent Updates</CardTitle>
-                  <Megaphone className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                  <div className="text-2xl font-bold">{stats.totalUpdates}</div>
-                  <p className="text-xs text-muted-foreground">+{stats.monthlyUpdates} this month</p>
-              </CardContent>
-          </Card>
+          {statCards.map((card, index) => (
+              <Card key={card.title} className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                      <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+                      {card.icon}
+                  </CardHeader>
+                  <CardContent>
+                      <div className="text-2xl font-bold">{card.value}</div>
+                      {card.monthly && <p className="text-xs text-muted-foreground">+{card.monthly} this month</p>}
+                  </CardContent>
+              </Card>
+          ))}
       </div>
 
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-                <UserCheck className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">{stats.activeUsers}</div>
-                <p className="text-xs text-muted-foreground">
-                  +{stats.monthlyActiveUsers} this month
-                </p>
-            </CardContent>
-        </Card>
-        <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Inactive Users</CardTitle>
-                <UserX className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-                <div className="text-2xl font-bold">{stats.inactiveUsers}</div>
-            </CardContent>
-        </Card>
+        {userStatusCards.map((card, index) => (
+             <Card key={card.title} className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: `${(statCards.length + index) * 0.05}s` }}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+                    {card.icon}
+                </CardHeader>
+                <CardContent>
+                    <div className="text-2xl font-bold">{card.value}</div>
+                    {card.monthly && <p className="text-xs text-muted-foreground">+{card.monthly} this month</p>}
+                </CardContent>
+            </Card>
+        ))}
       </div>
       
-      <div>
+      <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
         <UserApproval />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+        <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -205,7 +149,7 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-         <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+         <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <CardHeader>
                 <CardTitle>User Composition</CardTitle>
                 <CardDescription>Distribution of various user statuses.</CardDescription>
@@ -214,7 +158,7 @@ export default function AdminDashboard() {
                 <UserCompositionChart />
             </CardContent>
         </Card>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
           <RecentUpdates />
         </div>
       </div>
