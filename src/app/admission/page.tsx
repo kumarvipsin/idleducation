@@ -73,7 +73,7 @@ export default function AdmissionPage() {
       classApplied: '',
       previousSchool: '',
       additionalInfo: '',
-      branch: 'KRISHAN VIHAR',
+      branch: 'Mukherjee Nagar, Delhi-110009',
       studentPhoto: undefined,
     },
   });
