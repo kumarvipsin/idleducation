@@ -34,7 +34,13 @@ const serializeFirestoreData = (docData: any) => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    if (typeof window !== 'undefined') {
+      const storedUser = sessionStorage.getItem('userProfile');
+      return storedUser ? JSON.parse(storedUser) : null;
+    }
+    return null;
+  });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   
