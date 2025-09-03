@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ExpertTeam } from "@/components/landing/expert-team";
 
 export default function DirectorPage() {
 
@@ -90,8 +89,6 @@ export default function DirectorPage() {
           </div>
         </Card>
       </section>
-
-      <ExpertTeam />
     </div>
   );
 }
