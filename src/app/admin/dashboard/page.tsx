@@ -86,78 +86,78 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6">
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-          <Card className="bg-blue-100/60 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800 xl:col-span-1">
+          <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-200">Total Users</CardTitle>
-                  <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">{stats.totalUsers}</div>
+                  <div className="text-2xl font-bold">{stats.totalUsers}</div>
               </CardContent>
           </Card>
-          <Card className="bg-green-100/60 dark:bg-green-900/30 border-green-200 dark:border-green-800 xl:col-span-1">
+          <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-green-800 dark:text-green-200">Total Students</CardTitle>
-                  <GraduationCap className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <CardTitle className="text-sm font-medium">Total Students</CardTitle>
+                  <GraduationCap className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-green-900 dark:text-green-100">{stats.totalStudents}</div>
+                  <div className="text-2xl font-bold">{stats.totalStudents}</div>
               </CardContent>
           </Card>
-           <Card className="bg-yellow-100/60 dark:bg-yellow-900/30 border-yellow-200 dark:border-yellow-800 xl:col-span-1">
+           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-yellow-800 dark:text-yellow-200">Total Teachers</CardTitle>
-                  <Briefcase className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                  <CardTitle className="text-sm font-medium">Total Teachers</CardTitle>
+                  <Briefcase className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{stats.totalTeachers}</div>
+                  <div className="text-2xl font-bold">{stats.totalTeachers}</div>
               </CardContent>
           </Card>
-           <Card className="bg-pink-100/60 dark:bg-pink-900/30 border-pink-200 dark:border-pink-800 xl:col-span-1">
+           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-pink-800 dark:text-pink-200">Approved Students</CardTitle>
-                  <UserPlus className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+                  <CardTitle className="text-sm font-medium">Approved Students</CardTitle>
+                  <UserPlus className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-pink-900 dark:text-pink-100">{stats.newStudents}</div>
+                  <div className="text-2xl font-bold">{stats.newStudents}</div>
               </CardContent>
           </Card>
-           <Card className="bg-red-100/60 dark:bg-red-900/30 border-red-200 dark:border-red-800 xl:col-span-1">
+           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-red-800 dark:text-red-200">Deny Users</CardTitle>
-                  <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                  <CardTitle className="text-sm font-medium">Deny Users</CardTitle>
+                  <XCircle className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-red-900 dark:text-red-100">{stats.deniedUsers}</div>
+                  <div className="text-2xl font-bold">{stats.deniedUsers}</div>
               </CardContent>
           </Card>
-          <Card className="bg-indigo-100/60 dark:bg-indigo-900/30 border-indigo-200 dark:border-indigo-800 xl:col-span-1">
+          <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-indigo-800 dark:text-indigo-200">Free Demo</CardTitle>
-                  <Presentation className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                  <CardTitle className="text-sm font-medium">Free Demo</CardTitle>
+                  <Presentation className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">{stats.totalBookings}</div>
+                  <div className="text-2xl font-bold">{stats.totalBookings}</div>
                   <p className="text-xs text-muted-foreground">+{stats.monthlyBookings} this month</p>
               </CardContent>
           </Card>
-           <Card className="bg-teal-100/60 dark:bg-teal-900/30 border-teal-200 dark:border-teal-800 xl:col-span-1">
+           <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-teal-800 dark:text-teal-200">Contact Us</CardTitle>
-                  <MessageCircle className="h-4 w-4 text-teal-600 dark:text-teal-400" />
+                  <CardTitle className="text-sm font-medium">Contact Us</CardTitle>
+                  <MessageCircle className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-teal-900 dark:text-teal-100">{stats.totalSubmissions}</div>
+                  <div className="text-2xl font-bold">{stats.totalSubmissions}</div>
                   <p className="text-xs text-muted-foreground">+{stats.monthlySubmissions} this month</p>
               </CardContent>
           </Card>
-          <Card className="bg-purple-100/60 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800 xl:col-span-1">
+          <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-purple-800 dark:text-purple-200">Recent Updates</CardTitle>
-                  <Megaphone className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  <CardTitle className="text-sm font-medium">Recent Updates</CardTitle>
+                  <Megaphone className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                  <div className="text-2xl font-bold text-purple-900 dark:text-purple-100">{stats.totalUpdates}</div>
+                  <div className="text-2xl font-bold">{stats.totalUpdates}</div>
                   <p className="text-xs text-muted-foreground">+{stats.monthlyUpdates} this month</p>
               </CardContent>
           </Card>
