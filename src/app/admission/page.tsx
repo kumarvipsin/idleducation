@@ -487,7 +487,7 @@ export default function AdmissionPage() {
                         <FormItem>
                             <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} />
+                            <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -525,7 +525,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                 <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Last school attended" {...field} className="pl-9"/>
+                                <Input placeholder="Last school attended" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -540,7 +540,7 @@ export default function AdmissionPage() {
                         <FormItem>
                         <FormLabel>Additional Information</FormLabel>
                         <FormControl>
-                            <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} />
+                            <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -592,3 +592,4 @@ export default function AdmissionPage() {
     
 
     
+
