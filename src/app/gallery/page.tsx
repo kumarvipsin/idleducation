@@ -10,56 +10,56 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 
 const galleryImages = [
   {
-    id: 'evt-001',
+    id: '101',
     src: 'https://picsum.photos/400/400',
     alt: 'Annual Day 2024',
     title: 'Annual Day 2024',
     hint: 'students event'
   },
   {
-    id: 'evt-002',
+    id: '102',
     src: 'https://picsum.photos/400/401',
     alt: 'Graduation Ceremony',
     title: 'Graduation Ceremony',
     hint: 'students graduation'
   },
   {
-    id: 'sci-001',
+    id: '103',
     src: 'https://picsum.photos/401/400',
     alt: 'Science Fair',
     title: 'Science Fair',
     hint: 'student science'
   },
   {
-    id: 'spt-001',
+    id: '104',
     src: 'https://picsum.photos/401/401',
     alt: 'Sports Day',
     title: 'Sports Day',
     hint: 'sports competition'
   },
   {
-    id: 'art-001',
+    id: '105',
     src: 'https://picsum.photos/400/402',
     alt: 'Art Exhibition',
     title: 'Art Exhibition',
     hint: 'art exhibition'
   },
   {
-    id: 'mus-001',
+    id: '106',
     src: 'https://picsum.photos/402/400',
     alt: 'Music Fest',
     title: 'Music Fest',
     hint: 'music concert'
   },
    {
-    id: 'evt-003',
+    id: '107',
     src: 'https://picsum.photos/401/402',
     alt: 'Guest Lecture Series',
     title: 'Guest Lecture Series',
     hint: 'students classroom'
   },
   {
-    id: 'spt-002',
+    id: '108',
     src: 'https://picsum.photos/402/401',
     alt: 'Inter-School Athletics',
     title: 'Inter-School Athletics',
@@ -98,7 +98,7 @@ export default function GalleryPage() {
             </div>
             
             {filteredImages.length > 0 ? (
-                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {filteredImages.map((image, index) => (
                         <DialogTrigger asChild key={image.id}>
                             <Card 
@@ -117,7 +117,6 @@ export default function GalleryPage() {
                                     />
                                 </div>
                                 <CardContent className="p-3">
-                                    <h3 className="font-semibold text-sm truncate">{image.title}</h3>
                                     <p className="text-xs text-muted-foreground font-mono">ID: {image.id}</p>
                                 </CardContent>
                             </Card>
