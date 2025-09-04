@@ -144,7 +144,7 @@ export default function GalleryPage() {
     <Dialog>
         <div className="container mx-auto py-12 px-4 md:px-6">
           <div className="flex flex-col md:flex-row gap-8">
-             <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
+             <aside className="hidden md:block w-full md:w-1/5 lg:w-[15%]">
                 <SidebarContent 
                     selectedCategory={selectedCategory} 
                     onSelectCategory={handleSelectCategory}
@@ -161,7 +161,7 @@ export default function GalleryPage() {
                                 Filter Images
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" className="w-3/4">
+                        <SheetContent side="left" className="w-[50%]">
                              <SidebarContent 
                                 selectedCategory={selectedCategory} 
                                 onSelectCategory={handleSelectCategory}
