@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -37,7 +38,7 @@ const admissionFormSchema = z.object({
   classApplied: z.string().min(1, { message: "Please select a class." }),
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
-  branch: z.string().min(1, { message: "Please select a branch." }),
+  branch: z.string().min(1, { message: "Please select your nearest branch." }),
   studentPhoto: z.instanceof(File).optional(),
 });
 
@@ -69,7 +70,7 @@ export default function AdmissionPage() {
       classApplied: '',
       previousSchool: '',
       additionalInfo: '',
-      branch: 'Mukherjee Nagar, Delhi-110009',
+      branch: '',
     },
   });
 
@@ -226,11 +227,11 @@ export default function AdmissionPage() {
                                 name="branch"
                                 render={({ field }) => (
                                     <FormItem className="flex items-center gap-2">
-                                    <FormLabel className="font-bold whitespace-nowrap">Branch :</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormLabel className="font-bold whitespace-nowrap">Branch <span className="text-destructive">*</span>:</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
                                         <FormControl>
-                                        <SelectTrigger className="w-auto">
-                                            <SelectValue placeholder="Select a branch" />
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select Your Nearest Branch" />
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
@@ -267,7 +268,7 @@ export default function AdmissionPage() {
                                 render={({ field: { onChange, value, ...rest } }) => (
                                     <FormItem>
                                         <FormLabel htmlFor="photo-upload" className="cursor-pointer">
-                                            <div className="w-[132px] h-[170px] mx-auto md:mx-0 rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                                            <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
                                             {photoPreview ? (
                                                     <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
                                             ) : (
@@ -579,5 +580,7 @@ export default function AdmissionPage() {
     </div>
   );
 }
+
+    
 
     
