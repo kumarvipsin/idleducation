@@ -124,9 +124,11 @@ export default function AdmissionPage() {
     if (isValid && formRef.current) {
       try {
         const canvas = await html2canvas(formRef.current, {
-          scale: 2, // Increase resolution for better quality
+          scale: 2,
           useCORS: true,
-          backgroundColor: '#ffffff'
+          backgroundColor: '#ffffff',
+          width: formRef.current.scrollWidth,
+          windowWidth: formRef.current.scrollWidth,
         });
         const imageData = canvas.toDataURL('image/png');
         setFormImage(imageData);
@@ -588,8 +590,3 @@ export default function AdmissionPage() {
     </div>
   );
 }
-
-    
-
-    
-
