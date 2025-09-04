@@ -29,7 +29,12 @@ const admissionFormSchema = z.object({
   fatherOccupation: z.string().optional(),
   motherName: z.string().min(2, { message: "Mother's name must be at least 2 characters." }),
   motherOccupation: z.string().optional(),
-  dob: z.string().min(1, { message: "Date of birth is required." }),
+  dob: z.string().min(1, { message: "Date of birth is required." }).refine((dob) => {
+    const today = new Date();
+    const threeYearsAgo = new Date(today.getFullYear() - 3, today.getMonth(), today.getDate());
+    const dobDate = new Date(dob);
+    return dobDate <= threeYearsAgo;
+  }, { message: "Student must be at least 3 years old." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   studentPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
   fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
@@ -141,6 +146,7 @@ export default function AdmissionPage() {
                 scale: 2,
                 useCORS: true,
                 backgroundColor: '#ffffff',
+                width: previewRef.current!.scrollWidth,
             });
             const imageData = canvas.toDataURL('image/png');
             setFormImage(imageData);
