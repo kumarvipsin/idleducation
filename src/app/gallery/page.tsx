@@ -10,56 +10,56 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const galleryImages = [
   {
     id: 'evt-001',
-    src: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=1974&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/1.jpg',
     alt: 'Annual Day 2024',
     title: 'Annual Day 2024',
     hint: 'students event'
   },
   {
     id: 'evt-002',
-    src: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/2.jpg',
     alt: 'Graduation Ceremony',
     title: 'Graduation Ceremony',
     hint: 'students graduation'
   },
   {
     id: 'sci-001',
-    src: 'https://images.unsplash.com/photo-1576013342939-552b059f3775?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc2NpZW5jZSUyMGZhaXJ8ZW58MHx8fHwxNzU2MjY5OTA1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    src: '/gallery/3.jpg',
     alt: 'Science Fair',
     title: 'Science Fair',
     hint: 'student science'
   },
   {
     id: 'spt-001',
-    src: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1935&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/4.jpg',
     alt: 'Sports Day',
     title: 'Sports Day',
     hint: 'sports competition'
   },
   {
     id: 'art-001',
-    src: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/5.jpg',
     alt: 'Art Exhibition',
     title: 'Art Exhibition',
     hint: 'art exhibition'
   },
   {
     id: 'mus-001',
-    src: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/6.jpg',
     alt: 'Music Fest',
     title: 'Music Fest',
     hint: 'music concert'
   },
    {
     id: 'evt-003',
-    src: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/7.jpg',
     alt: 'Guest Lecture Series',
     title: 'Guest Lecture Series',
     hint: 'students classroom'
   },
   {
     id: 'spt-002',
-    src: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    src: '/gallery/8.jpg',
     alt: 'Inter-School Athletics',
     title: 'Inter-School Athletics',
     hint: 'running race'
