@@ -119,7 +119,7 @@ export default function GalleryPage() {
                             variant={'ghost'}
                             className={cn(
                                 "justify-start",
-                                selectedCategory === category ? "text-primary font-semibold" : ""
+                                selectedCategory === category ? "text-primary font-semibold hover:bg-transparent" : "hover:bg-accent/50"
                             )}
                             onClick={() => setSelectedCategory(category)}
                         >
