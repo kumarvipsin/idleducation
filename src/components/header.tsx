@@ -213,23 +213,24 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-0 text-xs">
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-                <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline">
+                <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline px-2">
                     <a href="tel:+917011117585" className="flex items-center gap-1">
                         <Phone className="h-4 w-4 animate-ring" />
                         <span className="hidden sm:inline">+91 7011117585</span>
                     </a>
                 </Button>
-                 <div className="flex-1 text-center">
-                    <div className="marquee">
+                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
+                    <div className="marquee inline-block">
                         <Link href="/admission" className="flex items-center gap-2 hover:underline">
+                            <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
                             <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
                         </Link>
                     </div>
                  </div>
-                 <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline">
+                 <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline px-2">
                     <Link href="/admission" className="flex items-center gap-1">
                         <FileText className="h-4 w-4"/>
-                        <span>{t('admissionForm')}</span>
+                        <span className="hidden sm:inline">{t('admissionForm')}</span>
                     </Link>
                 </Button>
             </div>
