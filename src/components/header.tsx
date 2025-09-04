@@ -211,10 +211,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-primary text-primary-foreground py-2 text-xs">
-            <div className="container mx-auto px-4 md:px-6 flex justify-end items-center">
+            <div className="container mx-auto px-4 md:px-6 marquee">
                  <Link href="/admission" className="flex items-center gap-2 hover:underline">
-                    <FileText className="h-4 w-4" />
-                    <span>{t('admissionForm')}</span>
+                    <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
                 </Link>
             </div>
         </div>
