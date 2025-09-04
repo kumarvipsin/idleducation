@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -163,6 +163,12 @@ export default function AdmissionPage() {
     }
   }, [isPreviewOpen, toast]);
 
+  const handleDownload = () => {
+    if (formImage) {
+      generatePdf(formImage, form.getValues('studentName'));
+    }
+  };
+
   const onSubmit: SubmitHandler<AdmissionFormValues> = async (data) => {
     try {
         const formData = new FormData();
@@ -177,9 +183,6 @@ export default function AdmissionPage() {
         const result = await submitAdmissionForm(formData);
 
         if (result.success) {
-            if (formImage) {
-              generatePdf(formImage, data.studentName);
-            }
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
             
             setIsPreviewOpen(false);
@@ -631,13 +634,20 @@ export default function AdmissionPage() {
                 </Card>
             </div>
           </ScrollArea>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>Edit</Button>
+          <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+             <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit Form
+            </Button>
+            <Button variant="secondary" onClick={handleDownload} disabled={!formImage}>
+                <Download className="mr-2 h-4 w-4" />
+                Download Form
+            </Button>
             <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting || !formImage}>
               {form.formState.isSubmitting ? 'Submitting...' : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
-                    Submit & Download PDF
+                    Submit Form
                   </>
               )}
             </Button>
@@ -647,5 +657,7 @@ export default function AdmissionPage() {
     </div>
   );
 }
+
+    
 
     
