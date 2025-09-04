@@ -53,7 +53,6 @@ export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [formImage, setFormImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -96,32 +95,40 @@ export default function AdmissionPage() {
   }, [form, toast]);
 
 
-  const generatePdf = (imageData: string, studentName: string) => {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    
-    const img = new (window as any).Image();
-    img.src = imageData;
-    img.onload = () => {
-      const imgWidth = img.width;
-      const imgHeight = img.height;
-      const ratio = imgWidth / imgHeight;
-      
-      let finalImgWidth = pdfWidth;
-      let finalImgHeight = pdfWidth / ratio;
+  const generatePdf = async () => {
+    const contentToCapture = previewRef.current;
+    if (!contentToCapture) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not find the form content to download.",
+      });
+      return;
+    }
 
-      if (finalImgHeight > pdfHeight) {
-        finalImgHeight = pdfHeight;
-        finalImgWidth = pdfHeight * ratio;
-      }
+    try {
+      const canvas = await html2canvas(contentToCapture, {
+        scale: 2,
+        useCORS: true,
+      });
+      const imageData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      const x = (pdfWidth - finalImgWidth) / 2;
-      const y = 0;
-
-      pdf.addImage(imageData, 'PNG', x, y, finalImgWidth, finalImgHeight);
-      pdf.save(`${studentName}_Admission_Form.pdf`);
-    };
+      const imgProps = pdf.getImageProperties(imageData);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imageData, 'PNG', 0, 0, pdfWidth, imgHeight);
+      pdf.save(`${form.getValues('studentName')}_Admission_Form.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast({
+        variant: "destructive",
+        title: "PDF Error",
+        description: "Could not generate the PDF. Please try again.",
+      });
+    }
   };
 
   const handlePreview = async () => {
@@ -137,36 +144,8 @@ export default function AdmissionPage() {
     }
   }
 
-  useEffect(() => {
-    if (isPreviewOpen && previewRef.current) {
-      const generatePreviewImage = async () => {
-         try {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            const canvas = await html2canvas(previewRef.current!, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                width: previewRef.current!.scrollWidth,
-            });
-            const imageData = canvas.toDataURL('image/png');
-            setFormImage(imageData);
-        } catch (error) {
-            console.error("Error generating form preview:", error);
-            toast({
-                variant: "destructive",
-                title: "Preview Error",
-                description: "Could not generate a preview of the form.",
-            });
-        }
-      };
-      generatePreviewImage();
-    }
-  }, [isPreviewOpen, toast]);
-
   const handleDownload = () => {
-    if (formImage) {
-      generatePdf(formImage, form.getValues('studentName'));
-    }
+    generatePdf();
   };
 
   const onSubmit: SubmitHandler<AdmissionFormValues> = async (data) => {
@@ -186,7 +165,6 @@ export default function AdmissionPage() {
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
             
             setIsPreviewOpen(false);
-            setFormImage(null);
             form.reset();
             setPhotoPreview(null);
             if(fileInputRef.current) fileInputRef.current.value = '';
@@ -634,16 +612,16 @@ export default function AdmissionPage() {
                 </Card>
             </div>
           </ScrollArea>
-          <DialogFooter className="flex-col-reverse sm:flex-row gap-2">
+          <DialogFooter className="flex-col-reverse sm:flex-row gap-2 sm:justify-end">
              <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>
                 <Edit className="mr-2 h-4 w-4" />
                 Edit Form
             </Button>
-            <Button variant="secondary" onClick={handleDownload} disabled={!formImage}>
+            <Button variant="secondary" onClick={handleDownload}>
                 <Download className="mr-2 h-4 w-4" />
                 Download Form
             </Button>
-            <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting || !formImage}>
+            <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting ? 'Submitting...' : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
@@ -657,7 +635,3 @@ export default function AdmissionPage() {
     </div>
   );
 }
-
-    
-
-    
