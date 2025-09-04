@@ -777,13 +777,9 @@ export async function getNextStudentId() {
     const today = new Date();
     const datePrefix = format(today, 'ddMMyy');
 
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
-
+    // Query for the last admission to get the sequence number
     const admissionsQuery = query(
       collection(db, "admissions"),
-      where("createdAt", ">=", startOfDay),
-      where("createdAt", "<=", endOfDay),
       orderBy("createdAt", "desc"),
       limit(1)
     );
@@ -795,8 +791,13 @@ export async function getNextStudentId() {
     if (!querySnapshot.empty) {
       const lastAdmission = querySnapshot.docs[0].data();
       const lastId = lastAdmission.studentId;
-      const lastSequence = parseInt(lastId.split('-')[1], 10);
-      nextSequence = lastSequence + 1;
+      // Extract sequence from the last ID, regardless of the date prefix
+      if (lastId && lastId.includes('-')) {
+        const lastSequence = parseInt(lastId.split('-')[1], 10);
+        if (!isNaN(lastSequence)) {
+          nextSequence = lastSequence + 1;
+        }
+      }
     }
 
     const studentId = `${datePrefix}-${nextSequence}`;
