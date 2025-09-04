@@ -127,8 +127,8 @@ export default function AdmissionPage() {
           scale: 2,
           useCORS: true,
           backgroundColor: '#ffffff',
-          width: formRef.current.scrollWidth,
-          windowWidth: formRef.current.scrollWidth,
+          width: formRef.current.offsetWidth,
+          windowWidth: formRef.current.offsetWidth,
         });
         const imageData = canvas.toDataURL('image/png');
         setFormImage(imageData);
@@ -228,7 +228,7 @@ export default function AdmissionPage() {
                 <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
                     <div className="grid grid-cols-3 gap-8">
-                        <div className="col-span-3 md:col-span-2 space-y-2 text-sm">
+                         <div className="col-span-3 md:col-span-2 space-y-2 text-sm">
                             <p>To,</p>
                             <p>The Managing Director,</p>
                             <p>IDL EDUCATION PVT. LTD.</p>
