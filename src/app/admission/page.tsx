@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -247,13 +246,13 @@ export default function AdmissionPage() {
                         </div>
                         <div className="col-span-3 md:col-span-1 space-y-4 flex flex-col items-center md:items-end">
                             <div className="flex items-center gap-2 w-full md:w-auto">
-                                <FormLabel className="font-bold">Registration No.:</FormLabel>
+                                <FormLabel className="font-bold">Stu ID. :</FormLabel>
                                 <FormField
                                 control={form.control}
                                 name="studentId"
                                 render={({ field }) => (
                                     <FormItem className="flex-1">
-                                    <FormLabel className="sr-only">Registration No.</FormLabel>
+                                    <FormLabel className="sr-only">Stu ID.</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider" />
                                     </FormControl>
@@ -580,3 +579,5 @@ export default function AdmissionPage() {
     </div>
   );
 }
+
+    
