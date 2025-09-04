@@ -72,7 +72,6 @@ export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null);
 
   const filteredImages = galleryImages.filter(image =>
-    image.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     image.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -80,7 +79,7 @@ export default function GalleryPage() {
     <Dialog>
         <div className="container mx-auto py-12 px-4 md:px-6">
             
-            <div className="relative mb-8 max-w-xs">
+            <div className="relative mb-8 max-w-[10rem]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                     type="text"
