@@ -101,12 +101,6 @@ function SchoolPageContent() {
         </div>
       </div>
       
-       <div className="flex items-center overflow-x-auto space-x-4 mb-8 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Online</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Offline</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Power Batch</Button>
-        <Button variant="outline" className="rounded-full whitespace-nowrap">Newly Launched</Button>
-      </div>
        <h2 className="text-2xl font-bold mb-6">{activeClass} Courses</h2>
        <div key={activeClass} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {courses.length > 0 ? (
