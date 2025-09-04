@@ -196,6 +196,14 @@ export default function AdmissionPage() {
     "Burari, Delhi-110084"
   ];
   
+  const capitalizeWords = (str: string) => {
+    if (!str) return '';
+    return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+  };
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -247,7 +255,7 @@ export default function AdmissionPage() {
                         </div>
                         <div className="col-span-3 md:col-span-1 space-y-4 flex flex-col items-center md:items-end">
                             <div className="flex items-center gap-2 w-full md:w-auto">
-                                <FormLabel className="font-bold">Stu ID. :</FormLabel>
+                                <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
                                 <FormField
                                 control={form.control}
                                 name="studentId"
@@ -321,7 +329,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Full Name" {...field} className="pl-9" />
+                                    <Input placeholder="Full Name" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -350,7 +358,7 @@ export default function AdmissionPage() {
                         <FormItem>
                             <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Input placeholder="Father's Full Name" {...field} />
+                            <Input placeholder="Father's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -365,7 +373,7 @@ export default function AdmissionPage() {
                             <FormControl>
                             <div className="relative">
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" />
+                                    <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -381,7 +389,7 @@ export default function AdmissionPage() {
                         <FormItem>
                             <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Input placeholder="Mother's Full Name" {...field} />
+                            <Input placeholder="Mother's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -396,7 +404,7 @@ export default function AdmissionPage() {
                             <FormControl>
                             <div className="relative">
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" />
+                                    <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -414,7 +422,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="email" placeholder="example@email.com" {...field} className="pl-9" />
+                                <Input type="email" placeholder="example@email.com" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -430,7 +438,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -448,7 +456,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -464,7 +472,7 @@ export default function AdmissionPage() {
                             <FormControl>
                                 <div className="relative">
                                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
