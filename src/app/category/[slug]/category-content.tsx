@@ -90,7 +90,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             </div>
         </div>
         
-        {activeSubCategory !== 'All Batches' && (
+        {slug !== 'nios' && activeSubCategory !== 'All Batches' && (
           <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">
