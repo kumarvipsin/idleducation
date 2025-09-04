@@ -210,7 +210,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
-        <div className="bg-primary text-primary-foreground py-1 text-xs">
+        <div className="bg-primary text-primary-foreground py-0.5 text-xs">
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
                 <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline">
                     <a href="tel:+917011117585" className="flex items-center gap-1">
