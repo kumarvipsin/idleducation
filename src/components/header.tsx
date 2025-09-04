@@ -15,6 +15,7 @@ import { getUpdates } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
+import Image from "next/image";
 
 interface Update {
   id: string;
@@ -235,7 +236,7 @@ export function Header() {
         </div>
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center">
             <Link href={logoHref} className="flex items-center justify-center">
-            <BookOpen className="h-6 w-6 text-primary" />
+            <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto" />
             <span className="ml-2 text-lg font-semibold">
                 {brandName.split('').map((char, index) => (
                 <span
