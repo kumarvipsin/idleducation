@@ -90,7 +90,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             </div>
         </div>
         
-        <section className="w-full pb-12 md:pb-24">
+        <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
           <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Your Online Teacher</h2>
@@ -122,11 +122,11 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           </div>
         </section>
 
-        <div key={animationKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div key={`course-section-${animationKey}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-fade-in-up">
           {data.courses?.map((course: any, index: number) => {
             if (course.bgColor) {
                 return (
-                    <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                    <div key={index} className="p-1 h-full" style={{ animationDelay: `${index * 0.05}s` }}>
                         <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
                             <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
                             <h3 className={`text-xl font-semibold mb-2 ${course.textColor}`}>
@@ -148,7 +148,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             }
             if (course.title && course.description) {
               return (
-                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow" style={{ animationDelay: `${index * 0.05}s` }}>
                   <CardHeader>
                       <BookOpen className="w-10 h-10 text-primary mb-2" />
                       <CardTitle>{course.title}</CardTitle>
