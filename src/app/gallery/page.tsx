@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -10,56 +11,56 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const galleryImages = [
   {
     id: 'evt-001',
-    src: '/gallery/1.jpg',
+    src: 'https://picsum.photos/400/400',
     alt: 'Annual Day 2024',
     title: 'Annual Day 2024',
     hint: 'students event'
   },
   {
     id: 'evt-002',
-    src: '/gallery/2.jpg',
+    src: 'https://picsum.photos/400/401',
     alt: 'Graduation Ceremony',
     title: 'Graduation Ceremony',
     hint: 'students graduation'
   },
   {
     id: 'sci-001',
-    src: '/gallery/3.jpg',
+    src: 'https://picsum.photos/401/400',
     alt: 'Science Fair',
     title: 'Science Fair',
     hint: 'student science'
   },
   {
     id: 'spt-001',
-    src: '/gallery/4.jpg',
+    src: 'https://picsum.photos/401/401',
     alt: 'Sports Day',
     title: 'Sports Day',
     hint: 'sports competition'
   },
   {
     id: 'art-001',
-    src: '/gallery/5.jpg',
+    src: 'https://picsum.photos/400/402',
     alt: 'Art Exhibition',
     title: 'Art Exhibition',
     hint: 'art exhibition'
   },
   {
     id: 'mus-001',
-    src: '/gallery/6.jpg',
+    src: 'https://picsum.photos/402/400',
     alt: 'Music Fest',
     title: 'Music Fest',
     hint: 'music concert'
   },
    {
     id: 'evt-003',
-    src: '/gallery/7.jpg',
+    src: 'https://picsum.photos/401/402',
     alt: 'Guest Lecture Series',
     title: 'Guest Lecture Series',
     hint: 'students classroom'
   },
   {
     id: 'spt-002',
-    src: '/gallery/8.jpg',
+    src: 'https://picsum.photos/402/401',
     alt: 'Inter-School Athletics',
     title: 'Inter-School Athletics',
     hint: 'running race'
