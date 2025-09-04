@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { Search, Image as ImageIcon, LayoutGrid, List } from 'lucide-react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const galleryCategories = [
   'All',
@@ -114,8 +116,11 @@ export default function GalleryPage() {
                     {galleryCategories.map(category => (
                          <Button
                             key={category}
-                            variant={selectedCategory === category ? 'default' : 'ghost'}
-                            className="justify-start"
+                            variant={'ghost'}
+                            className={cn(
+                                "justify-start",
+                                selectedCategory === category ? "text-primary font-semibold" : ""
+                            )}
                             onClick={() => setSelectedCategory(category)}
                         >
                             {category}
