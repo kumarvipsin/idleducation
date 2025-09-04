@@ -8,9 +8,16 @@ import Link from "next/link";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
 import { TeacherCard } from "@/components/landing/teacher-card";
+import { useEffect, useState } from "react";
 
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
   const { t } = useLanguage();
+  const [activeSubCategory, setActiveSubCategory] = useState(subCategories[0] || 'All Batches');
+  const [animationKey, setAnimationKey] = useState(0);
+
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeSubCategory]);
   
   const teamMembers = [
     {
@@ -72,7 +79,10 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex items-center space-x-8">
                     {subCategories.map((sub, index) => (
-                        <button key={index} className={`whitespace-nowrap pb-2 border-b-2 font-medium ${index === 0 ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
+                        <button 
+                            key={index} 
+                            onClick={() => setActiveSubCategory(sub)}
+                            className={`whitespace-nowrap pb-2 border-b-2 font-medium ${activeSubCategory === sub ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
                             {sub}
                         </button>
                     ))}
@@ -112,7 +122,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           </div>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div key={animationKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {data.courses?.map((course: any, index: number) => {
             if (course.bgColor) {
                 return (

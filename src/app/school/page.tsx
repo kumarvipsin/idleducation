@@ -77,7 +77,12 @@ function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
   const [activeClass, setActiveClass] = useState('All Batches');
+  const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
+
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeClass]);
 
   const teamMembers = [
     {
@@ -184,7 +189,7 @@ function SchoolPageContent() {
         </section>
 
        <h2 className="text-2xl font-bold mb-6">{activeClass} Courses</h2>
-       <div key={activeClass} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+       <div key={animationKey} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {courses.length > 0 ? (
           courses.map((course, index) => {
             if (course.bgColor) {
