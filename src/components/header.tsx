@@ -1,7 +1,6 @@
-
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { SettingsToggle } from "./settings-toggle";
@@ -141,6 +140,7 @@ export function Header() {
     { href: '/', label: t('home'), icon: <HomeIcon className="h-5 w-5" /> },
     { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" /> },
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-5 w-5" /> },
   ];
 
   const loggedInNavLinks = [

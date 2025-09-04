@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/signup',
     '/notifications',
     '/school',
+    '/gallery',
     '/resources/ncert-solutions',
     '/resources/notes',
     '/resources/previous-year-questions',
