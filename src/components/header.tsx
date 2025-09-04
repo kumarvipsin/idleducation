@@ -214,7 +214,7 @@ export function Header() {
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
                 <Button variant="link" size="sm" asChild className="text-primary-foreground hover:no-underline">
                     <a href="tel:+917011117585" className="flex items-center gap-1">
-                        <Phone className="h-4 w-4"/>
+                        <Phone className="h-4 w-4 animate-ring" />
                         <span className="hidden sm:inline">+91 7011117585</span>
                     </a>
                 </Button>
