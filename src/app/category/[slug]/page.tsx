@@ -63,7 +63,7 @@ const subCategories: { [key: string]: string[] } = {
   "defence": ["All Batches", "NDA", "CDS AFCAT", "Agniveer", "SSB", "AFCAT Offline", "CDS Offline", "SSB Offline"],
   "iit-jee": ["All Batches", "JEE Main", "JEE Advanced", "Foundation", "Droppers"],
   "neet": ["All Batches", "NEET UG", "NEET PG", "Foundation"],
-  "nios": ["All Batches", "Class 10", "Class 12"],
+  "nios": ["All Batches"],
   "default": ["All Batches"]
 };
 
