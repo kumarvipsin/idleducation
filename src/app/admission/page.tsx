@@ -217,8 +217,8 @@ export default function AdmissionPage() {
             <CardContent className="p-8 bg-gray-50">
                 <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="md:col-span-2 space-y-2 text-sm">
+                    <div className="grid grid-cols-3 gap-8">
+                        <div className="col-span-3 md:col-span-2 space-y-2 text-sm">
                             <p>To,</p>
                             <p>The Managing Director,</p>
                             <p>IDL EDUCATION PVT. LTD.</p>
@@ -245,17 +245,17 @@ export default function AdmissionPage() {
                                 )}
                             />
                         </div>
-                        <div className="space-y-4 md:ml-auto">
-                            <div className="flex items-center gap-2">
+                        <div className="col-span-3 md:col-span-1 space-y-4 flex flex-col items-center md:items-end">
+                            <div className="flex items-center gap-2 w-full md:w-auto">
                                 <FormLabel className="font-bold">Registration No.:</FormLabel>
                                 <FormField
                                 control={form.control}
                                 name="studentId"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="flex-1">
                                     <FormLabel className="sr-only">Registration No.</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider flex-1" />
+                                        <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider" />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -268,7 +268,7 @@ export default function AdmissionPage() {
                                 render={({ field: { onChange, value, ...rest } }) => (
                                     <FormItem>
                                         <FormLabel htmlFor="photo-upload" className="cursor-pointer">
-                                            <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                                            <div className="w-[132px] h-[170px] mx-auto md:mx-0 rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
                                             {photoPreview ? (
                                                     <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
                                             ) : (
