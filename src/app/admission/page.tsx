@@ -107,29 +107,44 @@ export default function AdmissionPage() {
     }
 
     try {
-      const canvas = await html2canvas(contentToCapture, {
-        scale: 2,
-        useCORS: true,
-      });
-      const imageData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      const imgProps = pdf.getImageProperties(imageData);
-      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      
-      pdf.addImage(imageData, 'PNG', 0, 0, pdfWidth, imgHeight);
-      pdf.save(`${form.getValues('studentName')}_Admission_Form.pdf`);
+        const canvas = await html2canvas(contentToCapture, {
+            scale: 2, // Higher scale for better quality
+            useCORS: true,
+            scrollY: -window.scrollY,
+            windowWidth: contentToCapture.scrollWidth,
+            windowHeight: contentToCapture.scrollHeight,
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const imgProps = pdf.getImageProperties(imageData);
+        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imageData, 'PNG', 0, 0, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft > 0) {
+            position = -heightLeft;
+            pdf.addPage();
+            pdf.addImage(imageData, 'PNG', 0, position, pdfWidth, imgHeight);
+            heightLeft -= pdfHeight;
+        }
+        
+        pdf.save(`${form.getValues('studentName')}_Admission_Form.pdf`);
     } catch (error) {
-      console.error("Error generating PDF:", error);
-      toast({
-        variant: "destructive",
-        title: "PDF Error",
-        description: "Could not generate the PDF. Please try again.",
-      });
+        console.error("Error generating PDF:", error);
+        toast({
+            variant: "destructive",
+            title: "PDF Error",
+            description: "Could not generate the PDF. Please try again.",
+        });
     }
-  };
+};
 
   const handlePreview = async () => {
     const isValid = await form.trigger();
@@ -221,8 +236,8 @@ export default function AdmissionPage() {
         <CardContent className="p-8 bg-gray-50">
             <Form {...form}>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
-                <div className="grid grid-cols-3 gap-8">
-                      <div className="col-span-3 md:col-span-2 space-y-2 text-sm">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                      <div className="md:col-span-2 space-y-2 text-sm">
                         <p>To,</p>
                         <p>The Managing Director,</p>
                         <p>IDL EDUCATION PVT. LTD.</p>
@@ -249,15 +264,13 @@ export default function AdmissionPage() {
                             )}
                         />
                     </div>
-                    <div className="col-span-3 md:col-span-1 space-y-4 flex flex-col items-center md:items-end">
-                        <div className="flex items-center gap-2 w-full md:w-auto">
-                            <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
-                            <FormField
+                    <div className="md:col-span-1 space-y-4 flex flex-col items-center">
+                        <FormField
                             control={form.control}
                             name="studentId"
                             render={({ field }) => (
-                                <FormItem className="flex-1">
-                                <FormLabel className="sr-only">Stu ID.</FormLabel>
+                                <FormItem className="flex items-center gap-2 w-full">
+                                <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider" />
                                 </FormControl>
@@ -265,7 +278,6 @@ export default function AdmissionPage() {
                                 </FormItem>
                             )}
                             />
-                        </div>
                         <FormField
                             control={form.control}
                             name="studentPhoto"
@@ -617,7 +629,7 @@ export default function AdmissionPage() {
                 <Edit className="mr-2 h-4 w-4" />
                 Edit Form
             </Button>
-            <Button variant="secondary" onClick={handleDownload}>
+            <Button variant="secondary" onClick={handleDownload} disabled={form.formState.isSubmitting}>
                 <Download className="mr-2 h-4 w-4" />
                 Download Form
             </Button>
