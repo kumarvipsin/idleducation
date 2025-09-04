@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
-import { ChatBot } from '@/components/chat-bot';
 import { useAuth } from '@/context/auth-context';
 
 export function AppContent({
@@ -29,7 +28,6 @@ export function AppContent({
       </main>
       {showFooter && <Footer />}
       <Toaster />
-      <ChatBot />
     </>
   );
 }
