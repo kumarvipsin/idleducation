@@ -108,11 +108,8 @@ export default function AdmissionPage() {
 
     try {
         const canvas = await html2canvas(contentToCapture, {
-            scale: 2, // Higher scale for better quality
+            scale: 2,
             useCORS: true,
-            scrollY: -window.scrollY,
-            windowWidth: contentToCapture.scrollWidth,
-            windowHeight: contentToCapture.scrollHeight,
         });
 
         const imageData = canvas.toDataURL('image/png');
@@ -121,18 +118,18 @@ export default function AdmissionPage() {
         const pdfHeight = pdf.internal.pageSize.getHeight();
         
         const imgProps = pdf.getImageProperties(imageData);
-        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        let heightLeft = imgHeight;
-        let position = 0;
+        const imgWidth = pdfWidth;
+        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
-        pdf.addImage(imageData, 'PNG', 0, 0, pdfWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft > 0) {
-            position = -heightLeft;
-            pdf.addPage();
-            pdf.addImage(imageData, 'PNG', 0, position, pdfWidth, imgHeight);
-            heightLeft -= pdfHeight;
+        if (imgHeight > pdfHeight) {
+            // Scale the image to fit the page height
+            const ratio = pdfHeight / imgHeight;
+            const finalWidth = imgWidth * ratio;
+            const finalHeight = pdfHeight;
+            const xOffset = (pdfWidth - finalWidth) / 2; // Center the image
+            pdf.addImage(imageData, 'PNG', xOffset, 0, finalWidth, finalHeight);
+        } else {
+            pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
         }
         
         pdf.save(`${form.getValues('studentName')}_Admission_Form.pdf`);
