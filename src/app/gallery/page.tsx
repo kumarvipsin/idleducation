@@ -99,6 +99,16 @@ export default function GalleryPage() {
         <div className="container mx-auto py-12 px-4 md:px-6">
           <div className="flex flex-col md:flex-row gap-8">
             <aside className="w-full md:w-1/4 lg:w-1/5">
+                <div className="relative mb-8">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search by ID..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full rounded-full h-10"
+                    />
+                </div>
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><List className="w-5 h-5"/>Categories</h2>
                 <div className="flex flex-col space-y-2">
                     {galleryCategories.map(category => (
@@ -114,17 +124,6 @@ export default function GalleryPage() {
                 </div>
             </aside>
             <main className="flex-1">
-                <div className="relative mb-8 max-w-[10rem]">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Search by ID..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full rounded-full h-10"
-                    />
-                </div>
-                
                 {filteredImages.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {filteredImages.map((image, index) => (
