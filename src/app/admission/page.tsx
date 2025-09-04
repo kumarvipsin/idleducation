@@ -52,6 +52,7 @@ type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -122,12 +123,7 @@ export default function AdmissionPage() {
         const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
         if (imgHeight > pdfHeight) {
-            // Scale the image to fit the page height
-            const ratio = pdfHeight / imgHeight;
-            const finalWidth = imgWidth * ratio;
-            const finalHeight = pdfHeight;
-            const xOffset = (pdfWidth - finalWidth) / 2; // Center the image
-            pdf.addImage(imageData, 'PNG', xOffset, 0, finalWidth, finalHeight);
+            pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
         } else {
             pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
         }
@@ -177,6 +173,7 @@ export default function AdmissionPage() {
             toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
             
             setIsPreviewOpen(false);
+            setIsPaymentDialogOpen(false);
             form.reset();
             setPhotoPreview(null);
             if(fileInputRef.current) fileInputRef.current.value = '';
@@ -630,15 +627,32 @@ export default function AdmissionPage() {
                 <Download className="mr-2 h-4 w-4" />
                 Download Form
             </Button>
-            <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Submitting...' : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Submit Form
-                  </>
-              )}
+            <Button onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }} disabled={form.formState.isSubmitting}>
+              <Send className="mr-2 h-4 w-4" />
+              Proceed to Submit
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Payment Confirmation</DialogTitle>
+                <DialogDescription>
+                    Please scan the QR code to pay the ₹10 registration fee. After payment, click the button below to complete your submission.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col items-center justify-center gap-4 py-4">
+                <Image src="/qrcode.jpg1" alt="Payment QR Code" width={200} height={200} />
+                <p className="font-bold text-lg">Scan to pay ₹10</p>
+            </div>
+            <DialogFooter>
+                 <Button variant="outline" onClick={() => setIsPaymentDialogOpen(false)}>Cancel</Button>
+                <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting}>
+                {form.formState.isSubmitting ? 'Submitting...' : 'Confirm Payment & Submit'}
+                </Button>
+            </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
