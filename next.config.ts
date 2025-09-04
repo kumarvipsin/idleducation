@@ -34,6 +34,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.pw.live',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
