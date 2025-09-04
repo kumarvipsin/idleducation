@@ -86,14 +86,14 @@ export default function GalleryPage() {
                 </p>
             </section>
             
-            <div className="relative mb-8 max-w-lg mx-auto">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <div className="relative mb-8 max-w-xs">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                     type="text"
-                    placeholder="Search by title or ID..."
+                    placeholder="Search by ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-12 w-full rounded-full h-12 text-lg"
+                    className="pl-10 w-full rounded-full h-10"
                 />
             </div>
             
