@@ -11,6 +11,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { useSearchParams } from 'next/navigation';
+import { TeacherCard } from '@/components/landing/teacher-card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useLanguage } from '@/context/language-context';
+
 
 const classes = [
   'All Batches', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
@@ -73,6 +77,52 @@ function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
   const [activeClass, setActiveClass] = useState('All Batches');
+  const { t } = useLanguage();
+
+  const teamMembers = [
+    {
+        name: t('team.member5.name'),
+        designation: t('team.member5.designation'),
+        experience: t('team.member5.experience'),
+        avatar: "/vijay.jpg",
+        avatarHint: "Vijay Verma"
+    },
+    {
+        name: t('team.member2.name'),
+        designation: t('team.member2.designation'),
+        experience: t('team.member2.experience'),
+        avatar: "/manish.jpg",
+        avatarHint: "Manish Sharma"
+    },
+    {
+        name: t('team.member4.name'),
+        designation: t('team.member4.designation'),
+        experience: t('team.member4.experience'),
+        avatar: "/vidhi.jpg",
+        avatarHint: "Vidhi Sharma"
+    },
+    {
+        name: t('team.member3.name'),
+        designation: t('team.member3.designation'),
+        experience: t('team.member3.experience'),
+        avatar: "/chandu.jpg",
+        avatarHint: "Chandra Prakesh"
+    },
+    {
+        name: t('team.member1.name'),
+        designation: t('team.member1.designation'),
+        experience: t('team.member1.experience'),
+        avatar: "/amod.jpg",
+        avatarHint: "Amod Sharma"
+    },
+    {
+        name: t('team.member6.name'),
+        designation: t('team.member6.designation'),
+        experience: t('team.member6.experience'),
+        avatar: "/vikash.jpg",
+        avatarHint: "male teacher"
+    }
+  ];
 
   useEffect(() => {
     if (classParam && classes.includes(classParam)) {
@@ -220,6 +270,39 @@ function SchoolPageContent() {
           </div>
         )}
       </div>
+
+       <section className="w-full py-12 md:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Your Online Teacher</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Our dedicated team of educators is here to guide you on your learning journey.
+            </p>
+          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent className="-ml-4">
+              {teamMembers.map((member, index) => (
+                <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                   <TeacherCard {...member} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:left-[-2rem]" />
+            <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:right-[-2rem]" />
+             <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 md:hidden">
+                <CarouselPrevious className="static translate-y-0" />
+                <CarouselNext className="static translate-y-0" />
+            </div>
+          </Carousel>
+        </div>
+      </section>
+
     </div>
   );
 }
