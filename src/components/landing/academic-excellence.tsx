@@ -8,42 +8,42 @@ import { Card } from '../ui/card';
 
 const resultsData = {
   'CUET': {
-    image: 'https://picsum.photos/1200/300',
+    image: 'https://images.unsplash.com/photo-1752650734133-b2442de2f561?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXN1bHQlMjBzdHVkZW50fGVufDB8fHx8MTc1NzA5NzUyNXww&ixlib=rb-4.1.0&q=80&w=1080',
     alt: 'CUET Toppers',
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: 'https://picsum.photos/1200/301',
+    image: 'https://picsum.photos/1200/210',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: 'https://picsum.photos/1201/300',
+    image: 'https://picsum.photos/1201/210',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
   'JEE': {
-    image: 'https://picsum.photos/1201/301',
+    image: 'https://picsum.photos/1201/210',
     alt: 'JEE Toppers',
     hint: 'students studying'
   },
   'NEET': {
-    image: 'https://picsum.photos/1200/302',
+    image: 'https://picsum.photos/1200/210',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
   'SSC': {
-    image: 'https://picsum.photos/1202/300',
+    image: 'https://picsum.photos/1202/210',
     alt: 'SSC Toppers',
     hint: 'education'
   },
   'BANK PO': {
-    image: 'https://picsum.photos/1202/301',
+    image: 'https://picsum.photos/1202/210',
     alt: 'Banking Toppers',
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: 'https://picsum.photos/1201/302',
+    image: 'https://picsum.photos/1201/210',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
@@ -85,7 +85,7 @@ export function AcademicExcellence() {
 
         <Card className="shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-primary/20 hover:shadow-primary/30">
           <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-[4/1]">
+            <div className="relative w-full aspect-[4/1.2]">
                 <Image
                 key={activeCategory}
                 src={resultsData[activeCategory as keyof typeof resultsData].image}
