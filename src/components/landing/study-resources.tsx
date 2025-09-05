@@ -72,7 +72,9 @@ export function StudyResources() {
     <section ref={sectionRef} className="w-full py-8 md:py-16 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className={`text-center mb-10 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <h2 className={`text-2xl md:text-3xl font-bold text-primary ${isVisible ? 'animate-fade-in-up' : ''}`}>Study Resources</h2>
+          <h2 className={`text-3xl md:text-4xl font-bold ${isVisible ? 'animate-fade-in-up' : ''}`}>
+            <span className="text-black dark:text-white">Study</span> <span style={{ color: '#adb5bd' }}>Resources</span>
+          </h2>
           <p className={`text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base ${isVisible ? 'animate-fade-in-up' : ''}`} style={{ animationDelay: '0.2s' }}>
             A diverse array of learning materials to enhance your educational journey.
           </p>
