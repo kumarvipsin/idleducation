@@ -72,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" className="font-bold rounded-lg text-blue-600 dark:text-blue-400 text-base">
+                <Button variant="link" className="font-bold rounded-lg text-primary text-base">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
