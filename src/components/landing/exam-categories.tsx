@@ -78,7 +78,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader className="text-center">
+                <DialogHeader className="text-center sm:text-center">
                     <DialogTitle>{dialogTitle}</DialogTitle>
                     <DialogDescription>
                         Explore our comprehensive programs and find the perfect fit for your learning journey.
