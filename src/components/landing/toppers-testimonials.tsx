@@ -14,6 +14,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Anjali Verma",
+    studentClass: "Class 12",
+    studentPlace: "Delhi"
   },
   {
     name: "IDL EDUCATION",
@@ -21,6 +24,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Rohan Sharma",
+    studentClass: "JEE Aspirant",
+    studentPlace: "Mumbai"
   },
   {
     name: "IDL EDUCATION",
@@ -28,6 +34,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Priya Singh",
+    studentClass: "NEET Aspirant",
+    studentPlace: "Kolkata"
   },
    {
     name: "IDL EDUCATION",
@@ -35,6 +44,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Vikram Rathore",
+    studentClass: "Class 10",
+    studentPlace: "Chennai"
   },
   {
     name: "IDL EDUCATION",
@@ -42,6 +54,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Sneha Gupta",
+    studentClass: "Class 11",
+    studentPlace: "Bengaluru"
   },
   {
     name: "IDL EDUCATION",
@@ -49,6 +64,9 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
+    studentName: "Arjun Mehta",
+    studentClass: "SSC Aspirant",
+    studentPlace: "Pune"
   },
 ];
 
@@ -91,7 +109,12 @@ const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
                     <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
                 </div>
                 <h3 className="font-bold">{channel.name}</h3>
-                <p className="text-xs text-muted-foreground">{channel.subscribers} Subscribers</p>
+                <div className="text-xs text-muted-foreground mt-1">
+                    <p className="font-semibold text-foreground">{channel.studentName}</p>
+                    <p>{channel.studentClass}</p>
+                    <p>{channel.studentPlace}</p>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">{channel.subscribers} Subscribers</p>
             </div>
         </Card>
     </Link>
