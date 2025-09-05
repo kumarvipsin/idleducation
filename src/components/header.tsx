@@ -212,9 +212,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
-        <div className="bg-[#e9ecef] text-foreground py-0 text-xs">
+        <div className="bg-[#000034] text-white py-0 text-xs">
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-                <Button variant="link" size="sm" asChild className="text-foreground hover:no-underline px-2">
+                <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
                     <a href="tel:+917011117585" className="flex items-center gap-1">
                         <Phone className="h-4 w-4 animate-ring" />
                         <span className="hidden sm:inline">+91 7011117585</span>
@@ -228,7 +228,7 @@ export function Header() {
                         </Link>
                     </div>
                  </div>
-                 <Button variant="link" size="sm" asChild className="text-foreground hover:no-underline px-2">
+                 <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
                     <Link href="/admission" className="flex items-center gap-1">
                         <FileText className="h-4 w-4"/>
                         <span className="hidden sm:inline">{t('admissionForm')}</span>
