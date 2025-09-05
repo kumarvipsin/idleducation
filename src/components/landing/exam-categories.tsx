@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from '../ui/scroll-area';
 import { useEffect, useRef, useState } from 'react';
+import Autoplay from "embla-carousel-autoplay";
 
 const allPrograms = [
     // EN
@@ -101,6 +102,11 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 export function ExamCategories() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -150,8 +156,9 @@ export function ExamCategories() {
                     <div className="flex-1">
                     <CardContent className="p-6">
                         <Carousel
-                        opts={{ align: "start", loop: true }}
-                        className="w-full"
+                            opts={{ align: "start", loop: true }}
+                            plugins={[autoplayPlugin.current]}
+                            className="w-full"
                         >
                         <CarouselContent>
                             {Array.from({ length: Math.ceil(popularProgramsEn.length / 6) }).map((_, slideIndex) => (
@@ -166,10 +173,6 @@ export function ExamCategories() {
                             </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                            <CarouselPrevious className="static translate-y-0" />
-                            <CarouselNext className="static translate-y-0" />
-                        </div>
                         </Carousel>
                         <div className="mt-16 flex justify-center">
                             <ExploreMoreDialog 
@@ -190,8 +193,9 @@ export function ExamCategories() {
                     <div className="flex-1">
                     <CardContent className="p-6">
                         <Carousel
-                        opts={{ align: "start", loop: true }}
-                        className="w-full"
+                            opts={{ align: "start", loop: true }}
+                            plugins={[autoplayPlugin.current]}
+                            className="w-full"
                         >
                         <CarouselContent>
                             {Array.from({ length: Math.ceil(popularProgramsHi.length / 6) }).map((_, slideIndex) => (
@@ -206,10 +210,6 @@ export function ExamCategories() {
                             </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                            <CarouselPrevious className="static translate-y-0" />
-                            <CarouselNext className="static translate-y-0" />
-                        </div>
                         </Carousel>
                         <div className="mt-16 flex justify-center">
                         <ExploreMoreDialog 
