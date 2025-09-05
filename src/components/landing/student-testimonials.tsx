@@ -128,7 +128,10 @@ export function StudentTestimonials() {
     <section ref={sectionRef} id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('testimonials.title')}</h2>
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="text-black dark:text-white">What Our </span>
+            <span style={{ color: '#adb5bd' }}>Students Say</span>
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             {t('testimonials.subtitle')}
           </p>
