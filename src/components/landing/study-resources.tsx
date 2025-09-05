@@ -23,7 +23,7 @@ const resources = [
     href: "/resources/ncert-solutions",
   },
   {
-    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMG5vdGVzfGVufDB8fHx8MTc1NjI4MDU3NHww&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMG5vdGVzfGVufDBfHx8fDE3NTYyODA1NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "study notes",
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
@@ -82,27 +82,29 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 border border-primary/10 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
-                  <div className="relative aspect-video">
-                     <Image
-                        src={resource.image}
-                        alt={resource.title}
-                        data-ai-hint={resource.imageHint}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  </div>
-                  <div className="p-4 flex flex-col flex-grow">
-                    <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
-                    <p className="text-sm mb-4 flex-grow text-foreground/80">{resource.description}</p>
-                    <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
-                        <span className="text-sm">Explore</span>
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <div className="bg-background rounded-[.45rem] h-full">
+                        <div className="relative aspect-video">
+                            <Image
+                                src={resource.image}
+                                alt={resource.title}
+                                data-ai-hint={resource.imageHint}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-t-md"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-t-md"></div>
+                        </div>
+                        <div className="p-4 flex flex-col flex-grow">
+                            <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
+                            <p className="text-sm mb-4 flex-grow text-foreground/80">{resource.description}</p>
+                            <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
+                                <span className="text-sm">Explore</span>
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </Card>
             </Link>
           ))}
