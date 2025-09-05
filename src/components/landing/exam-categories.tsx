@@ -130,15 +130,15 @@ export function ExamCategories() {
   
   const svgTexture = `
     <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>
-      <text x='10' y='30' font-size='14' fill='rgba(0,0,0,0.12)'>√x</text>
-      <text x='60' y='50' font-size='14' fill='rgba(0,0,0,0.12)'>π</text>
-      <text x='110' y='25' font-size='14' fill='rgba(0,0,0,0.12)'>Σ</text>
-      <text x='25' y='80' font-size='14' fill='rgba(0,0,0,0.12)'>∫</text>
-      <text x='90' y='120' font-size='14' fill='rgba(0,0,0,0.12)'>H₂O</text>
-      <text x='130' y='90' font-size='14' fill='rgba(0,0,0,0.12)'>α</text>
-      <text x='15' y='130' font-size='14' fill='rgba(0,0,0,0.12)'>E=mc²</text>
-      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,0,0.12)' stroke-width='1' fill='none'/>
-      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,0,0.12)' stroke-width='1' fill='none'/>
+      <text x='10' y='30' font-size='14' fill='rgba(0,0,52,0.08)'>√x</text>
+      <text x='60' y='50' font-size='14' fill='rgba(0,0,52,0.08)'>π</text>
+      <text x='110' y='25' font-size='14' fill='rgba(0,0,52,0.08)'>Σ</text>
+      <text x='25' y='80' font-size='14' fill='rgba(0,0,52,0.08)'>∫</text>
+      <text x='90' y='120' font-size='14' fill='rgba(0,0,52,0.08)'>H₂O</text>
+      <text x='130' y='90' font-size='14' fill='rgba(0,0,52,0.08)'>α</text>
+      <text x='15' y='130' font-size='14' fill='rgba(0,0,52,0.08)'>E=mc²</text>
+      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,52,0.08)' stroke-width='1' fill='none'/>
+      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,52,0.08)' stroke-width='1' fill='none'/>
     </svg>
   `;
 
@@ -172,7 +172,7 @@ export function ExamCategories() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-full border-primary hover:bg-primary/10 hover:text-primary">
                               <Link href={program.href}>{program.name}</Link>
                             </Button>
                           ))}
@@ -207,7 +207,7 @@ export function ExamCategories() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-full border-primary hover:bg-primary/10 hover:text-primary">
                               <Link href={program.href}>{program.name}</Link>
                             </Button>
                           ))}
