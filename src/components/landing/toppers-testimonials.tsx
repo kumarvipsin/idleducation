@@ -64,10 +64,29 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
+const svgTexture = `
+  <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>
+    <g fill='rgba(217,119,6,0.1)' fill-rule='evenodd'>
+      <g fill='#c09533' fill-opacity='0.1' fill-rule='nonzero'>
+        <path d='M20 20v40h40V20H20zM0 0v80h80V0H0z' />
+      </g>
+    </g>
+  </svg>
+`;
+
+const textureStyle = {
+  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  backgroundSize: '20px 20px',
+};
+
+
 const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
     <Link href={channel.href} target="_blank" rel="noopener noreferrer" className="group shrink-0">
         <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
-            <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-4 text-center flex flex-col items-center justify-center gap-2">
+            <div 
+              className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-4 text-center flex flex-col items-center justify-center gap-2"
+              style={textureStyle}
+            >
                 <div className="relative">
                     <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
                 </div>
