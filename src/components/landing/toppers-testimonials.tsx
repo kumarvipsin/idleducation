@@ -19,8 +19,8 @@ const youtubeChannels = [
     name: "IDL Foundation",
     subscribers: "3.48M",
     href: "https://www.youtube.com/@idleducation",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-amber-700 dark:text-amber-400",
+    gradient: "from-purple-100 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/10",
+    iconColor: "text-purple-700 dark:text-purple-400",
   },
   {
     name: "IDL EDUCATION",
