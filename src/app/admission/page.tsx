@@ -214,6 +214,16 @@ export default function AdmissionPage() {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
   };
+  
+  const formatDateForDisplay = (dateString: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -603,7 +613,7 @@ export default function AdmissionPage() {
                         <table className="w-full border-collapse border border-gray-300">
                             <tbody>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Student's Name</td><td className="p-2">{form.getValues('studentName')}</td></tr>
-                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Date of Birth</td><td className="p-2">{form.getValues('dob')}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Date of Birth</td><td className="p-2">{formatDateForDisplay(form.getValues('dob'))}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Name</td><td className="p-2">{form.getValues('fatherName')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Occupation</td><td className="p-2">{form.getValues('fatherOccupation') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Mother's Name</td><td className="p-2">{form.getValues('motherName')}</td></tr>
