@@ -82,11 +82,21 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border border-primary/10 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-background border border-primary/10 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
-                  <div className="p-6 flex flex-col h-full">
-                    <h3 className="text-xl font-extrabold mb-2 text-primary">{resource.title}</h3>
+                  <div className="relative aspect-video">
+                     <Image
+                        src={resource.image}
+                        alt={resource.title}
+                        data-ai-hint={resource.imageHint}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  </div>
+                  <div className="p-4 flex flex-col flex-grow">
+                    <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
                     <p className="text-sm mb-4 flex-grow text-foreground/80">{resource.description}</p>
                     <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
                         <span className="text-sm">Explore</span>
