@@ -6,33 +6,33 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-[#e9ecef] text-foreground">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Our Branch</h3>
-                    <div className="bg-gray-900 p-4 rounded-md">
-                        <ul className="space-y-3 text-sm text-gray-400">
+                    <div className="bg-background/50 p-4 rounded-md border">
+                        <ul className="space-y-3 text-sm text-muted-foreground">
                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
-                            <Separator className="my-3 bg-gray-700"/>
+                            <Separator className="my-3"/>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Mangol Puri, Delhi-110083</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Budh Vihar, Delhi-110086</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Burari, Delhi-110084</span>
                             </li>
                         </ul>
@@ -42,23 +42,23 @@ export function Footer() {
                 {/* Column 2: Connect With Us */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
-                    <div className="bg-gray-900 p-4 rounded-md">
-                        <ul className="space-y-3 text-sm text-gray-400">
+                    <div className="bg-background/50 p-4 rounded-md border">
+                        <ul className="space-y-3 text-sm text-muted-foreground">
                              <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0" />
-                                <a href="tel:01145035713" className="hover:underline">011 45035713</a>
+                                <Phone className="h-4 w-4 shrink-0 text-primary" />
+                                <a href="tel:01145035713" className="hover:underline hover:text-primary">011 45035713</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0" />
-                                <a href="tel:+918860040010" className="hover:underline">+91 8860040010</a>
+                                <Phone className="h-4 w-4 shrink-0 text-primary" />
+                                <a href="tel:+918860040010" className="hover:underline hover:text-primary">+91 8860040010</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:info@idleducation.in" className="hover:underline">info@idleducation.in</a>
+                                <Mail className="h-4 w-4 shrink-0 text-primary" />
+                                <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0" />
-                                <a href="mailto:support@idleducation.in" className="hover:underline">support@idleducation.in</a>
+                                <Mail className="h-4 w-4 shrink-0 text-primary" />
+                                <a href="mailto:support@idleducation.in" className="hover:underline hover:text-primary">support@idleducation.in</a>
                             </li>
                         </ul>
                     </div>
@@ -68,22 +68,22 @@ export function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-4">Social Media</h3>
                     <div className="flex items-center justify-start gap-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="LinkedIn">
                           <Linkedin className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Telegram">
+                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-muted hover:bg-muted/80 text-foreground" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
@@ -96,7 +96,7 @@ export function Footer() {
                                     alt="Get it on Google Play"
                                     width={135}
                                     height={40}
-                                    className="h-auto filter grayscale"
+                                    className="h-auto"
                                 />
                             </Link>
                             <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
@@ -105,20 +105,20 @@ export function Footer() {
                                     alt="Download on the App Store"
                                     width={120}
                                     height={40}
-                                    className="h-auto filter grayscale"
+                                    className="h-auto"
                                 />
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="border-t border-gray-800 mt-4 pt-2 flex flex-col sm:flex-row justify-between items-center text-xs">
-                <p className="text-gray-500">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
+            <div className="border-t border-border mt-8 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs">
+                <p className="text-muted-foreground">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                 <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
-                    <Link href="#" className="text-gray-500 hover:text-white hover:underline underline-offset-4">
+                    <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                     Terms of Service
                     </Link>
-                    <Link href="#" className="text-gray-500 hover:text-white hover:underline underline-offset-4">
+                    <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                     Privacy
                     </Link>
                 </nav>
