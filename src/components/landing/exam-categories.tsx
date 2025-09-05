@@ -149,7 +149,7 @@ export function ExamCategories() {
   };
 
   return (
-    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-white">
+    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
           <h2 className="text-3xl md:text-4xl font-bold">Exam Categories</h2>
@@ -158,8 +158,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-white ${isVisible ? 'animate-fade-in-up' : ''}`}
-          style={{ animationDelay: '0.2s', ...textureStyle }}
+          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 border-2 border-primary/20 ${isVisible ? 'animate-fade-in-up' : ''}`}
+          style={{ animationDelay: '0.2s' }}
         >
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
@@ -199,8 +199,8 @@ export function ExamCategories() {
             </div>
             
             {/* Divider */}
-            <Separator orientation="vertical" className="h-auto hidden lg:block bg-gray-300/50" />
-            <Separator orientation="horizontal" className="block lg:hidden bg-gray-300/50" />
+            <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
+            <Separator orientation="horizontal" className="block lg:hidden bg-border" />
 
             {/* Right Side */}
             <div className="flex-1">
