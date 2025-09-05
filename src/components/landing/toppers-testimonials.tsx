@@ -10,7 +10,6 @@ import Link from "next/link";
 const youtubeChannels = [
   {
     name: "IDL EDUCATION",
-    subscribers: "1.35M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -20,7 +19,6 @@ const youtubeChannels = [
   },
   {
     name: "IDL EDUCATION",
-    subscribers: "3.48M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -30,7 +28,6 @@ const youtubeChannels = [
   },
   {
     name: "IDL EDUCATION",
-    subscribers: "11.5M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -40,7 +37,6 @@ const youtubeChannels = [
   },
    {
     name: "IDL EDUCATION",
-    subscribers: "5.1M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -50,7 +46,6 @@ const youtubeChannels = [
   },
   {
     name: "IDL EDUCATION",
-    subscribers: "4.5M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -60,7 +55,6 @@ const youtubeChannels = [
   },
   {
     name: "IDL EDUCATION",
-    subscribers: "2.8M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
@@ -114,7 +108,6 @@ const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
                     <p>{channel.studentClass}</p>
                     <p>{channel.studentPlace}</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">{channel.subscribers} Subscribers</p>
             </div>
         </Card>
     </Link>
