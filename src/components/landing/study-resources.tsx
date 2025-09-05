@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -93,7 +92,7 @@ export function StudyResources() {
                     <div className={`p-6 flex items-center justify-center ${resource.color}`}>
                         {resource.icon}
                     </div>
-                    <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#e9ecef' }}>
+                    <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#f8f9fa' }}>
                         <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
                         <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
                         <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
