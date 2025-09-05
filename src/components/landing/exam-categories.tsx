@@ -127,32 +127,12 @@ export function ExamCategories() {
       }
     };
   }, []);
-  
-  const svgTexture = `
-    <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>
-      <text x='10' y='30' font-size='14' fill='rgba(0,0,52,0.12)'>√x</text>
-      <text x='60' y='50' font-size='14' fill='rgba(0,0,52,0.12)'>π</text>
-      <text x='110' y='25' font-size='14' fill='rgba(0,0,52,0.12)'>Σ</text>
-      <text x='25' y='80' font-size='14' fill='rgba(0,0,52,0.12)'>∫</text>
-      <text x='90' y='120' font-size='14' fill='rgba(0,0,52,0.12)'>H₂O</text>
-      <text x='130' y='90' font-size='14' fill='rgba(0,0,52,0.12)'>α</text>
-      <text x='15' y='130' font-size='14' fill='rgba(0,0,52,0.12)'>E=mc²</text>
-      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,52,0.12)' stroke-width='1' fill='none'/>
-      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,52,0.12)' stroke-width='1' fill='none'/>
-      <text x='40' y='105' font-size='14' fill='rgba(0,0,52,0.12)'>β</text>
-      <text x='100' y='70' font-size='14' fill='rgba(0,0,52,0.12)'>Ω</text>
-    </svg>
-  `;
-
-  const textureStyle = {
-    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-  };
 
   return (
     <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
-          <h2 className="text-3xl md:text-4xl font-bold">
+           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -160,10 +140,10 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
-            <div className="bg-background rounded-[.45rem] h-full" style={textureStyle}>
+            <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full">
                 <div className="flex flex-col lg:flex-row">
                     {/* Left Side */}
                     <div className="flex-1">
