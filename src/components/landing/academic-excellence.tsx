@@ -72,7 +72,7 @@ export function AcademicExcellence() {
                 {categories.map((category) => (
                     <Button
                     key={category}
-                    variant={activeCategory === category ? 'default' : 'outline'}
+                    variant={activeCategory === category ? 'ghost' : 'outline'}
                     className="rounded-full"
                     onClick={() => setActiveCategory(category)}
                     >
