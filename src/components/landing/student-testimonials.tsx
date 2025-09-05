@@ -48,10 +48,9 @@ const testimonials = [
 ];
 
 const QuoteIcon = () => (
-    <svg width="48" height="36" viewBox="0 0 48 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute top-6 left-6 text-primary/10 dark:text-primary/20">
-        <path d="M18.8819 0.333344H0.256836V22.5H12.0318V35.6667H25.1985V16.0417L18.8819 0.333344Z" fill="currentColor"/>
-        <path d="M46.7432 0.333344H28.1182V22.5H39.8932V35.6667H53.0598V16.0417L46.7432 0.333344Z" fill="currentColor"/>
-    </svg>
+    <div className="absolute top-4 left-4 text-[6rem] leading-none font-bold text-primary/10 dark:text-primary/20 opacity-50 transform -translate-y-1/4">
+        “
+    </div>
 );
 
 const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0] }) => {
@@ -94,7 +93,7 @@ export function StudentTestimonials() {
   const sectionRef = useRef<HTMLDivElement>(null);
   
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
