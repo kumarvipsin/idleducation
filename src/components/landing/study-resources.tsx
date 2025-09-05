@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Library className="w-8 h-8 text-blue-500" />,
+    icon: <Library className="w-8 h-8 text-primary" />,
     title: "Reference Books",
     description: "Curated books offering in-depth knowledge.",
     href: "/resources/reference-books",
@@ -93,7 +94,7 @@ export function StudyResources() {
                         {resource.icon}
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#f8f9fa' }}>
-                        <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
+                        <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
                         <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
                         <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
                             <span className="text-sm">Explore</span>
