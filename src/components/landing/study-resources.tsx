@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Book className="w-8 h-8 text-white" />,
+    icon: <Book className="w-8 h-8 text-primary" />,
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
@@ -16,7 +16,7 @@ const resources = [
     textColor: "text-white",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-white" />,
+    icon: <BookCheck className="w-8 h-8 text-primary" />,
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
     href: "/resources/ncert-solutions",
@@ -24,7 +24,7 @@ const resources = [
     textColor: "text-white",
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-white" />,
+    icon: <StickyNote className="w-8 h-8 text-primary" />,
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     href: "/resources/notes",
@@ -32,7 +32,7 @@ const resources = [
     textColor: "text-white",
   },
   {
-    icon: <FileText className="w-8 h-8 text-white" />,
+    icon: <FileText className="w-8 h-8 text-primary" />,
     title: "Previous Year Questions",
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     href: "/resources/previous-year-questions",
@@ -87,7 +87,7 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-b ${resource.gradient} ${resource.textColor} p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-b ${resource.gradient} text-foreground p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <div className="mb-4">
@@ -95,8 +95,8 @@ export function StudyResources() {
                     </div>
                     <div className="flex flex-col flex-grow">
                         <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
-                        <p className={`text-sm mb-4 flex-grow ${resource.textColor === 'text-white' ? 'opacity-90' : 'text-muted-foreground'}`}>{resource.description}</p>
-                        <div className="mt-auto flex justify-start items-center font-semibold group-hover:underline underline-offset-4">
+                        <p className={`text-sm mb-4 flex-grow text-muted-foreground`}>{resource.description}</p>
+                        <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
                             <span className="text-sm">Explore</span>
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
