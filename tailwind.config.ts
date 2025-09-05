@@ -11,9 +11,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"Josefin Sans"', 'sans-serif'],
-        headline: ['"Josefin Sans"', 'sans-serif'],
-        script: ['"Dancing Script"', 'cursive'],
+        body: ['Inter', 'sans-serif'],
+        headline: ['Inter', 'sans-serif'],
+        script: ['Inter', 'cursive'],
         code: ['monospace'],
       },
       colors: {
