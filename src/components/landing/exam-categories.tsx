@@ -188,7 +188,7 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                    <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsEn} dialogTitle="Explore School & Competitive Exams"/>
+                    <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsEn} dialogTitle="For School Exams"/>
                 </div>
               </CardContent>
             </div>
