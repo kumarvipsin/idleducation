@@ -140,7 +140,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 p-0.5 shadow-primary/20 hover:shadow-primary/30 ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
             <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full">
