@@ -8,36 +8,36 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Book className="w-8 h-8 text-primary" />,
+    icon: <Book className="w-8 h-8 text-white" />,
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
-    gradient: "from-white to-gray-100",
-    textColor: "text-foreground",
+    gradient: "from-white to-[#000034]",
+    textColor: "text-white",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-primary" />,
+    icon: <BookCheck className="w-8 h-8 text-white" />,
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
     href: "/resources/ncert-solutions",
-    gradient: "from-white to-gray-100",
-    textColor: "text-foreground",
+    gradient: "from-white to-[#000034]",
+    textColor: "text-white",
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-primary" />,
+    icon: <StickyNote className="w-8 h-8 text-white" />,
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     href: "/resources/notes",
-    gradient: "from-white to-gray-100",
-    textColor: "text-foreground",
+    gradient: "from-white to-[#000034]",
+    textColor: "text-white",
   },
   {
-    icon: <FileText className="w-8 h-8 text-primary" />,
+    icon: <FileText className="w-8 h-8 text-white" />,
     title: "Previous Year Questions",
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     href: "/resources/previous-year-questions",
-    gradient: "from-white to-gray-100",
-    textColor: "text-foreground",
+    gradient: "from-white to-[#000034]",
+    textColor: "text-white",
   },
 ]
 
@@ -87,7 +87,7 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} ${resource.textColor} p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-b ${resource.gradient} ${resource.textColor} p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <div className="mb-4">
