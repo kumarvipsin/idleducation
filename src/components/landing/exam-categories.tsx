@@ -72,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-purple text-purple-foreground hover:bg-purple/90">
+                <Button variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out border-primary text-primary hover:bg-primary/10">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -130,15 +130,17 @@ export function ExamCategories() {
   
   const svgTexture = `
     <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>
-      <text x='10' y='30' font-size='14' fill='rgba(0,0,52,0.08)'>√x</text>
-      <text x='60' y='50' font-size='14' fill='rgba(0,0,52,0.08)'>π</text>
-      <text x='110' y='25' font-size='14' fill='rgba(0,0,52,0.08)'>Σ</text>
-      <text x='25' y='80' font-size='14' fill='rgba(0,0,52,0.08)'>∫</text>
-      <text x='90' y='120' font-size='14' fill='rgba(0,0,52,0.08)'>H₂O</text>
-      <text x='130' y='90' font-size='14' fill='rgba(0,0,52,0.08)'>α</text>
-      <text x='15' y='130' font-size='14' fill='rgba(0,0,52,0.08)'>E=mc²</text>
-      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,52,0.08)' stroke-width='1' fill='none'/>
-      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,52,0.08)' stroke-width='1' fill='none'/>
+      <text x='10' y='30' font-size='14' fill='rgba(0,0,52,0.12)'>√x</text>
+      <text x='60' y='50' font-size='14' fill='rgba(0,0,52,0.12)'>π</text>
+      <text x='110' y='25' font-size='14' fill='rgba(0,0,52,0.12)'>Σ</text>
+      <text x='25' y='80' font-size='14' fill='rgba(0,0,52,0.12)'>∫</text>
+      <text x='90' y='120' font-size='14' fill='rgba(0,0,52,0.12)'>H₂O</text>
+      <text x='130' y='90' font-size='14' fill='rgba(0,0,52,0.12)'>α</text>
+      <text x='15' y='130' font-size='14' fill='rgba(0,0,52,0.12)'>E=mc²</text>
+      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,52,0.12)' stroke-width='1' fill='none'/>
+      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,52,0.12)' stroke-width='1' fill='none'/>
+      <text x='40' y='105' font-size='14' fill='rgba(0,0,52,0.12)'>β</text>
+      <text x='100' y='70' font-size='14' fill='rgba(0,0,52,0.12)'>Ω</text>
     </svg>
   `;
 
