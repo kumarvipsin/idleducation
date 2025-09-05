@@ -9,25 +9,25 @@ const resources = [
   {
     icon: <Book className="w-8 h-8 text-primary" />,
     title: "Reference Books",
-    description: "Explore our curated list of reference books, offering in-depth knowledge and diverse perspectives to supplement your learning.",
+    description: "Curated books offering in-depth knowledge to supplement your learning.",
     href: "/resources/reference-books",
   },
   {
     icon: <BookCheck className="w-8 h-8 text-primary" />,
     title: "NCERT Solutions",
-    description: "Find detailed, step-by-step solutions for all your NCERT textbook questions, helping you build a strong academic foundation.",
+    description: "Detailed, step-by-step solutions for all NCERT textbook questions.",
     href: "/resources/ncert-solutions",
   },
   {
     icon: <StickyNote className="w-8 h-8 text-primary" />,
     title: "Notes",
-    description: "Access concise and well-organized study notes for quick revision and a clearer understanding of key topics.",
+    description: "Concise and organized study notes for quick revision and better understanding.",
     href: "/resources/notes",
   },
   {
     icon: <FileText className="w-8 h-8 text-primary" />,
     title: "Previous Year Questions",
-    description: "Practice with a vast collection of past exam papers to familiarize yourself with question patterns and improve time management.",
+    description: "Practice with past exam papers to master question patterns and time management.",
     href: "/resources/previous-year-questions",
   },
 ]
