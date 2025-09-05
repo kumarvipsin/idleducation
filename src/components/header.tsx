@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon } from "lucide-react";
@@ -237,7 +238,7 @@ export function Header() {
         </div>
         <div className="container mx-auto px-4 md:px-6 h-16 flex items-center">
             <Link href={logoHref} className="flex items-center justify-center">
-            <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto" />
+            <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
             <span className="ml-2 text-lg font-semibold">
                 {brandName.split('').map((char, index) => (
                 <span
