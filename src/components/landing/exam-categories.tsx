@@ -130,15 +130,15 @@ export function ExamCategories() {
   
   const svgTexture = `
     <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>
-      <text x='10' y='30' font-size='14' fill='rgba(0,0,0,0.08)'>√x</text>
-      <text x='60' y='50' font-size='14' fill='rgba(0,0,0,0.08)'>π</text>
-      <text x='110' y='25' font-size='14' fill='rgba(0,0,0,0.08)'>Σ</text>
-      <text x='25' y='80' font-size='14' fill='rgba(0,0,0,0.08)'>∫</text>
-      <text x='90' y='120' font-size='14' fill='rgba(0,0,0,0.08)'>H₂O</text>
-      <text x='130' y='90' font-size='14' fill='rgba(0,0,0,0.08)'>α</text>
-      <text x='15' y='130' font-size='14' fill='rgba(0,0,0,0.08)'>E=mc²</text>
-      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,0,0.08)' stroke-width='1' fill='none'/>
-      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,0,0.08)' stroke-width='1' fill='none'/>
+      <text x='10' y='30' font-size='14' fill='rgba(0,0,0,0.12)'>√x</text>
+      <text x='60' y='50' font-size='14' fill='rgba(0,0,0,0.12)'>π</text>
+      <text x='110' y='25' font-size='14' fill='rgba(0,0,0,0.12)'>Σ</text>
+      <text x='25' y='80' font-size='14' fill='rgba(0,0,0,0.12)'>∫</text>
+      <text x='90' y='120' font-size='14' fill='rgba(0,0,0,0.12)'>H₂O</text>
+      <text x='130' y='90' font-size='14' fill='rgba(0,0,0,0.12)'>α</text>
+      <text x='15' y='130' font-size='14' fill='rgba(0,0,0,0.12)'>E=mc²</text>
+      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,0,0.12)' stroke-width='1' fill='none'/>
+      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,0,0.12)' stroke-width='1' fill='none'/>
     </svg>
   `;
 
@@ -147,7 +147,7 @@ export function ExamCategories() {
   };
 
   return (
-    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
+    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-white">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
           <h2 className="text-3xl md:text-4xl font-bold">Exam Categories</h2>
