@@ -9,14 +9,14 @@ import Link from "next/link";
 
 const youtubeChannels = [
   {
-    name: "IDL NCERT",
+    name: "IDL EDUCATION",
     subscribers: "1.35M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
   },
   {
-    name: "IDL Foundation",
+    name: "IDL EDUCATION",
     subscribers: "3.48M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
@@ -30,21 +30,21 @@ const youtubeChannels = [
     iconColor: "text-red-600",
   },
    {
-    name: "IDL JEE",
+    name: "IDL EDUCATION",
     subscribers: "5.1M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
   },
   {
-    name: "IDL NEET",
+    name: "IDL EDUCATION",
     subscribers: "4.5M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
   },
   {
-    name: "IDL SSC",
+    name: "IDL EDUCATION",
     subscribers: "2.8M",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
