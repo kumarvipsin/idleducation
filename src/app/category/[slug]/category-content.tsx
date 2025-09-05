@@ -19,7 +19,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
   const isMobile = useIsMobile();
   
   const autoplayPlugin = useRef(
-    Autoplay({ delay: isMobile ? 1000 : 3000, stopOnInteraction: true })
+    Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
@@ -112,8 +112,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                   loop: true,
                 }}
                 plugins={[autoplayPlugin.current]}
-                onMouseEnter={autoplayPlugin.current.stop}
-                onMouseLeave={autoplayPlugin.current.reset}
                 className="w-full max-w-6xl mx-auto"
               >
                 <CarouselContent className="-ml-4">
@@ -123,12 +121,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute left-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:left-[-2rem]" />
-                <CarouselNext className="absolute right-[-1rem] top-1/2 -translate-y-1/2 hidden md:inline-flex md:right-[-2rem]" />
-                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 md:hidden">
-                    <CarouselPrevious className="static translate-y-0" />
-                    <CarouselNext className="static translate-y-0" />
-                </div>
               </Carousel>
             </div>
           </section>
