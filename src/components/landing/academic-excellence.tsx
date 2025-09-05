@@ -8,7 +8,7 @@ import { Card } from '../ui/card';
 
 const resultsData = {
   'CUET': {
-    image: '/cuet.jpg',
+    image: '/classxx.jpg',
     alt: 'CUET Toppers',
     hint: 'students celebrating'
   },
