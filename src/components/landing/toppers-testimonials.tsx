@@ -105,8 +105,7 @@ const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
                 <h3 className="font-bold text-sm">{channel.name}</h3>
                 <div className="text-xs text-muted-foreground mt-1">
                     <p className="font-semibold text-foreground">{channel.studentName}</p>
-                    <p>{channel.studentClass}</p>
-                    <p>{channel.studentPlace}</p>
+                    <p>{channel.studentClass} | {channel.studentPlace}</p>
                 </div>
             </div>
         </Card>
