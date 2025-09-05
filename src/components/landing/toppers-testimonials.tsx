@@ -91,10 +91,14 @@ const textureStyle = {
   backgroundSize: '20px 20px',
 };
 
+const shineStyle = {
+  backgroundImage: 'radial-gradient(circle at 50% 10%, #fffde4, #f4d03f, #d4af37, #b8860b)',
+}
+
 
 const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
     <Link href={channel.href} target="_blank" rel="noopener noreferrer" className="group shrink-0">
-        <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
+        <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5`} style={shineStyle}>
             <div 
               className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-2 text-center flex flex-col items-center justify-center gap-2"
               style={textureStyle}
@@ -126,7 +130,7 @@ export function ToppersTestimonials() {
           </p>
         </div>
         <div className="relative w-full overflow-hidden">
-            <div className="flex marquee-container gap-6">
+            <div className="flex marquee-container gap-6" style={{ animationDuration: '15s' }}>
                  {/* Render the list twice for a seamless loop */}
                 {youtubeChannels.map((channel, index) => (
                     <ChannelCard key={`${channel.name}-${index}`} channel={channel} />
