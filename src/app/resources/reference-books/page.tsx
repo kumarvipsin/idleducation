@@ -25,10 +25,7 @@ const topCourses = [
         language: "English Medium | Hindi Medium",
         bgColor: "bg-sky-500",
         textColor: "text-white",
-        buttons: [
-        { text: "ENGLISH", href: "#" },
-        { text: "हिन्दी", href: "#" },
-        ],
+        buttons: [{ text: "VIEW MORE", href: "#" }],
     },
     {
         title: "Science",
@@ -36,10 +33,7 @@ const topCourses = [
         language: "English Medium | Hindi Medium",
         bgColor: "bg-amber-500",
         textColor: "text-white",
-        buttons: [
-        { text: "ENGLISH", href: "#" },
-        { text: "हिन्दी", href: "#" },
-        ],
+        buttons: [{ text: "VIEW MORE", href: "#" }],
     },
     {
         title: "Maths",
@@ -137,11 +131,9 @@ export default function ReferenceBooksPage() {
                       {book.description && <p className={`text-sm mb-2 ${book.textColor}`}>{book.description}</p>}
                       {book.language && <p className={`text-xs ${book.textColor}`}>{book.language}</p>}
                     <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        {book.buttons.map((button: any) => (
-                        <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={button.href}>{button.text}</Link>
+                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                            <Link href="#">VIEW MORE</Link>
                         </Button>
-                        ))}
                     </div>
                     </CardContent>
                 </Card>

@@ -139,11 +139,9 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                              {course.description && <p className={`text-sm mb-2 ${course.textColor}`}>{course.description}</p>}
                              {course.language && <p className={`text-xs ${course.textColor}`}>{course.language}</p>}
                             <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                                {course.buttons.map((button: any) => (
-                                <Button key={button.text} asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                                    <Link href={button.href}>{button.text}</Link>
+                                <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                                    <Link href="#">VIEW MORE</Link>
                                 </Button>
-                                ))}
                             </div>
                             </CardContent>
                         </Card>
