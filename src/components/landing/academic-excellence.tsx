@@ -18,32 +18,32 @@ const resultsData = {
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: '/classxx.jpg',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
   'JEE': {
-    image: 'https://images.unsplash.com/photo-1681567012715-4990694c5aa9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxqZWUlMjByZXN1bHQlMjBiYW5uZXIlMjB3aXRoJTIwMjAlMjBzdHVkZW50fGVufDB8fHx8MTc1Njc5MTI3MHww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: '/classxx.jpg',
     alt: 'JEE Toppers',
     hint: 'students studying'
   },
   'NEET': {
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: '/classxx.jpg',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
   'SSC': {
-    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: '/classxx.jpg',
     alt: 'SSC Toppers',
     hint: 'education'
   },
   'BANK PO': {
-    image: 'https://firebasestorage.googleapis.com/v0/b/learnscape-p4l0x.appspot.com/o/1722421303869-ranking.png?alt=media&token=c1303c80-53e7-4001-9a70-8b9a12a524ae',
+    image: '/classxx.jpg',
     alt: 'Banking Toppers',
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: 'https://images.unsplash.com/photo-1621293291359-582875154b2b?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: '/classxx.jpg',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
