@@ -140,11 +140,11 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 p-0.5 shadow-primary/20 hover:shadow-primary/30 ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`relative overflow-hidden transition-all duration-300 bg-transparent border-none shadow-none ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
-            <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl blur-lg opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+            <div className="relative bg-background rounded-lg">
                 <div className="flex flex-col lg:flex-row">
                     {/* Left Side */}
                     <div className="flex-1">
@@ -158,7 +158,7 @@ export function ExamCategories() {
                             <CarouselItem key={slideIndex}>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                 {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary hover:bg-primary/10 hover:text-primary">
+                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary/20 hover:bg-primary/10 hover:text-primary">
                                     <Link href={program.href}>{program.name}</Link>
                                     </Button>
                                 ))}
@@ -198,7 +198,7 @@ export function ExamCategories() {
                             <CarouselItem key={slideIndex}>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                 {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary hover:bg-primary/10 hover:text-primary">
+                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary/20 hover:bg-primary/10 hover:text-primary">
                                     <Link href={program.href}>{program.name}</Link>
                                     </Button>
                                 ))}
