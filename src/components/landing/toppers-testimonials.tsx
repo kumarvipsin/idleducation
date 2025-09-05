@@ -13,54 +13,54 @@ const youtubeChannels = [
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Anjali Verma",
-    studentClass: "Class 12",
-    studentPlace: "Delhi"
+    studentName: "ANJALI VERMA",
+    studentClass: "CLASS 12",
+    studentPlace: "DELHI"
   },
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Rohan Sharma",
-    studentClass: "JEE Aspirant",
-    studentPlace: "Mumbai"
+    studentName: "ROHAN SHARMA",
+    studentClass: "JEE ASPIRANT",
+    studentPlace: "DELHI"
   },
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Priya Singh",
-    studentClass: "NEET Aspirant",
-    studentPlace: "Kolkata"
+    studentName: "PRIYA SINGH",
+    studentClass: "NEET ASPIRANT",
+    studentPlace: "DELHI"
   },
    {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Vikram Rathore",
-    studentClass: "Class 10",
-    studentPlace: "Chennai"
+    studentName: "VIKRAM RATHORE",
+    studentClass: "CLASS 10",
+    studentPlace: "DELHI"
   },
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Sneha Gupta",
-    studentClass: "Class 11",
-    studentPlace: "Bengaluru"
+    studentName: "SNEHA GUPTA",
+    studentClass: "CLASS 11",
+    studentPlace: "DELHI"
   },
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
-    studentName: "Arjun Mehta",
-    studentClass: "SSC Aspirant",
-    studentPlace: "Pune"
+    studentName: "ARJUN MEHTA",
+    studentClass: "SSC ASPIRANT",
+    studentPlace: "DELHI"
   },
 ];
 
