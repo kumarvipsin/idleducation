@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -91,7 +92,7 @@ export function AcademicExcellence() {
                 alt={resultsData[activeCategory as keyof typeof resultsData].alt}
                 data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
                 fill
-                className="object-cover animate-fade-in-up filter grayscale"
+                className="object-cover animate-fade-in-up"
                 />
             </div>
           </div>
