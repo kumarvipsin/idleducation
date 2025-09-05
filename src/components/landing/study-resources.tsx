@@ -10,7 +10,7 @@ const resources = [
   {
     icon: <Library className="w-8 h-8 text-primary" />,
     title: "Reference Books",
-    description: "Curated books offering in-depth knowledge.",
+    description: "Explore a curated collection of reference books offering in-depth knowledge and insights to supplement your learning.",
     href: "/resources/reference-books",
     color: "bg-blue-100 dark:bg-blue-900/20",
     shadow: "shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30",
@@ -18,7 +18,7 @@ const resources = [
   {
     icon: <NotebookText className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
-    description: "Detailed, step-by-step textbook solutions.",
+    description: "Access detailed, step-by-step solutions for all your NCERT textbook questions, making complex concepts easier to understand.",
     href: "/resources/ncert-solutions",
      color: "bg-green-100 dark:bg-green-900/20",
      shadow: "shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30",
@@ -26,7 +26,7 @@ const resources = [
   {
     icon: <PencilRuler className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
-    description: "Concise notes for quick revision.",
+    description: "Find concise and well-structured notes designed for quick revision, helping you grasp key topics effectively before exams.",
     href: "/resources/notes",
      color: "bg-yellow-100 dark:bg-yellow-900/20",
      shadow: "shadow-lg shadow-yellow-500/20 hover:shadow-xl hover:shadow-yellow-500/30",
@@ -34,7 +34,7 @@ const resources = [
   {
     icon: <History className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
-    description: "Practice with past exam papers.",
+    description: "Sharpen your skills and get exam-ready by practicing with a vast repository of previous year question papers.",
     href: "/resources/previous-year-questions",
      color: "bg-red-100 dark:bg-red-900/20",
      shadow: "shadow-lg shadow-red-500/20 hover:shadow-xl hover:shadow-red-500/30",
