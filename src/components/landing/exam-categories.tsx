@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from '../ui/scroll-area';
 import { useEffect, useRef, useState } from 'react';
-import Autoplay from "embla-carousel-autoplay";
 
 const allPrograms = [
     // EN
@@ -73,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" className="font-bold text-primary animate-pulse">
+                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-purple text-purple-foreground hover:bg-purple/90">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -103,11 +102,6 @@ export function ExamCategories() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
-  );
-
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -163,7 +157,6 @@ export function ExamCategories() {
                     <CardContent className="p-6">
                         <Carousel
                             opts={{ align: "start", loop: true }}
-                            plugins={[autoplayPlugin.current]}
                             className="w-full"
                         >
                         <CarouselContent>
@@ -180,7 +173,7 @@ export function ExamCategories() {
                             ))}
                         </CarouselContent>
                         </Carousel>
-                        <div className="mt-16 flex justify-center">
+                        <div className="mt-8 flex justify-center">
                             <ExploreMoreDialog 
                                 triggerText="EXPLORE MORE" 
                                 programs={popularProgramsEn} 
@@ -200,7 +193,6 @@ export function ExamCategories() {
                     <CardContent className="p-6">
                         <Carousel
                             opts={{ align: "start", loop: true }}
-                            plugins={[autoplayPlugin.current]}
                             className="w-full"
                         >
                         <CarouselContent>
@@ -217,7 +209,7 @@ export function ExamCategories() {
                             ))}
                         </CarouselContent>
                         </Carousel>
-                        <div className="mt-16 flex justify-center">
+                        <div className="mt-8 flex justify-center">
                         <ExploreMoreDialog 
                                 triggerText="EXPLORE MORE" 
                                 programs={popularProgramsHi} 
