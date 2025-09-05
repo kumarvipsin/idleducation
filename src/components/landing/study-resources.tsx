@@ -7,28 +7,28 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Library className="w-8 h-8 text-blue-500" />,
+    icon: <Book className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Curated books offering in-depth knowledge.",
     href: "/resources/reference-books",
     color: "bg-blue-100 dark:bg-blue-900/20",
   },
   {
-    icon: <PencilRuler className="w-8 h-8 text-green-500" />,
+    icon: <FileText className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
     description: "Detailed, step-by-step textbook solutions.",
     href: "/resources/ncert-solutions",
      color: "bg-green-100 dark:bg-green-900/20",
   },
   {
-    icon: <NotebookText className="w-8 h-8 text-yellow-500" />,
+    icon: <BookCheck className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
     description: "Concise notes for quick revision.",
     href: "/resources/notes",
      color: "bg-yellow-100 dark:bg-yellow-900/20",
   },
   {
-    icon: <History className="w-8 h-8 text-red-500" />,
+    icon: <StickyNote className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
     description: "Practice with past exam papers.",
     href: "/resources/previous-year-questions",
