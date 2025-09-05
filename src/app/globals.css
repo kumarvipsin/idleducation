@@ -161,7 +161,7 @@
 
   .marquee-container {
     display: flex;
-    animation: marquee-scroll 40s linear infinite;
+    animation: marquee-scroll 20s linear infinite;
   }
   .marquee-container:hover {
     animation-play-state: paused;
