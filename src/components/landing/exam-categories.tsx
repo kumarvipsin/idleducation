@@ -72,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-purple text-purple-foreground hover:bg-purple/90">
+                <Button variant="link" className="font-bold rounded-lg text-blue-600 dark:text-blue-400 text-base">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -156,7 +156,7 @@ export function ExamCategories() {
                     <div className="flex-1">
                     <CardContent className="p-6">
                         <Carousel
-                            opts={{ align: "start", loop: true }}
+                            opts={{ align: "start" }}
                             className="w-full"
                         >
                         <CarouselContent>
@@ -173,9 +173,9 @@ export function ExamCategories() {
                             ))}
                         </CarouselContent>
                         </Carousel>
-                        <div className="mt-8 flex justify-center">
+                        <div className="mt-4 flex justify-center">
                             <ExploreMoreDialog 
-                                triggerText="EXPLORE MORE" 
+                                triggerText="Explore More" 
                                 programs={popularProgramsEn} 
                                 dialogTitle="For School Exams"
                                 dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
@@ -192,7 +192,7 @@ export function ExamCategories() {
                     <div className="flex-1">
                     <CardContent className="p-6">
                         <Carousel
-                            opts={{ align: "start", loop: true }}
+                            opts={{ align: "start" }}
                             className="w-full"
                         >
                         <CarouselContent>
@@ -209,9 +209,9 @@ export function ExamCategories() {
                             ))}
                         </CarouselContent>
                         </Carousel>
-                        <div className="mt-8 flex justify-center">
+                        <div className="mt-4 flex justify-center">
                         <ExploreMoreDialog 
-                                triggerText="EXPLORE MORE" 
+                                triggerText="Explore More" 
                                 programs={popularProgramsHi} 
                                 dialogTitle="For Competitive Exams"
                                 dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
