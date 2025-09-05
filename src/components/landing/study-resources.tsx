@@ -1,40 +1,39 @@
 
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { ArrowRight, Book, FileText, BookCheck, StickyNote } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    image: "https://images.unsplash.com/photo-1543165262-32942a88c15a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWZlcmVuY2UlMjBib29rc3xlbnwwfHx8fDE3NTYyODA1ODN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "reference books",
+    icon: <Book className="w-8 h-8 text-white" />,
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
+    gradient: "from-blue-500 to-blue-400",
   },
   {
-    image: "https://images.unsplash.com/photo-1596495578065-450763f0d420?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwcmVjZWl2aW5nJTIwYXdhcmR8ZW58MHx8fHwxNzU2MjY5ODU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "student award",
+    icon: <BookCheck className="w-8 h-8 text-white" />,
     title: "NCERT Solutions",
     description: "Unlock academic excellence with Physics Wallah's NCERT Solutions which provides you step-by-step solutions",
     href: "/resources/ncert-solutions",
+    gradient: "from-green-500 to-green-400",
   },
   {
-    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkeSUyMG5vdGVzfGVufDBfHx8fDE3NTYyODA1NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "study notes",
+    icon: <StickyNote className="w-8 h-8 text-white" />,
     title: "Notes",
     description: "Use Physics Wallah's detailed study materials that simplify complex ideas into easily understandable language.",
     href: "/resources/notes",
+    gradient: "from-purple-500 to-purple-400",
   },
   {
-    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8ZWR1Y2F0aW9ufGVufDB8fHx8MTc1NjI3ODk4OHww&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "education classroom",
+    icon: <FileText className="w-8 h-8 text-white" />,
     title: "Previous Year Questions",
     description: "Practice with past exam papers to understand patterns and improve your time management for the actual exams.",
     href: "/resources/previous-year-questions",
+    gradient: "from-red-500 to-red-400",
   },
 ]
 
@@ -84,27 +83,18 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${resource.gradient} text-white p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
-                    <div className="bg-background rounded-[.45rem] h-full">
-                        <div className="relative aspect-video">
-                            <Image
-                                src={resource.image}
-                                alt={resource.title}
-                                data-ai-hint={resource.imageHint}
-                                fill
-                                className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-t-md"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-t-md"></div>
-                        </div>
-                        <div className="p-4 flex flex-col flex-grow">
-                            <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
-                            <p className="text-sm mb-4 flex-grow text-foreground/80">{resource.description}</p>
-                            <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
-                                <span className="text-sm">Explore</span>
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                            </div>
+                    <div className="mb-4">
+                        {resource.icon}
+                    </div>
+                    <div className="flex flex-col flex-grow">
+                        <h3 className="text-lg font-bold mb-2">{resource.title}</h3>
+                        <p className="text-sm mb-4 flex-grow opacity-90">{resource.description}</p>
+                        <div className="mt-auto flex justify-start items-center font-semibold group-hover:underline underline-offset-4">
+                            <span className="text-sm">Explore</span>
+                            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
                     </div>
                 </Card>
