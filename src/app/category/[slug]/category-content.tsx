@@ -101,7 +101,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Your Online Teacher</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Your <span className="text-red-600">Online</span> Teacher</h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                   Our dedicated team of educators is here to guide you on your learning journey.
                 </p>
