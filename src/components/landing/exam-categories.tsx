@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -152,14 +151,16 @@ export function ExamCategories() {
     <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
-          <h2 className="text-4xl md:text-5xl font-bold">Exam <span style={{ color: '#adb5bd' }}>Categories</span></h2>
+          <h2 className="text-4xl md:text-5xl font-bold">
+            <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             We offer comprehensive coaching for a wide range of exams. Find your path to success by exploring our categories below.
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
-            style={{ backgroundColor: '#dee2e6', animationDelay: '0.2s' }}
+            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
+            style={{ animationDelay: '0.2s' }}
         >
             <div className="bg-background rounded-[.45rem] h-full" style={textureStyle}>
                 <div className="flex flex-col lg:flex-row">
