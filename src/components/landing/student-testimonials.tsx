@@ -94,7 +94,7 @@ export function StudentTestimonials() {
   const sectionRef = useRef<HTMLDivElement>(null);
   
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: false })
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
 
   useEffect(() => {
