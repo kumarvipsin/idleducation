@@ -58,7 +58,7 @@ export function AcademicExcellence() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold">
-            A Legacy of Academic Excellence
+            Excellence Results
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Giving wings to a millions dreams, a million more to go
