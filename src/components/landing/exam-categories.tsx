@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -71,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-purple text-purple-foreground hover:bg-purple/90">
+                <Button variant="link" className="font-bold text-blue-800 dark:text-blue-400 hover:underline">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -142,8 +143,8 @@ export function ExamCategories() {
             className={`relative overflow-hidden transition-all duration-300 bg-transparent border-none shadow-none group ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-            <div className="relative rounded-lg bg-gradient-to-br from-[#e9ecef] to-white dark:from-gray-800 dark:to-gray-900 shadow-2xl">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-700 rounded-xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+            <div className="relative rounded-lg bg-gradient-to-br from-[#e9ecef] to-white dark:from-gray-800 dark:to-gray-900 shadow-2xl shadow-blue-500/20">
                 <div className="flex flex-col lg:flex-row">
                     {/* Left Side */}
                     <div className="flex-1">
