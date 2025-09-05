@@ -13,7 +13,7 @@ const resultsData = {
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: '/classxx.jpg',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
@@ -59,7 +59,7 @@ export function AcademicExcellence() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Academic Excellence :</span> <span style={{ color: 'hsl(210 10% 80%)' }}>Results</span>
+            <span className="text-black dark:text-white">Excellence </span> <span style={{ color: '#ced4da' }}>Results</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Our students consistently achieve outstanding results. Here's a glimpse of their success.
