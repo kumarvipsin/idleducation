@@ -140,11 +140,11 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden transition-all duration-300 bg-transparent border-none shadow-none ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`relative overflow-hidden transition-all duration-300 bg-transparent border-none shadow-none group ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl blur-lg opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative bg-background rounded-lg">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-xl blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+            <div className="relative rounded-lg bg-gradient-to-br from-[#e9ecef] to-white dark:from-gray-800 dark:to-gray-900 shadow-2xl">
                 <div className="absolute inset-0 z-0 opacity-10 dark:opacity-5 pointer-events-none">
                     <Atom className="absolute -top-4 -left-4 w-24 h-24 text-primary" />
                     <FlaskConical className="absolute -bottom-8 -right-4 w-28 h-28 text-green-500" />
