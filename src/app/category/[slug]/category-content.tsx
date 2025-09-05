@@ -8,12 +8,19 @@ import Link from "next/link";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
 import { TeacherCard } from "@/components/landing/teacher-card";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Autoplay from "embla-carousel-autoplay";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
   const { t } = useLanguage();
   const [activeSubCategory, setActiveSubCategory] = useState(subCategories[0] || 'All Batches');
   const [animationKey, setAnimationKey] = useState(0);
+  const isMobile = useIsMobile();
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: isMobile ? 1000 : 3000, stopOnInteraction: true })
+  );
 
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
@@ -104,6 +111,9 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                   align: "start",
                   loop: true,
                 }}
+                plugins={[autoplayPlugin.current]}
+                onMouseEnter={autoplayPlugin.current.stop}
+                onMouseLeave={autoplayPlugin.current.reset}
                 className="w-full max-w-6xl mx-auto"
               >
                 <CarouselContent className="-ml-4">

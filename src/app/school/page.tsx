@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -14,6 +14,8 @@ import { useSearchParams } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useLanguage } from '@/context/language-context';
+import Autoplay from "embla-carousel-autoplay";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 const classes = [
@@ -79,6 +81,11 @@ function SchoolPageContent() {
   const [activeClass, setActiveClass] = useState('All Batches');
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: isMobile ? 1000 : 3000, stopOnInteraction: true })
+  );
 
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
@@ -170,6 +177,9 @@ function SchoolPageContent() {
                   align: "start",
                   loop: true,
                 }}
+                plugins={[autoplayPlugin.current]}
+                onMouseEnter={autoplayPlugin.current.stop}
+                onMouseLeave={autoplayPlugin.current.reset}
                 className="w-full max-w-6xl mx-auto"
               >
                 <CarouselContent className="-ml-4">

@@ -9,6 +9,8 @@ import { useLanguage } from "@/context/language-context";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Autoplay from "embla-carousel-autoplay";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const testimonials = [
     {
@@ -90,6 +92,11 @@ export function StudentTestimonials() {
   const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: isMobile ? 1000 : 3000, stopOnInteraction: true })
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -132,6 +139,9 @@ export function StudentTestimonials() {
               align: "start",
               loop: true,
             }}
+            plugins={[autoplayPlugin.current]}
+            onMouseEnter={autoplayPlugin.current.stop}
+            onMouseLeave={autoplayPlugin.current.reset}
             className="w-full"
           >
             <CarouselContent>
