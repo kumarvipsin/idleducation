@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -17,7 +18,7 @@ const resultsData = {
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
@@ -27,7 +28,7 @@ const resultsData = {
     hint: 'students studying'
   },
   'NEET': {
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
@@ -42,7 +43,7 @@ const resultsData = {
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: 'https://images.unsplash.com/photo-1621293291359-582875154b2b?q=80&w=2070&auto-format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
+    image: 'https://images.unsplash.com/photo-1621293291359-582875154b2b?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
@@ -80,7 +81,8 @@ export function AcademicExcellence() {
             </div>
         </div>
 
-        <Card className="overflow-hidden shadow-lg">
+        <Card className="shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5">
+          <div className="bg-background rounded-[.45rem] h-full overflow-hidden">
             <div className="relative w-full aspect-[2.5/1] md:aspect-[4/1]">
                 <Image
                 key={activeCategory}
@@ -91,6 +93,7 @@ export function AcademicExcellence() {
                 className="object-cover animate-fade-in-up"
                 />
             </div>
+          </div>
         </Card>
       </div>
     </section>
