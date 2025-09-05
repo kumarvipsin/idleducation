@@ -8,28 +8,20 @@ import Autoplay from "embla-carousel-autoplay";
 
 const videoTestimonials = [
   {
-    title: "Vigen's Success Story",
-    embedUrl: "https://www.youtube.com/embed/lnFLQ12DZRw",
+    title: "Gyaan",
+    videoUrl: "/gyaan.mp4",
   },
   {
-    title: "Success Story: Aditya Srivastava, Rank 1",
-    embedUrl: "https://www.youtube.com/embed/natYsNb2QBM",
+    title: "Tu Chal",
+    videoUrl: "/tuchal.mp4",
   },
   {
-    title: "Journey to Excellence: Animesh Pradhan, Rank 2",
-    embedUrl: "https://www.youtube.com/embed/ss3o_iY3IVk",
+    title: "Guzar Jayega",
+    videoUrl: "/guzar.mp4",
   },
   {
-    title: "Achieving Dreams: Donuru Ananya Reddy, Rank 3",
-    embedUrl: "https://www.youtube.com/embed/Q4g_4y5_ayY",
-  },
-  {
-    title: "Student Spotlight: Ruhani, Rank 5",
-    embedUrl: "https://www.youtube.com/embed/xJkOSFf0-b8",
-  },
-  {
-    title: "Overcoming Challenges: Srishti Dabas, Rank 6",
-    embedUrl: "https://www.youtube.com/embed/6IDuTnHG2dM",
+    title: "Koshish",
+    videoUrl: "/koshish.mp4",
   },
 ];
 
@@ -64,15 +56,16 @@ export function ToppersTestimonials() {
                   <div className="p-2">
                     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                       <div className="aspect-video">
-                        <iframe
+                        <video
                           width="100%"
                           height="100%"
-                          src={video.embedUrl}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        ></iframe>
+                          controls
+                          className="w-full h-full object-cover"
+                          preload="metadata"
+                        >
+                          <source src={video.videoUrl} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                     </Card>
                   </div>
