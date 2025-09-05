@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -151,7 +152,7 @@ export function ExamCategories() {
     <section ref={sectionRef} className="w-full py-12 md:py-24 bg-background">
       <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
-          <h2 className="text-4xl md:text-5xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
