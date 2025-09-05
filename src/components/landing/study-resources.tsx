@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,32 +8,36 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Book className="w-8 h-8 text-blue-500" />,
+    icon: <Library className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Curated books offering in-depth knowledge.",
     href: "/resources/reference-books",
     color: "bg-blue-100 dark:bg-blue-900/20",
+    shadow: "shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30",
   },
   {
-    icon: <FileText className="w-8 h-8 text-green-500" />,
+    icon: <NotebookText className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
     description: "Detailed, step-by-step textbook solutions.",
     href: "/resources/ncert-solutions",
      color: "bg-green-100 dark:bg-green-900/20",
+     shadow: "shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-yellow-500" />,
+    icon: <PencilRuler className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
     description: "Concise notes for quick revision.",
     href: "/resources/notes",
      color: "bg-yellow-100 dark:bg-yellow-900/20",
+     shadow: "shadow-lg shadow-yellow-500/20 hover:shadow-xl hover:shadow-yellow-500/30",
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-red-500" />,
+    icon: <History className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
     description: "Practice with past exam papers.",
     href: "/resources/previous-year-questions",
      color: "bg-red-100 dark:bg-red-900/20",
+     shadow: "shadow-lg shadow-red-500/20 hover:shadow-xl hover:shadow-red-500/30",
   },
 ]
 
@@ -82,7 +87,7 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card p-0 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col ${resource.shadow} ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <div className={`p-6 flex items-center justify-center ${resource.color}`}>
