@@ -8,42 +8,42 @@ import { Card } from '../ui/card';
 
 const resultsData = {
   'CUET': {
-    image: 'https://picsum.photos/1200/400',
+    image: 'https://picsum.photos/1200/300',
     alt: 'CUET Toppers',
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: 'https://picsum.photos/1200/401',
+    image: 'https://picsum.photos/1200/301',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: 'https://picsum.photos/1201/400',
+    image: 'https://picsum.photos/1201/300',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
   'JEE': {
-    image: 'https://picsum.photos/1201/401',
+    image: 'https://picsum.photos/1201/301',
     alt: 'JEE Toppers',
     hint: 'students studying'
   },
   'NEET': {
-    image: 'https://picsum.photos/1200/402',
+    image: 'https://picsum.photos/1200/302',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
   'SSC': {
-    image: 'https://picsum.photos/1202/400',
+    image: 'https://picsum.photos/1202/300',
     alt: 'SSC Toppers',
     hint: 'education'
   },
   'BANK PO': {
-    image: 'https://picsum.photos/1202/401',
+    image: 'https://picsum.photos/1202/301',
     alt: 'Banking Toppers',
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: 'https://picsum.photos/1201/402',
+    image: 'https://picsum.photos/1201/302',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
@@ -85,7 +85,7 @@ export function AcademicExcellence() {
 
         <Card className="shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-primary/20 hover:shadow-primary/30">
           <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-[3/1]">
+            <div className="relative w-full aspect-[4/1]">
                 <Image
                 key={activeCategory}
                 src={resultsData[activeCategory as keyof typeof resultsData].image}
