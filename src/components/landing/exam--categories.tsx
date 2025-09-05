@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -136,7 +137,7 @@ export function ExamCategories() {
                     <CarouselNext className="static translate-y-0" />
                   </div>
                 </Carousel>
-                <div className="mt-16 flex justify-center">
+                <div className="mt-8 flex justify-center">
                     <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsEn} dialogTitle="Explore School & Competitive Exams"/>
                 </div>
               </CardContent>
@@ -171,7 +172,7 @@ export function ExamCategories() {
                     <CarouselNext className="static translate-y-0" />
                   </div>
                 </Carousel>
-                <div className="mt-16 flex justify-center">
+                <div className="mt-8 flex justify-center">
                    <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsHi} dialogTitle="Explore All Exam Categories"/>
                 </div>
               </CardContent>
