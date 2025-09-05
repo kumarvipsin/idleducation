@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download, Hash } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,6 +45,7 @@ const admissionFormSchema = z.object({
   additionalInfo: z.string().optional(),
   branch: z.string().min(1, { message: "Please select your nearest branch." }),
   studentPhoto: z.instanceof(File).optional(),
+  transactionId: z.string().min(1, { message: "Transaction ID is required." }),
 });
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
@@ -76,6 +77,7 @@ export default function AdmissionPage() {
       previousSchool: '',
       additionalInfo: '',
       branch: '',
+      transactionId: '',
     },
   });
 
@@ -140,8 +142,10 @@ export default function AdmissionPage() {
 };
 
   const handlePreview = async () => {
-    const isValid = await form.trigger();
-    if (isValid) {
+    const result = await form.trigger([
+        "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "classApplied", "branch"
+    ]);
+    if (result) {
       setIsPreviewOpen(true);
     } else {
        toast({
@@ -637,22 +641,42 @@ export default function AdmissionPage() {
 
       <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
         <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle>Payment Confirmation</DialogTitle>
-                <DialogDescription>
-                    Please scan the QR code to pay the ₹10 registration fee. After payment, click the button below to complete your submission.
-                </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-col items-center justify-center gap-4 py-4">
-                <Image src="/qrcode.jpg1" alt="Payment QR Code" width={200} height={200} />
-                <p className="font-bold text-lg">Scan to pay ₹10</p>
-            </div>
-            <DialogFooter>
-                 <Button variant="outline" onClick={() => setIsPaymentDialogOpen(false)}>Cancel</Button>
-                <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Submitting...' : 'Confirm Payment & Submit'}
-                </Button>
-            </DialogFooter>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <DialogHeader>
+                        <DialogTitle>Payment Confirmation</DialogTitle>
+                        <DialogDescription>
+                            Please scan the QR code to pay the ₹10 registration fee. After payment, enter the transaction ID and click submit.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center justify-center gap-4 py-4">
+                        <Image src="/qrcode.jpg" alt="Payment QR Code" width={200} height={200} />
+                        <p className="font-bold text-lg">Scan to pay ₹10</p>
+                        <FormField
+                            control={form.control}
+                            name="transactionId"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                <FormLabel>Transaction ID <span className="text-destructive">*</span></FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Enter your transaction ID" {...field} className="pl-9" />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" type="button" onClick={() => setIsPaymentDialogOpen(false)}>Cancel</Button>
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? 'Submitting...' : 'Confirm Payment & Submit'}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </Form>
         </DialogContent>
       </Dialog>
     </div>
