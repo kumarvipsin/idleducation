@@ -1,34 +1,39 @@
+
 'use client';
 
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Book, FileText, BookCheck, StickyNote } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Book className="w-8 h-8 text-primary" />,
+    icon: <Book className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
-    description: "Curated books offering in-depth knowledge to supplement your learning.",
+    description: "Curated books offering in-depth knowledge.",
     href: "/resources/reference-books",
+    color: "bg-blue-100 dark:bg-blue-900/20",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-primary" />,
+    icon: <BookCheck className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
-    description: "Detailed, step-by-step solutions for all NCERT textbook questions.",
+    description: "Detailed, step-by-step textbook solutions.",
     href: "/resources/ncert-solutions",
+     color: "bg-green-100 dark:bg-green-900/20",
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-primary" />,
+    icon: <StickyNote className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
-    description: "Concise and organized study notes for quick revision and better understanding.",
+    description: "Concise and organized notes for quick revision.",
     href: "/resources/notes",
+     color: "bg-yellow-100 dark:bg-yellow-900/20",
   },
   {
-    icon: <FileText className="w-8 h-8 text-primary" />,
+    icon: <FileText className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
-    description: "Practice with past exam papers to master question patterns and time management.",
+    description: "Practice with past exam papers to master patterns.",
     href: "/resources/previous-year-questions",
+     color: "bg-red-100 dark:bg-red-900/20",
   },
 ]
 
@@ -78,20 +83,20 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`relative overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white text-foreground p-6 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                  className={`overflow-hidden shadow-md h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card p-0 flex flex-col ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                   style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
-                    <div className="mb-4">
+                    <div className={`p-6 flex items-center justify-center ${resource.color}`}>
                         {resource.icon}
                     </div>
-                    <div className="flex flex-col flex-grow">
+                    <CardContent className="p-6 flex flex-col flex-grow">
                         <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
-                        <p className={`text-sm mb-4 flex-grow text-muted-foreground`}>{resource.description}</p>
+                        <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
                         <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
                             <span className="text-sm">Explore</span>
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
-                    </div>
+                    </CardContent>
                 </Card>
             </Link>
           ))}
