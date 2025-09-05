@@ -14,36 +14,36 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const testimonials = [
     {
-      name: "Anmol Rathore",
-      achievement: "UPSC CSE 2023 AIR 7 | UPSC",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      avatarHint: "woman professional",
-      testimonial: "I used to regularly follow the youtube videos, prelims booster videos and specially editorial discussion from where I made important pointers. I also watched some history videos like Buddhism, Jainism as the topics were explained very clearly... all these were very...",
-      testimonial_hi: "मैं नियमित रूप से यूट्यूब वीडियो, प्रीलिम्स बूस्टर वीडियो और विशेष रूप से संपादकीय चर्चा का पालन करता था, जहां से मैंने महत्वपूर्ण बिंदु बनाए। मैंने बौद्ध धर्म, जैन धर्म जैसे कुछ इतिहास वीडियो भी देखे क्योंकि विषयों को बहुत स्पष्ट रूप से समझाया गया था... ये सभी बहुत...",
-    },
-    {
-      name: "Raja Majhi",
-      achievement: "GATE 2024 AIR 1 | GATE",
-      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      avatarHint: "male professional",
-      testimonial: "I am Kaja Majhi, and I am thrilled to share that I have secured All India Rank 1 (AIR 1) in the GATE 2024 examination in ECE. From the very beginning, Physics Wallah stood out for its structured and comprehensive curriculum. The faculty members, with their in-depth knowledge and teaching expertise, ensured...",
-      testimonial_hi: "मैं काजा माझी हूं, और मुझे यह साझा करते हुए बहुत खुशी हो रही है कि मैंने ईसीई में गेट 2024 परीक्षा में अखिल भारतीय रैंक 1 (एआईआर 1) हासिल की है। शुरू से ही, फिजिक्स वाला अपने संरचित और व्यापक पाठ्यक्रम के लिए सबसे अलग रहा। संकाय सदस्यों ने अपने गहन ज्ञान और शिक्षण विशेषज्ञता के साथ सुनिश्चित किया...",
-    },
-    {
-      name: "Amit Kumar Mandal",
-      achievement: "IBPS Topper | Banking",
-      avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
-      avatarHint: "male teacher",
-      testimonial: "PW helped me in establishing the basics of every subject through which I was able to progress quickly and was also able to increase my speed and also maintaining accuracy.",
-      testimonial_hi: "पीडब्ल्यू ने मुझे हर विषय की मूल बातें स्थापित करने में मदद की, जिसके माध्यम से मैं तेजी से प्रगति करने में सक्षम था और अपनी गति बढ़ाने के साथ-साथ सटीकता बनाए रखने में भी सक्षम था।",
-    },
-    {
-      name: "Priya Singh",
-      achievement: "Class 12 Topper | CBSE",
+      name: "Priya Sharma",
+      achievement: "Class 10 Topper | CBSE",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
       avatarHint: "female student",
-      testimonial: "IDL EDUCATION's teachers are incredibly supportive. The two-teacher model ensures that my doubts are always cleared instantly.",
-      testimonial_hi: "आईडीएल एजुकेशन के शिक्षक अविश्वसनीय रूप से सहायक हैं। दो-शिक्षक मॉडल यह सुनिश्चित करता है कि मेरी शंकाओं का तुरंत समाधान हो जाए।",
+      testimonial: "IDL EDUCATION's structured approach and regular tests were a game-changer for my Class 10 boards. The teachers are incredibly supportive, and the platform made learning complex topics so much easier. I'm grateful for their guidance!",
+      testimonial_hi: "आईडीएल एजुकेशन का संरचित दृष्टिकोण और नियमित परीक्षण मेरे कक्षा 10 बोर्ड के लिए गेम-चेंजर थे। शिक्षक अविश्वसनीय रूप से सहायक हैं, और मंच ने जटिल विषयों को सीखना बहुत आसान बना दिया। मैं उनके मार्गदर्शन के लिए आभारी हूं!",
+    },
+    {
+      name: "Rohan Verma",
+      achievement: "Scored 96% in Science | CBSE Class 12",
+      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatarHint: "male student",
+      testimonial: "Amod Sharma Sir's teaching method for Physics and Chemistry is phenomenal. He breaks down the most difficult concepts into simple, understandable parts. Thanks to him, I scored 96% in Science in my Class 12 exams!",
+      testimonial_hi: "भौतिकी और रसायन विज्ञान के लिए अमोद शर्मा सर की शिक्षण पद्धति अभूतपूर्व है। वह सबसे कठिन अवधारणाओं को सरल, समझने योग्य भागों में तोड़ देते हैं। उनकी बदौलत, मैंने अपनी कक्षा 12 की परीक्षा में विज्ञान में 96% अंक प्राप्त किए!",
+    },
+    {
+      name: "Aisha Khan",
+      achievement: "Scored 98 in Maths | CBSE Class 10",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatarHint: "female professional",
+      testimonial: "I used to struggle with Mathematics, but Amod Sharma Sir's classes at IDL EDUCATION made all the difference. His patient and clear explanations helped me score 98 in my Class 10 board exams. Highly recommended!",
+      testimonial_hi: "मैं गणित के साथ संघर्ष करती थी, लेकिन आईडीएल एजुकेशन में अमोद शर्मा सर की कक्षाओं ने सब कुछ बदल दिया। उनके धैर्यपूर्ण और स्पष्ट स्पष्टीकरण ने मुझे अपनी कक्षा 10 की बोर्ड परीक्षा में 98 अंक प्राप्त करने में मदद की। अत्यधिक अनुशंसित!",
+    },
+    {
+      name: "Arjun Singh",
+      achievement: "Commerce Topper | CBSE Class 12",
+      avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatarHint: "male teacher",
+      testimonial: "The two-teacher model at IDL EDUCATION is fantastic for clearing doubts instantly. The study materials provided were comprehensive and helped me excel in my Class 12 Commerce exams. The platform is truly dedicated to student success.",
+      testimonial_hi: "आईडीएल एजुकेशन में दो-शिक्षक मॉडल संदेहों को तुरंत दूर करने के लिए शानदार है। प्रदान की गई अध्ययन सामग्री व्यापक थी और इसने मुझे अपनी कक्षा 12 की वाणिज्य परीक्षाओं में उत्कृष्टता प्राप्त करने में मदद की। यह मंच वास्तव में छात्र की सफलता के लिए समर्पित है।",
     },
 ];
 
@@ -93,7 +93,7 @@ export function StudentTestimonials() {
   const sectionRef = useRef<HTMLDivElement>(null);
   
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
 
   useEffect(() => {
