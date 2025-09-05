@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -76,17 +77,17 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader className="text-center sm:text-center">
-                    <DialogTitle>{dialogTitle}</DialogTitle>
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader className="text-center">
+                    <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
                     <DialogDescription>
                         {dialogDescription}
                     </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="h-72">
-                    <div className="grid grid-cols-2 gap-4 p-4">
+                <ScrollArea className="h-72 w-full">
+                    <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="rounded-full border-primary hover:bg-primary/10 hover:text-primary">
+                            <Button key={program.name} asChild variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 hover:text-primary transition-all duration-200">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
