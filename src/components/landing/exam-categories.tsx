@@ -68,7 +68,7 @@ const popularProgramsHi = [
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
-const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string }) => {
+const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string, dialogDescription: string }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -81,7 +81,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText
                 <DialogHeader className="text-center sm:text-center">
                     <DialogTitle>{dialogTitle}</DialogTitle>
                     <DialogDescription>
-                        Explore our comprehensive programs and find the perfect fit for your learning journey.
+                        {dialogDescription}
                     </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="h-72">
@@ -188,7 +188,12 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                    <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsEn} dialogTitle="For School Exams"/>
+                    <ExploreMoreDialog 
+                        triggerText="EXPLORE MORE" 
+                        programs={popularProgramsEn} 
+                        dialogTitle="For School Exams"
+                        dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
+                    />
                 </div>
               </CardContent>
             </div>
@@ -223,7 +228,12 @@ export function ExamCategories() {
                   </div>
                 </Carousel>
                 <div className="mt-16 flex justify-center">
-                   <ExploreMoreDialog triggerText="EXPLORE MORE" programs={popularProgramsHi} dialogTitle="Explore All Exam Categories"/>
+                   <ExploreMoreDialog 
+                        triggerText="EXPLORE MORE" 
+                        programs={popularProgramsHi} 
+                        dialogTitle="For Competitive Exams"
+                        dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
+                    />
                 </div>
               </CardContent>
             </div>
