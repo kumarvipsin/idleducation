@@ -8,42 +8,42 @@ import { Card } from '../ui/card';
 
 const resultsData = {
   'CUET': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1200/400',
     alt: 'CUET Toppers',
     hint: 'students celebrating'
   },
   'CBSE 10': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1200/401',
     alt: 'CBSE 10th Toppers',
     hint: 'classroom students'
   },
   'CBSE 12': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1201/400',
     alt: 'CBSE 12th Toppers',
     hint: 'graduation ceremony'
   },
   'JEE': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1201/401',
     alt: 'JEE Toppers',
     hint: 'students studying'
   },
   'NEET': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1200/402',
     alt: 'NEET Toppers',
     hint: 'medical students'
   },
   'SSC': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1202/400',
     alt: 'SSC Toppers',
     hint: 'education'
   },
   'BANK PO': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1202/401',
     alt: 'Banking Toppers',
     hint: 'banking professionals'
   },
   'DELHI POLICE': {
-    image: '/classxx.jpg',
+    image: 'https://picsum.photos/1201/402',
     alt: 'Delhi Police',
     hint: 'police officers'
   },
@@ -85,7 +85,7 @@ export function AcademicExcellence() {
 
         <Card className="shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-primary/20 hover:shadow-primary/30">
           <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-video md:aspect-[5/1]">
+            <div className="relative w-full aspect-[3/1]">
                 <Image
                 key={activeCategory}
                 src={resultsData[activeCategory as keyof typeof resultsData].image}
