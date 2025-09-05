@@ -138,8 +138,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden ${isVisible ? 'animate-fade-in-up' : ''}`}
-          style={{ backgroundColor: '#03045e', animationDelay: '0.2s' }}
+          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-[#e1e9f8] to-[#f2f5fc] ${isVisible ? 'animate-fade-in-up' : ''}`}
+          style={{ animationDelay: '0.2s' }}
         >
           <div className="flex flex-col lg:flex-row">
             {/* Left Side */}
@@ -154,7 +154,7 @@ export function ExamCategories() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground">
                               <Link href={program.href}>{program.name}</Link>
                             </Button>
                           ))}
@@ -174,8 +174,8 @@ export function ExamCategories() {
             </div>
             
             {/* Divider */}
-            <Separator orientation="vertical" className="h-auto hidden lg:block bg-white/20" />
-            <Separator orientation="horizontal" className="block lg:hidden bg-white/20" />
+            <Separator orientation="vertical" className="h-auto hidden lg:block bg-gray-300/50" />
+            <Separator orientation="horizontal" className="block lg:hidden bg-gray-300/50" />
 
             {/* Right Side */}
             <div className="flex-1">
@@ -189,7 +189,7 @@ export function ExamCategories() {
                       <CarouselItem key={slideIndex}>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                           {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground">
                               <Link href={program.href}>{program.name}</Link>
                             </Button>
                           ))}
