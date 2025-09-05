@@ -129,13 +129,16 @@ export function ExamCategories() {
   }, []);
   
   const svgTexture = `
-    <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'>
-      <text x='10' y='30' font-size='12' fill='rgba(0,0,0,0.05)'>√</text>
-      <text x='50' y='60' font-size='12' fill='rgba(0,0,0,0.05)'>π</text>
-      <text x='80' y='20' font-size='12' fill='rgba(0,0,0,0.05)'>Σ</text>
-      <text x='20' y='80' font-size='12' fill='rgba(0,0,0,0.05)'>∞</text>
-      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,0,0.05)' stroke-width='1' fill='none'/>
-      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,0,0.05)' stroke-width='1' fill='none'/>
+    <svg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'>
+      <text x='10' y='30' font-size='14' fill='rgba(0,0,0,0.08)'>√x</text>
+      <text x='60' y='50' font-size='14' fill='rgba(0,0,0,0.08)'>π</text>
+      <text x='110' y='25' font-size='14' fill='rgba(0,0,0,0.08)'>Σ</text>
+      <text x='25' y='80' font-size='14' fill='rgba(0,0,0,0.08)'>∫</text>
+      <text x='90' y='120' font-size='14' fill='rgba(0,0,0,0.08)'>H₂O</text>
+      <text x='130' y='90' font-size='14' fill='rgba(0,0,0,0.08)'>α</text>
+      <text x='15' y='130' font-size='14' fill='rgba(0,0,0,0.08)'>E=mc²</text>
+      <circle cx='85' cy='85' r='5' stroke='rgba(0,0,0,0.08)' stroke-width='1' fill='none'/>
+      <ellipse cx='85' cy='85' rx='10' ry='4' transform='rotate(45 85 85)' stroke='rgba(0,0,0,0.08)' stroke-width='1' fill='none'/>
     </svg>
   `;
 
