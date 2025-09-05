@@ -58,7 +58,7 @@ export function AcademicExcellence() {
     <section className="w-full py-12 md:py-24 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
-          <h2 className="text-4xl md:text-5xl font-bold">
+          <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Academic</span>
             <span style={{ color: '#adb5bd' }}> Excellence : Results</span>
           </h2>
