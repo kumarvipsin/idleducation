@@ -2,81 +2,72 @@
 'use client';
 
 import * as React from "react";
-import { Card } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Youtube } from "lucide-react";
+import Link from "next/link";
 
-const videoTestimonials = [
+const youtubeChannels = [
   {
-    title: "Gyaan",
-    videoUrl: "/gyaan.mp4",
+    name: "IDL NCERT",
+    subscribers: "1.35M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
+    iconColor: "text-amber-700 dark:text-amber-400",
   },
   {
-    title: "Tu Chal",
-    videoUrl: "/tuchal.mp4",
+    name: "IDL Foundation",
+    subscribers: "3.48M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
+    iconColor: "text-amber-700 dark:text-amber-400",
   },
   {
-    title: "Guzar Jayega",
-    videoUrl: "/guzar.mp4",
-  },
-  {
-    title: "Koshish",
-    videoUrl: "/koshish.mp4",
+    name: "IDL EDUCATION",
+    subscribers: "11.5M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-gray-200 to-gray-50 dark:from-gray-700/20 dark:to-gray-600/10",
+    iconColor: "text-gray-600 dark:text-gray-300",
   },
 ];
 
-export function ToppersTestimonials() {
-  const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: true })
-  );
 
+const YoutubeIcon = ({ className }: { className?: string }) => (
+    <svg
+        viewBox="0 0 24 24"
+        className={className}
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path d="M21.582,6.186 c-0.23-0.854-0.908-1.532-1.762-1.762C18.258,4,12,4,12,4S5.742,4,4.18,4.424 c-0.854,0.23-1.532,0.908-1.762,1.762C2,7.742,2,12,2,12s0,4.258,0.418,5.814c0.23,0.854,0.908,1.532,1.762,1.762 C5.742,20,12,20,12,20s6.258,0,7.82-0.424c0.854-0.23,1.532-0.908,1.762-1.762C22,16.258,22,12,22,12S22,7.742,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z" />
+    </svg>
+);
+
+
+export function ToppersTestimonials() {
   return (
-    <section className="w-full py-12 md:py-24">
+    <section className="w-full py-12 md:py-24 bg-background">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Topper's Testimonials</h2>
-          <p className="text-accent mt-2 max-w-2xl mx-auto">
-            They dreamed, they dared, they conquered — now it’s your turn! Hear how our toppers made it happen!
+          <h2 className="text-3xl md:text-4xl font-bold text-primary">Join The IDL Family, Today!</h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Explore our YouTube Channels and subscribe to get access to quality education for free.
           </p>
         </div>
-        <div className="relative w-full max-w-6xl mx-auto">
-          <Carousel
-            plugins={[plugin.current]}
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {videoTestimonials.map((video, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                  <div className="p-2">
-                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                      <div className="aspect-video">
-                        <video
-                          width="100%"
-                          height="100%"
-                          controls
-                          className="w-full h-full object-cover"
-                          preload="metadata"
-                        >
-                          <source src={video.videoUrl} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                      </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {youtubeChannels.map((channel, index) => (
+                <Link key={index} href={channel.href} target="_blank" rel="noopener noreferrer" className="group">
+                    <Card className={`overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
+                        <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-6 text-center flex flex-col items-center justify-center gap-4">
+                            <div className="relative">
+                                <YoutubeIcon className={`w-16 h-16 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
+                            </div>
+                            <h3 className="font-bold text-lg">{channel.name}</h3>
+                            <p className="text-sm text-muted-foreground">{channel.subscribers} Subscribers</p>
+                        </div>
                     </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4">
-                <CarouselPrevious className="static translate-y-0 text-primary hover:bg-primary hover:text-primary-foreground" />
-                <CarouselNext className="static translate-y-0 text-primary hover:bg-primary hover:text-primary-foreground" />
-            </div>
-          </Carousel>
+                </Link>
+            ))}
         </div>
       </div>
     </section>
