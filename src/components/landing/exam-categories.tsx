@@ -1,8 +1,8 @@
 
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
@@ -78,10 +78,10 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle }: { triggerText
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
+                <DialogHeader className="text-center">
                     <DialogTitle>{dialogTitle}</DialogTitle>
                     <DialogDescription>
-                        Select a category to see more details.
+                        Explore our comprehensive programs and find the perfect fit for your learning journey.
                     </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="h-72">
