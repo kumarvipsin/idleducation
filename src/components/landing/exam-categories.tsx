@@ -158,8 +158,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
-            style={{ animationDelay: '0.2s' }}
+            className={`relative overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5 ${isVisible ? 'animate-fade-in-up' : ''}`}
+            style={{ backgroundColor: '#dee2e6', animationDelay: '0.2s' }}
         >
             <div className="bg-background rounded-[.45rem] h-full" style={textureStyle}>
                 <div className="flex flex-col lg:flex-row">
