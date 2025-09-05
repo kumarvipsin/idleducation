@@ -29,6 +29,27 @@ const youtubeChannels = [
     gradient: "from-gray-200 to-gray-50 dark:from-gray-700/20 dark:to-gray-600/10",
     iconColor: "text-gray-600 dark:text-gray-300",
   },
+   {
+    name: "IDL JEE",
+    subscribers: "5.1M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-blue-100 to-sky-50 dark:from-blue-900/20 dark:to-sky-900/10",
+    iconColor: "text-blue-700 dark:text-blue-400",
+  },
+  {
+    name: "IDL NEET",
+    subscribers: "4.5M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-green-100 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/10",
+    iconColor: "text-green-700 dark:text-green-400",
+  },
+  {
+    name: "IDL SSC",
+    subscribers: "2.8M",
+    href: "https://www.youtube.com/@idleducation",
+    gradient: "from-red-100 to-rose-50 dark:from-red-900/20 dark:to-rose-900/10",
+    iconColor: "text-red-700 dark:text-red-400",
+  },
 ];
 
 
@@ -43,6 +64,20 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
+const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
+    <Link href={channel.href} target="_blank" rel="noopener noreferrer" className="group shrink-0">
+        <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
+            <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-4 text-center flex flex-col items-center justify-center gap-2">
+                <div className="relative">
+                    <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
+                </div>
+                <h3 className="font-bold">{channel.name}</h3>
+                <p className="text-xs text-muted-foreground">{channel.subscribers} Subscribers</p>
+            </div>
+        </Card>
+    </Link>
+);
+
 
 export function ToppersTestimonials() {
   return (
@@ -54,20 +89,18 @@ export function ToppersTestimonials() {
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {youtubeChannels.map((channel, index) => (
-                <Link key={index} href={channel.href} target="_blank" rel="noopener noreferrer" className="group">
-                    <Card className={`overflow-hidden shadow-lg h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
-                        <div className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-6 text-center flex flex-col items-center justify-center gap-4">
-                            <div className="relative">
-                                <YoutubeIcon className={`w-16 h-16 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
-                            </div>
-                            <h3 className="font-bold text-lg">{channel.name}</h3>
-                            <p className="text-sm text-muted-foreground">{channel.subscribers} Subscribers</p>
-                        </div>
-                    </Card>
-                </Link>
-            ))}
+        <div className="relative w-full overflow-hidden">
+            <div className="flex marquee-container gap-6">
+                 {/* Render the list twice for a seamless loop */}
+                {youtubeChannels.map((channel, index) => (
+                    <ChannelCard key={`${channel.name}-${index}`} channel={channel} />
+                ))}
+                 {youtubeChannels.map((channel, index) => (
+                    <ChannelCard key={`${channel.name}-${index}-clone`} channel={channel} />
+                ))}
+            </div>
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
         </div>
       </div>
     </section>
