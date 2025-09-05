@@ -138,7 +138,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-[#e1e9f8] to-[#f2f5fc] ${isVisible ? 'animate-fade-in-up' : ''}`}
+          className={`shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden bg-gradient-to-br from-[#cbd9f2] to-[#e1e9f8] ${isVisible ? 'animate-fade-in-up' : ''}`}
           style={{ animationDelay: '0.2s' }}
         >
           <div className="flex flex-col lg:flex-row">
