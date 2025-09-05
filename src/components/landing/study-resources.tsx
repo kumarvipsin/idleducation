@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,30 +7,30 @@ import { useEffect, useRef, useState } from 'react';
 
 const resources = [
   {
-    icon: <Book className="w-8 h-8 text-blue-500" />,
+    icon: <Library className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Curated books offering in-depth knowledge.",
     href: "/resources/reference-books",
     color: "bg-blue-100 dark:bg-blue-900/20",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-green-500" />,
+    icon: <PencilRuler className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
     description: "Detailed, step-by-step textbook solutions.",
     href: "/resources/ncert-solutions",
      color: "bg-green-100 dark:bg-green-900/20",
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-yellow-500" />,
+    icon: <NotebookText className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
-    description: "Concise and organized notes for quick revision.",
+    description: "Concise notes for quick revision.",
     href: "/resources/notes",
      color: "bg-yellow-100 dark:bg-yellow-900/20",
   },
   {
-    icon: <FileText className="w-8 h-8 text-red-500" />,
+    icon: <History className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
-    description: "Practice with past exam papers to master patterns.",
+    description: "Practice with past exam papers.",
     href: "/resources/previous-year-questions",
      color: "bg-red-100 dark:bg-red-900/20",
   },
@@ -89,7 +88,7 @@ export function StudyResources() {
                     <div className={`p-6 flex items-center justify-center ${resource.color}`}>
                         {resource.icon}
                     </div>
-                    <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#ced4da' }}>
+                    <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#e9ecef' }}>
                         <h3 className="text-lg font-bold mb-2 text-primary">{resource.title}</h3>
                         <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
                         <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
