@@ -102,19 +102,19 @@ const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
     <Link href={channel.href} target="_blank" rel="noopener noreferrer" className="group shrink-0">
         <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${channel.gradient} p-0.5`}>
             <div 
-              className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-4 text-center flex flex-col items-center justify-center gap-2"
+              className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-2 text-center flex flex-col items-center justify-center gap-2"
               style={textureStyle}
             >
                 <div className="relative">
                     <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
                 </div>
-                <h3 className="font-bold">{channel.name}</h3>
+                <h3 className="font-bold text-sm">{channel.name}</h3>
                 <div className="text-xs text-muted-foreground mt-1">
                     <p className="font-semibold text-foreground">{channel.studentName}</p>
                     <p>{channel.studentClass}</p>
                     <p>{channel.studentPlace}</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">{channel.subscribers} Subscribers</p>
+                <p className="text-xs text-muted-foreground mt-1">{channel.subscribers} Subscribers</p>
             </div>
         </Card>
     </Link>
