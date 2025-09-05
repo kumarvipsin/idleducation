@@ -49,9 +49,9 @@ export function ToppersTestimonials() {
     <section className="w-full py-12 md:py-24 bg-background">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Join The IDL Family, Today!</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary">Topper's Testimonials</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Explore our YouTube Channels and subscribe to get access to quality education for free.
+            Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
