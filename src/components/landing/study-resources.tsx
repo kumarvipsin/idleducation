@@ -12,7 +12,7 @@ const resources = [
     title: "Reference Books",
     description: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.",
     href: "/resources/reference-books",
-    gradient: "from-orange-500 to-orange-400",
+    gradient: "from-blue-500 to-blue-400",
   },
   {
     icon: <BookCheck className="w-8 h-8 text-white" />,
