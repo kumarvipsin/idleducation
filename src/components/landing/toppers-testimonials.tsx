@@ -8,6 +8,10 @@ import Autoplay from "embla-carousel-autoplay";
 
 const videoTestimonials = [
   {
+    title: "Vigen's Success Story",
+    embedUrl: "https://www.youtube.com/embed/lnFLQ12DZRw",
+  },
+  {
     title: "Success Story: Aditya Srivastava, Rank 1",
     embedUrl: "https://www.youtube.com/embed/natYsNb2QBM",
   },
