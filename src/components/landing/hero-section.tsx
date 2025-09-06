@@ -553,9 +553,11 @@ export function HeroSection() {
                       )}
                     />
 
-                    <Button type="submit" size="lg" className="w-full bg-accent text-accent-foreground" disabled={form.formState.isSubmitting}>
-                      {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
-                    </Button>
+                    <div className="flex justify-center">
+                      <Button type="submit" size="lg" className="w-3/5 bg-purple text-purple-foreground" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
+                      </Button>
+                    </div>
                   </form>
                 </Form>
               </CardContent>
