@@ -27,7 +27,7 @@ export default function ScienceDetailsPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg">
         <CardHeader className="bg-primary text-primary-foreground">
-          <CardTitle className="text-3xl">Science Course Resources</CardTitle>
+          <CardTitle className="text-3xl">CLASS 12 | POLITICAL SCIENCE | BOOK-1 | BOOK-2</CardTitle>
           <CardDescription className="text-primary-foreground/80">All your study materials for Science in one place.</CardDescription>
         </CardHeader>
         <CardContent className="p-6">
@@ -76,3 +76,4 @@ export default function ScienceDetailsPage() {
     </div>
   );
 }
+
