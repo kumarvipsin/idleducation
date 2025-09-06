@@ -137,10 +137,10 @@ function SchoolPageContent() {
             <button
               key={className}
               onClick={() => setActiveClass(className)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md
                 ${activeClass === className 
-                  ? 'border border-primary text-primary rounded-md' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                  ? 'border border-primary text-primary bg-primary/10' 
+                  : 'border border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
             >
               {className}
             </button>
