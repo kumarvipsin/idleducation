@@ -140,8 +140,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`transition-all duration-300 bg-slate-50 dark:bg-slate-900/50 border-none shadow-[0_15px_40px_-15px_rgba(128,90,213,0.3),_0_-15px_40px_-15px_rgba(128,90,213,0.3)] rounded-2xl group ${isVisible ? 'animate-fade-in-up' : ''}`}
-            style={{ animationDelay: '0.2s' }}
+            className={`transition-all duration-300 border-none shadow-[0_15px_40px_-15px_rgba(128,90,213,0.3),_0_-15px_40px_-15px_rgba(128,90,213,0.3)] rounded-2xl group ${isVisible ? 'animate-fade-in-up' : ''}`}
+            style={{ animationDelay: '0.2s', backgroundColor: '#eaf4f4' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
