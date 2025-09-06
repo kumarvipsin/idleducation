@@ -554,7 +554,7 @@ export function HeroSection() {
                     />
 
                     <div className="flex justify-center">
-                      <Button type="submit" size="lg" className="w-3/5 bg-purple text-purple-foreground" disabled={form.formState.isSubmitting}>
+                       <Button type="submit" size="lg" className="w-3/5 transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
                       </Button>
                     </div>
