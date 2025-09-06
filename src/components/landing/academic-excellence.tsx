@@ -53,6 +53,7 @@ export function AcademicExcellence() {
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[4/1.2]">
                 <Image
+                key={activeCategory}
                 src="/result.jpg"
                 alt="Excellent student results"
                 data-ai-hint="student results success"
