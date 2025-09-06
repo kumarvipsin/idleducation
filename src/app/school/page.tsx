@@ -67,9 +67,9 @@ const class12Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "Social Studies",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
+        title: "Geography",
+        description: "",
+        language: "Book-1 | Book-2",
         bgColor: "bg-amber-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
