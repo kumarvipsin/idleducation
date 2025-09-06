@@ -37,7 +37,7 @@ const topCourses = [
         language: "Ncert | Basic To Advance",
         bgColor: "bg-emerald-500",
         textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "Social Studies",
@@ -45,7 +45,7 @@ const topCourses = [
         language: "English Medium | Hindi Medium",
         bgColor: "bg-amber-500",
         textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
 
