@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -140,7 +139,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`transition-all duration-300 bg-card border-border shadow-sm group ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`transition-all duration-300 bg-slate-50 dark:bg-slate-900/50 border-none shadow-[0_10px_30px_-10px_rgba(128,90,213,0.3)] hover:shadow-[0_15px_40px_-10px_rgba(128,90,213,0.4)] rounded-2xl group ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
             <div className="flex flex-col lg:flex-row">
