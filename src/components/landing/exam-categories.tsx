@@ -87,7 +87,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 hover:text-primary transition-all duration-200 rounded-lg">
+                            <Button key={program.name} asChild variant="outline" className="h-12 border-primary/50 text-primary hover:bg-primary/10 hover:text-primary transition-all duration-200 rounded-lg">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
@@ -217,3 +217,4 @@ export function ExamCategories() {
     </section>
   );
 }
+
