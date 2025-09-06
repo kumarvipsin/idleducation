@@ -21,6 +21,7 @@ const categories = [
 export function AcademicExcellence() {
   const [activeCategory, setActiveCategory] = useState('CUET');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [animationKey, setAnimationKey] = useState(0);
 
   const startAutoSwitch = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -41,6 +42,10 @@ export function AcademicExcellence() {
       }
     };
   }, []);
+  
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeCategory]);
 
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
@@ -86,7 +91,7 @@ export function AcademicExcellence() {
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[4/1.2]">
                 <Image
-                key={activeCategory}
+                key={animationKey}
                 src="/result.jpg"
                 alt="Excellent student results"
                 data-ai-hint="student results success"
