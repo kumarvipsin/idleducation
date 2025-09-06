@@ -84,26 +84,26 @@ export default function AdminDashboard() {
   }, []);
 
   const statCards = [
-    { title: "Total Users", value: stats.totalUsers, icon: <Users className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Total Students", value: stats.totalStudents, icon: <GraduationCap className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Total Teachers", value: stats.totalTeachers, icon: <Briefcase className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Approved Students", value: stats.newStudents, icon: <UserPlus className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Deny Users", value: stats.deniedUsers, icon: <XCircle className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Free Demo", value: stats.totalBookings, monthly: stats.monthlyBookings, icon: <Presentation className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Contact Us", value: stats.totalSubmissions, monthly: stats.monthlySubmissions, icon: <MessageCircle className="h-4 w-4 text-muted-foreground" /> },
-    { title: "Recent Updates", value: stats.totalUpdates, monthly: stats.monthlyUpdates, icon: <Megaphone className="h-4 w-4 text-muted-foreground" /> },
+    { title: "Total Users", value: stats.totalUsers, icon: <Users className="h-4 w-4 text-muted-foreground" />, colors: "from-blue-100 to-blue-200 dark:from-blue-900/20 dark:to-blue-800/20" },
+    { title: "Total Students", value: stats.totalStudents, icon: <GraduationCap className="h-4 w-4 text-muted-foreground" />, colors: "from-green-100 to-green-200 dark:from-green-900/20 dark:to-green-800/20" },
+    { title: "Total Teachers", value: stats.totalTeachers, icon: <Briefcase className="h-4 w-4 text-muted-foreground" />, colors: "from-yellow-100 to-yellow-200 dark:from-yellow-900/20 dark:to-yellow-800/20" },
+    { title: "Approved Students", value: stats.newStudents, icon: <UserPlus className="h-4 w-4 text-muted-foreground" />, colors: "from-sky-100 to-sky-200 dark:from-sky-900/20 dark:to-sky-800/20" },
+    { title: "Deny Users", value: stats.deniedUsers, icon: <XCircle className="h-4 w-4 text-muted-foreground" />, colors: "from-red-100 to-red-200 dark:from-red-900/20 dark:to-red-800/20" },
+    { title: "Free Demo", value: stats.totalBookings, monthly: stats.monthlyBookings, icon: <Presentation className="h-4 w-4 text-muted-foreground" />, colors: "from-indigo-100 to-indigo-200 dark:from-indigo-900/20 dark:to-indigo-800/20" },
+    { title: "Contact Us", value: stats.totalSubmissions, monthly: stats.monthlySubmissions, icon: <MessageCircle className="h-4 w-4 text-muted-foreground" />, colors: "from-pink-100 to-pink-200 dark:from-pink-900/20 dark:to-pink-800/20" },
+    { title: "Recent Updates", value: stats.totalUpdates, monthly: stats.monthlyUpdates, icon: <Megaphone className="h-4 w-4 text-muted-foreground" />, colors: "from-purple-100 to-purple-200 dark:from-purple-900/20 dark:to-purple-800/20" },
   ];
   
   const userStatusCards = [
-      { title: "Active Users", value: stats.activeUsers, monthly: stats.monthlyActiveUsers, icon: <UserCheck className="h-4 w-4 text-muted-foreground" /> },
-      { title: "Inactive Users", value: stats.inactiveUsers, icon: <UserX className="h-4 w-4 text-muted-foreground" /> },
+      { title: "Active Users", value: stats.activeUsers, monthly: stats.monthlyActiveUsers, icon: <UserCheck className="h-4 w-4 text-muted-foreground" />, colors: "from-teal-100 to-teal-200 dark:from-teal-900/20 dark:to-teal-800/20" },
+      { title: "Inactive Users", value: stats.inactiveUsers, icon: <UserX className="h-4 w-4 text-muted-foreground" />, colors: "from-slate-100 to-slate-200 dark:from-slate-900/20 dark:to-slate-800/20" },
   ]
 
   return (
     <div className="space-y-6">
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
           {statCards.map((card, index) => (
-              <Card key={card.title} className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+              <Card key={card.title} className={`bg-gradient-to-br ${card.colors} animate-fade-in-up`} style={{ animationDelay: `${index * 0.05}s` }}>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
                       {card.icon}
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
 
        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {userStatusCards.map((card, index) => (
-             <Card key={card.title} className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: `${(statCards.length + index) * 0.05}s` }}>
+             <Card key={card.title} className={`bg-gradient-to-br ${card.colors} animate-fade-in-up`} style={{ animationDelay: `${(statCards.length + index) * 0.05}s` }}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
                     {card.icon}
