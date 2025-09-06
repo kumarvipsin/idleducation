@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Card } from '../ui/card';
+import { cn } from '@/lib/utils';
 
 const categories = [
   'CUET',
@@ -32,16 +33,13 @@ export function AcademicExcellence() {
     }, 3000); // Switch every 3 seconds
   };
 
-  const stopAutoSwitch = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
-
   useEffect(() => {
     startAutoSwitch();
-    return () => stopAutoSwitch(); // Cleanup on unmount
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
 
   const handleCategoryClick = (category: string) => {
@@ -68,20 +66,23 @@ export function AcademicExcellence() {
             <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {categories.map((category) => (
-                    <Button
-                    key={category}
-                    variant={activeCategory === category ? 'ghost' : 'outline'}
-                    className="rounded-full"
-                    onClick={() => handleCategoryClick(category)}
+                    <button
+                      key={category}
+                      onClick={() => handleCategoryClick(category)}
+                      className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md border`,
+                        activeCategory === category 
+                          ? 'border-primary text-primary bg-primary/10' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                      )}
                     >
-                    {category}
-                    </Button>
+                      {category}
+                    </button>
                 ))}
                 </div>
             </div>
         </div>
 
-        <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_-8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_-8px_32px_0_rgba(31,38,135,0.5)]">
+        <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.5)]">
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[4/1.2]">
                 <Image
