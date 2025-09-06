@@ -36,7 +36,7 @@ const topCourses = [
         buttons: [{ text: "VIEW MORE", href: "#" }],
     },
     {
-        title: "Science",
+        title: "Social Studies",
         description: "Ncert Besd",
         language: "English Medium | Hindi Medium",
         bgColor: "bg-amber-500",
