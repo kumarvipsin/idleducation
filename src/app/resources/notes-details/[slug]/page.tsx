@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from "react";
+import { Suspense, use } from "react";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
   'the-cold-war-era': {
@@ -19,7 +19,34 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'the-end-of-bipolarity': {
     en: {
       title: 'Chapter 2: The End of Bipolarity',
-      content: 'This chapter discusses the collapse of the Soviet Union and the end of the Cold War, leading to a unipolar world dominated by the United States. It examines the causes and consequences of these historic events.'
+      content: `
+### What was the Soviet System?
+- The Union of Soviet Socialist Republics (USSR) came into being after the Socialist Revolution in Russia in 1917.
+- The revolution was inspired by the ideals of socialism and the need for an egalitarian society.
+- This was the biggest attempt in human history to abolish the institution of private property and consciously design a society based on principles of equality.
+- In doing so, the makers of the Soviet system gave primacy to the state and the institution of the party.
+- The Soviet political system centered around the communist party, and no other political party or opposition was allowed.
+- The economy was planned and controlled by the state.
+- After the Second World War, the East European countries that the Soviet army had liberated from the fascist forces came under the control of the USSR.
+- The political and the economic systems of all these countries were modeled after the USSR. This group of countries was called the Second World or the ‘socialist bloc’.
+- The Warsaw Pact, a military alliance, held them together. The USSR was the leader of the bloc.
+- The Soviet Union became a great power after the Second World War. The Soviet economy was then more developed than the rest of the world except for the US.
+- It had a complex communications network, vast energy resources including oil, iron and steel, machinery production, and a transport sector that connected its remotest areas with efficiency.
+- It had a domestic consumer industry that produced everything from pins to cars, though their quality did not match that of the Western capitalist countries.
+- The Soviet state ensured a minimum standard of living for all citizens, and the government subsidized basic necessities including health, education, childcare and other welfare schemes.
+- There was no unemployment.
+- State ownership was the dominant form of ownership: land and productive assets were owned and controlled by the Soviet state.
+- The Soviet system, however, became very bureaucratic and authoritarian, making life very difficult for its citizens.
+- Lack of democracy and the absence of freedom of speech stifled people who often expressed their dissent in jokes and cartoons.
+- Most of the institutions of the Soviet state needed reform: the one-party system represented by the Communist Party of the Soviet Union had tight control over all institutions and was unaccountable to the people.
+- The party refused to recognize the urge of people in the fifteen different republics that formed the Soviet Union to manage their own affairs including their cultural affairs.
+- Although, on paper, Russia was only one of the fifteen republics that together constituted the USSR, in reality Russia dominated everything, and people from other regions felt neglected and often suppressed.
+- In the arms race, the Soviet Union managed to match the US from time to time, but at great cost.
+- The Soviet Union lagged behind the West in technology, infrastructure (e.g. transport, power), and most importantly, in fulfilling the political or economic aspirations of citizens.
+- The Soviet invasion of Afghanistan in 1979 weakened the system even further.
+- Though wages continued to grow, productivity and technology fell considerably behind that of the West. This led to severe shortages of consumer goods.
+- Food imports increased every year. The Soviet economy was faltering in the late 1970s and became stagnant.
+`
     },
     hi: {
       title: 'अध्याय 2: दो ध्रुवीयता का अंत',
@@ -214,7 +241,7 @@ function NotesContent({ slug }: { slug: string }) {
         </CardHeader>
         <CardContent>
           <div className="prose dark:prose-invert max-w-none">
-            <p>
+            <p className="whitespace-pre-wrap">
               {notes.content}
             </p>
           </div>
@@ -225,7 +252,7 @@ function NotesContent({ slug }: { slug: string }) {
 }
 
 export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
-    const slug = params.slug;
+    const { slug } = use(params);
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <NotesContent slug={slug} />
