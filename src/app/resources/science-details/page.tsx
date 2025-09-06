@@ -7,11 +7,11 @@ import Link from "next/link";
 
 const scienceResources = {
   chapters: [
-    { name: "Chapter 1: Chemical Reactions and Equations", topics: ["Balancing chemical equations", "Types of chemical reactions"] },
-    { name: "Chapter 2: Acids, Bases and Salts", topics: ["Properties of acids and bases", "pH scale", "Important salts"] },
-    { name: "Chapter 3: Metals and Non-metals", topics: ["Physical and chemical properties", "Reactivity series", "Corrosion"] },
-    { name: "Chapter 6: Life Processes", topics: ["Nutrition", "Respiration", "Transportation", "Excretion"] },
-    { name: "Chapter 10: Light - Reflection and Refraction", topics: ["Laws of reflection", "Spherical mirrors", "Refraction of light"] },
+    { name: "Chapter 1: The Cold War Era", topics: ["Emergence of two power blocs", "Arenas of the Cold War"] },
+    { name: "Chapter 2: The End of Bipolarity", topics: ["Disintegration of the Soviet Union", "Shock Therapy"] },
+    { name: "Chapter 3: US Hegemony in World Politics", topics: ["The First Gulf War", "The 9/11 attacks"] },
+    { name: "Chapter 4: Alternative Centers of Power", topics: ["European Union", "ASEAN", "China's economic rise"] },
+    { name: "Chapter 5: Contemporary South Asia", topics: ["Democracy in Bangladesh and Nepal", "India-Pakistan conflicts"] },
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -28,7 +28,7 @@ export default function ScienceDetailsPage() {
       <Card className="shadow-lg">
         <CardHeader className="bg-primary text-primary-foreground">
           <CardTitle className="text-2xl">Class 12 | Political Science | Book-1 | Book-2</CardTitle>
-          <CardDescription className="text-primary-foreground/80">All your study materials for Science in one place.</CardDescription>
+          <CardDescription className="text-primary-foreground/80">Explore comprehensive resources for your Class 12 Political Science curriculum.</CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
