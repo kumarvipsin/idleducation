@@ -135,84 +135,81 @@ export function ExamCategories() {
            <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className={`text-muted-foreground mt-2 max-w-2xl mx-auto ${isVisible ? 'animate-fade-in-up' : ''}`} style={{ animationDelay: '0.2s' }}>
             We offer comprehensive coaching for a wide range of exams. Find your path to success by exploring our categories below.
           </p>
         </div>
         <Card
-            className={`relative overflow-hidden transition-all duration-300 bg-transparent border-none shadow-none group ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className={`transition-all duration-300 bg-card border-border shadow-sm group ${isVisible ? 'animate-fade-in-up' : ''}`}
             style={{ animationDelay: '0.2s' }}
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-700 rounded-xl blur-xl opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-            <div className="relative rounded-lg bg-gradient-to-br from-blue-700 to-blue-500 dark:from-blue-900 dark:to-blue-700 shadow-xl shadow-blue-500/30">
-                <div className="flex flex-col lg:flex-row">
-                    {/* Left Side */}
-                    <div className="flex-1">
-                    <CardContent className="p-6">
-                        <Carousel
-                            opts={{ align: "start" }}
-                            className="w-full"
-                        >
-                        <CarouselContent>
-                            {Array.from({ length: Math.ceil(popularProgramsEn.length / 6) }).map((_, slideIndex) => (
-                            <CarouselItem key={slideIndex}>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary/20 hover:bg-primary/10 hover:text-primary">
-                                    <Link href={program.href}>{program.name}</Link>
-                                    </Button>
-                                ))}
-                                </div>
-                            </CarouselItem>
+            <div className="flex flex-col lg:flex-row">
+                {/* Left Side */}
+                <div className="flex-1">
+                <CardContent className="p-6">
+                    <Carousel
+                        opts={{ align: "start" }}
+                        className="w-full"
+                    >
+                    <CarouselContent>
+                        {Array.from({ length: Math.ceil(popularProgramsEn.length / 6) }).map((_, slideIndex) => (
+                        <CarouselItem key={slideIndex}>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg">
+                                <Link href={program.href}>{program.name}</Link>
+                                </Button>
                             ))}
-                        </CarouselContent>
-                        </Carousel>
-                        <div className="mt-4 flex justify-center">
-                            <ExploreMoreDialog 
-                                triggerText="Explore More" 
-                                programs={popularProgramsEn} 
-                                dialogTitle="For School Exams"
-                                dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
-                            />
-                        </div>
-                    </CardContent>
-                    </div>
-                    
-                    {/* Divider */}
-                    <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
-                    <Separator orientation="horizontal" className="block lg:hidden bg-border" />
-
-                    {/* Right Side */}
-                    <div className="flex-1">
-                    <CardContent className="p-6">
-                        <Carousel
-                            opts={{ align: "start" }}
-                            className="w-full"
-                        >
-                        <CarouselContent>
-                            {Array.from({ length: Math.ceil(popularProgramsHi.length / 6) }).map((_, slideIndex) => (
-                            <CarouselItem key={slideIndex}>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                                {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                    <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm text-foreground bg-white/50 hover:bg-white/80 rounded-lg border-primary/20 hover:bg-primary/10 hover:text-primary">
-                                    <Link href={program.href}>{program.name}</Link>
-                                    </Button>
-                                ))}
-                                </div>
-                            </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        </Carousel>
-                        <div className="mt-4 flex justify-center">
+                            </div>
+                        </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    </Carousel>
+                    <div className="mt-4 flex justify-center">
                         <ExploreMoreDialog 
-                                triggerText="Explore More" 
-                                programs={popularProgramsHi} 
-                                dialogTitle="For Competitive Exams"
-                                dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
-                            />
-                        </div>
-                    </CardContent>
+                            triggerText="Explore More" 
+                            programs={popularProgramsEn} 
+                            dialogTitle="For School Exams"
+                            dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
+                        />
                     </div>
+                </CardContent>
+                </div>
+                
+                {/* Divider */}
+                <Separator orientation="vertical" className="h-auto hidden lg:block" />
+                <Separator orientation="horizontal" className="block lg:hidden" />
+
+                {/* Right Side */}
+                <div className="flex-1">
+                <CardContent className="p-6">
+                    <Carousel
+                        opts={{ align: "start" }}
+                        className="w-full"
+                    >
+                    <CarouselContent>
+                        {Array.from({ length: Math.ceil(popularProgramsHi.length / 6) }).map((_, slideIndex) => (
+                        <CarouselItem key={slideIndex}>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg">
+                                <Link href={program.href}>{program.name}</Link>
+                                </Button>
+                            ))}
+                            </div>
+                        </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    </Carousel>
+                    <div className="mt-4 flex justify-center">
+                    <ExploreMoreDialog 
+                            triggerText="Explore More" 
+                            programs={popularProgramsHi} 
+                            dialogTitle="For Competitive Exams"
+                            dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
+                        />
+                    </div>
+                </CardContent>
                 </div>
             </div>
         </Card>
