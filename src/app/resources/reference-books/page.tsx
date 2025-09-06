@@ -21,9 +21,9 @@ type Note = {
 const topCourses = [
     {
         title: "Science",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-indigo-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "#" }],
     },
@@ -37,9 +37,9 @@ const topCourses = [
     },
     {
         title: "Science",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
-        bgColor: "bg-indigo-500",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-amber-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "#" }],
     },
@@ -78,10 +78,10 @@ export default function ReferenceBooksPage() {
                     <button
                     key={className}
                     onClick={() => setSelectedClass(className)}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium rounded-full transition-colors
+                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors
                         ${selectedClass === className 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                        ? 'bg-primary text-primary-foreground rounded-md' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                     >
                     {className}
                     </button>
