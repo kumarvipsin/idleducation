@@ -124,7 +124,7 @@ export default function ReferenceBooksPage() {
                       {book.language && <p className={`text-xs ${book.textColor}`}>{book.language}</p>}
                     <div className="flex items-center justify-center gap-2 mt-auto pt-4">
                         <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={book.buttons[0].href}>{book.buttons[0].text}</Link>
+                            <Link href={book.buttons[0].href} target="_blank" rel="noopener noreferrer">{book.buttons[0].text}</Link>
                         </Button>
                     </div>
                     </CardContent>
