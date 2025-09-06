@@ -25,7 +25,7 @@ const topCourses = [
         language: "Ncert | Basic To Advance",
         bgColor: "bg-indigo-500",
         textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "Maths",
@@ -123,7 +123,7 @@ export default function NcertSolutionsPage() {
                       {solution.language && <p className={`text-xs ${solution.textColor}`}>{solution.language}</p>}
                     <div className="flex items-center justify-center gap-2 mt-auto pt-4">
                         <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href="#">VIEW MORE</Link>
+                            <Link href={solution.buttons[0].href}>{solution.buttons[0].text}</Link>
                         </Button>
                     </div>
                     </CardContent>
