@@ -20,14 +20,6 @@ type Note = {
 
 const topCourses = [
     {
-        title: "Maths",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
-        bgColor: "bg-sky-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
-    },
-    {
         title: "Science",
         description: "Ncert Besd",
         language: "English Medium | Hindi Medium",

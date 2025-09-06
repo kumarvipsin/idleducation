@@ -24,14 +24,6 @@ const classes = [
 
 const topCourses = [
     {
-        title: "Maths",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
-        bgColor: "bg-sky-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "#" }],
-    },
-    {
         title: "Science",
         description: "Ncert Besd",
         language: "English Medium | Hindi Medium",
@@ -67,7 +59,6 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 11': topCourses,
   'Class 12': topCourses,
 };
-coursesByCategory['All Batches'] = Object.values(coursesByCategory).flat();
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
