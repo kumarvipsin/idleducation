@@ -19,33 +19,32 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'the-end-of-bipolarity': {
     en: {
       title: 'Chapter 2: The End of Bipolarity',
-      content: `
-### What was the Soviet System?
-- The Union of Soviet Socialist Republics (USSR) came into being after the Socialist Revolution in Russia in 1917.
-- The revolution was inspired by the ideals of socialism and the need for an egalitarian society.
-- This was the biggest attempt in human history to abolish the institution of private property and consciously design a society based on principles of equality.
-- In doing so, the makers of the Soviet system gave primacy to the state and the institution of the party.
-- The Soviet political system centered around the communist party, and no other political party or opposition was allowed.
-- The economy was planned and controlled by the state.
-- After the Second World War, the East European countries that the Soviet army had liberated from the fascist forces came under the control of the USSR.
-- The political and the economic systems of all these countries were modeled after the USSR. This group of countries was called the Second World or the ‘socialist bloc’.
-- The Warsaw Pact, a military alliance, held them together. The USSR was the leader of the bloc.
-- The Soviet Union became a great power after the Second World War. The Soviet economy was then more developed than the rest of the world except for the US.
-- It had a complex communications network, vast energy resources including oil, iron and steel, machinery production, and a transport sector that connected its remotest areas with efficiency.
-- It had a domestic consumer industry that produced everything from pins to cars, though their quality did not match that of the Western capitalist countries.
-- The Soviet state ensured a minimum standard of living for all citizens, and the government subsidized basic necessities including health, education, childcare and other welfare schemes.
-- There was no unemployment.
-- State ownership was the dominant form of ownership: land and productive assets were owned and controlled by the Soviet state.
-- The Soviet system, however, became very bureaucratic and authoritarian, making life very difficult for its citizens.
-- Lack of democracy and the absence of freedom of speech stifled people who often expressed their dissent in jokes and cartoons.
-- Most of the institutions of the Soviet state needed reform: the one-party system represented by the Communist Party of the Soviet Union had tight control over all institutions and was unaccountable to the people.
-- The party refused to recognize the urge of people in the fifteen different republics that formed the Soviet Union to manage their own affairs including their cultural affairs.
-- Although, on paper, Russia was only one of the fifteen republics that together constituted the USSR, in reality Russia dominated everything, and people from other regions felt neglected and often suppressed.
-- In the arms race, the Soviet Union managed to match the US from time to time, but at great cost.
-- The Soviet Union lagged behind the West in technology, infrastructure (e.g. transport, power), and most importantly, in fulfilling the political or economic aspirations of citizens.
-- The Soviet invasion of Afghanistan in 1979 weakened the system even further.
-- Though wages continued to grow, productivity and technology fell considerably behind that of the West. This led to severe shortages of consumer goods.
-- Food imports increased every year. The Soviet economy was faltering in the late 1970s and became stagnant.
+      content: `### What was the Soviet System?
+- The Union of Soviet Socialist Republics (USSR) came into being after the Socialist Revolution in Russia in 1917, inspired by the ideals of socialism and opposing capitalism.
+- It was a one-party system, dominated by the Communist Party, with a state-controlled and planned economy.
+- After WWII, many Eastern European countries came under Soviet influence, forming the 'socialist bloc' or the Second World, held together by the Warsaw Pact military alliance.
+- The Soviet economy was highly developed with vast energy resources, a complex communication network, and a domestic industry that produced everything from pins to cars. The state ensured a minimum standard of living for all citizens through subsidies.
+- However, the system became authoritarian and bureaucratic, lacking democracy and freedom of speech. Over time, it stagnated economically and failed to meet the political and economic aspirations of its people.
+
+### Gorbachev and the Disintegration
+- Mikhail Gorbachev, who became General Secretary of the Communist Party in 1985, initiated reforms to democratize and revitalize the stagnant Soviet system.
+- His key policies were **Perestroika** (restructuring) and **Glasnost** (openness), aimed at reforming the economy and political system.
+- These reforms, however, had unintended consequences. They unleashed forces and expectations that were difficult to control.
+- A wave of nationalism and desire for sovereignty rose within various republics of the Soviet Union, including Russia, the Baltic republics (Estonia, Latvia, and Lithuania), Ukraine, and Georgia.
+- A coup occurred in 1991, encouraged by Communist Party hardliners, which failed but further weakened Gorbachev's authority and accelerated the collapse. Boris Yeltsin emerged as a national hero for opposing the coup.
+- In December 1991, under the leadership of Boris Yeltsin (Russia), Leonid Kravchuk (Ukraine), and Stanislav Shushkevich (Belarus), the Soviet Union was formally dissolved. The Commonwealth of Independent States (CIS) was formed as a loose successor entity.
+
+### Reasons for the Soviet Collapse
+1.  **Economic Stagnation:** For many years, the Soviet economy lagged behind the West. Severe shortages of consumer goods, coupled with the massive military spending to keep up with the US in the arms race, crippled the economy.
+2.  **Political and Administrative Stagnation:** The single-party system became unaccountable and corrupt. The centralized authority was insensitive to the needs of the people in the 15 constituent republics. Rampant corruption and the inability of the system to correct its mistakes were significant factors.
+3.  **Gorbachev’s Reforms:** While intended to save the system, the policies of Glasnost and Perestroika provided more freedom, which allowed long-suppressed nationalist feelings and discontent to surface. The pace of reform was too slow for some and too fast for others, creating instability.
+4.  **Rise of Nationalism:** The desire for sovereignty among various republics was a primary catalyst. People from different regions felt neglected and often suppressed by the dominance of Russia.
+
+### Consequences of Disintegration
+1.  **End of the Cold War:** The collapse of the Soviet Union marked the end of the Cold War, the arms race, and the ideological confrontation between communism and capitalism.
+2.  **Shift in World Power:** The bipolar world order ended, leaving the United States as the sole superpower, leading to a unipolar or multipolar world where the US held significant influence.
+3.  **Emergence of New Countries:** Many new countries emerged with their own independent aspirations, particularly in Eastern Europe and the former Soviet republics.
+4.  **Shock Therapy:** Most of these newly independent countries transitioned from state-controlled socialism to democratic capitalism. This process, known as 'Shock Therapy', involved a rapid and radical shift to a market-based economy, which led to immense economic hardship for the general population in the initial years.
 `
     },
     hi: {
