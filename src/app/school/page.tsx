@@ -133,7 +133,7 @@ function SchoolPageContent() {
     <div className="container mx-auto py-8 px-4 md:px-6">
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
-          <div className="relative w-full aspect-[16/5]">
+          <div className="relative w-full aspect-[16/3]">
             <Image
               src="/result.jpg"
               alt="Our Toppers"
