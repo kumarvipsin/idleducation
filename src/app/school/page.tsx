@@ -135,7 +135,7 @@ function SchoolPageContent() {
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/2.5]">
             <Image
-              src="https://picsum.photos/1200/188"
+              src="/result.jpg"
               alt="Our Toppers"
               data-ai-hint="student success"
               fill
@@ -166,7 +166,7 @@ function SchoolPageContent() {
         <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary">Know Your <span className="text-red-600">Teachers</span></h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary">Know Your <span style={{ color: '#dee2e6' }}>Teachers</span></h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                   Our dedicated team of educators is here to guide you on your learning journey.
                 </p>
