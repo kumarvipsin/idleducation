@@ -39,10 +39,9 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   }
 };
 
-function NotesContent({ params }: { params: { slug: string } }) {
+function NotesContent({ slug }: { slug: string }) {
   const searchParams = useSearchParams();
   const lang = searchParams.get('lang') === 'hi' ? 'hi' : 'en';
-  const slug = params.slug;
   
   const chapterNotes = notesData[slug] || notesData['default'];
   const notes = chapterNotes[lang];
@@ -69,7 +68,7 @@ function NotesContent({ params }: { params: { slug: string } }) {
 export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <NotesContent params={params} />
+            <NotesContent slug={params.slug} />
         </Suspense>
     )
 }
