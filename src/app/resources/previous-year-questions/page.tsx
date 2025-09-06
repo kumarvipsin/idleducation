@@ -80,7 +80,7 @@ export default function PreviousYearQuestionsPage() {
               onClick={() => setSelectedClass(className)}
               className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors
                 ${selectedClass === className 
-                  ? 'bg-purple text-purple-foreground rounded-md' 
+                  ? 'border border-primary text-primary rounded-md' 
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
             >
               {className}
