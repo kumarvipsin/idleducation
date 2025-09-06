@@ -6,50 +6,16 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Card } from '../ui/card';
 
-const resultsData = {
-  'CUET': {
-    image: 'https://images.unsplash.com/photo-1752650734133-b2442de2f561?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyZXN1bHQlMjBzdHVkZW50fGVufDB8fHx8MTc1NzA5NzUyNXww&ixlib=rb-4.1.0&q=80&w=1080',
-    alt: 'CUET Toppers',
-    hint: 'students celebrating'
-  },
-  'CBSE 10': {
-    image: 'https://picsum.photos/1200/210',
-    alt: 'CBSE 10th Toppers',
-    hint: 'classroom students'
-  },
-  'CBSE 12': {
-    image: 'https://picsum.photos/1201/210',
-    alt: 'CBSE 12th Toppers',
-    hint: 'graduation ceremony'
-  },
-  'JEE': {
-    image: 'https://picsum.photos/1201/210',
-    alt: 'JEE Toppers',
-    hint: 'students studying'
-  },
-  'NEET': {
-    image: 'https://picsum.photos/1200/210',
-    alt: 'NEET Toppers',
-    hint: 'medical students'
-  },
-  'SSC': {
-    image: 'https://picsum.photos/1202/210',
-    alt: 'SSC Toppers',
-    hint: 'education'
-  },
-  'BANK PO': {
-    image: 'https://picsum.photos/1202/210',
-    alt: 'Banking Toppers',
-    hint: 'banking professionals'
-  },
-  'DELHI POLICE': {
-    image: 'https://picsum.photos/1201/210',
-    alt: 'Delhi Police',
-    hint: 'police officers'
-  },
-};
-
-const categories = Object.keys(resultsData);
+const categories = [
+  'CUET',
+  'CBSE 10',
+  'CBSE 12',
+  'JEE',
+  'NEET',
+  'SSC',
+  'BANK PO',
+  'DELHI POLICE',
+];
 
 export function AcademicExcellence() {
   const [activeCategory, setActiveCategory] = useState('CUET');
@@ -87,10 +53,9 @@ export function AcademicExcellence() {
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[4/1.2]">
                 <Image
-                key={activeCategory}
-                src={resultsData[activeCategory as keyof typeof resultsData].image}
-                alt={resultsData[activeCategory as keyof typeof resultsData].alt}
-                data-ai-hint={resultsData[activeCategory as keyof typeof resultsData].hint}
+                src="/result.jpg"
+                alt="Excellent student results"
+                data-ai-hint="student results success"
                 fill
                 className="object-cover animate-fade-in-up"
                 />
