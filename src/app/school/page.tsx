@@ -131,6 +131,20 @@ function SchoolPageContent() {
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
+       <section className="mb-8">
+        <Card className="overflow-hidden shadow-lg">
+          <div className="relative w-full aspect-[16/5]">
+            <Image
+              src="https://picsum.photos/1200/375"
+              alt="Our Toppers"
+              data-ai-hint="student success"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </Card>
+      </section>
+
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
         <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {classes.map((className) => (
