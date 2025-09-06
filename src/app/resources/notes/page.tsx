@@ -78,10 +78,10 @@ export default function NotesPage() {
             <button
               key={className}
               onClick={() => setSelectedClass(className)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                 ${selectedClass === className 
-                  ? 'border border-primary text-primary bg-primary/10' 
-                  : 'border border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                  ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
             >
               {className}
             </button>
@@ -97,7 +97,7 @@ export default function NotesPage() {
                 placeholder="Search by subject..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/2 lg:w-1/3 rounded-full h-9"
+                className="pl-9 w-full md:w-1/3 lg:w-1/4 rounded-full h-8"
             />
              {searchTerm && (
               <Button
