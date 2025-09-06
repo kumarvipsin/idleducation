@@ -123,7 +123,7 @@ export default function NcertSolutionsPage() {
                       {solution.language && <p className={`text-xs ${solution.textColor}`}>{solution.language}</p>}
                     <div className="flex items-center justify-center gap-2 mt-auto pt-4">
                         <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={solution.buttons[0].href} target="_blank" rel="noopener noreferrer">{solution.buttons[0].text}</Link>
+                            <Link href={solution.buttons[0].href}>{solution.buttons[0].text}</Link>
                         </Button>
                     </div>
                     </CardContent>
