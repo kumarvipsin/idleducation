@@ -72,7 +72,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" className="font-bold text-blue-800 dark:text-blue-400 hover:underline">
+                <Button variant="link" className="font-bold text-primary-foreground/80 hover:text-primary-foreground hover:underline">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -140,8 +140,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className={`transition-all duration-300 border-none shadow-[0_15px_40px_-15px_rgba(128,90,213,0.3),_0_-15px_40px_-15px_rgba(128,90,213,0.3)] rounded-2xl group ${isVisible ? 'animate-fade-in-up' : ''}`}
-            style={{ animationDelay: '0.2s', backgroundColor: '#eaf4f4' }}
+            className={`transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-primary via-primary to-accent ${isVisible ? 'animate-fade-in-up' : ''}`}
+            style={{ animationDelay: '0.2s' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -156,7 +156,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/20 text-white border-white/30 hover:bg-background/30">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
@@ -177,8 +177,8 @@ export function ExamCategories() {
                 </div>
                 
                 {/* Divider */}
-                <Separator orientation="vertical" className="h-auto hidden lg:block" />
-                <Separator orientation="horizontal" className="block lg:hidden" />
+                <Separator orientation="vertical" className="h-auto hidden lg:block bg-white/20" />
+                <Separator orientation="horizontal" className="block lg:hidden bg-white/20" />
 
                 {/* Right Side */}
                 <div className="flex-1">
@@ -192,7 +192,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/20 text-white border-white/30 hover:bg-background/30">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
