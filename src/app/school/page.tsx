@@ -133,9 +133,9 @@ function SchoolPageContent() {
     <div className="container mx-auto py-8 px-4 md:px-6">
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
-          <div className="relative w-full aspect-[16/5]">
+          <div className="relative w-full aspect-[16/2.5]">
             <Image
-              src="https://picsum.photos/1200/375"
+              src="https://picsum.photos/1200/188"
               alt="Our Toppers"
               data-ai-hint="student success"
               fill
