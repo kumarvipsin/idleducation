@@ -14,7 +14,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
   const { t } = useLanguage();
-  const [activeSubCategory, setActiveSubCategory] = useState(subCategories[0] || 'All Batches');
+  const [activeSubCategory, setActiveSubCategory] = useState(subCategories[0] || '');
   const [animationKey, setAnimationKey] = useState(0);
   const isMobile = useIsMobile();
   
@@ -97,7 +97,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             </div>
         </div>
         
-        {slug !== 'nios' && activeSubCategory !== 'All Batches' && (
+        {slug !== 'nios' && (
           <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">

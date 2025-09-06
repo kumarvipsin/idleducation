@@ -19,7 +19,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 
 const classes = [
-  'All Batches', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
+  'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
 const topCourses = [
@@ -72,7 +72,7 @@ coursesByCategory['All Batches'] = Object.values(coursesByCategory).flat();
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('All Batches');
+  const [activeClass, setActiveClass] = useState('Class 5');
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
@@ -157,7 +157,7 @@ function SchoolPageContent() {
         </div>
       </div>
       
-       {activeClass !== 'All Batches' && (
+       {activeClass && (
         <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">

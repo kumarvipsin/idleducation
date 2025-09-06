@@ -60,11 +60,11 @@ const categoryData: { [key: string]: any } = {
 };
 
 const subCategories: { [key: string]: string[] } = {
-  "defence": ["All Batches", "NDA", "CDS AFCAT", "Agniveer", "SSB", "AFCAT Offline", "CDS Offline", "SSB Offline"],
-  "iit-jee": ["All Batches", "JEE Main", "JEE Advanced", "Foundation", "Droppers"],
-  "neet": ["All Batches", "NEET UG", "NEET PG", "Foundation"],
-  "nios": ["All Batches"],
-  "default": ["All Batches"]
+  "defence": ["NDA", "CDS AFCAT", "Agniveer", "SSB", "AFCAT Offline", "CDS Offline", "SSB Offline"],
+  "iit-jee": ["JEE Main", "JEE Advanced", "Foundation", "Droppers"],
+  "neet": ["NEET UG", "NEET PG", "Foundation"],
+  "nios": [],
+  "default": []
 };
 
 
