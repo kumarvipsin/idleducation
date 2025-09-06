@@ -49,7 +49,7 @@ export function AcademicExcellence() {
             </div>
         </div>
 
-        <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_4px_15px_rgba(0,0,0,0.05),0_-4px_15px_rgba(0,0,0,0.05)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.07),0_-6px_20px_rgba(0,0,0,0.07)]">
+        <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_6px_20px_rgba(0,0,0,0.07),0_-6px_20px_rgba(0,0,0,0.07)]">
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[4/1.2]">
                 <Image
