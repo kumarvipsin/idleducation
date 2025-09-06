@@ -4,7 +4,6 @@ import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { SettingsToggle } from "./settings-toggle";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
@@ -299,10 +298,8 @@ export function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <SettingsToggle />
             </nav>
             <div className="ml-auto md:hidden flex items-center gap-2">
-            <SettingsToggle />
             <Link href="/notifications">
                 <Button variant="ghost" size="icon" className="relative">
                     <Bell className="h-6 w-6" />
