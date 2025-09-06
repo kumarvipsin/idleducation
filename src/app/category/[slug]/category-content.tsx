@@ -98,10 +98,13 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
         </div>
         
         {slug !== 'nios' && (
-          <section key={`teacher-section-${animationKey}`} className="w-full pb-12 md:pb-24 animate-fade-in-up">
+          <section className="w-full pb-12 md:pb-24">
             <div className="container mx-auto px-4 md:px-6">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary">Know Your <span className="text-red-600">Teachers</span></h2>
+                <h2 className="text-3xl md:text-4xl font-bold">
+                  <span className="text-black dark:text-white">Know Your </span>
+                  <span style={{ color: '#ced4da' }}>Teachers</span>
+                </h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                   Our dedicated team of educators is here to guide you on your learning journey.
                 </p>
@@ -126,7 +129,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           </section>
         )}
 
-        <div key={`course-section-${animationKey}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-fade-in-up">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {data.courses?.map((course: any, index: number) => {
             if (course.bgColor) {
                 return (
