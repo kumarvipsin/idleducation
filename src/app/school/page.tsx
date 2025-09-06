@@ -49,6 +49,33 @@ const topCourses = [
     },
 ];
 
+const class12Courses = [
+    {
+        title: "Political Science",
+        description: "",
+        language: "Book-1 | Book-2",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "Social Studies",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+]
+
 const coursesByCategory: { [key: string]: any[] } = {
   'Class 5': topCourses,
   'Class 6': topCourses,
@@ -57,7 +84,7 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 9': topCourses,
   'Class 10': topCourses,
   'Class 11': topCourses,
-  'Class 12': topCourses,
+  'Class 12': class12Courses,
 };
 
 function SchoolPageContent() {
@@ -200,7 +227,7 @@ function SchoolPageContent() {
             <div key={index} className="p-1 h-full" style={{ animationDelay: `${index * 0.05}s` }}>
                 <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
                     <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-xl font-semibold mb-2 ${course.textColor}`}>
+                    <h3 className={`text-2xl font-semibold mb-2 ${course.textColor}`}>
                         {course.title}
                     </h3>
                       {course.description && <p className={`text-sm mb-2 ${course.textColor}`}>{course.description}</p>}
