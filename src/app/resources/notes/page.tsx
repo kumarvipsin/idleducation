@@ -97,7 +97,7 @@ export default function NotesPage() {
                 placeholder="Search by subject..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-8"
+                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
             />
              {searchTerm && (
               <Button
