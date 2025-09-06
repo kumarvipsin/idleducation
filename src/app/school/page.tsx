@@ -139,7 +139,7 @@ function SchoolPageContent() {
               onClick={() => setActiveClass(className)}
               className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors
                 ${activeClass === className 
-                  ? 'bg-primary text-primary-foreground rounded-md' 
+                  ? 'bg-purple text-purple-foreground rounded-md' 
                   : 'text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
             >
               {className}
