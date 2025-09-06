@@ -77,7 +77,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-background/80 backdrop-blur-sm border-primary/20">
+            <DialogContent className="sm:max-w-sm bg-background/80 backdrop-blur-sm border-primary/20">
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
                     <DialogDescription>
