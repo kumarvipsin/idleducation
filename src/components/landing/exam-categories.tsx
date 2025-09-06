@@ -144,7 +144,7 @@ export function ExamCategories() {
             style={{ animationDelay: '0.2s' }}
         >
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-700 rounded-xl blur-xl opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-            <div className="relative rounded-lg bg-gradient-to-br from-[#e9ecef] to-white dark:from-gray-800 dark:to-gray-900 shadow-xl shadow-blue-500/30">
+            <div className="relative rounded-lg bg-gradient-to-br from-[#03045e] to-[#0077b6] dark:from-gray-800 dark:to-gray-900 shadow-xl shadow-blue-500/30">
                 <div className="flex flex-col lg:flex-row">
                     {/* Left Side */}
                     <div className="flex-1">
