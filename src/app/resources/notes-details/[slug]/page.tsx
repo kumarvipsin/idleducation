@@ -252,11 +252,77 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'alternative-centres-of-power': {
     en: {
       title: 'Chapter 4: Alternative Centres of Power',
-      content: 'This chapter examines the rise of alternative centers of power that challenge the unipolar world order. It focuses on the European Union, ASEAN, and the rise of China as significant global players.'
+      content: `### European Union (EU)
+- **Background:** After the end of World War II in 1945, many European leaders grappled with the question of Europe's future. The USA extended massive financial help for reviving Europe’s economy under the **Marshall Plan**. The Organisation for European Economic Co-operation (OEEC) was established in 1948 to channel aid to the west European states.
+- **Formation:** The process of economic integration of European capitalist countries led to the formation of the **European Economic Community (EEC)** in 1957. The collapse of the Soviet bloc put Europe on a fast track and resulted in the establishment of the **European Union (EU) in 1992**.
+- **Objectives:** The EU has evolved from an economic union to an increasingly political one. It aims for a common foreign and security policy, cooperation on justice and home affairs, and the creation of a single currency (the Euro).
+- **Economic Power:** The EU is the world's biggest economy with a GDP of more than **$17 trillion** in 2016, next to that of the US. Its currency, the **Euro**, can pose a threat to the dominance of the US dollar. Its share of world trade is three times larger than that of the United States.
+- **Political and Diplomatic Power:** Two members of the EU, **Britain and France**, hold permanent seats in the UN Security Council. The EU's use of diplomacy, economic investments, and negotiation has been effective, for example, in its dealings with Iran's nuclear program.
+- **Military Power:** The EU’s combined armed forces are the second largest in the world. Its total spending on defence is second after the US.
+- **Limitations:** Member states have their own foreign relations and defence policies that are often at odds with each other. For example, Britain's Prime Minister Tony Blair was America's partner in the Iraq invasion, while Germany and France opposed it.
+
+### Association of Southeast Asian Nations (ASEAN)
+- **Formation:** ASEAN was established in **1967** by five countries of the region – Indonesia, Malaysia, the Philippines, Singapore and Thailand – by signing the **Bangkok Declaration**.
+- **Objectives:** The primary objectives of ASEAN were to accelerate economic growth and through that social progress and cultural development. A secondary objective was to promote regional peace and stability based on the rule of law and the principles of the United Nations Charter.
+- **The ASEAN Way:** This is a form of interaction that is informal, non-confrontationist and cooperative.
+- **ASEAN Community:** In 2003, ASEAN moved along the path of the EU by agreeing to establish an ASEAN Community comprising three pillars: the **ASEAN Security Community**, the **ASEAN Economic Community**, and the **ASEAN Socio-Cultural Community**.
+- **Economic Strength:** The ASEAN economy is growing much faster than the US, EU and Japan. ASEAN has focused on creating a **Free Trade Area (FTA)** for investment, labour, and services.
+- **ASEAN Regional Forum (ARF):** Established in 1994, the ARF is an organisation that carries out coordination of security and foreign policy.
+- **India and ASEAN:** India has signed FTAs with three ASEAN members—Singapore, Thailand and Malaysia.
+
+### The Rise of China as an Economic Power
+- **Economic Reforms:** China has been the fastest growing economy since the reforms of 1978. It is projected to overtake the US as the world’s largest economy by 2040.
+- **Shift in Policy:** After the inception of the People’s Republic of China in 1949, it followed the Soviet model of state-owned heavy industries. It was short of foreign exchange and had to substitute imports with domestic goods.
+- **Ending Isolation:** China ended its political and economic isolation with the establishment of relations with the United States in 1972. Premier **Zhou Enlai** proposed the **'four modernisations'** (agriculture, industry, science and technology and military) in 1973.
+- **Open Door Policy:** In 1978, the then leader **Deng Xiaoping** announced the **'open door' policy** and economic reforms in China. This was to generate higher productivity by investments of capital and technology from abroad.
+- **Privatisation and SEZs:** The privatisation of agriculture in 1982 was followed by the privatisation of industry in 1998. **Special Economic Zones (SEZs)** were set up to attract foreign investors.
+- **Global Influence:** China became a member of the **World Trade Organisation (WTO) in 2001**.
+- **Challenges:** While the Chinese economy has improved dramatically, not everyone has received the benefits of the reforms. Unemployment has risen, and environmental degradation and corruption have increased.
+
+### India-China Relations
+- **Historical Context:** After India gained its independence, there was hope that both countries would come together to shape the future of the developing world. For a brief while, the slogan of **'Hindi-Chini bhai-bhai'** was popular.
+- **1962 War:** The military conflict over the border issue in 1962 soured the relationship.
+- **Improved Relations:** Relations began to improve from the late 1980s. In 1988, Prime Minister **Rajiv Gandhi's** visit to China improved the momentum of India-China relations.
+- **Economic Ties:** Bilateral trade between India and China has increased from **$338 million** in 1992 to more than **$84 billion** in 2017.
+- **Areas of Conflict:** Issues like the border dispute and China's strategic relations with Pakistan remain sources of irritation.
+`
     },
     hi: {
       title: 'अध्याय 4: सत्ता के वैकल्पिक केंद्र',
-      content: 'यह अध्याय सत्ता के वैकल्पिक केंद्रों के उदय की जांच करता है जो एकध्रुवीय विश्व व्यवस्था को चुनौती देते हैं। यह यूरोपीय संघ, आसियान और चीन के महत्वपूर्ण वैश्विक खिलाड़ियों के रूप में उदय पर केंद्रित है।'
+      content: `### यूरोपीय संघ (EU)
+- **पृष्ठभूमि:** 1945 में द्वितीय विश्व युद्ध की समाप्ति के बाद, कई यूरोपीय नेताओं ने यूरोप के भविष्य के सवाल से जूझना शुरू किया। अमेरिका ने **मार्शल योजना** के तहत यूरोप की अर्थव्यवस्था को पुनर्जीवित करने के लिए भारी वित्तीय सहायता प्रदान की। पश्चिमी यूरोपीय राज्यों को सहायता पहुँचाने के लिए 1948 में **यूरोपीय आर्थिक सहयोग संगठन (OEEC)** की स्थापना की गई।
+- **गठन:** यूरोपीय पूंजीवादी देशों के आर्थिक एकीकरण की प्रक्रिया के कारण 1957 में **यूरोपीय आर्थिक समुदाय (EEC)** का गठन हुआ। सोवियत गुट के पतन ने यूरोप को एक तेज गति दी और इसके परिणामस्वरूप **1992 में यूरोपीय संघ (EU) की स्थापना** हुई।
+- **उद्देश्य:** यूरोपीय संघ एक आर्थिक संघ से विकसित होकर एक राजनीतिक संघ बन गया है। इसका लक्ष्य एक साझा विदेश और सुरक्षा नीति, न्याय और घरेलू मामलों पर सहयोग, और एक एकल मुद्रा (यूरो) का निर्माण करना है।
+- **आर्थिक शक्ति:** 2016 में **17 ट्रिलियन डॉलर** से अधिक की जीडीपी के साथ यूरोपीय संघ दुनिया की सबसे बड़ी अर्थव्यवस्था है, जो अमेरिका के बाद दूसरे स्थान पर है। इसकी मुद्रा, **यूरो**, अमेरिकी डॉलर के प्रभुत्व के लिए खतरा पैदा कर सकती है। विश्व व्यापार में इसकी हिस्सेदारी संयुक्त राज्य अमेरिका की तुलना में तीन गुना बड़ी है।
+- **राजनीतिक और राजनयिक शक्ति:** यूरोपीय संघ के दो सदस्य, **ब्रिटेन और फ्रांस**, संयुक्त राष्ट्र सुरक्षा परिषद में स्थायी सीटें रखते हैं। यूरोपीय संघ की कूटनीति, आर्थिक निवेश और बातचीत का उपयोग प्रभावी रहा है, उदाहरण के लिए, ईरान के परमाणु कार्यक्रम के साथ इसके व्यवहार में।
+- **सैन्य शक्ति:** यूरोपीय संघ की संयुक्त सशस्त्र सेनाएँ दुनिया में दूसरी सबसे बड़ी हैं। रक्षा पर इसका कुल खर्च अमेरिका के बाद दूसरे स्थान पर है।
+- **सीमाएँ:** सदस्य देशों की अपनी विदेश संबंध और रक्षा नीतियां हैं जो अक्सर एक-दूसरे के साथ भिन्न होती हैं। उदाहरण के लिए, ब्रिटेन के प्रधानमंत्री टोनी ब्लेयर इराक पर आक्रमण में अमेरिका के भागीदार थे, जबकि जर्मनी और फ्रांस ने इसका विरोध किया।
+
+### दक्षिण-पूर्व एशियाई राष्ट्रों का संगठन (आसियान)
+- **गठन:** आसियान की स्थापना **1967** में क्षेत्र के पांच देशों - इंडोनेशिया, मलेशिया, फिलीपींस, सिंगापुर और थाईलैंड - द्वारा **बैंकॉक घोषणा** पर हस्ताक्षर करके की गई थी।
+- **उद्देश्य:** आसियान के प्राथमिक उद्देश्य आर्थिक विकास को गति देना और उसके माध्यम से सामाजिक प्रगति और सांस्कृतिक विकास करना था। एक द्वितीयक उद्देश्य कानून के शासन और संयुक्त राष्ट्र चार्टर के सिद्धांतों पर आधारित क्षेत्रीय शांति और स्थिरता को बढ़ावा देना था।
+- **आसियान शैली:** यह बातचीत का एक रूप है जो अनौपचारिक, गैर-टकराववादी और सहकारी है।
+- **आसियान समुदाय:** 2003 में, आसियान ने तीन स्तंभों वाले एक आसियान समुदाय की स्थापना के लिए सहमत होकर यूरोपीय संघ के रास्ते पर आगे बढ़ा: **आसियान सुरक्षा समुदाय**, **आसियान आर्थिक समुदाय**, और **आसियान सामाजिक-सांस्कृतिक समुदाय**।
+- **आर्थिक ताकत:** आसियान की अर्थव्यवस्था अमेरिका, यूरोपीय संघ और जापान की तुलना में बहुत तेजी से बढ़ रही है। आसियान ने निवेश, श्रम और सेवाओं के लिए एक **मुक्त व्यापार क्षेत्र (FTA)** बनाने पर ध्यान केंद्रित किया है।
+- **आसियान क्षेत्रीय मंच (ARF):** 1994 में स्थापित, ARF एक ऐसा संगठन है जो सुरक्षा और विदेश नीति का समन्वय करता है।
+- **भारत और आसियान:** भारत ने तीन आसियान सदस्यों - सिंगापुर, थाईलैंड और मलेशिया के साथ एफटीए पर हस्ताक्षर किए हैं।
+
+### एक आर्थिक शक्ति के रूप में चीन का उदय
+- **आर्थिक सुधार:** 1978 के सुधारों के बाद से चीन सबसे तेजी से बढ़ती अर्थव्यवस्था रहा है। यह 2040 तक दुनिया की सबसे बड़ी अर्थव्यवस्था के रूप में अमेरिका को पछाड़ने का अनुमान है।
+- **नीति में बदलाव:** 1949 में पीपुल्स रिपब्लिक ऑफ चाइना की स्थापना के बाद, इसने राज्य के स्वामित्व वाले भारी उद्योगों के सोवियत मॉडल का पालन किया। इसके पास विदेशी मुद्रा की कमी थी और उसे घरेलू सामानों के साथ आयातों को प्रतिस्थापित करना पड़ा।
+- **अलगाव का अंत:** चीन ने 1972 में संयुक्त राज्य अमेरिका के साथ संबंधों की स्थापना के साथ अपने राजनीतिक और आर्थिक अलगाव को समाप्त कर दिया। प्रधानमंत्री **झोउ एनलाई** ने 1973 में **'चार आधुनिकीकरण'** (कृषि, उद्योग, विज्ञान और प्रौद्योगिकी और सैन्य) का प्रस्ताव रखा।
+- **'खुले द्वार' की नीति:** 1978 में, तत्कालीन नेता **डेंग शियाओपिंग** ने चीन में **'खुले द्वार' की नीति** और आर्थिक सुधारों की घोषणा की। यह विदेशों से पूंजी और प्रौद्योगिकी के निवेश द्वारा उच्च उत्पादकता उत्पन्न करने के लिए था।
+- **निजीकरण और SEZ:** 1982 में कृषि के निजीकरण के बाद 1998 में उद्योग का निजीकरण हुआ। विदेशी निवेशकों को आकर्षित करने के लिए **विशेष आर्थिक क्षेत्र (SEZ)** स्थापित किए गए।
+- **वैश्विक प्रभाव:** चीन 2001 में **विश्व व्यापार संगठन (WTO)** का सदस्य बना।
+- **चुनौतियाँ:** जबकि चीनी अर्थव्यवस्था में नाटकीय रूप से सुधार हुआ है, हर किसी को सुधारों का लाभ नहीं मिला है। बेरोजगारी बढ़ी है, और पर्यावरण क्षरण और भ्रष्टाचार में वृद्धि हुई है।
+
+### भारत-चीन संबंध
+- **ऐतिहासिक संदर्भ:** भारत को स्वतंत्रता मिलने के बाद, यह आशा थी कि दोनों देश विकासशील दुनिया के भविष्य को आकार देने के लिए एक साथ आएंगे। कुछ समय के लिए, **'हिंदी-चीनी भाई-भाई'** का नारा लोकप्रिय था।
+- **1962 का युद्ध:** 1962 में सीमा मुद्दे पर सैन्य संघर्ष ने संबंधों को खराब कर दिया।
+- **सुधारित संबंध:** 1980 के दशक के अंत से संबंधों में सुधार होना शुरू हुआ। 1988 में, प्रधानमंत्री **राजीव गांधी** की चीन यात्रा ने भारत-चीन संबंधों की गति में सुधार किया।
+- **आर्थिक संबंध:** भारत और चीन के बीच द्विपक्षीय व्यापार 1992 में **338 मिलियन डॉलर** से बढ़कर 2017 में **84 बिलियन डॉलर** से अधिक हो गया है।
+- **संघर्ष के क्षेत्र:** सीमा विवाद और पाकिस्तान के साथ चीन के रणनीतिक संबंध जैसे मुद्दे जलन के स्रोत बने हुए हैं।
+`
     }
   },
   'contemporary-south-asia': {
