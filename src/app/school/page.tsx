@@ -199,9 +199,9 @@ const class12Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "History",
-        description: "",
-        language: "Book-1 | Book-2 | Book-3",
+        title: "CLASS XII",
+        description: "History",
+        language: "ENGLISH | HINDI",
         gradient: "from-red-500 to-rose-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
