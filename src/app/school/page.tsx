@@ -27,24 +27,30 @@ const class9Courses = [
         title: "CLASS-IX",
         description: "Science",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-IX",
         description: "Maths",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-IX",
         description: "Social Studies",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -54,24 +60,30 @@ const topCourses = [
         title: "CLASS-X",
         description: "Science",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-X",
         description: "Maths",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-X",
         description: "Social Studies",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -81,24 +93,30 @@ const class5Courses = [
         title: "CLASS-V",
         description: "SCIENCE",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-V",
         description: "MATHS",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-V",
         description: "SOCIAL STUDIES",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -108,24 +126,30 @@ const class6Courses = [
         title: "CLASS-VI",
         description: "Science",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VI",
         description: "Maths",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VI",
         description: "Social Studies",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -135,24 +159,30 @@ const class7Courses = [
         title: "CLASS-VII",
         description: "Science",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VII",
         description: "Maths",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VII",
         description: "Social Studies",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -162,24 +192,30 @@ const class8Courses = [
         title: "CLASS-VIII",
         description: "Science",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VIII",
         description: "Maths",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        bgColor: "bg-emerald-100 dark:bg-emerald-900/30",
+        textColor: "text-emerald-800 dark:text-emerald-200",
+        borderColor: "border-emerald-200 dark:border-emerald-800",
+        buttonColor: "bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VIII",
         description: "Social Studies",
         language: "ENGLISH | HINDI",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ];
@@ -190,24 +226,30 @@ const class12Courses = [
         title: "Political Science",
         description: "",
         language: "Book-1 | Book-2",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        textColor: "text-indigo-800 dark:text-indigo-200",
+        borderColor: "border-indigo-200 dark:border-indigo-800",
+        buttonColor: "bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-600 dark:hover:bg-indigo-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "History",
         description: "",
         language: "Book-1 | Book-2 | Book-3",
-        bgColor: "bg-red-500",
-        textColor: "text-white",
+        bgColor: "bg-red-100 dark:bg-red-900/30",
+        textColor: "text-red-800 dark:text-red-200",
+        borderColor: "border-red-200 dark:border-red-800",
+        buttonColor: "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "Geography",
         description: "",
         language: "Book-1 | Book-2",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        bgColor: "bg-amber-100 dark:bg-amber-900/30",
+        textColor: "text-amber-800 dark:text-amber-200",
+        borderColor: "border-amber-200 dark:border-amber-800",
+        buttonColor: "bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ]
@@ -361,18 +403,18 @@ function SchoolPageContent() {
         {courses.length > 0 ? (
           courses.map((course, index) => (
             <div key={index} className="p-1 h-full" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
-                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-2xl font-semibold mb-2 ${course.textColor}`}>
-                        {course.title}
-                    </h3>
-                      {course.description && <p className={`text-sm mb-2 ${course.textColor}`}>{course.description}</p>}
-                      {course.language && <p className={`text-xs ${course.textColor}`}>{course.language}</p>}
-                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
+                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${course.bgColor}`}>
+                    <CardHeader className={`flex-grow ${course.borderColor}`}>
+                        <CardTitle className={`text-xl font-bold ${course.textColor}`}>{course.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 flex flex-col flex-grow items-center justify-center text-center">
+                      <p className={`text-lg font-semibold mb-2 ${course.textColor}`}>{course.description}</p>
+                      <p className={`text-xs ${course.textColor}`}>{course.language}</p>
+                      <div className="mt-auto pt-4">
+                        <Button asChild className={`text-white shadow-md hover:shadow-lg transition-shadow ${course.buttonColor}`}>
                             <Link href={course.buttons[0].href}>{course.buttons[0].text}</Link>
                         </Button>
-                    </div>
+                      </div>
                     </CardContent>
                 </Card>
             </div>
