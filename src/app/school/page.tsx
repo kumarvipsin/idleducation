@@ -22,9 +22,9 @@ const classes = [
   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
-const class6Courses = [
+const class9Courses = [
     {
-        title: "CLASS-VI",
+        title: "CLASS-IX",
         description: "Science",
         language: "ENGLISH | HINDI",
         bgColor: "bg-indigo-500",
@@ -32,17 +32,17 @@ const class6Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "CLASS-VI",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
         bgColor: "bg-emerald-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "CLASS-VI",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
+        title: "Social Studies",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
         bgColor: "bg-amber-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
@@ -103,6 +103,33 @@ const class5Courses = [
     },
 ];
 
+const class6Courses = [
+    {
+        title: "CLASS-VI",
+        description: "Science",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS-VI",
+        description: "Maths",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS-VI",
+        description: "Social Studies",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+];
+
 const class7Courses = [
     {
         title: "CLASS-VII",
@@ -140,17 +167,17 @@ const class8Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "CLASS-VIII",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
         bgColor: "bg-emerald-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "CLASS-VIII",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
+        title: "Social Studies",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
         bgColor: "bg-amber-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
@@ -190,7 +217,7 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 6': class6Courses,
   'Class 7': class7Courses,
   'Class 8': class8Courses,
-  'Class 9': topCourses,
+  'Class 9': class9Courses,
   'Class 10': topCourses,
   'Class 11': topCourses,
   'Class 12': class12Courses,
