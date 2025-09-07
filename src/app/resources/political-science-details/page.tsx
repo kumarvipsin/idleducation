@@ -9,6 +9,7 @@ const politicalScienceResources = {
   books: [
     {
       name: "Contemporary World Politics",
+      lang: "en",
       chapters: [
         { name: "Chapter 1: The Cold War Era", slug: "the-cold-war-era" },
         { name: "Chapter 2: The End of Bipolarity", slug: "the-end-of-bipolarity" },
@@ -23,6 +24,7 @@ const politicalScienceResources = {
     },
      {
       name: "समकालीन विश्व राजनीति",
+      lang: "hi",
       chapters: [
         { name: "अध्याय 1: शीतयुद्ध का दौर", slug: "the-cold-war-era" },
         { name: "अध्याय 2: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
@@ -37,6 +39,7 @@ const politicalScienceResources = {
     },
     {
       name: "Politics in India Since Independence",
+      lang: "en",
       chapters: [
         { name: "Chapter 1: Challenges of Nation Building", slug: "challenges-of-nation-building" },
         { name: "Chapter 2: Era of One-party Dominance", slug: "era-of-one-party-dominance" },
@@ -51,6 +54,7 @@ const politicalScienceResources = {
     },
     {
       name: "स्वतंत्र भारत में राजनीति",
+      lang: "hi",
       chapters: [
         { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
         { name: "अध्याय 2: एक दल के प्रभुत्व का दौर", slug: "era-of-one-party-dominance" },
@@ -96,7 +100,7 @@ export default function PoliticalScienceDetailsPage() {
                           <ul className="space-y-1">
                             {book.chapters.map((chapter, chapterIndex) => (
                               <li key={chapterIndex}>
-                                 <Link href={`/resources/notes-details/${chapter.slug}?lang=en`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
+                                 <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
                                     {chapter.name}
                                 </Link>
                               </li>
