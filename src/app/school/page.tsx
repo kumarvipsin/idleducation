@@ -22,6 +22,33 @@ const classes = [
   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
+const class6Courses = [
+    {
+        title: "CLASS-VI",
+        description: "Science",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "Maths",
+        description: "Test Paper",
+        language: "Ncert | Basic To Advance",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "Social Studies",
+        description: "Ncert Besd",
+        language: "English Medium | Hindi Medium",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+];
+
 const topCourses = [
     {
         title: "Science",
@@ -106,7 +133,7 @@ const class12Courses = [
 
 const coursesByCategory: { [key: string]: any[] } = {
   'Class 5': class5Courses,
-  'Class 6': topCourses,
+  'Class 6': class6Courses,
   'Class 7': topCourses,
   'Class 8': topCourses,
   'Class 9': topCourses,
