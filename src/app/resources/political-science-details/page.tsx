@@ -31,6 +31,32 @@ const politicalScienceResources = {
         { name: "वैश्वीकरण", slug: "globalisation" },
       ],
     },
+    {
+      name: "Politics in India Since Independence",
+      chapters: [
+        { name: "Challenges of Nation Building", slug: "challenges-of-nation-building" },
+        { name: "Era of One-party Dominance", slug: "era-of-one-party-dominance" },
+        { name: "Politics of Planned Development", slug: "politics-of-planned-development" },
+        { name: "India’s External Relations", slug: "indias-external-relations" },
+        { name: "Challenges to and Restoration of the Congress System", slug: "challenges-to-and-restoration-of-the-congress-system" },
+        { name: "The Crisis of Democratic Order", slug: "the-crisis-of-democratic-order" },
+        { name: "Regional Aspirations", slug: "regional-aspirations" },
+        { name: "Recent Developments in Indian Politics", slug: "recent-developments-in-indian-politics" },
+      ],
+    },
+    {
+      name: "स्वतंत्र भारत में राजनीति",
+      chapters: [
+        { name: "राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
+        { name: "एक दल के प्रभुत्व का दौर", slug: "era-of-one-party-dominance" },
+        { name: "नियोजित विकास की राजनीति", slug: "politics-of-planned-development" },
+        { name: "भारत के विदेश संबंध", slug: "indias-external-relations" },
+        { name: "कांग्रेस प्रणाली: चुनौतियाँ और पुनर्स्थापना", slug: "challenges-to-and-restoration-of-the-congress-system" },
+        { name: "लोकतांत्रिक व्यवस्था का संकट", slug: "the-crisis-of-democratic-order" },
+        { name: "क्षेत्रीय आकांक्षाएँ", slug: "regional-aspirations" },
+        { name: "भारतीय राजनीति: नए बदलाव", slug: "recent-developments-in-indian-politics" },
+      ],
+    },
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
