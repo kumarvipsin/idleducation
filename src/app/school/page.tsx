@@ -73,21 +73,21 @@ const topCourses = [
 const class5Courses = [
     {
         title: "CLASS-V",
-        description: "MATHS",
+        description: "Maths",
         language: "ENGLISH | HINDI",
         gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-V",
-        description: "SCIENCE",
+        description: "Science",
         language: "ENGLISH | HINDI",
         gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-V",
-        description: "SOCIAL STUDIES",
+        description: "Social Studies",
         language: "ENGLISH | HINDI",
         gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
