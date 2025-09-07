@@ -452,11 +452,115 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'international-organisations': {
     en: {
       title: 'Chapter 6: International Organisations',
-      content: 'This chapter discusses the role of international organizations in world politics, with a special focus on the United Nations. It assesses their relevance and effectiveness in the contemporary world.'
+      content: `### Why International Organisations?
+- International organisations are not a 'super-state' but are created by states to help them cooperate on various issues.
+- **Reasons for their need:**
+- - **Preventing War and Promoting Peace:** Organisations like the United Nations (UN) provide a platform for countries to discuss issues and find peaceful solutions, preventing conflicts from escalating into full-blown wars.
+- - **Tackling Global Challenges:** Many problems, such as disease, climate change, and terrorism, cannot be solved by one country alone. International organisations help countries work together to address these shared challenges.
+- - **Economic Cooperation:** They create rules and frameworks for international trade and finance, promoting economic growth and stability. Examples include the World Bank and the International Monetary Fund (IMF).
+- - **Producing Information and Ideas:** They conduct research and publish reports on important global issues, providing valuable data and ideas for member states.
+
+### Evolution of the UN
+- The United Nations was founded as a successor to the **League of Nations**. The League was established after World War I but failed to prevent the Second World War.
+- **Founding of the UN:** The UN was established in **1945**, immediately after World War II. It was founded by 51 states who signed the **UN Charter**.
+- **Objective:** The UN's main objective is to prevent international conflict and to facilitate cooperation among states. It aims to bring countries together to improve the prospects of social and economic development all over the world.
+- **Membership:** By 2011, the UN had **193 member states**, encompassing almost every independent state.
+
+### The UN's Principal Organs
+- **The General Assembly:** All 193 members of the UN have one vote each. Major decisions require a two-thirds majority, while others need a simple majority.
+- **The Security Council:** This is the most powerful organ. It has **15 members** in total.
+- - **Five Permanent Members (P5):** The United States, Russia, the United Kingdom, France, and China. These countries have the **veto power**, meaning they can block any decision.
+- - **Ten Non-Permanent Members:** Elected by the General Assembly for two-year terms.
+- **The International Court of Justice:** Located in The Hague, it settles legal disputes between states. It has 15 judges elected for nine-year terms.
+- **The Secretariat:** Headed by the **Secretary-General**, it handles the administrative work of the UN.
+- **The Economic and Social Council (ECOSOC):** It deals with economic, social, and environmental issues.
+
+### Reform of the UN after the Cold War
+- After the Cold War, there have been calls for reforming the UN's structure and processes. Two basic kinds of reforms are being demanded:
+- **1. Reform of the Organisation's Structures and Processes:** The biggest discussion has been on the functioning of the **Security Council**. There is a demand to increase the number of both permanent and non-permanent members.
+- **2. Review of the Issues that Fall within the Jurisdiction of the UN:** Some countries want the UN to play a greater role in peace and security missions, while others want it to focus more on development and humanitarian work (health, education, etc.).
+
+### Reform of the Security Council
+- **Why the demand for change?:** The Security Council's composition, with its five permanent members, reflects the post-World War II reality and is seen as outdated. It is dominated by Western powers and does not represent contemporary global power structures.
+- **Proposed Criteria for New Permanent Members:** In 1997, UN Secretary-General Kofi Annan initiated an inquiry. Some proposed criteria include being:
+- - A major economic power.
+- - A major military power.
+- - A substantial contributor to the UN budget.
+- - A big nation in terms of its population.
+- - A nation that respects democracy and human rights.
+- **The Veto Power Issue:** A major point of contention is the veto power of the P5 members. Many view it as undemocratic and want it to be abolished or modified. However, the P5 countries are unlikely to give it up.
+
+### The UN in a Unipolar World
+- After the collapse of the Soviet Union, the **United States** stands as the only superpower.
+- This has affected the UN's functioning. The US has significant influence over the UN due to its large financial contribution and its political power.
+- The UN is not a perfect organisation, but in a world dominated by one superpower, it provides a crucial space for discussion and can sometimes act as a check on US power. For many countries, it is the only platform to voice their concerns.
+
+### Key UN Agencies
+- **World Health Organisation (WHO):** Deals with international public health.
+- **United Nations Development Programme (UNDP):** Works on poverty reduction and human development.
+- **United Nations Human Rights Commission (UNHRC):** Promotes and protects human rights.
+- **United Nations Children's Fund (UNICEF):** Works for the rights and well-being of children.
+- **United Nations Educational, Scientific and Cultural Organisation (UNESCO):** Promotes education, science, and culture.
+- **International Monetary Fund (IMF):** Oversees the global financial system.
+- **World Bank:** Provides loans and grants for development projects in poorer countries.
+- **World Trade Organisation (WTO):** Sets the rules for global trade.
+`
     },
     hi: {
       title: 'अध्याय 6: अंतर्राष्ट्रीय संगठन',
-      content: 'यह अध्याय विश्व राजनीति में अंतरराष्ट्रीय संगठनों की भूमिका पर चर्चा करता है, जिसमें संयुक्त राष्ट्र पर विशेष ध्यान दिया गया है। यह समकालीन दुनिया में उनकी प्रासंगिकता और प्रभावशीलता का आकलन करता है।'
+      content: `### अंतर्राष्ट्रीय संगठन क्यों?
+- अंतर्राष्ट्रीय संगठन कोई 'सुपर-स्टेट' नहीं हैं, बल्कि वे राज्यों द्वारा विभिन्न मुद्दों पर सहयोग करने में मदद करने के लिए बनाए जाते हैं।
+- **उनकी आवश्यकता के कारण:**
+- - **युद्ध को रोकना और शांति को बढ़ावा देना:** संयुक्त राष्ट्र (यूएन) जैसे संगठन देशों को मुद्दों पर चर्चा करने और शांतिपूर्ण समाधान खोजने के लिए एक मंच प्रदान करते हैं, जिससे संघर्षों को पूर्ण युद्धों में बदलने से रोका जा सके।
+- - **वैश्विक चुनौतियों से निपटना:** बीमारी, जलवायु परिवर्तन और आतंकवाद जैसी कई समस्याओं का समाधान अकेले एक देश नहीं कर सकता। अंतर्राष्ट्रीय संगठन इन साझा चुनौतियों का समाधान करने के लिए देशों को मिलकर काम करने में मदद करते हैं।
+- - **आर्थिक सहयोग:** वे अंतर्राष्ट्रीय व्यापार और वित्त के लिए नियम और रूपरेखा बनाते हैं, जिससे आर्थिक विकास और स्थिरता को बढ़ावा मिलता है। उदाहरणों में विश्व बैंक और अंतर्राष्ट्रीय मुद्रा कोष (आईएमएफ) शामिल हैं।
+- - **सूचना और विचारों का उत्पादन:** वे महत्वपूर्ण वैश्विक मुद्दों पर शोध करते हैं और रिपोर्ट प्रकाशित करते हैं, जो सदस्य राज्यों के लिए मूल्यवान डेटा और विचार प्रदान करते हैं।
+
+### संयुक्त राष्ट्र का विकास
+- संयुक्त राष्ट्र की स्थापना **राष्ट्र संघ (League of Nations)** के उत्तराधिकारी के रूप में हुई थी। राष्ट्र संघ की स्थापना प्रथम विश्व युद्ध के बाद हुई थी लेकिन यह द्वितीय विश्व युद्ध को रोकने में विफल रहा।
+- **संयुक्त राष्ट्र की स्थापना:** संयुक्त राष्ट्र की स्थापना **1945** में, द्वितीय विश्व युद्ध के तुरंत बाद हुई थी। इसकी स्थापना 51 राज्यों ने की थी जिन्होंने **संयुक्त राष्ट्र चार्टर** पर हस्ताक्षर किए थे।
+- **उद्देश्य:** संयुक्त राष्ट्र का मुख्य उद्देश्य अंतर्राष्ट्रीय संघर्ष को रोकना और राज्यों के बीच सहयोग को सुविधाजनक बनाना है। इसका उद्देश्य दुनिया भर में सामाजिक और आर्थिक विकास की संभावनाओं को बेहतर बनाने के लिए देशों को एक साथ लाना है।
+- **सदस्यता:** 2011 तक, संयुक्त राष्ट्र में **193 सदस्य देश** थे, जिसमें लगभग हर स्वतंत्र राज्य शामिल था।
+
+### संयुक्त राष्ट्र के प्रमुख अंग
+- **महासभा (The General Assembly):** संयुक्त राष्ट्र के सभी 193 सदस्यों में से प्रत्येक का एक वोट होता है। प्रमुख निर्णयों के लिए दो-तिहाई बहुमत की आवश्यकता होती है, जबकि अन्य के लिए साधारण बहुमत की आवश्यकता होती है।
+- **सुरक्षा परिषद (The Security Council):** यह सबसे शक्तिशाली अंग है। इसमें कुल **15 सदस्य** हैं।
+- - **पांच स्थायी सदस्य (P5):** संयुक्त राज्य अमेरिका, रूस, यूनाइटेड किंगडम, फ्रांस और चीन। इन देशों के पास **वीटो शक्ति** है, जिसका अर्थ है कि वे किसी भी निर्णय को रोक सकते हैं।
+- - **दस अस्थायी सदस्य:** महासभा द्वारा दो साल के कार्यकाल के लिए चुने जाते हैं।
+- **अंतर्राष्ट्रीय न्यायालय (The International Court of Justice):** हेग में स्थित, यह राज्यों के बीच कानूनी विवादों का निपटारा करता है। इसमें 15 न्यायाधीश हैं जो नौ साल के कार्यकाल के लिए चुने जाते हैं।
+- **सचिवालय (The Secretariat):** **महासचिव** के नेतृत्व में, यह संयुक्त राष्ट्र के प्रशासनिक कार्यों को संभालता है।
+- **आर्थिक और सामाजिक परिषद (ECOSOC):** यह आर्थिक, सामाजिक और पर्यावरणीय मुद्दों से संबंधित है।
+
+### शीत युद्ध के बाद संयुक्त राष्ट्र में सुधार
+- शीत युद्ध के बाद, संयुक्त राष्ट्र की संरचना और प्रक्रियाओं में सुधार की मांग की गई है। दो बुनियादी प्रकार के सुधारों की मांग की जा रही है:
+- **1. संगठन की संरचनाओं और प्रक्रियाओं में सुधार:** सबसे बड़ी चर्चा **सुरक्षा परिषद** के कामकाज पर हुई है। स्थायी और अस्थायी दोनों सदस्यों की संख्या बढ़ाने की मांग है।
+- **2. संयुक्त राष्ट्र के अधिकार क्षेत्र में आने वाले मुद्दों की समीक्षा:** कुछ देश चाहते हैं कि संयुक्त राष्ट्र शांति और सुरक्षा मिशनों में एक बड़ी भूमिका निभाए, जबकि अन्य चाहते हैं कि यह विकास और मानवीय कार्यों (स्वास्थ्य, शिक्षा, आदि) पर अधिक ध्यान केंद्रित करे।
+
+### सुरक्षा परिषद में सुधार
+- **बदलाव की मांग क्यों?:** सुरक्षा परिषद की संरचना, अपने पांच स्थायी सदस्यों के साथ, द्वितीय विश्व युद्ध के बाद की वास्तविकता को दर्शाती है और इसे पुराना माना जाता है। इस पर पश्चिमी शक्तियों का प्रभुत्व है और यह समकालीन वैश्विक शक्ति संरचनाओं का प्रतिनिधित्व नहीं करती है।
+- **नए स्थायी सदस्यों के लिए प्रस्तावित मानदंड:** 1997 में, संयुक्त राष्ट्र महासचिव कोफी अन्नान ने एक जांच शुरू की। कुछ प्रस्तावित मानदंडों में शामिल हैं:
+- - एक बड़ी आर्थिक शक्ति होना।
+- - एक बड़ी सैन्य शक्ति होना।
+- - संयुक्त राष्ट्र के बजट में एक बड़ा योगदानकर्ता होना।
+- - अपनी जनसंख्या के मामले में एक बड़ा राष्ट्र होना।
+- - एक ऐसा राष्ट्र जो लोकतंत्र और मानवाधिकारों का सम्मान करता हो।
+- **वीटो शक्ति का मुद्दा:** एक बड़ा विवाद का मुद्दा P5 सदस्यों की वीटो शक्ति है। कई लोग इसे अलोकतांत्रिक मानते हैं और इसे समाप्त या संशोधित करना चाहते हैं। हालांकि, P5 देशों द्वारा इसे छोड़ने की संभावना नहीं है।
+
+### एकध्रुवीय विश्व में संयुक्त राष्ट्र
+- सोवियत संघ के पतन के बाद, **संयुक्त राज्य अमेरिका** एकमात्र महाशक्ति के रूप में खड़ा है।
+- इसने संयुक्त राष्ट्र के कामकाज को प्रभावित किया है। अपने बड़े वित्तीय योगदान और अपनी राजनीतिक शक्ति के कारण संयुक्त राष्ट्र पर अमेरिका का महत्वपूर्ण प्रभाव है।
+- संयुक्त राष्ट्र एक आदर्श संगठन नहीं है, लेकिन एक महाशक्ति के प्रभुत्व वाली दुनिया में, यह चर्चा के लिए एक महत्वपूर्ण स्थान प्रदान करता है और कभी-कभी अमेरिकी शक्ति पर एक जांच के रूप में कार्य कर सकता है। कई देशों के लिए, यह अपनी चिंताओं को उठाने का एकमात्र मंच है।
+
+### प्रमुख संयुक्त राष्ट्र एजेंसियां
+- **विश्व स्वास्थ्य संगठन (WHO):** अंतर्राष्ट्रीय सार्वजनिक स्वास्थ्य से संबंधित है।
+- **संयुक्त राष्ट्र विकास कार्यक्रम (UNDP):** गरीबी में कमी और मानव विकास पर काम करता है।
+- **संयुक्त राष्ट्र मानवाधिकार आयोग (UNHRC):** मानवाधिकारों को बढ़ावा देता है और उनकी रक्षा करता है।
+- **संयुक्त राष्ट्र बाल कोष (UNICEF):** बच्चों के अधिकारों और कल्याण के लिए काम करता है।
+- **संयुक्त राष्ट्र शैक्षिक, वैज्ञानिक और सांस्कृतिक संगठन (UNESCO):** शिक्षा, विज्ञान और संस्कृति को बढ़ावा देता है।
+- **अंतर्राष्ट्रीय मुद्रा कोष (IMF):** वैश्विक वित्तीय प्रणाली की देखरेख करता है।
+- **विश्व बैंक:** गरीब देशों में विकास परियोजनाओं के लिए ऋण और अनुदान प्रदान करता है।
+- **विश्व व्यापार संगठन (WTO):** वैश्विक व्यापार के लिए नियम निर्धारित करता है।
+`
     }
   },
   'security-in-the-contemporary-world': {
