@@ -59,9 +59,9 @@ const class5Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "Maths",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
+        title: "CLASS-V",
+        description: "MATHS",
+        language: "ENGLISH | HINDI",
         bgColor: "bg-emerald-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
