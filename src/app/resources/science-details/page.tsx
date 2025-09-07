@@ -7,7 +7,22 @@ import Link from "next/link";
 
 const scienceResources = {
   books: [
-    
+    {
+      name: "Mathematics Class VI",
+      name_hi: "गणित कक्षा VI",
+      chapters: [
+        { name: "Patterns in Mathematics", name_hi: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
+        { name: "Lines and Angles", name_hi: "रेखाएँ और कोण", slug: "lines-and-angles" },
+        { name: "Playing with Numbers", name_hi: "संख्याओं का खेल", slug: "playing-with-numbers" },
+        { name: "Data Management and Presentation", name_hi: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
+        { name: "Practice Time", name_hi: "अभ्यास समय", slug: "practice-time" },
+        { name: "Perimeter and Area", name_hi: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
+        { name: "Fractions", name_hi: "भिन्न", slug: "fractions" },
+        { name: "Playing with Constructions", name_hi: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
+        { name: "Symmetry", name_hi: "सममिति", slug: "symmetry" },
+        { name: "Beyond Zero", name_hi: "शून्य के दूसरी ओर", slug: "beyond-zero" },
+      ],
+    }
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -23,8 +38,8 @@ export default function ScienceDetailsPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg">
         <CardHeader className="bg-primary text-primary-foreground">
-          <CardTitle className="text-2xl">Class 12 | Political Science | Book-1 | Book-2</CardTitle>
-          <CardDescription className="text-primary-foreground/80">Explore comprehensive resources for your Class 12 Political Science curriculum.</CardDescription>
+          <CardTitle className="text-2xl">Class 6 | Mathematics</CardTitle>
+          <CardDescription className="text-primary-foreground/80">Explore comprehensive resources for your Class 6 Mathematics curriculum.</CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
