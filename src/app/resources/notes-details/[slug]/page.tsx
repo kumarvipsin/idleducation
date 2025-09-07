@@ -566,11 +566,71 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'security-in-the-contemporary-world': {
     en: {
       title: 'Chapter 7: Security in the Contemporary World',
-      content: 'This chapter explores the concept of security in the contemporary world, covering both traditional and non-traditional threats. It discusses issues like terrorism, human rights, and global poverty.'
+      content: `### What is Security?
+- At its most basic, security implies freedom from threats. It is a fundamental concern of human existence.
+- However, what constitutes a 'threat' and who should be protected is a matter of debate. This leads to different notions of security.
+
+### Traditional Notion of Security
+- The traditional conception of security is primarily concerned with the state. The referent (the entity to be protected) is the **state**, and its core values are **sovereignty, independence, and territorial integrity**.
+- **External Threats:** The greatest danger to a country is seen as military threats from another country. This threat endangers the core values of the state.
+- **State's Response to External Threats:**
+- - **Deterrence:** Preventing a war by threatening massive retaliation.
+- - **Defence:** Defending a country's borders during a war to repel the attacking forces.
+- - **Balance of Power:** When countries are in a balance of power, a major war is less likely. A state tries to maintain a favorable balance of power with its neighbors or rivals.
+- - **Alliance Building:** States form alliances to increase their power relative to another country or alliance (e.g., NATO).
+- **Internal Threats:** Traditional security also acknowledges internal threats, such as civil wars or separatist movements, which can threaten the state from within.
+
+### Non-Traditional Notions of Security
+- Non-traditional notions of security challenge the state-centric view. They broaden the concept of security to include a wider range of threats affecting human beings.
+- **Human Security:** The focus shifts from protecting the state to protecting **people**. It is about 'freedom from want' and 'freedom from fear'. It includes protection from threats like poverty, disease, hunger, and violence.
+- **Global Security:** This concept recognizes that some threats, like climate change, international terrorism, and pandemics (like AIDS, bird flu), are global in nature and require international cooperation.
+
+### New Sources of Threats
+- **Terrorism:** It refers to political violence that targets civilians deliberately and indiscriminately. It uses violence to create a climate of fear.
+- **Human Rights:** These are basic rights that every human being is entitled to. Violations of human rights (political, economic, or social) are now considered a threat to security.
+- **Global Poverty:** A significant disparity between the rich Global North and the poor Global South is a source of insecurity. Poverty in the South leads to large-scale migration to the North, creating international friction.
+- **Health Epidemics:** Diseases like HIV-AIDS, bird flu, and SARS have spread rapidly across borders due to migration, tourism, and business travel, posing a serious threat to global security.
+
+### Cooperative Security
+- The non-traditional threats to security are often international in nature and cannot be solved by one country alone.
+- **Cooperative security** is the idea that international cooperation is essential to deal with these threats. This cooperation can be bilateral, regional, or global.
+- It involves international organizations (like the UN, WHO, World Bank), non-governmental organizations (NGOs like Amnesty International), and social movements.
+- Strategies can include arms control, disarmament, and confidence-building measures between countries.
+`
     },
     hi: {
       title: 'अध्याय 7: समकालीन विश्व में सुरक्षा',
-      content: 'यह अध्याय पारंपरिक और गैर-पारंपरिक दोनों खतरों को कवर करते हुए समकालीन दुनिया में सुरक्षा की अवधारणा की पड़ताल करता है। इसमें आतंकवाद, मानवाधिकार और वैश्विक गरीबी जैसे मुद्दों पर चर्चा की गई है।'
+      content: `### सुरक्षा क्या है?
+- अपने सबसे बुनियादी रूप में, सुरक्षा का अर्थ है खतरों से मुक्ति। यह मानव अस्तित्व की एक मौलिक चिंता है।
+- हालाँकि, 'खतरा' क्या है और किसकी रक्षा की जानी चाहिए, यह बहस का विषय है। इससे सुरक्षा की विभिन्न धारणाएँ बनती हैं।
+
+### सुरक्षा की पारंपरिक धारणा
+- सुरक्षा की पारंपरिक अवधारणा मुख्य रूप से राज्य से संबंधित है। इसका मुख्य केंद्र (जिसकी रक्षा की जानी है) **राज्य** है, और इसके मूल मूल्य **संप्रभुता, स्वतंत्रता और क्षेत्रीय अखंडता** हैं।
+- **बाहरी खतरे:** किसी देश के लिए सबसे बड़ा खतरा दूसरे देश से सैन्य खतरा माना जाता है। यह खतरा राज्य के मूल मूल्यों को खतरे में डालता है।
+- **बाहरी खतरों पर राज्य की प्रतिक्रिया:**
+- - **अपरोध (Deterrence):** बड़े पैमाने पर जवाबी कार्रवाई की धमकी देकर युद्ध को रोकना।
+- - **रक्षा (Defence):** हमलावर ताकतों को खदेड़ने के लिए युद्ध के दौरान देश की सीमाओं की रक्षा करना।
+- - **शक्ति-संतुलन (Balance of Power):** जब देश शक्ति-संतुलन की स्थिति में होते हैं, तो एक बड़े युद्ध की संभावना कम होती है। एक राज्य अपने पड़ोसियों या प्रतिद्वंद्वियों के साथ एक अनुकूल शक्ति-संतुलन बनाए रखने की कोशिश करता है।
+- - **गठबंधन बनाना (Alliance Building):** राज्य किसी अन्य देश या गठबंधन के सापेक्ष अपनी शक्ति बढ़ाने के लिए गठबंधन बनाते हैं (जैसे, नाटो)।
+- **आंतरिक खतरे:** पारंपरिक सुरक्षा आंतरिक खतरों को भी स्वीकार करती है, जैसे कि गृहयुद्ध या अलगाववादी आंदोलन, जो राज्य को भीतर से खतरे में डाल सकते हैं।
+
+### सुरक्षा की अपारंपरिक धारणाएँ
+- सुरक्षा की अपारंपरिक धारणाएँ राज्य-केंद्रित दृष्टिकोण को चुनौती देती हैं। वे सुरक्षा की अवधारणा को व्यापक बनाती हैं ताकि मनुष्यों को प्रभावित करने वाले खतरों की एक विस्तृत श्रृंखला को शामिल किया जा सके।
+- **मानवीय सुरक्षा:** इसका ध्यान राज्य की रक्षा करने से हटकर **लोगों** की रक्षा करने पर केंद्रित होता है। यह 'अभाव से मुक्ति' और 'भय से मुक्ति' के बारे में है। इसमें गरीबी, बीमारी, भूख और हिंसा जैसे खतरों से सुरक्षा शामिल है।
+- **वैश्विक सुरक्षा:** यह अवधारणा मानती है कि जलवायु परिवर्तन, अंतर्राष्ट्रीय आतंकवाद और महामारियाँ (जैसे एड्स, बर्ड फ्लू) जैसे कुछ खतरे प्रकृति में वैश्विक हैं और अंतर्राष्ट्रीय सहयोग की आवश्यकता है।
+
+### खतरों के नए स्रोत
+- **आतंकवाद:** यह उस राजनीतिक हिंसा को संदर्भित करता है जो जानबूझकर और अंधाधुंध नागरिकों को निशाना बनाती है। यह भय का माहौल बनाने के लिए हिंसा का उपयोग करता है।
+- **मानवाधिकार:** ये वे बुनियादी अधिकार हैं जिनका हर इंसान हकदार है। मानवाधिकारों का उल्लंघन (राजनीतिक, आर्थिक या सामाजिक) अब सुरक्षा के लिए एक खतरा माना जाता है।
+- **वैश्विक गरीबी:** अमीर ग्लोबल नॉर्थ और गरीब ग्लोबल साउथ के बीच एक महत्वपूर्ण असमानता असुरक्षा का एक स्रोत है। दक्षिण में गरीबी उत्तर की ओर बड़े पैमाने पर प्रवास की ओर ले जाती है, जिससे अंतर्राष्ट्रीय घर्षण पैदा होता है।
+- **स्वास्थ्य महामारियाँ:** एचआईवी-एड्स, बर्ड फ्लू और सार्स जैसी बीमारियाँ प्रवासन, पर्यटन और व्यापार यात्रा के कारण सीमाओं के पार तेजी से फैल गई हैं, जिससे वैश्विक सुरक्षा के लिए एक गंभीर खतरा पैदा हो गया है।
+
+### सहयोगात्मक सुरक्षा
+- सुरक्षा के लिए अपारंपरिक खतरे अक्सर प्रकृति में अंतर्राष्ट्रीय होते हैं और अकेले एक देश द्वारा हल नहीं किए जा सकते।
+- **सहयोगात्मक सुरक्षा** यह विचार है कि इन खतरों से निपटने के लिए अंतर्राष्ट्रीय सहयोग आवश्यक है। यह सहयोग द्विपक्षीय, क्षेत्रीय या वैश्विक हो सकता है।
+- इसमें अंतर्राष्ट्रीय संगठन (जैसे संयुक्त राष्ट्र, डब्ल्यूएचओ, विश्व बैंक), गैर-सरकारी संगठन (एनजीओ जैसे एमनेस्टी इंटरनेशनल), और सामाजिक आंदोलन शामिल हैं।
+- रणनीतियों में देशों के बीच हथियार नियंत्रण, निरस्त्रीकरण और विश्वास-बहाली के उपाय शामिल हो सकते हैं।
+`
     }
   },
   'environment-and-natural-resources': {
