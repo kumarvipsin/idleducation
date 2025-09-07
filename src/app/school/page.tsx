@@ -206,9 +206,9 @@ const class12Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "Geography",
-        description: "",
-        language: "Book-1 | Book-2",
+        title: "CLASS XII",
+        description: "Geography",
+        language: "ENGLISH | HINDI",
         gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
