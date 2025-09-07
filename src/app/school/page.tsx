@@ -51,9 +51,9 @@ const class9Courses = [
 
 const topCourses = [
     {
-        title: "Science",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
+        title: "CLASS-X",
+        description: "Science",
+        language: "ENGLISH | HINDI",
         bgColor: "bg-indigo-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
