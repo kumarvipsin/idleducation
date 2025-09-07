@@ -162,11 +162,91 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
     'us-hegemony-in-world-politics': {
     en: {
       title: 'Chapter 3: US Hegemony in World Politics',
-      content: 'This chapter analyzes the period of American dominance in global politics after the Cold War. It explores the nature of US hegemony and its impact on international relations.'
+      content: `### Beginning of the 'New World Order'
+- The sudden collapse of the Soviet Union left the **US as the sole superpower**. This marked the beginning of a unipolar world, dominated by the US.
+- The term 'New World Order' was used by then-US President **George H. W. Bush** to describe this new era of American dominance.
+
+### The First Gulf War (Operation Desert Storm)
+- **Background:** In August 1990, **Iraq invaded Kuwait**. After diplomatic attempts failed, the United Nations mandated the liberation of Kuwait.
+- **The War:** This was a massive coalition operation of forces from **34 countries**, led by the US. It was known as **Operation Desert Storm**.
+- **Technological Gap:** The war revealed the vast technological gap between the US military and other states. The use of 'smart bombs' led some to call it a **'computer war'**. The worldwide television coverage made it a **'video game war'**.
+- **Outcome:** Iraq was defeated and forced to withdraw from Kuwait. The war established US military and technological supremacy.
+
+### The Clinton Years and Soft Power
+- Despite winning the First Gulf War, George H. W. Bush lost the 1992 presidential election to **Bill Clinton**.
+- The Clinton administration focused more on **'soft issues'** like democracy promotion, climate change, and world trade, rather than 'hard politics' of military power.
+- However, the US still showed its military readiness during this period, for example, with the bombing of Yugoslavia in 1999 over the Kosovo issue.
+
+### 9/11 and the 'Global War on Terror'
+- **The Attacks:** On **September 11, 2001**, nineteen hijackers from the terrorist group **Al-Qaeda** crashed four commercial airplanes into the World Trade Center in New York, the Pentagon building in Virginia, and a field in Pennsylvania.
+- **US Response:** The US launched the **'Global War on Terror'**. Their main target was Al-Qaeda and the **Taliban regime** in Afghanistan, which was harboring them.
+- **Operation Enduring Freedom:** This was the name given to the US-led military campaign against Afghanistan. The Taliban was quickly overthrown, but a long-term insurgency began.
+
+### The Iraq Invasion (Operation Iraqi Freedom)
+- **Background:** In March 2003, the US invaded Iraq, claiming that Iraq possessed **weapons of mass destruction (WMD)**. The UN did not sanction this invasion.
+- **The 'Coalition of the Willing':** The US led a coalition of more than 40 countries, but the real objective was widely believed to be controlling Iraqi oil fields and installing a friendly regime.
+- **Outcome:** Saddam Hussein's government was toppled, but no WMDs were ever found. The invasion led to a prolonged and bloody insurgency against US forces, resulting in massive casualties and instability in the region.
+
+### What is Hegemony?
+- Hegemony means the leadership or dominance of one state over others. US hegemony is not just about military power.
+- **Hegemony as Hard Power:** This is about military might. The US military is technologically advanced and has a global reach with bases all over the world.
+- **Hegemony as Structural Power:** This refers to control over the world economy. The US provides **global public goods** like the Sea Lanes of Communication (SLOCs) and the Internet. Key economic institutions like the **World Bank, IMF, and WTO** are dominated by the US. The **US dollar** is the primary currency for international trade.
+- **Hegemony as Soft Power:** This is about cultural and ideological influence. The US way of life, its culture (e.g., blue jeans, fast food), and its political ideals (like democracy) are influential worldwide. This is about manufacturing consent, making others want what you want.
+
+### Constraints on American Power
+- **Institutional Architecture:** The American system of government has a **separation of powers** (between the executive, legislative, and judicial branches) which can check the president's power.
+- **Open Nature of American Society:** There is a deep skepticism regarding the purposes of government in American culture. This can constrain US military action.
+- **NATO:** The North Atlantic Treaty Organization is the only organization that can moderate the exercise of American power, as the US has an interest in keeping the alliance of democracies together.
+
+### India's Relationship with the US
+- India's foreign policy has shifted significantly since the Cold War. It now has a more pragmatic relationship with the US.
+- There are areas of cooperation (economic ties, technology) and disagreement.
+- Observers debate whether India should maintain its distance from the US, take advantage of the US hegemony, or lead a coalition of countries to balance US power.
+`
     },
     hi: {
       title: 'अध्याय 3: समकालीन विश्व में अमरीकी वर्चस्व',
-      content: 'यह अध्याय शीत युद्ध के बाद वैश्विक राजनीति में अमेरिकी प्रभुत्व के काल का विश्लेषण करता है। यह अमेरिकी वर्चस्व की प्रकृति और अंतरराष्ट्रीय संबंधों पर इसके प्रभाव की पड़ताल करता है।'
+      content: `### 'नई विश्व व्यवस्था' की शुरुआत
+- सोवियत संघ के अचानक पतन ने **अमेरिका को एकमात्र महाशक्ति** के रूप में छोड़ दिया। इसने एकध्रुवीय दुनिया की शुरुआत को चिह्नित किया, जिस पर अमेरिका का प्रभुत्व था।
+- 'नई विश्व व्यवस्था' शब्द का इस्तेमाल तत्कालीन अमेरिकी राष्ट्रपति **जॉर्ज एच. डब्ल्यू. बुश** ने अमेरिकी प्रभुत्व के इस नए युग का वर्णन करने के लिए किया था।
+
+### प्रथम खाड़ी युद्ध (ऑपरेशन डेजर्ट स्टॉर्म)
+- **पृष्ठभूमि:** अगस्त 1990 में, **इराक ने कुवैत पर आक्रमण किया**। राजनयिक प्रयासों के विफल होने के बाद, संयुक्त राष्ट्र ने कुवैत की मुक्ति के लिए जनादेश दिया।
+- **युद्ध:** यह अमेरिका के नेतृत्व में **34 देशों** की सेनाओं का एक विशाल गठबंधन अभियान था। इसे **ऑपरेशन डेजर्ट स्टॉर्म** के नाम से जाना जाता था।
+- **तकनीकी अंतर:** युद्ध ने अमेरिकी सेना और अन्य राज्यों के बीच विशाल तकनीकी अंतर को उजागर किया। 'स्मार्ट बम' के उपयोग ने कुछ लोगों को इसे **'कंप्यूटर युद्ध'** कहने पर मजबूर कर दिया। दुनिया भर में टेलीविजन कवरेज ने इसे **'वीडियो गेम युद्ध'** बना दिया।
+- **परिणाम:** इराक हार गया और कुवैत से हटने के लिए मजबूर हो गया। युद्ध ने अमेरिका की सैन्य और तकनीकी सर्वोच्चता स्थापित की।
+
+### क्लिंटन के वर्ष और सॉफ्ट पावर
+- प्रथम खाड़ी युद्ध जीतने के बावजूद, जॉर्ज एच. डब्ल्यू. बुश 1992 का राष्ट्रपति चुनाव **बिल क्लिंटन** से हार गए।
+- क्लिंटन प्रशासन ने सैन्य शक्ति की 'कठोर राजनीति' के बजाय लोकतंत्र को बढ़ावा देने, जलवायु परिवर्तन और विश्व व्यापार जैसे **'नरम मुद्दों'** पर अधिक ध्यान केंद्रित किया।
+- हालांकि, अमेरिका ने इस अवधि के दौरान भी अपनी सैन्य तैयारी दिखाई, उदाहरण के लिए, कोसोवो मुद्दे पर 1999 में यूगोस्लाविया पर बमबारी।
+
+### 9/11 और 'आतंक के विरुद्ध वैश्विक युद्ध'
+- **हमले:** **11 सितंबर, 2001** को, आतंकवादी समूह **अल-कायदा** के उन्नीस अपहरणकर्ताओं ने न्यूयॉर्क में वर्ल्ड ट्रेड सेंटर, वर्जीनिया में पेंटागन भवन और पेंसिल्वेनिया के एक खेत में चार वाणिज्यिक विमानों को दुर्घटनाग्रस्त कर दिया।
+- **अमेरिकी प्रतिक्रिया:** अमेरिका ने **'आतंक के विरुद्ध वैश्विक युद्ध'** शुरू किया। उनका मुख्य लक्ष्य अल-कायदा और अफगानिस्तान में **तालिबान शासन** था, जो उन्हें पनाह दे रहा था।
+- **ऑपरेशन एंड्योरिंग फ्रीडम:** यह अफगानिस्तान के खिलाफ अमेरिका के नेतृत्व वाले सैन्य अभियान को दिया गया नाम था। तालिबान को जल्दी से उखाड़ फेंका गया, लेकिन एक दीर्घकालिक विद्रोह शुरू हो गया।
+
+### इराक पर आक्रमण (ऑपरेशन इराकी फ्रीडम)
+- **पृष्ठभूमि:** मार्च 2003 में, अमेरिका ने यह दावा करते हुए इराक पर आक्रमण किया कि इराक के पास **सामूहिक विनाश के हथियार (WMD)** हैं। संयुक्त राष्ट्र ने इस आक्रमण को मंजूरी नहीं दी।
+- **'इच्छुकों का गठबंधन':** अमेरिका ने 40 से अधिक देशों के गठबंधन का नेतृत्व किया, लेकिन वास्तविक उद्देश्य व्यापक रूप से इराकी तेल क्षेत्रों को नियंत्रित करना और एक मित्रवत शासन स्थापित करना माना जाता था।
+- **परिणाम:** सद्दाम हुसैन की सरकार को गिरा दिया गया, लेकिन कोई WMD कभी नहीं मिला। आक्रमण ने अमेरिकी सेनाओं के खिलाफ एक लंबे और खूनी विद्रोह को जन्म दिया, जिसके परिणामस्वरूप क्षेत्र में बड़े पैमाने पर हताहत हुए और अस्थिरता पैदा हुई।
+
+### वर्चस्व क्या है?
+- वर्चस्व का अर्थ है दूसरों पर एक राज्य का नेतृत्व या प्रभुत्व। अमेरिकी वर्चस्व केवल सैन्य शक्ति के बारे में नहीं है।
+- **कठोर शक्ति के रूप में वर्चस्व:** यह सैन्य शक्ति के बारे में है। अमेरिकी सेना तकनीकी रूप से उन्नत है और दुनिया भर में ठिकानों के साथ इसकी वैश्विक पहुंच है।
+- **ढांचागत शक्ति के रूप में वर्चस्व:** यह विश्व अर्थव्यवस्था पर नियंत्रण को संदर्भित करता है। अमेरिका **वैश्विक सार्वजनिक वस्तुएं** प्रदान करता है जैसे समुद्री संचार लेन (SLOCs) और इंटरनेट। **विश्व बैंक, IMF और WTO** जैसे प्रमुख आर्थिक संस्थान अमेरिका के प्रभुत्व में हैं। **अमेरिकी डॉलर** अंतर्राष्ट्रीय व्यापार के लिए प्राथमिक मुद्रा है।
+- **सॉफ्ट पावर के रूप में वर्चस्व:** यह सांस्कृतिक और वैचारिक प्रभाव के बारे में है। अमेरिकी जीवन शैली, इसकी संस्कृति (जैसे, नीली जींस, फास्ट फूड), और इसके राजनीतिक आदर्श (जैसे लोकतंत्र) दुनिया भर में प्रभावशाली हैं। यह सहमति बनाने, दूसरों को वह चाहने पर मजबूर करने के बारे में है जो आप चाहते हैं।
+
+### अमेरिकी शक्ति पर बाधाएं
+- **संस्थागत ढांचा:** अमेरिकी सरकार की प्रणाली में **शक्तियों का पृथक्करण** (कार्यकारी, विधायी और न्यायिक शाखाओं के बीच) है जो राष्ट्रपति की शक्ति पर अंकुश लगा सकता है।
+- **अमेरिकी समाज की खुली प्रकृति:** अमेरिकी संस्कृति में सरकार के उद्देश्यों के बारे में गहरा संदेह है। यह अमेरिकी सैन्य कार्रवाई को बाधित कर सकता है।
+- **नाटो:** उत्तर अटलांटिक संधि संगठन एकमात्र संगठन है जो अमेरिकी शक्ति के प्रयोग को नियंत्रित कर सकता है, क्योंकि अमेरिका का हित लोकतंत्रों के गठबंधन को एक साथ रखने में है।
+
+### भारत के अमेरिका के साथ संबंध
+- शीत युद्ध के बाद से भारत की विदेश नीति में काफी बदलाव आया है। अब अमेरिका के साथ इसके अधिक व्यावहारिक संबंध हैं।
+- सहयोग के क्षेत्र (आर्थिक संबंध, प्रौद्योगिकी) और असहमति हैं।
+- पर्यवेक्षक इस बात पर बहस करते हैं कि क्या भारत को अमेरिका से अपनी दूरी बनाए रखनी चाहिए, अमेरिकी वर्चस्व का लाभ उठाना चाहिए, या अमेरिकी शक्ति को संतुलित करने के लिए देशों के गठबंधन का नेतृत्व करना चाहिए।
+`
     }
   },
   'alternative-centres-of-power': {
@@ -332,7 +412,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - जनवरी 1950 में चुनाव आयोग की स्थापना की गई और **सुकुमार सेन** देश के पहले चुनाव आयुक्त बने।
 
 ### चुनाव करवाने की चुनौतियाँ
-देश में चुनाव करवाना किसी चुनौती से कम नहीं था। ऐसा इसीलिए था क्योंकि:
+- देश में चुनाव करवाना किसी चुनौती से कम नहीं था। ऐसा इसीलिए था क्योंकि:
 - **साक्षरता:** देश में केवल 16 प्रतिशत लोग ही पढ़े लिखे थे।
 - **गरीबी:** देश की अधिकांश जनसँख्या गरीबी से जूझ रही थी।
 - **संसाधनों का आभाव:** संचार के साधनों एवं प्रौद्योगिकी का आभाव था।
@@ -340,11 +420,11 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - **चुनाव क्षेत्रों का निर्धारण:** चुनाव क्षेत्रों का निर्धारण किया जाना था।
 
 ### भारत का पहला आम चुनाव (1952)
-देश में पहले आम चुनाव करवाने के लिए:
-- लगभग 3 लाख लोगो को प्रशिक्षित किया गया।
-- चुनाव क्षेत्रों का सीमांकन किया गया।
-- मतदाता सूची बनाई गई (प्रत्येक व्यक्ति जो 21 वर्ष से अधिक आयु का था)।
-- देश में चुनाव प्रचार शुरू हुआ।
+- देश में पहले आम चुनाव करवाने के लिए:
+- - लगभग 3 लाख लोगो को प्रशिक्षित किया गया।
+- - चुनाव क्षेत्रों का सीमांकन किया गया।
+- - मतदाता सूची बनाई गई (प्रत्येक व्यक्ति जो 21 वर्ष से अधिक आयु का था)।
+- - देश में चुनाव प्रचार शुरू हुआ।
 
 ### पहले तीन चुनावों में कांग्रेस का प्रभुत्व
 - इस पहले चुनाव में भारतीय राष्ट्रीय कांग्रेस ने कुल 489 सीटों में से **364 सीटें** जीती।
