@@ -1516,11 +1516,93 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'recent-developments-in-indian-politics': {
     en: {
       title: 'Chapter 9: Recent Developments in Indian Politics',
-      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
+      content: `### Context of the 1990s
+- The decade of the 1990s was a period of significant change in Indian politics, marked by five major developments.
+- **1. End of the Congress System:** The 1989 election marked the end of Congress's dominance. It was the single largest party, but it did not have a majority. This started the era of **coalition governments**.
+- **2. The Mandal Issue:** The National Front government, led by V.P. Singh in 1990, decided to implement the recommendations of the **Mandal Commission**. This provided **27% reservation** for **Other Backward Classes (OBCs)** in central government jobs. This led to widespread protests but also politically mobilized the OBCs.
+- **3. New Economic Policies (Liberalisation):** Successive governments, starting with the Congress government under P.V. Narasimha Rao in 1991, adopted new economic policies of **liberalization, privatization, and globalization (LPG)**. These policies radically changed the direction of the Indian economy.
+- **4. Babri Masjid Demolition (December 1992):** The dispute over the Babri Masjid in Ayodhya came to a head, leading to its demolition. This event intensified the debate about secularism and fueled the rise of the **Bharatiya Janata Party (BJP)** and Hindutva politics.
+- **5. Assassination of Rajiv Gandhi (May 1991):** Rajiv Gandhi was assassinated during an election campaign. This led to the Congress emerging as the single largest party in the 1991 elections.
+
+### Era of Coalitions
+- **Decline of Congress:** From 1989 onwards, no single party secured a clear majority in the Lok Sabha until 2014. This period was dominated by **coalition governments**.
+- **Rise of Regional Parties:** Many powerful regional parties emerged and played a crucial role in forming coalition governments at the Centre.
+- **United Front (1996):** A coalition of regional parties and the left, supported by the Congress from the outside.
+- **National Democratic Alliance (NDA) (1998):** A coalition led by the **BJP**. The BJP-led NDA government under **Atal Bihari Vajpayee** was the first coalition government to complete a full five-year term (1999-2004).
+- **United Progressive Alliance (UPA) (2004):** A coalition led by the **Congress**. The UPA governed India for two consecutive terms from 2004 to 2014 under Prime Minister **Manmohan Singh**.
+
+### Mandal Commission and 'Politics of the OBCs'
+- **Background:** The Mandal Commission was set up in 1978 to identify the 'socially or educationally backward classes'. It submitted its report in 1980.
+- **Recommendation:** Its main recommendation was to reserve **27% of seats** in government jobs and educational institutions for the **OBCs**.
+- **Implementation:** The V.P. Singh government implemented this recommendation in 1990.
+- **Consequences:**
+- - It led to violent 'anti-Mandal' protests in many cities in northern India.
+- - It helped in the rise of many parties that sought to represent the OBCs, like the Janata Dal and its offshoots. This is often called the 'Mandalisation' of Indian politics.
+
+### Communalism, Secularism, and Democracy
+- **The Ayodhya Dispute:** The dispute involved a mosque known as **Babri Masjid**, which was built in Ayodhya in the 16th century. Some Hindus believed it was built after demolishing a temple that marked the birthplace of Lord Ram.
+- **Rise of Hindutva Politics:** In the 1980s, the BJP made this issue a central part of its politics. It organized a massive march, or **Rath Yatra**, led by L.K. Advani.
+- **Demolition of Babri Masjid (6 December 1992):** Thousands of 'Karsevaks' demolished the mosque. This led to communal riots in many parts of the country.
+- **Aftermath:** The demolition and the riots had a lasting impact on Indian politics, sharpening the debate between secular and communal forces.
+- **Gujarat Riots (2002):** A bogey of a train carrying Karsevaks returning from Ayodhya was set on fire in Godhra. This was followed by large-scale communal violence against Muslims in Gujarat.
+
+### Emergence of a New Consensus
+- By the early 2000s, a broad consensus had emerged among most political parties on four key issues.
+- **1. New Economic Policies:** Most parties came to believe that the new economic policies of liberalization were necessary for the country's prosperity.
+- **2. Acceptance of OBC Political Role:** Political parties recognized the social and political claims of the OBCs and started giving them adequate representation.
+- **3. Acceptance of Regional Parties' Role:** The era of coalitions forced national parties to form alliances with regional parties.
+- **4. Emphasis on Pragmatism:** There was a shift from ideological politics to a more pragmatic, non-ideological approach focused on governance and development.
+
+### Lok Sabha Elections 2014 and Beyond
+- The 2014 Lok Sabha elections marked a major shift. The **Bharatiya Janata Party (BJP)**, led by **Narendra Modi**, won a clear majority on its own for the first time since 1984.
+- This was seen by some as the end of the coalition era and the beginning of a new era of **BJP dominance**.
+- The political discourse shifted towards themes of **development, good governance (vikas), and nationalism**.
+`
     },
     hi: {
       title: 'अध्याय 9: भारतीय राजनीति: नए बदलाव',
-      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
+      content: `### 1990 के दशक का संदर्भ
+- 1990 का दशक भारतीय राजनीति में महत्वपूर्ण बदलावों का काल था, जिसे पांच प्रमुख घटनाओं द्वारा चिह्नित किया गया।
+- **1. कांग्रेस प्रणाली की समाप्ति:** 1989 के चुनाव ने कांग्रेस के प्रभुत्व के अंत को चिह्नित किया। यह सबसे बड़ी पार्टी थी, लेकिन इसके पास बहुमत नहीं था। इसने **गठबंधन सरकारों** के युग की शुरुआत की।
+- **2. मंडल मुद्दा:** 1990 में वी.पी. सिंह के नेतृत्व वाली राष्ट्रीय मोर्चा सरकार ने **मंडल आयोग** की सिफारिशों को लागू करने का निर्णय लिया। इसने केंद्र सरकार की नौकरियों में **अन्य पिछड़ा वर्ग (OBC)** के लिए **27% आरक्षण** प्रदान किया। इससे व्यापक विरोध हुआ लेकिन इसने OBC को राजनीतिक रूप से लामबंद भी किया।
+- **3. नई आर्थिक नीतियां (उदारीकरण):** 1991 में पी.वी. नरसिम्हा राव के तहत कांग्रेस सरकार से शुरू होकर, क्रमिक सरकारों ने **उदारीकरण, निजीकरण और वैश्वीकरण (LPG)** की नई आर्थिक नीतियों को अपनाया। इन नीतियों ने भारतीय अर्थव्यवस्था की दिशा को मौलिक रूप से बदल दिया।
+- **4. बाबरी मस्जिद विध्वंस (दिसंबर 1992):** अयोध्या में बाबरी मस्जिद पर विवाद चरम पर पहुंच गया, जिसके कारण इसका विध्वंस हो गया। इस घटना ने धर्मनिरपेक्षता पर बहस को तेज कर दिया और **भारतीय जनता पार्टी (भाजपा)** और हिंदुत्व की राजनीति के उदय को बढ़ावा दिया।
+- **5. राजीव गांधी की हत्या (मई 1991):** एक चुनाव अभियान के दौरान राजीव गांधी की हत्या कर दी गई। इसके कारण 1991 के चुनावों में कांग्रेस सबसे बड़ी पार्टी के रूप में उभरी।
+
+### गठबंधन का युग
+- **कांग्रेस का पतन:** 1989 से, 2014 तक किसी भी एक पार्टी ने लोकसभा में स्पष्ट बहुमत हासिल नहीं किया। इस अवधि में **गठबंधन सरकारों** का प्रभुत्व था।
+- **क्षेत्रीय दलों का उदय:** कई शक्तिशाली क्षेत्रीय दल उभरे और केंद्र में गठबंधन सरकारें बनाने में महत्वपूर्ण भूमिका निभाई।
+- **संयुक्त मोर्चा (1996):** क्षेत्रीय दलों और वामपंथियों का एक गठबंधन, जिसे कांग्रेस ने बाहर से समर्थन दिया।
+- **राष्ट्रीय जनतांत्रिक गठबंधन (NDA) (1998):** **भाजपा** के नेतृत्व वाला एक गठबंधन। **अटल बिहारी वाजपेयी** के तहत भाजपा के नेतृत्व वाली राजग सरकार अपना पूरा पांच साल का कार्यकाल (1999-2004) पूरा करने वाली पहली गठबंधन सरकार थी।
+- **संयुक्त प्रगतिशील गठबंधन (UPA) (2004):** **कांग्रेस** के नेतृत्व वाला एक गठबंधन। यूपीए ने प्रधानमंत्री **मनमोहन सिंह** के तहत 2004 से 2014 तक लगातार दो कार्यकालों तक भारत पर शासन किया।
+
+### मंडल आयोग और 'ओबीसी की राजनीति'
+- **पृष्ठभूमि:** मंडल आयोग की स्थापना 1978 में 'सामाजिक या शैक्षिक रूप से पिछड़े वर्गों' की पहचान के लिए की गई थी। इसने 1980 में अपनी रिपोर्ट प्रस्तुत की।
+- **सिफारिश:** इसकी मुख्य सिफारिश सरकारी नौकरियों और शैक्षणिक संस्थानों में **ओबीसी** के लिए **27% सीटें** आरक्षित करना था।
+- **कार्यान्वयन:** वी.पी. सिंह सरकार ने 1990 में इस सिफारिश को लागू किया।
+- **परिणाम:**
+- - इसके कारण उत्तर भारत के कई शहरों में हिंसक 'मंडल-विरोधी' विरोध प्रदर्शन हुए।
+- - इसने ओबीसी का प्रतिनिधित्व करने वाली कई पार्टियों, जैसे जनता दल और उसकी शाखाओं के उदय में मदद की। इसे अक्सर भारतीय राजनीति का 'मंडलीकरण' कहा जाता है।
+
+### सांप्रदायिकता, धर्मनिरपेक्षता और लोकतंत्र
+- **अयोध्या विवाद:** इस विवाद में **बाबरी मस्जिद** नामक एक मस्जिद शामिल थी, जिसे 16वीं शताब्दी में अयोध्या में बनाया गया था। कुछ हिंदुओं का मानना था कि इसे भगवान राम के जन्मस्थान को चिह्नित करने वाले एक मंदिर को ध्वस्त करने के बाद बनाया गया था।
+- **हिंदुत्व की राजनीति का उदय:** 1980 के दशक में, भाजपा ने इस मुद्दे को अपनी राजनीति का एक केंद्रीय हिस्सा बनाया। इसने लालकृष्ण आडवाणी के नेतृत्व में एक विशाल मार्च, या **रथ यात्रा** का आयोजन किया।
+- **बाबरी मस्जिद का विध्वंस (6 दिसंबर 1992):** हजारों 'कारसेवकों' ने मस्जिद को ध्वस्त कर दिया। इससे देश के कई हिस्सों में सांप्रदायिक दंगे हुए।
+- **परिणाम:** विध्वंस और दंगों का भारतीय राजनीति पर एक स्थायी प्रभाव पड़ा, जिससे धर्मनिरपेक्ष और सांप्रदायिक ताकतों के बीच बहस तेज हो गई।
+- **गुजरात दंगे (2002):** अयोध्या से लौट रहे कारसेवकों को ले जा रही एक ट्रेन के एक डिब्बे में गोधरा में आग लगा दी गई। इसके बाद गुजरात में मुसलमानों के खिलाफ बड़े पैमाने पर सांप्रदायिक हिंसा हुई।
+
+### एक नई सहमति का उदय
+- 2000 के दशक की शुरुआत तक, अधिकांश राजनीतिक दलों के बीच चार प्रमुख मुद्दों पर एक व्यापक सहमति बन गई थी।
+- **1. नई आर्थिक नीतियां:** अधिकांश दल यह मानने लगे कि देश की समृद्धि के लिए उदारीकरण की नई आर्थिक नीतियां आवश्यक थीं।
+- **2. ओबीसी की राजनीतिक भूमिका की स्वीकृति:** राजनीतिक दलों ने ओबीसी के सामाजिक और राजनीतिक दावों को मान्यता दी और उन्हें पर्याप्त प्रतिनिधित्व देना शुरू कर दिया।
+- **3. क्षेत्रीय दलों की भूमिका की स्वीकृति:** गठबंधन के युग ने राष्ट्रीय दलों को क्षेत्रीय दलों के साथ गठबंधन बनाने के लिए मजबूर किया।
+- **4. व्यवहारवाद पर जोर:** वैचारिक राजनीति से हटकर शासन और विकास पर केंद्रित एक अधिक व्यावहारिक, गैर-वैचारिक दृष्टिकोण की ओर एक बदलाव आया।
+
+### लोकसभा चुनाव 2014 और उसके बाद
+- 2014 के लोकसभा चुनावों ने एक बड़ा बदलाव चिह्नित किया। **नरेंद्र मोदी** के नेतृत्व वाली **भारतीय जनता पार्टी (भाजपा)** ने 1984 के बाद पहली बार अपने दम पर स्पष्ट बहुमत हासिल किया।
+- इसे कुछ लोगों ने गठबंधन युग के अंत और **भाजपा के प्रभुत्व** के एक नए युग की शुरुआत के रूप में देखा।
+- राजनीतिक विमर्श **विकास, सुशासन (विकास), और राष्ट्रवाद** के विषयों की ओर स्थानांतरित हो गया।
+`
     }
   },
   'default': {
