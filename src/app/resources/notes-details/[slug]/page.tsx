@@ -1414,11 +1414,103 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'regional-aspirations': {
     en: {
       title: 'Chapter 8: Regional Aspirations',
-      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
+      content: `### What are Regional Aspirations?
+- Regional aspirations refer to the demands raised by people of certain regions for the recognition of their distinct culture, language, or for greater political autonomy.
+- These expressions are a normal part of democratic politics. It is not necessarily about separatism.
+- The Indian approach has been to accommodate these aspirations through democratic negotiations rather than suppressing them.
+
+### Areas of Tension
+- After independence, India faced challenges from various regions. The most prominent cases were:
+- **1. Jammu and Kashmir:** A story of conflict and contested integration.
+- **2. Punjab:** The demand for a separate Sikh nation (Khalistan) and the subsequent turmoil.
+- **3. The North-East:** A region with vast diversity, facing issues of autonomy, secession, and opposition to 'outsiders'.
+- **4. The Dravidian Movement in the South:** A movement for regional pride and against the imposition of Hindi.
+
+### Jammu and Kashmir
+- **The Issue:** J&K was a Princely State. Its Hindu ruler, **Hari Singh**, wanted to remain independent. The population was overwhelmingly Muslim.
+- **Accession to India (1947):** When tribal infiltrators from Pakistan invaded, the Maharaja signed the **Instrument of Accession** with India in October 1947 in return for military help.
+- **Special Status:** India agreed to grant J&K special status, which was incorporated in **Article 370** of the Indian Constitution, giving it greater autonomy compared to other states.
+- **Politics since 1948:**
+- - **Sheikh Abdullah** of the National Conference became the Prime Minister of the state. He initiated land reforms but his push for greater autonomy led to his dismissal and arrest in 1953.
+- - For the next two decades, the state was ruled by Congress-led governments, often with allegations of rigged elections.
+- **External and Internal Disputes:**
+- - **External:** Pakistan has always claimed Kashmir. This led to wars in 1947-48 and 1965. Pakistan also supports a separatist movement.
+- - **Internal:** The issue of identity and the desire for greater autonomy (or 'azadi') has been a consistent feature. There are three main political strands:
+- - - 1. Separatists who want a separate Kashmiri nation.
+- - - 2. Those who want to merge with Pakistan.
+- - - 3. Those who want to remain with India but with greater autonomy.
+- **Insurgency (Post-1989):** The 1980s saw the rise of a militant insurgency demanding a separate Kashmir. This was fueled by rigged elections in 1987 and support from Pakistan.
+- **Recent Developments:** In August 2019, the Government of India revoked Article 370, ending the special status of J&K. The state was bifurcated into two Union Territories: **Jammu & Kashmir** and **Ladakh**.
+
+### Punjab
+- **The Anandpur Sahib Resolution (1973):** The Akali Dal passed this resolution, demanding greater autonomy for Punjab. It did not ask for secession but had a federalist character.
+- **Rise of Extremism:** A section of Akalis started demanding a separate Sikh nation, **'Khalistan'**. This movement gained momentum and turned into an armed insurgency, led by **Jarnail Singh Bhindranwale**.
+- **Operation Blue Star (June 1984):** The Golden Temple in Amritsar had become the headquarters of the militants. The Indian army entered the temple to flush out the militants in an operation called 'Operation Blue Star'. This deeply hurt Sikh sentiments.
+- **Aftermath:** Prime Minister **Indira Gandhi was assassinated** by her Sikh bodyguards in October 1984, leading to anti-Sikh riots in Delhi and other parts of North India.
+- **Punjab Accord (1985):** Prime Minister **Rajiv Gandhi** signed an accord with Akali leader Harchand Singh Longowal to restore peace. However, peace was restored only in the mid-1990s.
+
+### The North-East
+- This region, comprising seven states (the 'Seven Sisters'), is culturally diverse and economically underdeveloped.
+- **Three main issues have dominated its politics:**
+- **1. Demands for Autonomy:** Various tribes and communities have demanded separate states or greater autonomy. This has led to the creation of states like **Nagaland, Meghalaya, Mizoram, and Arunachal Pradesh**.
+- **2. Secessionist Movements:** Some groups have demanded complete separation from India. The movements in **Mizoram** (led by Laldenga) and **Nagaland** were the most prominent. The Indian government used a mix of military force and political negotiations (e.g., the Mizoram Accord with Laldenga in 1986) to deal with these.
+- **3. Movements against 'Outsiders':** The large-scale migration of people from other parts of India and from neighboring countries has led to social tension. The **Assam Movement (1979-1985)** against 'illegal' migrants from Bangladesh is the best example. It ended with the **Assam Accord** signed by Rajiv Gandhi.
+
+### Lessons from Regional Aspirations
+- Regional aspirations are a part of democratic politics.
+- The best way to deal with them is through democratic negotiation and power-sharing, not suppression.
+- Economic development and addressing the sense of neglect can help reduce regional tensions.
+`
     },
     hi: {
       title: 'अध्याय 8: क्षेत्रीय आकांक्षाएँ',
-      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
+      content: `### क्षेत्रीय आकांक्षाएँ क्या हैं?
+- क्षेत्रीय आकांक्षाएँ कुछ क्षेत्रों के लोगों द्वारा अपनी विशिष्ट संस्कृति, भाषा की मान्यता या अधिक राजनीतिक स्वायत्तता के लिए उठाई गई मांगों को संदर्भित करती हैं।
+- ये अभिव्यक्तियाँ लोकतांत्रिक राजनीति का एक सामान्य हिस्सा हैं। यह आवश्यक रूप से अलगाववाद के बारे में नहीं है।
+- भारतीय दृष्टिकोण इन आकांक्षाओं को दबाने के बजाय लोकतांत्रिक वार्ताओं के माध्यम से समायोजित करने का रहा है।
+
+### तनाव के क्षेत्र
+- स्वतंत्रता के बाद, भारत को विभिन्न क्षेत्रों से चुनौतियों का सामना करना पड़ा। सबसे प्रमुख मामले थे:
+- **1. जम्मू और कश्मीर:** संघर्ष और विवादित एकीकरण की कहानी।
+- **2. पंजाब:** एक अलग सिख राष्ट्र (खालिस्तान) की मांग और उसके बाद की उथल-पुथल।
+- **3. पूर्वोत्तर:** विशाल विविधता वाला एक क्षेत्र, जो स्वायत्तता, अलगाव और 'बाहरी लोगों' के विरोध जैसे मुद्दों का सामना कर रहा है।
+- **4. दक्षिण में द्रविड़ आंदोलन:** क्षेत्रीय गौरव और हिंदी थोपे जाने के खिलाफ एक आंदोलन।
+
+### जम्मू और कश्मीर
+- **मुद्दा:** जम्मू-कश्मीर एक रियासत थी। इसके हिंदू शासक, **हरि सिंह**, स्वतंत्र रहना चाहते थे। जनसंख्या überwiegend मुस्लिम थी।
+- **भारत में विलय (1947):** जब पाकिस्तान से कबायली घुसपैठियों ने आक्रमण किया, तो महाराजा ने सैन्य सहायता के बदले में अक्टूबर 1947 में भारत के साथ **विलय पत्र** पर हस्ताक्षर किए।
+- **विशेष दर्जा:** भारत जम्मू-कश्मीर को विशेष दर्जा देने पर सहमत हुआ, जिसे भारतीय संविधान के **अनुच्छेद 370** में शामिल किया गया, जिससे इसे अन्य राज्यों की तुलना में अधिक स्वायत्तता मिली।
+- **1948 के बाद की राजनीति:**
+- - नेशनल कॉन्फ्रेंस के **शेख अब्दुल्ला** राज्य के प्रधानमंत्री बने। उन्होंने भूमि सुधारों की शुरुआत की, लेकिन अधिक स्वायत्तता के लिए उनके दबाव के कारण 1953 में उनकी बर्खास्तगी और गिरफ्तारी हुई।
+- - अगले दो दशकों तक, राज्य पर कांग्रेस के नेतृत्व वाली सरकारों का शासन रहा, जिन पर अक्सर धांधली वाले चुनावों के आरोप लगते थे।
+- **बाहरी और आंतरिक विवाद:**
+- - **बाहरी:** पाकिस्तान ने हमेशा कश्मीर पर दावा किया है। इससे 1947-48 और 1965 में युद्ध हुए। पाकिस्तान एक अलगाववादी आंदोलन का भी समर्थन करता है।
+- - **आंतरिक:** पहचान का मुद्दा और अधिक स्वायत्तता (या 'आज़ादी') की इच्छा एक सुसंगत विशेषता रही है। तीन मुख्य राजनीतिक धाराएँ हैं:
+- - - 1. अलगाववादी जो एक अलग कश्मीरी राष्ट्र चाहते हैं।
+- - - 2. जो पाकिस्तान के साथ विलय करना चाहते हैं।
+- - - 3. जो भारत के साथ रहना चाहते हैं लेकिन अधिक स्वायत्तता के साथ।
+- **उग्रवाद (1989 के बाद):** 1980 के दशक में एक अलग कश्मीर की मांग करने वाले एक उग्रवादी विद्रोह का उदय हुआ। इसे 1987 में धांधली वाले चुनावों और पाकिस्तान से मिले समर्थन ने हवा दी।
+- **हाल के घटनाक्रम:** अगस्त 2019 में, भारत सरकार ने अनुच्छेद 370 को निरस्त कर दिया, जिससे जम्मू-कश्मीर का विशेष दर्जा समाप्त हो गया। राज्य को दो केंद्र शासित प्रदेशों में विभाजित किया गया: **जम्मू और कश्मीर** और **लद्दाख**।
+
+### पंजाब
+- **आनंदपुर साहिब प्रस्ताव (1973):** अकाली दल ने यह प्रस्ताव पारित किया, जिसमें पंजाब के लिए अधिक स्वायत्तता की मांग की गई। इसने अलगाव की मांग नहीं की, बल्कि इसका एक संघवादी चरित्र था।
+- **उग्रवाद का उदय:** अकालियों के एक वर्ग ने एक अलग सिख राष्ट्र, **'खालिस्तान'** की मांग शुरू कर दी। इस आंदोलन ने गति पकड़ी और **जरनैल सिंह भिंडरांवाले** के नेतृत्व में एक सशस्त्र विद्रोह में बदल गया।
+- **ऑपरेशन ब्लू स्टार (जून 1984):** अमृतसर में स्वर्ण मंदिर उग्रवादियों का मुख्यालय बन गया था। 'ऑपरेशन ब्लू स्टार' नामक एक अभियान में उग्रवादियों को बाहर निकालने के लिए भारतीय सेना ने मंदिर में प्रवेश किया। इसने सिख भावनाओं को बहुत आहत किया।
+- **परिणाम:** प्रधानमंत्री **इंदिरा गांधी की हत्या** अक्टूबर 1984 में उनके सिख अंगरक्षकों द्वारा कर दी गई, जिससे दिल्ली और उत्तर भारत के अन्य हिस्सों में सिख विरोधी दंगे हुए।
+- **पंजाब समझौता (1985):** प्रधानमंत्री **राजीव गांधी** ने शांति बहाल करने के लिए अकाली नेता हरचंद सिंह लोंगोवाल के साथ एक समझौते पर हस्ताक्षर किए। हालांकि, शांति केवल 1990 के दशक के मध्य में बहाल हुई।
+
+### पूर्वोत्तर
+- यह क्षेत्र, जिसमें सात राज्य ('सात बहनें') शामिल हैं, सांस्कृतिक रूप से विविध और आर्थिक रूप से अविकसित है।
+- **इसकी राजनीति पर तीन मुख्य मुद्दों का प्रभुत्व रहा है:**
+- **1. स्वायत्तता की मांग:** विभिन्न जनजातियों और समुदायों ने अलग राज्यों या अधिक स्वायत्तता की मांग की है। इससे **नागालैंड, मेघालय, मिजोरम और अरुणाचल प्रदेश** जैसे राज्यों का निर्माण हुआ है।
+- **2. अलगाववादी आंदोलन:** कुछ समूहों ने भारत से पूर्ण अलगाव की मांग की है। **मिजोरम** (लालडेंगा के नेतृत्व में) और **नागालैंड** में आंदोलन सबसे प्रमुख थे। भारत सरकार ने इनसे निपटने के लिए सैन्य बल और राजनीतिक वार्ताओं (जैसे, 1986 में लालडेंगा के साथ मिजोरम समझौता) के मिश्रण का उपयोग किया।
+- **3. 'बाहरी लोगों' के खिलाफ आंदोलन:** भारत के अन्य हिस्सों और पड़ोसी देशों से लोगों के बड़े पैमाने पर प्रवास ने सामाजिक तनाव को जन्म दिया है। बांग्लादेश से 'अवैध' प्रवासियों के खिलाफ **असम आंदोलन (1979-1985)** इसका सबसे अच्छा उदाहरण है। यह राजीव गांधी द्वारा हस्ताक्षरित **असम समझौते** के साथ समाप्त हुआ।
+
+### क्षेत्रीय आकांक्षाओं से सीख
+- क्षेत्रीय आकांक्षाएँ लोकतांत्रिक राजनीति का हिस्सा हैं।
+- इनसे निपटने का सबसे अच्छा तरीका दमन नहीं, बल्कि लोकतांत्रिक बातचीत और सत्ता-साझाकरण है।
+- आर्थिक विकास और उपेक्षा की भावना को दूर करने से क्षेत्रीय तनाव को कम करने में मदद मिल सकती है।
+`
     }
   },
   'recent-developments-in-indian-politics': {
