@@ -248,6 +248,43 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   }
 };
 
+const ContentRenderer = ({ content }: { content: string }) => {
+  const lines = content.split('\n');
+
+  return (
+    <div className="space-y-4">
+      {lines.map((line, index) => {
+        if (line.startsWith('### ')) {
+          return <h3 key={index} className="text-xl font-semibold mt-6 mb-2 pb-2 border-b">{line.substring(4)}</h3>;
+        }
+        if (line.startsWith('- ')) {
+          const boldMatch = line.match(/\*\*(.*?)\*\*/);
+          if (boldMatch) {
+            const parts = line.substring(2).split(`**${boldMatch[1]}**`);
+            return (
+              <li key={index} className="flex items-start">
+                <span className="mr-2 mt-1">&#8226;</span>
+                <span>{parts[0]}<strong className="font-semibold">{boldMatch[1]}</strong>{parts[1]}</span>
+              </li>
+            );
+          }
+          return (
+            <li key={index} className="flex items-start">
+              <span className="mr-2 mt-1">&#8226;</span>
+              <span>{line.substring(2)}</span>
+            </li>
+          );
+        }
+        if (line.trim() === '') {
+          return null;
+        }
+        return <p key={index} className="text-foreground/80 leading-relaxed">{line}</p>;
+      })}
+    </div>
+  );
+};
+
+
 function NotesContent({ slug }: { slug: string }) {
   const searchParams = useSearchParams();
   const lang = searchParams.get('lang') === 'hi' ? 'hi' : 'en';
@@ -263,11 +300,7 @@ function NotesContent({ slug }: { slug: string }) {
           <CardDescription>Detailed notes for your study and revision.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="whitespace-pre-wrap">
-              {notes.content}
-            </p>
-          </div>
+          <ContentRenderer content={notes.content} />
         </CardContent>
       </Card>
     </div>
