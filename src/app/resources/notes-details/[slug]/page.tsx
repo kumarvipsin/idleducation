@@ -328,11 +328,125 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'contemporary-south-asia': {
     en: {
       title: 'Chapter 5: Contemporary South Asia',
-      content: 'This chapter provides an overview of the political dynamics in South Asia. It covers the experiences of democracy, conflict, and cooperation among the countries in the region.'
+      content: `### What is South Asia?
+- The expression ‘South Asia’ usually includes the following countries: **Bangladesh, Bhutan, India, the Maldives, Nepal, Pakistan and Sri Lanka**.
+- **Geography:** The mighty Himalayas in the north and the vast Indian Ocean, the Arabian Sea and the Bay of Bengal in the south, west and east respectively provide a natural insularity to the region.
+- **Political Systems:** Despite the mixed record of the democratic experience, the people in all these countries share the aspiration for democracy.
+- - **India and Sri Lanka:** Have successfully operated a democratic system since their independence.
+- - **Pakistan and Bangladesh:** Have experienced both civilian and military rulers.
+- - **Nepal:** Was a constitutional monarchy, but is now a democratic republic.
+- - **Bhutan:** Became a constitutional monarchy in 2008.
+- - **Maldives:** Was a sultanate till 1968 when it was transformed into a republic with a presidential form of government.
+
+### The Military and Democracy in Pakistan
+- After Pakistan framed its first constitution, **General Ayub Khan** took over the administration and got himself elected. He was overthrown by a military coup led by **General Yahya Khan**.
+- A democratic government was formed under the leadership of **Zulfikar Ali Bhutto** from 1971 to 1977.
+- Bhutto's government was removed by **General Zia-ul-Haq** in 1977.
+- After 1988, an elected democratic government was established under **Benazir Bhutto** and **Nawaz Sharif**.
+- In 1999, **General Pervez Musharraf** removed Prime Minister Nawaz Sharif in a military coup. In 2008, a democratic government was re-established.
+- **Reasons for failure of stable democracy:** The social dominance of the military, clergy, and landowning aristocracy has led to the frequent overthrow of elected governments. Pakistan's conflict with India has made the pro-military groups more powerful.
+
+### Democracy in Bangladesh
+- Bangladesh was a part of Pakistan from 1947 to 1971.
+- The people of this region resented the domination of western Pakistan and the imposition of the Urdu language.
+- The protest against this was led by **Sheikh Mujibur Rahman**, who led the popular struggle for autonomy.
+- In the 1970 elections, the Awami League led by Sheikh Mujib won all the seats in East Pakistan.
+- The West Pakistani leadership refused to convene the assembly. **General Yahya Khan** launched an army crackdown, leading to a large-scale migration into India.
+- The government of India supported the demand for independence and helped them financially and militarily. This resulted in a war between India and Pakistan in December 1971 that ended with the surrender of the Pakistani forces in East Pakistan and the formation of **Bangladesh** as an independent country.
+- In 1975, Sheikh Mujib got the constitution amended to shift from the parliamentary to presidential form of government, abolishing all parties except his own, the Awami League. He was assassinated in a military uprising in August 1975.
+- A military ruler, **Ziaur Rahman**, was also assassinated, and another military takeover followed under **Lt Gen H.M. Ershad**.
+- Since 1991, representative democracy based on multi-party elections has been working in Bangladesh.
+
+### Monarchy and Democracy in Nepal
+- Nepal was a **Hindu kingdom** in the past and then a constitutional monarchy for many years.
+- A pro-democracy movement in 2006 led to the end of the monarchy, and Nepal emerged as a democratic republic.
+- The country's new constitution was adopted in **2015**.
+
+### Ethnic Conflict and Democracy in Sri Lanka
+- Sri Lanka (formerly Ceylon) has retained democracy since its independence in 1948.
+- **The Ethnic Conflict:** The major issue has been the conflict between the majority **Sinhala** community and the minority **Tamil** community.
+- The Sinhala nationalists thought that Sri Lanka should not give ‘concessions’ to the Tamils because Sri Lanka belongs to the Sinhala people only.
+- From 1983 onwards, the militant organisation, the **Liberation Tigers of Tamil Eelam (LTTE)**, has been fighting an armed struggle with the army of Sri Lanka and demanding ‘Tamil Eelam’ or a separate country for the Tamils of Sri Lanka.
+- The conflict came to a violent end in **2009**, with the defeat of the LTTE.
+
+### India-Pakistan Conflicts
+- The relations between India and Pakistan have been marred by conflicts over issues like **Kashmir, Siachen glacier, and sharing of river waters**.
+- The two countries have fought major wars in **1947-48, 1965, and 1971**.
+- In 1998, India conducted nuclear tests in Pokhran. Pakistan responded by conducting its own tests in the Chagai Hills.
+- In 1999, the **Kargil conflict** took place.
+
+### India and its Neighbours
+- **Bangladesh:** Differences have arisen over the sharing of the Ganga and Brahmaputra river waters.
+- **Nepal:** The two countries share a friendly relationship but have had trade-related disputes in the past.
+- **Sri Lanka:** The Indian government has periodically had to manage the pressures from the Tamil population in India to intervene in Sri Lanka.
+- **Bhutan:** India enjoys a very special relationship with Bhutan, and Indian efforts in Bhutan’s development are widely appreciated.
+- **Maldives:** India has supported the Maldives' economy and has come to its aid during crises.
+
+### Peace and Cooperation
+- **South Asian Association for Regional Cooperation (SAARC):** This is a major regional initiative by the South Asian states to evolve cooperation through multilateral means. It was established in **1985**.
+- **South Asian Free Trade Area (SAFTA):** The agreement was signed in 2004 and came into effect on 1 January 2006. SAFTA aims at lowering trade tariffs.
+`
     },
     hi: {
       title: 'अध्याय 5: समकालीन दक्षिण एशिया',
-      content: 'यह अध्याय दक्षिण एशिया में राजनीतिक गतिशीलता का अवलोकन प्रदान करता है। इसमें क्षेत्र के देशों के बीच लोकतंत्र, संघर्ष और सहयोग के अनुभवों को शामिल किया गया है।'
+      content: `### दक्षिण एशिया क्या है?
+- 'दक्षिण एशिया' अभिव्यक्ति में आमतौर पर निम्नलिखित देश शामिल होते हैं: **बांग्लादेश, भूटान, भारत, मालदीव, नेपाल, पाकिस्तान और श्रीलंका**।
+- **भूगोल:** उत्तर में शक्तिशाली हिमालय और दक्षिण, पश्चिम और पूर्व में विशाल हिंद महासागर, अरब सागर और बंगाल की खाड़ी इस क्षेत्र को एक प्राकृतिक द्वीपीयता प्रदान करते हैं।
+- **राजनीतिक प्रणालियाँ:** लोकतांत्रिक अनुभव के मिश्रित रिकॉर्ड के बावजूद, इन सभी देशों के लोग लोकतंत्र की आकांक्षा साझा करते हैं।
+- - **भारत और श्रीलंका:** ने अपनी स्वतंत्रता के बाद से एक लोकतांत्रिक प्रणाली का सफलतापूर्वक संचालन किया है।
+- - **पाकिस्तान और बांग्लादेश:** ने नागरिक और सैन्य दोनों शासकों का अनुभव किया है।
+- - **नेपाल:** एक संवैधानिक राजतंत्र था, लेकिन अब एक लोकतांत्रिक गणराज्य है।
+- - **भूटान:** 2008 में एक संवैधानिक राजतंत्र बना।
+- - **मालदीव:** 1968 तक एक सल्तनत था जब इसे सरकार के राष्ट्रपति के रूप के साथ एक गणराज्य में बदल दिया गया था।
+
+### पाकिस्तान में सेना और लोकतंत्र
+- पाकिस्तान द्वारा अपना पहला संविधान बनाने के बाद, **जनरल अयूब खान** ने प्रशासन संभाला और खुद को निर्वाचित करवाया। उन्हें **जनरल याह्या खान** के नेतृत्व में एक सैन्य तख्तापलट द्वारा उखाड़ फेंका गया।
+- 1971 से 1977 तक **जुल्फिकार अली भुट्टो** के नेतृत्व में एक लोकतांत्रिक सरकार का गठन किया गया।
+- भुट्टो की सरकार को 1977 में **जनरल जिया-उल-हक** ने हटा दिया।
+- 1988 के बाद, **बेनजीर भुट्टो** और **नवाज शरीफ** के तहत एक निर्वाचित लोकतांत्रिक सरकार की स्थापना हुई।
+- 1999 में, **जनरल परवेज मुशर्रफ** ने एक सैन्य तख्तापलट में प्रधानमंत्री नवाज शरीफ को हटा दिया। 2008 में, एक लोकतांत्रिक सरकार को फिर से स्थापित किया गया।
+- **स्थिर लोकतंत्र की विफलता के कारण:** सेना, पादरियों और भू-स्वामी अभिजात वर्ग के सामाजिक प्रभुत्व ने निर्वाचित सरकारों के बार-बार उखाड़ फेंकने का कारण बना है। भारत के साथ पाकिस्तान के संघर्ष ने सैन्य-समर्थक समूहों को और अधिक शक्तिशाली बना दिया है।
+
+### बांग्लादेश में लोकतंत्र
+- बांग्लादेश 1947 से 1971 तक पाकिस्तान का हिस्सा था।
+- इस क्षेत्र के लोगों ने पश्चिमी पाकिस्तान के प्रभुत्व और उर्दू भाषा को थोपे जाने का विरोध किया।
+- इसके खिलाफ विरोध का नेतृत्व **शेख मुजीबुर रहमान** ने किया, जिन्होंने स्वायत्तता के लिए लोकप्रिय संघर्ष का नेतृत्व किया।
+- 1970 के चुनावों में, शेख मुजीब के नेतृत्व वाली अवामी लीग ने पूर्वी पाकिस्तान में सभी सीटें जीतीं।
+- पश्चिमी पाकिस्तानी नेतृत्व ने विधानसभा बुलाने से इनकार कर दिया। **जनरल याह्या खान** ने एक सेना की कार्रवाई शुरू की, जिससे भारत में बड़े पैमाने पर प्रवासन हुआ।
+- भारत सरकार ने स्वतंत्रता की मांग का समर्थन किया और उन्हें आर्थिक और सैन्य रूप से मदद की। इसके परिणामस्वरूप दिसंबर 1971 में भारत और पाकिस्तान के बीच एक युद्ध हुआ जो पूर्वी पाकिस्तान में पाकिस्तानी सेना के आत्मसमर्पण और एक स्वतंत्र देश के रूप में **बांग्लादेश** के गठन के साथ समाप्त हुआ।
+- 1975 में, शेख मुजीब ने अपनी पार्टी, अवामी लीग को छोड़कर सभी दलों को समाप्त करते हुए, संसदीय से सरकार के राष्ट्रपति के रूप में स्थानांतरित करने के लिए संविधान में संशोधन करवाया। अगस्त 1975 में एक सैन्य विद्रोह में उनकी हत्या कर दी गई।
+- एक सैन्य शासक, **जियाउर रहमान** की भी हत्या कर दी गई, और **लेफ्टिनेंट जनरल एच.एम. इरशाद** के तहत एक और सैन्य अधिग्रहण हुआ।
+- 1991 से, बांग्लादेश में बहु-दलीय चुनावों पर आधारित प्रतिनिधि लोकतंत्र काम कर रहा है।
+
+### नेपाल में राजतंत्र और लोकतंत्र
+- नेपाल अतीत में एक **हिंदू साम्राज्य** था और फिर कई वर्षों तक एक संवैधानिक राजतंत्र था।
+- 2006 में एक लोकतंत्र-समर्थक आंदोलन ने राजशाही के अंत का नेतृत्व किया, और नेपाल एक लोकतांत्रिक गणराज्य के रूप में उभरा।
+- देश का नया संविधान **2015** में अपनाया गया था।
+
+### श्रीलंका में जातीय संघर्ष और लोकतंत्र
+- श्रीलंका (पूर्व में सीलोन) ने 1948 में अपनी स्वतंत्रता के बाद से लोकतंत्र को बनाए रखा है।
+- **जातीय संघर्ष:** प्रमुख मुद्दा बहुसंख्यक **सिंहली** समुदाय और अल्पसंख्यक **तमिल** समुदाय के बीच संघर्ष रहा है।
+- सिंहली राष्ट्रवादियों ने सोचा कि श्रीलंका को तमिलों को 'रियायतें' नहीं देनी चाहिए क्योंकि श्रीलंका केवल सिंहली लोगों का है।
+- 1983 के बाद से, उग्रवादी संगठन, **लिबरेशन टाइगर्स ऑफ तमिल ईलम (लिट्टे)**, श्रीलंका की सेना के साथ एक सशस्त्र संघर्ष लड़ रहा है और 'तमिल ईलम' या श्रीलंका के तमिलों के लिए एक अलग देश की मांग कर रहा है।
+- यह संघर्ष **2009** में लिट्टे की हार के साथ एक हिंसक अंत तक पहुंचा।
+
+### भारत-पाकिस्तान संघर्ष
+- भारत और पाकिस्तान के बीच संबंध **कश्मीर, सियाचिन ग्लेशियर और नदी के पानी के बंटवारे** जैसे मुद्दों पर संघर्षों से खराब हुए हैं।
+- दोनों देशों ने **1947-48, 1965, और 1971** में बड़े युद्ध लड़े हैं।
+- 1998 में, भारत ने पोखरण में परमाणु परीक्षण किए। पाकिस्तान ने चगाई पहाड़ियों में अपने स्वयं के परीक्षण करके जवाब दिया।
+- 1999 में, **कारगिल संघर्ष** हुआ।
+
+### भारत और उसके पड़ोसी
+- **बांग्लादेश:** गंगा और ब्रह्मपुत्र नदी के पानी के बंटवारे को लेकर मतभेद पैदा हुए हैं।
+- **नेपाल:** दोनों देशों के बीच एक दोस्ताना संबंध है लेकिन अतीत में व्यापार से संबंधित विवाद हुए हैं।
+- **श्रीलंका:** भारत सरकार को समय-समय पर भारत में तमिल आबादी के दबावों का प्रबंधन करना पड़ा है ताकि वे श्रीलंका में हस्तक्षेप कर सकें।
+- **भूटान:** भारत का भूटान के साथ एक बहुत ही विशेष संबंध है, और भूटान के विकास में भारतीय प्रयासों की व्यापक रूप से सराहना की जाती है।
+- **मालदीव:** भारत ने मालदीव की अर्थव्यवस्था का समर्थन किया है और संकटों के दौरान इसकी सहायता के लिए आया है।
+
+### शांति और सहयोग
+- **दक्षिण एशियाई क्षेत्रीय सहयोग संगठन (सार्क):** यह दक्षिण एशियाई राज्यों द्वारा बहुपक्षीय माध्यमों से सहयोग विकसित करने के लिए एक प्रमुख क्षेत्रीय पहल है। इसकी स्थापना **1985** में हुई थी।
+- **दक्षिण एशियाई मुक्त व्यापार क्षेत्र (साफ्टा):** इस समझौते पर 2004 में हस्ताक्षर किए गए थे और यह 1 जनवरी 2006 को लागू हुआ। साफ्टा का उद्देश्य व्यापार शुल्कों को कम करना है।
+`
     }
   },
   'international-organisations': {
@@ -378,136 +492,178 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
     'challenges-of-nation-building': {
     en: {
       title: 'Chapter 1: Challenges of Nation Building',
-      content: `### India's Independence
-- At the midnight of 14-15 August 1947, India became independent.
-- Jawaharlal Nehru, the first Prime Minister of free India, addressed a special session of the Constituent Assembly that night. This speech was known as the **'Tryst with Destiny'**.
-- During the freedom struggle, there was consensus on two things: first, that after independence, the country would be governed democratically.
-- Second, that the government would work for the good of all sections of society (with special attention to the poor and weak).
+      content: `### Challenges For The New Nation
+- India became independent at the hour of midnight on 14-15 August 1947.
+- Jawaharlal Nehru, the first Prime Minister, addressed a special session of the Constituent Assembly with his famous **'Tryst with Destiny'** speech.
+- Post-independence, there was a consensus on two main goals:
+- 1. **Running the country through democratic government.**
+- 2. **Ensuring the development and well-being of all sections of society.**
+- However, the country was born in very difficult circumstances, facing three major challenges.
 
-### Two-Nation Theory
-- This theory was adopted by the **Muslim League**. According to this theory, India was not one nation but a country of two nations, Hindu and Muslim.
-- For this reason, the Muslim League demanded a separate country, **Pakistan**, for Muslims. Congress opposed this theory.
+### Three Challenges
+- **1. To Shape a Nation:** The first challenge was to shape a nation that was united, yet accommodative of the diversity in our society. India is a land of continental size and diversity, with different languages, cultures, and religions. The partition of the country created serious doubts about the future of India.
+- **2. To Establish Democracy:** The second challenge was to establish a democratic system. The Constitution granted fundamental rights and the right to vote to every citizen. India adopted representative democracy based on a parliamentary form of government. The challenge was to develop democratic practices in line with the Constitution.
+- **3. To Ensure Development and Well-being:** The third challenge was to ensure the development and well-being of the entire society. The Constitution laid down the principle of equality and special protection for socially disadvantaged groups and minorities. The real challenge was to evolve effective policies for economic development and eradication of poverty.
 
-### Problems of Partition
-- **Geographical Division:** There was no single belt of Muslim majority areas in British India. There were two areas of concentration, one in the east and one in the west. There was no way these two parts could be joined.
-- **Not all Muslim areas wanted to be in Pakistan:** **Khan Abdul Ghaffar Khan**, the undisputed leader of the North-Western Frontier Province, was staunchly opposed to the two-nation theory. His voice was ignored, and the NWFP was made to merge with Pakistan.
-- **Division of Punjab and Bengal:** These two provinces also had very large areas where the non-Muslims were in a majority. Eventually, it was decided that these two provinces would be bifurcated.
-- **Problem of Minorities:** On both sides of the border lay large populations of minorities. The areas that were now in Pakistan had lakhs of Hindu and Sikh population. Similarly, the Indian territory of Punjab and Bengal had lakhs of Muslim population. These people feared what would become of them.
+### Partition: Displacement and Rehabilitation
+- **The 'Two-Nation Theory':** This theory, advanced by the Muslim League, stated that India consisted of two 'people', Hindus and Muslims, and therefore demanded Pakistan, a separate country for the Muslims. The Congress opposed this theory.
+- **Process of Partition:**
+- - **No single belt of Muslim majority:** Muslim populations were concentrated in two areas, one in the west and one in the east. There was no way to join them. It was decided that Pakistan would comprise two territories, West and East Pakistan.
+- - **Not all Muslim-majority areas wanted to join Pakistan:** **Khan Abdul Ghaffar Khan**, the leader of the North West Frontier Province (NWFP), was staunchly opposed to the two-nation theory. His voice was ignored, and the NWFP was merged with Pakistan.
+- - **Problem of Punjab and Bengal:** These two provinces had large non-Muslim majority areas. It was decided to bifurcate these provinces, which caused the deepest trauma of Partition.
+- - **Problem of Minorities:** Lakhs of Hindus and Sikhs in what was now Pakistan, and a large number of Muslims on the Indian side of Punjab and Bengal, became undesirable aliens in their own homes.
+- **Consequences of Partition:**
+- - The year 1947 saw one of the largest, most abrupt, unplanned, and tragic transfers of population in human history.
+- - There were killings and atrocities on both sides of the border in the name of religion.
+- - Minorities on both sides fled their homes and often had to live in refugee camps.
+- - Women were abducted, raped, and forced to convert.
+- - It is estimated that the Partition forced about **80 lakh** people to migrate across the new border. Between **5 to 10 lakh** people were killed in Partition-related violence.
 
-### Consequences of Partition
-- The country was divided in the name of religion, which led to riots on both sides.
-- Women were abducted, forcibly married, and made to convert their religion.
-- In many cases, family members themselves killed their own women to protect the 'family honour'.
-- People had to live in refugee camps.
-
-### Challenges of Nation Building
-- Free India faced three major challenges. The first and the immediate challenge was **to shape a nation that was united**, yet accommodative of the diversity in our society.
-- **Integrity and Unity:** India, in its size and diversity, was like a continent. There were people speaking different languages, with different cultures, and followers of different religions. Uniting them all was a huge challenge.
-- **Establishment of Democracy:** The second challenge was to establish democracy. The Indian Constitution **guaranteed fundamental rights** and gave every citizen the right to vote. India adopted a representative democracy based on the parliamentary form of government.
-- **Development:** The third challenge was to ensure the development and well-being of the entire society and not only of some sections. The Constitution made it clear that everyone would be treated equally and that socially disadvantaged groups and religious and cultural minority communities would be given special protection.
-
-### Problem of Princely States
-- At the time of independence, there were **565 princely states** in India, big and small.
-- The rulers of the princely states were given the freedom by the British government to join either India or Pakistan or to maintain their independent existence.
-- The right to take this decision was given to the king, not the people.
-- It was India's good fortune that a visionary statesman like **Sardar Patel** took on the task of reorganizing the Indian states in that difficult time.
-- The rulers of most of the princely states signed a document called the **'Instrument of Accession'** which meant that their state agreed to become a part of the Union of India.
+### Integration of Princely States
+- British India was divided into British Indian Provinces and Princely States.
+- The Princely States were ruled by princes who enjoyed some form of control over their internal affairs under British supremacy. There were **565** such states.
+- With the end of British rule, the princely states were given the option to join either India or Pakistan or remain independent.
+- The government’s approach was guided by three considerations:
+- - 1. The people of most of the princely states clearly wanted to become part of the Indian union.
+- - 2. The government was prepared to be flexible in giving autonomy to some regions.
+- - 3. In the backdrop of Partition, the integration and consolidation of the territorial boundaries of the nation had assumed supreme importance.
+- **Sardar Vallabhbhai Patel**, India's first Deputy Prime Minister and Home Minister, played a historic role in negotiating with the rulers of the princely states and bringing most of them into the Indian Union.
+- The accession of **Junagadh, Hyderabad, Kashmir, and Manipur** proved more difficult than the rest.
 
 ### Reorganisation of States
-- **Vishalandhra Movement:** This movement was for a separate state of **Andhra Pradesh** for Telugu-speaking areas. Congress leader **Potti Sriramulu** went on an indefinite fast that led to his death. Finally, in December 1952, the Prime Minister announced the formation of a separate Andhra state.
-- **States Reorganisation Commission:** The Central Government set up the **States Reorganisation Commission** in 1953. On the basis of its report, the **States Reorganisation Act** was passed in 1956. This led to the creation of 14 states and 6 union territories.
+- The boundaries of the states needed to be redrawn to reflect linguistic and cultural plurality without affecting the unity of the nation.
+- **The Vishalandhra movement** in the old Madras province demanded that the Telugu-speaking areas be separated to form a separate Andhra state.
+- **Potti Sriramulu**, a Congress leader, went on an indefinite fast that led to his death after 56 days, causing great unrest. In December 1952, the Prime Minister announced the formation of a separate Andhra State.
+- This led to the formation of the **States Reorganisation Commission (SRC)** in 1953.
+- The Commission, in its report, accepted that the boundaries of the state should reflect the boundaries of different languages.
+- On the basis of its report, the **States Reorganisation Act was passed in 1956**. This led to the creation of **14 states and 6 union territories**.
 `
     },
     hi: {
       title: 'अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ',
-      content: `### भारत की आज़ादी
-- 14-15 अगस्त 1947 की मध्य रात्रि को भारत आज़ाद हुआ।
-- जवाहरलाल नेहरू, स्वतंत्र भारत के प्रथम प्रधानमंत्री, ने इस रात संविधान सभा के एक विशेष सत्र को सम्बोधित किया। उनका यह भाषण **'भाग्यवधू से चिर-प्रतीक्षित भेंट'** या **'ट्रिस्ट विद डेस्टिनी'** के नाम से जाना गया।
-- आज़ादी की लड़ाई के समय दो बातों पर सबकी सहमति थी: पहली, कि आज़ादी के बाद देश का शासन लोकतांत्रिक तरीके से चलाया जाएगा।
-- दूसरी, कि सरकार समाज के सभी वर्गों के लिए कार्य करेगी (गरीब और कमजोर लोगों का विशेष ध्यान रखेगी)।
+      content: `### नए राष्ट्र की चुनौतियाँ
+- 14-15 अगस्त 1947 की मध्यरात्रि को भारत स्वतंत्र हुआ।
+- प्रथम प्रधानमंत्री जवाहरलाल नेहरू ने अपने प्रसिद्ध **'ट्रिस्ट विद डेस्टिनी' (भाग्यवधू से चिर-प्रतीक्षित भेंट)** भाषण के साथ संविधान सभा के एक विशेष सत्र को संबोधित किया।
+- स्वतंत्रता के बाद, दो मुख्य लक्ष्यों पर आम सहमति थी:
+- 1. **देश का शासन लोकतांत्रिक सरकार के माध्यम से चलाना।**
+- 2. **समाज के सभी वर्गों के विकास और कल्याण को सुनिश्चित करना।**
+- हालाँकि, देश का जन्म बहुत ही कठिन परिस्थितियों में हुआ था, जिसे तीन प्रमुख चुनौतियों का सामना करना पड़ा।
 
-### द्विराष्ट्र सिद्धांत
-- इस सिद्धांत को **मुस्लिम लीग** ने अपनाया था। इस सिद्धांत के अनुसार भारत किसी एक कौम का नहीं बल्कि हिंदू और मुसलमान नाम की दो कौमों का देश था।
-- इसी कारण मुस्लिम लीग ने मुसलमानों के लिए एक अलग देश **पाकिस्तान** की मांग की। कांग्रेस ने इस सिद्धांत का विरोध किया।
+### तीन चुनौतियाँ
+- **1. एक राष्ट्र को आकार देना:** पहली चुनौती एक ऐसे राष्ट्र को आकार देना था जो एकजुट हो, फिर भी हमारे समाज में विविधता को समायोजित करने वाला हो। भारत महाद्वीपीय आकार और विविधता की भूमि है, जिसमें विभिन्न भाषाएँ, संस्कृतियाँ और धर्म हैं। देश के विभाजन ने भारत के भविष्य के बारे में गंभीर संदेह पैदा कर दिए।
+- **2. लोकतंत्र स्थापित करना:** दूसरी चुनौती एक लोकतांत्रिक व्यवस्था स्थापित करना था। संविधान ने प्रत्येक नागरिक को मौलिक अधिकार और मतदान का अधिकार प्रदान किया। भारत ने संसदीय स्वरूप की सरकार पर आधारित प्रतिनिधि लोकतंत्र को अपनाया। चुनौती संविधान के अनुरूप लोकतांत्रिक प्रथाओं को विकसित करना था।
+- **3. विकास और कल्याण सुनिश्चित करना:** तीसरी चुनौती पूरे समाज के विकास और कल्याण को सुनिश्चित करना था। संविधान ने समानता के सिद्धांत और सामाजिक रूप से वंचित समूहों और अल्पसंख्यकों के लिए विशेष सुरक्षा निर्धारित की। असली चुनौती आर्थिक विकास और गरीबी उन्मूलन के लिए प्रभावी नीतियां विकसित करना था।
 
-### विभाजन की समस्या
-- **भौगोलिक विभाजन:** भारत में ऐसा कोई क्षेत्र नहीं था जहाँ मुसलमान बहुसंख्यक हों। केवल दो क्षेत्र थे, एक पूर्व में और एक पश्चिम में, जहाँ मुसलमान बहुसंख्यक थे। ऐसा कोई तरीका नहीं था जिससे इन दोनों क्षेत्रों को जोड़ा जा सके।
-- **सभी मुस्लिम क्षेत्र पाकिस्तान में जाने को राज़ी नहीं थे:** पश्चिमोत्तर सीमा प्रांत के निर्विवाद नेता **खान अब्दुल गफ्फार खान** द्विराष्ट्र सिद्धांत के एकदम खिलाफ थे। उनकी आवाज को अनसुना कर दिया गया और पश्चिमोत्तर सीमा प्रांत को पाकिस्तान में शामिल कर लिया गया।
-- **पंजाब और बंगाल का विभाजन:** इन दोनों राज्यों में भी बहुसंख्यक गैर-मुस्लिम थे। ऐसे में इन दोनों राज्यों का भी बंटवारा किया गया।
-- **अल्पसंख्यकों की समस्या:** सीमा के दोनों तरफ अल्पसंख्यक थे। जो क्षेत्र अब पाकिस्तान में थे, वहां लाखों की संख्या में हिंदू और सिख थे। इसी तरह पंजाब और बंगाल के भारतीय भूभाग में भी लाखों की संख्या में मुस्लिम आबादी थी। इन लोगों के मन में यह डर था कि अब हमारा क्या होगा?
+### विभाजन: विस्थापन और पुनर्वास
+- **'द्वि-राष्ट्र सिद्धांत':** मुस्लिम लीग द्वारा उन्नत इस सिद्धांत में कहा गया था कि भारत में दो 'लोग', हिंदू और मुसलमान शामिल थे, और इसलिए मुसलमानों के लिए एक अलग देश पाकिस्तान की मांग की। कांग्रेस ने इस सिद्धांत का विरोध किया।
+- **विभाजन की प्रक्रिया:**
+- - **मुस्लिम बहुमत का कोई एकल क्षेत्र नहीं:** मुस्लिम आबादी दो क्षेत्रों में केंद्रित थी, एक पश्चिम में और एक पूर्व में। उन्हें जोड़ने का कोई तरीका नहीं था। यह तय किया गया कि पाकिस्तान में दो क्षेत्र, पश्चिमी और पूर्वी पाकिस्तान शामिल होंगे।
+- - **सभी मुस्लिम-बहुल क्षेत्र पाकिस्तान में शामिल नहीं होना चाहते थे:** उत्तर पश्चिम सीमा प्रांत (NWFP) के नेता **खान अब्दुल गफ्फार खान** द्वि-राष्ट्र सिद्धांत के कट्टर विरोधी थे। उनकी आवाज को नजरअंदाज कर दिया गया, और NWFP को पाकिस्तान में मिला दिया गया।
+- - **पंजाब और बंगाल की समस्या:** इन दो प्रांतों में बड़े गैर-मुस्लिम बहुल क्षेत्र थे। इन प्रांतों का विभाजन करने का निर्णय लिया गया, जिससे विभाजन का सबसे गहरा आघात लगा।
+- - **अल्पसंख्यकों की समस्या:** जो अब पाकिस्तान था, उसमें लाखों हिंदू और सिख, और पंजाब और बंगाल के भारतीय हिस्से में बड़ी संख्या में मुसलमान, अपने ही घरों में अवांछनीय विदेशी बन गए।
+- **विभाजन के परिणाम:**
+- - वर्ष 1947 में मानव इतिहास में सबसे बड़े, सबसे अचानक, अनियोजित और दुखद जनसंख्या हस्तांतरण में से एक देखा गया।
+- - धर्म के नाम पर सीमा के दोनों ओर हत्याएं और अत्याचार हुए।
+- - दोनों तरफ के अल्पसंख्यकों ने अपने घर छोड़ दिए और अक्सर शरणार्थी शिविरों में रहना पड़ा।
+- - महिलाओं का अपहरण, बलात्कार और धर्म परिवर्तन के लिए मजबूर किया गया।
+- - अनुमान है कि विभाजन ने लगभग **80 लाख** लोगों को नई सीमा के पार प्रवास करने के लिए मजबूर किया। विभाजन से संबंधित हिंसा में **5 से 10 लाख** लोगों की मौत हो गई।
 
-### विभाजन के परिणाम
-- देश का बंटवारा धर्म के नाम पर हुआ था, इसीलिए दोनों तरफ दंगे हुए।
-- औरतों को अगवा किया गया, जबरन शादी कर धर्म बदलवाया गया।
-- कई मामलों में तो खुद परिवार के लोगों ने अपनी 'कुल की इज्जत' बचाने के लिए घर की बहू-बेटियों को मार डाला।
-- लोगों को शरणार्थी शिविरों में जीवन बिताना पड़ा।
-
-### राष्ट्र निर्माण की चुनौतियां
-- स्वतंत्र भारत के सामने तीन मुख्य चुनौतियां थीं। पहली और तात्कालिक चुनौती **एकता के सूत्र में बंधे एक ऐसे भारत को गढ़ने की थी**, जिसमें भारतीय समाज की सारी विविधताओं के लिए स्थान हो।
-- **अखंडता और एकता:** भारत अपने आकार और विविधता में किसी महादेश के बराबर था। यहां अलग-अलग बोली बोलने वाले लोग थे, उनकी संस्कृति अलग थी और वे अलग-अलग धर्मों के अनुयाई थे। इन सभी को एकजुट करना एक बहुत बड़ी चुनौती थी।
-- **लोकतंत्र की स्थापना:** दूसरी चुनौती लोकतंत्र को कायम करने की थी। भारतीय संविधान में **मौलिक अधिकारों की गारंटी** दी गई है और हर नागरिक को मतदान का अधिकार दिया गया है। भारत ने संसदीय शासन पर आधारित प्रतिनिधित्वमूलक लोकतंत्र को अपनाया।
-- **विकास:** तीसरी चुनौती ऐसे विकास की थी जिससे समूचे समाज का भला होता हो, न कि कुछ एक वर्गों का। संविधान में यह बात साफ कर दी गई थी कि सबके साथ समानता का बर्ताव किया जाएगा और सामाजिक रूप से वंचित वर्गों तथा धार्मिक-सांस्कृतिक अल्पसंख्यक समुदायों को विशेष सुरक्षा दी जाएगी।
-
-### रजवाड़ों की समस्या
-- आजादी के समय भारत में छोटे-बड़े **565 रजवाड़े** थे।
-- रजवाड़ों के शासकों को ब्रिटिश सरकार ने यह आजादी दी कि वे चाहे तो भारत में शामिल हों या पाकिस्तान में, या चाहे तो अपना स्वतंत्र अस्तित्व भी बनाए रख सकते हैं।
-- यह फैसला लेने का अधिकार राजा को दिया गया था, न कि प्रजा को।
-- भारत का यह सौभाग्य था कि **सरदार पटेल** जैसे दूरदर्शी राजनेता ने उस कठिन घड़ी में भारतीय राज्यों के पुनर्गठन का बीड़ा उठाया।
-- अधिकतर रजवाड़ों के शासकों ने भारतीय संघ में अपने विलय के एक सहमति पत्र पर हस्ताक्षर किए थे। इस सहमति पत्र को **'इंस्ट्रूमेंट आफ एक्सेशन'** कहा जाता है।
+### रियासतों का एकीकरण
+- ब्रिटिश भारत को ब्रिटिश भारतीय प्रांतों और रियासतों में विभाजित किया गया था।
+- रियासतों पर राजकुमारों का शासन था, जिन्हें ब्रिटिश वर्चस्व के तहत अपने आंतरिक मामलों पर कुछ हद तक नियंत्रण प्राप्त था। ऐसी **565** रियासतें थीं।
+- ब्रिटिश शासन के अंत के साथ, रियासतों को भारत या पाकिस्तान में शामिल होने या स्वतंत्र रहने का विकल्प दिया गया था।
+- सरकार का दृष्टिकोण तीन विचारों द्वारा निर्देशित था:
+- - 1. अधिकांश रियासतों के लोग स्पष्ट रूप से भारतीय संघ का हिस्सा बनना चाहते थे।
+- - 2. सरकार कुछ क्षेत्रों को स्वायत्तता देने में लचीला होने के लिए तैयार थी।
+- - 3. विभाजन की पृष्ठभूमि में, राष्ट्र की क्षेत्रीय सीमाओं के एकीकरण और समेकन ने सर्वोच्च महत्व मान लिया था।
+- **सरदार वल्लभभाई पटेल**, भारत के पहले उप प्रधानमंत्री और गृह मंत्री, ने रियासतों के शासकों के साथ बातचीत करने और उनमें से अधिकांश को भारतीय संघ में लाने में एक ऐतिहासिक भूमिका निभाई।
+- **जूनागढ़, हैदराबाद, कश्मीर और मणिपुर** का विलय बाकी की तुलना में अधिक कठिन साबित हुआ।
 
 ### राज्यों का पुनर्गठन
-- **विशालान्ध्र आंदोलन:** यह आंदोलन तेलुगु भाषी क्षेत्रों के लिए एक अलग राज्य **आंध्र प्रदेश** बनाने के लिए था। कांग्रेस के नेता **पोट्टी श्रीरामुलु** अनिश्चितकालीन भूख हड़ताल पर बैठ गए, जिससे उनकी मृत्यु हो गई। आखिरकार, दिसंबर 1952 में प्रधानमंत्री ने एक अलग आंध्र राज्य बनाने की घोषणा की।
-- **राज्य पुनर्गठन आयोग:** केंद्र सरकार ने 1953 में **राज्य पुनर्गठन आयोग** बनाया। इस आयोग की रिपोर्ट के आधार पर 1956 में **राज्य पुनर्गठन अधिनियम** पास हुआ। इस अधिनियम के आधार पर 14 राज्य और 6 केंद्र शासित प्रदेश बनाए गए।
+- राष्ट्र की एकता को प्रभावित किए बिना भाषाई और सांस्कृतिक बहुलता को प्रतिबिंबित करने के लिए राज्यों की सीमाओं को फिर से खींचने की आवश्यकता थी।
+- पुराने मद्रास प्रांत में **विशालान्ध्र आंदोलन** ने मांग की कि तेलुगु भाषी क्षेत्रों को एक अलग आंध्र राज्य बनाने के लिए अलग किया जाए।
+- एक कांग्रेस नेता **पोट्टी श्रीरामुलु** अनिश्चितकालीन अनशन पर चले गए, जिसके कारण 56 दिनों के बाद उनकी मृत्यु हो गई, जिससे भारी अशांति फैल गई। दिसंबर 1952 में, प्रधानमंत्री ने एक अलग आंध्र राज्य के गठन की घोषणा की।
+- इससे 1953 में **राज्य पुनर्गठन आयोग (SRC)** का गठन हुआ।
+- आयोग ने अपनी रिपोर्ट में स्वीकार किया कि राज्य की सीमाएं विभिन्न भाषाओं की सीमाओं को प्रतिबिंबित करनी चाहिए।
+- इसकी रिपोर्ट के आधार पर, **राज्य पुनर्गठन अधिनियम 1956 में पारित किया गया था**। इससे **14 राज्यों और 6 केंद्र शासित प्रदेशों** का निर्माण हुआ।
 `
     }
   },
   'era-of-one-party-dominance': {
     en: {
       title: 'Chapter 2: Era of One-Party Dominance',
-      content: 'This chapter discusses the dominance of the Congress party in the first three general elections in India. It analyzes the factors responsible for this dominance and the nature of opposition parties.'
+      content: `### Challenge of building democracy
+- After achieving independence, the leaders of India decided to establish a democracy.
+- **Constitution:** The Indian Constitution was adopted on 26 November 1949 and signed on 24 January 1950. It came into effect on 26 January 1950.
+- **Election Commission:** The Election Commission of India was set up in January 1950. **Sukumar Sen** became the first Chief Election Commissioner.
+
+### Challenges for the First General Election
+- Holding a free and fair election in a country of India's size was a massive challenge.
+- **Voter List:** Preparing the first draft of the electoral rolls was difficult as nearly 40 lakh women were not recorded by name but as "wife of..." or "daughter of...".
+- **Scale:** There were **17 crore** eligible voters, who had to elect about **3,200 MLAs and 489 MPs**.
+- **Literacy:** Only **15 per cent** of the voters were literate, posing a challenge for the voting method. Special methods like using symbols on ballot boxes for each party were devised.
+- It required about **3 lakh officers and polling staff** to be trained.
+
+### First General Election (1952)
+- The election was originally scheduled for 1951 but had to be postponed twice and was finally held from October 1951 to February 1952.
+- **Result:** The **Indian National Congress (INC)** won a landslide victory, securing **364 out of the 489 seats** in the Lok Sabha. The **Communist Party of India (CPI)** came in second with 16 seats.
+- Jawaharlal Nehru became the first elected Prime Minister of India.
+
+### Congress Dominance in the First Three Elections
+- The Congress maintained its dominance in the first three general elections (1952, 1957, and 1962).
+- It won a three-fourths majority of seats in all three elections.
+- This one-party dominance in India was different from other countries because it happened under democratic conditions, with free and fair competition from other parties.
+
+### Nature of Congress Dominance
+- **Legacy of the Freedom Struggle:** The Congress was seen as the inheritor of the national movement. Many leaders who were at the forefront of the struggle were now Congress candidates.
+- **Well-Organized Party:** It was a well-organized party with a network that spread down to the local levels.
+- **All-inclusive Nature:** The Congress was a **'social and ideological coalition'**. It represented a rainbow-like gathering of diverse interests and classes. This meant that any group could find a space within the Congress, preventing it from becoming an exclusive party.
+- **Management of Factions:** The coalition-like nature of the Congress tolerated and encouraged various **factions** (groups within the party). These factions, based on either ideological considerations or personal ambitions, were an internal balancing mechanism, preventing the party from becoming rigid.
+
+### Emergence of Opposition Parties
+- Many opposition parties had emerged even before the first general election.
+- **Socialist Party:** Formed in 1934 by a group of young leaders within the Congress who wanted a more radical and egalitarian Congress. They split from the Congress in 1948. Key leaders included **Jayaprakash Narayan and Rammanohar Lohia**.
+- **Communist Party of India (CPI):** Inspired by the Bolshevik revolution in Russia, communist groups emerged in the early 1920s. The party was mainly strong in states like Andhra Pradesh, West Bengal, Bihar, and Kerala.
+- **Swatantra Party:** Formed in August 1959. It advocated for a market-based economy and opposed state intervention. It was critical of the public sector and favored closer ties with the USA. Key leaders included **C. Rajagopalachari and K.M. Munshi**.
+- **Bharatiya Jana Sangh:** Formed in 1951 by **Syama Prasad Mukherjee**. Its ideology was based on the principles of **'One Country, One Culture, and One Nation'**. It called for the reunion of India and Pakistan to form 'Akhand Bharat'.
+`
     },
     hi: {
       title: 'अध्याय 2: एक दल के प्रभुत्व का दौर',
       content: `### लोकतंत्र स्थापित करने की चुनौती
-- पहली समस्या का सामना करने के बाद भारत के सामने दूसरी मुख्य समस्या लोकतंत्र स्थापित करने की थी। 15 अगस्त 1947 में आज़ादी प्राप्त करने के बाद भारत ने संविधान निर्माण की प्रक्रिया को पूरा किया।
-- **संविधान निर्माण:** भारतीय संविधान को बनने में 2 साल 11 महीने और 18 दिनों का समय लगा।
-- **लागू होना:** भारतीय संविधान 26 नवंबर 1949 को बन कर पूरा हुआ और 26 जनवरी 1950 को लागू कर दिया गया।
-- संविधान लागु होने के बाद सबसे बड़ा काम था लोकतंत्र की स्थापना करना।
+- स्वतंत्रता प्राप्त करने के बाद, भारत के नेताओं ने लोकतंत्र स्थापित करने का निर्णय लिया।
+- **संविधान:** भारतीय संविधान 26 नवंबर 1949 को अपनाया गया और 24 जनवरी 1950 को इस पर हस्ताक्षर किए गए। यह 26 जनवरी 1950 को लागू हुआ।
+- **चुनाव आयोग:** भारत का चुनाव आयोग जनवरी 1950 में स्थापित किया गया था। **सुकुमार सेन** पहले मुख्य चुनाव आयुक्त बने।
 
-### चुनाव आयोग की स्थापना
-- जनवरी 1950 में चुनाव आयोग की स्थापना की गई और **सुकुमार सेन** देश के पहले चुनाव आयुक्त बने।
+### पहले आम चुनाव के लिए चुनौतियाँ
+- भारत के आकार के देश में एक स्वतंत्र और निष्पक्ष चुनाव कराना एक बहुत बड़ी चुनौती थी।
+- **मतदाता सूची:** मतदाता सूची का पहला मसौदा तैयार करना मुश्किल था क्योंकि लगभग 40 लाख महिलाओं का नाम दर्ज नहीं था, बल्कि उन्हें "की पत्नी..." या "की बेटी..." के रूप में दर्ज किया गया था।
+- **पैमाना:** **17 करोड़** पात्र मतदाता थे, जिन्हें लगभग **3,200 विधायक और 489 सांसद** चुनने थे।
+- **साक्षरता:** केवल **15 प्रतिशत** मतदाता ही साक्षर थे, जिससे मतदान पद्धति के लिए एक चुनौती उत्पन्न हुई। प्रत्येक पार्टी के लिए मतपेटियों पर प्रतीकों का उपयोग करने जैसी विशेष विधियाँ तैयार की गईं।
+- इसके लिए लगभग **3 लाख अधिकारियों और मतदान कर्मचारियों** को प्रशिक्षित करने की आवश्यकता थी।
 
-### चुनाव करवाने की चुनौतियाँ
-- देश में चुनाव करवाना किसी चुनौती से कम नहीं था। ऐसा इसीलिए था क्योंकि:
-- **साक्षरता:** देश में केवल 16 प्रतिशत लोग ही पढ़े लिखे थे।
-- **गरीबी:** देश की अधिकांश जनसँख्या गरीबी से जूझ रही थी।
-- **संसाधनों का आभाव:** संचार के साधनों एवं प्रौद्योगिकी का आभाव था।
-- **विशाल मतदाता:** 17 करोड़ मतदाताओं द्वारा 3200 विधायक और 489 सांसद चुने जाने थे।
-- **चुनाव क्षेत्रों का निर्धारण:** चुनाव क्षेत्रों का निर्धारण किया जाना था।
-
-### भारत का पहला आम चुनाव (1952)
-- देश में पहले आम चुनाव करवाने के लिए:
-- - लगभग 3 लाख लोगो को प्रशिक्षित किया गया।
-- - चुनाव क्षेत्रों का सीमांकन किया गया।
-- - मतदाता सूची बनाई गई (प्रत्येक व्यक्ति जो 21 वर्ष से अधिक आयु का था)।
-- - देश में चुनाव प्रचार शुरू हुआ।
+### पहला आम चुनाव (1952)
+- चुनाव मूल रूप से 1951 के लिए निर्धारित किया गया था, लेकिन इसे दो बार स्थगित करना पड़ा और अंततः अक्टूबर 1951 से फरवरी 1952 तक आयोजित किया गया।
+- **परिणाम:** **भारतीय राष्ट्रीय कांग्रेस (INC)** ने लोकसभा की 489 सीटों में से **364 सीटें** हासिल करके एक शानदार जीत हासिल की। **भारतीय कम्युनिस्ट पार्टी (CPI)** 16 सीटों के साथ दूसरे स्थान पर रही।
+- जवाहरलाल नेहरू भारत के पहले निर्वाचित प्रधानमंत्री बने।
 
 ### पहले तीन चुनावों में कांग्रेस का प्रभुत्व
-- इस पहले चुनाव में भारतीय राष्ट्रीय कांग्रेस ने कुल 489 सीटों में से **364 सीटें** जीती।
-- कम्युनिस्ट पार्टी ऑफ इंडिया 16 सीटें जीतकर दूसरे स्थान पर रही।
-- भारत में पहले तीन आम चुनाव (1952, 1957, 1962) में भारतीय राष्ट्रीय कांग्रेस का दबदबा रहा।
+- कांग्रेस ने पहले तीन आम चुनावों (1952, 1957 और 1962) में अपना प्रभुत्व बनाए रखा।
+- इसने तीनों चुनावों में तीन-चौथाई बहुमत से सीटें जीतीं।
+- भारत में यह एक-दलीय प्रभुत्व अन्य देशों से अलग था क्योंकि यह लोकतांत्रिक परिस्थितियों में, अन्य दलों से स्वतंत्र और निष्पक्ष प्रतिस्पर्धा के साथ हुआ था।
 
-### कांग्रेस के प्रभुत्व के कारण
-- **सबसे पुरानी पार्टी होना:** स्वतंत्रता संग्राम में मुख्य भूमिका।
-- **सबसे मजबूत संगठन:** पूरे देश में फैला हुआ था।
-- **बड़े नेता:** कई बड़े और मुख्य नेता कांग्रेस में थे।
-- **सभी वर्गों का समर्थन:** सभी वर्गों का समर्थन प्राप्त था।
+### कांग्रेस के प्रभुत्व की प्रकृति
+- **स्वतंत्रता संग्राम की विरासत:** कांग्रेस को राष्ट्रीय आंदोलन के उत्तराधिकारी के रूप में देखा जाता था। संघर्ष में सबसे आगे रहने वाले कई नेता अब कांग्रेस के उम्मीदवार थे।
+- **सुसंगठित पार्टी:** यह एक सुसंगठित पार्टी थी जिसका नेटवर्क स्थानीय स्तर तक फैला हुआ था।
+- **सर्व-समावेशी प्रकृति:** कांग्रेस एक **'सामाजिक और वैचारिक गठबंधन'** थी। इसने विविध हितों और वर्गों के एक इंद्रधनुषी जमावड़े का प्रतिनिधित्व किया। इसका मतलब था कि कोई भी समूह कांग्रेस के भीतर एक जगह पा सकता था, जिससे यह एक विशेष पार्टी बनने से बच गई।
+- **गुटों का प्रबंधन:** कांग्रेस की गठबंधन जैसी प्रकृति ने विभिन्न **गुटों** (पार्टी के भीतर के समूहों) को सहन और प्रोत्साहित किया। ये गुट, चाहे वैचारिक विचारों पर आधारित हों या व्यक्तिगत महत्वाकांक्षाओं पर, एक आंतरिक संतुलन तंत्र थे, जो पार्टी को कठोर बनने से रोकते थे।
 
-### मुख्य विपक्षी पार्टियां
-- **सोशलिस्ट पार्टी:** 1934 में कांग्रेस के भीतर ही जयप्रकाश नारायण और राम मनोहर लोहिया जैसे नेताओं द्वारा गठित।
-- **कम्युनिस्ट पार्टी ऑफ इंडिया:** 1920 के दशक में रूस में हुई बोल्शेविक क्रांति से प्रेरित।
-- **स्वतंत्र पार्टी:** अगस्त 1959 में गठित, जिसने सरकार के अर्थव्यवस्था में हस्तक्षेप का विरोध किया।
-- **भारतीय जनसंघ:** 1951 में श्यामा प्रसाद मुखर्जी द्वारा गठित, जिसने एक देश, एक संस्कृति और एक राष्ट्र पर जोर दिया।
+### विपक्षी दलों का उदय
+- कई विपक्षी दल पहले आम चुनाव से पहले ही उभर चुके थे।
+- **सोशलिस्ट पार्टी:** 1934 में कांग्रेस के भीतर युवा नेताओं के एक समूह द्वारा गठित की गई जो एक अधिक कट्टरपंथी और समतावादी कांग्रेस चाहते थे। वे 1948 में कांग्रेस से अलग हो गए। प्रमुख नेताओं में **जयप्रकाश नारायण और राममनोहर लोहिया** शामिल थे।
+- **भारतीय कम्युनिस्ट पार्टी (CPI):** रूस में बोल्शेविक क्रांति से प्रेरित होकर, 1920 के दशक की शुरुआत में कम्युनिस्ट समूह उभरे। पार्टी मुख्य रूप से आंध्र प्रदेश, पश्चिम बंगाल, बिहार और केरल जैसे राज्यों में मजबूत थी।
+- **स्वतंत्र पार्टी:** अगस्त 1959 में गठित। इसने बाजार आधारित अर्थव्यवस्था की वकालत की और राज्य के हस्तक्षेप का विरोध किया। यह सार्वजनिक क्षेत्र की आलोचक थी और संयुक्त राज्य अमेरिका के साथ घनिष्ठ संबंधों के पक्ष में थी। प्रमुख नेताओं में **सी. राजगोपालाचारी और के.एम. मुंशी** शामिल थे।
+- **भारतीय जनसंघ:** 1951 में **श्यामा प्रसाद मुखर्जी** द्वारा गठित। इसकी विचारधारा **'एक देश, एक संस्कृति और एक राष्ट्र'** के सिद्धांतों पर आधारित थी। इसने 'अखंड भारत' बनाने के लिए भारत और पाकिस्तान के पुनर्मिलन का आह्वान किया।
 `
     }
   },
@@ -724,41 +880,41 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'the-crisis-of-democratic-order': {
     en: {
       title: 'Chapter 6: The Crisis of Democratic Order',
-      content: 'This chapter discusses the political turmoil of the 1970s, culminating in the imposition of the Emergency. It examines the causes and consequences of this period.'
+      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
     },
     hi: {
       title: 'अध्याय 6: लोकतांत्रिक व्यवस्था का संकट',
-      content: 'यह अध्याय 1970 के दशक की राजनीतिक उथल-पुथल पर चर्चा करता है, जिसकी परिणति आपातकाल लागू होने में हुई। यह इस अवधि के कारणों और परिणामों की जांच करता है।'
+      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
     }
   },
   'rise-of-popular-movements': {
     en: {
       title: 'Chapter 7: Rise of Popular Movements',
-      content: 'This chapter highlights the emergence of various popular movements in India during the 1970s and 1980s, reflecting social and political discontent.'
+      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
     },
     hi: {
       title: 'अध्याय 7: जन आंदोलनों का उदय',
-      content: 'यह अध्याय 1970 और 1980 के दशक के दौरान भारत में विभिन्न लोकप्रिय आंदोलनों के उद्भव पर प्रकाश डालता है, जो सामाजिक और राजनीतिक असंतोष को दर्शाता है।'
+      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
     }
   },
   'regional-aspirations': {
     en: {
       title: 'Chapter 8: Regional Aspirations',
-      content: 'This chapter examines the rise of regional aspirations and movements in different parts of India, and the response of the central government to these demands.'
+      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
     },
     hi: {
       title: 'अध्याय 8: क्षेत्रीय आकांक्षाएँ',
-      content: 'यह अध्याय भारत के विभिन्न हिस्सों में क्षेत्रीय आकांक्षाओं और आंदोलनों के उदय और इन मांगों पर केंद्र सरकार की प्रतिक्रिया की जांच करता है।'
+      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
     }
   },
   'recent-developments-in-indian-politics': {
     en: {
       title: 'Chapter 9: Recent Developments in Indian Politics',
-      content: 'This chapter covers the major political developments in India since the late 1980s, including the rise of coalition politics, Mandal Commission, and economic reforms.'
+      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
     },
     hi: {
       title: 'अध्याय 9: भारतीय राजनीति: नए बदलाव',
-      content: 'यह अध्याय 1980 के दशक के अंत से भारत में प्रमुख राजनीतिक विकास को शामिल करता है, जिसमें गठबंधन की राजनीति का उदय, मंडल आयोग और आर्थिक सुधार शामिल हैं।'
+      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
     }
   },
   'default': {
