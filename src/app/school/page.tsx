@@ -166,6 +166,29 @@ const class8Courses = [
     },
 ];
 
+const class11Courses = [
+    {
+        title: "CLASS XI",
+        description: "Political Science",
+        language: "ENGLISH | HINDI",
+        gradient: "from-blue-500 to-indigo-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "History",
+        language: "ENGLISH | HINDI",
+        gradient: "from-red-500 to-rose-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "Geography",
+        language: "ENGLISH | HINDI",
+        gradient: "from-amber-500 to-orange-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+]
 
 const class12Courses = [
     {
@@ -198,7 +221,7 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 8': class8Courses,
   'Class 9': class9Courses,
   'Class 10': topCourses,
-  'Class 11': topCourses,
+  'Class 11': class11Courses,
   'Class 12': class12Courses,
 };
 
