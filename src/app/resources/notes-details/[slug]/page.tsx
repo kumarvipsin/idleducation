@@ -870,8 +870,8 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
     hi: {
       title: 'अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ',
       content: `### नए राष्ट्र की चुनौतियाँ
-- 14-15 अगस्त 1947 की मध्यरात्रि को भारत स्वतंत्र हुआ।
-- प्रथम प्रधानमंत्री जवाहरलाल नेहरू ने अपने प्रसिद्ध **'ट्रिस्ट विद डेस्टिनी' (भाग्यवधू से चिर-प्रतीक्षित भेंट)** भाषण के साथ संविधान सभा के एक विशेष सत्र को संबोधित किया।
+- भारत 14-15 अगस्त 1947 की मध्यरात्रि को स्वतंत्र हुआ।
+- प्रथम प्रधानमंत्री, जवाहरलाल नेहरू ने अपने प्रसिद्ध भाषण **'भाग्यवधू से चिर-प्रतीक्षित भेंट' (ट्रिस्ट विद डेस्टिनी)** के साथ संविधान सभा के एक विशेष सत्र को संबोधित किया।
 - स्वतंत्रता के बाद, दो मुख्य लक्ष्यों पर आम सहमति थी:
 - 1. **देश का शासन लोकतांत्रिक सरकार के माध्यम से चलाना।**
 - 2. **समाज के सभी वर्गों के विकास और कल्याण को सुनिश्चित करना।**
@@ -1208,11 +1208,69 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'the-crisis-of-democratic-order': {
     en: {
       title: 'Chapter 6: The Crisis of Democratic Order',
-      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
+      content: `### Background to Emergency
+- **Economic Context:** The country faced severe economic challenges in the early 1970s. The **Bangladesh crisis** had put a heavy strain on the economy. The **1971 India-Pak war** was followed by a halt in US aid. The **oil price hike** in international markets led to high inflation. Industrial growth was low, and unemployment was very high.
+- **Gujarat Movement (January 1974):** Students in Gujarat protested against rising prices and corruption. The movement became widespread, leading to the imposition of President's rule. The opposition parties demanded fresh elections, which were held in June 1975, and the Congress was defeated.
+- **Bihar Movement (March 1974):** Students in Bihar also protested against rising prices, unemployment, and corruption. They invited veteran Gandhian leader **Jayaprakash Narayan (JP)** to lead them. JP accepted on the condition that the movement remains non-violent and does not limit itself to Bihar. He demanded the dismissal of the Congress government in Bihar and gave a call for **'Total Revolution'** in the social, economic, and political spheres.
+- **Conflict with Judiciary:** The government had a difficult relationship with the judiciary. The Supreme Court rejected the government's arguments in cases like the **Kesavananda Bharati Case (1973)**, where the court ruled that there are some basic features of the Constitution that Parliament cannot amend. The appointment of **A. N. Ray** as the Chief Justice of India, superseding three senior judges, also created a major controversy.
+
+### Declaration of Emergency
+- **The Allahabad High Court Verdict (June 12, 1975):** Justice Jagmohanlal Sinha of the Allahabad High Court declared Indira Gandhi's Lok Sabha election of 1971 as invalid on the grounds of using government machinery for her election campaign. This meant she could no longer remain an MP and Prime Minister.
+- **Response of the Opposition:** JP led a massive demonstration in Delhi's Ramlila ground on June 25, 1975, and announced a nationwide satyagraha, asking the army, the police, and government employees not to obey 'illegal and immoral orders'.
+- **The Government's Response:** In response, the government declared a state of **Emergency on the night of 25 June 1975**. The government argued that there was a threat of 'internal disturbances' (as per **Article 352** of the Constitution) and that the opposition's actions were aimed at destabilizing the country.
+
+### Consequences of Emergency
+- **Suspension of Fundamental Rights:** The government suspended the enforcement of most fundamental rights, including the right to move the court for the restoration of one's rights.
+- **Preventive Detention:** A large number of opposition leaders and workers were arrested under laws like the **Maintenance of Internal Security Act (MISA)**.
+- **Press Censorship:** The government imposed strict censorship on the press. Newspapers were asked to get prior approval for all material to be published.
+- **Constitutional Amendments:** The most controversial was the **42nd Amendment (1976)**, which made several changes to the Constitution, such as making the judiciary's powers subordinate to the Parliament and extending the duration of the Lok Sabha.
+- The government also put forward a **20-Point Programme** to bring about social and economic development.
+
+### Lessons of the Emergency
+- **Weaknesses and Strengths of Indian Democracy:** It brought out both the weaknesses and strengths of India's democracy. The ease with which the Emergency was imposed showed that democratic functioning could be suspended. However, it also showed that normal democratic functioning could be resumed within a short span of time.
+- **Importance of Civil Liberties:** The Emergency made everyone more aware of the value of civil liberties.
+- **Ambiguities in the Constitution:** The Emergency highlighted some ambiguities regarding the provision of 'internal disturbances'. This was later amended to **'armed rebellion'** to make it more specific.
+
+### Politics after Emergency
+- **The 1977 Lok Sabha Elections:** The government, confident of its position, announced elections in January 1977.
+- **The Janata Party:** All major opposition parties came together to form a new party, the **Janata Party**, under the leadership of Jayaprakash Narayan.
+- **The Verdict:** For the first time since independence, the **Congress party was defeated** in the Lok Sabha elections. The Janata Party and its allies won a massive majority.
+- **The Janata Government:** The Janata Party government was formed with **Morarji Desai** as the Prime Minister. However, the government was plagued by internal competition and factionalism and could not remain in power for long. It collapsed in less than 18 months.
+- **Return of Congress:** Fresh Lok Sabha elections were held in 1980, in which the Congress party, led by Indira Gandhi, came back to power with a landslide victory.
+`
     },
     hi: {
       title: 'अध्याय 6: लोकतांत्रिक व्यवस्था का संकट',
-      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
+      content: `### आपातकाल की पृष्ठभूमि
+- **आर्थिक संदर्भ:** 1970 के दशक की शुरुआत में देश को गंभीर आर्थिक चुनौतियों का सामना करना पड़ा। **बांग्लादेश संकट** ने अर्थव्यवस्था पर भारी दबाव डाला था। **1971 के भारत-पाक युद्ध** के बाद अमेरिकी सहायता बंद हो गई थी। अंतर्राष्ट्रीय बाजारों में **तेल की कीमतों में वृद्धि** से उच्च मुद्रास्फीति हुई। औद्योगिक विकास कम था, और बेरोजगारी बहुत अधिक थी।
+- **गुजरात आंदोलन (जनवरी 1974):** गुजरात में छात्रों ने बढ़ती कीमतों और भ्रष्टाचार के खिलाफ विरोध प्रदर्शन किया। आंदोलन व्यापक हो गया, जिससे राष्ट्रपति शासन लगाना पड़ा। विपक्षी दलों ने नए सिरे से चुनाव की मांग की, जो जून 1975 में हुए, और कांग्रेस हार गई।
+- **बिहार आंदोलन (मार्च 1974):** बिहार में भी छात्रों ने बढ़ती कीमतों, बेरोजगारी और भ्रष्टाचार के खिलाफ विरोध प्रदर्शन किया। उन्होंने अनुभवी गांधीवादी नेता **जयप्रकाश नारायण (जेपी)** को उनका नेतृत्व करने के लिए आमंत्रित किया। जेपी ने इस शर्त पर स्वीकार किया कि आंदोलन अहिंसक रहेगा और खुद को बिहार तक सीमित नहीं रखेगा। उन्होंने बिहार में कांग्रेस सरकार की बर्खास्तगी की मांग की और सामाजिक, आर्थिक और राजनीतिक क्षेत्रों में **'संपूर्ण क्रांति'** का आह्वान किया।
+- **न्यायपालिका के साथ संघर्ष:** सरकार के न्यायपालिका के साथ संबंध कठिन थे। सुप्रीम कोर्ट ने **केशवानंद भारती मामले (1973)** जैसे मामलों में सरकार के तर्कों को खारिज कर दिया, जहाँ अदालत ने फैसला सुनाया कि संविधान की कुछ बुनियादी विशेषताएं हैं जिन्हें संसद संशोधित नहीं कर सकती है। तीन वरिष्ठ न्यायाधीशों को हटाकर **ए. एन. रे** को भारत के मुख्य न्यायाधीश के रूप में नियुक्त करने से भी एक बड़ा विवाद खड़ा हो गया।
+
+### आपातकाल की घोषणा
+- **इलाहाबाद उच्च न्यायालय का फैसला (12 जून, 1975):** इलाहाबाद उच्च न्यायालय के न्यायमूर्ति जगमोहनलाल सिन्हा ने अपने चुनाव अभियान के लिए सरकारी मशीनरी का उपयोग करने के आधार पर इंदिरा गांधी के 1971 के लोकसभा चुनाव को अमान्य घोषित कर दिया। इसका मतलब था कि वह अब सांसद और प्रधानमंत्री नहीं रह सकती थीं।
+- **विपक्ष की प्रतिक्रिया:** जेपी ने 25 जून, 1975 को दिल्ली के रामलीला मैदान में एक बड़े प्रदर्शन का नेतृत्व किया और एक राष्ट्रव्यापी सत्याग्रह की घोषणा की, जिसमें सेना, पुलिस और सरकारी कर्मचारियों से 'अवैध और अनैतिक आदेशों' का पालन न करने के लिए कहा गया।
+- **सरकार की प्रतिक्रिया:** जवाब में, सरकार ने **25 जून 1975 की रात को आपातकाल** की स्थिति घोषित कर दी। सरकार ने तर्क दिया कि 'आंतरिक गड़बड़ी' का खतरा था (संविधान के **अनुच्छेद 352** के अनुसार) और विपक्ष की कार्रवाइयों का उद्देश्य देश को अस्थिर करना था।
+
+### आपातकाल के परिणाम
+- **मौलिक अधिकारों का निलंबन:** सरकार ने अधिकांश मौलिक अधिकारों के प्रवर्तन को निलंबित कर दिया, जिसमें किसी के अधिकारों की बहाली के लिए अदालत जाने का अधिकार भी शामिल था।
+- **निवारक नजरबंदी:** **आंतरिक सुरक्षा व्यवस्था अधिनियम (मीसा)** जैसे कानूनों के तहत बड़ी संख्या में विपक्षी नेताओं और कार्यकर्ताओं को गिरफ्तार किया गया।
+- **प्रेस सेंसरशिप:** सरकार ने प्रेस पर सख्त सेंसरशिप लगा दी। समाचार पत्रों को प्रकाशित होने वाली सभी सामग्री के लिए पूर्व अनुमोदन प्राप्त करने के लिए कहा गया।
+- **संवैधानिक संशोधन:** सबसे विवादास्पद **42वां संशोधन (1976)** था, जिसने संविधान में कई बदलाव किए, जैसे कि न्यायपालिका की शक्तियों को संसद के अधीन करना और लोकसभा की अवधि बढ़ाना।
+- सरकार ने सामाजिक और आर्थिक विकास लाने के लिए एक **20-सूत्रीय कार्यक्रम** भी प्रस्तुत किया।
+
+### आपातकाल से सीख
+- **भारतीय लोकतंत्र की कमजोरियां और ताकतें:** इसने भारत के लोकतंत्र की कमजोरियों और ताकतों दोनों को सामने लाया। जिस आसानी से आपातकाल लगाया गया, उससे पता चला कि लोकतांत्रिक कामकाज को निलंबित किया जा सकता है। हालांकि, इसने यह भी दिखाया कि सामान्य लोकतांत्रिक कामकाज को थोड़े समय के भीतर फिर से शुरू किया जा सकता है।
+- **नागरिक स्वतंत्रता का महत्व:** आपातकाल ने सभी को नागरिक स्वतंत्रता के मूल्य के बारे में अधिक जागरूक बनाया।
+- **संविधान में अस्पष्टता:** आपातकाल ने 'आंतरिक गड़बड़ी' के प्रावधान के संबंध में कुछ अस्पष्टताओं पर प्रकाश डाला। बाद में इसे और अधिक विशिष्ट बनाने के लिए **'सशस्त्र विद्रोह'** में संशोधित किया गया।
+
+### आपातकाल के बाद की राजनीति
+- **1977 के लोकसभा चुनाव:** अपनी स्थिति के प्रति आश्वस्त सरकार ने जनवरी 1977 में चुनावों की घोषणा की।
+- **जनता पार्टी:** सभी प्रमुख विपक्षी दल जयप्रकाश नारायण के नेतृत्व में एक नई पार्टी, **जनता पार्टी** बनाने के लिए एक साथ आए।
+- **जनादेश:** स्वतंत्रता के बाद पहली बार, लोकसभा चुनावों में **कांग्रेस पार्टी हार गई**। जनता पार्टी और उसके सहयोगियों ने भारी बहुमत हासिल किया।
+- **जनता सरकार:** **मोरारजी देसाई** को प्रधानमंत्री के रूप में लेकर जनता पार्टी की सरकार बनी। हालांकि, सरकार आंतरिक प्रतिस्पर्धा और गुटबाजी से त्रस्त थी और लंबे समय तक सत्ता में नहीं रह सकी। यह 18 महीने से भी कम समय में ढह गई।
+- **कांग्रेस की वापसी:** 1980 में नए लोकसभा चुनाव हुए, जिसमें इंदिरा गांधी के नेतृत्व वाली कांग्रेस पार्टी ने शानदार जीत के साथ सत्ता में वापसी की।
+`
     }
   },
   'rise-of-popular-movements': {
