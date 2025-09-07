@@ -8,6 +8,36 @@ import Link from "next/link";
 const politicalScienceResources = {
   books: [
     {
+      name: "Contemporary World Politics",
+      lang: "en",
+      chapters: [
+        { name: "Chapter 1: The Cold War Era", slug: "the-cold-war-era" },
+        { name: "Chapter 2: The End of Bipolarity", slug: "the-end-of-bipolarity" },
+        { name: "Chapter 3: US Hegemony in World Politics", slug: "us-hegemony-in-world-politics" },
+        { name: "Chapter 4: Alternative Centres of Power", slug: "alternative-centres-of-power" },
+        { name: "Chapter 5: Contemporary South Asia", slug: "contemporary-south-asia" },
+        { name: "Chapter 6: International Organisations", slug: "international-organisations" },
+        { name: "Chapter 7: Security in the Contemporary World", slug: "security-in-the-contemporary-world" },
+        { name: "Chapter 8: Environment and Natural Resources", slug: "environment-and-natural-resources" },
+        { name: "Chapter 9: Globalisation", slug: "globalisation" },
+      ],
+    },
+    {
+      name: "समकालीन विश्व राजनीति",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: शीतयुद्ध का दौर", slug: "the-cold-war-era" },
+        { name: "अध्याय 2: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
+        { name: "अध्याय 3: समकालीन विश्व में अमरीकी वर्चस्व", slug: "us-hegemony-in-world-politics" },
+        { name: "अध्याय 4: सत्ता के वैकल्पिक केंद्र", slug: "alternative-centres-of-power" },
+        { name: "अध्याय 5: समकालीन दक्षिण एशिया", slug: "contemporary-south-asia" },
+        { name: "अध्याय 6: अंतर्राष्ट्रीय संगठन", slug: "international-organisations" },
+        { name: "अध्याय 7: समकालीन विश्व में सुरक्षा", slug: "security-in-the-contemporary-world" },
+        { name: "अध्याय 8: पर्यावरण और प्राकृतिक संसाधन", slug: "environment-and-natural-resources" },
+        { name: "अध्याय 9: वैश्वीकरण", slug: "globalisation" },
+      ],
+    },
+    {
       name: "Politics in India Since Independence",
       lang: "en",
       chapters: [
@@ -35,36 +65,6 @@ const politicalScienceResources = {
         { name: "अध्याय 7: जन आंदोलनों का उदय", slug: "rise-of-popular-movements" },
         { name: "अध्याय 8: क्षेत्रीय आकांक्षाएँ", slug: "regional-aspirations" },
         { name: "अध्याय 9: भारतीय राजनीति: नए बदलाव", slug: "recent-developments-in-indian-politics" },
-      ],
-    },
-    {
-      name: "Contemporary World Politics",
-      lang: "en",
-      chapters: [
-        { name: "Chapter 1: The Cold War Era", slug: "the-cold-war-era" },
-        { name: "Chapter 2: The End of Bipolarity", slug: "the-end-of-bipolarity" },
-        { name: "Chapter 3: US Hegemony in World Politics", slug: "us-hegemony-in-world-politics" },
-        { name: "Chapter 4: Alternative Centres of Power", slug: "alternative-centres-of-power" },
-        { name: "Chapter 5: Contemporary South Asia", slug: "contemporary-south-asia" },
-        { name: "Chapter 6: International Organisations", slug: "international-organisations" },
-        { name: "Chapter 7: Security in the Contemporary World", slug: "security-in-the-contemporary-world" },
-        { name: "Chapter 8: Environment and Natural Resources", slug: "environment-and-natural-resources" },
-        { name: "Chapter 9: Globalisation", slug: "globalisation" },
-      ],
-    },
-     {
-      name: "समकालीन विश्व राजनीति",
-      lang: "hi",
-      chapters: [
-        { name: "अध्याय 1: शीतयुद्ध का दौर", slug: "the-cold-war-era" },
-        { name: "अध्याय 2: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
-        { name: "अध्याय 3: समकालीन विश्व में अमरीकी वर्चस्व", slug: "us-hegemony-in-world-politics" },
-        { name: "अध्याय 4: सत्ता के वैकल्पिक केंद्र", slug: "alternative-centres-of-power" },
-        { name: "अध्याय 5: समकालीन दक्षिण एशिया", slug: "contemporary-south-asia" },
-        { name: "अध्याय 6: अंतर्राष्ट्रीय संगठन", slug: "international-organisations" },
-        { name: "अध्याय 7: समकालीन विश्व में सुरक्षा", slug: "security-in-the-contemporary-world" },
-        { name: "अध्याय 8: पर्यावरण और प्राकृतिक संसाधन", slug: "environment-and-natural-resources" },
-        { name: "अध्याय 9: वैश्वीकरण", slug: "globalisation" },
       ],
     },
   ],
