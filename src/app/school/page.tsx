@@ -25,16 +25,16 @@ const classes = [
 const class9Courses = [
     {
         title: "CLASS-IX",
-        description: "Science",
+        description: "Maths",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-IX",
-        description: "Maths",
+        description: "Science",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
@@ -49,16 +49,16 @@ const class9Courses = [
 const topCourses = [
     {
         title: "CLASS-X",
-        description: "Science",
+        description: "Maths",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-X",
-        description: "Maths",
+        description: "Science",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
@@ -73,16 +73,16 @@ const topCourses = [
 const class5Courses = [
     {
         title: "CLASS-V",
-        description: "SCIENCE",
+        description: "MATHS",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-V",
-        description: "MATHS",
+        description: "SCIENCE",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
@@ -97,16 +97,16 @@ const class5Courses = [
 const class6Courses = [
     {
         title: "CLASS-VI",
-        description: "Science",
+        description: "Maths",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VI",
-        description: "Maths",
+        description: "Science",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
@@ -121,16 +121,16 @@ const class6Courses = [
 const class7Courses = [
     {
         title: "CLASS-VII",
-        description: "Science",
+        description: "Maths",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VII",
-        description: "Maths",
+        description: "Science",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
@@ -145,16 +145,16 @@ const class7Courses = [
 const class8Courses = [
     {
         title: "CLASS-VIII",
-        description: "Science",
+        description: "Maths",
         language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
         title: "CLASS-VIII",
-        description: "Maths",
+        description: "Science",
         language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
