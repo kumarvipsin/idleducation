@@ -40,9 +40,9 @@ const class9Courses = [
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
     {
-        title: "Social Studies",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
+        title: "CLASS-IX",
+        description: "Social Studies",
+        language: "ENGLISH | HINDI",
         bgColor: "bg-amber-500",
         textColor: "text-white",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
