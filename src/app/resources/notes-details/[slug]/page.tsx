@@ -4,6 +4,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams } from 'next/navigation'
 import { Suspense, use } from "react";
+import { NotesContentRenderer } from "@/components/notes-content-renderer";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
   'the-cold-war-era': {
@@ -139,26 +140,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
     },
     hi: {
       title: 'अध्याय 2: एक दल के प्रभुत्व का दौर',
-      content: `### एक दल के प्रभुत्व का दौर
-- पहली समस्या का सामना करने के बाद भारत के सामने दूसरी मुख्य समस्या लोकतंत्र स्थापित करने की थी।
-- 15 अगस्त 1947 में आज़ादी प्राप्त करने के बाद भारत ने संविधान निर्माण की प्रक्रिया को पूरा किया। भारतीय संविधान को बनने में 2 साल 11 महीने और 18 दिनों का समय लगा। भारतीय संविधान 26 नवंबर 1949 को बन कर पूरा हुआ और 26 जनवरी 1950 को लागू कर दिया गया। संविधान लागु होने के बाद सबसे बड़ा काम था लोकतंत्र की स्थापना करना।
-- जनवरी 1950 में चुनाव आयोग की स्थापना की गई और सुकुमार सेन देश के पहले चुनाव आयुक्त बने।
-
-### देश में चुनाव करवाना किसी चुनौती से कम नहीं था। ऐसा इसीलिए था क्योंकि
-- देश में केवल 16 प्रतिशत लोग ही पढ़े लिखे थे।
-- देश की अधिकांश जनसँख्या गरीबी से जूझ रही थी।
-- संचार के साधनो एवं प्रौद्योगिकी का आभाव।
-- 17 करोड़ मतदाताओं द्वारा 3200 विधायक और 489 सांसद चुने जाने थे।
-- चुनाव क्षेत्रों का निर्धारण किया जाना था।
-
-### भारत का पहला आम चुनाव - 1952
-### देश में पहले आम चुनाव करवाने के लिए -
-- लगभग 3 लाख लोगो को प्रशिक्षित किया गया।
-- चुनाव क्षेत्रों का सीमांकन किया गया।
-- मतदाता सूची बनाई गई (प्रत्येक व्यक्ति जो 21 वर्ष से अधिक आयु का था)।
-- देश में चुनाव प्रचार शुरू हुआ।
-
-### पहले चुनाव के दोर में दबदबा
+      content: `### पहले चुनाव का दौर
 - इस पहले चुनाव में भारतीय राष्ट्रीय कांग्रेस ने कुल 489 सीटों में से 364 सीटें जीती।
 - कम्युनिस्ट पार्टी ऑफ इंडिया 16 सीटें जीतकर दूसरे स्थान पर रही। इस चुनाव में कांग्रेस को जितनी सीटें मिली थी उसके आस पास भी कोई दूसरी पार्टी नहीं पहुंच पाई।
 - भारत में पहले तीन आम चुनाव (1952, 1957, 1962) में भारतीय राष्ट्रीय कांग्रेस का दबदबा रहा।
@@ -181,7 +163,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 
 ### कांग्रेस का प्रभुत्व
 भारत में पहले तीन चुनाव में कांग्रेस के प्रभुत्व का दौर रहा। यह प्रभुत्व दुनिया के अन्य देशों से अलग था क्योंकि यहां लोकतंत्रिक तरीके से एक ही पार्टी बार बार चुनाव जीत रही थी।
-### कारण :-
+### कारण
 - सबसे पुरानी पार्टी होना।
 - स्वतंत्रता संग्राम में मुख्य भूमिका।
 - सबसे मजबूत संगठन।
@@ -339,52 +321,6 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   }
 };
 
-const ContentRenderer = ({ content }: { content: string }) => {
-  const lines = content.split('\n');
-
-  return (
-    <div className="space-y-4 prose prose-lg dark:prose-invert max-w-none">
-      {lines.map((line, index) => {
-        if (line.startsWith('### ')) {
-          return (
-            <h3 
-              key={index} 
-              className="text-xl font-bold mt-6 mb-3 p-3 bg-primary/10 text-primary rounded-md"
-            >
-              {line.substring(4)}
-            </h3>
-          );
-        }
-        if (line.startsWith('- ')) {
-          const parts = line.substring(2).split(':');
-          if (parts.length > 1) {
-            return (
-              <li key={index} className="flex items-start ml-4">
-                <span className="text-primary mr-3 mt-1">&#9679;</span>
-                <span className="text-foreground/90">
-                  <strong className="font-semibold text-foreground">{parts[0]}:</strong>
-                  {parts.slice(1).join(':')}
-                </span>
-              </li>
-            );
-          }
-          return (
-            <li key={index} className="flex items-start ml-4">
-              <span className="text-primary mr-3 mt-1">&#9679;</span>
-              <span className="text-foreground/90">{line.substring(2)}</span>
-            </li>
-          );
-        }
-        if (line.trim() === '') {
-          return null;
-        }
-        const boldedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground/90">$1</strong>');
-        return <p key={index} className="text-foreground/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: boldedLine }} />;
-      })}
-    </div>
-  );
-};
-
 
 function NotesContent({ slug }: { slug: string }) {
   const searchParams = useSearchParams();
@@ -401,7 +337,7 @@ function NotesContent({ slug }: { slug: string }) {
           <CardDescription>Detailed notes for your study and revision.</CardDescription>
         </CardHeader>
         <CardContent>
-          <ContentRenderer content={notes.content} />
+          <NotesContentRenderer content={notes.content} />
         </CardContent>
       </Card>
     </div>
