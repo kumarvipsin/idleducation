@@ -8,21 +8,6 @@ import Link from "next/link";
 const politicalScienceResources = {
   books: [
     {
-      name: "Politics in India Since Independence",
-      lang: "en",
-      chapters: [
-        { name: "Chapter 1: Challenges of Nation Building", slug: "challenges-of-nation-building" },
-        { name: "Chapter 2: Era of One-party Dominance", slug: "era-of-one-party-dominance" },
-        { name: "Chapter 3: Politics of Planned Development", slug: "politics-of-planned-development" },
-        { name: "Chapter 4: India’s External Relations", slug: "indias-external-relations" },
-        { name: "Chapter 5: Challenges to and Restoration of the Congress System", slug: "challenges-to-and-restoration-of-the-congress-system" },
-        { name: "Chapter 6: The Crisis of Democratic Order", slug: "the-crisis-of-democratic-order" },
-        { name: "Chapter 7: Rise of Popular Movements", slug: "rise-of-popular-movements" },
-        { name: "Chapter 8: Regional Aspirations", slug: "regional-aspirations" },
-        { name: "Chapter 9: Recent Developments in Indian Politics", slug: "recent-developments-in-indian-politics" },
-      ],
-    },
-    {
       name: "Contemporary World Politics",
       lang: "en",
       chapters: [
@@ -38,18 +23,18 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "स्वतंत्र भारत में राजनीति",
-      lang: "hi",
+      name: "Politics in India Since Independence",
+      lang: "en",
       chapters: [
-        { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
-        { name: "अध्याय 2: एक दल के प्रभुत्व का दौर", slug: "era-of-one-party-dominance" },
-        { name: "अध्याय 3: नियोजित विकास की राजनीति", slug: "politics-of-planned-development" },
-        { name: "अध्याय 4: भारत के विदेश संबंध", slug: "indias-external-relations" },
-        { name: "अध्याय 5: कांग्रेस प्रणाली: चुनौतियाँ और पुनर्स्थापना", slug: "challenges-to-and-restoration-of-the-congress-system" },
-        { name: "अध्याय 6: लोकतांत्रिक व्यवस्था का संकट", slug: "the-crisis-of-democratic-order" },
-        { name: "अध्याय 7: जन आंदोलनों का उदय", slug: "rise-of-popular-movements" },
-        { name: "अध्याय 8: क्षेत्रीय आकांक्षाएँ", slug: "regional-aspirations" },
-        { name: "अध्याय 9: भारतीय राजनीति: नए बदलाव", slug: "recent-developments-in-indian-politics" },
+        { name: "Chapter 1: Challenges of Nation Building", slug: "challenges-of-nation-building" },
+        { name: "Chapter 2: Era of One-party Dominance", slug: "era-of-one-party-dominance" },
+        { name: "Chapter 3: Politics of Planned Development", slug: "politics-of-planned-development" },
+        { name: "Chapter 4: India’s External Relations", slug: "indias-external-relations" },
+        { name: "Chapter 5: Challenges to and Restoration of the Congress System", slug: "challenges-to-and-restoration-of-the-congress-system" },
+        { name: "Chapter 6: The Crisis of Democratic Order", slug: "the-crisis-of-democratic-order" },
+        { name: "Chapter 7: Rise of Popular Movements", slug: "rise-of-popular-movements" },
+        { name: "Chapter 8: Regional Aspirations", slug: "regional-aspirations" },
+        { name: "Chapter 9: Recent Developments in Indian Politics", slug: "recent-developments-in-indian-politics" },
       ],
     },
     {
@@ -65,6 +50,21 @@ const politicalScienceResources = {
         { name: "अध्याय 7: समकालीन विश्व में सुरक्षा", slug: "security-in-the-contemporary-world" },
         { name: "अध्याय 8: पर्यावरण और प्राकृतिक संसाधन", slug: "environment-and-natural-resources" },
         { name: "अध्याय 9: वैश्वीकरण", slug: "globalisation" },
+      ],
+    },
+    {
+      name: "स्वतंत्र भारत में राजनीति",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
+        { name: "अध्याय 2: एक दल के प्रभुत्व का दौर", slug: "era-of-one-party-dominance" },
+        { name: "अध्याय 3: नियोजित विकास की राजनीति", slug: "politics-of-planned-development" },
+        { name: "अध्याय 4: भारत के विदेश संबंध", slug: "indias-external-relations" },
+        { name: "अध्याय 5: कांग्रेस प्रणाली: चुनौतियाँ और पुनर्स्थापना", slug: "challenges-to-and-restoration-of-the-congress-system" },
+        { name: "अध्याय 6: लोकतांत्रिक व्यवस्था का संकट", slug: "the-crisis-of-democratic-order" },
+        { name: "अध्याय 7: जन आंदोलनों का उदय", slug: "rise-of-popular-movements" },
+        { name: "अध्याय 8: क्षेत्रीय आकांक्षाएँ", slug: "regional-aspirations" },
+        { name: "अध्याय 9: भारतीय राजनीति: नए बदलाव", slug: "recent-developments-in-indian-politics" },
       ],
     },
   ],
