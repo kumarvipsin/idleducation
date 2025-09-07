@@ -192,9 +192,9 @@ const class11Courses = [
 
 const class12Courses = [
     {
-        title: "Political Science",
-        description: "",
-        language: "Book-1 | Book-2",
+        title: "CLASS XII",
+        description: "Political Science",
+        language: "ENGLISH | HINDI",
         gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
