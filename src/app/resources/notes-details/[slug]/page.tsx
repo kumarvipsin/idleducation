@@ -334,24 +334,32 @@ const ContentRenderer = ({ content }: { content: string }) => {
     <div className="space-y-4 prose prose-lg dark:prose-invert max-w-none">
       {lines.map((line, index) => {
         if (line.startsWith('### ')) {
-          return <h3 key={index} className="text-xl font-semibold mt-6 mb-2 pb-2 border-b border-primary/20 text-primary">{line.substring(4)}</h3>;
+          return (
+            <h3 
+              key={index} 
+              className="text-xl font-bold mt-6 mb-3 p-3 bg-primary/10 text-primary rounded-md"
+            >
+              {line.substring(4)}
+            </h3>
+          );
         }
         if (line.startsWith('- ')) {
           const parts = line.substring(2).split(':');
           if (parts.length > 1) {
             return (
-              <li key={index} className="flex items-start ml-4 text-foreground/90">
-                <span className="text-blue-500 mr-2 mt-1">&#8226;</span>
-                <span>
-                  <strong className="font-semibold text-foreground">{parts[0]}:</strong>{parts.slice(1).join(':')}
+              <li key={index} className="flex items-start ml-4">
+                <span className="text-primary mr-3 mt-1">&#9679;</span>
+                <span className="text-foreground/90">
+                  <strong className="font-semibold text-foreground">{parts[0]}:</strong>
+                  {parts.slice(1).join(':')}
                 </span>
               </li>
             );
           }
           return (
-            <li key={index} className="flex items-start ml-4 text-foreground/90">
-              <span className="text-blue-500 mr-2 mt-1">&#8226;</span>
-              <span>{line.substring(2)}</span>
+            <li key={index} className="flex items-start ml-4">
+              <span className="text-primary mr-3 mt-1">&#9679;</span>
+              <span className="text-foreground/90">{line.substring(2)}</span>
             </li>
           );
         }
