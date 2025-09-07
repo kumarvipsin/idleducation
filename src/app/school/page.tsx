@@ -130,6 +130,33 @@ const class7Courses = [
     },
 ];
 
+const class8Courses = [
+    {
+        title: "CLASS-VIII",
+        description: "Science",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-indigo-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS-VIII",
+        description: "Maths",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-emerald-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS-VIII",
+        description: "Social Studies",
+        language: "ENGLISH | HINDI",
+        bgColor: "bg-amber-500",
+        textColor: "text-white",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+];
+
 
 const class12Courses = [
     {
@@ -162,7 +189,7 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 5': class5Courses,
   'Class 6': class6Courses,
   'Class 7': class7Courses,
-  'Class 8': topCourses,
+  'Class 8': class8Courses,
   'Class 9': topCourses,
   'Class 10': topCourses,
   'Class 11': topCourses,
