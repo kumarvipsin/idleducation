@@ -169,6 +169,34 @@ const class8Courses = [
 const class11Courses = [
     {
         title: "CLASS XI",
+        description: "Maths",
+        language: "ENGLISH | HINDI",
+        gradient: "from-green-500 to-emerald-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "Physics",
+        language: "ENGLISH | HINDI",
+        gradient: "from-sky-500 to-cyan-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "Chemistry",
+        language: "ENGLISH | HINDI",
+        gradient: "from-purple-500 to-violet-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "Biology",
+        language: "ENGLISH | HINDI",
+        gradient: "from-lime-500 to-green-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
         description: "Political Science",
         language: "ENGLISH | HINDI",
         gradient: "from-blue-500 to-indigo-600",
@@ -191,6 +219,34 @@ const class11Courses = [
 ]
 
 const class12Courses = [
+     {
+        title: "CLASS XII",
+        description: "Maths",
+        language: "ENGLISH | HINDI",
+        gradient: "from-green-500 to-emerald-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "Physics",
+        language: "ENGLISH | HINDI",
+        gradient: "from-sky-500 to-cyan-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "Chemistry",
+        language: "ENGLISH | HINDI",
+        gradient: "from-purple-500 to-violet-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "Biology",
+        language: "ENGLISH | HINDI",
+        gradient: "from-lime-500 to-green-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
     {
         title: "CLASS XII",
         description: "Political Science",
