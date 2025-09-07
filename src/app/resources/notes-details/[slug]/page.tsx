@@ -636,11 +636,101 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'environment-and-natural-resources': {
     en: {
       title: 'Chapter 8: Environment and Natural Resources',
-      content: 'This chapter deals with the growing significance of environmental issues and natural resources in global politics. It highlights global environmental concerns and efforts to address them.'
+      content: `### Environmental Concerns in Global Politics
+- Environmental issues became a significant concern in global politics from the 1960s onwards.
+- **Why the concern?:** Certain environmental issues can only be tackled through international cooperation. Issues like climate change, ozone layer depletion, and coastal pollution affect all countries.
+- **'Tragedy of the Commons':** This term describes how shared resources are often overused and degraded because no single person or country has the incentive to maintain them.
+- **The Club of Rome (1972):** This global think tank published a book called **'Limits to Growth'**, which highlighted the potential consequences of growing world population and resource depletion.
+- **UNEP and Earth Summit:** The United Nations Environment Programme (UNEP) began holding international conferences. The most significant was the **United Nations Conference on Environment and Development** held in **Rio de Janeiro, Brazil, in 1992**. This is also called the **Earth Summit**.
+- **Rio Summit Outcome:** It produced conventions dealing with climate change, biodiversity, and forestry, and adopted **Agenda 21**, a list of development practices for sustainable development.
+
+### The Protection of Global Commons
+- **What are 'Global Commons'?:** These are resources that are not owned by any one state but are shared by the international community.
+- **Examples:** Earth’s atmosphere, Antarctica, the ocean floor, and outer space.
+- **Cooperation on Commons:** There have been significant agreements to protect these commons:
+- - **Antarctic Treaty (1959):** Established Antarctica as a demilitarized zone, open for scientific research.
+- - **Montreal Protocol (1987):** An agreement to phase out chlorofluorocarbons (CFCs) to protect the ozone layer.
+- - **Antarctic Environmental Protocol (1991):** Committed to the comprehensive protection of the Antarctic environment.
+
+### Common but Differentiated Responsibilities
+- This principle acknowledges that while all states share responsibility for protecting the environment, the developed countries of the **Global North** have a greater historical responsibility due to their long history of industrialization.
+- **The North vs. South Debate:**
+- - **Developed Countries (North):** Argue that environmental protection is a shared responsibility and all countries should participate equally.
+- - **Developing Countries (South):** Argue that the ecological degradation is largely the product of industrial development by the North. They believe their primary priority is economic development and poverty eradication.
+- **UNFCCC (1992):** The United Nations Framework Convention on Climate Change also endorsed this principle, stating that "parties should act... on the basis of equity and in accordance with their common but differentiated responsibilities and respective capabilities."
+- **Kyoto Protocol (1997):** This international agreement set binding targets for industrialized countries to reduce their greenhouse gas emissions. China and India were exempted from these requirements.
+
+### India’s Stand on Environmental Issues
+- India signed and ratified the **Kyoto Protocol in 2002**.
+- India believes that the major responsibility of curbing emissions rests with the developed countries, who have been the largest emitters historically.
+- **India's Initiatives:**
+- - **National Auto-fuel Policy:** Mandated cleaner fuels for vehicles.
+- - **The Energy Conservation Act (2001):** Outlined initiatives to improve energy efficiency.
+- - **The Electricity Act of 2003:** Encourages the use of renewable energy.
+- - **National Mission on Biodiesel:** Aims to increase the use of biodiesel.
+- - India is a leading participant in the **International Solar Alliance**.
+
+### Resource Geopolitics
+- This field deals with who gets what, when, where, and how in terms of natural resources.
+- **Historical Context:** Throughout history, access to resources has been a major reason for interstate rivalry. Western colonial powers were often motivated by the need to secure resources.
+- **Oil:** This is the most important resource in global strategy. The politics of oil is a story of wealth and power. The immense wealth associated with oil generates political struggles. West Asia (the Middle East) is a critical region due to its vast oil reserves.
+- **Water:** Water is another critical resource that is a source of conflict. Disputes and disagreements over sharing river waters are common between states, leading to what some call 'hydro-politics'. Examples include conflicts between Israel/Syria/Jordan and Turkey/Syria/Iraq.
+
+### Rights of Indigenous Peoples
+- **Who are they?:** The UN defines indigenous populations as the descendants of peoples who inhabited a country or a geographical region at the time of conquest or colonisation. In India, they are often referred to as **'Adivasis' or Scheduled Tribes**.
+- **Struggles:** Indigenous people worldwide have been fighting for their rights to their land, resources, and cultural identity, which have been threatened by development projects and political marginalization.
+- **Global Voice:** The **World Council of Indigenous Peoples** was formed in 1975, which became the first of 11 indigenous NGOs to get consultative status in the UN.
+- They demand that their rights to their lands be recognized and that they have a say in decisions affecting their lives.
+`
     },
     hi: {
       title: 'अध्याय 8: पर्यावरण और प्राकृतिक संसाधन',
-      content: 'यह अध्याय वैश्विक राजनीति में पर्यावरणीय मुद्दों और प्राकृतिक संसाधनों के बढ़ते महत्व से संबंधित है। यह वैश्विक पर्यावरणीय चिंताओं और उन्हें दूर करने के प्रयासों पर प्रकाश डालता है।'
+      content: `### वैश्विक राजनीति में पर्यावरण की चिंता
+- 1960 के दशक से वैश्विक राजनीति में पर्यावरण के मुद्दे एक महत्वपूर्ण चिंता का विषय बन गए।
+- **यह चिंता क्यों?:** कुछ पर्यावरणीय मुद्दों का समाधान केवल अंतर्राष्ट्रीय सहयोग के माध्यम से ही किया जा सकता है। जलवायु परिवर्तन, ओजोन परत का क्षरण, और तटीय प्रदूषण जैसे मुद्दे सभी देशों को प्रभावित करते हैं।
+- **'सांझी त्रासदी' (Tragedy of the Commons):** यह शब्द बताता है कि कैसे साझा संसाधनों का अक्सर अत्यधिक उपयोग और क्षरण होता है क्योंकि किसी एक व्यक्ति या देश के पास उन्हें बनाए रखने के लिए कोई प्रोत्साहन नहीं होता है।
+- **क्लब ऑफ रोम (1972):** इस वैश्विक थिंक टैंक ने **'लिमिट्स टू ग्रोथ'** नामक एक पुस्तक प्रकाशित की, जिसमें विश्व की बढ़ती जनसंख्या और संसाधनों की कमी के संभावित परिणामों पर प्रकाश डाला गया।
+- **यूएनईपी और पृथ्वी शिखर सम्मेलन:** संयुक्त राष्ट्र पर्यावरण कार्यक्रम (यूएनईपी) ने अंतर्राष्ट्रीय सम्मेलन आयोजित करना शुरू किया। सबसे महत्वपूर्ण **1992 में ब्राजील के रियो डी जनेरियो** में आयोजित **संयुक्त राष्ट्र पर्यावरण और विकास सम्मेलन** था। इसे **पृथ्वी शिखर सम्मेलन** भी कहा जाता है।
+- **रियो शिखर सम्मेलन का परिणाम:** इसने जलवायु परिवर्तन, जैव विविधता और वानिकी से संबंधित सम्मेलनों का निर्माण किया, और सतत विकास के लिए विकास प्रथाओं की एक सूची **एजेंडा 21** को अपनाया।
+
+### वैश्विक संपदा की सुरक्षा
+- **'वैश्विक संपदा' क्या है?:** ये ऐसे संसाधन हैं जो किसी एक राज्य के स्वामित्व में नहीं हैं, बल्कि अंतर्राष्ट्रीय समुदाय द्वारा साझा किए जाते हैं।
+- **उदाहरण:** पृथ्वी का वायुमंडल, अंटार्कटिका, समुद्री सतह और बाहरी अंतरिक्ष।
+- **संपदा पर सहयोग:** इन संपदाओं की रक्षा के लिए महत्वपूर्ण समझौते हुए हैं:
+- - **अंटार्कटिक संधि (1959):** अंटार्कटिका को एक गैर-सैन्यीकृत क्षेत्र के रूप में स्थापित किया, जो वैज्ञानिक अनुसंधान के लिए खुला है।
+- - **मॉन्ट्रियल प्रोटोकॉल (1987):** ओजोन परत की रक्षा के लिए क्लोरोफ्लोरोकार्बन (सीएफसी) को चरणबद्ध तरीके से समाप्त करने का एक समझौता।
+- - **अंटार्कटिक पर्यावरणीय प्रोटोकॉल (1991):** अंटार्कटिक पर्यावरण के व्यापक संरक्षण के लिए प्रतिबद्ध।
+
+### साझी परंतु अलग-अलग जिम्मेदारियाँ
+- यह सिद्धांत स्वीकार करता है कि यद्यपि पर्यावरण की रक्षा के लिए सभी राज्यों की साझा जिम्मेदारी है, **उत्तरी गोलार्ध** के विकसित देशों की औद्योगीकरण के अपने लंबे इतिहास के कारण एक बड़ी ऐतिहासिक जिम्मेदारी है।
+- **उत्तर बनाम दक्षिण बहस:**
+- - **विकसित देश (उत्तर):** तर्क देते हैं कि पर्यावरण संरक्षण एक साझा जिम्मेदारी है और सभी देशों को समान रूप से भाग लेना चाहिए।
+- - **विकासशील देश (दक्षिण):** तर्क देते हैं कि पारिस्थितिक क्षरण काफी हद तक उत्तर द्वारा औद्योगिक विकास का उत्पाद है। उनका मानना है कि उनकी प्राथमिक प्राथमिकता आर्थिक विकास और गरीबी उन्मूलन है।
+- **यूएनएफसीसीसी (1992):** जलवायु परिवर्तन पर संयुक्त राष्ट्र फ्रेमवर्क कन्वेंशन ने भी इस सिद्धांत का समर्थन किया, जिसमें कहा गया कि "पक्षों को... समानता के आधार पर और उनकी साझी परंतु अलग-अलग जिम्मेदारियों और संबंधित क्षमताओं के अनुसार कार्य करना चाहिए।"
+- **क्योटो प्रोटोकॉल (1997):** इस अंतर्राष्ट्रीय समझौते ने औद्योगिक देशों के लिए अपने ग्रीनहाउस गैस उत्सर्जन को कम करने के लिए बाध्यकारी लक्ष्य निर्धारित किए। चीन और भारत को इन आवश्यकताओं से छूट दी गई थी।
+
+### पर्यावरण के मसलों पर भारत का पक्ष
+- भारत ने 2002 में **क्योटो प्रोटोकॉल** पर हस्ताक्षर और पुष्टि की।
+- भारत का मानना है कि उत्सर्जन को रोकने की प्रमुख जिम्मेदारी विकसित देशों पर है, जो ऐतिहासिक रूप से सबसे बड़े उत्सर्जक रहे हैं।
+- **भारत की पहल:**
+- - **राष्ट्रीय ऑटो-ईंधन नीति:** वाहनों के लिए स्वच्छ ईंधन अनिवार्य किया।
+- - **ऊर्जा संरक्षण अधिनियम (2001):** ऊर्जा दक्षता में सुधार के लिए पहल की रूपरेखा तैयार की।
+- - **विद्युत अधिनियम 2003:** नवीकरणीय ऊर्जा के उपयोग को प्रोत्साहित करता है।
+- - **बायोडीजल पर राष्ट्रीय मिशन:** बायोडीजल के उपयोग को बढ़ाने का लक्ष्य है।
+- - भारत **अंतर्राष्ट्रीय सौर गठबंधन** में एक प्रमुख भागीदार है।
+
+### संसाधन भू-राजनीति
+- यह क्षेत्र प्राकृतिक संसाधनों के संदर्भ में कौन, क्या, कब, कहाँ और कैसे प्राप्त करता है, से संबंधित है।
+- **ऐतिहासिक संदर्भ:** पूरे इतिहास में, संसाधनों तक पहुंच अंतर-राज्यीय प्रतिद्वंद्विता का एक प्रमुख कारण रही है। पश्चिमी औपनिवेशिक शक्तियाँ अक्सर संसाधनों को सुरक्षित करने की आवश्यकता से प्रेरित थीं।
+- **तेल:** यह वैश्विक रणनीति में सबसे महत्वपूर्ण संसाधन है। तेल की राजनीति धन और शक्ति की कहानी है। तेल से जुड़ा अपार धन राजनीतिक संघर्षों को जन्म देता है। पश्चिम एशिया (मध्य पूर्व) अपने विशाल तेल भंडार के कारण एक महत्वपूर्ण क्षेत्र है।
+- **जल:** जल एक और महत्वपूर्ण संसाधन है जो संघर्ष का स्रोत है। नदी के पानी को साझा करने पर विवाद और असहमति राज्यों के बीच आम है, जिससे कुछ लोग 'जल-राजनीति' कहते हैं। उदाहरणों में इज़राइल/सीरिया/जॉर्डन और तुर्की/सीरिया/इराक के बीच संघर्ष शामिल हैं।
+
+### मूलवासियों के अधिकार
+- **वे कौन हैं?:** संयुक्त राष्ट्र स्वदेशी आबादी को उन लोगों के वंशज के रूप में परिभाषित करता है जो विजय या उपनिवेशीकरण के समय किसी देश या भौगोलिक क्षेत्र में रहते थे। भारत में, उन्हें अक्सर **'आदिवासी' या अनुसूचित जनजाति** कहा जाता है।
+- **संघर्ष:** दुनिया भर में स्वदेशी लोग अपनी भूमि, संसाधनों और सांस्कृतिक पहचान के अपने अधिकारों के लिए लड़ रहे हैं, जिन्हें विकास परियोजनाओं और राजनीतिक हाशिए पर जाने से खतरा है।
+- **वैश्विक आवाज:** **विश्व स्वदेशी जन परिषद** का गठन 1975 में हुआ था, जो संयुक्त राष्ट्र में परामर्शी दर्जा प्राप्त करने वाले 11 स्वदेशी गैर-सरकारी संगठनों में से पहला बन गया।
+- वे मांग करते हैं कि उनकी भूमि पर उनके अधिकारों को मान्यता दी जाए और उनके जीवन को प्रभावित करने वाले निर्णयों में उनकी बात सुनी जाए।
+`
     }
   },
   'globalisation': {
