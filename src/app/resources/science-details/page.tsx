@@ -9,20 +9,34 @@ const scienceResources = {
   books: [
     {
       name: "Mathematics Class VI",
-      name_hi: "गणित कक्षा VI",
       chapters: [
-        { name: "Patterns in Mathematics", name_hi: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
-        { name: "Lines and Angles", name_hi: "रेखाएँ और कोण", slug: "lines-and-angles" },
-        { name: "Playing with Numbers", name_hi: "संख्याओं का खेल", slug: "playing-with-numbers" },
-        { name: "Data Management and Presentation", name_hi: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
-        { name: "Practice Time", name_hi: "अभ्यास समय", slug: "practice-time" },
-        { name: "Perimeter and Area", name_hi: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
-        { name: "Fractions", name_hi: "भिन्न", slug: "fractions" },
-        { name: "Playing with Constructions", name_hi: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
-        { name: "Symmetry", name_hi: "सममिति", slug: "symmetry" },
-        { name: "Beyond Zero", name_hi: "शून्य के दूसरी ओर", slug: "beyond-zero" },
+        { name: "Patterns in Mathematics", slug: "patterns-in-mathematics" },
+        { name: "Lines and Angles", slug: "lines-and-angles" },
+        { name: "Playing with Numbers", slug: "playing-with-numbers" },
+        { name: "Data Management and Presentation", slug: "data-management-and-presentation" },
+        { name: "Practice Time", slug: "practice-time" },
+        { name: "Perimeter and Area", slug: "perimeter-and-area" },
+        { name: "Fractions", slug: "fractions" },
+        { name: "Playing with Constructions", slug: "playing-with-constructions" },
+        { name: "Symmetry", slug: "symmetry" },
+        { name: "Beyond Zero", slug: "beyond-zero" },
       ],
-    }
+    },
+    {
+        name: "गणित कक्षा VI",
+        chapters: [
+          { name: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
+          { name: "रेखाएँ और कोण", slug: "lines-and-angles" },
+          { name: "संख्याओं का खेल", slug: "playing-with-numbers" },
+          { name: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
+          { name: "अभ्यास समय", slug: "practice-time" },
+          { name: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
+          { name: "भिन्न", slug: "fractions" },
+          { name: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
+          { name: "सममिति", slug: "symmetry" },
+          { name: "शून्य के दूसरी ओर", slug: "beyond-zero" },
+        ],
+      },
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -49,18 +63,13 @@ export default function ScienceDetailsPage() {
                 {scienceResources.books.map((book, bookIndex) => (
                   <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border rounded-lg">
                     <AccordionTrigger className="font-semibold text-lg p-4">
-                      <div>
-                        <p>{book.name}</p>
-                        <p className="text-sm font-normal text-muted-foreground">{book.name_hi}</p>
-                      </div>
+                      <p>{book.name}</p>
                     </AccordionTrigger>
                     <AccordionContent className="p-4 pt-0">
                       <ul className="space-y-2 text-muted-foreground">
                         {book.chapters.map((chapter, chapterIndex) => (
                           <li key={chapterIndex} className="p-2 rounded-md hover:bg-muted/50">
                              <Link href={`/resources/notes-details/${chapter.slug}?lang=en`} className="font-medium text-foreground hover:underline">{chapter.name}</Link>
-                            <br />
-                            <Link href={`/resources/notes-details/${chapter.slug}?lang=hi`} className="text-sm hover:underline">{chapter.name_hi}</Link>
                           </li>
                         ))}
                       </ul>
