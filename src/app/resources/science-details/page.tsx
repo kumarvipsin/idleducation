@@ -23,20 +23,20 @@ const scienceResources = {
       ],
     },
     {
-        name: "गणित कक्षा VI",
-        chapters: [
-          { name: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
-          { name: "रेखाएँ और कोण", slug: "lines-and-angles" },
-          { name: "संख्याओं का खेल", slug: "playing-with-numbers" },
-          { name: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
-          { name: "अभ्यास समय", slug: "practice-time" },
-          { name: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
-          { name: "भिन्न", slug: "fractions" },
-          { name: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
-          { name: "सममिति", slug: "symmetry" },
-          { name: "शून्य के दूसरी ओर", slug: "beyond-zero" },
-        ],
-      },
+      name: "गणित कक्षा VI",
+      chapters: [
+        { name: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
+        { name: "रेखाएँ और कोण", slug: "lines-and-angles" },
+        { name: "संख्याओं का खेल", slug: "playing-with-numbers" },
+        { name: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
+        { name: "अभ्यास समय", slug: "practice-time" },
+        { name: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
+        { name: "भिन्न", slug: "fractions" },
+        { name: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
+        { name: "सममिति", slug: "symmetry" },
+        { name: "शून्य के दूसरी ओर", slug: "beyond-zero" },
+      ],
+    },
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -61,15 +61,17 @@ export default function ScienceDetailsPage() {
               <h2 className="text-2xl font-bold mb-4">Chapters & Topics</h2>
               <Accordion type="multiple" className="w-full space-y-4">
                 {scienceResources.books.map((book, bookIndex) => (
-                  <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border rounded-lg">
-                    <AccordionTrigger className="font-semibold text-lg p-4">
+                  <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <AccordionTrigger className="font-semibold text-lg p-4 hover:bg-muted/50 rounded-t-lg data-[state=open]:bg-muted/50">
                       <p>{book.name}</p>
                     </AccordionTrigger>
                     <AccordionContent className="p-4 pt-0">
-                      <ul className="space-y-2 text-muted-foreground">
+                      <ul className="space-y-1">
                         {book.chapters.map((chapter, chapterIndex) => (
-                          <li key={chapterIndex} className="p-2 rounded-md hover:bg-muted/50">
-                             <Link href={`/resources/notes-details/${chapter.slug}?lang=en`} className="font-medium text-foreground hover:underline">{chapter.name}</Link>
+                          <li key={chapterIndex}>
+                             <Link href={`/resources/notes-details/${chapter.slug}?lang=en`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
+                                {chapter.name}
+                            </Link>
                           </li>
                         ))}
                       </ul>
