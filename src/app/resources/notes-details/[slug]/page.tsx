@@ -1276,11 +1276,139 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'rise-of-popular-movements': {
     en: {
       title: 'Chapter 7: Rise of Popular Movements',
-      content: 'Detailed notes for this chapter will be available soon. Please check back later.'
+      content: `### Nature of Popular Movements
+- The 1970s saw the rise of various popular movements. These were different from traditional political parties.
+- They were **'party-less'** movements, often led by students, middle-class people, and social activists.
+- These movements raised issues that were not being addressed by the mainstream political parties, such as environmental protection, women's rights, and issues of caste and class.
+- They represented a new form of political participation for groups who felt their voices were not being heard in electoral politics.
+
+### Chipko Movement (Early 1970s)
+- **What was it?:** A unique environmental movement that started in the hills of **Uttarakhand** (then part of Uttar Pradesh).
+- **The Issue:** Villagers protested against the felling of trees by commercial contractors. The government had denied the villagers permission to cut ash trees for making agricultural tools, but had allotted the same patch of forest to a sports goods manufacturer.
+- **Method of Protest:** Villagers, especially **women**, used a novel tactic: they **hugged the trees** (hence the name 'Chipko', which means 'to stick to') to prevent them from being cut.
+- **Key Demands:**
+- - The movement was not just about saving trees. It raised questions about **local communities' control over their natural resources**.
+- - They demanded that no forest-exploiting contracts should be given to outsiders.
+- - The movement also highlighted the issue of ecological balance and sustainable development.
+- **Key Leader:** **Sunderlal Bahuguna** was a prominent leader of the movement.
+- **Success:** The movement was a success. The government issued a 15-year ban on felling of trees in the Himalayan region.
+
+### Dalit Panthers (1972)
+- **What was it?:** A militant organisation of Dalit youth formed in **Maharashtra in 1972**.
+- **Background:** Despite the Constitution guaranteeing equality and abolishing untouchability, Dalits faced continued atrocities and caste-based inequalities in social and economic spheres.
+- **Inspiration:** They were inspired by the **Black Panther Party** in the US and the writings of leaders like **Dr. B.R. Ambedkar and Jyotiba Phule**.
+- **Key Demands:** Their main agenda was to fight against caste-based inequalities and atrocities. They demanded effective implementation of reservations and other policies for social justice.
+- **Activities:** They used mass action, including protests and literature (poems, stories), to raise their voice. Their writings became a powerful tool for expressing the anger and anguish of the Dalit community.
+- **Decline:** The organization split in the late 1970s and later declined. Many of the activists joined **BAMCEF** (Backward and Minority Communities Employees Federation).
+
+### Bharatiya Kisan Union (BKU)
+- **What was it?:** An organisation of farmers from western **Uttar Pradesh and Haryana**, which became prominent in the late 1980s.
+- **The Issue:** They protested against the government's economic policies, which they saw as anti-farmer.
+- **Key Demands:**
+- - Higher government floor prices for sugarcane and wheat.
+- - Abolition of restrictions on the inter-state movement of farm produce.
+- - Guaranteed supply of electricity at reasonable rates.
+- - Waiving of repayments of loans to farmers.
+- **Methods of Protest:** They organized massive rallies, dharnas, and jail bharo (courting arrest) campaigns in district headquarters across the states.
+- **Characteristics:** It was a movement of affluent, cash-crop farmers. They used caste and community linkages to mobilize support. Unlike most other movements, it did not involve political parties.
+- **Success:** Their mobilization and lobbying power made them an influential pressure group in national politics.
+
+### Anti-Arrack Movement
+- **What was it?:** A spontaneous movement of rural women in the state of **Andhra Pradesh in the early 1990s**.
+- **The Issue:** The movement was against the widespread sale of **'arrack'** (a cheap, locally brewed alcohol).
+- **Impact on Women:** The increased consumption of arrack was leading to indebtedness, neglect of families, and a rise in domestic violence against women.
+- **How it started:** It began when women in a village in the Dubagunta district of Nellore protested against the auction of arrack contracts. The protest spread rapidly.
+- **Key Slogan:** 'Prohibit arrack sales'.
+- **Outcome:** The movement was successful in forcing the government to impose a ban on the sale of arrack. It also raised broader issues like domestic violence, women's property rights, and the need for women's representation in politics.
+
+### Narmada Bachao Andolan (NBA)
+- **What was it?:** A social movement that mobilized against the construction of large dams on the **Narmada river**.
+- **The Project:** The Sardar Sarovar Project in Gujarat and the Narmada Sagar Project in Madhya Pradesh were two of the biggest multi-purpose dams planned.
+- **The Issue:** The construction of these dams would submerge a vast area of land, displacing hundreds of thousands of people, mostly tribal communities.
+- **Initial Demand:** The movement initially focused on the proper **rehabilitation** of the displaced people.
+- **Shift in Demand:** Later, the movement questioned the very model of development that involved such large-scale projects. They argued that the social costs (displacement, loss of livelihood, ecological damage) were too high compared to the economic benefits.
+- **Key Leader:** **Medha Patkar** has been the central organizer of the movement.
+- **Debate:** The NBA has been at the forefront of the debate on 'development' vs. 'environment' and the rights of displaced communities.
+
+### Lessons from Popular Movements
+- These movements show that routine democratic politics and functioning of political parties have their limitations.
+- They represent the voice of marginalized groups and bring new issues to the forefront.
+- They have helped deepen democracy by increasing political participation and awareness.
+- **Criticism:** Critics argue that these movements, with their protests and rallies, can disrupt the functioning of the government and delay decision-making.
+
+### Right to Information (RTI)
+- **The Movement:** The RTI movement began in **Rajasthan in 1990**. A rural organization, **Mazdoor Kisan Shakti Sangathan (MKSS)**, demanded records of famine relief work and accounts of labourers.
+- **The Demand:** They demanded the 'right to know' how government funds were being spent.
+- **Success:** The movement grew, and after years of struggle, the **Right to Information Act was passed in 2005**. This law gives citizens the right to access information from government bodies, promoting transparency and accountability.
+`
     },
     hi: {
       title: 'अध्याय 7: जन आंदोलनों का उदय',
-      content: 'इस अध्याय के विस्तृत नोट्स जल्द ही उपलब्ध होंगे। कृपया बाद में फिर से देखें।'
+      content: `### जन आंदोलनों की प्रकृति
+- 1970 के दशक में विभिन्न जन आंदोलनों का उदय हुआ। ये पारंपरिक राजनीतिक दलों से अलग थे।
+- ये **'गैर-दलीय'** आंदोलन थे, जिनका नेतृत्व अक्सर छात्र, मध्यम वर्ग के लोग और सामाजिक कार्यकर्ता करते थे।
+- इन आंदोलनों ने ऐसे मुद्दे उठाए जिन्हें मुख्यधारा के राजनीतिक दल संबोधित नहीं कर रहे थे, जैसे कि पर्यावरण संरक्षण, महिलाओं के अधिकार, और जाति और वर्ग के मुद्दे।
+- उन्होंने उन समूहों के लिए राजनीतिक भागीदारी का एक नया रूप प्रस्तुत किया जो महसूस करते थे कि चुनावी राजनीति में उनकी आवाज नहीं सुनी जा रही है।
+
+### चिपको आंदोलन (1970 के दशक की शुरुआत)
+- **यह क्या था?:** एक अनूठा पर्यावरण आंदोलन जो **उत्तराखंड** (तब उत्तर प्रदेश का हिस्सा) की पहाड़ियों में शुरू हुआ।
+- **मुद्दा:** ग्रामीणों ने वाणिज्यिक ठेकेदारों द्वारा पेड़ों की कटाई का विरोध किया। सरकार ने ग्रामीणों को कृषि उपकरण बनाने के लिए अंगू के पेड़ काटने की अनुमति देने से इनकार कर दिया था, लेकिन उसी जंगल के टुकड़े को एक खेल के सामान के निर्माता को आवंटित कर दिया था।
+- **विरोध का तरीका:** ग्रामीणों, विशेषकर **महिलाओं** ने एक नई रणनीति का इस्तेमाल किया: वे पेड़ों को कटने से बचाने के लिए उनसे **लिपट गए** (इसलिए इसका नाम 'चिपको' पड़ा)।
+- **प्रमुख मांगें:**
+- - यह आंदोलन सिर्फ पेड़ बचाने के बारे में नहीं था। इसने **स्थानीय समुदायों के अपने प्राकृतिक संसाधनों पर नियंत्रण** के बारे में सवाल उठाए।
+- - उन्होंने मांग की कि जंगल-शोषण के कोई भी ठेके बाहरी लोगों को नहीं दिए जाने चाहिए।
+- - आंदोलन ने पारिस्थितिक संतुलन और सतत विकास के मुद्दे पर भी प्रकाश डाला।
+- **प्रमुख नेता:** **सुंदरलाल बहुगुणा** आंदोलन के एक प्रमुख नेता थे।
+- **सफलता:** आंदोलन एक सफलता थी। सरकार ने हिमालयी क्षेत्र में पेड़ों की कटाई पर 15 साल का प्रतिबंध लगा दिया।
+
+### दलित पैंथर्स (1972)
+- **यह क्या था?:** **1972 में महाराष्ट्र** में गठित दलित युवाओं का एक उग्रवादी संगठन।
+- **पृष्ठभूमि:** संविधान द्वारा समानता की गारंटी और अस्पृश्यता के उन्मूलन के बावजूद, दलितों को सामाजिक और आर्थिक क्षेत्रों में निरंतर अत्याचार और जाति-आधारित असमानताओं का सामना करना पड़ रहा था।
+- **प्रेरणा:** वे अमेरिका में **ब्लैक पैंथर पार्टी** और **डॉ. बी.आर. अंबेडकर और ज्योतिबा फुले** जैसे नेताओं के लेखन से प्रेरित थे।
+- **प्रमुख मांगें:** उनका मुख्य एजेंडा जाति-आधारित असमानताओं और अत्याचारों के खिलाफ लड़ना था। उन्होंने आरक्षण और सामाजिक न्याय के लिए अन्य नीतियों के प्रभावी कार्यान्वयन की मांग की।
+- **गतिविधियाँ:** उन्होंने अपनी आवाज उठाने के लिए विरोध प्रदर्शन और साहित्य (कविताएं, कहानियां) सहित जन कार्रवाई का इस्तेमाल किया। उनके लेखन दलित समुदाय के गुस्से और पीड़ा को व्यक्त करने के लिए एक शक्तिशाली उपकरण बन गए।
+- **पतन:** संगठन 1970 के दशक के अंत में विभाजित हो गया और बाद में इसका पतन हो गया। कई कार्यकर्ता **बामसेफ** (पिछड़ा और अल्पसंख्यक समुदाय कर्मचारी महासंघ) में शामिल हो गए।
+
+### भारतीय किसान यूनियन (BKU)
+- **यह क्या था?:** पश्चिमी **उत्तर प्रदेश और हरियाणा** के किसानों का एक संगठन, जो 1980 के दशक के अंत में प्रमुख हो गया।
+- **मुद्दा:** उन्होंने सरकार की आर्थिक नीतियों का विरोध किया, जिसे वे किसान-विरोधी मानते थे।
+- **प्रमुख मांगें:**
+- - गन्ना और गेहूं के लिए उच्च सरकारी न्यूनतम समर्थन मूल्य।
+- - कृषि उपज के अंतर-राज्यीय आवागमन पर प्रतिबंधों का उन्मूलन।
+- - उचित दरों पर बिजली की गारंटीकृत आपूर्ति।
+- - किसानों के ऋणों की चुकौती माफ करना।
+- **विरोध के तरीके:** उन्होंने राज्यों भर के जिला मुख्यालयों में विशाल रैलियां, धरने और जेल भरो (गिरफ्तारी देना) अभियान आयोजित किए।
+- **विशेषताएं:** यह संपन्न, नकदी-फसल किसानों का एक आंदोलन था। उन्होंने समर्थन जुटाने के लिए जाति और समुदाय के संबंधों का इस्तेमाल किया। अधिकांश अन्य आंदोलनों के विपरीत, इसमें राजनीतिक दल शामिल नहीं थे।
+- **सफलता:** उनकी लामबंदी और पैरवी की शक्ति ने उन्हें राष्ट्रीय राजनीति में एक प्रभावशाली दबाव समूह बना दिया।
+
+### ताड़ी-विरोधी आंदोलन
+- **यह क्या था?:** **1990 के दशक की शुरुआत में आंध्र प्रदेश** राज्य में ग्रामीण महिलाओं का एक स्वतःस्फूर्त आंदोलन।
+- **मुद्दा:** यह आंदोलन **'ताड़ी'** (एक सस्ती, स्थानीय रूप से बनाई गई शराब) की व्यापक बिक्री के खिलाफ था।
+- **महिलाओं पर प्रभाव:** ताड़ी की बढ़ती खपत से ऋणग्रस्तता, परिवारों की उपेक्षा और महिलाओं के खिलाफ घरेलू हिंसा में वृद्धि हो रही थी।
+- **यह कैसे शुरू हुआ:** यह तब शुरू हुआ जब नेल्लोर जिले के दुबागंटा गांव की महिलाओं ने ताड़ी के ठेकों की नीलामी का विरोध किया। विरोध तेजी से फैल गया।
+- **प्रमुख नारा:** 'ताड़ी की बिक्री बंद करो'।
+- **परिणाम:** यह आंदोलन सरकार को ताड़ी की बिक्री पर प्रतिबंध लगाने के लिए मजबूर करने में सफल रहा। इसने घरेलू हिंसा, महिलाओं के संपत्ति अधिकार और राजनीति में महिलाओं के प्रतिनिधित्व की आवश्यकता जैसे व्यापक मुद्दों को भी उठाया।
+
+### नर्मदा बचाओ आंदोलन (NBA)
+- **यह क्या था?:** एक सामाजिक आंदोलन जो **नर्मदा नदी** पर बड़े बांधों के निर्माण के खिलाफ लामबंद हुआ।
+- **परियोजना:** गुजरात में सरदार सरोवर परियोजना और मध्य प्रदेश में नर्मदा सागर परियोजना नियोजित दो सबसे बड़े बहुउद्देशीय बांध थे।
+- **मुद्दा:** इन बांधों के निर्माण से भूमि का एक विशाल क्षेत्र जलमग्न हो जाएगा, जिससे सैकड़ों हजारों लोग, जिनमें ज्यादातर आदिवासी समुदाय थे, विस्थापित हो जाएंगे।
+- **प्रारंभिक मांग:** आंदोलन ने शुरू में विस्थापित लोगों के उचित **पुनर्वास** पर ध्यान केंद्रित किया।
+- **मांग में बदलाव:** बाद में, आंदोलन ने विकास के उस मॉडल पर ही सवाल उठाया जिसमें इतनी बड़ी परियोजनाएं शामिल थीं। उन्होंने तर्क दिया कि आर्थिक लाभों की तुलना में सामाजिक लागत (विस्थापन, आजीविका का नुकसान, पारिस्थितिक क्षति) बहुत अधिक थी।
+- **प्रमुख नेता:** **मेधा पाटकर** आंदोलन की केंद्रीय आयोजक रही हैं।
+- **बहस:** एनबीए 'विकास' बनाम 'पर्यावरण' और विस्थापित समुदायों के अधिकारों पर बहस में सबसे आगे रहा है।
+
+### जन आंदोलनों से सीख
+- ये आंदोलन दिखाते हैं कि नियमित लोकतांत्रिक राजनीति और राजनीतिक दलों के कामकाज की अपनी सीमाएँ हैं।
+- वे हाशिए पर पड़े समूहों की आवाज का प्रतिनिधित्व करते हैं और नए मुद्दों को सामने लाते हैं।
+- उन्होंने राजनीतिक भागीदारी और जागरूकता बढ़ाकर लोकतंत्र को गहरा करने में मदद की है।
+- **आलोचना:** आलोचकों का तर्क है कि ये आंदोलन, अपने विरोध प्रदर्शनों और रैलियों के साथ, सरकार के कामकाज को बाधित कर सकते हैं और निर्णय लेने में देरी कर सकते हैं।
+
+### सूचना का अधिकार (RTI)
+- **आंदोलन:** आरटीआई आंदोलन **1990 में राजस्थान** में शुरू हुआ। एक ग्रामीण संगठन, **मजदूर किसान शक्ति संगठन (MKSS)** ने अकाल राहत कार्यों के रिकॉर्ड और मजदूरों के खातों की मांग की।
+- **मांग:** उन्होंने यह 'जानने का अधिकार' मांगा कि सरकारी धन कैसे खर्च किया जा रहा था।
+- **सफलता:** आंदोलन बढ़ा, और वर्षों के संघर्ष के बाद, **2005 में सूचना का अधिकार अधिनियम पारित किया गया**। यह कानून नागरिकों को सरकारी निकायों से जानकारी प्राप्त करने का अधिकार देता है, जिससे पारदर्शिता और जवाबदेही को बढ़ावा मिलता है।
+`
     }
   },
   'regional-aspirations': {
