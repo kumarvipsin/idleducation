@@ -7,21 +7,7 @@ import Link from "next/link";
 
 const scienceResources = {
   books: [
-    {
-      name: "Book 1: Contemporary World Politics",
-      name_hi: "समकालीन विश्व राजनीति",
-      chapters: [
-        { name: "Chapter 1: The Cold War Era", name_hi: "अध्याय 1: शीतयुद्ध का दौर", slug: "the-cold-war-era" },
-        { name: "Chapter 2: The End of Bipolarity", name_hi: "अध्याय 2: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
-        { name: "Chapter 3: US Hegemony in World Politics", name_hi: "अध्याय 3: समकालीन विश्व में अमरीकी वर्चस्व", slug: "us-hegemony-in-world-politics" },
-        { name: "Chapter 4: Alternative Centres of Power", name_hi: "अध्याय 4: सत्ता के वैकल्पिक केंद्र", slug: "alternative-centres-of-power" },
-        { name: "Chapter 5: Contemporary South Asia", name_hi: "अध्याय 5: समकालीन दक्षिण एशिया", slug: "contemporary-south-asia" },
-        { name: "Chapter 6: International Organisations", name_hi: "अध्याय 6: अंतर्राष्ट्रीय संगठन", slug: "international-organisations" },
-        { name: "Chapter 7: Security in the Contemporary World", name_hi: "अध्याय 7: समकालीन विश्व में सुरक्षा", slug: "security-in-the-contemporary-world" },
-        { name: "Chapter 8: Environment and Natural Resources", name_hi: "अध्याय 8: पर्यावरण और प्राकृतिक संसाधन", slug: "environment-and-natural-resources" },
-        { name: "Chapter 9: Globalisation", name_hi: "अध्याय 9: वैश्वीकरण", slug: "globalisation" },
-      ]
-    }
+    
   ],
   papers: [
     { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
