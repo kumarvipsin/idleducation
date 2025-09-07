@@ -169,6 +169,27 @@ const class8Courses = [
 const class11Courses = [
     {
         title: "CLASS XI",
+        description: "Political Science",
+        language: "ENGLISH | HINDI",
+        gradient: "from-blue-500 to-indigo-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "History",
+        language: "ENGLISH | HINDI",
+        gradient: "from-red-500 to-rose-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XI",
+        description: "Geography",
+        language: "ENGLISH | HINDI",
+        gradient: "from-amber-500 to-orange-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+     {
+        title: "CLASS XI",
         description: "Maths",
         language: "ENGLISH | HINDI",
         gradient: "from-green-500 to-emerald-600",
@@ -193,27 +214,6 @@ const class11Courses = [
         description: "Biology",
         language: "ENGLISH | HINDI",
         gradient: "from-lime-500 to-green-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Political Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "History",
-        language: "ENGLISH | HINDI",
-        gradient: "from-red-500 to-rose-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Geography",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ]
@@ -221,6 +221,27 @@ const class11Courses = [
 const class12Courses = [
      {
         title: "CLASS XII",
+        description: "Political Science",
+        language: "ENGLISH | HINDI",
+        gradient: "from-blue-500 to-indigo-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/political-science-details" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "History",
+        language: "ENGLISH | HINDI",
+        gradient: "from-red-500 to-rose-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "Geography",
+        language: "ENGLISH | HINDI",
+        gradient: "from-amber-500 to-orange-600",
+        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
+    },
+    {
+        title: "CLASS XII",
         description: "Maths",
         language: "ENGLISH | HINDI",
         gradient: "from-green-500 to-emerald-600",
@@ -245,27 +266,6 @@ const class12Courses = [
         description: "Biology",
         language: "ENGLISH | HINDI",
         gradient: "from-lime-500 to-green-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Political Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "History",
-        language: "ENGLISH | HINDI",
-        gradient: "from-red-500 to-rose-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Geography",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
     },
 ]
