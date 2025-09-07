@@ -61,7 +61,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - उनकी प्रमुख नीतियां **पेरेस्त्रोइका (पुनर्गठन)** और **ग्लास्नोस्त (खुलापन)** थीं, जिनका उद्देश्य अर्थव्यवस्था और राजनीतिक व्यवस्था में सुधार करना था।
 - हालांकि, इन सुधारों ने ऐसी ताकतों और अपेक्षाओं को जन्म दिया जिन्हें नियंत्रित करना मुश्किल था। सोवियत संघ के विभिन्न गणराज्यों के भीतर **राष्ट्रवाद और संप्रभुता की इच्छा** की लहर उठी।
 - 1991 में कम्युनिस्ट पार्टी के कट्टरपंथियों द्वारा एक तख्तापलट हुआ, जो विफल रहा लेकिन गोर्बाचेव के अधिकार को और कमजोर कर दिया और पतन को तेज कर दिया। **बोरिस येल्तसिन** तख्तापलट का विरोध करने के लिए एक राष्ट्रीय नायक के रूप में उभरे।
-- **दिसंबर 1991 में**, रूस (येल्तसिन), यूक्रेन और बेलारूस के नेतृत्व में, सोवियत संघ को औपचारिक रूप से भंग कर दिया गया। **स्वतंत्र राज्यों के राष्ट्रमंडल (CIS)** को एक ढीले उत्तराधिकारी इकाई के रूप में बनाया गया था।
+- **दिसंबर 1991 में**, रूस (येल्तसिन), यूक्रेन और बेलारूस के नेतृत्व में, सोवियत संघ को औपचारिक रूप से भंग कर दिया गया। **स्वतंत्र राज्यों के राष्ट्रमंडल (CIS)** को एक ढीले उत्तराधिकारी इकाई के रूप में बनाया गया।
 
 ### सोवियत पतन के कारण
 1.  **आर्थिक ठहराव:** सोवियत अर्थव्यवस्था वर्षों तक पश्चिम से पीछे रही। उपभोक्ता वस्तुओं की गंभीर कमी और हथियारों की दौड़ में अमेरिका के साथ बने रहने के लिए बड़े पैमाने पर सैन्य खर्च ने अर्थव्यवस्था को पंगु बना दिया।
@@ -335,11 +335,79 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'politics-of-planned-development': {
     en: {
       title: 'Chapter 3: Politics of Planned Development',
-      content: 'This chapter examines India\'s strategy of planned development after independence, focusing on the debates around economic models and the role of the Planning Commission.'
+      content: `### Ideas of Development
+- After independence, India had two models of development to choose from: the liberal-capitalist model (like in the USA) and the socialist model (like in the USSR).
+- **Jawaharlal Nehru** and many other leaders preferred the **socialist model**, but not the authoritarian version of the USSR. They favored a **'mixed economy'** where both private and public sectors would coexist.
+- **Development** meant both economic growth and social and economic justice. The goal was to lift people out of poverty and create a modern, industrial nation.
+
+### Planning Commission and Five Year Plans
+- The **Planning Commission** was established in **March 1950** with the Prime Minister as its chairperson. It was the central body for making plans for India's development.
+- India adopted the system of **Five Year Plans (FYPs)**, an idea borrowed from the Soviet Union.
+- The budget was divided into **Plan Budget** (for new projects and development) and **Non-Plan Budget** (for routine annual expenses).
+
+### First Five Year Plan (1951-1956)
+- **Main Focus:** The primary focus was on the **agricultural sector**.
+- **Key Goals:** To address food shortages, control inflation, and build infrastructure for agriculture like irrigation and power projects.
+- **Key Economist:** **K. N. Raj** argued that India should 'hasten slowly' for the first two decades.
+- **Major Projects:** Huge investments were made in large-scale projects like the **Bhakra Nangal Dam**.
+- **Outcome:** The plan was largely successful in achieving its targets for agricultural growth.
+
+### Second Five Year Plan (1956-1961)
+- **Main Focus:** A major shift towards **heavy industries** and rapid industrialization.
+- **Key Economist:** The plan was based on the model developed by **P.C. Mahalanobis**.
+- **Key Goals:** To build a strong industrial base, develop public sector enterprises, and impose tariffs on imports to protect domestic industries.
+- **Outcome:** While it laid the foundation for India's industrial development, it faced problems like foreign exchange shortages and rising inflation.
+
+### Key Controversies
+1.  **Agriculture vs. Industry:** Many critics, like Gandhian economist **J. C. Kumarappa**, argued that the Second Plan neglected agriculture and rural India, which could lead to food crises. Others, like **Chaudhary Charan Singh**, emphasized that without a prosperous agricultural sector, industrialization could not be sustained.
+2.  **Public vs. Private Sector:** The plan's reliance on a large public sector was criticized by those who favored a more open, private-sector-led economy. They argued that state control created inefficiency, corruption, and a 'license-permit raj' that stifled private enterprise.
+
+### Major Outcomes and Legacy
+- **Foundations of Growth:** The planning era laid the foundation for India's future economic growth by creating key infrastructure like dams, power plants, and heavy industries.
+- **Land Reforms:** Several land reform measures were undertaken, such as the abolition of the zamindari system, but they were not fully successful due to legal loopholes and political opposition.
+- **The Green Revolution (late 1960s):** To overcome food shortages, the government focused on high-yield variety (HYV) seeds, fertilizers, and irrigation.
+- **Benefits:** It led to a massive increase in the production of wheat and rice, making India self-sufficient in food grains. It particularly benefited farmers in Punjab, Haryana, and Western Uttar Pradesh.
+- **Criticism:** It increased the gap between rich and poor farmers and favored regions with better irrigation.
+- **The White Revolution (Operation Flood):** This program, led by **Verghese Kurien** (the "Milkman of India"), created a nationwide milk grid and made India the world's largest milk producer. It was based on a cooperative model (Amul).
+`
     },
     hi: {
       title: 'अध्याय 3: नियोजित विकास की राजनीति',
-      content: 'यह अध्याय स्वतंत्रता के बाद भारत की नियोजित विकास की रणनीति की जांच करता है, जिसमें आर्थिक मॉडल और योजना आयोग की भूमिका के आसपास की बहसों पर ध्यान केंद्रित किया गया है।'
+      content: `### विकास की धारणाएँ
+- स्वतंत्रता के बाद, भारत के पास विकास के दो मॉडल थे: उदार-पूंजीवादी मॉडल (जैसे संयुक्त राज्य अमेरिका में) और समाजवादी मॉडल (जैसे यूएसएसआर में)।
+- **जवाहरलाल नेहरू** और कई अन्य नेताओं ने **समाजवादी मॉडल** को प्राथमिकता दी, लेकिन यूएसएसआर का सत्तावादी संस्करण नहीं। उन्होंने एक **'मिश्रित अर्थव्यवस्था'** का समर्थन किया जहाँ निजी और सार्वजनिक दोनों क्षेत्र सह-अस्तित्व में रहेंगे।
+- **विकास** का अर्थ आर्थिक विकास और सामाजिक और आर्थिक न्याय दोनों था। लक्ष्य लोगों को गरीबी से बाहर निकालना और एक आधुनिक, औद्योगिक राष्ट्र का निर्माण करना था।
+
+### योजना आयोग और पंचवर्षीय योजनाएँ
+- **योजना आयोग** की स्थापना **मार्च 1950** में प्रधानमंत्री की अध्यक्षता में की गई थी। यह भारत के विकास के लिए योजनाएँ बनाने वाली केंद्रीय संस्था थी।
+- भारत ने **पंचवर्षीय योजनाओं (FYPs)** की प्रणाली अपनाई, यह विचार सोवियत संघ से लिया गया था।
+- बजट को **योजना बजट** (नई परियोजनाओं और विकास के लिए) और **गैर-योजना बजट** (नियमित वार्षिक खर्चों के लिए) में विभाजित किया गया था।
+
+### पहली पंचवर्षीय योजना (1951-1956)
+- **मुख्य फोकस:** प्राथमिक ध्यान **कृषि क्षेत्र** पर था।
+- **प्रमुख लक्ष्य:** खाद्य कमी को दूर करना, मुद्रास्फीति को नियंत्रित करना और सिंचाई और बिजली परियोजनाओं जैसे कृषि के लिए बुनियादी ढांचे का निर्माण करना।
+- **प्रमुख अर्थशास्त्री:** **के. एन. राज** ने तर्क दिया कि भारत को पहले दो दशकों तक 'धीरे-धीरे आगे बढ़ना' चाहिए।
+- **प्रमुख परियोजनाएं:** **भाखड़ा नांगल बांध** जैसी बड़े पैमाने की परियोजनाओं में भारी निवेश किया गया।
+- **परिणाम:** यह योजना कृषि विकास के अपने लक्ष्यों को प्राप्त करने में काफी हद तक सफल रही।
+
+### दूसरी पंचवर्षीय योजना (1956-1961)
+- **मुख्य फोकस:** **भारी उद्योगों** और तीव्र औद्योगिकीकरण की ओर एक बड़ा बदलाव।
+- **प्रमुख अर्थशास्त्री:** यह योजना **पी. सी. महालनोबिस** द्वारा विकसित मॉडल पर आधारित थी।
+- **प्रमुख लक्ष्य:** एक मजबूत औद्योगिक आधार बनाना, सार्वजनिक क्षेत्र के उद्यमों का विकास करना, और घरेलू उद्योगों की रक्षा के लिए आयातों पर शुल्क लगाना।
+- **परिणाम:** यद्यपि इसने भारत के औद्योगिक विकास की नींव रखी, लेकिन इसे विदेशी मुद्रा की कमी और बढ़ती मुद्रास्फीति जैसी समस्याओं का सामना करना पड़ा।
+
+### प्रमुख विवाद
+1.  **कृषि बनाम उद्योग:** गांधीवादी अर्थशास्त्री **जे. सी. कुमारप्पा** जैसे कई आलोचकों ने तर्क दिया कि दूसरी योजना ने कृषि और ग्रामीण भारत की उपेक्षा की, जिससे खाद्य संकट पैदा हो सकता है। **चौधरी चरण सिंह** जैसे अन्य लोगों ने इस बात पर जोर दिया कि एक समृद्ध कृषि क्षेत्र के बिना औद्योगिकीकरण को बनाए नहीं रखा जा सकता है।
+2.  **सार्वजनिक बनाम निजी क्षेत्र:** एक बड़े सार्वजनिक क्षेत्र पर योजना की निर्भरता की उन लोगों द्वारा आलोचना की गई जो अधिक खुली, निजी क्षेत्र के नेतृत्व वाली अर्थव्यवस्था के पक्ष में थे। उन्होंने तर्क दिया कि राज्य के नियंत्रण ने अक्षमता, भ्रष्टाचार और एक 'लाइसेंस-परमिट राज' बनाया जिसने निजी उद्यम को बाधित किया।
+
+### प्रमुख परिणाम और विरासत
+- **विकास की नींव:** योजना युग ने बांधों, बिजली संयंत्रों और भारी उद्योगों जैसे प्रमुख बुनियादी ढांचे का निर्माण करके भारत के भविष्य के आर्थिक विकास की नींव रखी।
+- **भूमि सुधार:** ज़मींदारी प्रथा के उन्मूलन जैसे कई भूमि सुधार उपाय किए गए, लेकिन कानूनी खामियों और राजनीतिक विरोध के कारण वे पूरी तरह से सफल नहीं हुए।
+- **हरित क्रांति (1960 के दशक के अंत में):** खाद्य कमी को दूर करने के लिए, सरकार ने उच्च उपज वाली किस्म (HYV) के बीज, उर्वरकों और सिंचाई पर ध्यान केंद्रित किया।
+- **लाभ:** इससे गेहूं और चावल के उत्पादन में भारी वृद्धि हुई, जिससे भारत खाद्यान्न में आत्मनिर्भर हो गया। इसने विशेष रूप से पंजाब, हरियाणा और पश्चिमी उत्तर प्रदेश के किसानों को लाभान्वित किया।
+- **आलोचना:** इसने अमीर और गरीब किसानों के बीच की खाई को बढ़ा दिया और बेहतर सिंचाई वाले क्षेत्रों का पक्ष लिया।
+- **श्वेत क्रांति (ऑपरेशन फ्लड):** **वर्गीज कुरियन** ("मिल्कमैन ऑफ इंडिया") के नेतृत्व में इस कार्यक्रम ने एक राष्ट्रव्यापी दूध ग्रिड बनाया और भारत को दुनिया का सबसे बड़ा दूध उत्पादक बनाया। यह एक सहकारी मॉडल (अमूल) पर आधारित था।
+`
     }
   },
   'indias-external-relations': {
