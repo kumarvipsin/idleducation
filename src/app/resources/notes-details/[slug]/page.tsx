@@ -604,11 +604,97 @@ Free India faced three major challenges. The first and the immediate challenge w
   'challenges-to-and-restoration-of-the-congress-system': {
     en: {
       title: 'Chapter 5: Challenges to and Restoration of the Congress System',
-      content: 'This chapter analyzes the political challenges faced by the Congress party in the 1960s and its subsequent restoration to power under Indira Gandhi.'
+      content: `### From Nehru to Shastri
+- Prime Minister Jawaharlal Nehru passed away in **May 1964**. His death led to speculation about India's democratic future, but the transition was smooth.
+- **Lal Bahadur Shastri** became the next Prime Minister (1964-1966). He was known for his simplicity and commitment to principles.
+- **Challenges during Shastri's tenure:**
+- - **Economic Crisis:** India faced food shortages and a monsoon failure.
+- - **War with Pakistan (1965):** Shastri's leadership during the war was widely praised. He gave the famous slogan **'Jai Jawan, Jai Kisan'** (Hail the soldier, Hail the farmer) to unite the country.
+- The war ended with the **Tashkent Agreement** in January 1966, mediated by the Soviet Union. Shastri passed away in Tashkent shortly after.
+
+### From Shastri to Indira Gandhi
+- After Shastri's death, there was an intense competition between **Morarji Desai** and **Indira Gandhi** for the post of Prime Minister.
+- The powerful group of Congress leaders, known as the **'Syndicate'**, supported Indira Gandhi, believing she would be dependent on their guidance.
+- Indira Gandhi defeated Morarji Desai and became the Prime Minister.
+
+### The Fourth General Election, 1967
+- **Context of the election:** This period was marked by serious economic problems, food scarcity, rising prices, and widespread protests. The opposition parties organized protests and called for **'bandhs'**.
+- **Non-Congressism:** This term was coined by socialist leader **Ram Manohar Lohia**. He argued that the Congress rule was undemocratic and that all non-Congress parties should unite to oust it.
+- **Election Verdict - A 'Political Earthquake':**
+- - The Congress managed to form a government at the Centre but with its lowest-ever tally of seats and vote share.
+- - Many senior Congress leaders (including K. Kamaraj and S.K. Patil) lost their seats.
+- - The Congress lost majority in **nine states**, and non-Congress governments were formed. This was the first time Congress faced such a significant challenge to its dominance.
+- **Coalitions:** The 1967 elections marked the beginning of the era of coalitions. Since no single party got a majority in many states, various non-Congress parties formed joint legislative parties called **Samyukta Vidhayak Dal (SVD)** to form governments.
+
+### Split in the Congress
+- **Syndicate vs. Indira Gandhi:** Indira Gandhi faced a challenge from the 'Syndicate' within her own party. They had supported her but now found her asserting her independence.
+- **Presidential Election, 1969:** The conflict came to a head during the presidential election after the death of President Zakir Hussain.
+- - The Syndicate nominated **N. Sanjeeva Reddy** as the official Congress candidate.
+- - Indira Gandhi encouraged the then Vice-President, **V.V. Giri**, to file his nomination as an independent candidate. She called for a **'conscience vote'**, indirectly asking Congress MPs and MLAs to vote for Giri.
+- - V.V. Giri won the election, which was a major setback for the Syndicate.
+- The Congress President expelled Indira Gandhi from the party, but she claimed that her group was the real Congress.
+- This led to a formal split in **1969**. The Congress party was divided into:
+- - **Congress (Organisation)** or Congress (O): Led by the Syndicate.
+- - **Congress (Requisitionists)** or Congress (R): Led by Indira Gandhi. This was the new Congress.
+
+### The 1971 Election and Restoration of Congress
+- Indira Gandhi's government lost its majority after the split but continued in power with the support of some other parties like the DMK and CPI.
+- **Indira Gandhi's Strategy:** She adopted a very bold and leftist strategy.
+- - **Abolition of Privy Purse:** She moved to abolish the 'privy purse', a special payment given to the former princes, arguing it was against the principle of equality.
+- - **Garibi Hatao (Remove Poverty):** This was her main slogan for the 1971 election. It was a powerful slogan that connected with the poor and marginalized.
+- - In contrast, the opposition parties formed a **'Grand Alliance'** with the simple slogan **'Indira Hatao'** (Remove Indira).
+- **Election Outcome:**
+- - The results were a landslide victory for Indira Gandhi's Congress (R). The Congress (R) and CPI alliance won **375 seats** in the Lok Sabha.
+- - The Grand Alliance was a massive failure.
+- This election was a significant turning point. It not only restored the dominance of the Congress but also established Indira Gandhi as the undisputed leader of the party and the country. The "new" Congress was now completely different from the old one, with its support base among the poor, women, Dalits, Adivasis, and minorities.
+`
     },
     hi: {
       title: 'अध्याय 5: कांग्रेस प्रणाली: चुनौतियाँ और पुनर्स्थापना',
-      content: 'यह अध्याय 1960 के दशक में कांग्रेस पार्टी द्वारा सामना की गई राजनीतिक चुनौतियों और इंदिरा गांधी के अधीन सत्ता में उसकी बाद की बहाली का विश्लेषण करता है।'
+      content: `### नेहरू से शास्त्री तक
+- प्रधानमंत्री जवाहरलाल नेहरू का **मई 1964** में निधन हो गया। उनकी मृत्यु ने भारत के लोकतांत्रिक भविष्य के बारे में अटकलों को जन्म दिया, लेकिन सत्ता का हस्तांतरण सुचारू रूप से हुआ।
+- **लाल बहादुर शास्त्री** अगले प्रधानमंत्री (1964-1966) बने। वे अपनी सादगी और सिद्धांतों के प्रति प्रतिबद्धता के लिए जाने जाते थे।
+- **शास्त्री के कार्यकाल के दौरान चुनौतियाँ:**
+- - **आर्थिक संकट:** भारत को भोजन की कमी और मानसून की विफलता का सामना करना पड़ा।
+- - **पाकिस्तान के साथ युद्ध (1965):** युद्ध के दौरान शास्त्री के नेतृत्व की व्यापक रूप से प्रशंसा की गई। उन्होंने देश को एकजुट करने के लिए प्रसिद्ध नारा **'जय जवान, जय किसान'** दिया।
+- युद्ध जनवरी 1966 में सोवियत संघ की मध्यस्थता में **ताशकंद समझौते** के साथ समाप्त हुआ। इसके तुरंत बाद ताशकंद में शास्त्री का निधन हो गया।
+
+### शास्त्री से इंदिरा गांधी तक
+- शास्त्री की मृत्यु के बाद, प्रधानमंत्री पद के लिए **मोरारजी देसाई** और **इंदिरा गांधी** के बीच तीव्र प्रतिस्पर्धा हुई।
+- कांग्रेस के शक्तिशाली नेताओं का समूह, जिसे **'सिंडिकेट'** के नाम से जाना जाता है, ने इंदिरा गांधी का समर्थन किया, यह मानते हुए कि वह उनके मार्गदर्शन पर निर्भर रहेंगी।
+- इंदिरा गांधी ने मोरारजी देसाई को हराया और प्रधानमंत्री बनीं।
+
+### चौथा आम चुनाव, 1967
+- **चुनाव का संदर्भ:** यह अवधि गंभीर आर्थिक समस्याओं, भोजन की कमी, बढ़ती कीमतों और व्यापक विरोध प्रदर्शनों से चिह्नित थी। विपक्षी दलों ने विरोध प्रदर्शन आयोजित किए और **'बंद'** का आह्वान किया।
+- **गैर-कांग्रेसवाद:** यह शब्द समाजवादी नेता **राम मनोहर लोहिया** द्वारा गढ़ा गया था। उन्होंने तर्क दिया कि कांग्रेस का शासन अलोकतांत्रिक था और इसे बाहर निकालने के लिए सभी गैर-कांग्रेसी दलों को एकजुट होना चाहिए।
+- **चुनाव परिणाम - एक 'राजनीतिक भूकंप':**
+- - कांग्रेस केंद्र में सरकार बनाने में कामयाब रही, लेकिन अपनी अब तक की सबसे कम सीटों और वोट हिस्सेदारी के साथ।
+- - कई वरिष्ठ कांग्रेसी नेता (के. कामराज और एस.के. पाटिल सहित) अपनी सीटें हार गए।
+- - कांग्रेस ने **नौ राज्यों** में बहुमत खो दिया, और गैर-कांग्रेसी सरकारें बनीं। यह पहली बार था जब कांग्रेस को अपने प्रभुत्व के लिए इतनी महत्वपूर्ण चुनौती का सामना करना पड़ा।
+- **गठबंधन:** 1967 के चुनावों ने गठबंधन के युग की शुरुआत को चिह्नित किया। चूंकि कई राज्यों में किसी एक पार्टी को बहुमत नहीं मिला, इसलिए विभिन्न गैर-कांग्रेसी दलों ने सरकारें बनाने के लिए **संयुक्त विधायक दल (SVD)** नामक संयुक्त विधायी दल बनाए।
+
+### कांग्रेस में विभाजन
+- **सिंडिकेट बनाम इंदिरा गांधी:** इंदिरा गांधी को अपनी ही पार्टी के भीतर 'सिंडिकेट' से एक चुनौती का सामना करना पड़ा। उन्होंने उनका समर्थन किया था लेकिन अब पाया कि वह अपनी स्वतंत्रता का दावा कर रही हैं।
+- **राष्ट्रपति चुनाव, 1969:** राष्ट्रपति जाकिर हुसैन की मृत्यु के बाद राष्ट्रपति चुनाव के दौरान संघर्ष चरम पर पहुंच गया।
+- - सिंडिकेट ने **एन. संजीव रेड्डी** को आधिकारिक कांग्रेस उम्मीदवार के रूप में नामित किया।
+- - इंदिरा गांधी ने तत्कालीन उपराष्ट्रपति **वी.वी. गिरि** को एक स्वतंत्र उम्मीदवार के रूप में अपना नामांकन दाखिल करने के लिए प्रोत्साहित किया। उन्होंने **'अंतरात्मा की आवाज पर वोट'** का आह्वान किया, अप्रत्यक्ष रूप से कांग्रेस सांसदों और विधायकों से गिरि के लिए वोट करने के लिए कहा।
+- - वी.वी. गिरि ने चुनाव जीता, जो सिंडिकेट के लिए एक बड़ा झटका था।
+- कांग्रेस अध्यक्ष ने इंदिरा गांधी को पार्टी से निष्कासित कर दिया, लेकिन उन्होंने दावा किया कि उनका समूह ही असली कांग्रेस है।
+- इससे **1969** में एक औपचारिक विभाजन हुआ। कांग्रेस पार्टी विभाजित हो गई:
+- - **कांग्रेस (संगठन)** या कांग्रेस (ओ): सिंडिकेट के नेतृत्व में।
+- - **कांग्रेस (रिक्विजिशनिस्ट)** या कांग्रेस (आर): इंदिरा गांधी के नेतृत्व में। यह नई कांग्रेस थी।
+
+### 1971 का चुनाव और कांग्रेस की पुनर्स्थापना
+- विभाजन के बाद इंदिरा गांधी की सरकार ने अपना बहुमत खो दिया, लेकिन डीएमके और सीपीआई जैसे कुछ अन्य दलों के समर्थन से सत्ता में बनी रही।
+- **इंदिरा गांधी की रणनीति:** उन्होंने एक बहुत ही साहसिक और वामपंथी रणनीति अपनाई।
+- - **प्रिवी पर्स का उन्मूलन:** उन्होंने पूर्व राजकुमारों को दिए जाने वाले एक विशेष भुगतान 'प्रिवी पर्स' को समाप्त करने का कदम उठाया, यह तर्क देते हुए कि यह समानता के सिद्धांत के खिलाफ था।
+- - **गरीबी हटाओ:** यह 1971 के चुनाव के लिए उनका मुख्य नारा था। यह एक शक्तिशाली नारा था जो गरीबों और हाशिए पर पड़े लोगों से जुड़ा था।
+- - इसके विपरीत, विपक्षी दलों ने **'इंदिरा हटाओ'** के सरल नारे के साथ एक **'ग्रैंड अलायंस'** बनाया।
+- **चुनाव परिणाम:**
+- - परिणाम इंदिरा गांधी की कांग्रेस (आर) के लिए एक शानदार जीत थी। कांग्रेस (आर) और सीपीआई गठबंधन ने लोकसभा में **375 सीटें** जीतीं।
+- - ग्रैंड अलायंस एक बड़ी विफलता थी।
+- यह चुनाव एक महत्वपूर्ण मोड़ था। इसने न केवल कांग्रेस के प्रभुत्व को बहाल किया, बल्कि इंदिरा गांधी को पार्टी और देश की निर्विवाद नेता के रूप में भी स्थापित किया। "नई" कांग्रेस अब पुरानी से पूरी तरह से अलग थी, जिसका समर्थन आधार गरीबों, महिलाओं, दलितों, आदिवासियों और अल्पसंख्यकों के बीच था।
+`
     }
   },
   'the-crisis-of-democratic-order': {
