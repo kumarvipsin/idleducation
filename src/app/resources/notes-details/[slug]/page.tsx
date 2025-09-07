@@ -150,7 +150,110 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
     'challenges-of-nation-building': {
     en: {
       title: 'Chapter 1: Challenges of Nation Building',
-      content: 'This chapter focuses on the challenges faced by India immediately after independence, including partition, integration of princely states, and reorganization of states.'
+      content: `### India's Independence
+- At the midnight of 14-15 August 1947, India became independent.
+- Jawaharlal Nehru, the first Prime Minister of free India, addressed a special session of the Constituent Assembly that night. This speech was known as the **'Tryst with Destiny'**.
+- During the freedom struggle, there was consensus on two things: first, that after independence, the country would be governed democratically.
+- Second, that the government would work for the good of all sections of society (with special attention to the poor and weak).
+
+### Two-Nation Theory
+- This theory was adopted by the **Muslim League**. According to this theory, India was not one nation but a country of two nations, Hindu and Muslim.
+- For this reason, the Muslim League demanded a separate country, **Pakistan**, for Muslims. Congress opposed this theory.
+
+### Problems of Partition
+### Geographical Division
+- There was no single belt of Muslim majority areas in British India. There were two areas of concentration, one in the east and one in the west. There was no way these two parts could be joined.
+
+### Not all Muslim areas wanted to be in Pakistan.
+- **Khan Abdul Ghaffar Khan**, the undisputed leader of the North-Western Frontier Province, was staunchly opposed to the two-nation theory.
+- His voice was ignored, and the NWFP was made to merge with Pakistan.
+
+### Division of Punjab and Bengal
+- These two provinces also had very large areas where the non-Muslims were in a majority. Eventually, it was decided that these two provinces would be bifurcated.
+
+### Problem of Minorities
+- On both sides of the border lay large populations of minorities. The areas that were now in Pakistan had lakhs of Hindu and Sikh population.
+- Similarly, the Indian territory of Punjab and Bengal had lakhs of Muslim population. These people feared what would become of them.
+
+### Consequences of Partition
+- The country was divided in the name of religion, which led to riots on both sides.
+- Women were abducted, forcibly married, and made to convert their religion.
+- In many cases, family members themselves killed their own women to protect the 'family honour'.
+- People had to live in refugee camps.
+
+### Challenges of Nation Building
+Free India faced three major challenges. The first and the immediate challenge was **to shape a nation that was united**, yet accommodative of the diversity in our society.
+
+### Integrity and Unity
+- India, in its size and diversity, was like a continent. There were people speaking different languages, with different cultures, and followers of different religions. Uniting them all was a huge challenge.
+
+### Establishment of Democracy
+- The second challenge was to establish democracy. The Indian Constitution **guaranteed fundamental rights** and gave every citizen the right to vote.
+- India adopted a representative democracy based on the parliamentary form of government.
+
+### Development
+- The third challenge was to ensure the development and well-being of the entire society and not only of some sections.
+- The Constitution made it clear that everyone would be treated equally and that socially disadvantaged groups and religious and cultural minority communities would be given special protection.
+
+### Problem of Princely States
+- At the time of independence, there were **565 princely states** in India, big and small.
+- The rulers of the princely states were given the freedom by the British government to join either India or Pakistan or to maintain their independent existence.
+- The right to take this decision was given to the king, not the people.
+
+### Sardar Vallabhbhai Patel and National Integration
+- It was India's good fortune that a visionary statesman like **Sardar Patel** took on the task of reorganizing the Indian states in that difficult time.
+
+### Junagadh and Hyderabad
+- The rulers of these two states wanted to go with Pakistan. But Sardar Patel, with his wisdom, integrated both these states into India.
+- Junagadh was merged into India through a **plebiscite**.
+- And for Hyderabad, India had to undertake military action (**Operation Polo**).
+
+### Travancore and Bhopal
+- The king of Travancore announced that his state had decided on Independence.
+- The Nawab of Bhopal was unwilling to join the Constituent Assembly.
+
+### Jammu and Kashmir
+- A similar problem existed in Kashmir. Most of the people here were Muslim, but the king was Hindu (**Raja Hari Singh**).
+- He also refused to join India. But later, seeing the pressure from Pakistan, he sought help from India and decided to merge with India.
+
+### Outcome
+- By independence, most of the princely states had joined the Indian Union.
+- The rulers of most of the princely states signed a document called the **'Instrument of Accession'** which meant that their state agreed to become a part of the Union of India.
+- The rulers of the princely states were persuaded to join the Indian Union. They were given some special rights like the **Privy Purse** (some special allowances).
+
+### Manipur
+- A few days before independence, the Maharaja of Manipur, **Bodhchandra Singh**, signed the Instrument of Accession with the Indian government.
+- In return, he was assured that the internal autonomy of Manipur would be maintained.
+- Under the pressure of public opinion, the Maharaja held elections in Manipur in June 1948, and the state became a constitutional monarchy.
+- Manipur was the first part of India to hold an election based on the **universal adult franchise**.
+- The Government of India succeeded in pressuring the Maharaja into signing a Merger Agreement in 1949.
+
+### Reorganisation of States
+### States on the basis of Language
+- During the British rule, the provinces were formed for administrative convenience.
+- But in independent India, there was a demand for the formation of states on the basis of language and culture.
+
+### Vishalandhra Movement
+- This movement was for a separate state of **Andhra Pradesh**.
+- This movement took place in the Telugu-speaking areas of the Madras province.
+- Congress leader and veteran Gandhian, **Potti Sriramulu**, went on an indefinite fast that led to his death after 56 days.
+- Finally, in December 1952, the Prime Minister announced the formation of a separate Andhra state.
+
+### States Reorganisation Commission
+- The Central Government set up the **States Reorganisation Commission** in 1953.
+- The task of this commission was to look into the matter of redrawing the boundaries of states.
+- On the basis of its report, the **States Reorganisation Act** was passed in 1956.
+- This led to the creation of 14 states and 6 union territories.
+
+### Creation of New States
+- **1960:** Maharashtra and Gujarat
+- **1963:** Nagaland
+- **1966:** Haryana and Himachal Pradesh carved out of Punjab
+- **1972:** Meghalaya, Manipur, and Tripura carved out of Assam
+- **1987:** Arunachal Pradesh and Mizoram
+- **2000:** Chhattisgarh, Uttarakhand, and Jharkhand
+- **2014:** Telangana carved out of Andhra Pradesh
+`
     },
     hi: {
       title: 'अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ',
@@ -413,11 +516,89 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
   'indias-external-relations': {
     en: {
       title: 'Chapter 4: India’s External Relations',
-      content: 'This chapter provides an overview of India\'s foreign policy principles and its relations with other countries, particularly during the Cold War era.'
+      content: `### The International Context
+- India was born into a very challenging international context, marked by the devastation of World War II and the beginning of the **Cold War** between the two superpowers: the USA (leading the Western alliance) and the Soviet Union (leading the Eastern alliance).
+- The world was being divided into these two camps. India's leadership was determined to carve its own path and not be a pawn in the games of these powerful blocs.
+
+### The Policy of Non-Alignment (NAM)
+- **What is it?:** Non-Alignment was the cornerstone of India's foreign policy. It meant staying away from the military alliances formed by the USA and the USSR. **Jawaharlal Nehru**, as the first Prime Minister and Foreign Minister, was the chief architect of this policy.
+- **Why did India adopt it?:**
+- - **To protect sovereignty:** By not joining either bloc, India could make its own decisions without pressure from a superpower.
+- - **To focus on development:** India's priority was to overcome poverty and develop its economy, not get entangled in military conflicts.
+- - **To play an active role:** Non-alignment was not about isolation. It was about actively participating in world affairs to reduce Cold War tensions and promote peace. India often tried to mediate between the two blocs.
+- **The Bandung Conference (1955):** This Afro-Asian conference was a key moment in the establishment of the Non-Aligned Movement. The first NAM summit was held in **Belgrade in 1961**.
+- **Criticism:** India's policy was sometimes criticized for being inconsistent. For instance, India signed a **Treaty of Friendship with the Soviet Union in 1971** for 20 years, which some saw as a departure from non-alignment. India's stance was that this was necessary for national interest, especially given the context of the Bangladesh war and growing US-Pakistan-China ties.
+
+### Relations with China
+- **Initial Friendship:** In the beginning, India and China had a friendly relationship, based on the slogan **'Hindi-Chini Bhai-Bhai'** (Indians and Chinese are brothers).
+- **Panchsheel (1954):** Nehru and Chinese Premier Zhou Enlai signed the **Panchsheel Agreement**, the Five Principles of Peaceful Coexistence. This was meant to be the bedrock of their relationship.
+- **The Tibet Issue:** The relationship soured when China annexed Tibet in 1950. When the Dalai Lama was given asylum in India in 1959, China accused India of interfering in its internal affairs.
+- **The Border Dispute:** The main conflict was over the border. China claimed Aksai Chin in Ladakh and a large part of Arunachal Pradesh.
+- **The 1962 War:** China launched a swift and massive invasion in October 1962 on both disputed fronts. The Indian army was unprepared and suffered a major defeat. This war had a lasting impact:
+- - It shattered Nehru's image and India's international prestige.
+- - India's military underwent significant modernization.
+- - Relations with China remained strained for a very long time. It was only in the late 1980s that diplomatic relations began to improve.
+
+### Relations with Pakistan
+- **Conflict from the start:** The relationship has been marked by conflict and suspicion right from the partition, especially over the issue of **Kashmir**.
+- **The 1947-48 War:** This was the first conflict over Kashmir, which led to the division of the state into Pakistan-occupied Kashmir (PoK) and the Indian state of Jammu and Kashmir, with the Line of Control (LoC) between them.
+- **The 1965 War:** A second war was fought over Kashmir. The war ended in a stalemate, followed by the **Tashkent Agreement** in 1966, mediated by the Soviet Union.
+- **The 1971 War and the Birth of Bangladesh:**
+- - The conflict began due to internal problems in Pakistan. The people of East Pakistan (now Bangladesh) were protesting against unfair treatment by West Pakistan.
+- - Pakistan's military launched a brutal crackdown, leading to a massive refugee crisis in India.
+- - India supported the freedom struggle of Bangladesh and, after Pakistan attacked Indian airbases, a full-scale war broke out in December 1971.
+- - The Indian army won a decisive victory, leading to the creation of Bangladesh. This was followed by the **Shimla Agreement** between Indira Gandhi and Zulfikar Ali Bhutto in 1972.
+- **The Kargil Conflict (1999):** Pakistani forces captured several strategic high points on the Indian side of the LoC in the Kargil sector. This led to a conflict which India won, reclaiming the occupied territories.
+
+### India's Nuclear Policy
+- India's nuclear policy has been guided by the principle of **'No First Use'**.
+- India has always argued for a nuclear-free world but also insisted that this should be universal and non-discriminatory. India refused to sign the Nuclear Non-Proliferation Treaty (NPT) of 1968, calling it discriminatory.
+- **First Nuclear Test (1974):** India conducted its first nuclear test, terming it a 'peaceful explosion'.
+- **Second Nuclear Tests (1998):** India conducted a series of nuclear tests at Pokhran, demonstrating its capacity to build nuclear weapons. This led to international sanctions but also established India as a nuclear power.
+`
     },
     hi: {
       title: 'अध्याय 4: भारत के विदेश संबंध',
-      content: 'यह अध्याय भारत की विदेश नीति के सिद्धांतों और अन्य देशों के साथ इसके संबंधों का अवलोकन प्रदान करता है, विशेष रूप से शीत युद्ध के युग के दौरान।'
+      content: `### अंतर्राष्ट्रीय संदर्भ
+- भारत का जन्म एक बहुत ही चुनौतीपूर्ण अंतर्राष्ट्रीय संदर्भ में हुआ था, जो द्वितीय विश्व युद्ध की तबाही और दो महाशक्तियों: संयुक्त राज्य अमेरिका (पश्चिमी गठबंधन का नेतृत्व) और सोवियत संघ (पूर्वी गठबंधन का नेतृत्व) के बीच **शीत युद्ध** की शुरुआत से चिह्नित था।
+- दुनिया इन दो खेमों में बंट रही थी। भारत का नेतृत्व अपना रास्ता खुद बनाने और इन शक्तिशाली गुटों के खेल में एक मोहरा न बनने के लिए दृढ़ था।
+
+### गुटनिरपेक्षता की नीति (NAM)
+- **यह क्या है?:** गुटनिरपेक्षता भारत की विदेश नीति का आधार थी। इसका मतलब संयुक्त राज्य अमेरिका और सोवियत संघ द्वारा बनाए गए सैन्य गठबंधनों से दूर रहना था। पहले प्रधानमंत्री और विदेश मंत्री के रूप में **जवाहरलाल नेहरू** इस नीति के मुख्य वास्तुकार थे।
+- **भारत ने इसे क्यों अपनाया?:**
+- - **संप्रभुता की रक्षा के लिए:** किसी भी गुट में शामिल न होकर, भारत एक महाशक्ति के दबाव के बिना अपने फैसले खुद कर सकता था।
+- - **विकास पर ध्यान केंद्रित करने के लिए:** भारत की प्राथमिकता गरीबी को दूर करना और अपनी अर्थव्यवस्था का विकास करना था, न कि सैन्य संघर्षों में उलझना।
+- - **एक सक्रिय भूमिका निभाने के लिए:** गुटनिरपेक्षता अलगाव के बारे में नहीं थी। यह शीत युद्ध के तनाव को कम करने और शांति को बढ़ावा देने के लिए विश्व मामलों में सक्रिय रूप से भाग लेने के बारे में थी। भारत ने अक्सर दोनों गुटों के बीच मध्यस्थता करने की कोशिश की।
+- **बांडुंग सम्मेलन (1955):** यह एफ्रो-एशियाई सम्मेलन गुटनिरपेक्ष आंदोलन की स्थापना में एक महत्वपूर्ण क्षण था। पहला NAM शिखर सम्मेलन **1961 में बेलग्रेड** में आयोजित किया गया था।
+- **आलोचना:** भारत की नीति की कभी-कभी असंगत होने के लिए आलोचना की जाती थी। उदाहरण के लिए, भारत ने 20 वर्षों के लिए **1971 में सोवियत संघ के साथ मैत्री संधि** पर हस्ताक्षर किए, जिसे कुछ लोगों ने गुटनिरपेक्षता से विचलन के रूप में देखा। भारत का रुख यह था कि यह राष्ट्रीय हित के लिए आवश्यक था, विशेष रूप से बांग्लादेश युद्ध और बढ़ते अमेरिका-पाकिस्तान-चीन संबंधों के संदर्भ में।
+
+### चीन के साथ संबंध
+- **प्रारंभिक मित्रता:** शुरुआत में, भारत और चीन के बीच **'हिंदी-चीनी भाई-भाई'** के नारे पर आधारित एक दोस्ताना रिश्ता था।
+- **पंचशील (1954):** नेहरू और चीनी प्रधानमंत्री झोउ एनलाई ने **पंचशील समझौते** पर हस्ताक्षर किए, जो शांतिपूर्ण सह-अस्तित्व के पांच सिद्धांत थे। यह उनके संबंधों का आधार बनने वाला था।
+- **तिब्बत मुद्दा:** जब चीन ने 1950 में तिब्बत पर कब्जा कर लिया तो संबंध खराब हो गए। जब 1959 में दलाई लामा को भारत में शरण दी गई, तो चीन ने भारत पर अपने आंतरिक मामलों में हस्तक्षेप करने का आरोप लगाया।
+- **सीमा विवाद:** मुख्य संघर्ष सीमा को लेकर था। चीन ने लद्दाख में अक्साई चिन और अरुणाचल प्रदेश के एक बड़े हिस्से पर दावा किया।
+- **1962 का युद्ध:** चीन ने अक्टूबर 1962 में दोनों विवादित मोर्चों पर एक तेज और बड़े पैमाने पर आक्रमण किया। भारतीय सेना तैयार नहीं थी और उसे एक बड़ी हार का सामना करना पड़ा। इस युद्ध का एक स्थायी प्रभाव पड़ा:
+- - इसने नेहरू की छवि और भारत की अंतर्राष्ट्रीय प्रतिष्ठा को चकनाचूर कर दिया।
+- - भारत की सेना का महत्वपूर्ण आधुनिकीकरण हुआ।
+- - चीन के साथ संबंध बहुत लंबे समय तक तनावपूर्ण बने रहे। 1980 के दशक के अंत में ही राजनयिक संबंधों में सुधार शुरू हुआ।
+
+### पाकिस्तान के साथ संबंध
+- **शुरुआत से ही संघर्ष:** विभाजन के ठीक बाद से, विशेष रूप से **कश्मीर** के मुद्दे पर, संबंध संघर्ष और संदेह से चिह्नित रहे हैं।
+- **1947-48 का युद्ध:** यह कश्मीर पर पहला संघर्ष था, जिसके कारण राज्य को पाकिस्तान के कब्जे वाले कश्मीर (PoK) और भारतीय राज्य जम्मू और कश्मीर में विभाजित किया गया, जिसके बीच नियंत्रण रेखा (LoC) थी।
+- **1965 का युद्ध:** कश्मीर पर दूसरा युद्ध लड़ा गया। युद्ध एक गतिरोध में समाप्त हुआ, जिसके बाद 1966 में सोवियत संघ की मध्यस्थता में **ताशकंद समझौता** हुआ।
+- **1971 का युद्ध और बांग्लादेश का जन्म:**
+- - यह संघर्ष पाकिस्तान की आंतरिक समस्याओं के कारण शुरू हुआ। पूर्वी पाकिस्तान (अब बांग्लादेश) के लोग पश्चिमी पाकिस्तान द्वारा अनुचित व्यवहार के खिलाफ विरोध कर रहे थे।
+- - पाकिस्तान की सेना ने एक क्रूर कार्रवाई की, जिससे भारत में एक बड़ा शरणार्थी संकट पैदा हो गया।
+- - भारत ने बांग्लादेश के स्वतंत्रता संग्राम का समर्थन किया और पाकिस्तान द्वारा भारतीय हवाई अड्डों पर हमला करने के बाद, दिसंबर 1971 में एक पूर्ण पैमाने पर युद्ध छिड़ गया।
+- - भारतीय सेना ने एक निर्णायक जीत हासिल की, जिससे बांग्लादेश का निर्माण हुआ। इसके बाद 1972 में इंदिरा गांधी और जुल्फिकार अली भुट्टो के बीच **शिमला समझौता** हुआ।
+- **कारगिल संघर्ष (1999):** पाकिस्तानी सेना ने कारगिल क्षेत्र में LoC के भारतीय हिस्से में कई रणनीतिक ऊंचाइयों पर कब्जा कर लिया। इससे एक संघर्ष हुआ जिसे भारत ने जीता, और कब्जे वाले क्षेत्रों को पुनः प्राप्त किया।
+
+### भारत की परमाणु नीति
+- भारत की परमाणु नीति **'पहले उपयोग नहीं'** के सिद्धांत द्वारा निर्देशित की गई है।
+- भारत ने हमेशा परमाणु मुक्त दुनिया के लिए तर्क दिया है, लेकिन इस बात पर भी जोर दिया है कि यह सार्वभौमिक और गैर-भेदभावपूर्ण होना चाहिए। भारत ने 1968 की परमाणु अप्रसार संधि (NPT) पर हस्ताक्षर करने से इनकार कर दिया, इसे भेदभावपूर्ण बताया।
+- **पहला परमाणु परीक्षण (1974):** भारत ने अपना पहला परमाणु परीक्षण किया, इसे 'शांतिपूर्ण विस्फोट' करार दिया।
+- **दूसरा परमाणु परीक्षण (1998):** भारत ने पोखरण में कई परमाणु परीक्षण किए, जिससे परमाणु हथियार बनाने की अपनी क्षमता का प्रदर्शन हुआ। इससे अंतर्राष्ट्रीय प्रतिबंध लगे लेकिन भारत को एक परमाणु शक्ति के रूप में भी स्थापित किया गया।
+`
     }
   },
   'challenges-to-and-restoration-of-the-congress-system': {
