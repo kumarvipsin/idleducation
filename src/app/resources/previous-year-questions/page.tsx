@@ -66,21 +66,34 @@ const papersByExam: { [key: string]: Paper[] } = {
 
 const examCategories = Object.keys(papersByExam);
 
+type GroupedPapers = {
+  [year: number]: {
+    [subject: string]: Paper[];
+  };
+};
+
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredPapers = papersByExam[selectedExam]?.filter(paper =>
-    paper.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    paper.year.toString().includes(searchTerm)
-  );
+  const papersGrouped: GroupedPapers = papersByExam[selectedExam]
+    ?.filter(paper => 
+        paper.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        paper.year.toString().includes(searchTerm)
+    )
+    .reduce((acc, paper) => {
+        const { year, subject } = paper;
+        if (!acc[year]) {
+            acc[year] = {};
+        }
+        if (!acc[year][subject]) {
+            acc[year][subject] = [];
+        }
+        acc[year][subject].push(paper);
+        return acc;
+    }, {} as GroupedPapers);
 
-  const papersGroupedByYear = filteredPapers?.reduce((acc, paper) => {
-    (acc[paper.year] = acc[paper.year] || []).push(paper);
-    return acc;
-  }, {} as Record<number, Paper[]>);
-
-  const sortedYears = papersGroupedByYear ? Object.keys(papersGroupedByYear).map(Number).sort((a, b) => b - a) : [];
+  const sortedYears = papersGrouped ? Object.keys(papersGrouped).map(Number).sort((a, b) => b - a) : [];
   
   const defaultAccordionValue = sortedYears.length > 0 ? [`year-${sortedYears[0]}`] : [];
 
@@ -148,22 +161,27 @@ export default function PreviousYearQuestionsPage() {
                                             <TableHeader>
                                                 <TableRow>
                                                     <TableHead>Subject</TableHead>
-                                                    <TableHead>Title / Set</TableHead>
-                                                    <TableHead className="text-right">Action</TableHead>
+                                                    <TableHead>Sets / Papers Available</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
-                                                {papersGroupedByYear[year].map((paper, index) => (
-                                                    <TableRow key={`${paper.subject}-${paper.year}-${paper.title}-${index}`}>
-                                                        <TableCell className="font-medium">{paper.subject}</TableCell>
-                                                        <TableCell>{paper.title}</TableCell>
-                                                        <TableCell className="text-right">
-                                                            <Button asChild size="sm">
-                                                                <Link href={paper.href}>
-                                                                    <Download className="mr-2 h-4 w-4" />
-                                                                    Download
-                                                                </Link>
-                                                            </Button>
+                                               {Object.entries(papersGrouped[year]).map(([subject, papers]) => (
+                                                    <TableRow key={subject}>
+                                                        <TableCell className="font-medium align-top py-4">{subject}</TableCell>
+                                                        <TableCell>
+                                                            <div className="flex flex-col gap-2 items-start">
+                                                                {papers.map((paper, index) => (
+                                                                    <div key={index} className="flex items-center justify-between w-full">
+                                                                        <span>{paper.title}</span>
+                                                                        <Button asChild size="sm" variant="outline">
+                                                                            <Link href={paper.href}>
+                                                                                <Download className="mr-2 h-4 w-4" />
+                                                                                Download
+                                                                            </Link>
+                                                                        </Button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}
