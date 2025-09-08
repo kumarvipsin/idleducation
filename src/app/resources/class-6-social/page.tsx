@@ -29,6 +29,12 @@ const class6SocialResources = {
       chapters: [
         { name: "Chapter 1: The Earth in the Solar System", slug: "the-earth-in-the-solar-system" },
         { name: "Chapter 2: Globe: Latitudes and Longitudes", slug: "globe-latitudes-and-longitudes" },
+        { name: "Chapter 3: Motions of the Earth", slug: "motions-of-the-earth" },
+        { name: "Chapter 4: Maps", slug: "maps" },
+        { name: "Chapter 5: Major Domains of the Earth", slug: "major-domains-of-the-earth" },
+        { name: "Chapter 6: Major Landforms of the Earth", slug: "major-landforms-of-the-earth" },
+        { name: "Chapter 7: Our Country - India", slug: "our-country-india" },
+        { name: "Chapter 8: India: Climate, Vegetation and Wildlife", slug: "india-climate-vegetation-and-wildlife" },
       ],
     },
     {
