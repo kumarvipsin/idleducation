@@ -292,19 +292,19 @@ export default function PreviousYearQuestionsPage() {
               </Button>
             )}
         </div>
-        <Card>
-            <CardHeader>
+        <Card className="shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
                 <CardTitle>Available Papers for {selectedExam}</CardTitle>
-                <CardDescription>Click on a subject to expand and view the question papers.</CardDescription>
+                <CardDescription className="text-primary-foreground/80">Click on a subject to expand and view the question papers.</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
                 {sortedSubjects.length > 0 ? (
                     <Accordion type="multiple" defaultValue={defaultAccordionValue} className="w-full space-y-2">
                         {sortedSubjects.map((subject) => {
                            const yearsForSubject = Object.keys(papersGrouped[subject]).map(Number).sort((a, b) => b - a);
                            return (
                             <AccordionItem value={`subject-${subject}`} key={subject} className="border rounded-lg shadow-sm bg-background/50">
-                                <AccordionTrigger className="font-semibold text-lg p-4 hover:no-underline">
+                                <AccordionTrigger className="font-semibold text-lg p-4 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=open]:bg-muted/50">
                                     {subject}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-0">
