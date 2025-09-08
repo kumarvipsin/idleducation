@@ -43,6 +43,13 @@ const class6SocialResources = {
       chapters: [
         { name: "Chapter 1: Understanding Diversity", slug: "understanding-diversity" },
         { name: "Chapter 2: Diversity and Discrimination", slug: "diversity-and-discrimination" },
+        { name: "Chapter 3: What is Government?", slug: "what-is-government" },
+        { name: "Chapter 4: Key Elements of a Democratic Government", slug: "key-elements-of-a-democratic-government" },
+        { name: "Chapter 5: Panchayati Raj", slug: "panchayati-raj" },
+        { name: "Chapter 6: Rural Administration", slug: "rural-administration" },
+        { name: "Chapter 7: Urban Administration", slug: "urban-administration" },
+        { name: "Chapter 8: Rural Livelihoods", slug: "rural-livelihoods" },
+        { name: "Chapter 9: Urban Livelihoods", slug: "urban-livelihoods" },
       ],
     },
   ],
