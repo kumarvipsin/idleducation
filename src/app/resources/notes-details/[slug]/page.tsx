@@ -748,6 +748,550 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
   },
+'components-of-food': {
+    en: {
+      title: 'Chapter 2: Components of Food',
+      content: `### What do different food items contain?
+- **Nutrients:** The components of food that our body needs to grow, to get energy, and to stay healthy.
+- **Major Nutrients:** Carbohydrates, Proteins, Fats, Vitamins, and Minerals.
+- **Other Components:** Food also contains dietary fibres and water which are also needed by our body.
+
+### Carbohydrates, Fats, and Proteins
+- **Carbohydrates:** Mainly provide energy to our body. Found in bread, potatoes, rice, and fruits.
+- **Fats:** Also provide energy, in fact, much more than carbohydrates. Found in oil, ghee, butter, and nuts.
+- **Proteins:** Needed for the growth and repair of our body. Often called ‘body building’ foods. Found in pulses, milk, eggs, and meat.
+
+### Vitamins and Minerals
+- **Vitamins:** Help in protecting our body against diseases. They also help in keeping our eyes, bones, teeth, and gums healthy.
+- - **Examples:** Vitamin A (keeps skin and eyes healthy), Vitamin C (helps body to fight against many diseases), Vitamin D (helps our body to use calcium for bones and teeth).
+- **Minerals:** Needed by our body in small amounts for proper growth and to maintain good health.
+- - **Examples:** Iodine, Phosphorus, Iron, Calcium.
+
+### Balanced Diet
+- **Balanced Diet:** A diet that contains all the nutrients that our body needs, in right quantities, along with a good amount of roughage and water.
+- **Deficiency Diseases:** Diseases that occur due to the lack of nutrients over a long period are called deficiency diseases.
+`
+    },
+    hi: {
+      title: 'अध्याय 2: भोजन के घटक',
+      content: `### विभिन्न खाद्य पदार्थों में क्या होता है?
+- **पोषक तत्व:** भोजन के वे घटक जिनकी हमारे शरीर को वृद्धि, ऊर्जा प्राप्त करने और स्वस्थ रहने के लिए आवश्यकता होती है।
+- **मुख्य पोषक तत्व:** कार्बोहाइड्रेट, प्रोटीन, वसा, विटामिन और खनिज।
+- **अन्य घटक:** भोजन में आहारी रेशे और पानी भी होते हैं जिनकी हमारे शरीर को आवश्यकता होती है।
+
+### कार्बोहाइड्रेट, वसा और प्रोटीन
+- **कार्बोहाइड्रेट:** मुख्य रूप से हमारे शरीर को ऊर्जा प्रदान करते हैं। रोटी, आलू, चावल और फलों में पाए जाते हैं।
+- **वसा:** ऊर्जा भी प्रदान करते हैं, वास्तव में, कार्बोहाइड्रेट से बहुत अधिक। तेल, घी, मक्खन और मेवों में पाए जाते हैं।
+- **प्रोटीन:** हमारे शरीर की वृद्धि और मरम्मत के लिए आवश्यक हैं। इन्हें अक्सर 'शरीर सौष्ठव' खाद्य पदार्थ कहा जाता है। दालों, दूध, अंडे और मांस में पाए जाते हैं।
+
+### विटामिन और खनिज
+- **विटामिन:** हमारे शरीर को रोगों से बचाने में मदद करते हैं। वे हमारी आँखों, हड्डियों, दाँतों और मसूड़ों को स्वस्थ रखने में भी मदद करते हैं।
+- - **उदाहरण:** विटामिन ए (त्वचा और आँखों को स्वस्थ रखता है), विटामिन सी (शरीर को कई बीमारियों से लड़ने में मदद करता है), विटामिन डी (हमारे शरीर को हड्डियों और दाँतों के लिए कैल्शियम का उपयोग करने में मदद करता है)।
+- **खनिज:** हमारे शरीर को उचित वृद्धि और अच्छे स्वास्थ्य को बनाए रखने के लिए कम मात्रा में आवश्यक हैं।
+- - **उदाहरण:** आयोडीन, फास्फोरस, लोहा, कैल्शियम।
+
+### संतुलित आहार
+- **संतुलित आहार:** एक ऐसा आहार जिसमें वे सभी पोषक तत्व होते हैं जिनकी हमारे शरीर को आवश्यकता होती है, सही मात्रा में, साथ ही अच्छी मात्रा में रूक्षांश और पानी भी होता है।
+- **अभावजन्य रोग:** वे रोग जो लंबे समय तक पोषक तत्वों की कमी के कारण होते हैं, अभावजन्य रोग कहलाते हैं।
+`
+    }
+},
+'fibre-to-fabric': {
+    en: {
+      title: 'Chapter 3: Fibre to Fabric',
+      content: `### Variety in Fabrics
+- Fabrics are made up of yarns and yarns are further made up of fibres.
+
+### Fibres
+- **Natural Fibres:** The fibres which are obtained from plants and animals.
+- - **Plant Fibres:** Cotton (from cotton bolls), Jute (from the stem of the jute plant).
+- - **Animal Fibres:** Wool (from the fleece of sheep or goat), Silk (from the cocoon of silkworm).
+- **Synthetic Fibres:** Fibres made from chemical substances.
+- - **Examples:** Polyester, Nylon, Acrylic.
+
+### Some Plant Fibres
+- **Cotton:** Grown in fields. The fruits of the cotton plant (cotton bolls) are about the size of a lemon. After maturing, the bolls burst open and the seeds covered with cotton fibres can be seen.
+- - **Ginning:** The process of separating fibres from the seeds by combing.
+- **Jute:** Obtained from the stem of the jute plant. It is cultivated during the rainy season. The stems of the harvested plants are immersed in water for a few days. The stems rot and fibres are separated by hand.
+
+### Spinning Cotton Yarn
+- **Spinning:** The process of making yarn from fibres.
+- - In this process, fibres from a mass of cotton wool are drawn out and twisted. This brings the fibres together to form a yarn.
+- - Devices used for spinning: Hand spindle (takli) and spinning wheel (charkha).
+
+### Yarn to Fabric
+- **Weaving:** The process of arranging two sets of yarns together to make a fabric. It is done on looms.
+- **Knitting:** A single yarn is used to make a piece of fabric. It can be done by hand or on machines.
+`
+    },
+    hi: {
+      title: 'अध्याय 3: तंतु से वस्त्र तक',
+      content: `### वस्त्रों में विविधता
+- वस्त्र धागों से बनते हैं और धागे आगे तंतुओं से बनते हैं।
+
+### तंतु
+- **प्राकृतिक तंतु:** वे तंतु जो पौधों और जानवरों से प्राप्त होते हैं।
+- - **पादप तंतु:** कपास (कपास के गोलों से), जूट (जूट के पौधे के तने से)।
+- - **जांतव तंतु:** ऊन (भेड़ या बकरी के ऊन से), रेशम (रेशमकीट के कोकून से)।
+- **संश्लिष्ट तंतु:** रासायनिक पदार्थों से बने तंतु।
+- - **उदाहरण:** पॉलिएस्टर, नायलॉन, ऐक्रेलिक।
+
+### कुछ पादप तंतु
+- **कपास:** खेतों में उगाया जाता है। कपास के पौधे के फल (कपास गोलक) लगभग नींबू के आकार के होते हैं। परिपक्व होने के बाद, गोले फट जाते हैं और कपास के तंतुओं से ढके बीज देखे जा सकते हैं।
+- - **ओटना:** कंघी करके बीजों से तंतुओं को अलग करने की प्रक्रिया।
+- **जूट:** जूट के पौधे के तने से प्राप्त होता है। इसकी खेती बरसात के मौसम में की जाती है। कटी हुई पौधों के तनों को कुछ दिनों के लिए पानी में डुबोया जाता है। तने सड़ जाते हैं और तंतुओं को हाथ से अलग किया जाता है।
+
+### सूती धागे की कताई
+- **कताई:** तंतुओं से धागा बनाने की प्रक्रिया।
+- - इस प्रक्रिया में, रूई के एक पुंज से रेशों को निकालकर ऐंठा जाता है। इससे रेशे एक साथ मिलकर धागा बनाते हैं।
+- - कताई के लिए उपयोग किए जाने वाले उपकरण: तकली और चरखा।
+
+### धागे से वस्त्र
+- **बुनाई:** वस्त्र बनाने के लिए धागों के दो सेटों को एक साथ व्यवस्थित करने की प्रक्रिया। यह करघों पर किया जाता है।
+- **बुनाई:** एक ही धागे का उपयोग करके वस्त्र का एक टुकड़ा बनाया जाता है। यह हाथ से या मशीनों पर किया जा सकता है।
+`
+    }
+},
+'sorting-materials-into-groups': {
+    en: {
+      title: 'Chapter 4: Sorting Materials into Groups',
+      content: `### Objects Around Us
+- We see a large variety of objects around us. They have different shapes, colours and uses.
+- Objects are made of one or more materials. These materials may be glass, metal, plastics, wood, cotton, paper, mud or soil.
+
+### Properties of Materials
+- We group objects based on their properties.
+- **Appearance:** Materials can look different from each other. Some are shiny (lustre), others are not. Ex: Metals are generally lustrous.
+- **Hardness:** Materials can be hard or soft. Hard materials are difficult to compress, while soft materials can be compressed easily. Ex: Iron is hard, cotton is soft.
+- **Soluble or Insoluble:** Some substances completely disappear or dissolve in water (soluble), while others do not (insoluble). Ex: Salt is soluble, sand is insoluble.
+- **Float or Sink:** Some materials float on water, while others sink. Ex: Wood floats, a stone sinks.
+- **Transparency:**
+- - **Transparent:** Substances or materials through which things can be seen clearly. Ex: Glass, water.
+- - **Opaque:** Substances through which you are not able to see. Ex: Wood, cardboard.
+- - **Translucent:** Materials through which objects can be seen, but not clearly. Ex: Butter paper.
+`
+    },
+    hi: {
+      title: 'अध्याय 4: वस्तुओं के समूह बनाना',
+      content: `### हमारे चारों ओर की वस्तुएँ
+- हम अपने चारों ओर विभिन्न प्रकार की वस्तुएँ देखते हैं। उनके अलग-अलग आकार, रंग और उपयोग होते हैं।
+- वस्तुएँ एक या एक से अधिक पदार्थों से बनी होती हैं। ये पदार्थ कांच, धातु, प्लास्टिक, लकड़ी, कपास, कागज, कीचड़ या मिट्टी हो सकते हैं।
+
+### पदार्थों के गुण
+- हम वस्तुओं को उनके गुणों के आधार पर समूहित करते हैं।
+- **दिखावट:** पदार्थ एक दूसरे से अलग दिख सकते हैं। कुछ चमकदार (द्युति) होते हैं, अन्य नहीं। उदा: धातुएँ आमतौर पर चमकदार होती हैं।
+- **कठोरता:** पदार्थ कठोर या नरम हो सकते हैं। कठोर पदार्थों को संपीड़ित करना मुश्किल होता है, जबकि नरम पदार्थों को आसानी से संपीड़ित किया जा सकता है। उदा: लोहा कठोर है, कपास नरम है।
+- **विलेय या अविलेय:** कुछ पदार्थ पानी में पूरी तरह से गायब हो जाते हैं या घुल जाते हैं (विलेय), जबकि अन्य नहीं होते (अविलेय)। उदा: नमक विलेय है, रेत अविलेय है।
+- **तैरना या डूबना:** कुछ पदार्थ पानी पर तैरते हैं, जबकि अन्य डूब जाते हैं। उदा: लकड़ी तैरती है, पत्थर डूब जाता है।
+- **पारदर्शिता:**
+- - **पारदर्शी:** वे पदार्थ जिनसे वस्तुएँ स्पष्ट रूप से देखी जा सकती हैं। उदा: कांच, पानी।
+- - **अपारदर्शी:** वे पदार्थ जिनसे आप देख नहीं सकते। उदा: लकड़ी, गत्ता।
+- - **पारभासी:** वे पदार्थ जिनसे वस्तुएँ देखी जा सकती हैं, लेकिन स्पष्ट रूप से नहीं। उदा: बटर पेपर।
+`
+    }
+},
+'separation-of-substances': {
+    en: {
+      title: 'Chapter 5: Separation of Substances',
+      content: `### Why do we separate substances?
+- To remove impurities or harmful components.
+- To separate two different but useful components.
+- To obtain a pure sample of a substance.
+
+### Methods of Separation
+- **Handpicking:** This method can be used for separating slightly larger sized impurities like pieces of dirt, stone, and husk from wheat, rice or pulses.
+- **Threshing:** The process that is used to separate grain from stalks etc.
+- **Winnowing:** This method is used to separate heavier and lighter components of a mixture by wind or by blowing air.
+- **Sieving:** Sieving is used when components of a mixture have different sizes. A sieve with suitable pore size is used.
+- **Sedimentation, Decantation and Filtration:**
+- - **Sedimentation:** When the heavier component in a mixture settles after water is added to it, the process is called sedimentation.
+- - **Decantation:** When the water (along with the dust) is removed, the process is called decantation.
+- - **Filtration:** The process of separating insoluble solid particles from a liquid by passing it through a filter.
+- **Evaporation:** The process of conversion of water into its vapour is called evaporation. This can be used to separate a solid dissolved in a liquid.
+- **Condensation:** The process of conversion of water vapour into its liquid form is called condensation.
+`
+    },
+    hi: {
+      title: 'अध्याय 5: पदार्थों का पृथक्करण',
+      content: `### हम पदार्थों को क्यों अलग करते हैं?
+- अशुद्धियों या हानिकारक घटकों को हटाने के लिए।
+- दो अलग-अलग लेकिन उपयोगी घटकों को अलग करने के लिए।
+- किसी पदार्थ का शुद्ध नमूना प्राप्त करने के लिए।
+
+### पृथक्करण की विधियाँ
+- **हस्तचयन:** इस विधि का उपयोग गेहूं, चावल या दालों से गंदगी, पत्थर और भूसी जैसे थोड़े बड़े आकार की अशुद्धियों को अलग करने के लिए किया जा सकता है।
+- **थ्रेशिंग:** वह प्रक्रिया जिसका उपयोग अनाज को डंठल आदि से अलग करने के लिए किया जाता है।
+- **निष्पावन:** इस विधि का उपयोग हवा या बहती हवा द्वारा मिश्रण के भारी और हल्के घटकों को अलग करने के लिए किया जाता है।
+- **चालन:** चालन का उपयोग तब किया जाता है जब मिश्रण के घटकों के आकार अलग-अलग होते हैं। उपयुक्त छिद्र आकार की छलनी का उपयोग किया जाता है।
+- **अवसादन, निस्तारण और निस्यंदन:**
+- - **अवसादन:** जब किसी मिश्रण में भारी घटक पानी मिलाने के बाद नीचे बैठ जाता है, तो इस प्रक्रिया को अवसादन कहते हैं।
+- - **निस्तारण:** जब पानी (धूल के साथ) को हटा दिया जाता है, तो इस प्रक्रिया को निस्तारण कहते हैं।
+- - **निस्यंदन:** एक फिल्टर से गुजारकर एक तरल से अघुलनशील ठोस कणों को अलग करने की प्रक्रिया।
+- **वाष्पीकरण:** पानी के वाष्प में बदलने की प्रक्रिया को वाष्पीकरण कहते हैं। इसका उपयोग किसी तरल में घुले ठोस को अलग करने के लिए किया जा सकता है।
+- **संघनन:** जल वाष्प के उसके तरल रूप में बदलने की प्रक्रिया को संघनन कहते हैं।
+`
+    }
+},
+'changes-around-us': {
+    en: {
+      title: 'Chapter 6: Changes Around Us',
+      content: `### Can all changes be reversed?
+- **Reversible Changes:** Changes that can be reversed to bring back the original substance.
+- - **Example:** Melting of ice into water. Water can be frozen back to ice. Folding a paper.
+- **Irreversible Changes:** Changes that cannot be reversed.
+- - **Example:** Burning of paper. Cooking of food. Growth of a plant.
+
+### Could there be other ways to bring a change?
+- **Expansion and Contraction:**
+- - **Expansion:** The increase in size of an object on heating.
+- - **Contraction:** The decrease in size of an object on cooling.
+- - This property is used in fixing a metal rim on a wooden wheel. The metal rim is made slightly smaller than the wooden wheel. On heating, the rim expands and fits onto the wheel. On cooling, it contracts and fits tightly.
+- **Melting:** The process in which a solid changes into a liquid on heating.
+- **Evaporation:** The process in which a liquid changes into a gas.
+`
+    },
+    hi: {
+      title: 'अध्याय 6: हमारे चारों ओर के परिवर्तन',
+      content: `### क्या सभी परिवर्तन उत्क्रमित किए जा सकते हैं?
+- **उत्क्रमणीय परिवर्तन:** वे परिवर्तन जिन्हें मूल पदार्थ को वापस लाने के लिए उत्क्रमित किया जा सकता है।
+- - **उदाहरण:** बर्फ का पानी में पिघलना। पानी को वापस बर्फ में जमाया जा सकता है। कागज को मोड़ना।
+- **अनुत्क्रमणीय परिवर्तन:** वे परिवर्तन जिन्हें उत्क्रमित नहीं किया जा सकता है।
+- - **उदाहरण:** कागज का जलना। भोजन का पकना। एक पौधे की वृद्धि।
+
+### क्या परिवर्तन लाने के अन्य तरीके हो सकते हैं?
+- **प्रसार और संकुचन:**
+- - **प्रसार:** गर्म करने पर किसी वस्तु के आकार में वृद्धि।
+- - **संकुचन:** ठंडा करने पर किसी वस्तु के आकार में कमी।
+- - इस गुण का उपयोग लकड़ी के पहिये पर धातु का रिम लगाने में किया जाता है। धातु का रिम लकड़ी के पहिये से थोड़ा छोटा बनाया जाता है। गर्म करने पर, रिम फैलता है और पहिये पर फिट हो जाता है। ठंडा होने पर, यह सिकुड़ता है और कसकर फिट हो जाता है।
+- **गलन:** वह प्रक्रिया जिसमें कोई ठोस गर्म करने पर द्रव में बदल जाता है।
+- **वाष्पीकरण:** वह प्रक्रिया जिसमें कोई द्रव गैस में बदल जाता है।
+`
+    }
+},
+'getting-to-know-plants': {
+    en: {
+      title: 'Chapter 7: Getting to Know Plants',
+      content: `### Herbs, Shrubs and Trees
+- **Herbs:** Plants with green and tender stems. They are usually short and may not have many branches.
+- **Shrubs:** Some plants have the stem branching out near the base. The stem is hard but not very thick.
+- **Trees:** Some plants are very tall and have a hard and thick brown stem. The stems have branches in the upper part, much above the ground.
+
+### Stem and Leaf
+- **Stem:** Conducts water from roots to the leaves and other parts and food from leaves to other parts of the plant.
+- **Leaf:**
+- - **Petiole:** The part of a leaf by which it is attached to the stem.
+- - **Lamina:** The broad, green part of the leaf.
+- - **Veins:** Lines on the leaf.
+- - **Midrib:** A thick vein in the middle of the leaf.
+- - **Transpiration:** The process by which water comes out of leaves in the form of vapour.
+- - **Photosynthesis:** The process by which leaves prepare their food in the presence of sunlight using carbon dioxide and water.
+
+### Root
+- **Functions:** Anchor the plant to the soil, absorb water and minerals from the soil.
+- **Types of Roots:**
+- - **Tap Root:** A main root from which smaller roots, called lateral roots, arise. Ex: Carrot, Radish.
+- - **Fibrous Root:** All roots seem similar and there is no main root. Ex: Wheat, Rice.
+
+### Flower
+- **Parts of a Flower:** Sepals, Petals, Stamens, and Pistil.
+- - **Stamens:** The male part of the flower. It has an anther and a filament.
+- - **Pistil:** The innermost part of a flower. It has stigma, style, and ovary. The ovary contains ovules.
+`
+    },
+    hi: {
+      title: 'अध्याय 7: पौधों को जानिए',
+      content: `### शाक, झाड़ी और वृक्ष
+- **शाक:** हरे और कोमल तने वाले पौधे। वे आमतौर पर छोटे होते हैं और उनमें कई शाखाएँ नहीं हो सकती हैं।
+- **झाड़ी:** कुछ पौधों में तना आधार के पास से शाखित होता है। तना कठोर होता है लेकिन बहुत मोटा नहीं होता।
+- **वृक्ष:** कुछ पौधे बहुत ऊँचे होते हैं और उनका तना कठोर और मोटा भूरा होता है। तनों में ऊपरी भाग में, जमीन से बहुत ऊपर शाखाएँ होती हैं।
+
+### तना और पत्ती
+- **तना:** जड़ों से पत्तियों और अन्य भागों तक पानी और पत्तियों से पौधे के अन्य भागों तक भोजन पहुँचाता है।
+- **पत्ती:**
+- - **पर्णवृंत:** पत्ती का वह भाग जिससे वह तने से जुड़ी होती है।
+- - **पटल:** पत्ती का चौड़ा, हरा भाग।
+- - **शिराएँ:** पत्ती पर रेखाएँ।
+- - **मध्यशिरा:** पत्ती के बीच में एक मोटी शिरा।
+- - **वाष्पोत्सर्जन:** वह प्रक्रिया जिससे पानी वाष्प के रूप में पत्तियों से बाहर निकलता है।
+- - **प्रकाश संश्लेषण:** वह प्रक्रिया जिससे पत्तियाँ सूर्य के प्रकाश की उपस्थिति में कार्बन डाइऑक्साइड और पानी का उपयोग करके अपना भोजन तैयार करती हैं।
+
+### जड़
+- **कार्य:** पौधे को मिट्टी में स्थिर रखना, मिट्टी से पानी और खनिजों को अवशोषित करना।
+- **जड़ों के प्रकार:**
+- - **मूसला जड़:** एक मुख्य जड़ जिससे छोटी जड़ें निकलती हैं, जिन्हें पार्श्व जड़ें कहते हैं। उदा: गाजर, मूली।
+- - **झकड़ा जड़:** सभी जड़ें समान दिखाई देती हैं और कोई मुख्य जड़ नहीं होती है। उदा: गेहूँ, चावल।
+
+### फूल
+- **फूल के भाग:** बाह्यदल, पंखुड़ियाँ, पुंकेसर और स्त्रीकेसर।
+- - **पुंकेसर:** फूल का नर भाग। इसमें परागकोश और तंतु होता है।
+- - **स्त्रीकेसर:** फूल का सबसे भीतरी भाग। इसमें वर्तिकाग्र, वर्तिका और अंडाशय होता है। अंडाशय में बीजांड होते हैं।
+`
+    }
+},
+'body-movements': {
+    en: {
+      title: 'Chapter 8: Body Movements',
+      content: `### Human Body and its Movements
+- **Joints:** The places where two parts of our body seem to be joined together.
+- **Ball and Socket Joint:** Allows movement in all directions. Found in the shoulder and hip.
+- **Pivotal Joint:** Allows the head to move forwards and backwards, and turn to the right and left. Found where our neck joins the head.
+- **Hinge Joint:** Allows only back-and-forth movements. Found in the elbow and knee.
+- **Fixed Joint:** The bones cannot move at these joints. Found in the skull.
+
+### Skeleton
+- **Skeleton:** The framework of bones in our body which gives shape and support.
+- **Rib Cage:** The ribs join the chest bone and the backbone together to form a box. It protects the heart and lungs.
+- **Backbone:** Made up of many small bones called vertebrae. It protects the spinal cord.
+- **Shoulder Bones:** Formed by the collar bone and the shoulder blade.
+- **Pelvic Bones:** They enclose the portion of your body below the stomach.
+- **Skull:** Protects the brain.
+- **Cartilage:** Additional parts of the skeleton that are not as hard as bones and can be bent. Found in the ear and nose.
+
+### Gait of Animals
+- **Earthworm:** Moves by alternate expansion and contraction of the body using muscles. Tiny bristles on the underside of the body help in gripping the ground.
+- **Snail:** Moves with the help of a muscular foot.
+- **Cockroach:** Can walk, climb, and fly. It has three pairs of legs and two pairs of wings.
+- **Birds:** Fly in the air and walk on the ground. Their bones are hollow and light.
+- **Fish:** Has a streamlined body. Moves by forming loops on alternate sides of the body with the help of fins.
+- **Snakes:** Have a long backbone and many thin muscles. They slither on the ground in loops.
+`
+    },
+    hi: {
+      title: 'अध्याय 8: शरीर में गति',
+      content: `### मानव शरीर और उसकी गतियाँ
+- **जोड़:** वे स्थान जहाँ हमारे शरीर के दो हिस्से एक साथ जुड़े हुए प्रतीत होते हैं।
+- **कंदुक-खल्लिका संधि:** सभी दिशाओं में गति की अनुमति देता है। कंधे और कूल्हे में पाया जाता है।
+- **धुराग्र संधि:** सिर को आगे और पीछे ले जाने और दाएं और बाएं मुड़ने की अनुमति देता है। जहाँ हमारी गर्दन सिर से जुड़ती है वहाँ पाया जाता है।
+- **हिंज संधि:** केवल आगे-पीछे की गति की अनुमति देता है। कोहनी और घुटने में पाया जाता है।
+- **अचल संधि:** इन जोड़ों पर हड्डियाँ हिल नहीं सकतीं। खोपड़ी में पाया जाता है।
+
+### कंकाल
+- **कंकाल:** हमारे शरीर में हड्डियों का ढांचा जो आकार और सहारा देता है।
+- **पसली पिंजर:** पसलियाँ छाती की हड्डी और रीढ़ की हड्डी से मिलकर एक बक्सा बनाती हैं। यह हृदय और फेफड़ों की रक्षा करता है।
+- **रीढ़ की हड्डी:** कई छोटी हड्डियों से बनी होती है जिन्हें कशेरुका कहते हैं। यह मेरुरज्जु की रक्षा करती है।
+- **कंधे की हड्डियाँ:** कॉलर बोन और शोल्डर ब्लेड से बनती हैं।
+- **श्रोणि अस्थियाँ:** वे आपके पेट के नीचे के हिस्से को घेरती हैं।
+- **खोपड़ी:** मस्तिष्क की रक्षा करती है।
+- **उपास्थि:** कंकाल के अतिरिक्त भाग जो हड्डियों जितने कठोर नहीं होते और जिन्हें मोड़ा जा सकता है। कान और नाक में पाया जाता है।
+
+### जंतुओं की चाल
+- **केंचुआ:** मांसपेशियों का उपयोग करके शरीर के वैकल्पिक विस्तार और संकुचन द्वारा चलता है। शरीर के नीचे की तरफ छोटे-छोटे शूक जमीन को पकड़ने में मदद करते हैं।
+- **घोंघा:** एक पेशीय पाद की मदद से चलता है।
+- **तिलचट्टा:** चल, चढ़ और उड़ सकता है। इसके तीन जोड़ी पैर और दो जोड़ी पंख होते हैं।
+- **पक्षी:** हवा में उड़ते हैं और जमीन पर चलते हैं। उनकी हड्डियाँ खोखली और हल्की होती हैं।
+- **मछली:** इसका शरीर धारा रेखीय होता है। पंखों की मदद से शरीर के वैकल्पिक पक्षों पर लूप बनाकर चलती है।
+- **साँप:** इनकी एक लंबी रीढ़ की हड्डी और कई पतली मांसपेशियाँ होती हैं। वे लूप में जमीन पर सरकते हैं।
+`
+    }
+},
+'the-living-organisms-and-their-surroundings': {
+    en: {
+      title: 'Chapter 9: The Living Organisms and Their Surroundings',
+      content: `### Organisms and the Surroundings Where They Live
+- **Habitat:** The surroundings where an organism lives.
+- **Adaptation:** The presence of specific features or certain habits, which enable a plant or an animal to live in its particular habitat.
+
+### Journey Through Different Habitats
+- **Terrestrial Habitats:** Plants and animals that live on land.
+- - **Deserts:** Animals like rats and snakes stay in burrows deep in the sand during the day. Plants like cactus have adaptations to reduce loss of water.
+- - **Mountain Regions:** Trees are normally cone shaped and have sloping branches. Animals have thick skin or fur to protect them from cold.
+- - **Grasslands:** Animals like lions and deer have adaptations to protect themselves from predators or to catch their prey.
+- **Aquatic Habitats:** Plants and animals that live in water.
+- - **Oceans:** Most organisms have streamlined bodies. Animals like squids and octopus stay deeper in the ocean.
+- - **Ponds and Lakes:** Some plants have their roots fixed in the soil below the water. Some plants are completely submerged. Frogs can live both on land and in water.
+
+### Characteristics of Living Organisms
+- All living things need food.
+- They all show growth.
+- They all respire.
+- They respond to stimuli.
+- They excrete.
+- They reproduce.
+- They show movement.
+`
+    },
+    hi: {
+      title: 'अध्याय 9: सजीव एवं उनका परिवेश',
+      content: `### सजीव और उनका परिवेश जहाँ वे रहते हैं
+- **वास-स्थान:** वह परिवेश जिसमें कोई जीव रहता है।
+- **अनुकूलन:** विशिष्ट विशेषताओं या कुछ आदतों की उपस्थिति, जो किसी पौधे या जानवर को उसके विशेष वास-स्थान में रहने में सक्षम बनाती है।
+
+### विभिन्न वास-स्थानों की यात्रा
+- **स्थलीय वास-स्थान:** वे पौधे और जानवर जो जमीन पर रहते हैं।
+- - **मरुस्थल:** चूहे और सांप जैसे जानवर दिन के दौरान रेत में गहरे बिलों में रहते हैं। कैक्टस जैसे पौधों में पानी के नुकसान को कम करने के लिए अनुकूलन होते हैं।
+- - **पर्वतीय क्षेत्र:** पेड़ सामान्य रूप से शंकु के आकार के होते हैं और उनकी ढलान वाली शाखाएँ होती हैं। जानवरों की मोटी त्वचा या फर होती है जो उन्हें ठंड से बचाती है।
+- - **घास के मैदान:** शेर और हिरण जैसे जानवरों में शिकारियों से खुद को बचाने या अपने शिकार को पकड़ने के लिए अनुकूलन होते हैं।
+- **जलीय वास-स्थान:** वे पौधे और जानवर जो पानी में रहते हैं।
+- - **महासागर:** अधिकांश जीवों का शरीर धारा रेखीय होता है। स्क्विड और ऑक्टोपस जैसे जानवर समुद्र में गहरे रहते हैं।
+- - **तालाब और झीलें:** कुछ पौधों की जड़ें पानी के नीचे मिट्टी में स्थिर होती हैं। कुछ पौधे पूरी तरह से जलमग्न होते हैं। मेंढक जमीन और पानी दोनों में रह सकते हैं।
+
+### सजीवों के लक्षण
+- सभी सजीवों को भोजन की आवश्यकता होती है।
+- वे सभी वृद्धि दर्शाते हैं।
+- वे सभी श्वसन करते हैं।
+- वे उद्दीपन के प्रति अनुक्रिया करते हैं।
+- वे उत्सर्जन करते हैं।
+- वे प्रजनन करते हैं।
+- वे गति दर्शाते हैं।
+`
+    }
+},
+'motion-and-measurement-of-distances': {
+    en: {
+      title: 'Chapter 10: Motion and Measurement of Distances',
+      content: `### Story of Transport
+- Early humans moved on foot. For transport across water, boats were used. The invention of the wheel made a great change in modes of transport.
+
+### Measurement
+- **Measurement:** The comparison of an unknown quantity with some known quantity. This known fixed quantity is called a unit.
+- **Standard Units of Measurement:** For the sake of uniformity, scientists all over the world have accepted a set of standard units of measurement. This system of units is now known as the International System of Units (SI units).
+- - The SI unit of length is a metre (m).
+- - 1 metre = 100 centimetres (cm).
+- - 1 centimetre = 10 millimetres (mm).
+- - 1 kilometre (km) = 1000 metres (m).
+
+### Correct Measurement of Length
+- Use a suitable device (like a ruler or measuring tape).
+- Place the scale in contact with the object along its length.
+- Your eye must be exactly in front of the point where the measurement is to be taken.
+
+### Motion
+- **Rest:** An object is at rest if its position does not change with time.
+- **Motion:** An object is in motion if its position changes with time.
+- **Types of Motion:**
+- - **Rectilinear Motion:** Motion in a straight line.
+- - **Circular Motion:** Motion of an object along a circular path.
+- - **Periodic Motion:** Motion that repeats itself after a certain period of time. Ex: Motion of a pendulum.
+`
+    },
+    hi: {
+      title: 'अध्याय 10: गति एवं दूरियों का मापन',
+      content: `### परिवहन की कहानी
+- आदिमानव पैदल चलते थे। पानी के पार परिवहन के लिए, नावों का उपयोग किया जाता था। पहिये के आविष्कार ने परिवहन के साधनों में एक बड़ा बदलाव किया।
+
+### मापन
+- **मापन:** किसी अज्ञात राशि की किसी ज्ञात राशि से तुलना। इस ज्ञात निश्चित राशि को इकाई कहा जाता है।
+- **मापन की मानक इकाइयाँ:** एकरूपता के लिए, दुनिया भर के वैज्ञानिकों ने मापन की मानक इकाइयों का एक सेट स्वीकार किया है। इकाइयों की इस प्रणाली को अब अंतर्राष्ट्रीय मात्रक प्रणाली (SI मात्रक) के रूप में जाना जाता है।
+- - लंबाई का SI मात्रक मीटर (m) है।
+- - 1 मीटर = 100 सेंटीमीटर (cm)।
+- - 1 सेंटीमीटर = 10 मिलीमीटर (mm)।
+- - 1 किलोमीटर (km) = 1000 मीटर (m)।
+
+### लंबाई का सही मापन
+- एक उपयुक्त उपकरण (जैसे रूलर या मापने का टेप) का उपयोग करें।
+- पैमाने को वस्तु की लंबाई के साथ संपर्क में रखें।
+- आपकी आँख ठीक उस बिंदु के सामने होनी चाहिए जहाँ से माप लिया जाना है।
+
+### गति
+- **विराम:** कोई वस्तु विराम में होती है यदि समय के साथ उसकी स्थिति नहीं बदलती है।
+- **गति:** कोई वस्तु गति में होती है यदि समय के साथ उसकी स्थिति बदलती है।
+- **गति के प्रकार:**
+- - **सरल रेखीय गति:** एक सीधी रेखा में गति।
+- - **वृत्तीय गति:** एक वृत्ताकार पथ के साथ किसी वस्तु की गति।
+- - **आवर्ती गति:** वह गति जो एक निश्चित समय अवधि के बाद खुद को दोहराती है। उदा: एक लोलक की गति।
+`
+    }
+},
+'light-shadows-and-reflections': {
+    en: {
+      title: 'Chapter 11: Light, Shadows and Reflections',
+      content: `### Luminous and Non-Luminous Objects
+- **Luminous Objects:** Objects that give out or emit their own light. Ex: Sun, torch, candle.
+- **Non-Luminous Objects:** Objects that do not emit their own light but are visible when light from a luminous object falls on them. Ex: Moon, chair, book.
+
+### Transparent, Opaque and Translucent Objects
+- **Transparent:** If you are able to see clearly through an object, it is allowing light to pass through it and is transparent.
+- **Opaque:** If you cannot see through an object at all, it is an opaque object.
+- **Translucent:** Objects that allow some light to pass through them.
+
+### Shadows
+- A shadow is formed when an opaque object comes in the path of light.
+- A shadow needs a screen where it is formed.
+- The colour of the shadow is always black, irrespective of the colour of the object.
+
+### Pinhole Camera
+- A simple camera without a lens but with a tiny aperture (the pinhole).
+- It forms an inverted image of an object. The image is real.
+
+### Mirrors and Reflections
+- **Reflection:** The bouncing back of light from a shiny surface like a mirror.
+- **Image:** A reflection gives a clear image. The image formed by a plane mirror is erect, of the same size as the object, and is formed at the same distance behind the mirror as the object is in front of it.
+`
+    },
+    hi: {
+      title: 'अध्याय 11: प्रकाश – छायाएँ एवं परावर्तन',
+      content: `### दीप्त और अदीप्त वस्तुएँ
+- **दीप्त वस्तुएँ:** वे वस्तुएँ जो अपना प्रकाश स्वयं उत्सर्जित करती हैं। उदा: सूर्य, टॉर्च, मोमबत्ती।
+- **अदीप्त वस्तुएँ:** वे वस्तुएँ जो अपना प्रकाश स्वयं उत्सर्जित नहीं करती हैं, लेकिन जब किसी दीप्त वस्तु का प्रकाश उन पर पड़ता है तो वे दिखाई देती हैं। उदा: चंद्रमा, कुर्सी, किताब।
+
+### पारदर्शी, अपारदर्शी और पारभासी वस्तुएँ
+- **पारदर्शी:** यदि आप किसी वस्तु के आर-पार स्पष्ट रूप से देख सकते हैं, तो वह प्रकाश को अपने में से गुजरने दे रही है और पारदर्शी है।
+- **अपारदर्शी:** यदि आप किसी वस्तु के आर-पार बिल्कुल नहीं देख सकते हैं, तो वह एक अपारदर्शी वस्तु है।
+- **पारभासी:** वे वस्तुएँ जो कुछ प्रकाश को अपने में से गुजरने देती हैं।
+
+### छायाएँ
+- छाया तब बनती है जब कोई अपारदर्शी वस्तु प्रकाश के मार्ग में आ जाती है।
+- छाया के लिए एक पर्दे की आवश्यकता होती है जहाँ वह बनती है।
+- वस्तु के रंग के बावजूद, छाया का रंग हमेशा काला होता है।
+
+### सूचीछिद्र कैमरा
+- एक सरल कैमरा जिसमें लेंस नहीं होता लेकिन एक छोटा छिद्र (पिनहोल) होता है।
+- यह किसी वस्तु का उल्टा प्रतिबिंब बनाता है। प्रतिबिंब वास्तविक होता है।
+
+### दर्पण और परावर्तन
+- **परावर्तन:** दर्पण जैसी चमकदार सतह से प्रकाश का वापस उछलना।
+- **प्रतिबिंब:** परावर्तन एक स्पष्ट प्रतिबिंब देता है। समतल दर्पण द्वारा बनाया गया प्रतिबिंब सीधा, वस्तु के समान आकार का होता है, और दर्पण के पीछे उतनी ही दूरी पर बनता है जितनी दूरी पर वस्तु उसके सामने होती है।
+`
+    }
+},
+'electricity-and-circuits': {
+    en: {
+      title: 'Chapter 12: Electricity and Circuits',
+      content: `### Electric Cell and Bulb
+- **Electric Cell:** A source of electricity. It has two terminals: a positive (+) terminal and a negative (-) terminal.
+- **Electric Bulb:** Has a filament that is connected to two terminals. The bulb glows when electricity passes through it.
+
+### Electric Circuit
+- **Electric Circuit:** A closed path for electricity to flow.
+- An electric circuit consists of an electric cell, a bulb, and wires.
+- The bulb glows only when the circuit is complete or closed.
+
+### Electric Switch
+- **Switch:** A simple device that is used to either break the electric circuit or to complete it.
+- When the switch is 'ON', the circuit is closed and current flows.
+- When the switch is 'OFF', the circuit is open and current does not flow.
+
+### Conductors and Insulators
+- **Conductors:** Materials that allow electric current to pass through them.
+- - **Examples:** Metals like copper, aluminum, iron.
+- **Insulators:** Materials that do not allow electric current to pass through them.
+- - **Examples:** Rubber, plastic, wood.
+`
+    },
+    hi: {
+      title: 'अध्याय 12: विद्युत् तथा परिपथ',
+      content: `### विद्युत् सेल और बल्ब
+- **विद्युत् सेल:** विद्युत् का एक स्रोत। इसके दो टर्मिनल होते हैं: एक धनात्मक (+) टर्मिनल और एक ऋणात्मक (-) टर्मिनल।
+- **विद्युत् बल्ब:** इसमें एक फिलामेंट होता है जो दो टर्मिनलों से जुड़ा होता है। जब इसमें से विद्युत् प्रवाहित होती है तो बल्ब जल उठता है।
+
+### विद्युत् परिपथ
+- **विद्युत् परिपथ:** विद्युत् के प्रवाहित होने का एक बंद पथ।
+- एक विद्युत् परिपथ में एक विद्युत् सेल, एक बल्ब और तार होते हैं।
+- बल्ब तभी जलता है जब परिपथ पूरा या बंद होता है।
+
+### विद्युत् स्विच
+- **स्विच:** एक सरल उपकरण जिसका उपयोग या तो विद्युत् परिपथ को तोड़ने या उसे पूरा करने के लिए किया जाता है।
+- जब स्विच 'ON' होता है, तो परिपथ बंद हो जाता है और धारा प्रवाहित होती है।
+- जब स्विच 'OFF' होता है, तो परिपथ खुला होता है और धारा प्रवाहित नहीं होती है।
+
+### चालक और विद्युतरोधी
+- **चालक:** वे पदार्थ जो अपने में से विद्युत् धारा को प्रवाहित होने देते हैं।
+- - **उदाहरण:** तांबा, एल्यूमीनियम, लोहा जैसी धातुएँ।
+- **विद्युतरोधी:** वे पदार्थ जो अपने में से विद्युत् धारा को प्रवाहित नहीं होने देते हैं।
+- - **उदाहरण:** रबर, प्लास्टिक, लकड़ी।
+`
+    }
+},
   'default': {
     en: {
       title: 'Notes Not Found',
