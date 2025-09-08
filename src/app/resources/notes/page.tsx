@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { BookText, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 type Subject = {
   name: string;
