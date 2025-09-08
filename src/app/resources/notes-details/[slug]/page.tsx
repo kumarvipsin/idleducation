@@ -1087,52 +1087,52 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 'the-living-organisms-and-their-surroundings': {
     en: {
       title: 'Chapter 9: The Living Organisms and Their Surroundings',
-      content: `### Organisms and the Surroundings Where They Live
-- **Habitat:** The surroundings where an organism lives.
-- **Adaptation:** The presence of specific features or certain habits, which enable a plant or an animal to live in its particular habitat.
+      content: `### Habitat and Adaptation
+- **Habitat:** The surroundings where an organism lives. It provides food, water, air, shelter, and other needs.
+- **Adaptation:** The presence of specific features and habits which enable an organism to live naturally in a place.
 
-### Journey Through Different Habitats
-- **Terrestrial Habitats:** Plants and animals that live on land.
-- - **Deserts:** Animals like rats and snakes stay in burrows deep in the sand during the day. Plants like cactus have adaptations to reduce loss of water.
-- - **Mountain Regions:** Trees are normally cone shaped and have sloping branches. Animals have thick skin or fur to protect them from cold.
-- - **Grasslands:** Animals like lions and deer have adaptations to protect themselves from predators or to catch their prey.
-- **Aquatic Habitats:** Plants and animals that live in water.
-- - **Oceans:** Most organisms have streamlined bodies. Animals like squids and octopus stay deeper in the ocean.
-- - **Ponds and Lakes:** Some plants have their roots fixed in the soil below the water. Some plants are completely submerged. Frogs can live both on land and in water.
+### A Journey Through Different Habitats
+- **Terrestrial Habitats:** The plants and animals that live on land.
+- - **Deserts:** Camels have long legs to keep their bodies away from the hot sand. They excrete small amounts of urine, their dung is dry and they do not sweat. Desert plants lose very little water through transpiration.
+- - **Mountain Regions:** Trees are normally cone-shaped with sloping branches. Animals have thick fur to protect them from cold.
+- - **Grasslands:** Lions have eyes in front of their face which allows them to have a correct idea about the location of their prey. A deer has strong teeth for chewing hard plant stems.
+- **Aquatic Habitats:**
+- - **Oceans:** Most organisms have streamlined bodies to help them move easily in water.
+- - **Ponds and Lakes:** Plants have roots that are much reduced in size. Frogs can live both on land and in water.
 
-### Characteristics of Living Organisms
-- All living things need food.
-- They all show growth.
-- They all respire.
-- They respond to stimuli.
-- They excrete.
-- They reproduce.
-- They show movement.
+### Characteristics of Organisms
+- **Do all organisms need food?** Yes, food gives organisms the energy they need to grow and for other life processes.
+- **Do all organisms show growth?** Yes, all living things grow.
+- **Do all organisms respire?** Respiration is necessary for all living organisms. It is through respiration that the body finally obtains energy from the food it takes.
+- **Do all organisms respond to stimuli?** Changes in our surroundings that make us respond to them are called stimuli.
+- **Living organisms and excretion:** The process of getting rid of wastes by the living organisms is known as excretion.
+- **Do all organisms reproduce their own kind?** The process by which living things produce more of their own kind is called reproduction.
+- **Do all organisms move?** Most living things move from one place to another. Plants are generally anchored in soil so they do not move.
 `
     },
     hi: {
       title: 'अध्याय 9: सजीव एवं उनका परिवेश',
-      content: `### सजीव और उनका परिवेश जहाँ वे रहते हैं
-- **वास-स्थान:** वह परिवेश जिसमें कोई जीव रहता है।
-- **अनुकूलन:** विशिष्ट विशेषताओं या कुछ आदतों की उपस्थिति, जो किसी पौधे या जानवर को उसके विशेष वास-स्थान में रहने में सक्षम बनाती है।
+      content: `### आवास एवं अनुकूलन
+- **आवास:** वह परिवेश जिसमें कोई जीव रहता है। यह भोजन, पानी, हवा, आश्रय और अन्य जरूरतें प्रदान करता है।
+- **अनुकूलन:** विशिष्ट विशेषताओं और आदतों की उपस्थिति जो किसी जीव को किसी स्थान पर स्वाभाविक रूप से रहने में सक्षम बनाती है।
 
-### विभिन्न वास-स्थानों की यात्रा
-- **स्थलीय वास-स्थान:** वे पौधे और जानवर जो जमीन पर रहते हैं।
-- - **मरुस्थल:** चूहे और सांप जैसे जानवर दिन के दौरान रेत में गहरे बिलों में रहते हैं। कैक्टस जैसे पौधों में पानी के नुकसान को कम करने के लिए अनुकूलन होते हैं।
-- - **पर्वतीय क्षेत्र:** पेड़ सामान्य रूप से शंकु के आकार के होते हैं और उनकी ढलान वाली शाखाएँ होती हैं। जानवरों की मोटी त्वचा या फर होती है जो उन्हें ठंड से बचाती है।
-- - **घास के मैदान:** शेर और हिरण जैसे जानवरों में शिकारियों से खुद को बचाने या अपने शिकार को पकड़ने के लिए अनुकूलन होते हैं।
-- **जलीय वास-स्थान:** वे पौधे और जानवर जो पानी में रहते हैं।
-- - **महासागर:** अधिकांश जीवों का शरीर धारा रेखीय होता है। स्क्विड और ऑक्टोपस जैसे जानवर समुद्र में गहरे रहते हैं।
-- - **तालाब और झीलें:** कुछ पौधों की जड़ें पानी के नीचे मिट्टी में स्थिर होती हैं। कुछ पौधे पूरी तरह से जलमग्न होते हैं। मेंढक जमीन और पानी दोनों में रह सकते हैं।
+### विभिन्न आवासों की यात्रा
+- **स्थलीय आवास:** वे पौधे और जानवर जो जमीन पर रहते हैं।
+- - **मरुस्थल:** ऊंटों के लंबे पैर होते हैं जो उनके शरीर को गर्म रेत से दूर रखते हैं। वे कम मात्रा में मूत्र उत्सर्जित करते हैं, उनका गोबर सूखा होता है और उन्हें पसीना नहीं आता है। मरुस्थलीय पौधे वाष्पोत्सर्जन के माध्यम से बहुत कम पानी खोते हैं।
+- - **पर्वतीय क्षेत्र:** पेड़ सामान्य रूप से ढलान वाली शाखाओं के साथ शंकु के आकार के होते हैं। जानवरों को ठंड से बचाने के लिए मोटी खाल होती है।
+- - **घास के मैदान:** शेरों की आंखें उनके चेहरे के सामने होती हैं जो उन्हें अपने शिकार के स्थान के बारे में सही विचार रखने की अनुमति देती हैं। एक हिरण के पास कठोर पौधों के तनों को चबाने के लिए मजबूत दांत होते हैं।
+- **जलीय आवास:**
+- - **महासागर:** अधिकांश जीवों के शरीर सुव्यवस्थित होते हैं ताकि उन्हें पानी में आसानी से चलने में मदद मिल सके।
+- - **तालाब और झीलें:** पौधों की जड़ें आकार में बहुत कम हो जाती हैं। मेंढक जमीन और पानी दोनों में रह सकते हैं।
 
 ### सजीवों के लक्षण
-- सभी सजीवों को भोजन की आवश्यकता होती है।
-- वे सभी वृद्धि दर्शाते हैं।
-- वे सभी श्वसन करते हैं।
-- वे उद्दीपन के प्रति अनुक्रिया करते हैं।
-- वे उत्सर्जन करते हैं।
-- वे प्रजनन करते हैं।
-- वे गति दर्शाते हैं।
+- **क्या सभी जीवों को भोजन की आवश्यकता होती है?** हां, भोजन जीवों को वृद्धि और अन्य जीवन प्रक्रियाओं के लिए आवश्यक ऊर्जा देता है।
+- **क्या सभी जीव वृद्धि दर्शाते हैं?** हां, सभी सजीव वस्तुएं बढ़ती हैं।
+- **क्या सभी जीव श्वसन करते हैं?** श्वसन सभी सजीव जीवों के लिए आवश्यक है। श्वसन के माध्यम से ही शरीर अंततः अपने द्वारा लिए गए भोजन से ऊर्जा प्राप्त करता है।
+- **क्या सभी जीव उद्दीपनों के प्रति अनुक्रिया करते हैं?** हमारे परिवेश में परिवर्तन जो हमें उनके प्रति अनुक्रिया करने पर मजबूर करते हैं, उद्दीपन कहलाते हैं।
+- **सजीव जीव और उत्सर्जन:** सजीव जीवों द्वारा अपशिष्टों से छुटकारा पाने की प्रक्रिया को उत्सर्जन के रूप में जाना जाता है।
+- **क्या सभी जीव अपनी तरह का प्रजनन करते हैं?** वह प्रक्रिया जिसके द्वारा सजीव वस्तुएं अपनी तरह का अधिक उत्पादन करती हैं, प्रजनन कहलाती है।
+- **क्या सभी जीव गति करते हैं?** अधिकांश सजीव वस्तुएं एक स्थान से दूसरे स्थान पर जाती हैं। पौधे आम तौर पर मिट्टी में स्थिर होते हैं इसलिए वे हिलते नहीं हैं।
 `
     }
 },
@@ -1356,6 +1356,64 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
 },
+'in-the-earliest-cities': {
+    en: {
+        title: 'Chapter 3: In the Earliest Cities',
+        content: `### The story of Harappa
+- Harappan cities were discovered around 150 years ago in Punjab (present-day Pakistan).
+- These cities developed about 4700 years ago.
+
+### What was special about these cities?
+- **City Structure:** Many of these cities were divided into two or more parts.
+- - The part to the west was smaller but higher, described as the **citadel**.
+- - The part to the east was larger but lower, called the **lower town**.
+- - Walls of baked brick were built around each part.
+- **Great Bath:** In Mohenjodaro, a very special tank, which archaeologists call the Great Bath, was built in the citadel area.
+- **Fire Altars:** Cities like Kalibangan and Lothal had fire altars, where sacrifices may have been performed.
+- **Storehouses:** Cities like Mohenjodaro, Harappa, and Lothal had elaborate storehouses.
+- **Houses, drains and streets:** Houses were either one or two storeys high, with rooms built around a courtyard. Most houses had a separate bathing area, and some had wells to supply water. Cities had covered drains, laid out in straight lines.
+
+### Life in the city
+- **Rulers:** People who planned the construction of special buildings in the city.
+- **Scribes:** People who knew how to write, who helped prepare the seals.
+- **Crafts persons:** Men and women who made all kinds of things — either in their own homes, or in special workshops.
+- **Seals:** Archaeologists have found seals with engravings of animals on them. The Harappans also made seals out of stone. These are generally rectangular and have an animal carved on them.
+
+### New crafts in the city
+- Most of the objects that have been found by archaeologists are made of stone, shell and metal, including copper, bronze, gold and silver.
+- The Harappans also made pots with beautiful black designs.
+- Cotton was probably grown at Mehrgarh from about 7000 years ago.
+`
+    },
+    hi: {
+        title: 'अध्याय 3: आरंभिक नगर',
+        content: `### हड़प्पा की कहानी
+- हड़प्पा के शहरों की खोज लगभग 150 साल पहले पंजाब (वर्तमान पाकिस्तान) में हुई थी।
+- ये शहर लगभग 4700 साल पहले विकसित हुए थे।
+
+### इन शहरों में क्या खास था?
+- **शहर की संरचना:** इनमें से कई शहर दो या दो से अधिक भागों में विभाजित थे।
+- - पश्चिम का भाग छोटा लेकिन ऊँचा था, जिसे **गढ़** कहा जाता है।
+- - पूर्व का भाग बड़ा लेकिन निचला था, जिसे **निचला शहर** कहा जाता था।
+- - प्रत्येक भाग के चारों ओर पकी हुई ईंट की दीवारें बनाई गई थीं।
+- **महान स्नानागार:** मोहनजोदड़ो में, एक बहुत ही खास तालाब, जिसे पुरातत्वविद महान स्नानागार कहते हैं, गढ़ क्षेत्र में बनाया गया था।
+- **अग्निकुंड:** कालीबंगन और लोथल जैसे शहरों में अग्निकुंड थे, जहाँ शायद यज्ञ किए जाते थे।
+- **भंडार गृह:** मोहनजोदड़ो, हड़प्पा और लोथल जैसे शहरों में विस्तृत भंडार गृह थे।
+- **घर, नाले और सड़कें:** घर या तो एक या दो मंजिला ऊँचे होते थे, जिनमें एक आंगन के चारों ओर कमरे बने होते थे। अधिकांश घरों में एक अलग स्नान क्षेत्र था, और कुछ में पानी की आपूर्ति के लिए कुएँ थे। शहरों में ढकी हुई नालियाँ थीं, जो सीधी रेखाओं में बिछाई गई थीं।
+
+### शहर में जीवन
+- **शासक:** वे लोग जिन्होंने शहर में विशेष भवनों के निर्माण की योजना बनाई।
+- **लिपिक:** वे लोग जो लिखना जानते थे, जो मुहरें तैयार करने में मदद करते थे।
+- **शिल्पकार:** पुरुष और महिलाएँ जो सभी प्रकार की चीजें बनाते थे - या तो अपने घरों में, या विशेष कार्यशालाओं में।
+- **मुहरें:** पुरातत्वविदों को जानवरों की नक्काशी वाली मुहरें मिली हैं। हड़प्पावासियों ने पत्थर से भी मुहरें बनाईं। ये आम तौर पर आयताकार होती हैं और उन पर एक जानवर खुदा होता है।
+
+### शहर में नए शिल्प
+- पुरातत्वविदों द्वारा पाई गई अधिकांश वस्तुएं पत्थर, शंख और धातु से बनी हैं, जिनमें तांबा, कांसा, सोना और चांदी शामिल हैं।
+- हड़प्पावासियों ने सुंदर काले डिजाइनों वाले बर्तन भी बनाए।
+- कपास शायद मेहरगढ़ में लगभग 7000 साल पहले उगाया जाता था।
+`
+    }
+},
 'the-earth-in-the-solar-system': {
     en: {
         title: 'Chapter 1: The Earth in the Solar System',
@@ -1389,6 +1447,60 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - **चंद्रमा:** हमारी पृथ्वी का केवल एक उपग्रह है, वह है चंद्रमा। इसका व्यास पृथ्वी के व्यास का केवल एक-चौथाई है।
 - **क्षुद्रग्रह:** छोटे पिंड जो सूर्य के चारों ओर घूमते हैं। वे मंगल और बृहस्पति की कक्षाओं के बीच पाए जाते हैं।
 - **उल्कापिंड:** चट्टानों के छोटे-छोटे टुकड़े जो सूर्य के चारों ओर घूमते हैं।
+`
+    }
+},
+'globe-latitudes-and-longitudes': {
+    en: {
+        title: 'Chapter 2: Globe: Latitudes and Longitudes',
+        content: `### Globe and Axis
+- **Globe:** A true model (miniature form) of the earth.
+- **Axis:** An imaginary line passing through the centre of the Earth on which it rotates. The two points on the globe through which the needle passes are two poles – North Pole and South Pole.
+
+### Latitudes
+- **Equator:** An imaginary circular line that divides the globe into two equal parts. The northern half is known as the Northern Hemisphere and the southern half is the Southern Hemisphere.
+- **Parallels of Latitudes:** All parallel circles from the equator up to the poles are called parallels of latitudes. Latitudes are measured in degrees.
+- **Important Parallels of Latitude:**
+- - Tropic of Cancer (23½° N)
+- - Tropic of Capricorn (23½° S)
+- - Arctic Circle at 66½° north of the equator.
+- - Antarctic Circle at 66½° south of the equator.
+- **Heat Zones of the Earth:**
+- - **Torrid Zone:** Receives the maximum heat. Area between the Tropic of Cancer and the Tropic of Capricorn.
+- - **Temperate Zones:** Have moderate temperatures. Areas between the Tropic of Cancer and the Arctic Circle in the Northern Hemisphere, and the Tropic of Capricorn and the Antarctic Circle in the Southern Hemisphere.
+- - **Frigid Zones:** Very cold. Areas lying between the Arctic Circle and the North Pole, and the Antarctic Circle and the South Pole.
+
+### Longitudes
+- **Meridians of Longitude:** The lines of reference running from the North Pole to the South Pole. The distances between them are measured in degrees of longitude.
+- **Prime Meridian:** The meridian which passes through Greenwich, where the British Royal Observatory is located. Its value is 0° longitude.
+- **Longitude and Time:** Longitudes help us to calculate time. As the earth rotates from west to east, places east of Greenwich will be ahead of Greenwich time and those to the west will be behind it.
+- **Standard Time:** The local time of places which are on different meridians are bound to differ. To maintain uniformity, the local time of some central meridian of a country is adopted as the standard time for the country. In India, the longitude of 82½° E is treated as the standard meridian.
+`
+    },
+    hi: {
+        title: 'अध्याय 2: ग्लोब: अक्षांश एवं देशांतर',
+        content: `### ग्लोब और अक्ष
+- **ग्लोब:** पृथ्वी का एक सच्चा मॉडल (लघु रूप)।
+- **अक्ष:** पृथ्वी के केंद्र से गुजरने वाली एक काल्पनिक रेखा जिस पर वह घूमती है। ग्लोब पर दो बिंदु जिनसे सुई गुजरती है, वे दो ध्रुव हैं - उत्तरी ध्रुव और दक्षिणी ध्रुव।
+
+### अक्षांश
+- **विषुवत वृत्त:** एक काल्पनिक वृत्ताकार रेखा जो ग्लोब को दो बराबर भागों में विभाजित करती है। उत्तरी आधे भाग को उत्तरी गोलार्ध और दक्षिणी आधे भाग को दक्षिणी गोलार्ध के रूप में जाना जाता है।
+- **अक्षांश के समांतर वृत्त:** विषुवत वृत्त से ध्रुवों तक के सभी समांतर वृत्तों को अक्षांश के समांतर वृत्त कहा जाता है। अक्षांशों को डिग्री में मापा जाता है।
+- **महत्वपूर्ण अक्षांश समांतर रेखाएँ:**
+- - कर्क रेखा (23½° उत्तर)
+- - मकर रेखा (23½° दक्षिण)
+- - आर्कटिक वृत्त विषुवत वृत्त के 66½° उत्तर में।
+- - अंटार्कटिक वृत्त विषुवत वृत्त के 66½° दक्षिण में।
+- **पृथ्वी के ताप कटिबंध:**
+- - **उष्ण कटिबंध:** अधिकतम ऊष्मा प्राप्त करता है। कर्क रेखा और मकर रेखा के बीच का क्षेत्र।
+- - **शीतोष्ण कटिबंध:** मध्यम तापमान होता है। उत्तरी गोलार्ध में कर्क रेखा और आर्कटिक वृत्त के बीच के क्षेत्र, और दक्षिणी गोलार्ध में मकर रेखा और अंटार्कटिक वृत्त के बीच के क्षेत्र।
+- - **शीत कटिबंध:** बहुत ठंडा। आर्कटिक वृत्त और उत्तरी ध्रुव, और अंटार्कटिक वृत्त और दक्षिणी ध्रुव के बीच स्थित क्षेत्र।
+
+### देशांतर
+- **देशांतर के याम्योत्तर:** उत्तरी ध्रुव से दक्षिणी ध्रुव तक चलने वाली संदर्भ रेखाएँ। उनके बीच की दूरियों को देशांतर के डिग्री में मापा जाता है।
+- **प्रमुख याम्योत्तर:** वह याम्योत्तर जो ग्रीनविच से होकर गुजरता है, जहाँ ब्रिटिश रॉयल वेधशाला स्थित है। इसका मान 0° देशांतर है।
+- **देशांतर और समय:** देशांतर हमें समय की गणना करने में मदद करते हैं। चूंकि पृथ्वी पश्चिम से पूर्व की ओर घूमती है, ग्रीनविच के पूर्व के स्थान ग्रीनविच समय से आगे होंगे और पश्चिम के स्थान इससे पीछे होंगे।
+- **मानक समय:** अलग-अलग याम्योत्तरों पर स्थित स्थानों का स्थानीय समय अलग-अलग होना तय है। एकरूपता बनाए रखने के लिए, किसी देश के कुछ केंद्रीय याम्योत्तर के स्थानीय समय को देश के लिए मानक समय के रूप में अपनाया जाता है। भारत में, 82½° पूर्व के देशांतर को मानक याम्योत्तर माना जाता है।
 `
     }
 },
@@ -1430,6 +1542,43 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
 },
+'diversity-and-discrimination': {
+    en: {
+        title: 'Chapter 2: Diversity and Discrimination',
+        content: `### Prejudice and Stereotype
+- **Prejudice:** To judge other people negatively or see them as inferior. When we fix people into one image, we create a stereotype.
+- **Stereotype:** A fixed, over-generalized belief about a particular group or class of people. For example, believing that people from a certain region are lazy.
+
+### Inequality and Discrimination
+- **Discrimination:** Happens when people act on their prejudices or stereotypes. It is the practice of unfairly treating a person or group of people differently from other people or groups of people.
+- **Reasons for discrimination:** People can be discriminated against because of their religion, region, economic background, gender, or caste.
+- **Caste System:** In the caste system, communities/groups of people were placed in a sort of ladder where each caste was either above or below the other. Those who were placed at the top of this ladder called themselves upper caste and saw themselves as superior. The groups who were placed at the bottom of the ladder were seen as unworthy and called ‘untouchables’.
+
+### Striving for Equality
+- The Indian Constitution recognizes all Indians as equal.
+- It states that the state shall not discriminate against any citizen on grounds only of religion, race, caste, sex, place of birth or any of them.
+- Untouchability has been abolished and its practice is a punishable offence.
+`
+    },
+    hi: {
+        title: 'अध्याय 2: विविधता एवं भेदभाव',
+        content: `### पूर्वाग्रह और रूढ़िवादिता
+- **पूर्वाग्रह:** दूसरे लोगों को नकारात्मक रूप से आंकना या उन्हें हीन समझना। जब हम लोगों को एक ही छवि में बांधते हैं, तो हम एक रूढ़िवादी धारणा बनाते हैं।
+- **रूढ़िवादिता:** किसी विशेष समूह या वर्ग के लोगों के बारे में एक निश्चित, अति-सामान्यीकृत विश्वास। उदाहरण के लिए, यह मानना कि एक निश्चित क्षेत्र के लोग आलसी होते हैं।
+
+### असमानता और भेदभाव
+- **भेदभाव:** तब होता है जब लोग अपने पूर्वाग्रहों या रूढ़ियों पर कार्य करते हैं। यह किसी व्यक्ति या लोगों के समूह के साथ अन्य लोगों या लोगों के समूहों से अलग अनुचित व्यवहार करने की प्रथा है।
+- **भेदभाव के कारण:** लोगों के साथ उनके धर्म, क्षेत्र, आर्थिक पृष्ठभूमि, लिंग या जाति के कारण भेदभाव किया जा सकता है।
+- **जाति व्यवस्था:** जाति व्यवस्था में, समुदायों/लोगों के समूहों को एक प्रकार की सीढ़ी में रखा गया था जहाँ प्रत्येक जाति या तो दूसरे के ऊपर या नीचे थी। जो लोग इस सीढ़ी के शीर्ष पर रखे गए थे, वे खुद को उच्च जाति कहते थे और खुद को श्रेष्ठ समझते थे। जो समूह सीढ़ी के नीचे रखे गए थे, उन्हें अयोग्य माना जाता था और 'अछूत' कहा जाता था।
+
+### समानता के लिए संघर्ष
+- भारतीय संविधान सभी भारतीयों को समान मानता है।
+- यह कहता है कि राज्य किसी भी नागरिक के खिलाफ केवल धर्म, नस्ल, जाति, लिंग, जन्म स्थान या इनमें से किसी के आधार पर भेदभाव नहीं करेगा।
+- अस्पृश्यता को समाप्त कर दिया गया है और इसका अभ्यास एक दंडनीय अपराध है।
+`
+    }
+},
+
   'default': {
     en: {
       title: 'Notes Not Found',
