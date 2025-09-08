@@ -11,69 +11,54 @@ import { Input } from '@/components/ui/input';
 type Paper = {
   subject: string;
   year: number;
+  title: string;
   href: string;
 };
 
 const papersByExam: { [key: string]: Paper[] } = {
   'CBSE Class 10': [
-    { subject: 'Science', year: 2024, href: '#' },
-    { subject: 'Maths', year: 2024, href: '#' },
-    { subject: 'Social Studies', year: 2024, href: '#' },
-    { subject: 'English', year: 2024, href: '#' },
-    { subject: 'Science', year: 2023, href: '#' },
-    { subject: 'Maths', year: 2023, href: '#' },
-    { subject: 'Social Studies', year: 2023, href: '#' },
-    { subject: 'English', year: 2023, href: '#' },
-    { subject: 'Science', year: 2022, href: '#' },
-    { subject: 'Maths', year: 2022, href: '#' },
-    { subject: 'Social Studies', year: 2022, href: '#' },
-    { subject: 'English', year: 2022, href: '#' },
-    { subject: 'Science', year: 2021, href: '#' },
-    { subject: 'Maths', year: 2021, href: '#' },
-    { subject: 'Social Studies', year: 2021, href: '#' },
-    { subject: 'English', year: 2021, href: '#' },
-    { subject: 'Science', year: 2020, href: '#' },
-    { subject: 'Maths', year: 2020, href: '#' },
-    { subject: 'Social Studies', year: 2020, href: '#' },
-    { subject: 'English', year: 2020, href: '#' },
+    { subject: 'Science', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'Science', year: 2024, title: 'Set 2', href: '#' },
+    { subject: 'Maths (Standard)', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'Maths (Basic)', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'Social Studies', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'Science', year: 2023, title: 'Set 1', href: '#' },
+    { subject: 'Maths (Standard)', year: 2023, title: 'Set 1', href: '#' },
+    { subject: 'English', year: 2023, title: 'Set 1', href: '#' },
+    { subject: 'Science', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Maths', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Social Studies', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Science', year: 2021, title: 'Set 1', href: '#' },
+    { subject: 'Maths', year: 2021, title: 'Set 1', href: '#' },
+    { subject: 'Social Studies', year: 2021, title: 'Set 1', href: '#' },
+    { subject: 'Science', year: 2020, title: 'Set 1', href: '#' },
+    { subject: 'Maths', year: 2020, title: 'Set 1', href: '#' },
   ],
   'CBSE Class 12': [
-    { subject: 'Physics', year: 2024, href: '#' },
-    { subject: 'Chemistry', year: 2024, href: '#' },
-    { subject: 'Maths', year: 2024, href: '#' },
-    { subject: 'Biology', year: 2024, href: '#' },
-    { subject: 'Physics', year: 2023, href: '#' },
-    { subject: 'Chemistry', year: 2023, href: '#' },
-    { subject: 'Maths', year: 2023, href: '#' },
-    { subject: 'Biology', year: 2023, href: '#' },
-    { subject: 'Physics', year: 2022, href: '#' },
-    { subject: 'Chemistry', year: 2022, href: '#' },
-    { subject: 'Maths', year: 2022, href: '#' },
-    { subject: 'Biology', year: 2022, href: '#' },
-     { subject: 'Physics', year: 2021, href: '#' },
-    { subject: 'Chemistry', year: 2021, href: '#' },
-    { subject: 'Maths', year: 2021, href: '#' },
-    { subject: 'Biology', year: 2021, href: '#' },
-     { subject: 'Physics', year: 2020, href: '#' },
-    { subject: 'Chemistry', year: 2020, href: '#' },
-    { subject: 'Maths', year: 2020, href: '#' },
-    { subject: 'Biology', year: 2020, href: '#' },
+    { subject: 'Physics', year: 2024, title: 'Set A', href: '#' },
+    { subject: 'Physics', year: 2024, title: 'Set B', href: '#' },
+    { subject: 'Chemistry', year: 2024, title: 'Set A', href: '#' },
+    { subject: 'Maths', year: 2024, title: 'Set A', href: '#' },
+    { subject: 'Biology', year: 2024, title: 'Set A', href: '#' },
+    { subject: 'Physics', year: 2023, title: 'Main Paper', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Main Paper', href: '#' },
+    { subject: 'Maths', year: 2023, title: 'Main Paper', href: '#' },
+    { subject: 'Physics', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Chemistry', year: 2022, title: 'Set 1', href: '#' },
   ],
   'NEET': [
-    { subject: 'Biology', year: 2024, href: '#' },
-    { subject: 'Physics', year: 2024, href: '#' },
-    { subject: 'Chemistry', year: 2024, href: '#' },
-    { subject: 'Biology', year: 2023, href: '#' },
-    { subject: 'Physics', year: 2023, href: '#' },
-    { subject: 'Chemistry', year: 2023, href: '#' },
+    { subject: 'Biology', year: 2024, title: 'Official Paper', href: '#' },
+    { subject: 'Physics', year: 2024, title: 'Official Paper', href: '#' },
+    { subject: 'Chemistry', year: 2024, title: 'Official Paper', href: '#' },
+    { subject: 'Biology', year: 2023, title: 'Official Paper', href: '#' },
+    { subject: 'Physics', year: 2023, title: 'Official Paper', href: '#' },
   ],
   'JEE': [
-    { subject: 'Maths', year: 2024, href: '#' },
-    { subject: 'Physics', year: 2024, href: '#' },
-    { subject: 'Chemistry', year: 2024, href: '#' },
-    { subject: 'Maths', year: 2023, href: '#' },
-    { subject: 'Physics', year: 2023, href: '#' },
-    { subject: 'Chemistry', year: 2023, href: '#' },
+    { subject: 'Maths', year: 2024, title: 'Paper 1', href: '#' },
+    { subject: 'Physics', year: 2024, title: 'Paper 1', href: '#' },
+    { subject: 'Chemistry', year: 2024, title: 'Paper 1', href: '#' },
+    { subject: 'Maths', year: 2023, title: 'Paper 1', href: '#' },
+    { subject: 'Physics', year: 2023, title: 'Paper 1', href: '#' },
   ],
 };
 
@@ -136,13 +121,14 @@ export default function PreviousYearQuestionsPage() {
         <div key={selectedExam} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredPapers && filteredPapers.length > 0 ? (
             filteredPapers.map((paper, index) => (
-              <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+              <div key={`${paper.subject}-${paper.year}-${paper.title}-${index}`} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                 <Card className="flex flex-col h-full rounded-lg shadow-md hover:shadow-lg overflow-hidden transition-all duration-300">
                     <CardContent className="p-4 flex flex-col flex-grow items-center justify-center text-center bg-muted/30">
                         <FileText className="w-12 h-12 text-primary mb-3" />
                         <h3 className="text-lg font-semibold text-foreground">
                             {paper.subject}
                         </h3>
+                        <p className="text-sm text-muted-foreground font-semibold">{paper.title}</p>
                         <p className="text-sm text-muted-foreground font-mono">{paper.year}</p>
                     </CardContent>
                     <div className="p-3 border-t">
