@@ -4,9 +4,8 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Search, X, Download } from 'lucide-react';
+import { FileText, Download } from 'lucide-react';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
@@ -167,6 +166,12 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Chemistry', year: 2022, title: 'Set 1', href: '#' },
     { subject: 'Chemistry', year: 2022, title: 'Set 2', href: '#' },
     { subject: 'Chemistry', year: 2022, title: 'Set 3', href: '#' },
+    { subject: 'Maths', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Maths', year: 2022, title: 'Set 2', href: '#' },
+    { subject: 'Maths', year: 2022, title: 'Set 3', href: '#' },
+    { subject: 'Biology', year: 2022, title: 'Set 1', href: '#' },
+    { subject: 'Biology', year: 2022, title: 'Set 2', href: '#' },
+    { subject: 'Biology', year: 2022, title: 'Set 3', href: '#' },
     { subject: 'Political Science', year: 2022, title: 'Set 1', href: '#' },
     { subject: 'Political Science', year: 2022, title: 'Set 2', href: '#' },
     { subject: 'Political Science', year: 2022, title: 'Set 3', href: '#' },
@@ -193,6 +198,12 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Physics', year: 2023, title: 'Official Paper', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Set B', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Set C', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Official Paper', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Set B', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Set C', href: '#' },
+    { subject: 'Biology', year: 2022, title: 'Official Paper', href: '#' },
+    { subject: 'Physics', year: 2022, title: 'Official Paper', href: '#' },
+    { subject: 'Chemistry', year: 2022, title: 'Official Paper', href: '#' },
   ],
   'JEE': [
     { subject: 'Maths', year: 2024, title: 'Paper 1', href: '#' },
@@ -210,6 +221,12 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Physics', year: 2023, title: 'Paper 1', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Paper 2', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Paper 3', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Paper 1', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Paper 2', href: '#' },
+    { subject: 'Chemistry', year: 2023, title: 'Paper 3', href: '#' },
+    { subject: 'Maths', year: 2022, title: 'Paper 1', href: '#' },
+    { subject: 'Physics', year: 2022, title: 'Paper 1', href: '#' },
+    { subject: 'Chemistry', year: 2022, title: 'Paper 1', href: '#' },
   ],
 };
 
