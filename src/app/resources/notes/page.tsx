@@ -1,58 +1,65 @@
-
 'use client';
 
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { BookText, Search, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 
-type Note = {
-  title: string;
-  description: string;
-  language: string;
-  bgColor: string;
-  textColor: string;
-  buttons: { text: string; href: string; }[];
+type Subject = {
+  name: string;
+  href: string;
 };
 
-const topCourses = [
-    {
-        title: "Science",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "Maths",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "Social Studies",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-];
-
-const notesByClass: { [key: string]: Note[] } = {
-  'Class 6': topCourses,
-  'Class 7': topCourses,
-  'Class 8': topCourses,
-  'Class 9': topCourses,
-  'Class 10': topCourses,
-  'Class 11': topCourses,
-  'Class 12': topCourses,
+const notesByClass: { [key: string]: Subject[] } = {
+  'Class 5': [
+    { name: 'Maths', href: '/resources/class-5-maths' },
+    { name: 'Science', href: '/resources/class-5-science' },
+    { name: 'Social Studies', href: '/resources/class-5-social' },
+  ],
+  'Class 6': [
+    { name: 'Maths', href: '/resources/class-6-maths' },
+    { name: 'Science', href: '/resources/class-6-science' },
+    { name: 'Social Studies', href: '/resources/class-6-social' },
+  ],
+  'Class 7': [
+    { name: 'Maths', href: '/resources/class-7-maths' },
+    { name: 'Science', href: '/resources/class-7-science' },
+    { name: 'Social Studies', href: '/resources/class-7-social' },
+  ],
+  'Class 8': [
+    { name: 'Maths', href: '/resources/class-8-maths' },
+    { name: 'Science', href: '/resources/class-8-science' },
+    { name: 'Social Studies', href: '/resources/class-8-social' },
+  ],
+  'Class 9': [
+    { name: 'Maths', href: '/resources/class-9-maths' },
+    { name: 'Science', href: '/resources/class-9-science' },
+    { name: 'Social Studies', href: '/resources/class-9-social' },
+  ],
+  'Class 10': [
+    { name: 'Maths', href: '/resources/class-10-maths' },
+    { name: 'Science', href: '/resources/science-details' }, // Existing page
+    { name: 'Social Studies', href: '/resources/class-10-social' },
+  ],
+  'Class 11': [
+    { name: 'Maths', href: '/resources/class-11-maths' },
+    { name: 'Physics', href: '/resources/class-11-physics' },
+    { name: 'Chemistry', href: '/resources/class-11-chemistry' },
+    { name: 'Biology', href: '/resources/class-11-biology' },
+    { name: 'History', href: '/resources/class-11-history' },
+    { name: 'Geography', href: '/resources/class-11-geography' },
+    { name: 'Political Science', href: '/resources/class-11-polsci' },
+  ],
+  'Class 12': [
+    { name: 'Maths', href: '/resources/class-12-maths' },
+    { name: 'Physics', href: '/resources/class-12-physics' },
+    { name: 'Chemistry', href: '/resources/class-12-chemistry' },
+    { name: 'Biology', href: '/resources/class-12-biology' },
+    { name: 'History', href: '/resources/class-12-history' },
+    { name: 'Geography', href: '/resources/class-12-geography' },
+    { name: 'Political Science', href: '/resources/political-science-details' }, // Existing page
+  ],
 };
 
 const classes = Object.keys(notesByClass);
@@ -61,8 +68,8 @@ export default function NotesPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredNotes = notesByClass[selectedClass]?.filter(note =>
-    note.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredSubjects = notesByClass[selectedClass]?.filter(subject =>
+    subject.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -100,35 +107,27 @@ export default function NotesPage() {
                 className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
             />
              {searchTerm && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-1/2 -translate-y-1/2 h-full rounded-l-none"
-                onClick={() => setSearchTerm('')}
-              >
-                <X className="h-4 w-4" />
-              </Button>
+                <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                >
+                    <X className="h-4 w-4 text-muted-foreground" />
+                </button>
             )}
         </div>
         <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredNotes && filteredNotes.length > 0 ? (
-            filteredNotes.map((note, index) => (
-              <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${note.bgColor}`}>
-                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-xl font-semibold mb-2 ${note.textColor}`}>
-                        {note.title}
-                    </h3>
-                      {note.description && <p className={`text-sm mb-2 ${note.textColor}`}>{note.description}</p>}
-                      {note.language && <p className={`text-xs ${note.textColor}`}>{note.language}</p>}
-                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={note.buttons[0].href}>{note.buttons[0].text}</Link>
-                        </Button>
-                    </div>
+          {filteredSubjects && filteredSubjects.length > 0 ? (
+            filteredSubjects.map((subject, index) => (
+              <Link href={subject.href} key={index} className="block group animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                <Card className="h-full rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <CardContent className="p-6 text-center">
+                        <BookText className="w-12 h-12 mx-auto text-primary mb-4" />
+                        <h3 className="text-lg font-semibold text-foreground">
+                            {subject.name}
+                        </h3>
                     </CardContent>
                 </Card>
-              </div>
+              </Link>
             ))
           ) : (
              <div className="col-span-full text-center py-12 animate-fade-in-up">

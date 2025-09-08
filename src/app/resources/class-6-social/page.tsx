@@ -13,6 +13,7 @@ const class6SocialResources = {
       chapters: [
         { name: "Chapter 1: What, Where, How and When?", slug: "what-where-how-and-when" },
         { name: "Chapter 2: From Hunting-Gathering to Growing Food", slug: "from-hunting-gathering-to-growing-food" },
+        { name: "Chapter 3: In the Earliest Cities", slug: "in-the-earliest-cities" },
       ],
     },
     {
@@ -20,6 +21,7 @@ const class6SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: The Earth in the Solar System", slug: "the-earth-in-the-solar-system" },
+        { name: "Chapter 2: Globe: Latitudes and Longitudes", slug: "globe-latitudes-and-longitudes" },
       ],
     },
     {
@@ -27,6 +29,7 @@ const class6SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Understanding Diversity", slug: "understanding-diversity" },
+        { name: "Chapter 2: Diversity and Discrimination", slug: "diversity-and-discrimination" },
       ],
     },
   ],
