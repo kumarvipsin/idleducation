@@ -223,14 +223,9 @@ type GroupedPapersBySubject = {
 
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
-  const [searchTerm, setSearchTerm] = useState('');
 
   const papersGrouped: GroupedPapersBySubject = papersByExam[selectedExam]
-    ?.filter(paper => 
-        paper.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        paper.year.toString().includes(searchTerm)
-    )
-    .reduce((acc, paper) => {
+    ?.reduce((acc, paper) => {
         const { subject, year } = paper;
         if (!acc[subject]) {
             acc[subject] = {};
@@ -272,26 +267,6 @@ export default function PreviousYearQuestionsPage() {
       </div>
 
       <main className="flex-1">
-        <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search by subject or year..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
-            />
-             {searchTerm && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-1/2 -translate-y-1/2 h-full rounded-l-none"
-                onClick={() => setSearchTerm('')}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-        </div>
         <Card className="shadow-lg">
             <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
                 <CardTitle>Available Papers for {selectedExam}</CardTitle>
@@ -349,8 +324,8 @@ export default function PreviousYearQuestionsPage() {
                     <div className="col-span-full text-center py-12">
                         <div className="p-8 inline-block">
                             <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                            <p className="text-muted-foreground font-semibold">No papers found matching your criteria.</p>
-                            <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+                            <p className="text-muted-foreground font-semibold">No papers found for this exam.</p>
+                            <p className="text-sm text-muted-foreground">Please select another exam category.</p>
                         </div>
                     </div>
                 )}
