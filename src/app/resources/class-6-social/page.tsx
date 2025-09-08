@@ -11,8 +11,16 @@ const class6SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: What, Where, How and When?", slug: "what-where-how-and-when" },
-        { name: "Chapter 2: From Hunting-Gathering to Growing Food", slug: "from-hunting-gathering-to-growing-food" },
+        { name: "Chapter 2: On The Trail of The Earliest People", slug: "from-hunting-gathering-to-growing-food" },
         { name: "Chapter 3: In the Earliest Cities", slug: "in-the-earliest-cities" },
+        { name: "Chapter 4: What Books and Burials Tell Us", slug: "what-books-and-burials-tell-us" },
+        { name: "Chapter 5: Kingdoms, Kings and an Early Republic", slug: "kingdoms-kings-and-an-early-republic" },
+        { name: "Chapter 6: New Questions and Ideas", slug: "new-questions-and-ideas" },
+        { name: "Chapter 7: Ashoka, The Emperor Who Gave Up War", slug: "ashoka-the-emperor-who-gave-up-war" },
+        { name: "Chapter 8: Vital Villages, Thriving Towns", slug: "vital-villages-thriving-towns" },
+        { name: "Chapter 9: Traders, Kings and Pilgrims", slug: "traders-kings-and-pilgrims" },
+        { name: "Chapter 10: New Empires and Kingdoms", slug: "new-empires-and-kingdoms" },
+        { name: "Chapter 11: Buildings, Paintings and Books", slug: "buildings-paintings-and-books" },
       ],
     },
     {
