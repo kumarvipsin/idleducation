@@ -8,40 +8,48 @@ import Link from "next/link";
 const scienceResources = {
   books: [
     {
-      name: "Mathematics Class VI",
+      name: "Science Class X",
+      lang: "en",
       chapters: [
-        { name: "Patterns in Mathematics", slug: "patterns-in-mathematics" },
-        { name: "Lines and Angles", slug: "lines-and-angles" },
-        { name: "Playing with Numbers", slug: "playing-with-numbers" },
-        { name: "Data Management and Presentation", slug: "data-management-and-presentation" },
-        { name: "Practice Time", slug: "practice-time" },
-        { name: "Perimeter and Area", slug: "perimeter-and-area" },
-        { name: "Fractions", slug: "fractions" },
-        { name: "Playing with Constructions", slug: "playing-with-constructions" },
-        { name: "Symmetry", slug: "symmetry" },
-        { name: "Beyond Zero", slug: "beyond-zero" },
+        { name: "Chapter 1: Chemical Reactions and Equations", slug: "chemical-reactions-and-equations" },
+        { name: "Chapter 2: Acids, Bases and Salts", slug: "acids-bases-and-salts" },
+        { name: "Chapter 3: Metals and Non-metals", slug: "metals-and-non-metals" },
+        { name: "Chapter 4: Carbon and its Compounds", slug: "carbon-and-its-compounds" },
+        { name: "Chapter 5: Life Processes", slug: "life-processes" },
+        { name: "Chapter 6: Control and Coordination", slug: "control-and-coordination" },
+        { name: "Chapter 7: How do Organisms Reproduce?", slug: "how-do-organisms-reproduce" },
+        { name: "Chapter 8: Heredity", slug: "heredity" },
+        { name: "Chapter 9: Light – Reflection and Refraction", slug: "light-reflection-and-refraction" },
+        { name: "Chapter 10: The Human Eye and the Colourful World", slug: "human-eye-and-colourful-world" },
+        { name: "Chapter 11: Electricity", slug: "electricity" },
+        { name: "Chapter 12: Magnetic Effects of Electric Current", slug: "magnetic-effects-of-electric-current" },
+        { name: "Chapter 13: Our Environment", slug: "our-environment" },
       ],
     },
     {
-      name: "गणित कक्षा VI",
+      name: "विज्ञान कक्षा X",
+      lang: "hi",
       chapters: [
-        { name: "गणित में पैटर्न", slug: "patterns-in-mathematics" },
-        { name: "रेखाएँ और कोण", slug: "lines-and-angles" },
-        { name: "संख्याओं का खेल", slug: "playing-with-numbers" },
-        { name: "आँकड़ों का प्रबंधन और प्रस्तुतिकरण", slug: "data-management-and-presentation" },
-        { name: "अभ्यास समय", slug: "practice-time" },
-        { name: "परिमाप और क्षेत्रफल", slug: "perimeter-and-area" },
-        { name: "भिन्न", slug: "fractions" },
-        { name: "रचनाओं के साथ खेलना", slug: "playing-with-constructions" },
-        { name: "सममिति", slug: "symmetry" },
-        { name: "शून्य के दूसरी ओर", slug: "beyond-zero" },
+        { name: "अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण", slug: "chemical-reactions-and-equations" },
+        { name: "अध्याय 2: अम्ल, क्षारक एवं लवण", slug: "acids-bases-and-salts" },
+        { name: "अध्याय 3: धातु एवं अधातु", slug: "metals-and-non-metals" },
+        { name: "अध्याय 4: कार्बन एवं उसके यौगिक", slug: "carbon-and-its-compounds" },
+        { name: "अध्याय 5: जैव प्रक्रम", slug: "life-processes" },
+        { name: "अध्याय 6: नियंत्रण एवं समन्वय", slug: "control-and-coordination" },
+        { name: "अध्याय 7: जीव जनन कैसे करते हैं?", slug: "how-do-organisms-reproduce" },
+        { name: "अध्याय 8: आनुवंशिकता", slug: "heredity" },
+        { name: "अध्याय 9: प्रकाश – परावर्तन तथा अपवर्तन", slug: "light-reflection-and-refraction" },
+        { name: "अध्याय 10: मानव नेत्र तथा रंगबिरंगा संसार", slug: "human-eye-and-colourful-world" },
+        { name: "अध्याय 11: विद्युत", slug: "electricity" },
+        { name: "अध्याय 12: विद्युत धारा के चुंबकीय प्रभाव", slug: "magnetic-effects-of-electric-current" },
+        { name: "अध्याय 13: हमारा पर्यावरण", slug: "our-environment" },
       ],
     },
   ],
   papers: [
-    { name: "Mid-Term Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-    { name: "Annual Exam 2023", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-    { name: "Unit Test 1 (Chapters 1-2)", type: "Test Paper", icon: <Edit className="w-5 h-5 text-green-500" /> },
+    { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
+    { name: "Annual Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
+    { name: "Unit Test 1 (Chapters 1-3)", type: "Test Paper", icon: <Edit className="w-5 h-5 text-green-500" /> },
     { name: "Half-Yearly Revision", type: "Practice Paper", icon: <BrainCircuit className="w-5 h-5 text-yellow-500" /> },
     { name: "Advanced Problems Set", type: "Extra Paper", icon: <BookOpen className="w-5 h-5 text-purple-500" /> },
   ],
@@ -52,8 +60,8 @@ export default function ScienceDetailsPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg">
         <CardHeader className="bg-primary text-primary-foreground">
-          <CardTitle className="text-2xl">Class 6 | Mathematics</CardTitle>
-          <CardDescription className="text-primary-foreground/80">Explore comprehensive resources for your Class 6 Mathematics curriculum.</CardDescription>
+          <CardTitle className="text-2xl">Class 10 | Science</CardTitle>
+          <CardDescription className="text-primary-foreground/80">Explore comprehensive resources for your Class 10 Science curriculum (2025 NCERT Syllabus).</CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -69,7 +77,7 @@ export default function ScienceDetailsPage() {
                       <ul className="space-y-1">
                         {book.chapters.map((chapter, chapterIndex) => (
                           <li key={chapterIndex}>
-                             <Link href={`/resources/notes-details/${chapter.slug}?lang=en`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
+                             <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
                                 {chapter.name}
                             </Link>
                           </li>
