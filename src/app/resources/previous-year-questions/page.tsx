@@ -2,11 +2,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FileText, Search, X, Download } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 type Paper = {
   subject: string;
@@ -73,6 +75,15 @@ export default function PreviousYearQuestionsPage() {
     paper.year.toString().includes(searchTerm)
   );
 
+  const papersGroupedByYear = filteredPapers?.reduce((acc, paper) => {
+    (acc[paper.year] = acc[paper.year] || []).push(paper);
+    return acc;
+  }, {} as Record<number, Paper[]>);
+
+  const sortedYears = papersGroupedByYear ? Object.keys(papersGroupedByYear).map(Number).sort((a, b) => b - a) : [];
+  
+  const defaultAccordionValue = sortedYears.length > 0 ? [`year-${sortedYears[0]}`] : [];
+
   return (
     <div>
       <div className="mb-6">
@@ -118,40 +129,62 @@ export default function PreviousYearQuestionsPage() {
               </Button>
             )}
         </div>
-        <div key={selectedExam} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredPapers && filteredPapers.length > 0 ? (
-            filteredPapers.map((paper, index) => (
-              <div key={`${paper.subject}-${paper.year}-${paper.title}-${index}`} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className="flex flex-col h-full rounded-lg shadow-md hover:shadow-lg overflow-hidden transition-all duration-300">
-                    <CardContent className="p-4 flex flex-col flex-grow items-center justify-center text-center bg-muted/30">
-                        <FileText className="w-12 h-12 text-primary mb-3" />
-                        <h3 className="text-lg font-semibold text-foreground">
-                            {paper.subject}
-                        </h3>
-                        <p className="text-sm text-muted-foreground font-semibold">{paper.title}</p>
-                        <p className="text-sm text-muted-foreground font-mono">{paper.year}</p>
-                    </CardContent>
-                    <div className="p-3 border-t">
-                         <Button asChild variant="secondary" className="w-full">
-                            <Link href={paper.href}>
-                                <Download className="mr-2 h-4 w-4" />
-                                Download
-                            </Link>
-                        </Button>
+        <Card>
+            <CardHeader>
+                <CardTitle>Available Papers for {selectedExam}</CardTitle>
+                <CardDescription>Click on a year to expand and view the question papers.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {sortedYears.length > 0 ? (
+                    <Accordion type="multiple" defaultValue={defaultAccordionValue} className="w-full space-y-2">
+                        {sortedYears.map((year) => (
+                            <AccordionItem value={`year-${year}`} key={year} className="border rounded-lg shadow-sm bg-background/50">
+                                <AccordionTrigger className="font-semibold text-lg p-4 hover:no-underline">
+                                    {year} Question Papers
+                                </AccordionTrigger>
+                                <AccordionContent className="p-0">
+                                    <div className="overflow-x-auto">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>Subject</TableHead>
+                                                    <TableHead>Title / Set</TableHead>
+                                                    <TableHead className="text-right">Action</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {papersGroupedByYear[year].map((paper, index) => (
+                                                    <TableRow key={`${paper.subject}-${paper.year}-${paper.title}-${index}`}>
+                                                        <TableCell className="font-medium">{paper.subject}</TableCell>
+                                                        <TableCell>{paper.title}</TableCell>
+                                                        <TableCell className="text-right">
+                                                            <Button asChild size="sm">
+                                                                <Link href={paper.href}>
+                                                                    <Download className="mr-2 h-4 w-4" />
+                                                                    Download
+                                                                </Link>
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                ) : (
+                    <div className="col-span-full text-center py-12">
+                        <div className="p-8 inline-block">
+                            <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground font-semibold">No papers found matching your criteria.</p>
+                            <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+                        </div>
                     </div>
-                </Card>
-              </div>
-            ))
-          ) : (
-             <div className="col-span-full text-center py-12 animate-fade-in-up">
-                <Card className="p-8 inline-block">
-                    <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No papers found matching your criteria.</p>
-                    <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
-                </Card>
-            </div>
-          )}
-        </div>
+                )}
+            </CardContent>
+        </Card>
       </main>
     </div>
   );
