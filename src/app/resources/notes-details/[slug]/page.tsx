@@ -1292,6 +1292,144 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
 },
+'what-where-how-and-when': {
+    en: {
+        title: 'Chapter 1: What, Where, How and When?',
+        content: `### Finding out what happened
+- **Sources of the Past:** Archaeologists and historians study several sources to tell us about the past. These sources include manuscripts, inscriptions, and archaeology (which includes exploring and excavating to find tools, weapons, pots, buildings, etc.).
+- **Manuscripts:** These were usually written on palm leaf or on the specially prepared bark of a tree known as the birch. They dealt with all kinds of subjects: religious beliefs and practices, the lives of kings, medicine and science.
+- **Inscriptions:** These are writings on relatively hard surfaces such as stone or metal. Kings often got their orders inscribed so that people could see, read and obey them.
+
+### What do dates mean?
+- Years are generally counted from the date assigned to the birth of Jesus Christ.
+- **BC (Before Christ):** Refers to dates before the birth of Christ. Years are counted backwards.
+- **AD (Anno Domini):** Meaning 'in the year of the Lord'. Refers to dates after the birth of Christ.
+- **CE (Common Era) and BCE (Before Common Era):** Sometimes used instead of AD and BC.
+`
+    },
+    hi: {
+        title: 'अध्याय 1: क्या, कहाँ, कैसे और कब?',
+        content: `### क्या हुआ था यह पता लगाना
+- **अतीत के स्रोत:** पुरातत्वविद और इतिहासकार अतीत के बारे में हमें बताने के लिए कई स्रोतों का अध्ययन करते हैं। इन स्रोतों में पांडुलिपियाँ, शिलालेख और पुरातत्व (जिसमें उपकरण, हथियार, बर्तन, भवन आदि खोजने के लिए अन्वेषण और खुदाई शामिल है) शामिल हैं।
+- **पांडुलिपियाँ:** ये आमतौर पर ताड़ के पत्ते पर या भोज नामक पेड़ की विशेष रूप से तैयार छाल पर लिखी जाती थीं। वे सभी प्रकार के विषयों से संबंधित थीं: धार्मिक विश्वास और प्रथाएं, राजाओं का जीवन, चिकित्सा और विज्ञान।
+- **शिलालेख:** ये पत्थर या धातु जैसी अपेक्षाकृत कठोर सतहों पर लिखे गए लेख हैं। राजा अक्सर अपने आदेशों को अंकित करवाते थे ताकि लोग उन्हें देख, पढ़ और उनका पालन कर सकें।
+
+### तिथियों का क्या अर्थ है?
+- वर्षों की गणना आम तौर पर ईसा मसीह के जन्म को सौंपी गई तिथि से की जाती है।
+- **ईसा पूर्व (Before Christ):** ईसा मसीह के जन्म से पहले की तारीखों को संदर्भित करता है। वर्षों की गणना पीछे की ओर की जाती है।
+- **ईस्वी (Anno Domini):** जिसका अर्थ है 'प्रभु के वर्ष में'। ईसा मसीह के जन्म के बाद की तारीखों को संदर्भित करता है।
+- **सा.सं. (Common Era) और सा.सं.पू. (Before Common Era):** कभी-कभी ईस्वी और ईसा पूर्व के बजाय उपयोग किया जाता है।
+`
+    }
+},
+'from-hunting-gathering-to-growing-food': {
+    en: {
+        title: 'Chapter 2: From Hunting-Gathering to Growing Food',
+        content: `### The earliest people: why were they on the move?
+- People who lived in the subcontinent as early as two million years ago are described as hunter-gatherers.
+- They hunted wild animals, caught fish and birds, gathered fruits, roots, nuts, seeds, leaves, stalks and eggs.
+- They moved from place to place in search of food, water, and shelter.
+
+### A changing environment
+- Around 12,000 years ago, there were major changes in the climate of the world, with a shift to relatively warm conditions.
+- This led to the development of grasslands in many areas. This also led to an increase in the number of deer, antelope, goat, sheep and cattle, i.e. animals that survived on grass.
+
+### The beginning of farming and herding
+- People observed plants and how they grew. This may have led them to think about growing plants on their own. In this way people became farmers.
+- People also tamed animals by leaving food for them near their shelters. The first animal to be tamed was the wild ancestor of the dog. Later, people encouraged animals that were relatively gentle to come near the camps where they lived. These animals such as sheep, goat, cattle and also the pig lived in herds and most of them ate grass. People protected these animals from attacks by other wild animals. This is how they became herders.
+`
+    },
+    hi: {
+        title: 'अध्याय 2: आखेट-संग्रह से भोजन उत्पादन तक',
+        content: `### आरंभिक मानव: वे इधर-उधर क्यों घूमते थे?
+- जो लोग उपमहाद्वीप में दो मिलियन वर्ष पहले रहते थे, उन्हें शिकारी-संग्राहक के रूप में वर्णित किया गया है।
+- वे जंगली जानवरों का शिकार करते थे, मछली और पक्षियों को पकड़ते थे, फल, जड़ें, मेवे, बीज, पत्ते, डंठल और अंडे इकट्ठा करते थे।
+- वे भोजन, पानी और आश्रय की तलाश में एक स्थान से दूसरे स्थान पर जाते थे।
+
+### बदलता पर्यावरण
+- लगभग 12,000 साल पहले, दुनिया की जलवायु में बड़े बदलाव हुए, अपेक्षाकृत गर्म परिस्थितियों की ओर बदलाव हुआ।
+- इससे कई क्षेत्रों में घास के मैदानों का विकास हुआ। इससे हिरण, मृग, बकरी, भेड़ और मवेशियों की संख्या में भी वृद्धि हुई, यानी घास पर जीवित रहने वाले जानवर।
+
+### खेती और पशुपालन की शुरुआत
+- लोगों ने पौधों और वे कैसे उगते हैं, इसका अवलोकन किया। इससे उन्हें अपने दम पर पौधे उगाने के बारे में सोचने पर मजबूर किया होगा। इस तरह लोग किसान बन गए।
+- लोगों ने अपने आश्रयों के पास जानवरों के लिए भोजन छोड़कर उन्हें पालतू भी बनाया। पालतू बनाया जाने वाला पहला जानवर कुत्ते का जंगली पूर्वज था। बाद में, लोगों ने उन जानवरों को प्रोत्साहित किया जो अपेक्षाकृत कोमल थे, वे उन शिविरों के पास आते थे जहाँ वे रहते थे। भेड़, बकरी, मवेशी और सूअर जैसे ये जानवर झुंड में रहते थे और उनमें से अधिकांश घास खाते थे। लोगों ने इन जानवरों को अन्य जंगली जानवरों के हमलों से बचाया। इस तरह वे पशुपालक बन गए।
+`
+    }
+},
+'the-earth-in-the-solar-system': {
+    en: {
+        title: 'Chapter 1: The Earth in the Solar System',
+        content: `### Celestial Bodies
+- The sun, the moon and all those objects shining in the night sky are called celestial bodies.
+- **Stars:** Some celestial bodies are very big and hot. They are made up of gases. They have their own heat and light, which they emit in large amounts.
+- **Constellations:** Various patterns formed by different groups of stars. Ursa Major or Big Bear is one such constellation.
+
+### The Solar System
+- The sun, eight planets, satellites and some other celestial bodies known as asteroids and meteoroids form the solar system.
+- **The Sun:** The sun is in the centre of the solar system. It is a huge and made up of extremely hot gases.
+- **Planets:** There are eight planets in our solar system. In order of their distance from the sun, they are: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune.
+- **The Earth:** The third nearest planet to the sun. It is a unique planet in the solar system because conditions favourable to support life are probably found only on the earth. It is also called a blue planet.
+- **The Moon:** Our earth has only one satellite, that is, the moon. Its diameter is only one-quarter that of the earth.
+- **Asteroids:** Tiny bodies which move around the sun. They are found between the orbits of Mars and Jupiter.
+- **Meteoroids:** The small pieces of rocks which move around the sun.
+`
+    },
+    hi: {
+        title: 'अध्याय 1: सौरमंडल में पृथ्वी',
+        content: `### खगोलीय पिंड
+- सूर्य, चंद्रमा और वे सभी वस्तुएँ जो रात के आकाश में चमकती हैं, खगोलीय पिंड कहलाती हैं।
+- **तारे:** कुछ खगोलीय पिंड बहुत बड़े और गर्म होते हैं। वे गैसों से बने होते हैं। उनकी अपनी ऊष्मा और प्रकाश होता है, जिसे वे बड़ी मात्रा में उत्सर्जित करते हैं।
+- **नक्षत्रमंडल:** तारों के विभिन्न समूहों द्वारा बनाए गए विभिन्न पैटर्न। सप्तर्षि या बड़ा भालू एक ऐसा ही नक्षत्रमंडल है।
+
+### सौर मंडल
+- सूर्य, आठ ग्रह, उपग्रह और कुछ अन्य खगोलीय पिंड जिन्हें क्षुद्रग्रह और उल्कापिंड के रूप में जाना जाता है, सौर मंडल का निर्माण करते हैं।
+- **सूर्य:** सूर्य सौर मंडल के केंद्र में है। यह विशाल है और अत्यधिक गर्म गैसों से बना है।
+- **ग्रह:** हमारे सौर मंडल में आठ ग्रह हैं। सूर्य से उनकी दूरी के क्रम में, वे हैं: बुध, शुक्र, पृथ्वी, मंगल, बृहस्पति, शनि, यूरेनस और नेपच्यून।
+- **पृथ्वी:** सूर्य का तीसरा निकटतम ग्रह। यह सौर मंडल में एक अनूठा ग्रह है क्योंकि जीवन का समर्थन करने के लिए अनुकूल परिस्थितियां शायद केवल पृथ्वी पर ही पाई जाती हैं। इसे नीला ग्रह भी कहा जाता है।
+- **चंद्रमा:** हमारी पृथ्वी का केवल एक उपग्रह है, वह है चंद्रमा। इसका व्यास पृथ्वी के व्यास का केवल एक-चौथाई है।
+- **क्षुद्रग्रह:** छोटे पिंड जो सूर्य के चारों ओर घूमते हैं। वे मंगल और बृहस्पति की कक्षाओं के बीच पाए जाते हैं।
+- **उल्कापिंड:** चट्टानों के छोटे-छोटे टुकड़े जो सूर्य के चारों ओर घूमते हैं।
+`
+    }
+},
+'understanding-diversity': {
+    en: {
+        title: 'Chapter 1: Understanding Diversity',
+        content: `### What is Diversity?
+- Diversity means understanding that each individual is unique, and recognizing our individual differences.
+- These can be along the dimensions of race, ethnicity, gender, sexual orientation, socio-economic status, age, physical abilities, religious beliefs, political beliefs, or other ideologies.
+
+### Diversity in India
+- India is a country of many diversities. We speak different languages, have various types of food, celebrate different festivals, practise different religions.
+- **Factors influencing diversity:**
+- - **Historical Factors:** The past of a region influences its diversity. For example, people traveled to new lands for trade, to settle, or because of famines and wars. When they settled, their cultures mixed with the local culture, creating new, diverse cultures.
+- - **Geographical Factors:** The geography of a place influences what people do for a living, what they eat, and what they wear. For example, people in coastal areas are likely to be involved in fishing and eat more fish.
+
+### Unity in Diversity
+- Despite the vast diversity, there is an underlying unity that binds all Indians.
+- This phrase was coined by Jawaharlal Nehru, the first Prime Minister of India, in his book 'The Discovery of India'.
+- The Indian national struggle for freedom from British rule is a great example of unity in diversity, where people from different cultural, religious and regional backgrounds came together for a common cause.
+`
+    },
+    hi: {
+        title: 'अध्याय 1: विविधता की समझ',
+        content: `### विविधता क्या है?
+- विविधता का अर्थ है यह समझना कि प्रत्येक व्यक्ति अद्वितीय है, और हमारे व्यक्तिगत मतभेदों को पहचानना।
+- ये नस्ल, जातीयता, लिंग, यौन अभिविन्यास, सामाजिक-आर्थिक स्थिति, आयु, शारीरिक क्षमताओं, धार्मिक विश्वासों, राजनीतिक विश्वासों या अन्य विचारधाराओं के आयामों के साथ हो सकते हैं।
+
+### भारत में विविधता
+- भारत कई विविधताओं का देश है। हम अलग-अलग भाषाएँ बोलते हैं, विभिन्न प्रकार के भोजन करते हैं, अलग-अलग त्योहार मनाते हैं, अलग-अलग धर्मों का पालन करते हैं।
+- **विविधता को प्रभावित करने वाले कारक:**
+- - **ऐतिहासिक कारक:** किसी क्षेत्र का अतीत उसकी विविधता को प्रभावित करता है। उदाहरण के लिए, लोग व्यापार के लिए, बसने के लिए, या अकाल और युद्धों के कारण नई भूमि की यात्रा करते थे। जब वे बस गए, तो उनकी संस्कृतियाँ स्थानीय संस्कृति के साथ मिल गईं, जिससे नई, विविध संस्कृतियों का निर्माण हुआ।
+- - **भौगोलिक कारक:** किसी स्थान का भूगोल इस बात को प्रभावित करता है कि लोग जीवनयापन के लिए क्या करते हैं, वे क्या खाते हैं और वे क्या पहनते हैं। उदाहरण के लिए, तटीय क्षेत्रों के लोग मछली पकड़ने में शामिल होने और अधिक मछली खाने की संभावना रखते हैं।
+
+### अनेकता में एकता
+- विशाल विविधता के बावजूद, एक अंतर्निहित एकता है जो सभी भारतीयों को बांधती है।
+- यह वाक्यांश भारत के पहले प्रधानमंत्री जवाहरलाल नेहरू ने अपनी पुस्तक 'भारत की खोज' में गढ़ा था।
+- ब्रिटिश शासन से स्वतंत्रता के लिए भारतीय राष्ट्रीय संघर्ष अनेकता में एकता का एक बड़ा उदाहरण है, जहाँ विभिन्न सांस्कृतिक, धार्मिक और क्षेत्रीय पृष्ठभूमि के लोग एक साझा उद्देश्य के लिए एक साथ आए।
+`
+    }
+},
   'default': {
     en: {
       title: 'Notes Not Found',
