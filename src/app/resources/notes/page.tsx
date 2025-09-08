@@ -5,7 +5,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { BookText, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 
 type Subject = {
   name: string;
@@ -40,7 +39,7 @@ const notesByClass: { [key: string]: Subject[] } = {
   ],
   'Class 10': [
     { name: 'Maths', href: '/resources/class-10-maths' },
-    { name: 'Science', href: '/resources/science-details' }, // Existing page
+    { name: 'Science', href: '/resources/class-10-science' },
     { name: 'Social Studies', href: '/resources/class-10-social' },
   ],
   'Class 11': [
@@ -59,7 +58,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'Biology', href: '/resources/class-12-biology' },
     { name: 'History', href: '/resources/class-12-history' },
     { name: 'Geography', href: '/resources/class-12-geography' },
-    { name: 'Political Science', href: '/resources/political-science-details' }, // Existing page
+    { name: 'Political Science', href: '/resources/political-science-details' },
   ],
 };
 

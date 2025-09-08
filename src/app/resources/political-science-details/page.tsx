@@ -91,23 +91,21 @@ export default function PoliticalScienceDetailsPage() {
               <h2 className="text-2xl font-bold mb-4">Chapters & Topics</h2>
               <Accordion type="multiple" className="w-full space-y-4">
                 {politicalScienceResources.books.map((book, bookIndex) => (
-                  <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-none">
-                    <Card className="shadow-sm hover:shadow-md transition-shadow">
-                        <AccordionTrigger className="font-semibold text-lg p-4 hover:bg-muted/50 rounded-t-lg data-[state=open]:bg-muted/50">
-                            <p>{book.name}</p>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                          <ul className="space-y-1">
-                            {book.chapters.map((chapter, chapterIndex) => (
-                              <li key={chapterIndex}>
-                                 <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
-                                    {chapter.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </AccordionContent>
-                    </Card>
+                  <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                    <AccordionTrigger className="font-semibold text-lg p-4 hover:bg-muted/50 rounded-t-lg data-[state=open]:bg-muted/50">
+                      <p>{book.name}</p>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-4 pt-0">
+                      <ul className="space-y-1">
+                        {book.chapters.map((chapter, chapterIndex) => (
+                          <li key={chapterIndex}>
+                             <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="block p-2 rounded-md text-foreground/80 hover:bg-accent/50 hover:text-accent-foreground font-medium transition-colors">
+                                {chapter.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
