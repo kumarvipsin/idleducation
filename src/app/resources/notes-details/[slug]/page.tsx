@@ -7,6 +7,124 @@ import { Suspense, use } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
+  'chemical-reactions-and-equations': {
+    en: {
+      title: 'Chapter 1: Chemical Reactions and Equations',
+      content: `### Chemical Reactions
+- A chemical reaction is a process that leads to the chemical transformation of one set of chemical substances to another.
+- **Reactants:** The substances that undergo chemical change in the reaction.
+- **Products:** The new substances formed during the reaction.
+- **Observations that help determine a chemical reaction:**
+- - Change in state
+- - Change in colour
+- - Evolution of a gas
+- - Change in temperature
+
+### Chemical Equations
+- A chemical equation is the symbolic representation of a chemical reaction in the form of symbols and formulae.
+- **Word Equation:** Magnesium + Oxygen → Magnesium oxide
+- **Symbolic Equation:** 2Mg + O₂ → 2MgO
+
+### Balanced Chemical Equations
+- A balanced chemical equation has an equal number of atoms of each element on both sides of the equation.
+- **Law of Conservation of Mass:** Mass can neither be created nor destroyed in a chemical reaction. Therefore, the total mass of the elements present in the products must be equal to the total mass of the elements present in the reactants.
+- **Steps to Balance a Chemical Equation (Hit and Trial Method):**
+- - 1. Write the word equation and then the skeletal chemical equation.
+- - 2. List the number of atoms of different elements present in the unbalanced equation.
+- - 3. Start balancing with the compound that contains the maximum number of atoms. It may be a reactant or a product.
+- - 4. Balance the elements one by one by putting coefficients.
+- - 5. Check the correctness of the balanced equation by counting the atoms of each element on both sides.
+- - 6. Write symbols of the physical state of reactants and products (s for solid, l for liquid, g for gas, aq for aqueous).
+
+### Types of Chemical Reactions
+- **Combination Reaction:** A reaction in which two or more reactants combine to form a single product.
+- - **Example:** CaO(s) + H₂O(l) → Ca(OH)₂(aq) (Quick lime + Water → Slaked lime)
+- - Burning of coal: C(s) + O₂(g) → CO₂(g)
+- **Decomposition Reaction:** A reaction in which a single reactant breaks down to give simpler products.
+- - **Thermal Decomposition:** Decomposition carried out by heating.
+- - - **Example:** 2FeSO₄(s) --(Heat)--> Fe₂O₃(s) + SO₂(g) + SO₃(g)
+- - **Electrolytic Decomposition (Electrolysis):** Decomposition carried out by passing electricity.
+- - - **Example:** 2H₂O(l) --(Electrolysis)--> 2H₂(g) + O₂(g)
+- - **Photolytic Decomposition (Photolysis):** Decomposition carried out in the presence of sunlight.
+- - - **Example:** 2AgCl(s) --(Sunlight)--> 2Ag(s) + Cl₂(g)
+- **Displacement Reaction:** A reaction in which a more reactive element displaces a less reactive element from its compound.
+- - **Example:** Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s) (Iron displaces Copper)
+- **Double Displacement Reaction:** A reaction in which there is an exchange of ions between the reactants.
+- - **Example:** Na₂SO₄(aq) + BaCl₂(aq) → BaSO₄(s) + 2NaCl(aq)
+- - **Precipitation Reaction:** Any reaction that produces a precipitate (an insoluble solid). The above example is also a precipitation reaction as BaSO₄ is a white precipitate.
+- **Oxidation and Reduction (Redox Reactions):**
+- - **Oxidation:** The gain of oxygen or loss of hydrogen. A substance is oxidized if it gains oxygen or loses hydrogen.
+- - **Reduction:** The loss of oxygen or gain of hydrogen. A substance is reduced if it loses oxygen or gains hydrogen.
+- - **Oxidizing Agent:** The substance which gives oxygen or gains hydrogen.
+- - **Reducing Agent:** The substance which gains oxygen or gives hydrogen.
+- - **Example:** CuO + H₂ → Cu + H₂O. Here, CuO is reduced to Cu, and H₂ is oxidized to H₂O. CuO is the oxidizing agent, and H₂ is the reducing agent.
+
+### Effects of Oxidation in Daily Life
+- **Corrosion:** The process where metals are attacked by substances around it such as moisture, acids, etc.
+- - **Example:** Rusting of iron (formation of a reddish-brown coating of hydrated ferric oxide), black coating on silver, green coating on copper.
+- **Rancidity:** The process of oxidation of fats and oils in food, resulting in an unpleasant smell and taste.
+- - **Prevention:** It can be prevented by adding antioxidants, storing food in airtight containers, or flushing food packages with nitrogen gas.
+`
+    },
+    hi: {
+      title: 'अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण',
+      content: `### रासायनिक अभिक्रियाएँ
+- रासायनिक अभिक्रिया एक ऐसी प्रक्रिया है जिसमें एक या अधिक रासायनिक पदार्थ परिवर्तित होकर दूसरे रासायनिक पदार्थ बनाते हैं।
+- **अभिकारक:** वे पदार्थ जो अभिक्रिया में रासायनिक परिवर्तन से गुजरते हैं।
+- **उत्पाद:** अभिक्रिया के दौरान बनने वाले नए पदार्थ।
+- **अवलोकन जो रासायनिक अभिक्रिया का निर्धारण करने में मदद करते हैं:**
+- - अवस्था में परिवर्तन
+- - रंग में परिवर्तन
+- - गैस का उत्सर्जन
+- - तापमान में परिवर्तन
+
+### रासायनिक समीकरण
+- रासायनिक समीकरण प्रतीकों और सूत्रों के रूप में एक रासायनिक अभिक्रिया का प्रतीकात्मक प्रतिनिधित्व है।
+- **शब्द समीकरण:** मैग्नीशियम + ऑक्सीजन → मैग्नीशियम ऑक्साइड
+- **प्रतीकात्मक समीकरण:** 2Mg + O₂ → 2MgO
+
+### संतुलित रासायनिक समीकरण
+- एक संतुलित रासायनिक समीकरण में समीकरण के दोनों पक्षों में प्रत्येक तत्व के परमाणुओं की संख्या बराबर होती है।
+- **द्रव्यमान संरक्षण का नियम:** किसी रासायनिक अभिक्रिया में द्रव्यमान का न तो निर्माण किया जा सकता है और न ही विनाश। इसलिए, उत्पादों में मौजूद तत्वों का कुल द्रव्यमान अभिकारकों में मौजूद तत्वों के कुल द्रव्यमान के बराबर होना चाहिए।
+- **रासायनिक समीकरण को संतुलित करने के चरण (हिट एंड ट्रायल विधि):**
+- - 1. शब्द समीकरण और फिर कंकालीय रासायनिक समीकरण लिखें।
+- - 2. असंतुलित समीकरण में मौजूद विभिन्न तत्वों के परमाणुओं की संख्या को सूचीबद्ध करें।
+- - 3. उस यौगिक से संतुलन शुरू करें जिसमें परमाणुओं की अधिकतम संख्या हो। यह एक अभिकारक या उत्पाद हो सकता है।
+- - 4. गुणांक लगाकर एक-एक करके तत्वों को संतुलित करें।
+- - 5. दोनों पक्षों में प्रत्येक तत्व के परमाणुओं की गिनती करके संतुलित समीकरण की शुद्धता की जाँच करें।
+- - 6. अभिकारकों और उत्पादों की भौतिक अवस्था के प्रतीक लिखें (s ठोस के लिए, l तरल के लिए, g गैस के लिए, aq जलीय विलयन के लिए)।
+
+### रासायनिक अभिक्रियाओं के प्रकार
+- **संयोजन अभिक्रिया:** एक अभिक्रिया जिसमें दो या दो से अधिक अभिकारक मिलकर एक एकल उत्पाद बनाते हैं।
+- - **उदाहरण:** CaO(s) + H₂O(l) → Ca(OH)₂(aq) (बिना बुझा चूना + पानी → बुझा हुआ चूना)
+- - कोयले का दहन: C(s) + O₂(g) → CO₂(g)
+- **वियोजन अभिक्रिया:** एक अभिक्रिया जिसमें एक एकल अभिकारक टूटकर सरल उत्पाद देता है।
+- - **ऊष्मीय वियोजन:** गर्म करके किया गया वियोजन।
+- - - **उदाहरण:** 2FeSO₄(s) --(ऊष्मा)--> Fe₂O₃(s) + SO₂(g) + SO₃(g)
+- - **विद्युत-अपघटनी वियोजन (विद्युत-अपघटन):** विद्युत प्रवाहित करके किया गया वियोजन।
+- - - **उदाहरण:** 2H₂O(l) --(विद्युत-अपघटन)--> 2H₂(g) + O₂(g)
+- - **प्रकाशीय वियोजन (प्रकाश-अपघटन):** सूर्य के प्रकाश की उपस्थिति में किया गया वियोजन।
+- - - **उदाहरण:** 2AgCl(s) --(सूर्य का प्रकाश)--> 2Ag(s) + Cl₂(g)
+- **विस्थापन अभिक्रिया:** एक अभिक्रिया जिसमें एक अधिक क्रियाशील तत्व अपने यौगिक से कम क्रियाशील तत्व को विस्थापित करता है।
+- - **उदाहरण:** Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s) (लोहा तांबे को विस्थापित करता है)
+- **द्विविस्थापन अभिक्रिया:** एक अभिक्रिया जिसमें अभिकारकों के बीच आयनों का आदान-प्रदान होता है।
+- - **उदाहरण:** Na₂SO₄(aq) + BaCl₂(aq) → BaSO₄(s) + 2NaCl(aq)
+- - **अवक्षेपण अभिक्रिया:** कोई भी अभिक्रिया जो एक अवक्षेप (एक अघुलनशील ठोस) उत्पन्न करती है। उपरोक्त उदाहरण भी एक अवक्षेपण अभिक्रिया है क्योंकि BaSO₄ एक सफेद अवक्षेप है।
+- **उपचयन और अपचयन (रेडॉक्स अभिक्रियाएँ):**
+- - **उपचयन (ऑक्सीकरण):** ऑक्सीजन का लाभ या हाइड्रोजन की हानि। यदि कोई पदार्थ ऑक्सीजन प्राप्त करता है या हाइड्रोजन खोता है तो वह उपचयित होता है।
+- - **अपचयन:** ऑक्सीजन की हानि या हाइड्रोजन का लाभ। यदि कोई पदार्थ ऑक्सीजन खोता है या हाइड्रोजन प्राप्त करता है तो वह अपचयित होता है।
+- - **उपचायक (ऑक्सीकारक):** वह पदार्थ जो ऑक्सीजन देता है या हाइड्रोजन प्राप्त करता है।
+- - **अपचायक:** वह पदार्थ जो ऑक्सीजन प्राप्त करता है या हाइड्रोजन देता है।
+- - **उदाहरण:** CuO + H₂ → Cu + H₂O। यहाँ, CuO का Cu में अपचयन होता है, और H₂ का H₂O में उपचयन होता है। CuO उपचायक है, और H₂ अपचायक है।
+
+### दैनिक जीवन में उपचयन के प्रभाव
+- **संक्षारण:** वह प्रक्रिया जिसमें धातुएँ अपने आस-पास के पदार्थों जैसे नमी, अम्ल आदि द्वारा आक्रमित होती हैं।
+- - **उदाहरण:** लोहे में जंग लगना (जलयोजित फेरिक ऑक्साइड की लाल-भूरी परत का बनना), चांदी पर काली परत, तांबे पर हरी परत।
+- **विकृतगंधिता:** भोजन में वसा और तेलों के उपचयन की प्रक्रिया, जिसके परिणामस्वरूप एक अप्रिय गंध और स्वाद होता है।
+- - **रोकथाम:** इसे प्रतिऑक्सीकारक मिलाकर, भोजन को वायुरोधी कंटेनरों में संग्रहीत करके, या खाद्य पैकेजों को नाइट्रोजन गैस से फ्लश करके रोका जा सकता है।
+`
+    }
+  },
   'knowing-our-numbers': {
     en: {
       title: 'Chapter 1: Knowing Our Numbers',
