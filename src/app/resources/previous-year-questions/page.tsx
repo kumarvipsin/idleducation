@@ -215,9 +215,9 @@ const papersByExam: { [key: string]: Paper[] } = {
 
 const examCategories = Object.keys(papersByExam);
 
-type GroupedPapers = {
-  [year: number]: {
-    [subject: string]: Paper[];
+type GroupedPapersBySubject = {
+  [subject: string]: {
+    [year: number]: Paper[];
   };
 };
 
@@ -225,26 +225,27 @@ export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const papersGrouped: GroupedPapers = papersByExam[selectedExam]
+  const papersGrouped: GroupedPapersBySubject = papersByExam[selectedExam]
     ?.filter(paper => 
         paper.subject.toLowerCase().includes(searchTerm.toLowerCase()) || 
         paper.year.toString().includes(searchTerm)
     )
     .reduce((acc, paper) => {
-        const { year, subject } = paper;
-        if (!acc[year]) {
-            acc[year] = {};
+        const { subject, year } = paper;
+        if (!acc[subject]) {
+            acc[subject] = {};
         }
-        if (!acc[year][subject]) {
-            acc[year][subject] = [];
+        if (!acc[subject][year]) {
+            acc[subject][year] = [];
         }
-        acc[year][subject].push(paper);
+        acc[subject][year].push(paper);
+        // Sort papers by title within the year
+        acc[subject][year].sort((a, b) => a.title.localeCompare(b.title));
         return acc;
-    }, {} as GroupedPapers);
+    }, {} as GroupedPapersBySubject);
 
-  const sortedYears = papersGrouped ? Object.keys(papersGrouped).map(Number).sort((a, b) => b - a) : [];
-  
-  const defaultAccordionValue = sortedYears.length > 0 ? [`year-${sortedYears[0]}`] : [];
+    const sortedSubjects = papersGrouped ? Object.keys(papersGrouped).sort() : [];
+    const defaultAccordionValue = sortedSubjects.length > 0 ? [`subject-${sortedSubjects[0]}`] : [];
 
   return (
     <div>
@@ -294,33 +295,35 @@ export default function PreviousYearQuestionsPage() {
         <Card>
             <CardHeader>
                 <CardTitle>Available Papers for {selectedExam}</CardTitle>
-                <CardDescription>Click on a year to expand and view the question papers.</CardDescription>
+                <CardDescription>Click on a subject to expand and view the question papers.</CardDescription>
             </CardHeader>
             <CardContent>
-                {sortedYears.length > 0 ? (
+                {sortedSubjects.length > 0 ? (
                     <Accordion type="multiple" defaultValue={defaultAccordionValue} className="w-full space-y-2">
-                        {sortedYears.map((year) => (
-                            <AccordionItem value={`year-${year}`} key={year} className="border rounded-lg shadow-sm bg-background/50">
+                        {sortedSubjects.map((subject) => {
+                           const yearsForSubject = Object.keys(papersGrouped[subject]).map(Number).sort((a, b) => b - a);
+                           return (
+                            <AccordionItem value={`subject-${subject}`} key={subject} className="border rounded-lg shadow-sm bg-background/50">
                                 <AccordionTrigger className="font-semibold text-lg p-4 hover:no-underline">
-                                    {year} Question Papers
+                                    {subject}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-0">
                                     <div className="overflow-x-auto">
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
-                                                    <TableHead>Subject</TableHead>
+                                                    <TableHead className="w-[120px]">Year</TableHead>
                                                     <TableHead>Sets / Papers Available</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
-                                               {Object.entries(papersGrouped[year]).map(([subject, papers]) => (
-                                                    <TableRow key={subject}>
-                                                        <TableCell className="font-medium align-top py-4">{subject}</TableCell>
+                                               {yearsForSubject.map(year => (
+                                                    <TableRow key={year}>
+                                                        <TableCell className="font-medium align-top py-4">{year}</TableCell>
                                                         <TableCell>
                                                             <div className="flex flex-col gap-2 items-start">
-                                                                {papers.map((paper, index) => (
-                                                                    <div key={index} className="flex items-center justify-between w-full">
+                                                                {papersGrouped[subject][year].map((paper, index) => (
+                                                                    <div key={index} className="flex items-center justify-between w-full max-w-sm">
                                                                         <span>{paper.title}</span>
                                                                         <Button asChild size="sm" variant="outline">
                                                                             <Link href={paper.href}>
@@ -339,7 +342,8 @@ export default function PreviousYearQuestionsPage() {
                                     </div>
                                 </AccordionContent>
                             </AccordionItem>
-                        ))}
+                           )
+                        })}
                     </Accordion>
                 ) : (
                     <div className="col-span-full text-center py-12">
