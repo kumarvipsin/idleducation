@@ -8,7 +8,7 @@ import Link from "next/link";
 const scienceResources = {
   books: [
     {
-      name: "Science Class X",
+      name: "Science Class X (2025 Syllabus)",
       lang: "en",
       chapters: [
         { name: "Chapter 1: Chemical Reactions and Equations", slug: "chemical-reactions-and-equations" },
@@ -27,7 +27,7 @@ const scienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा X",
+      name: "विज्ञान कक्षा X (2025 पाठ्यक्रम)",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण", slug: "chemical-reactions-and-equations" },
