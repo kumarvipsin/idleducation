@@ -19,6 +19,7 @@ type Paper = {
 
 const papersByExam: { [key: string]: Paper[] } = {
   'CBSE Class 10': [
+    // 2024
     { subject: 'Science', year: 2024, title: 'Set 1', href: '#' },
     { subject: 'Science', year: 2024, title: 'Set 2', href: '#' },
     { subject: 'Science', year: 2024, title: 'Set 3', href: '#' },
@@ -31,6 +32,14 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Social Studies', year: 2024, title: 'Set 1', href: '#' },
     { subject: 'Social Studies', year: 2024, title: 'Set 2', href: '#' },
     { subject: 'Social Studies', year: 2024, title: 'Set 3', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set 2', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set 3', href: '#' },
+    { subject: 'Hindi A', year: 2024, title: 'Set 1', href: '#' },
+    { subject: 'Hindi A', year: 2024, title: 'Set 2', href: '#' },
+    { subject: 'Hindi A', year: 2024, title: 'Set 3', href: '#' },
+
+    // 2023
     { subject: 'Science', year: 2023, title: 'Set 1', href: '#' },
     { subject: 'Science', year: 2023, title: 'Set 2', href: '#' },
     { subject: 'Science', year: 2023, title: 'Set 3', href: '#' },
@@ -40,6 +49,11 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2023, title: 'Set 1', href: '#' },
     { subject: 'English', year: 2023, title: 'Set 2', href: '#' },
     { subject: 'English', year: 2023, title: 'Set 3', href: '#' },
+    { subject: 'Hindi B', year: 2023, title: 'Set 1', href: '#' },
+    { subject: 'Hindi B', year: 2023, title: 'Set 2', href: '#' },
+    { subject: 'Hindi B', year: 2023, title: 'Set 3', href: '#' },
+    
+    // 2022
     { subject: 'Science', year: 2022, title: 'Set 1', href: '#' },
     { subject: 'Science', year: 2022, title: 'Set 2', href: '#' },
     { subject: 'Science', year: 2022, title: 'Set 3', href: '#' },
@@ -49,6 +63,8 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Social Studies', year: 2022, title: 'Set 1', href: '#' },
     { subject: 'Social Studies', year: 2022, title: 'Set 2', href: '#' },
     { subject: 'Social Studies', year: 2022, title: 'Set 3', href: '#' },
+
+    // 2021
     { subject: 'Science', year: 2021, title: 'Set 1', href: '#' },
     { subject: 'Science', year: 2021, title: 'Set 2', href: '#' },
     { subject: 'Science', year: 2021, title: 'Set 3', href: '#' },
@@ -58,6 +74,8 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Social Studies', year: 2021, title: 'Set 1', href: '#' },
     { subject: 'Social Studies', year: 2021, title: 'Set 2', href: '#' },
     { subject: 'Social Studies', year: 2021, title: 'Set 3', href: '#' },
+
+    // 2020
     { subject: 'Science', year: 2020, title: 'Set 1', href: '#' },
     { subject: 'Science', year: 2020, title: 'Set 2', href: '#' },
     { subject: 'Science', year: 2020, title: 'Set 3', href: '#' },
@@ -66,6 +84,7 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Maths', year: 2020, title: 'Set 3', href: '#' },
   ],
   'CBSE Class 12': [
+    // 2024
     { subject: 'Physics', year: 2024, title: 'Set A', href: '#' },
     { subject: 'Physics', year: 2024, title: 'Set B', href: '#' },
     { subject: 'Physics', year: 2024, title: 'Set C', href: '#' },
@@ -78,6 +97,11 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Biology', year: 2024, title: 'Set A', href: '#' },
     { subject: 'Biology', year: 2024, title: 'Set B', href: '#' },
     { subject: 'Biology', year: 2024, title: 'Set C', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set A', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set B', href: '#' },
+    { subject: 'English', year: 2024, title: 'Set C', href: '#' },
+
+    // 2023
     { subject: 'Physics', year: 2023, title: 'Main Paper', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Set 2', href: '#' },
     { subject: 'Physics', year: 2023, title: 'Set 3', href: '#' },
@@ -87,6 +111,11 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Maths', year: 2023, title: 'Main Paper', href: '#' },
     { subject: 'Maths', year: 2023, title: 'Set 2', href: '#' },
     { subject: 'Maths', year: 2023, title: 'Set 3', href: '#' },
+    { subject: 'English', year: 2023, title: 'Set 1', href: '#' },
+    { subject: 'English', year: 2023, title: 'Set 2', href: '#' },
+    { subject: 'English', year: 2023, title: 'Set 3', href: '#' },
+
+    // 2022
     { subject: 'Physics', year: 2022, title: 'Set 1', href: '#' },
     { subject: 'Physics', year: 2022, title: 'Set 2', href: '#' },
     { subject: 'Physics', year: 2022, title: 'Set 3', href: '#' },
