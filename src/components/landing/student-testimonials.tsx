@@ -45,7 +45,7 @@ const testimonials = [
 ];
 
 const QuoteIcon = () => (
-    <div className="absolute top-4 left-4 text-[6rem] leading-none font-bold text-primary/10 dark:text-primary/20 opacity-50 transform -translate-y-1/4">
+    <div className="absolute top-0 left-0 text-[8rem] leading-none font-bold text-primary/10 dark:text-primary/20 opacity-50 z-0">
         “
     </div>
 );
@@ -57,24 +57,26 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
   return (
     <div className="p-2 h-full">
       <Card
-        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-foreground relative overflow-hidden"
+        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-foreground"
       >
-        <QuoteIcon />
-        <CardContent className="p-6 pt-16 flex-1 flex flex-col">
-          <ScrollArea className="h-24 flex-grow mb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <blockquote className="text-sm text-foreground/80 pr-4">
-              {fullText}
-            </blockquote>
-          </ScrollArea>
+        <CardContent className="p-6 flex-1 flex flex-col relative">
+          <QuoteIcon />
+          <div className="relative z-10 flex-1 flex flex-col">
+            <ScrollArea className="h-24 flex-grow mb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <blockquote className="text-sm text-foreground/80 pr-4 mt-8">
+                {fullText}
+                </blockquote>
+            </ScrollArea>
 
-          <div className="flex items-center gap-4 mt-auto">
-            <Avatar className="w-12 h-12 border-2 border-primary/20">
-              <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
-              <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-bold text-base">{testimonial.name}</p>
-              <p className="text-xs text-primary font-semibold">{testimonial.achievement}</p>
+            <div className="flex items-center gap-4 mt-auto">
+                <Avatar className="w-12 h-12 border-2 border-primary/20">
+                <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint={testimonial.avatarHint} />
+                <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div>
+                <p className="font-bold text-base">{testimonial.name}</p>
+                <p className="text-xs text-primary font-semibold">{testimonial.achievement}</p>
+                </div>
             </div>
           </div>
         </CardContent>
