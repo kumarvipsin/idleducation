@@ -390,7 +390,7 @@ export default function PreviousYearQuestionsPage() {
             </aside>
             <div className="flex-1">
                 {selectedSubject && papersGrouped ? (
-                    <Card className="shadow-lg">
+                    <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
                         <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
                             <CardTitle>Available Papers for {selectedSubject}</CardTitle>
                         </CardHeader>
