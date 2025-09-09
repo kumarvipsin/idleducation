@@ -2,15 +2,15 @@
 'use client';
 
 import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Youtube } from "lucide-react";
-import Link from "next/link";
+import { Card } from "@/components/ui/card";
+import { Link } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const youtubeChannels = [
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "ANJALI VERMA",
@@ -20,6 +20,7 @@ const youtubeChannels = [
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "ROHAN SHARMA",
@@ -29,6 +30,7 @@ const youtubeChannels = [
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "PRIYA SINGH",
@@ -38,6 +40,7 @@ const youtubeChannels = [
    {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "VIKRAM RATHORE",
@@ -47,6 +50,7 @@ const youtubeChannels = [
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "SNEHA GUPTA",
@@ -56,6 +60,7 @@ const youtubeChannels = [
   {
     name: "IDL EDUCATION",
     href: "https://www.youtube.com/@idleducation",
+    videoId: "_t-tMW2-m5c",
     gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
     iconColor: "text-red-600",
     studentName: "ARJUN MEHTA",
@@ -96,53 +101,78 @@ const shineStyle = {
 }
 
 
-const ChannelCard = ({ channel }: { channel: (typeof youtubeChannels)[0] }) => (
-    <Link href={channel.href} target="_blank" rel="noopener noreferrer" className="group shrink-0">
-        <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5`} style={shineStyle}>
-            <div 
-              className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-2 text-center flex flex-col items-center justify-center gap-2"
-              style={textureStyle}
-            >
-                <div className="relative">
-                    <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
+const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannels)[0], onCardClick: () => void }) => (
+    <DialogTrigger asChild>
+        <button onClick={onCardClick} className="group shrink-0 focus:outline-none">
+            <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5`} style={shineStyle}>
+                <div 
+                  className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-2 text-center flex flex-col items-center justify-center gap-2"
+                  style={textureStyle}
+                >
+                    <div className="relative">
+                        <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
+                    </div>
+                    <h3 className="font-bold text-sm">{channel.name}</h3>
+                    <div className="text-xs text-muted-foreground mt-1">
+                        <p className="font-semibold text-foreground">{channel.studentName}</p>
+                        <p>{channel.studentClass} | {channel.studentPlace}</p>
+                    </div>
                 </div>
-                <h3 className="font-bold text-sm">{channel.name}</h3>
-                <div className="text-xs text-muted-foreground mt-1">
-                    <p className="font-semibold text-foreground">{channel.studentName}</p>
-                    <p>{channel.studentClass} | {channel.studentPlace}</p>
-                </div>
-            </div>
-        </Card>
-    </Link>
+            </Card>
+        </button>
+    </DialogTrigger>
 );
 
 
 export function ToppersTestimonials() {
+  const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      setSelectedVideo(null);
+    }
+  };
+
   return (
-    <section className="w-full py-12 md:py-24 bg-background">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Topper's</span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
-          </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Discover how our top students achieved their goals. Watch their success stories and get inspired.
-          </p>
+    <Dialog onOpenChange={handleOpenChange}>
+      <section className="w-full py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold">
+              <span className="text-black dark:text-white">Topper's</span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
+            </h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              Discover how our top students achieved their goals. Watch their success stories and get inspired.
+            </p>
+          </div>
+          <div className="relative w-full overflow-hidden">
+              <div className="flex marquee-container gap-6" style={{ animationDuration: '15s' }}>
+                   {/* Render the list twice for a seamless loop */}
+                  {youtubeChannels.map((channel, index) => (
+                      <ChannelCard key={`${channel.studentName}-${index}`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
+                  ))}
+                   {youtubeChannels.map((channel, index) => (
+                      <ChannelCard key={`${channel.studentName}-${index}-clone`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
+                  ))}
+              </div>
+              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
+              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
+          </div>
         </div>
-        <div className="relative w-full overflow-hidden">
-            <div className="flex marquee-container gap-6" style={{ animationDuration: '15s' }}>
-                 {/* Render the list twice for a seamless loop */}
-                {youtubeChannels.map((channel, index) => (
-                    <ChannelCard key={`${channel.name}-${index}`} channel={channel} />
-                ))}
-                 {youtubeChannels.map((channel, index) => (
-                    <ChannelCard key={`${channel.name}-${index}-clone`} channel={channel} />
-                ))}
-            </div>
-            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
-            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
-        </div>
-      </div>
-    </section>
+      </section>
+
+      {selectedVideo && (
+        <DialogContent className="sm:max-w-3xl h-[60vh] bg-black/50 backdrop-blur-lg border-primary/20 text-white rounded-2xl p-2">
+            <iframe
+                className="w-full h-full rounded-lg"
+                src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+            ></iframe>
+        </DialogContent>
+      )}
+    </Dialog>
   );
 }
