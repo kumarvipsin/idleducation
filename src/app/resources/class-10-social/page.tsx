@@ -61,7 +61,7 @@ export default function Class10SocialPage() {
         <CardContent className="p-6 bg-muted/20">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div className="lg:col-span-3">
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Chapters & Topics</h2>
+              <h2 className="text-2xl font-bold mb-4 text-foreground">CONTENTS</h2>
               <div className="space-y-6">
                 {class10SocialResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>

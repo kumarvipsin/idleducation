@@ -54,24 +54,19 @@ export default function Class8SocialPage() {
         <CardContent className="p-6 bg-muted/20">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div className="lg:col-span-3">
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Chapters & Topics</h2>
+              <h2 className="text-2xl font-bold mb-4 text-foreground">CONTENTS</h2>
               <div className="space-y-6">
                 {class8SocialResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
                     <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
-                        <Button
-                          key={chapterIndex}
-                          asChild
-                          variant="ghost"
-                          className="w-full justify-start text-left h-auto py-3 group"
-                        >
-                           <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`}>
-                              {chapter.name}
-                              <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                          <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-4 group">
+                            <span className="font-medium text-foreground/90">{chapter.name}</span>
+                            <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                           </Link>
-                        </Button>
+                        </Card>
                       ))}
                     </div>
                   </div>
