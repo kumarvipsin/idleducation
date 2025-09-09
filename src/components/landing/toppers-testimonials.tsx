@@ -4,7 +4,7 @@
 import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Link } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const youtubeChannels = [
   {
@@ -163,6 +163,9 @@ export function ToppersTestimonials() {
 
       {selectedVideo && (
         <DialogContent className="sm:max-w-3xl h-[60vh] bg-black/50 backdrop-blur-lg border-primary/20 text-white rounded-2xl p-2">
+            <DialogHeader>
+              <DialogTitle className="sr-only">Topper Testimonial Video</DialogTitle>
+            </DialogHeader>
             <iframe
                 className="w-full h-full rounded-lg"
                 src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`}
