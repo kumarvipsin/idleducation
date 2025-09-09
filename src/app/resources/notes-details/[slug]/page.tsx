@@ -7,6 +7,82 @@ import { Suspense, use } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
+  'real-numbers': {
+    en: {
+      title: 'Chapter 1: Real Numbers',
+      content: `### Euclid's Division Lemma
+- For any two given positive integers a and b, there exist unique whole numbers q and r such that **a = bq + r**, where **0 ≤ r < b**.
+- Here, 'a' is the dividend, 'b' is the divisor, 'q' is the quotient, and 'r' is the remainder.
+- This lemma is used to find the Highest Common Factor (HCF) of two positive integers.
+
+### Euclid's Division Algorithm
+- An algorithm is a series of well-defined steps which gives a procedure for solving a type of problem.
+- It is a technique to compute the HCF of two given positive integers.
+- **Steps to find HCF(a, b) where a > b:**
+- - **Step 1:** Apply Euclid’s division lemma to a and b to find whole numbers q and r such that a = bq + r, 0 ≤ r < b.
+- - **Step 2:** If r = 0, the HCF is b. If r ≠ 0, apply the division lemma to b and r.
+- - **Step 3:** Continue the process till the remainder is zero. The divisor at this stage will be the required HCF.
+
+### The Fundamental Theorem of Arithmetic
+- Every composite number can be expressed (factorised) as a product of primes, and this factorisation is unique, apart from the order in which the prime factors occur.
+- This is also known as the **Unique Prime Factorization Theorem**.
+- **Example:** 36 = 2 × 2 × 3 × 3 = 2² × 3²
+- The prime factorization of a natural number is unique, except for the order of its factors.
+
+### HCF and LCM using Prime Factorization
+- **HCF (Highest Common Factor):** Product of the smallest power of each common prime factor in the numbers.
+- **LCM (Lowest Common Multiple):** Product of the greatest power of each prime factor involved in the numbers.
+- **Important Property:** For any two positive integers a and b, **HCF(a, b) × LCM(a, b) = a × b**.
+
+### Revisiting Irrational Numbers
+- **Rational Numbers:** A number that can be written in the form p/q, where p and q are integers and q ≠ 0. Their decimal expansion is either terminating or non-terminating recurring.
+- **Irrational Numbers:** A number that cannot be written in the form p/q. Their decimal expansion is non-terminating and non-recurring.
+- **Example:** √2, √3, √5, π
+- **Theorem:** If a prime number 'p' divides a², then 'p' also divides 'a', where 'a' is a positive integer. This theorem is used to prove the irrationality of numbers like √2.
+
+### Decimal Expansions of Rational Numbers
+- Let x be a rational number whose decimal expansion terminates. Then x can be expressed in the form p/q, where p and q are coprime, and the prime factorisation of q is of the form **2ⁿ5ᵐ**, where n, m are non-negative integers.
+- Let x = p/q be a rational number, such that the prime factorisation of q is not of the form 2ⁿ5ᵐ. Then, x has a decimal expansion which is **non-terminating recurring** (repeating).
+`
+    },
+    hi: {
+      title: 'अध्याय 1: वास्तविक संख्याएँ',
+      content: `### यूक्लिड की विभाजन प्रमेयिका
+- दो दिए गए धनात्मक पूर्णांकों a और b के लिए, ऐसी अद्वितीय पूर्ण संख्याएँ q और r मौजूद हैं कि **a = bq + r**, जहाँ **0 ≤ r < b**।
+- यहाँ, 'a' भाज्य है, 'b' भाजक है, 'q' भागफल है, और 'r' शेषफल है।
+- इस प्रमेयिका का उपयोग दो धनात्मक पूर्णांकों का महत्तम समापवर्तक (HCF) ज्ञात करने के लिए किया जाता है।
+
+### यूक्लिड की विभाजन एल्गोरिथ्म
+- एक एल्गोरिथ्म सुपरिभाषित चरणों की एक श्रृंखला है जो एक प्रकार की समस्या को हल करने के लिए एक प्रक्रिया देती है।
+- यह दो दिए गए धनात्मक पूर्णांकों का HCF परिकलित करने की एक तकनीक है।
+- **HCF(a, b) ज्ञात करने के चरण जहाँ a > b:**
+- - **चरण 1:** a और b पर यूक्लिड की विभाजन प्रमेयिका का प्रयोग करके पूर्ण संख्याएँ q और r ज्ञात करें ताकि a = bq + r, 0 ≤ r < b हो।
+- - **चरण 2:** यदि r = 0 है, तो HCF b है। यदि r ≠ 0 है, तो b और r पर विभाजन प्रमेयिका का प्रयोग करें।
+- - **चरण 3:** प्रक्रिया को तब तक जारी रखें जब तक शेषफल शून्य न हो जाए। इस चरण में भाजक ही आवश्यक HCF होगा।
+
+### अंकगणित की आधारभूत प्रमेय
+- प्रत्येक भाज्य संख्या को अभाज्य संख्याओं के एक गुणनफल के रूप में व्यक्त (गुणनखंडित) किया जा सकता है, तथा यह गुणनखंडन अभाज्य गुणनखंडों के आने वाले क्रम के बिना अद्वितीय होता है।
+- इसे **अद्वितीय अभाज्य गुणनखंडन प्रमेय** के रूप में भी जाना जाता है।
+- **उदाहरण:** 36 = 2 × 2 × 3 × 3 = 2² × 3²
+- एक प्राकृत संख्या का अभाज्य गुणनखंडन, उसके गुणनखंडों के क्रम को छोड़कर, अद्वितीय होता है।
+
+### अभाज्य गुणनखंडन का उपयोग करके HCF और LCM
+- **HCF (महत्तम समापवर्तक):** संख्याओं में प्रत्येक उभयनिष्ठ अभाज्य गुणनखंड की सबसे छोटी घात का गुणनफल।
+- **LCM (लघुत्तम समापवर्त्य):** संख्याओं में शामिल प्रत्येक अभाज्य गुणनखंड की सबसे बड़ी घात का गुणनफल।
+- **महत्वपूर्ण गुण:** किन्हीं दो धनात्मक पूर्णांकों a और b के लिए, **HCF(a, b) × LCM(a, b) = a × b**।
+
+### अपरिमेय संख्याओं का पुनरीक्षण
+- **परिमेय संख्याएँ:** एक संख्या जिसे p/q के रूप में लिखा जा सकता है, जहाँ p और q पूर्णांक हैं और q ≠ 0। उनका दशमलव प्रसार या तो सांत होता है या असांत आवर्ती।
+- **अपरिमेय संख्याएँ:** एक संख्या जिसे p/q के रूप में नहीं लिखा जा सकता है। उनका दशमलव प्रसार असांत और अनावर्ती होता है।
+- **उदाहरण:** √2, √3, √5, π
+- **प्रमेय:** यदि एक अभाज्य संख्या 'p', a² को विभाजित करती है, तो 'p', 'a' को भी विभाजित करेगी, जहाँ 'a' एक धनात्मक पूर्णांक है। इस प्रमेय का उपयोग √2 जैसी संख्याओं की अपरिमेयता सिद्ध करने के लिए किया जाता है।
+
+### परिमेय संख्याओं का दशमलव प्रसार
+- मान लीजिए x एक परिमेय संख्या है जिसका दशमलव प्रसार सांत है। तब x को p/q के रूप में व्यक्त किया जा सकता है, जहाँ p और q सह-अभाज्य हैं, और q का अभाज्य गुणनखंडन **2ⁿ5ᵐ** के रूप का है, जहाँ n, m गैर-ऋणात्मक पूर्णांक हैं।
+- मान लीजिए x = p/q एक परिमेय संख्या है, जैसे कि q का अभाज्य गुणनखंडन 2ⁿ5ᵐ के रूप का नहीं है। तब, x का एक दशमलव प्रसार होता है जो **असांत आवर्ती** (दोहराव वाला) होता है।
+`
+    }
+  },
   'chemical-reactions-and-equations': {
     en: {
       title: 'Chapter 1: Chemical Reactions and Equations',
