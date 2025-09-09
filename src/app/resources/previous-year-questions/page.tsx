@@ -4,12 +4,12 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye } from 'lucide-react';
+import { FileText, Download, Eye, BookOpen } from 'lucide-react';
 import Link from 'next/link';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
 
 type Paper = {
   subject: string;
@@ -309,33 +309,35 @@ const papersByExam: { [key: string]: Paper[] } = {
 
 const examCategories = Object.keys(papersByExam);
 
-type GroupedPapersBySubject = {
-  [subject: string]: {
-    [year: number]: Paper[];
-  };
+type GroupedPapersByYear = {
+  [year: number]: Paper[];
 };
 
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
 
-  const papersGrouped: GroupedPapersBySubject = papersByExam[selectedExam]
-    ?.reduce((acc, paper) => {
-        const { subject, year } = paper;
-        if (!acc[subject]) {
-            acc[subject] = {};
-        }
-        if (!acc[subject][year]) {
-            acc[subject][year] = [];
-        }
-        acc[subject][year].push(paper);
-        // Sort papers by title within the year
-        acc[subject][year].sort((a, b) => a.title.localeCompare(b.title));
-        return acc;
-    }, {} as GroupedPapersBySubject);
+  const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
+  
+  // Set the first subject as default when the exam changes
+  if (selectedSubject === '' || !subjects.includes(selectedSubject)) {
+      if(subjects.length > 0) setSelectedSubject(subjects[0]);
+  }
 
-    const sortedSubjects = papersGrouped ? Object.keys(papersGrouped).sort() : [];
-    const defaultAccordionValue = sortedSubjects.length > 0 ? [`subject-${sortedSubjects[0]}`] : [];
+  const papersGrouped: GroupedPapersByYear = papersByExam[selectedExam]
+    ?.filter(p => p.subject === selectedSubject)
+    .reduce((acc, paper) => {
+        const { year } = paper;
+        if (!acc[year]) {
+            acc[year] = [];
+        }
+        acc[year].push(paper);
+        acc[year].sort((a, b) => a.title.localeCompare(b.title));
+        return acc;
+    }, {} as GroupedPapersByYear);
+
+  const sortedYears = papersGrouped ? Object.keys(papersGrouped).map(Number).sort((a, b) => b - a) : [];
 
   return (
     <Dialog>
@@ -350,7 +352,7 @@ export default function PreviousYearQuestionsPage() {
             {examCategories.map((examName) => (
               <button
                 key={examName}
-                onClick={() => setSelectedExam(examName)}
+                onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${selectedExam === examName 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
@@ -362,79 +364,86 @@ export default function PreviousYearQuestionsPage() {
           </div>
         </div>
 
-        <main className="flex-1">
-          <Card className="shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
-                  <CardTitle>Available Papers for {selectedExam}</CardTitle>
-                  <CardDescription className="text-primary-foreground/80">Click on a subject to expand and view the question papers.</CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6">
-                  {sortedSubjects.length > 0 ? (
-                      <Accordion type="multiple" defaultValue={defaultAccordionValue} className="w-full space-y-2">
-                          {sortedSubjects.map((subject) => {
-                             const yearsForSubject = Object.keys(papersGrouped[subject]).map(Number).sort((a, b) => b - a);
-                             return (
-                              <AccordionItem value={`subject-${subject}`} key={subject} className="border rounded-lg shadow-sm bg-background/50">
-                                  <AccordionTrigger className="font-semibold text-lg p-4 hover:no-underline hover:bg-muted/50 rounded-t-lg data-[state=open]:bg-muted/50">
-                                      {subject}
-                                  </AccordionTrigger>
-                                  <AccordionContent className="p-0">
-                                      <div className="overflow-x-auto">
-                                          <Table>
-                                              <TableHeader>
-                                                  <TableRow>
-                                                      <TableHead className="w-[120px]">Year</TableHead>
-                                                      <TableHead>Sets / Papers Available</TableHead>
-                                                  </TableRow>
-                                              </TableHeader>
-                                              <TableBody>
-                                                 {yearsForSubject.map(year => (
-                                                      <TableRow key={year}>
-                                                          <TableCell className="font-medium align-top py-4">{year}</TableCell>
-                                                          <TableCell>
-                                                              <div className="flex flex-col gap-2 items-start">
-                                                                  {papersGrouped[subject][year].map((paper, index) => (
-                                                                      <div key={index} className="flex items-center justify-between w-full max-w-sm">
-                                                                          <span>{paper.title}</span>
-                                                                          <div className="flex items-center gap-2">
-                                                                            <DialogTrigger asChild>
-                                                                                <Button size="sm" variant="outline" onClick={() => setSelectedPaper(paper)}>
-                                                                                    <Eye className="mr-2 h-4 w-4" />
-                                                                                    View
-                                                                                </Button>
-                                                                            </DialogTrigger>
-                                                                            <Button asChild size="sm" variant="outline">
-                                                                                <Link href={paper.href} target="_blank" rel="noopener noreferrer">
-                                                                                    <Download className="mr-2 h-4 w-4" />
-                                                                                    Download
-                                                                                </Link>
-                                                                            </Button>
-                                                                          </div>
-                                                                      </div>
-                                                                  ))}
-                                                              </div>
-                                                          </TableCell>
-                                                      </TableRow>
-                                                  ))}
-                                              </TableBody>
-                                          </Table>
-                                      </div>
-                                  </AccordionContent>
-                              </AccordionItem>
-                             )
-                          })}
-                      </Accordion>
-                  ) : (
-                      <div className="col-span-full text-center py-12">
-                          <div className="p-8 inline-block">
-                              <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                              <p className="text-muted-foreground font-semibold">No papers found for this exam.</p>
-                              <p className="text-sm text-muted-foreground">Please select another exam category.</p>
-                          </div>
-                      </div>
-                  )}
-              </CardContent>
-          </Card>
+        <main className="flex flex-col md:flex-row gap-8">
+            <aside className="w-full md:w-1/4 lg:w-1/5">
+                <Card className="sticky top-24">
+                    <CardHeader>
+                        <CardTitle className="text-lg">Subjects</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-2">
+                        <div className="flex flex-col space-y-1">
+                             {subjects.map(subject => (
+                                <Button 
+                                    key={subject}
+                                    variant="ghost"
+                                    onClick={() => setSelectedSubject(subject)}
+                                    className={cn("justify-start", selectedSubject === subject && "bg-muted font-semibold")}
+                                >
+                                    {subject}
+                                </Button>
+                             ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            </aside>
+            <div className="flex-1">
+                {selectedSubject && papersGrouped ? (
+                    <Card className="shadow-lg">
+                        <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
+                            <CardTitle>Available Papers for {selectedSubject}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[120px]">Year</TableHead>
+                                            <TableHead>Paper Title</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {sortedYears.map(year => 
+                                            papersGrouped[year].map((paper, index) => (
+                                                <TableRow key={`${year}-${index}`} className={index === 0 ? "border-t-4 border-double" : ""}>
+                                                    {index === 0 && (
+                                                        <TableCell className="font-bold align-top" rowSpan={papersGrouped[year].length}>
+                                                            {year}
+                                                        </TableCell>
+                                                    )}
+                                                    <TableCell>{paper.title}</TableCell>
+                                                    <TableCell className="text-right space-x-2">
+                                                        <DialogTrigger asChild>
+                                                            <Button size="sm" variant="outline" onClick={() => setSelectedPaper(paper)}>
+                                                                <Eye className="mr-2 h-4 w-4" />
+                                                                View
+                                                            </Button>
+                                                        </DialogTrigger>
+                                                        <Button asChild size="sm">
+                                                            <Link href={paper.href} target="_blank" rel="noopener noreferrer">
+                                                                <Download className="mr-2 h-4 w-4" />
+                                                                Download
+                                                            </Link>
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="col-span-full text-center py-12">
+                        <Card className="p-8 inline-block">
+                            <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground font-semibold">Select a subject</p>
+                            <p className="text-sm text-muted-foreground">Choose a subject from the left to see available papers.</p>
+                        </Card>
+                    </div>
+                )}
+            </div>
         </main>
       </div>
 
