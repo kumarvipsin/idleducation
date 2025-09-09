@@ -7,36 +7,32 @@ import Link from "next/link";
 
 const resources = [
   {
-    icon: <Library className="w-8 h-8 text-blue-500" />,
+    icon: <Library className="w-10 h-10 text-blue-500" />,
     title: "Reference Books",
-    description: "Explore a curated collection of reference books offering in-depth knowledge and insights to supplement your learning.",
+    description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
-    color: "shadow-blue-500/20",
-    hoverColor: "hover:shadow-blue-500/30",
+    gradient: "from-blue-50 to-purple-50",
   },
   {
-    icon: <History className="w-8 h-8 text-red-500" />,
+    icon: <History className="w-10 h-10 text-red-500" />,
     title: "Previous Year Questions",
-    description: "Sharpen your skills and get exam-ready by practicing with a vast repository of previous year question papers.",
+    description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
-    color: "shadow-red-500/20",
-    hoverColor: "hover:shadow-red-500/30",
+    gradient: "from-red-50 to-orange-50",
   },
   {
-    icon: <NotebookText className="w-8 h-8 text-green-500" />,
+    icon: <NotebookText className="w-10 h-10 text-green-500" />,
     title: "NCERT Solutions",
-    description: "Access detailed, step-by-step solutions for all your NCERT textbook questions, making complex concepts easier to understand.",
+    description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
-    color: "shadow-green-500/20",
-    hoverColor: "hover:shadow-green-500/30",
+    gradient: "from-green-50 to-teal-50",
   },
   {
-    icon: <PencilRuler className="w-8 h-8 text-yellow-500" />,
+    icon: <PencilRuler className="w-10 h-10 text-yellow-500" />,
     title: "Notes",
-    description: "Find concise and well-structured notes designed for quick revision, helping you grasp key topics effectively before exams.",
+    description: "Find concise and well-structured notes designed for quick revision.",
     href: "/resources/notes",
-    color: "shadow-yellow-500/20",
-    hoverColor: "hover:shadow-yellow-500/30",
+    gradient: "from-yellow-50 to-amber-50",
   },
 ]
 
@@ -57,13 +53,15 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col shadow-lg ${resource.color} ${resource.hoverColor}`}
+                  className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col shadow-lg hover:shadow-2xl dark:bg-zinc-800/50`}
                 >
-                    <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#f8f9fa' }}>
-                        <div className="mb-4">{resource.icon}</div>
+                    <CardContent className={`p-6 flex flex-col flex-grow items-center text-center bg-gradient-to-br ${resource.gradient} dark:from-zinc-900 dark:to-zinc-800`}>
+                        <div className="p-4 bg-background/60 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 shadow-inner">
+                            {resource.icon}
+                        </div>
                         <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
                         <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
-                        <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
+                        <div className="mt-auto flex justify-center items-center font-semibold text-primary group-hover:underline underline-offset-4">
                             <span className="text-sm">Explore</span>
                             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
