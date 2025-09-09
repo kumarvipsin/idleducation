@@ -36,13 +36,7 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2024, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2024, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2024, title: 'Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi A', year: 2024, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi A', year: 2024, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi A', year: 2024, title: 'Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2024, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2024, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2024, title: 'Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-
+    
     // 2023
     { subject: 'Science', year: 2023, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'Science', year: 2023, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
@@ -53,10 +47,7 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2023, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2023, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2023, title: 'Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2023, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2023, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    { subject: 'Hindi B', year: 2023, title: 'Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    
+
     // 2022
     { subject: 'Science', year: 2022, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'Science', year: 2022, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
