@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -9,34 +10,6 @@ import Link from "next/link";
 
 export function ExpertTeam() {
   const { t } = useLanguage();
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.1 } // Trigger when 10% of the section is visible
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
 
   const teamMembers = [
     {
@@ -84,7 +57,7 @@ export function ExpertTeam() {
   ];
 
   return (
-    <section ref={sectionRef} className="w-full py-12 md:py-24 bg-muted/40">
+    <section className="w-full py-12 md:py-24 bg-muted/40">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
@@ -96,7 +69,7 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className={`group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-background ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-background"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="bg-muted/30 pt-8 pb-4 flex justify-center items-center">

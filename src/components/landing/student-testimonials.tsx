@@ -1,16 +1,13 @@
 
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Autoplay from "embla-carousel-autoplay";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const testimonials = [
     {
@@ -89,43 +86,15 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
 
 export function StudentTestimonials() {
   const { t } = useLanguage();
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
   
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
-      <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
+    <section id="testimonials" className="w-full py-12 md:py-24 bg-muted/40">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">What Our </span>
             <span style={{ color: '#adb5bd' }}>Students Say</span>
@@ -134,7 +103,7 @@ export function StudentTestimonials() {
             {t('testimonials.subtitle')}
           </p>
         </div>
-        <div className={`relative w-full max-w-5xl mx-auto ${isVisible ? 'animate-fade-in-up' : ''}`} style={{ animationDelay: '0.2s' }}>
+        <div className="relative w-full max-w-5xl mx-auto" style={{ animationDelay: '0.2s' }}>
           <Carousel
             opts={{
               align: "start",

@@ -99,48 +99,19 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 }
 
 export function ExamCategories() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const currentRef = sectionRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-background">
-      <div className={`container mx-auto px-4 md:px-6 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className={`text-center mb-12 ${isVisible ? 'animate-fade-in-up' : ''}`}>
+    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-background">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
           </h2>
-          <p className={`text-muted-foreground mt-2 max-w-2xl mx-auto ${isVisible ? 'animate-fade-in-up' : ''}`} style={{ animationDelay: '0.2s' }}>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
             We offer comprehensive coaching for a wide range of exams. Find your path to success by exploring our categories below.
           </p>
         </div>
         <Card
-            className={`transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-primary via-primary to-accent ${isVisible ? 'animate-fade-in-up' : ''}`}
+            className="transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-primary via-primary to-accent"
             style={{ animationDelay: '0.2s' }}
         >
             <div className="flex flex-col lg:flex-row">
