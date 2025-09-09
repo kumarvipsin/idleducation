@@ -13,6 +13,9 @@ import { AppContent } from '@/components/app-content';
 export const metadata: Metadata = {
   title: 'IDL EDUCATION',
   description: 'An interactive educational platform for students and teachers.',
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export const viewport: Viewport = {
