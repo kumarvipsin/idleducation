@@ -377,7 +377,9 @@ export default function PreviousYearQuestionsPage() {
                                     key={subject}
                                     variant="ghost"
                                     onClick={() => setSelectedSubject(subject)}
-                                    className={cn("justify-start", selectedSubject === subject && "bg-muted font-semibold")}
+                                    className={cn("justify-start h-auto py-2 text-left", 
+                                        selectedSubject === subject && "bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:text-primary-foreground"
+                                    )}
                                 >
                                     {subject}
                                 </Button>
