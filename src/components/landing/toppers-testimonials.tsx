@@ -162,7 +162,7 @@ export function ToppersTestimonials() {
       </section>
 
       {selectedVideo && (
-        <DialogContent className="sm:max-w-3xl h-[60vh] bg-black/50 backdrop-blur-lg border-primary/20 text-white rounded-2xl p-2">
+        <DialogContent className="sm:max-w-3xl h-[60vh] bg-background/80 backdrop-blur-lg border-primary/20 text-white rounded-2xl p-2">
             <DialogHeader>
               <DialogTitle className="sr-only">Topper Testimonial Video</DialogTitle>
             </DialogHeader>
