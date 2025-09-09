@@ -7,36 +7,36 @@ import Link from "next/link";
 
 const resources = [
   {
-    icon: <Library className="w-8 h-8 text-primary" />,
+    icon: <Library className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Explore a curated collection of reference books offering in-depth knowledge and insights to supplement your learning.",
     href: "/resources/reference-books",
-    color: "bg-blue-100 dark:bg-blue-900/20",
-    shadow: "shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-500/30",
+    color: "shadow-blue-500/20",
+    hoverColor: "hover:shadow-blue-500/30",
   },
   {
     icon: <History className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
     description: "Sharpen your skills and get exam-ready by practicing with a vast repository of previous year question papers.",
     href: "/resources/previous-year-questions",
-     color: "bg-red-100 dark:bg-red-900/20",
-     shadow: "shadow-lg shadow-red-500/20 hover:shadow-xl hover:shadow-red-500/30",
+    color: "shadow-red-500/20",
+    hoverColor: "hover:shadow-red-500/30",
   },
   {
     icon: <NotebookText className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions, making complex concepts easier to understand.",
     href: "/resources/ncert-solutions",
-     color: "bg-green-100 dark:bg-green-900/20",
-     shadow: "shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30",
+    color: "shadow-green-500/20",
+    hoverColor: "hover:shadow-green-500/30",
   },
   {
     icon: <PencilRuler className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
     description: "Find concise and well-structured notes designed for quick revision, helping you grasp key topics effectively before exams.",
     href: "/resources/notes",
-     color: "bg-yellow-100 dark:bg-yellow-900/20",
-     shadow: "shadow-lg shadow-yellow-500/20 hover:shadow-xl hover:shadow-yellow-500/30",
+    color: "shadow-yellow-500/20",
+    hoverColor: "hover:shadow-yellow-500/30",
   },
 ]
 
@@ -57,12 +57,10 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col ${resource.shadow}`}
+                  className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col shadow-lg ${resource.color} ${resource.hoverColor}`}
                 >
-                    <div className={`p-6 flex items-center justify-center ${resource.color}`}>
-                        {resource.icon}
-                    </div>
                     <CardContent className="p-6 flex flex-col flex-grow" style={{ backgroundColor: '#f8f9fa' }}>
+                        <div className="mb-4">{resource.icon}</div>
                         <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
                         <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
                         <div className="mt-auto flex justify-start items-center font-semibold text-primary group-hover:underline underline-offset-4">
