@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, Search, X } from 'lucide-react';
+import { BookCheck, Search, X, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -13,8 +13,7 @@ type Note = {
   title: string;
   description: string;
   language: string;
-  bgColor: string;
-  textColor: string;
+  gradient: string;
   buttons: { text: string; href: string; }[];
 };
 
@@ -23,24 +22,21 @@ const class10Courses = [
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-social" }],
     },
 ];
@@ -51,24 +47,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-social" }],
     },
   ],
@@ -77,24 +70,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-social" }],
     },
   ],
@@ -103,24 +93,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-social" }],
     },
   ],
@@ -129,24 +116,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-social" }],
     },
   ],
@@ -155,24 +139,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-maths" }],
     },
     {
         title: "Science",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
+        gradient: "from-blue-500 to-indigo-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-science" }],
     },
     {
         title: "Social Studies",
         description: "History, Geography, Civics",
         language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
+        gradient: "from-amber-500 to-orange-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-social" }],
     },
   ],
@@ -182,24 +163,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-maths" }],
     },
     {
         title: "Physics",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-sky-500",
-        textColor: "text-white",
+        gradient: "from-sky-500 to-cyan-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-physics" }],
     },
     {
         title: "Chemistry",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-purple-500",
-        textColor: "text-white",
+        gradient: "from-purple-500 to-violet-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-chemistry" }],
     },
   ],
@@ -208,24 +186,21 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Maths",
         description: "Complete Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
+        gradient: "from-green-500 to-emerald-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-maths" }],
     },
     {
         title: "Physics",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-sky-500",
-        textColor: "text-white",
+        gradient: "from-sky-500 to-cyan-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-physics" }],
     },
     {
         title: "Chemistry",
         description: "Chapter-wise Solutions",
         language: "NCERT | Basic To Advance",
-        bgColor: "bg-purple-500",
-        textColor: "text-white",
+        gradient: "from-purple-500 to-violet-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-chemistry" }],
     },
   ],
@@ -289,22 +264,18 @@ export default function NcertSolutionsPage() {
         <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredSolutions && filteredSolutions.length > 0 ? (
             filteredSolutions.map((solution, index) => (
-              <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${solution.bgColor}`}>
-                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-xl font-semibold mb-2 ${solution.textColor}`}>
-                        {solution.title}
-                    </h3>
-                      {solution.description && <p className={`text-sm mb-2 ${solution.textColor}`}>{solution.description}</p>}
-                      {solution.language && <p className={`text-xs ${solution.textColor}`}>{solution.language}</p>}
-                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={solution.buttons[0].href}>{solution.buttons[0].text}</Link>
-                        </Button>
-                    </div>
-                    </CardContent>
-                </Card>
-              </div>
+              <Card key={index} className={`flex flex-col text-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${solution.gradient} animate-fade-in-up`} style={{ animationDelay: `${index * 0.05}s` }}>
+                  <CardContent className="p-6 flex flex-col flex-grow items-start">
+                      <h3 className="text-2xl font-bold mb-2 flex-grow">{solution.title}</h3>
+                      {solution.description && <p className={`text-sm mb-2 opacity-90`}>{solution.description}</p>}
+                      {solution.language && <p className={`text-xs opacity-80 mb-6`}>{solution.language}</p>}
+                      <Button asChild variant="secondary" className="mt-auto bg-white/90 text-black hover:bg-white w-full">
+                          <Link href={solution.buttons[0].href}>
+                              {solution.buttons[0].text} <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                      </Button>
+                  </CardContent>
+              </Card>
             ))
           ) : (
              <div className="col-span-full text-center py-12 animate-fade-in-up">
