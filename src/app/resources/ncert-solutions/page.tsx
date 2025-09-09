@@ -198,11 +198,8 @@ const classes = Object.keys(solutionsByClass);
 
 export default function NcertSolutionsPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
-  const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredSolutions = solutionsByClass[selectedClass]?.filter(solution =>
-    solution.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSolutions = solutionsByClass[selectedClass];
 
   return (
     <div>
@@ -229,26 +226,6 @@ export default function NcertSolutionsPage() {
       </div>
 
       <main className="flex-1">
-         <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search by subject..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
-            />
-             {searchTerm && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-1/2 -translate-y-1/2 h-full rounded-l-none"
-                onClick={() => setSearchTerm('')}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-        </div>
         <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredSolutions && filteredSolutions.length > 0 ? (
             filteredSolutions.map((solution, index) => (
