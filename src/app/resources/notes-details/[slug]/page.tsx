@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useSearchParams } from 'next/navigation'
 import { Suspense, use } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
+import { BookOpen } from "lucide-react";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
   'real-numbers': {
@@ -1795,12 +1796,21 @@ function NotesContent({ slug }: { slug: string }) {
 
   return (
      <div className="container mx-auto py-12 px-4 md:px-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl">{notes.title}</CardTitle>
-          <CardDescription>Detailed notes for your study and revision.</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <Card className="shadow-lg overflow-hidden">
+        <div className="bg-gradient-to-r from-primary to-accent text-white p-8">
+            <div className="flex items-center gap-4">
+                <div className="bg-white/20 p-4 rounded-full">
+                    <BookOpen className="w-8 h-8" />
+                </div>
+                <div>
+                    <CardTitle className="text-3xl font-bold">{notes.title}</CardTitle>
+                    <CardDescription className="text-primary-foreground/80 mt-1">
+                        Detailed notes for your study and revision.
+                    </CardDescription>
+                </div>
+            </div>
+        </div>
+        <CardContent className="p-6 md:p-8">
           <NotesContentRenderer content={notes.content} />
         </CardContent>
       </Card>
