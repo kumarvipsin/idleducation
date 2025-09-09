@@ -59,7 +59,7 @@ export default function Class7SciencePage() {
               <div className="space-y-6">
                 {class7ScienceResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">

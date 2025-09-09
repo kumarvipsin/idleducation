@@ -26,7 +26,7 @@ const scienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा X (2025 पाठ्यक्रम)",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण", slug: "chemical-reactions-and-equations" },
@@ -78,7 +78,7 @@ export default function ScienceDetailsPage() {
               <div className="space-y-6">
                 {scienceResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
