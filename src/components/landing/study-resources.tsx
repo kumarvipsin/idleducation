@@ -2,37 +2,41 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Library, PencilRuler, NotebookText, History } from "lucide-react";
+import { ArrowRight, BookCopy, FileText, BookCheck, ClipboardEdit } from "lucide-react";
 import Link from "next/link";
 
 const resources = [
   {
-    icon: <Library className="w-10 h-10 text-blue-500" />,
+    icon: <BookCopy className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
     gradient: "from-blue-50 to-purple-50",
+    shadowColor: "shadow-blue-500/20",
   },
   {
-    icon: <History className="w-10 h-10 text-red-500" />,
+    icon: <FileText className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
     gradient: "from-red-50 to-orange-50",
+    shadowColor: "shadow-red-500/20",
   },
   {
-    icon: <NotebookText className="w-10 h-10 text-green-500" />,
+    icon: <BookCheck className="w-8 h-8 text-green-500" />,
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
     gradient: "from-green-50 to-teal-50",
+    shadowColor: "shadow-green-500/20",
   },
   {
-    icon: <PencilRuler className="w-10 h-10 text-yellow-500" />,
+    icon: <ClipboardEdit className="w-8 h-8 text-yellow-500" />,
     title: "Notes",
     description: "Find concise and well-structured notes designed for quick revision.",
     href: "/resources/notes",
     gradient: "from-yellow-50 to-amber-50",
+    shadowColor: "shadow-yellow-500/20",
   },
 ]
 
