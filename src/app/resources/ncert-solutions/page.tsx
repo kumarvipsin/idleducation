@@ -12,8 +12,6 @@ import { Badge } from '@/components/ui/badge';
 
 type Note = {
   title: string;
-  description: string;
-  language: string;
   gradient: string;
   buttons: { text: string; href: string; }[];
   icon: React.ReactNode;
@@ -22,24 +20,18 @@ type Note = {
 const class10Courses: Note[] = [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -50,24 +42,18 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 5': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -76,24 +62,18 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 6': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -102,24 +82,18 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 7': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -128,24 +102,18 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 8': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -154,24 +122,18 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 9': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Science",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-science" }],
         icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
     },
     {
         title: "Social Studies",
-        description: "History, Geography, Civics",
-        language: "English | Hindi",
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
@@ -181,32 +143,24 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 11': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Physics",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-physics" }],
         icon: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
     },
     {
         title: "Chemistry",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-chemistry" }],
         icon: <TestTube2 className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
     {
         title: "Biology",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
@@ -215,32 +169,24 @@ const solutionsByClass: { [key: string]: Note[] } = {
   'Class 12': [
     {
         title: "Maths",
-        description: "Complete Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
         title: "Physics",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-physics" }],
         icon: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
     },
     {
         title: "Chemistry",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-chemistry" }],
         icon: <TestTube2 className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
     {
         title: "Biology",
-        description: "Chapter-wise Solutions",
-        language: "NCERT | Basic To Advance",
         gradient: "from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
@@ -317,8 +263,6 @@ export default function NcertSolutionsPage() {
                         <Badge variant="secondary">{selectedClass}</Badge>
                     </div>
                     <h3 className="text-xl font-bold mb-1 flex-grow">{solution.title}</h3>
-                    <p className={`text-sm mb-1 text-muted-foreground`}>{solution.description}</p>
-                    <p className={`text-xs text-muted-foreground/80 mb-6`}>{solution.language}</p>
                     <Button asChild variant="default" className="mt-auto w-full">
                         <Link href={solution.buttons[0].href}>
                             {solution.buttons[0].text} <ArrowRight className="ml-2 h-4 w-4" />
