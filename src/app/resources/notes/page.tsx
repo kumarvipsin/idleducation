@@ -4,9 +4,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookText, Search, X, TestTube2, Scale, Microscope, Globe, Landmark, Languages, Atom, Sigma, Dna, ArrowRight } from 'lucide-react';
+import { BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
@@ -72,11 +71,8 @@ const classes = Object.keys(notesByClass);
 
 export default function NotesPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
-  const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredSubjects = notesByClass[selectedClass]?.filter(subject =>
-    subject.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const subjects = notesByClass[selectedClass];
 
   return (
     <div>
@@ -103,27 +99,9 @@ export default function NotesPage() {
       </div>
 
       <main className="flex-1">
-        <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search by subject..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
-            />
-             {searchTerm && (
-                <button
-                    onClick={() => setSearchTerm('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                    <X className="h-4 w-4 text-muted-foreground" />
-                </button>
-            )}
-        </div>
         <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredSubjects && filteredSubjects.length > 0 ? (
-            filteredSubjects.map((subject, index) => (
+          {subjects && subjects.length > 0 ? (
+            subjects.map((subject, index) => (
               <Card 
                 key={index} 
                 className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${subject.gradient} animate-fade-in-up`}
@@ -147,8 +125,8 @@ export default function NotesPage() {
              <div className="col-span-full text-center py-12 animate-fade-in-up">
                 <Card className="p-8 inline-block">
                     <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No notes found matching your criteria.</p>
-                    <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+                    <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
                 </Card>
             </div>
           )}
