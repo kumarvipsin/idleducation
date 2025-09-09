@@ -18,7 +18,7 @@ const class8ScienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा 8",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: फसल उत्पादन एवं प्रबंध", slug: "crop-production-and-management" },

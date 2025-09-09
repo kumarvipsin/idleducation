@@ -18,7 +18,7 @@ const class7MathsResources = {
       ],
     },
     {
-      name: "गणित कक्षा 7",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: पूर्णांक", slug: "integers-7" },

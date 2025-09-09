@@ -24,7 +24,7 @@ const class5ScienceResources = {
       ],
     },
     {
-      name: "आस-पास कक्षा 5",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: कैसे पहचाना चींटी ने दोस्त को?", slug: "super-senses" },

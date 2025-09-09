@@ -26,7 +26,7 @@ const class8MathsResources = {
       ],
     },
     {
-      name: "गणित कक्षा 8",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: परिमेय संख्याएँ", slug: "rational-numbers" },

@@ -26,7 +26,7 @@ const scienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा X (2025 पाठ्यक्रम)",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण", slug: "chemical-reactions-and-equations" },

@@ -17,7 +17,7 @@ const class10MathsResources = {
       ],
     },
     {
-      name: "गणित कक्षा 10",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: वास्तविक संख्याएँ", slug: "real-numbers" },

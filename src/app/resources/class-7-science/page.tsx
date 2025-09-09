@@ -18,7 +18,7 @@ const class7ScienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा 7",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: पादपों में पोषण", slug: "nutrition-in-plants" },

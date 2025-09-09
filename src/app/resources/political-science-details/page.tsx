@@ -37,7 +37,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "समकालीन विश्व राजनीति",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: शीतयुद्ध का दौर", slug: "the-cold-war-era" },
@@ -52,7 +52,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "स्वतंत्र भारत में राजनीति",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },

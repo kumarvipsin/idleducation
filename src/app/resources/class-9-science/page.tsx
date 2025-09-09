@@ -18,7 +18,7 @@ const class9ScienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा 9",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: हमारे आस-पास के पदार्थ", slug: "matter-in-our-surroundings" },

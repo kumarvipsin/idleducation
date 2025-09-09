@@ -25,7 +25,7 @@ const class6MathsResources = {
       ],
     },
     {
-      name: "गणित कक्षा 6",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: अपनी संख्याओं की जानकारी", slug: "knowing-our-numbers" },

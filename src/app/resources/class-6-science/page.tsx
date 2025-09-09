@@ -25,7 +25,7 @@ const class6ScienceResources = {
       ],
     },
     {
-      name: "विज्ञान कक्षा 6",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: भोजन: यह कहाँ से आता है?", slug: "food-where-does-it-come-from" },

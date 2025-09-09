@@ -19,7 +19,7 @@ const class9MathsResources = {
       ],
     },
     {
-      name: "गणित कक्षा 9",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: संख्या पद्धति", slug: "number-systems" },

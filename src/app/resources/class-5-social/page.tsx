@@ -18,7 +18,7 @@ const class5SocialResources = {
       ],
     },
     {
-      name: "सामाजिक अध्ययन कक्षा 5",
+      name: "विषय सूचि",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: ग्लोब और मानचित्र", slug: "globes-and-maps" },
