@@ -4,67 +4,89 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Book, Search, X } from 'lucide-react';
+import { Book, Search, X, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-type Note = {
+type Book = {
   title: string;
+  author: string;
   description: string;
-  language: string;
-  bgColor: string;
-  textColor: string;
-  buttons: { text: string; href: string; }[];
+  imageUrl: string;
+  href: string;
+  imageHint: string;
 };
 
-const topCourses = [
-    {
-        title: "Science",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
-        bgColor: "bg-indigo-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "Maths",
-        description: "Test Paper",
-        language: "Ncert | Basic To Advance",
-        bgColor: "bg-emerald-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "Social Studies",
-        description: "Ncert Besd",
-        language: "English Medium | Hindi Medium",
-        bgColor: "bg-amber-500",
-        textColor: "text-white",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-];
-
-const booksByClass: { [key: string]: Note[] } = {
-  'Class 6': topCourses,
-  'Class 7': topCourses,
-  'Class 8': topCourses,
-  'Class 9': topCourses,
-  'Class 10': topCourses,
-  'Class 11': topCourses,
-  'Class 12': topCourses,
+type SubjectBooks = {
+  subject: string;
+  books: Book[];
 };
 
-const classes = Object.keys(booksByClass);
+const booksByClass: { [key: string]: SubjectBooks[] } = {
+  'Class 10': [
+    {
+      subject: 'Mathematics',
+      books: [
+        { title: 'Mathematics for Class 10', author: 'R.D. Sharma', description: 'Comprehensive guide with a wide range of problems for practice.', imageUrl: 'https://picsum.photos/200/300', href: '#', imageHint: 'math textbook' },
+        { title: 'Secondary School Mathematics for Class 10', author: 'R.S. Aggarwal', description: 'Excellent for building a strong conceptual foundation.', imageUrl: 'https://picsum.photos/201/300', href: '#', imageHint: 'math textbook' },
+      ]
+    },
+    {
+      subject: 'Science',
+      books: [
+        { title: 'Science for Class 10', author: 'Lakhmir Singh & Manjit Kaur', description: 'Covers Physics, Chemistry, and Biology in a simple, easy-to-understand language.', imageUrl: 'https://picsum.photos/200/301', href: '#', imageHint: 'science textbook' },
+        { title: 'S. Chand\'s Science for Class 10', author: 'S. Chand', description: 'A detailed book that clarifies complex scientific concepts effectively.', imageUrl: 'https://picsum.photos/201/301', href: '#', imageHint: 'science textbook' },
+      ]
+    },
+  ],
+  'Class 12': [
+    {
+      subject: 'Physics',
+      books: [
+        { title: 'Concepts of Physics', author: 'H.C. Verma', description: 'A must-have for every competitive exam aspirant.', imageUrl: 'https://picsum.photos/200/302', href: '#', imageHint: 'physics textbook' },
+        { title: 'Fundamentals of Physics', author: 'Halliday, Resnick & Walker', description: 'An internationally acclaimed book for deep conceptual understanding.', imageUrl: 'https://picsum.photos/201/302', href: '#', imageHint: 'physics textbook' },
+      ]
+    },
+    {
+      subject: 'Chemistry',
+      books: [
+        { title: 'Modern ABC of Chemistry', author: 'S.P. Jauhar', description: 'Covers the entire syllabus with detailed explanations and practice questions.', imageUrl: 'https://picsum.photos/200/303', href: '#', imageHint: 'chemistry textbook' },
+        { title: 'Organic Chemistry', author: 'O.P. Tandon', description: 'Specialized book for mastering organic chemistry concepts.', imageUrl: 'https://picsum.photos/201/303', href: '#', imageHint: 'chemistry textbook' },
+      ]
+    },
+  ],
+  'JEE': [
+    {
+      subject: 'Mathematics',
+      books: [
+        { title: 'Objective Mathematics', author: 'R.D. Sharma', description: 'Extensive collection of objective questions for JEE Main & Advanced.', imageUrl: 'https://picsum.photos/200/304', href: '#', imageHint: 'math textbook' },
+      ]
+    },
+    {
+      subject: 'Physics',
+      books: [
+        { title: 'Problems in General Physics', author: 'I.E. Irodov', description: 'A challenging book with problems that test your conceptual depth.', imageUrl: 'https://picsum.photos/201/304', href: '#', imageHint: 'physics textbook' },
+      ]
+    },
+  ]
+};
+
+const classes = ['Class 10', 'Class 11', 'Class 12', 'JEE', 'NEET'];
 
 export default function ReferenceBooksPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredBooks = booksByClass[selectedClass]?.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  const filteredBooks = booksByClass[selectedClass]?.map(subject => ({
+    ...subject,
+    books: subject.books.filter(book => 
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  })).filter(subject => subject.books.length > 0);
+  
   return (
     <div>
         <div className="mb-6">
@@ -94,10 +116,10 @@ export default function ReferenceBooksPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
                 type="text"
-                placeholder="Search by title, author, or subject..."
+                placeholder="Search by title or author..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/4 lg:w-1/5 rounded-full h-9"
+                className="pl-9 w-full md:w-1/3 lg:w-1/4 rounded-full h-9"
             />
              {searchTerm && (
               <Button
@@ -111,38 +133,57 @@ export default function ReferenceBooksPage() {
             )}
         </div>
 
-        <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div key={selectedClass} className="space-y-4">
           {filteredBooks && filteredBooks.length > 0 ? (
-            filteredBooks.map((book, index) => (
-               <div key={index} className="p-1 h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${book.bgColor}`}>
-                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-xl font-semibold mb-2 ${book.textColor}`}>
-                        {book.title}
-                    </h3>
-                      {book.description && <p className={`text-sm mb-2 ${book.textColor}`}>{book.description}</p>}
-                      {book.language && <p className={`text-xs ${book.textColor}`}>{book.language}</p>}
-                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href={book.buttons[0].href}>{book.buttons[0].text}</Link>
-                        </Button>
+            <Accordion type="multiple" defaultValue={[filteredBooks[0].subject]}>
+              {filteredBooks.map((subject, index) => (
+                <AccordionItem value={subject.subject} key={index}>
+                  <AccordionTrigger className="text-xl font-semibold text-primary">{subject.subject}</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+                      {subject.books.map((book, bookIndex) => (
+                         <Card key={bookIndex} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div className="flex flex-col h-full">
+                                <div className="flex-shrink-0 flex items-center justify-center p-4 bg-muted/30">
+                                    <Image
+                                        src={book.imageUrl}
+                                        alt={book.title}
+                                        data-ai-hint={book.imageHint}
+                                        width={150}
+                                        height={225}
+                                        className="object-contain h-48 w-auto rounded-md shadow-md"
+                                    />
+                                </div>
+                                <CardContent className="p-4 flex flex-col flex-grow">
+                                    <h3 className="text-base font-bold text-foreground">{book.title}</h3>
+                                    <p className="text-xs text-muted-foreground mb-2">by {book.author}</p>
+                                    <p className="text-sm text-foreground/80 flex-grow">{book.description}</p>
+                                    <Button asChild className="w-full mt-4">
+                                        <Link href={book.href}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            Buy on Amazon
+                                        </Link>
+                                    </Button>
+                                </CardContent>
+                            </div>
+                        </Card>
+                      ))}
                     </div>
-                    </CardContent>
-                </Card>
-              </div>
-            ))
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           ) : (
-             <div className="col-span-full text-center py-12 animate-fade-in-up">
+             <div className="col-span-full text-center py-12">
                 <Card className="p-8 inline-block">
                     <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No books found matching your criteria.</p>
-                    <p className="text-sm text-muted-foreground">Try adjusting your filters or search term.</p>
+                    <p className="text-muted-foreground font-semibold">No books found.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class or clear your search.</p>
                 </Card>
             </div>
           )}
         </div>
       </main>
-      
     </div>
   );
 }
