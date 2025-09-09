@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Book, FileText, BookCheck, StickyNote, Library, PencilRuler, NotebookText, History } from "lucide-react";
+import { ArrowRight, Library, PencilRuler, NotebookText, History } from "lucide-react";
 import Link from "next/link";
 
 const resources = [
@@ -48,7 +48,7 @@ export function StudyResources() {
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Study</span> <span style={{ color: '#adb5bd' }}>Resources</span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base" style={{ animationDelay: '0.2s' }}>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base">
             A diverse array of learning materials to enhance your educational journey.
           </p>
         </div>
@@ -58,7 +58,6 @@ export function StudyResources() {
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
                   className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col ${resource.shadow}`}
-                  style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <div className={`p-6 flex items-center justify-center ${resource.color}`}>
                         {resource.icon}
