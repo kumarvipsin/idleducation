@@ -515,7 +515,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 ### सूचक
 - **सूचक:** वे पदार्थ जो विभिन्न प्रकार के पदार्थों में अपना रंग या गंध बदल देते हैं।
 - **प्राकृतिक सूचक:** लिटमस (लाइकेन से), हल्दी।
-- **संश्लेषित सूचक:** मेथिल ऑरेंज, फेनोल्फथेलिन।
+- **संश्लिष्ट सूचक:** मेथिल ऑरेंज, फेनोल्फथेलिन।
 - **गंधीय सूचक:** वे पदार्थ जिनकी गंध अम्लीय और क्षारीय माध्यमों में भिन्न होती है। उदा: प्याज, वैनिला एसेंस।
 
 ### अम्ल और क्षारक के रासायनिक गुण
@@ -668,7 +668,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - **मिश्रधातु:** एक मिश्रधातु दो या दो से अधिक धातुओं, या एक धातु और एक अधातु का एक समांगी मिश्रण है।`
     }
   },
-  'knowing-our-numbers': {
+'knowing-our-numbers': {
     en: {
       title: 'Chapter 1: Knowing Our Numbers',
       content: `### Comparing Numbers
@@ -2509,13 +2509,13 @@ function NotesContent({ slug }: { slug: string }) {
   return (
      <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-primary to-accent text-white p-8">
+        <div className="bg-gradient-to-r from-primary to-accent text-white p-4">
             <div className="flex items-center gap-4">
-                <div className="bg-white/20 p-4 rounded-full">
-                    <BookOpen className="w-8 h-8" />
+                <div className="bg-white/20 p-3 rounded-full">
+                    <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
-                    <CardTitle className="text-3xl font-bold">{notes.title}</CardTitle>
+                    <CardTitle className="text-2xl font-bold">{notes.title}</CardTitle>
                     <CardDescription className="text-primary-foreground/80 mt-1">
                         Detailed notes for your study and revision.
                     </CardDescription>
