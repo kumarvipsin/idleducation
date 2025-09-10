@@ -4,12 +4,13 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Book, Search, X, ShoppingCart } from 'lucide-react';
+import { Book, ShoppingCart, Sigma, TestTube2, Landmark, BookText } from 'lucide-react';
 import Image from 'next/image';
-import { Input } from '@/components/ui/input';
 import Link from 'next/link';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
 
 type Book = {
   title: string;
@@ -22,6 +23,8 @@ type Book = {
 
 type SubjectBooks = {
   subject: string;
+  icon: React.ReactNode;
+  gradient: string;
   books: Book[];
 };
 
@@ -29,6 +32,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
   'Class 9': [
     {
       subject: 'Mathematics',
+      icon: <Sigma className="w-6 h-6" />,
+      gradient: 'from-green-500 to-emerald-600',
       books: [
         { title: 'Mathematics for Class 9', author: 'R.D. Sharma', description: 'A comprehensive book for in-depth understanding and practice.', imageUrl: 'https://picsum.photos/seed/rd9/200/300', href: '#', imageHint: 'math textbook' },
         { title: 'Secondary School Mathematics for Class 9', author: 'R.S. Aggarwal', description: 'Popular for building a strong foundation with a variety of problems.', imageUrl: 'https://picsum.photos/seed/rs9/200/300', href: '#', imageHint: 'math textbook' },
@@ -39,6 +44,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
     {
       subject: 'Science',
+      icon: <TestTube2 className="w-6 h-6" />,
+      gradient: 'from-blue-500 to-indigo-600',
       books: [
         { title: 'Science for Class 9 (Physics, Chemistry & Biology)', author: 'Lakhmir Singh & Manjit Kaur', description: 'Simple language and clear concepts for Physics, Chemistry, and Biology.', imageUrl: 'https://picsum.photos/seed/ls9/200/300', href: '#', imageHint: 'science textbook' },
         { title: 'All in One Science CBSE Class 9', author: 'Arihant Experts', description: 'An all-encompassing guide with theory, practicals, and practice questions.', imageUrl: 'https://picsum.photos/seed/arihant9/200/300', href: '#', imageHint: 'science textbook' },
@@ -49,6 +56,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
     {
       subject: 'Social Studies',
+      icon: <Landmark className="w-6 h-6" />,
+      gradient: 'from-amber-500 to-orange-600',
       books: [
         { title: 'All in One Social Science CBSE Class 9', author: 'Arihant Experts', description: 'Comprehensive coverage of History, Geography, Civics, and Economics.', imageUrl: 'https://picsum.photos/seed/arihantsst9/200/300', href: '#', imageHint: 'history book' },
         { title: 'Golden Social Science for Class 9', author: 'Sudha Rastogi', description: 'A question-bank style guide for exam preparation.', imageUrl: 'https://picsum.photos/seed/goldensst9/200/300', href: '#', imageHint: 'history book' },
@@ -59,6 +68,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
     {
       subject: 'English',
+      icon: <BookText className="w-6 h-6" />,
+      gradient: 'from-rose-500 to-pink-600',
       books: [
         { title: 'All in One English Language & Literature CBSE Class 9', author: 'Arihant Experts', description: 'A complete guide covering literature, grammar, and writing skills.', imageUrl: 'https://picsum.photos/seed/arihanteng9/200/300', href: '#', imageHint: 'english book' },
         { title: 'BBC Compacta English for Class 9', author: 'Brajindra Singh', description: 'Focuses on grammar, writing, and comprehension skills.', imageUrl: 'https://picsum.photos/seed/bbceng9/200/300', href: '#', imageHint: 'english book' },
@@ -69,8 +80,10 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
   ],
   'Class 10': [
-    {
+     {
       subject: 'Mathematics',
+      icon: <Sigma className="w-6 h-6" />,
+      gradient: 'from-green-500 to-emerald-600',
       books: [
         { title: 'Mathematics for Class 10', author: 'R.D. Sharma', description: 'Comprehensive guide with a wide range of problems for practice.', imageUrl: 'https://picsum.photos/seed/rd10/200/300', href: '#', imageHint: 'math textbook' },
         { title: 'Secondary School Mathematics for Class 10', author: 'R.S. Aggarwal', description: 'Excellent for building a strong conceptual foundation.', imageUrl: 'https://picsum.photos/seed/rs10/200/300', href: '#', imageHint: 'math textbook' },
@@ -81,6 +94,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
     {
       subject: 'Science',
+      icon: <TestTube2 className="w-6 h-6" />,
+      gradient: 'from-blue-500 to-indigo-600',
       books: [
         { title: 'Science for Class 10 (Physics, Chemistry & Biology)', author: 'Lakhmir Singh & Manjit Kaur', description: 'Simple language and clear concepts for board exams.', imageUrl: 'https://picsum.photos/seed/ls10/200/300', href: '#', imageHint: 'science textbook' },
         { title: 'S. Chand\'s Science for Class 10', author: 'S. Chand', description: 'A detailed book that clarifies complex scientific concepts effectively.', imageUrl: 'https://picsum.photos/seed/schandsci10/200/300', href: '#', imageHint: 'science textbook' },
@@ -91,6 +106,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
      {
       subject: 'Social Studies',
+      icon: <Landmark className="w-6 h-6" />,
+      gradient: 'from-amber-500 to-orange-600',
       books: [
         { title: 'All in One Social Science CBSE Class 10', author: 'Arihant Experts', description: 'A complete resource covering the entire syllabus with maps and projects.', imageUrl: 'https://picsum.photos/seed/arihantsst10/200/300', href: '#', imageHint: 'history book' },
         { title: 'Golden Social Science for Class 10', author: 'Sudha Rastogi', description: 'A comprehensive question bank for extensive practice.', imageUrl: 'https://picsum.photos/seed/goldensst10/200/300', href: '#', imageHint: 'history book' },
@@ -101,6 +118,8 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
     },
      {
       subject: 'English',
+      icon: <BookText className="w-6 h-6" />,
+      gradient: 'from-rose-500 to-pink-600',
       books: [
         { title: 'All in One English Language & Literature CBSE Class 10', author: 'Arihant Experts', description: 'Covers all sections of the English syllabus with ample practice material.', imageUrl: 'https://picsum.photos/seed/arihanteng10/200/300', href: '#', imageHint: 'english book' },
         { title: 'BBC Compacta English for Class 10', author: 'Brajindra Singh', description: 'An excellent resource for grammar, writing, and comprehension practice.', imageUrl: 'https://picsum.photos/seed/bbceng10/200/300', href: '#', imageHint: 'english book' },
@@ -118,29 +137,32 @@ const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
 
 const BookCard = ({ book }: { book: Book }) => {
     return (
-        <Card className="group relative w-full h-80 overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
-            <Image
-                src={book.imageUrl}
-                alt={book.title}
-                data-ai-hint={book.imageHint}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="text-md font-bold truncate">{book.title}</h3>
-                <p className="text-xs text-white/80">by {book.author}</p>
-                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p className="text-sm mb-3 h-16 overflow-hidden">{book.description}</p>
-                    <Button asChild size="sm" className="w-full bg-white/90 text-black hover:bg-white">
-                        <Link href={book.href}>
-                            <ShoppingCart className="mr-2 h-4 w-4" />
-                            Buy on Amazon
+        <TooltipProvider>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Card className="group relative w-full overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105">
+                        <Link href={book.href} target="_blank" rel="noopener noreferrer">
+                            <div className="aspect-[2/3] w-full">
+                                <Image
+                                    src={book.imageUrl}
+                                    alt={book.title}
+                                    data-ai-hint={book.imageHint}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+                                <h3 className="text-sm font-bold text-white truncate group-hover:whitespace-normal">{book.title}</h3>
+                                <p className="text-xs text-white/80">{book.author}</p>
+                            </div>
                         </Link>
-                    </Button>
-                </div>
-            </div>
-        </Card>
+                    </Card>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" align="center" className="max-w-xs">
+                    <p>{book.description}</p>
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
     );
 };
 
@@ -150,57 +172,51 @@ export default function ReferenceBooksPage() {
   const subjects = booksByClass[selectedClass];
   
   return (
-    <div>
+    <div className="animate-fade-in-up">
         <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Reference Books for {selectedClass}</h1>
             <p className="text-muted-foreground">Explore our curated list of reference books to deepen your understanding.</p>
         </div>
-
-        <div className="bg-muted/50 rounded-lg p-4 mb-8">
-            <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {classes.map((className) => (
-                    <button
-                    key={className}
-                    onClick={() => setSelectedClass(className)}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                        ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-                    >
-                    {className}
-                    </button>
-                ))}
-            </div>
-        </div>
       
-      <main className="flex-1">
-        <div key={selectedClass} className="space-y-4">
-          {subjects && subjects.length > 0 ? (
-            <Accordion type="multiple" defaultValue={subjects.map(s => s.subject)}>
-              {subjects.map((subject, index) => (
-                <AccordionItem value={subject.subject} key={index}>
-                  <AccordionTrigger className="text-xl font-semibold text-primary">{subject.subject}</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 pt-4">
-                      {subject.books.map((book, bookIndex) => (
-                         <BookCard key={bookIndex} book={book} />
-                      ))}
+      <Tabs value={selectedClass} onValueChange={setSelectedClass}>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto mb-8">
+            {classes.map(c => (
+              <TabsTrigger key={c} value={c}>{c}</TabsTrigger>
+            ))}
+          </TabsList>
+
+          {classes.map(className => (
+            <TabsContent key={className} value={className} className="mt-6">
+                <div className="space-y-10">
+                {booksByClass[className] && booksByClass[className].length > 0 ? (
+                    booksByClass[className].map((subject, index) => (
+                    <div key={index}>
+                        <div className={`flex items-center gap-3 mb-4 p-3 rounded-lg bg-gradient-to-r ${subject.gradient}`}>
+                           <div className="p-2 bg-white/20 rounded-full text-white">
+                                {subject.icon}
+                           </div>
+                           <h2 className="text-2xl font-bold text-white">{subject.subject}</h2>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                            {subject.books.map((book, bookIndex) => (
+                                <BookCard key={bookIndex} book={book} />
+                            ))}
+                        </div>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          ) : (
-             <div className="col-span-full text-center py-12">
-                <Card className="p-8 inline-block">
-                    <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No books found.</p>
-                    <p className="text-sm text-muted-foreground">Please select another class to see available books.</p>
-                </Card>
-            </div>
-          )}
-        </div>
-      </main>
+                    ))
+                ) : (
+                    <div className="col-span-full text-center py-12">
+                        <Card className="p-8 inline-block">
+                            <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground font-semibold">No books found for {className}.</p>
+                            <p className="text-sm text-muted-foreground">Please check back later.</p>
+                        </Card>
+                    </div>
+                )}
+                </div>
+            </TabsContent>
+          ))}
+      </Tabs>
     </div>
   );
 }
