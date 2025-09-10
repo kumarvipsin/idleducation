@@ -8,6 +8,138 @@ import { NotesContentRenderer } from "@/components/notes-content-renderer";
 import { BookOpen } from "lucide-react";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
+  'the-rise-of-nationalism-in-europe': {
+    en: {
+      title: 'Chapter 1: The Rise of Nationalism in Europe',
+      content: `### The French Revolution and the Idea of the Nation
+- The first clear expression of nationalism came with the French Revolution in 1789.
+- **Steps taken by French revolutionaries:**
+- - Introduction of ideas like *la patrie* (the fatherland) and *le citoyen* (the citizen).
+- - A new French flag, the tricolour, was chosen to replace the former royal standard.
+- - The Estates General was elected by the body of active citizens and renamed the National Assembly.
+- - New hymns were composed, oaths taken and martyrs commemorated, all in the name of the nation.
+- - A centralised administrative system was put in place and it formulated uniform laws for all citizens.
+- - Internal customs duties and dues were abolished and a uniform system of weights and measures was adopted.
+- - Regional dialects were discouraged and French, as it was spoken and written in Paris, became the common language of the nation.
+
+### The Napoleonic Code (Civil Code of 1804)
+- Did away with all privileges based on birth.
+- Established equality before the law.
+- Secured the right to property.
+- Abolished the feudal system and freed peasants from serfdom and manorial dues.
+- In the towns, guild restrictions were removed.
+- Transport and communication systems were improved.
+
+### The Making of Nationalism in Europe
+- Before the 18th century, there were no 'nation-states' in Europe. Germany, Italy and Switzerland were divided into kingdoms, duchies and cantons whose rulers had their autonomous territories.
+- **The Aristocracy and the New Middle Class:**
+- - The aristocracy was the dominant class, united by a common way of life.
+- - Industrialisation led to the emergence of a new working class and a middle class made up of industrialists, businessmen, and professionals.
+- - It was among the educated, liberal middle classes that ideas of national unity following the abolition of aristocratic privileges gained popularity.
+
+### Liberal Nationalism
+- **Politically:** It stood for the concept of government by consent, end of autocracy and clerical privileges, a constitution and representative government through parliament.
+- **Economically:** It stood for the freedom of markets and the abolition of state-imposed restrictions on the movement of goods and capital.
+- - In 1834, a customs union or *zollverein* was formed at the initiative of Prussia. The union abolished tariff barriers and reduced the number of currencies from over thirty to two.
+
+### The Age of Revolutions: 1830-1848
+- **July Revolution (France, 1830):** The Bourbon kings were overthrown by liberal revolutionaries who installed a constitutional monarchy with Louis Philippe at its head.
+- **Greek War of Independence (1821-1832):** Greece, which had been part of the Ottoman Empire, struggled for independence. The Treaty of Constantinople of 1832 recognised Greece as an independent nation.
+- **Romanticism:** A cultural movement which sought to develop a particular form of nationalist sentiment. Romantics focused on emotions, intuition and mystical feelings. They tried to create a sense of a shared collective heritage, a common cultural past, as the basis of a nation.
+
+### The Making of Germany and Italy
+- **Germany:**
+- - In 1848, the middle class tried to unite the different regions of the German confederation into a nation-state.
+- - Prussia took on the leadership of the movement. Its chief minister, Otto von Bismarck, was the architect of this process.
+- - Three wars over seven years with Austria, Denmark and France ended in Prussian victory and completed the process of unification.
+- - In January 1871, the Prussian king, William I, was proclaimed German Emperor in a ceremony held at Versailles.
+- **Italy:**
+- - During the 1830s, Giuseppe Mazzini had sought to put together a coherent programme for a unitary Italian Republic and formed a secret society called Young Italy.
+- - The unification of Italy was a result of the diplomatic and military efforts of Chief Minister Cavour, who led the movement. He formed a tactful diplomatic alliance with France.
+- - In 1860, they marched into South Italy and the Kingdom of the Two Sicilies and succeeded in winning the support of the local peasants in order to drive out the Spanish rulers.
+- - In 1861 Victor Emmanuel II was proclaimed king of united Italy.
+
+### Visualising the Nation
+- Artists in the 18th and 19th centuries represented a country as if it were a person (nation-as-personification).
+- These female figures became an allegory of the nation.
+- **Marianne:** The female allegory for France. She was characterised by the ideas of Liberty and the Republic – the red cap, the tricolour, the cockade.
+- **Germania:** Became the allegory of the German nation. Germania wears a crown of oak leaves, as the German oak stands for heroism.
+
+### Nationalism and Imperialism
+- By the last quarter of the 19th century, nationalism became a narrow creed with limited ends.
+- **The Balkans:** The most serious source of nationalist tension in Europe after 1871. It was a region of geographical and ethnic variation.
+- A large part of the Balkans was under the control of the Ottoman Empire. The spread of the ideas of romantic nationalism in the Balkans together with the disintegration of the Ottoman Empire made this region very explosive.
+- The Balkan peoples based their claims for independence on nationality. They used history to prove that they had once been independent but had subsequently been subjugated by foreign powers.
+- The Balkan area became an area of intense conflict. The Balkan states were fiercely jealous of each other and each hoped to gain more territory at the expense of the others.
+- This led to a series of wars in the region and finally the First World War.
+`
+    },
+    hi: {
+      title: 'अध्याय 1: यूरोप में राष्ट्रवाद का उदय',
+      content: `### फ्रांसीसी क्रांति और राष्ट्र का विचार
+- राष्ट्रवाद की पहली स्पष्ट अभिव्यक्ति 1789 में फ्रांसीसी क्रांति के साथ हुई।
+- **फ्रांसीसी क्रांतिकारियों द्वारा उठाए गए कदम:**
+- - *ला पैट्री* (पितृभूमि) और *ले सिटोयेन* (नागरिक) जैसे विचारों का परिचय।
+- - पूर्व शाही मानक को बदलने के लिए एक नया फ्रांसीसी झंडा, तिरंगा चुना गया।
+- - एस्टेट्स जनरल को सक्रिय नागरिकों के निकाय द्वारा चुना गया और इसका नाम बदलकर नेशनल असेंबली कर दिया गया।
+- - राष्ट्र के नाम पर नई स्तुतियाँ रची गईं, शपथ ली गईं और शहीदों का स्मरण किया गया।
+- - एक केंद्रीकृत प्रशासनिक व्यवस्था लागू की गई और इसने सभी नागरिकों के लिए एक समान कानून बनाए।
+- - आंतरिक सीमा शुल्क और बकाया समाप्त कर दिए गए और भार और माप की एक समान प्रणाली अपनाई गई।
+- - क्षेत्रीय बोलियों को हतोत्साहित किया गया और पेरिस में बोली और लिखी जाने वाली फ्रेंच, राष्ट्र की आम भाषा बन गई।
+
+### नेपोलियन संहिता (1804 की नागरिक संहिता)
+- जन्म पर आधारित सभी विशेषाधिकारों को समाप्त कर दिया।
+- कानून के समक्ष समानता स्थापित की।
+- संपत्ति का अधिकार सुरक्षित किया।
+- सामंती व्यवस्था को समाप्त कर दिया और किसानों को भू-दासता और जागीरदारी शुल्कों से मुक्त कर दिया।
+- कस्बों में, श्रेणी-संघों के प्रतिबंध हटा दिए गए।
+- परिवहन और संचार प्रणालियों में सुधार किया गया।
+
+### यूरोप में राष्ट्रवाद का निर्माण
+- 18वीं शताब्दी से पहले, यूरोप में कोई 'राष्ट्र-राज्य' नहीं थे। जर्मनी, इटली और स्विट्जरलैंड राज्यों, डचियों और कैंटनों में विभाजित थे जिनके शासकों के अपने स्वायत्त क्षेत्र थे।
+- **अभिजात वर्ग और नया मध्य वर्ग:**
+- - अभिजात वर्ग एक सामान्य जीवन शैली से एकजुट, प्रमुख वर्ग था।
+- - औद्योगीकरण ने एक नए मजदूर वर्ग और उद्योगपतियों, व्यापारियों और पेशेवरों से बने एक मध्य वर्ग के उद्भव का नेतृत्व किया।
+- - शिक्षित, उदार मध्य वर्गों के बीच ही अभिजात वर्ग के विशेषाधिकारों की समाप्ति के बाद राष्ट्रीय एकता के विचार लोकप्रिय हुए।
+
+### उदारवादी राष्ट्रवाद
+- **राजनीतिक रूप से:** यह सहमति से सरकार की अवधारणा, निरंकुशता और लिपिकीय विशेषाधिकारों की समाप्ति, एक संविधान और संसद के माध्यम से प्रतिनिधि सरकार के लिए खड़ा था।
+- **आर्थिक रूप से:** यह बाजारों की स्वतंत्रता और माल और पूंजी की आवाजाही पर राज्य द्वारा लगाए गए प्रतिबंधों को समाप्त करने के लिए खड़ा था।
+- - 1834 में, प्रशिया की पहल पर एक सीमा शुल्क संघ या *ज़ोलवेरिन* का गठन किया गया। संघ ने टैरिफ बाधाओं को समाप्त कर दिया और मुद्राओं की संख्या तीस से घटाकर दो कर दी।
+
+### क्रांतियों का युग: 1830-1848
+- **जुलाई क्रांति (फ्रांस, 1830):** उदार क्रांतिकारियों द्वारा बॉर्बन राजाओं को उखाड़ फेंका गया, जिन्होंने लुई फिलिप को अपने मुखिया के रूप में एक संवैधानिक राजतंत्र स्थापित किया।
+- **ग्रीक स्वतंत्रता संग्राम (1821-1832):** ग्रीस, जो ओटोमन साम्राज्य का हिस्सा था, ने स्वतंत्रता के लिए संघर्ष किया। 1832 की कॉन्स्टेंटिनोपल की संधि ने ग्रीस को एक स्वतंत्र राष्ट्र के रूप में मान्यता दी।
+- **स्वच्छंदतावाद (रोमांटिसिज़्म):** एक सांस्कृतिक आंदोलन जिसने राष्ट्रवादी भावना का एक विशेष रूप विकसित करने की मांग की। स्वच्छंदतावादियों ने भावनाओं, अंतर्ज्ञान और रहस्यमय भावनाओं पर ध्यान केंद्रित किया। उन्होंने एक राष्ट्र के आधार के रूप में एक साझा सामूहिक विरासत, एक सामान्य सांस्कृतिक अतीत की भावना पैदा करने की कोशिश की।
+
+### जर्मनी और इटली का निर्माण
+- **जर्मनी:**
+- - 1848 में, मध्य वर्ग ने जर्मन परिसंघ के विभिन्न क्षेत्रों को एक राष्ट्र-राज्य में एकजुट करने का प्रयास किया।
+- - प्रशिया ने आंदोलन का नेतृत्व संभाला। इसके मुख्यमंत्री, ओटो वॉन बिस्मार्क, इस प्रक्रिया के वास्तुकार थे।
+- - ऑस्ट्रिया, डेनमार्क और फ्रांस के साथ सात वर्षों में तीन युद्ध प्रशिया की जीत में समाप्त हुए और एकीकरण की प्रक्रिया पूरी हुई।
+- - जनवरी 1871 में, प्रशिया के राजा, विलियम प्रथम को वर्साय में आयोजित एक समारोह में जर्मन सम्राट घोषित किया गया।
+- **इटली:**
+- - 1830 के दशक के दौरान, ग्यूसेप मैज़िनी ने एक एकात्मक इतालवी गणराज्य के लिए एक सुसंगत कार्यक्रम बनाने की मांग की थी और यंग इटली नामक एक गुप्त समाज का गठन किया था।
+- - इटली का एकीकरण आंदोलन का नेतृत्व करने वाले मुख्यमंत्री कैवूर के राजनयिक और सैन्य प्रयासों का परिणाम था। उन्होंने फ्रांस के साथ एक चतुराईपूर्ण राजनयिक गठबंधन बनाया।
+- - 1860 में, उन्होंने दक्षिण इटली और दो सिसिली के साम्राज्य में मार्च किया और स्पेनिश शासकों को बाहर निकालने के लिए स्थानीय किसानों का समर्थन जीतने में सफल रहे।
+- - 1861 में विक्टर इमैनुएल द्वितीय को एकीकृत इटली का राजा घोषित किया गया।
+
+### राष्ट्र की कल्पना
+- 18वीं और 19वीं शताब्दी में कलाकारों ने एक देश का प्रतिनिधित्व ऐसे किया जैसे कि वह एक व्यक्ति हो (राष्ट्र-का-मानवीकरण)।
+- ये महिला आकृतियाँ राष्ट्र का रूपक बन गईं।
+- **मारियान:** फ्रांस के लिए महिला रूपक। उन्हें स्वतंत्रता और गणराज्य के विचारों - लाल टोपी, तिरंगा, कॉकेड द्वारा चित्रित किया गया था।
+- **जर्मेनिया:** जर्मन राष्ट्र का रूपक बन गया। जर्मेनिया ओक के पत्तों का मुकुट पहनती है, क्योंकि जर्मन ओक वीरता का प्रतीक है।
+
+### राष्ट्रवाद और साम्राज्यवाद
+- 19वीं शताब्दी की अंतिम तिमाही तक, राष्ट्रवाद सीमित सिरों वाला एक संकीर्ण पंथ बन गया।
+- **बाल्कन:** 1871 के बाद यूरोप में राष्ट्रवादी तनाव का सबसे गंभीर स्रोत। यह भौगोलिक और जातीय भिन्नता का एक क्षेत्र था।
+- - बाल्कन का एक बड़ा हिस्सा ओटोमन साम्राज्य के नियंत्रण में था। बाल्कन में स्वच्छंदतावादी राष्ट्रवाद के विचारों के प्रसार के साथ-साथ ओटोमन साम्राज्य के विघटन ने इस क्षेत्र को बहुत विस्फोटक बना दिया।
+- - बाल्कन लोगों ने राष्ट्रीयता पर स्वतंत्रता के लिए अपने दावों को आधारित किया। उन्होंने यह साबित करने के लिए इतिहास का इस्तेमाल किया कि वे कभी स्वतंत्र थे लेकिन बाद में विदेशी शक्तियों द्वारा उन्हें अधीन कर लिया गया था।
+- - बाल्कन क्षेत्र तीव्र संघर्ष का क्षेत्र बन गया। बाल्कन राज्य एक-दूसरे से बहुत ईर्ष्या करते थे और प्रत्येक को दूसरों की कीमत पर अधिक क्षेत्र प्राप्त करने की उम्मीद थी।
+- - इससे इस क्षेत्र में युद्धों की एक श्रृंखला हुई और अंत में प्रथम विश्व युद्ध हुआ।
+`
+    }
+  },
   'real-numbers': {
     en: {
       title: 'Chapter 1: Real Numbers',
