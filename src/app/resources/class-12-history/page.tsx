@@ -11,6 +11,9 @@ const class12HistoryResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Bricks, Beads and Bones", slug: "bricks-beads-and-bones" },
+        { name: "Chapter 2: Kings, Farmers and Towns", slug: "kings-farmers-and-towns" },
+        { name: "Chapter 3: Kinship, Caste and Class", slug: "kinship-caste-and-class" },
+        { name: "Chapter 4: Thinkers, Beliefs and Buildings", slug: "thinkers-beliefs-and-buildings" },
       ],
     },
     {
@@ -18,13 +21,49 @@ const class12HistoryResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 5: Through the Eyes of Travellers", slug: "through-the-eyes-of-travellers" },
+        { name: "Chapter 6: Bhakti-Sufi Traditions", slug: "bhakti-sufi-traditions" },
+        { name: "Chapter 7: An Imperial Capital: Vijayanagara", slug: "an-imperial-capital-vijayanagara" },
+        { name: "Chapter 8: Peasants, Zamindars and the State", slug: "peasants-zamindars-and-the-state" },
       ],
     },
      {
       name: "Themes in Indian History Part - III",
       lang: "en",
       chapters: [
-        { name: "Chapter 10: Colonialism and the Countryside", slug: "colonialism-and-the-countryside" },
+        { name: "Chapter 9: Colonialism and the Countryside", slug: "colonialism-and-the-countryside" },
+        { name: "Chapter 10: Rebels and the Raj", slug: "rebels-and-the-raj" },
+        { name: "Chapter 11: Mahatma Gandhi and the Nationalist Movement", slug: "mahatma-gandhi-and-the-nationalist-movement" },
+        { name: "Chapter 12: Framing the Constitution", slug: "framing-the-constitution" },
+      ],
+    },
+    {
+      name: "भारतीय इतिहास के कुछ विषय - भाग I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "विषय 1: ईंटें, मनके तथा अस्थियाँ", slug: "bricks-beads-and-bones" },
+        { name: "विषय 2: राजा, किसान और नगर", slug: "kings-farmers-and-towns" },
+        { name: "विषय 3: बंधुत्व, जाति तथा वर्ग", slug: "kinship-caste-and-class" },
+        { name: "विषय 4: विचारक, विश्वास और इमारतें", slug: "thinkers-beliefs-and-buildings" },
+      ],
+    },
+    {
+      name: "भारतीय इतिहास के कुछ विषय - भाग II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "विषय 5: यात्रियों के नज़रिए", slug: "through-the-eyes-of-travellers" },
+        { name: "विषय 6: भक्ति-सूफ़ी परंपराएँ", slug: "bhakti-sufi-traditions" },
+        { name: "विषय 7: एक साम्राज्य की राजधानी: विजयनगर", slug: "an-imperial-capital-vijayanagara" },
+        { name: "विषय 8: किसान, ज़मींदार और राज्य", slug: "peasants-zamindars-and-the-state" },
+      ],
+    },
+     {
+      name: "भारतीय इतिहास के कुछ विषय - भाग III (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "विषय 9: उपनिवेशवाद और देहात", slug: "colonialism-and-the-countryside" },
+        { name: "विषय 10: विद्रोही और राज", slug: "rebels-and-the-raj" },
+        { name: "विषय 11: महात्मा गांधी और राष्ट्रीय आंदोलन", slug: "mahatma-gandhi-and-the-nationalist-movement" },
+        { name: "विषय 12: संविधान का निर्माण", slug: "framing-the-constitution" },
       ],
     },
   ],
@@ -58,7 +97,7 @@ export default function Class12HistoryPage() {
               <div className="space-y-6">
                 {class12HistoryResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
