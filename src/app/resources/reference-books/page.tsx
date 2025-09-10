@@ -26,14 +26,14 @@ const booksByClass: { [key: string]: Book[] } = {
     { title: 'CBSE Question & Concept Bank (QCB) Class 9 Science...', edition: '2025 Edition', price: 1186, originalPrice: 1396, rating: 4.5, imageUrl: 'https://picsum.photos/seed/qcb-science/300/400', imageHint: 'textbook cover', subject: 'Science' },
     { title: 'CBSE Class 9 Most Probable 20 Combined Sample Question...', edition: '2025 Edition', price: 270, originalPrice: 299, rating: 4.8, imageUrl: 'https://picsum.photos/seed/20-sample/300/400', imageHint: 'textbook cover', subject: 'Science' },
     { title: 'CBSE Class 9 Mind Maps Book For 2025 Board Exam L...', edition: '2024 Edition', price: 467, originalPrice: 549, rating: 4.8, imageUrl: 'https://picsum.photos/seed/mind-maps/300/400', imageHint: 'textbook cover', subject: 'Maths' },
-    { title: 'Complete Course Class 9 2025', author: 'NCERT', edition: '2025 Edition', price: 3499, originalPrice: 4999, rating: 4.9, imageUrl: 'https://picsum.photos/seed/course9/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
-    { title: 'English Grammar & Composition Class 9', author: 'Arihant', edition: '2025 Edition', price: 450, originalPrice: 550, rating: 4.7, imageUrl: 'https://picsum.photos/seed/english9/300/400', imageHint: 'textbook cover', subject: 'English' },
+    { title: 'Complete Course Class 9 2025', edition: '2025 Edition', price: 3499, originalPrice: 4999, rating: 4.9, imageUrl: 'https://picsum.photos/seed/course9/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
+    { title: 'English Grammar & Composition Class 9', edition: '2025 Edition', price: 450, originalPrice: 550, rating: 4.7, imageUrl: 'https://picsum.photos/seed/english9/300/400', imageHint: 'textbook cover', subject: 'English' },
   ],
   'Class 10': [
-    { title: 'All in One Mathematics CBSE Class 10', author: 'Arihant', edition: '2025 Edition', price: 599, originalPrice: 750, rating: 4.8, imageUrl: 'https://picsum.photos/seed/arihant10/300/400', imageHint: 'textbook cover', subject: 'Maths' },
-    { title: 'Science for Class 10 by Lakhmir Singh', author: 'S. Chand', edition: '2025 Edition', price: 899, originalPrice: 1100, rating: 4.9, imageUrl: 'https://picsum.photos/seed/lakhmir10/300/400', imageHint: 'textbook cover', subject: 'Science' },
-    { title: 'Social Science Contemporary India II', author: 'NCERT', edition: '2025 Edition', price: 350, originalPrice: 400, rating: 4.7, imageUrl: 'https://picsum.photos/seed/sst10/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
-    { title: 'First Flight - English Class 10', author: 'NCERT', edition: '2025 Edition', price: 250, originalPrice: 300, rating: 4.6, imageUrl: 'https://picsum.photos/seed/english10/300/400', imageHint: 'textbook cover', subject: 'English' },
+    { title: 'All in One Mathematics CBSE Class 10', edition: '2025 Edition', price: 599, originalPrice: 750, rating: 4.8, imageUrl: 'https://picsum.photos/seed/arihant10/300/400', imageHint: 'textbook cover', subject: 'Maths' },
+    { title: 'Science for Class 10 by Lakhmir Singh', edition: '2025 Edition', price: 899, originalPrice: 1100, rating: 4.9, imageUrl: 'https://picsum.photos/seed/lakhmir10/300/400', imageHint: 'textbook cover', subject: 'Science' },
+    { title: 'Social Science Contemporary India II', edition: '2025 Edition', price: 350, originalPrice: 400, rating: 4.7, imageUrl: 'https://picsum.photos/seed/sst10/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
+    { title: 'First Flight - English Class 10', edition: '2025 Edition', price: 250, originalPrice: 300, rating: 4.6, imageUrl: 'https://picsum.photos/seed/english10/300/400', imageHint: 'textbook cover', subject: 'English' },
   ],
   'Class 11': [],
   'Class 12': [],
@@ -96,7 +96,7 @@ export default function ReferenceBooksPage() {
         <div className="flex flex-col md:flex-row gap-8">
             <aside className="w-full md:w-1/4 lg:w-1/5">
                 <h2 className="text-lg font-bold mb-4 flex items-center"><Filter className="w-5 h-5 mr-2" />Filters</h2>
-                <Accordion type="single" collapsible defaultValue="class-9-books" className="w-full">
+                <Accordion type="single" collapsible defaultValue="category" className="w-full">
                     <AccordionItem value="category" className="border-b-0">
                         <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline">CATEGORY</AccordionTrigger>
                         <AccordionContent>
