@@ -11,6 +11,13 @@ const class12PhysicsResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Electric Charges and Fields", slug: "electric-charges-and-fields" },
+        { name: "Chapter 2: Electrostatic Potential and Capacitance", slug: "electrostatic-potential-and-capacitance" },
+        { name: "Chapter 3: Current Electricity", slug: "current-electricity" },
+        { name: "Chapter 4: Moving Charges and Magnetism", slug: "moving-charges-and-magnetism" },
+        { name: "Chapter 5: Magnetism and Matter", slug: "magnetism-and-matter" },
+        { name: "Chapter 6: Electromagnetic Induction", slug: "electromagnetic-induction" },
+        { name: "Chapter 7: Alternating Current", slug: "alternating-current" },
+        { name: "Chapter 8: Electromagnetic Waves", slug: "electromagnetic-waves" },
       ],
     },
     {
@@ -18,6 +25,37 @@ const class12PhysicsResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 9: Ray Optics and Optical Instruments", slug: "ray-optics-and-optical-instruments" },
+        { name: "Chapter 10: Wave Optics", slug: "wave-optics" },
+        { name: "Chapter 11: Dual Nature of Radiation and Matter", slug: "dual-nature-of-radiation-and-matter" },
+        { name: "Chapter 12: Atoms", slug: "atoms" },
+        { name: "Chapter 13: Nuclei", slug: "nuclei" },
+        { name: "Chapter 14: Semiconductor Electronics: Materials, Devices and Simple Circuits", slug: "semiconductor-electronics" },
+      ],
+    },
+    {
+      name: "भौतिकी भाग I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: वैद्युत आवेश तथा क्षेत्र", slug: "electric-charges-and-fields" },
+        { name: "अध्याय 2: स्थिरवैद्युत विभव तथा धारिता", slug: "electrostatic-potential-and-capacitance" },
+        { name: "अध्याय 3: विद्युत धारा", slug: "current-electricity" },
+        { name: "अध्याय 4: गतिमान आवेश और चुंबकत्व", slug: "moving-charges-and-magnetism" },
+        { name: "अध्याय 5: चुंबकत्व एवं द्रव्य", slug: "magnetism-and-matter" },
+        { name: "अध्याय 6: वैद्युतचुंबकीय प्रेरण", slug: "electromagnetic-induction" },
+        { name: "अध्याय 7: प्रत्यावर्ती धारा", slug: "alternating-current" },
+        { name: "अध्याय 8: वैद्युतचुंबकीय तरंगें", slug: "electromagnetic-waves" },
+      ],
+    },
+    {
+      name: "भौतिकी भाग II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 9: किरण प्रकाशिकी एवं प्रकाशिक यंत्र", slug: "ray-optics-and-optical-instruments" },
+        { name: "अध्याय 10: तरंग-प्रकाशिकी", slug: "wave-optics" },
+        { name: "अध्याय 11: विकिरण तथा द्रव्य की द्वैत प्रकृति", slug: "dual-nature-of-radiation-and-matter" },
+        { name: "अध्याय 12: परमाणु", slug: "atoms" },
+        { name: "अध्याय 13: नाभिक", slug: "nuclei" },
+        { name: "अध्याय 14: अर्धचालक इलेक्ट्रॉनिकी: पदार्थ, युक्तियाँ तथा सरल परिपथ", slug: "semiconductor-electronics" },
       ],
     },
   ],
@@ -51,7 +89,7 @@ export default function Class12PhysicsPage() {
               <div className="space-y-6">
                 {class12PhysicsResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
