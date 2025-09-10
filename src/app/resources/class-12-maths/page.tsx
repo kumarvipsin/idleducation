@@ -11,6 +11,11 @@ const class12MathsResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Relations and Functions", slug: "relations-and-functions-12" },
+        { name: "Chapter 2: Inverse Trigonometric Functions", slug: "inverse-trigonometric-functions" },
+        { name: "Chapter 3: Matrices", slug: "matrices" },
+        { name: "Chapter 4: Determinants", slug: "determinants" },
+        { name: "Chapter 5: Continuity and Differentiability", slug: "continuity-and-differentiability" },
+        { name: "Chapter 6: Application of Derivatives", slug: "application-of-derivatives" },
       ],
     },
     {
@@ -18,6 +23,37 @@ const class12MathsResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 7: Integrals", slug: "integrals" },
+        { name: "Chapter 8: Application of Integrals", slug: "application-of-integrals" },
+        { name: "Chapter 9: Differential Equations", slug: "differential-equations" },
+        { name: "Chapter 10: Vector Algebra", slug: "vector-algebra" },
+        { name: "Chapter 11: Three Dimensional Geometry", slug: "three-dimensional-geometry" },
+        { name: "Chapter 12: Linear Programming", slug: "linear-programming" },
+        { name: "Chapter 13: Probability", slug: "probability-12" },
+      ],
+    },
+    {
+      name: "गणित भाग I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: संबंध एवं फलन", slug: "relations-and-functions-12" },
+        { name: "अध्याय 2: प्रतिलोम त्रिकोणमितीय फलन", slug: "inverse-trigonometric-functions" },
+        { name: "अध्याय 3: आव्यूह", slug: "matrices" },
+        { name: "अध्याय 4: सारणिक", slug: "determinants" },
+        { name: "अध्याय 5: सांतत्य तथा अवकलनीयता", slug: "continuity-and-differentiability" },
+        { name: "अध्याय 6: अवकलज के अनुप्रयोग", slug: "application-of-derivatives" },
+      ],
+    },
+    {
+      name: "गणित भाग II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 7: समाकलन", slug: "integrals" },
+        { name: "अध्याय 8: समाकलनों के अनुप्रयोग", slug: "application-of-integrals" },
+        { name: "अध्याय 9: अवकल समीकरण", slug: "differential-equations" },
+        { name: "अध्याय 10: सदिश बीजगणित", slug: "vector-algebra" },
+        { name: "अध्याय 11: त्रिविमीय ज्यामिति", slug: "three-dimensional-geometry" },
+        { name: "अध्याय 12: रैखिक प्रोग्रामन", slug: "linear-programming" },
+        { name: "अध्याय 13: प्रायिकता", slug: "probability-12" },
       ],
     },
   ],
@@ -51,7 +87,7 @@ export default function Class12MathsPage() {
               <div className="space-y-6">
                 {class12MathsResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
