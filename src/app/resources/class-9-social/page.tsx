@@ -11,6 +11,10 @@ const class9SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: The French Revolution", slug: "the-french-revolution" },
+        { name: "Chapter 2: Socialism in Europe and the Russian Revolution", slug: "socialism-in-europe-and-the-russian-revolution" },
+        { name: "Chapter 3: Nazism and the Rise of Hitler", slug: "nazism-and-the-rise-of-hitler" },
+        { name: "Chapter 4: Forest Society and Colonialism", slug: "forest-society-and-colonialism" },
+        { name: "Chapter 5: Pastoralists in the Modern World", slug: "pastoralists-in-the-modern-world" },
       ],
     },
     {
@@ -18,6 +22,11 @@ const class9SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: India - Size and Location", slug: "india-size-and-location" },
+        { name: "Chapter 2: Physical Features of India", slug: "physical-features-of-india" },
+        { name: "Chapter 3: Drainage", slug: "drainage" },
+        { name: "Chapter 4: Climate", slug: "climate" },
+        { name: "Chapter 5: Natural Vegetation and Wildlife", slug: "natural-vegetation-and-wildlife" },
+        { name: "Chapter 6: Population", slug: "population" },
       ],
     },
     {
@@ -25,6 +34,10 @@ const class9SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: What is Democracy? Why Democracy?", slug: "what-is-democracy-why-democracy" },
+        { name: "Chapter 2: Constitutional Design", slug: "constitutional-design" },
+        { name: "Chapter 3: Electoral Politics", slug: "electoral-politics" },
+        { name: "Chapter 4: Working of Institutions", slug: "working-of-institutions" },
+        { name: "Chapter 5: Democratic Rights", slug: "democratic-rights" },
       ],
     },
     {
@@ -32,6 +45,53 @@ const class9SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: The Story of Village Palampur", slug: "the-story-of-village-palampur" },
+        { name: "Chapter 2: People as Resource", slug: "people-as-resource" },
+        { name: "Chapter 3: Poverty as a Challenge", slug: "poverty-as-a-challenge" },
+        { name: "Chapter 4: Food Security in India", slug: "food-security-in-india" },
+      ],
+    },
+    {
+      name: "भारत और समकालीन विश्व - I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: फ्रांसीसी क्रांति", slug: "the-french-revolution" },
+        { name: "अध्याय 2: यूरोप में समाजवाद एवं रूसी क्रांति", slug: "socialism-in-europe-and-the-russian-revolution" },
+        { name: "अध्याय 3: नात्सीवाद और हिटलर का उदय", slug: "nazism-and-the-rise-of-hitler" },
+        { name: "अध्याय 4: वन्य समाज एवं उपनिवेशवाद", slug: "forest-society-and-colonialism" },
+        { name: "अध्याय 5: आधुनिक विश्व में चरवाहे", slug: "pastoralists-in-the-modern-world" },
+      ],
+    },
+    {
+      name: "समकालीन भारत - I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: भारत - आकार और स्थिति", slug: "india-size-and-location" },
+        { name: "अध्याय 2: भारत का भौतिक स्वरूप", slug: "physical-features-of-india" },
+        { name: "अध्याय 3: अपवाह", slug: "drainage" },
+        { name: "अध्याय 4: जलवायु", slug: "climate" },
+        { name: "अध्याय 5: प्राकृतिक वनस्पति तथा वन्य प्राणी", slug: "natural-vegetation-and-wildlife" },
+        { name: "अध्याय 6: जनसंख्या", slug: "population" },
+      ],
+    },
+    {
+      name: "लोकतांत्रिक राजनीति - I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: लोकतंत्र क्या? लोकतंत्र क्यों?", slug: "what-is-democracy-why-democracy" },
+        { name: "अध्याय 2: संविधान निर्माण", slug: "constitutional-design" },
+        { name: "अध्याय 3: चुनावी राजनीति", slug: "electoral-politics" },
+        { name: "अध्याय 4: संस्थाओं का कामकाज", slug: "working-of-institutions" },
+        { name: "अध्याय 5: लोकतांत्रिक अधिकार", slug: "democratic-rights" },
+      ],
+    },
+    {
+      name: "अर्थशास्त्र (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: पालमपुर गाँव की कहानी", slug: "the-story-of-village-palampur" },
+        { name: "अध्याय 2: संसाधन के रूप में लोग", slug: "people-as-resource" },
+        { name: "अध्याय 3: निर्धनता: एक चुनौती", slug: "poverty-as-a-challenge" },
+        { name: "अध्याय 4: भारत में खाद्य सुरक्षा", slug: "food-security-in-india" },
       ],
     },
   ],
@@ -65,7 +125,7 @@ export default function Class9SocialPage() {
               <div className="space-y-6">
                 {class9SocialResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
