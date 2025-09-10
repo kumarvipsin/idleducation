@@ -25,6 +25,22 @@ type SubjectBooks = {
 };
 
 const booksByClass: { [key: string]: SubjectBooks[] } = {
+  'Class 9': [
+    {
+      subject: 'Mathematics',
+      books: [
+        { title: 'Mathematics for Class 9', author: 'R.D. Sharma', description: 'A comprehensive book for in-depth understanding of mathematical concepts.', imageUrl: 'https://picsum.photos/seed/rd9/200/300', href: '#', imageHint: 'math textbook' },
+        { title: 'Secondary School Mathematics for Class 9', author: 'R.S. Aggarwal', description: 'A popular choice for building a strong foundation in maths.', imageUrl: 'https://picsum.photos/seed/rs9/200/300', href: '#', imageHint: 'math textbook' },
+      ]
+    },
+    {
+      subject: 'Science',
+      books: [
+        { title: 'Science for Class 9', author: 'Lakhmir Singh & Manjit Kaur', description: 'Covers Physics, Chemistry, and Biology in a simple, easy-to-understand language.', imageUrl: 'https://picsum.photos/seed/ls9/200/300', href: '#', imageHint: 'science textbook' },
+        { title: 'All in One Science CBSE Class 9', author: 'Arihant Experts', description: 'An all-encompassing guide with theory, practicals, and practice questions.', imageUrl: 'https://picsum.photos/seed/arihant9/200/300', href: '#', imageHint: 'science textbook' },
+      ]
+    },
+  ],
   'Class 10': [
     {
       subject: 'Mathematics',
@@ -38,6 +54,22 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
       books: [
         { title: 'Science for Class 10', author: 'Lakhmir Singh & Manjit Kaur', description: 'Covers Physics, Chemistry, and Biology in a simple, easy-to-understand language.', imageUrl: 'https://picsum.photos/200/301', href: '#', imageHint: 'science textbook' },
         { title: 'S. Chand\'s Science for Class 10', author: 'S. Chand', description: 'A detailed book that clarifies complex scientific concepts effectively.', imageUrl: 'https://picsum.photos/201/301', href: '#', imageHint: 'science textbook' },
+      ]
+    },
+  ],
+  'Class 11': [
+    {
+      subject: 'Physics',
+      books: [
+        { title: 'Concepts of Physics', author: 'H.C. Verma', description: 'A must-have for every competitive exam aspirant.', imageUrl: 'https://picsum.photos/seed/hcv11/200/300', href: '#', imageHint: 'physics textbook' },
+        { title: 'Fundamentals of Physics', author: 'Halliday, Resnick & Walker', description: 'An internationally acclaimed book for deep conceptual understanding.', imageUrl: 'https://picsum.photos/seed/halliday11/200/300', href: '#', imageHint: 'physics textbook' },
+      ]
+    },
+    {
+      subject: 'Chemistry',
+      books: [
+        { title: 'Modern ABC of Chemistry', author: 'S.P. Jauhar', description: 'Covers the entire syllabus with detailed explanations and practice questions.', imageUrl: 'https://picsum.photos/seed/abc11/200/300', href: '#', imageHint: 'chemistry textbook' },
+        { title: 'Organic Chemistry', author: 'O.P. Tandon', description: 'Specialized book for mastering organic chemistry concepts.', imageUrl: 'https://picsum.photos/seed/tandon11/200/300', href: '#', imageHint: 'chemistry textbook' },
       ]
     },
   ],
@@ -57,23 +89,9 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
       ]
     },
   ],
-  'JEE': [
-    {
-      subject: 'Mathematics',
-      books: [
-        { title: 'Objective Mathematics', author: 'R.D. Sharma', description: 'Extensive collection of objective questions for JEE Main & Advanced.', imageUrl: 'https://picsum.photos/200/304', href: '#', imageHint: 'math textbook' },
-      ]
-    },
-    {
-      subject: 'Physics',
-      books: [
-        { title: 'Problems in General Physics', author: 'I.E. Irodov', description: 'A challenging book with problems that test your conceptual depth.', imageUrl: 'https://picsum.photos/201/304', href: '#', imageHint: 'physics textbook' },
-      ]
-    },
-  ]
 };
 
-const classes = ['Class 10', 'Class 11', 'Class 12', 'JEE', 'NEET'];
+const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
 
 export default function ReferenceBooksPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
@@ -135,7 +153,7 @@ export default function ReferenceBooksPage() {
 
         <div key={selectedClass} className="space-y-4">
           {filteredBooks && filteredBooks.length > 0 ? (
-            <Accordion type="multiple" defaultValue={[filteredBooks[0].subject]}>
+            <Accordion type="multiple" defaultValue={filteredBooks.map(s => s.subject)}>
               {filteredBooks.map((subject, index) => (
                 <AccordionItem value={subject.subject} key={index}>
                   <AccordionTrigger className="text-xl font-semibold text-primary">{subject.subject}</AccordionTrigger>
