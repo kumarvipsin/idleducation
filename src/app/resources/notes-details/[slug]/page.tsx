@@ -202,6 +202,114 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
   },
+  'acids-bases-and-salts': {
+    en: {
+      title: 'Chapter 2: Acids, Bases and Salts',
+      content: `### Properties of Acids and Bases
+- **Acids:**
+- - Have a sour taste.
+- - Turn blue litmus paper red.
+- - Give H⁺ ions in aqueous solution.
+- - Examples: Hydrochloric acid (HCl), Sulphuric acid (H₂SO₄), Nitric acid (HNO₃), Acetic acid (CH₃COOH).
+- **Bases:**
+- - Have a bitter taste.
+- - Turn red litmus paper blue.
+- - Feel soapy to touch.
+- - Give OH⁻ ions in aqueous solution.
+- - Examples: Sodium hydroxide (NaOH), Potassium hydroxide (KOH), Calcium hydroxide (Ca(OH)₂).
+- **Alkalis:** Bases which are soluble in water are called alkalis.
+
+### Indicators
+- **Indicators:** Substances which change their colour or odour in different types of substances.
+- **Natural Indicators:** Litmus (from lichens), Turmeric.
+- **Synthetic Indicators:** Methyl orange, Phenolphthalein.
+- **Olfactory Indicators:** Substances which have a different odour in acidic and basic mediums. Ex: Onion, Vanilla essence.
+
+### Chemical Properties of Acids and Bases
+- **Reaction of Acids with Metals:** Acid + Metal → Salt + Hydrogen gas. (e.g., 2HCl + Zn → ZnCl₂ + H₂)
+- **Reaction of Bases with Metals:** Base + Metal → Salt + Hydrogen gas. (e.g., 2NaOH + Zn → Na₂ZnO₂ + H₂)
+- **Reaction of Acids with Metal Carbonates/Hydrogen Carbonates:** Acid + Metal Carbonate → Salt + Carbon dioxide + Water. (e.g., 2HCl + Na₂CO₃ → 2NaCl + CO₂ + H₂O)
+- **Neutralisation Reaction:** Acid + Base → Salt + Water. (e.g., HCl + NaOH → NaCl + H₂O)
+- **Reaction of Acids with Metallic Oxides:** Metallic Oxide + Acid → Salt + Water. (Metallic oxides are basic in nature).
+- **Reaction of Bases with Non-metallic Oxides:** Non-metallic Oxide + Base → Salt + Water. (Non-metallic oxides are acidic in nature).
+
+### pH Scale
+- **pH Scale:** A scale for measuring hydrogen ion concentration in a solution.
+- The 'p' in pH stands for 'potenz' in German, meaning power.
+- pH = 7 → Neutral solution (e.g., pure water).
+- pH < 7 → Acidic solution.
+- pH > 7 → Basic solution.
+- The strength of an acid or base depends on the number of H⁺ or OH⁻ ions produced.
+
+### More about Salts
+- **Salts:** An ionic compound formed from the neutralisation reaction of an acid and a base.
+- **Family of Salts:** Salts having the same positive or negative radicals are said to belong to a family. (e.g., NaCl and KCl belong to the family of chloride salts).
+- **pH of Salts:**
+- - Salts of a strong acid and a strong base are neutral with pH value of 7.
+- - Salts of a strong acid and a weak base are acidic with pH value less than 7.
+- - Salts of a strong base and a weak acid are basic in nature, with pH value more than 7.
+
+### Common Chemicals from Common Salt (NaCl)
+- **Sodium Hydroxide (NaOH):** Produced by the electrolysis of an aqueous solution of NaCl (brine). This is called the chlor-alkali process.
+- **Bleaching Powder (CaOCl₂):** Produced by the action of chlorine on dry slaked lime.
+- **Baking Soda (NaHCO₃):** Sodium hydrogen carbonate. Used in baking, as an antacid, and in soda-acid fire extinguishers.
+- **Washing Soda (Na₂CO₃·10H₂O):** Sodium carbonate. Used in glass, soap, and paper industries, and for removing permanent hardness of water.
+- **Plaster of Paris (CaSO₄·½H₂O):** Calcium sulphate hemihydrate. On mixing with water, it changes to gypsum, a hard solid mass. Used for supporting fractured bones and for making decorative materials.`
+    },
+    hi: {
+      title: 'अध्याय 2: अम्ल, क्षारक एवं लवण',
+      content: `### अम्ल और क्षारक के गुण
+- **अम्ल:**
+- - स्वाद में खट्टे होते हैं।
+- - नीले लिटमस पत्र को लाल कर देते हैं।
+- - जलीय विलयन में H⁺ आयन देते हैं।
+- - उदाहरण: हाइड्रोक्लोरिक अम्ल (HCl), सल्फ्यूरिक अम्ल (H₂SO₄), नाइट्रिक अम्ल (HNO₃), एसिटिक अम्ल (CH₃COOH)।
+- **क्षारक:**
+- - स्वाद में कड़वे होते हैं।
+- - लाल लिटमस पत्र को नीला कर देते हैं।
+- - छूने में साबुन जैसे लगते हैं।
+- - जलीय विलयन में OH⁻ आयन देते हैं।
+- - उदाहरण: सोडियम हाइड्रॉक्साइड (NaOH), पोटेशियम हाइड्रॉक्साइड (KOH), कैल्शियम हाइड्रॉक्साइड (Ca(OH)₂)।
+- **क्षार:** जल में घुलनशील क्षारक को क्षार कहते हैं।
+
+### सूचक
+- **सूचक:** वे पदार्थ जो विभिन्न प्रकार के पदार्थों में अपना रंग या गंध बदल देते हैं।
+- **प्राकृतिक सूचक:** लिटमस (लाइकेन से), हल्दी।
+- **संश्लेषित सूचक:** मेथिल ऑरेंज, फेनोल्फथेलिन।
+- **गंधीय सूचक:** वे पदार्थ जिनकी गंध अम्लीय और क्षारीय माध्यमों में भिन्न होती है। उदा: प्याज, वैनिला एसेंस।
+
+### अम्ल और क्षारक के रासायनिक गुण
+- **अम्लों की धातुओं के साथ अभिक्रिया:** अम्ल + धातु → लवण + हाइड्रोजन गैस। (उदा., 2HCl + Zn → ZnCl₂ + H₂)
+- **क्षारकों की धातुओं के साथ अभिक्रिया:** क्षारक + धातु → लवण + हाइड्रोजन गैस। (उदा., 2NaOH + Zn → Na₂ZnO₂ + H₂)
+- **अम्लों की धातु कार्बोनेट/हाइड्रोजन कार्बोनेट के साथ अभिक्रिया:** अम्ल + धातु कार्बोनेट → लवण + कार्बन डाइऑक्साइड + जल। (उदा., 2HCl + Na₂CO₃ → 2NaCl + CO₂ + H₂O)
+- **उदासीनीकरण अभिक्रिया:** अम्ल + क्षारक → लवण + जल। (उदा., HCl + NaOH → NaCl + H₂O)
+- **अम्लों की धात्विक ऑक्साइडों के साथ अभिक्रिया:** धात्विक ऑक्साइड + अम्ल → लवण + जल। (धात्विक ऑक्साइड प्रकृति में क्षारीय होते हैं)।
+- **क्षारकों की अधात्विक ऑक्साइडों के साथ अभिक्रिया:** अधात्विक ऑक्साइड + क्षारक → लवण + जल। (अधात्विक ऑक्साइड प्रकृति में अम्लीय होते हैं)।
+
+### pH स्केल
+- **pH स्केल:** किसी विलयन में हाइड्रोजन आयन सांद्रता को मापने के लिए एक पैमाना।
+- pH में 'p' जर्मन में 'पोटेंज़' के लिए है, जिसका अर्थ है शक्ति।
+- pH = 7 → उदासीन विलयन (उदा., शुद्ध जल)।
+- pH < 7 → अम्लीय विलयन।
+- pH > 7 → क्षारीय विलयन।
+- किसी अम्ल या क्षारक की प्रबलता उत्पन्न H⁺ या OH⁻ आयनों की संख्या पर निर्भर करती है।
+
+### लवणों के बारे में अधिक जानकारी
+- **लवण:** एक आयनिक यौगिक जो एक अम्ल और एक क्षारक की उदासीनीकरण अभिक्रिया से बनता है।
+- **लवणों का परिवार:** समान धनात्मक या ऋणात्मक मूलक वाले लवणों को एक परिवार से संबंधित कहा जाता है। (उदा., NaCl और KCl क्लोराइड लवणों के परिवार से संबंधित हैं)।
+- **लवणों का pH:**
+- - एक प्रबल अम्ल और एक प्रबल क्षारक के लवण 7 के pH मान के साथ उदासीन होते हैं।
+- - एक प्रबल अम्ल और एक दुर्बल क्षारक के लवण 7 से कम pH मान के साथ अम्लीय होते हैं।
+- - एक प्रबल क्षारक और एक दुर्बल अम्ल के लवण प्रकृति में क्षारीय होते हैं, जिनका pH मान 7 से अधिक होता है।
+
+### साधारण नमक (NaCl) से सामान्य रसायन
+- **सोडियम हाइड्रॉक्साइड (NaOH):** NaCl (ब्राइन) के जलीय विलयन के विद्युत अपघटन द्वारा उत्पादित। इसे क्लोर-क्षार प्रक्रिया कहा जाता है।
+- **विरंजक चूर्ण (CaOCl₂):** शुष्क बुझे हुए चूने पर क्लोरीन की क्रिया द्वारा उत्पादित।
+- **बेकिंग सोडा (NaHCO₃):** सोडियम हाइड्रोजन कार्बोनेट। बेकिंग में, एक एंटासिड के रूप में, और सोडा-एसिड अग्निशामक में उपयोग किया जाता है।
+- **धोने का सोडा (Na₂CO₃·10H₂O):** सोडियम कार्बोनेट। कांच, साबुन और कागज उद्योगों में, और पानी की स्थायी कठोरता को दूर करने के लिए उपयोग किया जाता है।
+- **प्लास्टर ऑफ पेरिस (CaSO₄·½H₂O):** कैल्शियम सल्फेट हेमीहाइड्रेट। पानी के साथ मिलाने पर, यह जिप्सम, एक कठोर ठोस द्रव्यमान में बदल जाता है। टूटी हुई हड्डियों को सहारा देने और सजावटी सामग्री बनाने के लिए उपयोग किया जाता है।`
+    }
+  },
   'knowing-our-numbers': {
     en: {
       title: 'Chapter 1: Knowing Our Numbers',
