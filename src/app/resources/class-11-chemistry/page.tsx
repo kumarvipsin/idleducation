@@ -11,13 +11,41 @@ const class11ChemistryResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Some Basic Concepts of Chemistry", slug: "some-basic-concepts-of-chemistry" },
+        { name: "Chapter 2: Structure of Atom", slug: "structure-of-atom" },
+        { name: "Chapter 3: Classification of Elements and Periodicity in Properties", slug: "classification-of-elements-and-periodicity-in-properties" },
+        { name: "Chapter 4: Chemical Bonding and Molecular Structure", slug: "chemical-bonding-and-molecular-structure" },
+        { name: "Chapter 5: Thermodynamics", slug: "thermodynamics-11" },
+        { name: "Chapter 6: Equilibrium", slug: "equilibrium" },
       ],
     },
     {
       name: "Chemistry Part - II",
       lang: "en",
       chapters: [
-        { name: "Chapter 8: Redox Reactions", slug: "redox-reactions" },
+        { name: "Chapter 7: Redox Reactions", slug: "redox-reactions" },
+        { name: "Chapter 8: Organic Chemistry – Some Basic Principles and Techniques", slug: "organic-chemistry-some-basic-principles-and-techniques" },
+        { name: "Chapter 9: Hydrocarbons", slug: "hydrocarbons" },
+      ],
+    },
+    {
+      name: "रसायन विज्ञान भाग I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: रसायन विज्ञान की कुछ मूल अवधारणाएँ", slug: "some-basic-concepts-of-chemistry" },
+        { name: "अध्याय 2: परमाणु की संरचना", slug: "structure-of-atom" },
+        { name: "अध्याय 3: तत्वों का वर्गीकरण एवं गुणधर्मों में आवर्तिता", slug: "classification-of-elements-and-periodicity-in-properties" },
+        { name: "अध्याय 4: रासायनिक आबंधन तथा आण्विक संरचना", slug: "chemical-bonding-and-molecular-structure" },
+        { name: "अध्याय 5: ऊष्मागतिकी", slug: "thermodynamics-11" },
+        { name: "अध्याय 6: साम्यावस्था", slug: "equilibrium" },
+      ],
+    },
+    {
+      name: "रसायन विज्ञान भाग II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 7: अपचयोपचय अभिक्रियाएँ", slug: "redox-reactions" },
+        { name: "अध्याय 8: कार्बनिक रसायन – कुछ आधारभूत सिद्धांत तथा तकनीकें", slug: "organic-chemistry-some-basic-principles-and-techniques" },
+        { name: "अध्याय 9: हाइड्रोकार्बन", slug: "hydrocarbons" },
       ],
     },
   ],
@@ -51,7 +79,7 @@ export default function Class11ChemistryPage() {
               <div className="space-y-6">
                 {class11ChemistryResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
