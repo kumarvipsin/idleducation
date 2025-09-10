@@ -216,6 +216,13 @@ const class11Courses = [
         gradient: "from-lime-500 to-green-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-biology" }],
     },
+    {
+        title: "CLASS XI",
+        description: "Economics",
+        language: "ENGLISH | HINDI",
+        gradient: "from-pink-500 to-rose-500",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-economics" }],
+    },
 ]
 
 const class12Courses = [
@@ -267,6 +274,13 @@ const class12Courses = [
         language: "ENGLISH | HINDI",
         gradient: "from-lime-500 to-green-600",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-biology" }],
+    },
+    {
+        title: "CLASS XII",
+        description: "Economics",
+        language: "ENGLISH | HINDI",
+        gradient: "from-pink-500 to-rose-500",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-economics" }],
     },
 ]
 
