@@ -1,9 +1,14 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 const class5ScienceResources = {
   books: [
@@ -47,6 +52,8 @@ const class5ScienceResources = {
 };
 
 export default function Class5SciencePage() {
+  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg overflow-hidden">
@@ -86,9 +93,23 @@ export default function Class5SciencePage() {
               </div>
             </div>
             <div className="lg:col-span-2">
-                <h2 className="text-2xl font-bold mb-4 text-foreground">Premium Notes</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-foreground">Premium Notes</h2>
+                    <div className="flex items-center border rounded-md p-1 bg-background/50">
+                        <button 
+                            onClick={() => setNotesLang('en')}
+                            className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                            EN
+                        </button>
+                        <button 
+                            onClick={() => setNotesLang('hi')}
+                            className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                            HI
+                        </button>
+                    </div>
+                </div>
                 <div className="space-y-2">
-                  {class5ScienceResources.books[0].chapters.map((chapter, index) => (
+                  {(class5ScienceResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
                     <Card key={index} className="bg-background">
                       <CardContent className="p-3 flex items-center justify-between">
                         <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
