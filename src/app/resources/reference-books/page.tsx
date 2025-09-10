@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ChevronRight, Filter, Star } from 'lucide-react';
+import { ChevronRight, Filter, Star, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -44,42 +44,40 @@ const classes = ['Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 1
 const BookCard = ({ book }: { book: Book }) => {
     const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
     return (
-        <Card className="group relative overflow-visible rounded-lg shadow-sm transition-all duration-300 hover:shadow-lg">
-            <div className="absolute -top-2 left-2 z-10">
-                <div className="relative text-xs font-semibold text-white bg-green-600 px-2 py-1">
-                    <svg className="absolute -left-[7px] top-0 h-full w-2 text-green-600" x="0px" y="0px" viewBox="0 0 9 30"><polygon fill="#16a34a" points="0,0 9,0 0,30"></polygon></svg>
-                    Price Drop
-                </div>
+        <Card className="group relative overflow-hidden rounded-lg shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <div className="absolute top-2 right-2 z-10 bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded-full">
+                {discount}% OFF
             </div>
-            <CardContent className="p-2">
-                <div className="relative aspect-[3/4] w-full mb-2">
+            <CardContent className="p-0">
+                <div className="relative aspect-[3/4] w-full">
                     <Image
                         src={book.imageUrl}
                         alt={book.title}
                         data-ai-hint={book.imageHint}
                         fill
-                        className="object-cover rounded-md"
+                        className="object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute bottom-2 right-2">
-                        <Button variant="outline" className="bg-background/80 backdrop-blur-sm border-purple-300 text-purple-600 hover:bg-purple-100 hover:text-purple-700">
-                            ADD
-                        </Button>
-                    </div>
-                </div>
-                <div className="px-1">
-                    <h3 className="text-sm font-semibold text-foreground truncate group-hover:whitespace-normal group-hover:text-clip">{book.title}</h3>
-                    <p className="text-xs text-blue-500 font-medium my-1">{book.edition}</p>
-                    <div className="flex items-center gap-2">
-                        <p className="text-lg font-bold">₹{book.price.toLocaleString()}</p>
-                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
-                        <p className="text-sm font-semibold text-green-600">({discount}% OFF)</p>
-                    </div>
-                    <div className="flex items-center justify-end">
-                        <div className="flex items-center gap-1 text-xs font-bold text-white bg-green-600 px-2 py-0.5 rounded-sm">
-                            <Star className="w-3 h-3 fill-white" />
-                            <span>{book.rating}</span>
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                     <div className="absolute bottom-2 left-2 right-2 p-2">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1 text-xs font-bold text-background bg-green-600/90 px-2 py-0.5 rounded-sm">
+                                <Star className="w-3 h-3 fill-background" />
+                                <span>{book.rating}</span>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div className="p-4 bg-background">
+                    <h3 className="text-sm font-semibold text-foreground truncate group-hover:whitespace-normal group-hover:text-clip h-10">{book.title}</h3>
+                    <p className="text-xs text-muted-foreground my-1">{book.edition}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                        <p className="text-lg font-bold">₹{book.price.toLocaleString()}</p>
+                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
+                    </div>
+                     <Button className="w-full mt-3 bg-primary/90 hover:bg-primary">
+                        <ShoppingCart className="mr-2 h-4 w-4" />
+                        Buy Now
+                    </Button>
                 </div>
             </CardContent>
         </Card>
@@ -96,11 +94,11 @@ export default function ReferenceBooksPage() {
         <div className="flex flex-col md:flex-row gap-8">
             <aside className="w-full md:w-1/4 lg:w-1/5">
                 <h2 className="text-lg font-bold mb-4 flex items-center"><Filter className="w-5 h-5 mr-2" />Filters</h2>
-                <Accordion type="single" collapsible defaultValue="category" className="w-full">
+                <Accordion type="multiple" defaultValue={["category"]} className="w-full">
                     <AccordionItem value="category" className="border-b-0">
                         <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline">CATEGORY</AccordionTrigger>
                         <AccordionContent>
-                            <Accordion type="single" collapsible defaultValue="class-9-books" className="w-full pl-2">
+                            <Accordion type="multiple" defaultValue={["class-9-books"]} className="w-full pl-2">
                                 {classes.map(c => (
                                     <AccordionItem key={c} value={`${c.toLowerCase().replace(' ','-')}-books`}>
                                         <AccordionTrigger 
