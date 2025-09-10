@@ -12,6 +12,14 @@ const class11PolSciResources = {
       chapters: [
         { name: "Chapter 1: Constitution: Why and How?", slug: "constitution-why-and-how" },
         { name: "Chapter 2: Rights in the Indian Constitution", slug: "rights-in-the-indian-constitution" },
+        { name: "Chapter 3: Election and Representation", slug: "election-and-representation" },
+        { name: "Chapter 4: Executive", slug: "executive" },
+        { name: "Chapter 5: Legislature", slug: "legislature" },
+        { name: "Chapter 6: Judiciary", slug: "judiciary" },
+        { name: "Chapter 7: Federalism", slug: "federalism-11" },
+        { name: "Chapter 8: Local Governments", slug: "local-governments" },
+        { name: "Chapter 9: Constitution as a Living Document", slug: "constitution-as-a-living-document" },
+        { name: "Chapter 10: The Philosophy of the Constitution", slug: "the-philosophy-of-the-constitution" },
       ],
     },
     {
@@ -19,7 +27,47 @@ const class11PolSciResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Political Theory: An Introduction", slug: "political-theory-an-introduction" },
-        { name: "Chapter 2: Freedom", slug: "freedom" },
+        { name: "Chapter 2: Freedom", slug: "freedom-11" },
+        { name: "Chapter 3: Equality", slug: "equality" },
+        { name: "Chapter 4: Social Justice", slug: "social-justice" },
+        { name: "Chapter 5: Rights", slug: "rights" },
+        { name: "Chapter 6: Citizenship", slug: "citizenship" },
+        { name: "Chapter 7: Nationalism", slug: "nationalism" },
+        { name: "Chapter 8: Secularism", slug: "secularism" },
+        { name: "Chapter 9: Peace", slug: "peace" },
+        { name: "Chapter 10: Development", slug: "development-11" },
+      ],
+    },
+    {
+      name: "भारत का संविधान: सिद्धांत और व्यवहार (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: संविधान: क्यों और कैसे?", slug: "constitution-why-and-how" },
+        { name: "अध्याय 2: भारतीय संविधान में अधिकार", slug: "rights-in-the-indian-constitution" },
+        { name: "अध्याय 3: चुनाव और प्रतिनिधित्व", slug: "election-and-representation" },
+        { name: "अध्याय 4: कार्यपालिका", slug: "executive" },
+        { name: "अध्याय 5: विधायिका", slug: "legislature" },
+        { name: "अध्याय 6: न्यायपालिका", slug: "judiciary" },
+        { name: "अध्याय 7: संघवाद", slug: "federalism-11" },
+        { name: "अध्याय 8: स्थानीय शासन", slug: "local-governments" },
+        { name: "अध्याय 9: संविधान: एक जीवंत दस्तावेज़", slug: "constitution-as-a-living-document" },
+        { name: "अध्याय 10: संविधान का राजनीतिक दर्शन", slug: "the-philosophy-of-the-constitution" },
+      ],
+    },
+    {
+      name: "राजनीतिक सिद्धांत (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: राजनीतिक सिद्धांत: एक परिचय", slug: "political-theory-an-introduction" },
+        { name: "अध्याय 2: स्वतंत्रता", slug: "freedom-11" },
+        { name: "अध्याय 3: समानता", slug: "equality" },
+        { name: "अध्याय 4: सामाजिक न्याय", slug: "social-justice" },
+        { name: "अध्याय 5: अधिकार", slug: "rights" },
+        { name: "अध्याय 6: नागरिकता", slug: "citizenship" },
+        { name: "अध्याय 7: राष्ट्रवाद", slug: "nationalism" },
+        { name: "अध्याय 8: धर्मनिरपेक्षता", slug: "secularism" },
+        { name: "अध्याय 9: शांति", slug: "peace" },
+        { name: "अध्याय 10: विकास", slug: "development-11" },
       ],
     },
   ],
@@ -53,7 +101,7 @@ export default function Class11PolSciPage() {
               <div className="space-y-6">
                 {class11PolSciResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
