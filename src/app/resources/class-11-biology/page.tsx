@@ -12,8 +12,50 @@ const class11BiologyResources = {
       chapters: [
         { name: "Chapter 1: The Living World", slug: "the-living-world" },
         { name: "Chapter 2: Biological Classification", slug: "biological-classification" },
+        { name: "Chapter 3: Plant Kingdom", slug: "plant-kingdom" },
+        { name: "Chapter 4: Animal Kingdom", slug: "animal-kingdom" },
+        { name: "Chapter 5: Morphology of Flowering Plants", slug: "morphology-of-flowering-plants" },
+        { name: "Chapter 6: Anatomy of Flowering Plants", slug: "anatomy-of-flowering-plants" },
+        { name: "Chapter 7: Structural Organisation in Animals", slug: "structural-organisation-in-animals" },
+        { name: "Chapter 8: Cell: The Unit of Life", slug: "cell-the-unit-of-life" },
+        { name: "Chapter 9: Biomolecules", slug: "biomolecules" },
+        { name: "Chapter 10: Cell Cycle and Cell Division", slug: "cell-cycle-and-cell-division" },
+        { name: "Chapter 11: Photosynthesis in Higher Plants", slug: "photosynthesis-in-higher-plants" },
+        { name: "Chapter 12: Respiration in Plants", slug: "respiration-in-plants" },
+        { name: "Chapter 13: Plant Growth and Development", slug: "plant-growth-and-development" },
+        { name: "Chapter 14: Breathing and Exchange of Gases", slug: "breathing-and-exchange-of-gases" },
+        { name: "Chapter 15: Body Fluids and Circulation", slug: "body-fluids-and-circulation" },
+        { name: "Chapter 16: Excretory Products and their Elimination", slug: "excretory-products-and-their-elimination" },
+        { name: "Chapter 17: Locomotion and Movement", slug: "locomotion-and-movement" },
+        { name: "Chapter 18: Neural Control and Coordination", slug: "neural-control-and-coordination" },
+        { name: "Chapter 19: Chemical Coordination and Integration", slug: "chemical-coordination-and-integration" },
       ],
     },
+    {
+        name: "विषय सूचि",
+        lang: "hi",
+        chapters: [
+          { name: "अध्याय 1: जीव जगत", slug: "the-living-world" },
+          { name: "अध्याय 2: जीव जगत का वर्गीकरण", slug: "biological-classification" },
+          { name: "अध्याय 3: वनस्पति जगत", slug: "plant-kingdom" },
+          { name: "अध्याय 4: प्राणि जगत", slug: "animal-kingdom" },
+          { name: "अध्याय 5: पुष्पी पादपों की आकारिकी", slug: "morphology-of-flowering-plants" },
+          { name: "अध्याय 6: पुष्पी पादपों का शरीर", slug: "anatomy-of-flowering-plants" },
+          { name: "अध्याय 7: प्राणियों में संरचनात्मक संगठन", slug: "structural-organisation-in-animals" },
+          { name: "अध्याय 8: कोशिका: जीवन की इकाई", slug: "cell-the-unit-of-life" },
+          { name: "अध्याय 9: जैव अणु", slug: "biomolecules" },
+          { name: "अध्याय 10: कोशिका चक्र और कोशिका विभाजन", slug: "cell-cycle-and-cell-division" },
+          { name: "अध्याय 11: उच्च पादपों में प्रकाश संश्लेषण", slug: "photosynthesis-in-higher-plants" },
+          { name: "अध्याय 12: पादप में श्वसन", slug: "respiration-in-plants" },
+          { name: "अध्याय 13: पादप वृद्धि एवं परिवर्धन", slug: "plant-growth-and-development" },
+          { name: "अध्याय 14: श्वसन और गैसों का विनिमय", slug: "breathing-and-exchange-of-gases" },
+          { name: "अध्याय 15: शरीर द्रव तथा परिसंचरण", slug: "body-fluids-and-circulation" },
+          { name: "अध्याय 16: उत्सर्जी उत्पाद एवं उनका निष्कासन", slug: "excretory-products-and-their-elimination" },
+          { name: "अध्याय 17: गमन एवं संचलन", slug: "locomotion-and-movement" },
+          { name: "अध्याय 18: तंत्रिकीय नियंत्रण एवं समन्वय", slug: "neural-control-and-coordination" },
+          { name: "अध्याय 19: रासायनिक समन्वय तथा एकीकरण", slug: "chemical-coordination-and-integration" },
+        ],
+    }
   ],
   papers: [
     { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -45,7 +87,7 @@ export default function Class11BiologyPage() {
               <div className="space-y-6">
                 {class11BiologyResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
