@@ -52,6 +52,52 @@ const class6SocialResources = {
         { name: "Chapter 9: Urban Livelihoods", slug: "urban-livelihoods" },
       ],
     },
+    {
+      name: "हमारे अतीत - I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: क्या, कब, कहाँ और कैसे?", slug: "what-where-how-and-when" },
+        { name: "अध्याय 2: आखेट-खाद्य संग्रह से भोजन उत्पादन तक", slug: "from-hunting-gathering-to-growing-food" },
+        { name: "अध्याय 3: आरंभिक नगर", slug: "in-the-earliest-cities" },
+        { name: "अध्याय 4: क्या बताती हैं हमें किताबें और कब्रें", slug: "what-books-and-burials-tell-us" },
+        { name: "अध्याय 5: राज्य, राजा और एक प्राचीन गणराज्य", slug: "kingdoms-kings-and-an-early-republic" },
+        { name: "अध्याय 6: नए प्रश्न नए विचार", slug: "new-questions-and-ideas" },
+        { name: "अध्याय 7: अशोक: एक अनोखा सम्राट जिसने युद्ध का त्याग किया", slug: "ashoka-the-emperor-who-gave-up-war" },
+        { name: "अध्याय 8: खुशहाल गाँव और समृद्ध शहर", slug: "vital-villages-thriving-towns" },
+        { name: "अध्याय 9: व्यापारी, राजा और तीर्थयात्री", slug: "traders-kings-and-pilgrims" },
+        { name: "अध्याय 10: नए साम्राज्य और राज्य", slug: "new-empires-and-kingdoms" },
+        { name: "अध्याय 11: इमारतें, चित्र तथा किताबें", slug: "buildings-paintings-and-books" },
+      ],
+    },
+    {
+      name: "पृथ्वी: हमारा आवास (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: सौरमंडल में पृथ्वी", slug: "the-earth-in-the-solar-system" },
+        { name: "अध्याय 2: ग्लोब: अक्षांश एवं देशांतर", slug: "globe-latitudes-and-longitudes" },
+        { name: "अध्याय 3: पृथ्वी की गतियाँ", slug: "motions-of-the-earth" },
+        { name: "अध्याय 4: मानचित्र", slug: "maps" },
+        { name: "अध्याय 5: पृथ्वी के प्रमुख परिमंडल", slug: "major-domains-of-the-earth" },
+        { name: "अध्याय 6: पृथ्वी के प्रमुख स्थलरूप", slug: "major-landforms-of-the-earth" },
+        { name: "अध्याय 7: हमारा देश: भारत", slug: "our-country-india" },
+        { name: "अध्याय 8: भारत: जलवायु, वनस्पति तथा वन्य प्राणी", slug: "india-climate-vegetation-and-wildlife" },
+      ],
+    },
+    {
+      name: "सामाजिक एवं राजनीतिक जीवन - I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: विविधता की समझ", slug: "understanding-diversity" },
+        { name: "अध्याय 2: विविधता एवं भेदभाव", slug: "diversity-and-discrimination" },
+        { name: "अध्याय 3: सरकार क्या है?", slug: "what-is-government" },
+        { name: "अध्याय 4: लोकतांत्रिक सरकार के मुख्य तत्त्व", slug: "key-elements-of-a-democratic-government" },
+        { name: "अध्याय 5: पंचायती राज", slug: "panchayati-raj" },
+        { name: "अध्याय 6: गाँव का प्रशासन", slug: "rural-administration" },
+        { name: "अध्याय 7: नगर का प्रशासन", slug: "urban-administration" },
+        { name: "अध्याय 8: ग्रामीण क्षेत्र में आजीविका", slug: "rural-livelihoods" },
+        { name: "अध्याय 9: शहरी क्षेत्र में आजीविका", slug: "urban-livelihoods" },
+      ],
+    },
   ],
   papers: [
     { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
@@ -83,7 +129,7 @@ export default function Class6SocialPage() {
               <div className="space-y-6">
                 {class6SocialResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
