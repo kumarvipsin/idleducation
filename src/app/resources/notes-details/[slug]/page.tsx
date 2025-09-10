@@ -310,6 +310,124 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 - **प्लास्टर ऑफ पेरिस (CaSO₄·½H₂O):** कैल्शियम सल्फेट हेमीहाइड्रेट। पानी के साथ मिलाने पर, यह जिप्सम, एक कठोर ठोस द्रव्यमान में बदल जाता है। टूटी हुई हड्डियों को सहारा देने और सजावटी सामग्री बनाने के लिए उपयोग किया जाता है।`
     }
   },
+    'metals-and-non-metals': {
+    en: {
+      title: 'Chapter 3: Metals and Non-metals',
+      content: `### Physical Properties of Metals
+- **Lustre:** Metals have a shining surface.
+- **Hardness:** Metals are generally hard.
+- **Malleability:** Some metals can be beaten into thin sheets.
+- **Ductility:** The ability of metals to be drawn into thin wires.
+- **Conductors of Heat and Electricity:** Metals are good conductors of heat and have high melting points. They are also good conductors of electricity.
+- **Sonorous:** Metals that produce a sound on striking a hard surface are said to be sonorous.
+
+### Physical Properties of Non-Metals
+- Non-metals are either solids or gases except for bromine which is a liquid.
+- Non-metals do not have lustre, are not sonorous or malleable. They are poor conductors of heat and electricity.
+
+### Chemical Properties of Metals
+- **Reaction with Air:** Metals combine with oxygen to form metal oxides. Metal oxide + Water → Metal hydroxide.
+- **Reaction with Water:** Metals react with water to produce metal oxide and hydrogen gas. Metal oxide that is soluble in water dissolves in it to further form metal hydroxide.
+- **Reaction with Acids:** Metal + Dilute acid → Salt + Hydrogen.
+- **Reaction with Solutions of other Metal Salts:** Reactive metals can displace less reactive metals from their compounds in solution or molten form.
+
+### The Reactivity Series
+- The reactivity series is a list of metals arranged in the order of their decreasing activities.
+- **K > Na > Ca > Mg > Al > Zn > Fe > Pb > H > Cu > Hg > Ag > Au**
+
+### How do Metals and Non-metals React?
+- The reactivity of elements is the tendency to attain a completely filled valence shell.
+- Atoms of the metals lose electrons from their valence shells to form cations.
+- Atoms of the non-metals gain electrons in the valence shell to form anions.
+- **Ionic Compounds:** The compounds formed by the transfer of electrons from a metal to a non-metal are known as ionic compounds or electrovalent compounds.
+
+### Properties of Ionic Compounds
+- **Physical Nature:** They are solid and hard due to the strong force of attraction between the positive and negative ions.
+- **Melting and Boiling Points:** They have high melting and boiling points.
+- **Solubility:** Generally soluble in water and insoluble in solvents such as kerosene, petrol, etc.
+- **Conduction of Electricity:** Ionic compounds in the solid state do not conduct electricity. However, they conduct electricity in the molten state.
+
+### Occurrence of Metals
+- **Minerals:** The elements or compounds which occur naturally in the earth’s crust are known as minerals.
+- **Ores:** Minerals from which metals can be extracted profitably are called ores.
+
+### Extraction of Metals
+- **Enrichment of Ores:** Removal of the gangue from ores.
+- **Extracting Metals Low in the Activity Series:** By heating them in the air.
+- **Extracting Metals in the Middle of the Activity Series:** By calcination or roasting.
+- **Extracting Metals towards the Top of the Activity Series:** By electrolysis.
+
+### Refining of Metals
+- The most widely used method for refining impure metals is electrolytic refining.
+
+### Corrosion
+- The surface of some metals gets corroded when they are exposed to moist air for a long period of time. This is called corrosion.
+
+### Prevention of Corrosion
+- **Rusting of iron can be prevented by painting, oiling, greasing, galvanising, chrome plating, anodising or making alloys.**
+
+### Alloys
+- **Alloy:** An alloy is a homogeneous mixture of two or more metals, or a metal and a non-metal.`
+    },
+    hi: {
+      title: 'अध्याय 3: धातु एवं अधातु',
+      content: `### धातुओं के भौतिक गुणधर्म
+- **धात्विक चमक:** धातुओं की सतह चमकदार होती है।
+- **कठोरता:** धातुएँ सामान्यतः कठोर होती हैं।
+- **आघातवर्ध्यता:** कुछ धातुओं को पीटकर पतली चादर बनाया जा सकता है।
+- **तन्यता:** धातुओं को पतले तार के रूप में खींचने की क्षमता को तन्यता कहते हैं।
+- **ऊष्मा तथा विद्युत के चालक:** धातुएँ ऊष्मा की सुचालक होती हैं तथा उनका गलनांक अधिक होता है। वे विद्युत की भी सुचालक होती हैं।
+- **ध्वानिक:** जो धातुएँ किसी कठोर सतह से टकराने पर आवाज़ उत्पन्न करती हैं, उन्हें ध्वानिक कहते हैं।
+
+### अधातुओं के भौतिक गुणधर्म
+- अधातुएँ या तो ठोस या गैस होती हैं, सिवाय ब्रोमीन के जो एक द्रव है।
+- अधातुओं में चमक नहीं होती, वे ध्वानिक या आघातवर्ध्य नहीं होती हैं। वे ऊष्मा और विद्युत की कुचालक होती हैं।
+
+### धातुओं के रासायनिक गुणधर्म
+- **वायु के साथ अभिक्रिया:** धातुएँ ऑक्सीजन के साथ मिलकर धातु ऑक्साइड बनाती हैं। धातु ऑक्साइड + जल → धातु हाइड्रॉक्साइड।
+- **जल के साथ अभिक्रिया:** धातुएँ जल के साथ अभिक्रिया करके धातु ऑक्साइड और हाइड्रोजन गैस उत्पन्न करती हैं। जो धातु ऑक्साइड जल में घुलनशील होते हैं, वे उसमें घुलकर आगे धातु हाइड्रॉक्साइड बनाते हैं।
+- **अम्लों के साथ अभिक्रिया:** धातु + तनु अम्ल → लवण + हाइड्रोजन।
+- **अन्य धातु लवणों के विलयनों के साथ अभिक्रिया:** अभिक्रियाशील धातुएँ कम अभिक्रियाशील धातुओं को उनके यौगिकों से विलयन या गलित रूप में विस्थापित कर सकती हैं।
+
+### सक्रियता श्रेणी
+- सक्रियता श्रेणी धातुओं की एक सूची है जिसे उनकी घटती हुई गतिविधियों के क्रम में व्यवस्थित किया गया है।
+- **K > Na > Ca > Mg > Al > Zn > Fe > Pb > H > Cu > Hg > Ag > Au**
+
+### धातुएँ एवं अधातुएँ कैसे अभिक्रिया करती हैं?
+- तत्वों की अभिक्रियाशीलता पूरी तरह से भरे हुए संयोजकता कोश को प्राप्त करने की प्रवृत्ति है।
+- धातुओं के परमाणु धनायन बनाने के लिए अपने संयोजकता कोशों से इलेक्ट्रॉन खो देते हैं।
+- अधातुओं के परमाणु ऋणायन बनाने के लिए संयोजकता कोश में इलेक्ट्रॉन प्राप्त करते हैं।
+- **आयनिक यौगिक:** एक धातु से एक अधातु में इलेक्ट्रॉनों के स्थानांतरण द्वारा बने यौगिकों को आयनिक यौगिक या वैद्युतसंयोजक यौगिक के रूप में जाना जाता है।
+
+### आयनिक यौगिकों के गुणधर्म
+- **भौतिक प्रकृति:** धनात्मक और ऋणात्मक आयनों के बीच मजबूत आकर्षण बल के कारण वे ठोस और कठोर होते हैं।
+- **गलनांक एवं क्वथनांक:** इनके गलनांक एवं क्वथनांक उच्च होते हैं।
+- **घुलनशीलता:** सामान्यतः जल में विलेय तथा केरोसिन, पेट्रोल आदि जैसे विलायकों में अविलेय।
+- **विद्युत चालकता:** ठोस अवस्था में आयनिक यौगिक विद्युत का चालन नहीं करते हैं। हालाँकि, वे गलित अवस्था में विद्युत का चालन करते हैं।
+
+### धातुओं की प्राप्ति
+- **खनिज:** पृथ्वी की भूपर्पटी में प्राकृतिक रूप से पाए जाने वाले तत्वों या यौगिकों को खनिज के रूप में जाना जाता है।
+- **अयस्क:** वे खनिज जिनसे धातुओं का निष्कर्षण लाभप्रद रूप से किया जा सकता है, अयस्क कहलाते हैं।
+
+### धातुओं का निष्कर्षण
+- **अयस्कों का समृद्धीकरण:** अयस्कों से गैंग को हटाना।
+- **सक्रियता श्रेणी में नीचे आने वाली धातुओं का निष्कर्षण:** उन्हें हवा में गर्म करके।
+- **सक्रियता श्रेणी के मध्य में स्थित धातुओं का निष्कर्षण:** निस्तापन या भर्जन द्वारा।
+- **सक्रियता श्रेणी में सबसे ऊपर की धातुओं का निष्कर्षण:** विद्युत अपघटन द्वारा।
+
+### धातुओं का परिष्करण
+- अशुद्ध धातुओं के परिष्करण के लिए सबसे व्यापक रूप से उपयोग की जाने वाली विधि विद्युत अपघटनी परिष्करण है।
+
+### संक्षारण
+- कुछ धातुओं की सतह संक्षारित हो जाती है जब वे लंबे समय तक नम हवा के संपर्क में रहती हैं। इसे संक्षारण कहते हैं।
+
+### संक्षारण से सुरक्षा
+- **लोहे को जंग लगने से पेंट करके, तेल लगाकर, ग्रीस लगाकर, यशदलेपन, क्रोमियम लेपन, एनोडीकरण या मिश्रधातु बनाकर रोका जा सकता है।**
+
+### मिश्रधातु
+- **मिश्रधातु:** एक मिश्रधातु दो या दो से अधिक धातुओं, या एक धातु और एक अधातु का एक समांगी मिश्रण है।`
+    }
+  },
   'knowing-our-numbers': {
     en: {
       title: 'Chapter 1: Knowing Our Numbers',
