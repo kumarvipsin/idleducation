@@ -11,6 +11,10 @@ const class10SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: The Rise of Nationalism in Europe", slug: "the-rise-of-nationalism-in-europe" },
+        { name: "Chapter 2: Nationalism in India", slug: "nationalism-in-india" },
+        { name: "Chapter 3: The Making of a Global World", slug: "the-making-of-a-global-world" },
+        { name: "Chapter 4: The Age of Industrialisation", slug: "the-age-of-industrialisation" },
+        { name: "Chapter 5: Print Culture and the Modern World", slug: "print-culture-and-the-modern-world" },
       ],
     },
      {
@@ -18,6 +22,12 @@ const class10SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Resources and Development", slug: "resources-and-development" },
+        { name: "Chapter 2: Forest and Wildlife Resources", slug: "forest-and-wildlife-resources" },
+        { name: "Chapter 3: Water Resources", slug: "water-resources" },
+        { name: "Chapter 4: Agriculture", slug: "agriculture" },
+        { name: "Chapter 5: Minerals and Energy Resources", slug: "minerals-and-energy-resources" },
+        { name: "Chapter 6: Manufacturing Industries", slug: "manufacturing-industries" },
+        { name: "Chapter 7: Lifelines of National Economy", slug: "lifelines-of-national-economy" },
       ],
     },
     {
@@ -25,6 +35,10 @@ const class10SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Power-sharing", slug: "power-sharing" },
+        { name: "Chapter 2: Federalism", slug: "federalism" },
+        { name: "Chapter 3: Gender, Religion and Caste", slug: "gender-religion-and-caste" },
+        { name: "Chapter 4: Political Parties", slug: "political-parties" },
+        { name: "Chapter 5: Outcomes of Democracy", slug: "outcomes-of-democracy" },
       ],
     },
     {
@@ -32,6 +46,56 @@ const class10SocialResources = {
       lang: "en",
       chapters: [
         { name: "Chapter 1: Development", slug: "development" },
+        { name: "Chapter 2: Sectors of the Indian Economy", slug: "sectors-of-the-indian-economy" },
+        { name: "Chapter 3: Money and Credit", slug: "money-and-credit" },
+        { name: "Chapter 4: Globalisation and the Indian Economy", slug: "globalisation-and-the-indian-economy" },
+        { name: "Chapter 5: Consumer Rights", slug: "consumer-rights" },
+      ],
+    },
+    {
+      name: "भारत और समकालीन विश्व - II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: यूरोप में राष्ट्रवाद का उदय", slug: "the-rise-of-nationalism-in-europe" },
+        { name: "अध्याय 2: भारत में राष्ट्रवाद", slug: "nationalism-in-india" },
+        { name: "अध्याय 3: भूमंडलीकृत विश्व का बनना", slug: "the-making-of-a-global-world" },
+        { name: "अध्याय 4: औद्योगिकीकरण का युग", slug: "the-age-of-industrialisation" },
+        { name: "अध्याय 5: मुद्रण संस्कृति और आधुनिक दुनिया", slug: "print-culture-and-the-modern-world" },
+      ],
+    },
+     {
+      name: "समकालीन भारत - II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: संसाधन एवं विकास", slug: "resources-and-development" },
+        { name: "अध्याय 2: वन और वन्यजीव संसाधन", slug: "forest-and-wildlife-resources" },
+        { name: "अध्याय 3: जल संसाधन", slug: "water-resources" },
+        { name: "अध्याय 4: कृषि", slug: "agriculture" },
+        { name: "अध्याय 5: खनिज तथा ऊर्जा संसाधन", slug: "minerals-and-energy-resources" },
+        { name: "अध्याय 6: विनिर्माण उद्योग", slug: "manufacturing-industries" },
+        { name: "अध्याय 7: राष्ट्रीय अर्थव्यवस्था की जीवन रेखाएँ", slug: "lifelines-of-national-economy" },
+      ],
+    },
+    {
+      name: "लोकतांत्रिक राजनीति - II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: सत्ता की साझेदारी", slug: "power-sharing" },
+        { name: "अध्याय 2: संघवाद", slug: "federalism" },
+        { name: "अध्याय 3: लिंग, धर्म और जाति", slug: "gender-religion-and-caste" },
+        { name: "अध्याय 4: राजनीतिक दल", slug: "political-parties" },
+        { name: "अध्याय 5: लोकतंत्र के परिणाम", slug: "outcomes-of-democracy" },
+      ],
+    },
+    {
+      name: "आर्थिक विकास की समझ (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: विकास", slug: "development" },
+        { name: "अध्याय 2: भारतीय अर्थव्यवस्था के क्षेत्रक", slug: "sectors-of-the-indian-economy" },
+        { name: "अध्याय 3: मुद्रा और साख", slug: "money-and-credit" },
+        { name: "अध्याय 4: वैश्वीकरण और भारतीय अर्थव्यवस्था", slug: "globalisation-and-the-indian-economy" },
+        { name: "अध्याय 5: उपभोक्ता अधिकार", slug: "consumer-rights" },
       ],
     },
   ],
@@ -65,7 +129,7 @@ export default function Class10SocialPage() {
               <div className="space-y-6">
                 {class10SocialResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
