@@ -12,6 +12,42 @@ const class11MathsResources = {
       chapters: [
         { name: "Chapter 1: Sets", slug: "sets" },
         { name: "Chapter 2: Relations and Functions", slug: "relations-and-functions" },
+        { name: "Chapter 3: Trigonometric Functions", slug: "trigonometric-functions" },
+        { name: "Chapter 4: Principle of Mathematical Induction", slug: "principle-of-mathematical-induction" },
+        { name: "Chapter 5: Complex Numbers and Quadratic Equations", slug: "complex-numbers-and-quadratic-equations" },
+        { name: "Chapter 6: Linear Inequalities", slug: "linear-inequalities" },
+        { name: "Chapter 7: Permutations and Combinations", slug: "permutations-and-combinations" },
+        { name: "Chapter 8: Binomial Theorem", slug: "binomial-theorem" },
+        { name: "Chapter 9: Sequences and Series", slug: "sequences-and-series" },
+        { name: "Chapter 10: Straight Lines", slug: "straight-lines" },
+        { name: "Chapter 11: Conic Sections", slug: "conic-sections" },
+        { name: "Chapter 12: Introduction to Three Dimensional Geometry", slug: "introduction-to-three-dimensional-geometry" },
+        { name: "Chapter 13: Limits and Derivatives", slug: "limits-and-derivatives" },
+        { name: "Chapter 14: Mathematical Reasoning", slug: "mathematical-reasoning" },
+        { name: "Chapter 15: Statistics", slug: "statistics-11" },
+        { name: "Chapter 16: Probability", slug: "probability-11" },
+      ],
+    },
+    {
+      name: "विषय सूचि",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: समुच्चय", slug: "sets" },
+        { name: "अध्याय 2: संबंध एवं फलन", slug: "relations-and-functions" },
+        { name: "अध्याय 3: त्रिकोणमितीय फलन", slug: "trigonometric-functions" },
+        { name: "अध्याय 4: गणितीय आगमन का सिद्धांत", slug: "principle-of-mathematical-induction" },
+        { name: "अध्याय 5: सम्मिश्र संख्याएँ और द्विघातीय समीकरण", slug: "complex-numbers-and-quadratic-equations" },
+        { name: "अध्याय 6: रैखिक असमिकाएँ", slug: "linear-inequalities" },
+        { name: "अध्याय 7: क्रमचय और संचय", slug: "permutations-and-combinations" },
+        { name: "अध्याय 8: द्विपद प्रमेय", slug: "binomial-theorem" },
+        { name: "अध्याय 9: अनुक्रम तथा श्रेणी", slug: "sequences-and-series" },
+        { name: "अध्याय 10: सरल रेखाएँ", slug: "straight-lines" },
+        { name: "अध्याय 11: शंकु परिच्छेद", slug: "conic-sections" },
+        { name: "अध्याय 12: त्रिविमीय ज्यामिति का परिचय", slug: "introduction-to-three-dimensional-geometry" },
+        { name: "अध्याय 13: सीमा और अवकलज", slug: "limits-and-derivatives" },
+        { name: "अध्याय 14: गणितीय विवेचन", slug: "mathematical-reasoning" },
+        { name: "अध्याय 15: सांख्यिकी", slug: "statistics-11" },
+        { name: "अध्याय 16: प्रायिकता", slug: "probability-11" },
       ],
     },
   ],
@@ -45,7 +81,7 @@ export default function Class11MathsPage() {
               <div className="space-y-6">
                 {class11MathsResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
