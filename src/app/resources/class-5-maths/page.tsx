@@ -1,9 +1,12 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const class5MathsResources = {
   books: [
@@ -48,13 +51,11 @@ const class5MathsResources = {
       ],
     },
   ],
-  papers: [
-    { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-    { name: "Annual Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-  ],
 };
 
 export default function Class5MathsPage() {
+  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg overflow-hidden">
@@ -93,47 +94,38 @@ export default function Class5MathsPage() {
                 ))}
               </div>
             </div>
-            <div className="lg:col-span-2 space-y-8">
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-foreground">Papers & Materials</h2>
-                <div className="space-y-4">
-                  {class5MathsResources.papers.map((paper, index) => (
-                    <Card key={index} className="hover:shadow-md transition-shadow bg-background">
-                      <CardContent className="p-4 flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          {paper.icon}
-                          <div>
-                            <p className="font-semibold">{paper.name}</p>
-                            <p className="text-sm text-muted-foreground">{paper.type}</p>
-                          </div>
-                        </div>
-                        <Button asChild variant="outline" size="sm">
-                          <Link href="#">Download</Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+            <div className="lg:col-span-2">
+              <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-bold text-foreground">Premium Notes</h2>
+                  <div className="flex items-center border rounded-md p-1 bg-background/50">
+                      <button 
+                          onClick={() => setNotesLang('en')}
+                          className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                          EN
+                      </button>
+                      <button 
+                          onClick={() => setNotesLang('hi')}
+                          className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                          HI
+                      </button>
+                  </div>
               </div>
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-foreground">Premium Notes</h2>
-                <div className="space-y-2">
-                  {class5MathsResources.books[0].chapters.map((chapter, index) => (
-                    <Card key={index} className="bg-background">
-                      <CardContent className="p-3 flex items-center justify-between">
-                        <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
-                        <div className="flex items-center gap-2">
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                            </Button>
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
-                            </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+              <div className="space-y-2">
+                {(class5MathsResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                          </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
           </div>
