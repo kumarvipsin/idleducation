@@ -8,6 +8,114 @@ import { NotesContentRenderer } from "@/components/notes-content-renderer";
 import { BookOpen } from "lucide-react";
 
 const notesData: { [key: string]: { en: { title: string, content: string }, hi: { title: string, content: string } } } = {
+  'matter-in-our-surroundings': {
+    en: {
+      title: 'Chapter 1: Matter in Our Surroundings',
+      content: `### Matter
+- Anything that occupies space and has mass is called matter.
+- Early Indian philosophers classified matter in the form of five basic elements – the ‘Panch Tatva’ – air, earth, fire, sky and water.
+
+### Physical Nature of Matter
+- **Matter is made up of particles:** These particles are very small.
+- **Characteristics of Particles of Matter:**
+- - Particles of matter have space between them.
+- - Particles of matter are continuously moving.
+- - Particles of matter attract each other.
+
+### States of Matter
+- **The Solid State:**
+- - Have definite shape and fixed volume.
+- - The space between the particles is minimum.
+- - The force of attraction between the particles is maximum.
+- - The movement of the particles is minimum.
+- - They are least compressible.
+- **The Liquid State:**
+- - Have no definite shape but have a fixed volume. They take the shape of the container.
+- - The space between the particles is intermediate.
+- - The force of attraction between the particles is intermediate.
+- - The movement of the particles is intermediate.
+- - They are slightly more compressible than solids.
+- **The Gaseous State:**
+- - Have no definite shape or fixed volume. They occupy the whole space of the container.
+- - The space between the particles is maximum.
+- - The force of attraction between the particles is minimum.
+- - The movement of the particles is maximum.
+- - They are highly compressible.
+
+### Change of State of Matter
+- **Effect of Change of Temperature:**
+- - **Melting (Fusion):** The process in which a solid changes into a liquid. The temperature at which a solid melts to become a liquid at atmospheric pressure is called its **melting point**.
+- - **Boiling:** The process in which a liquid changes into a gas. The temperature at which a liquid starts boiling at the atmospheric pressure is known as its **boiling point**.
+- - **Latent Heat of Fusion:** The amount of heat energy required to change 1 kg of a solid into liquid at its melting point.
+- - **Latent Heat of Vaporisation:** The amount of heat energy required to change 1 kg of a liquid into gas at its boiling point.
+- - **Sublimation:** The change of state directly from solid to gas without changing into liquid state (or vice-versa). Example: Camphor, Ammonium chloride.
+- **Effect of Change of Pressure:**
+- - By applying pressure and reducing temperature, we can liquefy gases. Solid carbon dioxide (dry ice) is converted directly to a gaseous state on the decrease of pressure.
+
+### Evaporation
+- The phenomenon of change of a liquid into vapours at any temperature below its boiling point is called evaporation.
+- **Factors Affecting Evaporation:**
+- - **Surface Area:** An increase in the surface area increases the rate of evaporation.
+- - **Temperature:** An increase in temperature increases the rate of evaporation.
+- - **Humidity:** A decrease in humidity increases the rate of evaporation.
+- - **Wind Speed:** An increase in wind speed increases the rate of evaporation.
+- **Evaporation causes cooling:** The particles of liquid absorb energy from the surroundings to regain the energy lost during evaporation. This absorption of energy from the surroundings makes the surroundings cool.
+`
+    },
+    hi: {
+      title: 'अध्याय 1: हमारे आस-पास के पदार्थ',
+      content: `### पदार्थ
+- कोई भी वस्तु जो स्थान घेरती है और जिसमें द्रव्यमान होता है, पदार्थ कहलाती है।
+- प्राचीन भारतीय दार्शनिकों ने पदार्थ को पाँच मूल तत्वों - 'पंच तत्व' - वायु, पृथ्वी, अग्नि, आकाश और जल के रूप में वर्गीकृत किया था।
+
+### पदार्थ का भौतिक स्वरूप
+- **पदार्थ कणों से मिलकर बना होता है:** ये कण बहुत छोटे होते हैं।
+- **पदार्थ के कणों के अभिलाक्षणिक गुण:**
+- - पदार्थ के कणों के बीच रिक्त स्थान होता है।
+- - पदार्थ के कण निरंतर गतिशील होते हैं।
+- - पदार्थ के कण एक-दूसरे को आकर्षित करते हैं।
+
+### पदार्थ की अवस्थाएँ
+- **ठोस अवस्था:**
+- - इनका निश्चित आकार और स्थिर आयतन होता है।
+- - कणों के बीच रिक्त स्थान न्यूनतम होता है।
+- - कणों के बीच आकर्षण बल अधिकतम होता है।
+- - कणों की गति न्यूनतम होती है।
+- - वे सबसे कम संपीड्य होते हैं।
+- **द्रव अवस्था:**
+- - इनका कोई निश्चित आकार नहीं होता है लेकिन आयतन निश्चित होता है। वे बर्तन का आकार ले लेते हैं।
+- - कणों के बीच रिक्त स्थान मध्यवर्ती होता है।
+- - कणों के बीच आकर्षण बल मध्यवर्ती होता है।
+- - कणों की गति मध्यवर्ती होती है।
+- - वे ठोसों की तुलना में थोड़े अधिक संपीड्य होते हैं।
+- **गैसीय अवस्था:**
+- - इनका कोई निश्चित आकार या स्थिर आयतन नहीं होता है। वे बर्तन की पूरी जगह घेर लेते हैं।
+- - कणों के बीच रिक्त स्थान अधिकतम होता है।
+- - कणों के बीच आकर्षण बल न्यूनतम होता है।
+- - कणों की गति अधिकतम होती है।
+- - वे अत्यधिक संपीड्य होते हैं।
+
+### पदार्थ की अवस्था में परिवर्तन
+- **तापमान परिवर्तन का प्रभाव:**
+- - **गलन (संलयन):** वह प्रक्रिया जिसमें कोई ठोस द्रव में बदल जाता है। वह तापमान जिस पर कोई ठोस वायुमंडलीय दाब पर पिघलकर द्रव बन जाता है, उसका **गलनांक** कहलाता है।
+- - **क्वथन:** वह प्रक्रिया जिसमें कोई द्रव गैस में बदल जाता है। वह तापमान जिस पर कोई द्रव वायुमंडलीय दाब पर उबलने लगता है, उसका **क्वथनांक** कहलाता है।
+- - **संलयन की प्रसुप्त ऊष्मा:** गलनांक पर 1 किलो ठोस को द्रव में बदलने के लिए आवश्यक ऊष्मा ऊर्जा की मात्रा।
+- - **वाष्पीकरण की प्रसुप्त ऊष्मा:** क्वथनांक पर 1 किलो द्रव को गैस में बदलने के लिए आवश्यक ऊष्मा ऊर्जा की मात्रा।
+- - **ऊर्ध्वपातन:** द्रव अवस्था में परिवर्तित हुए बिना ठोस अवस्था से सीधे गैस में बदलने की प्रक्रिया (या इसके विपरीत)। उदाहरण: कपूर, अमोनियम क्लोराइड।
+- **दाब परिवर्तन का प्रभाव:**
+- - दाब लगाकर और तापमान कम करके, हम गैसों को द्रवित कर सकते हैं। ठोस कार्बन डाइऑक्साइड (शुष्क बर्फ) दाब कम होने पर सीधे गैसीय अवस्था में परिवर्तित हो जाती है।
+
+### वाष्पीकरण
+- क्वथनांक से कम किसी भी तापमान पर द्रव के वाष्प में बदलने की घटना को वाष्पीकरण कहते हैं।
+- **वाष्पीकरण को प्रभावित करने वाले कारक:**
+- - **सतह क्षेत्र:** सतह क्षेत्र में वृद्धि से वाष्पीकरण की दर बढ़ जाती है।
+- - **तापमान:** तापमान में वृद्धि से वाष्पीकरण की दर बढ़ जाती है।
+- - **आर्द्रता:** आर्द्रता में कमी से वाष्पीकरण की दर बढ़ जाती है।
+- - **वायु की गति:** वायु की गति में वृद्धि से वाष्पीकरण की दर बढ़ जाती है।
+- **वाष्पीकरण से शीतलता होती है:** द्रव के कण वाष्पीकरण के दौरान खोई हुई ऊर्जा को पुनः प्राप्त करने के लिए आसपास से ऊर्जा अवशोषित करते हैं। आसपास से ऊर्जा के इस अवशोषण से आसपास का वातावरण ठंडा हो जाता है।
+`
+    }
+  },
   'the-rise-of-nationalism-in-europe': {
     en: {
       title: 'Chapter 1: The Rise of Nationalism in Europe',
@@ -1482,7 +1590,7 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 
 ### धागे से वस्त्र
 - **बुनाई:** वस्त्र बनाने के लिए धागों के दो सेटों को एक साथ व्यवस्थित करने की प्रक्रिया। यह करघों पर किया जाता है।
-- **बुनाई:** एक ही धागे का उपयोग करके वस्त्र का एक टुकड़ा बनाया जाता है। यह हाथ से या मशीनों पर किया जा सकता है।
+- **बुनाई:** एक ही धागे का उपयोग करके वस्त्र का एक टुकड़ा बनाया जाता है। यह हाथ से या मशीनों पर किया जाता है।
 `
     }
 },
@@ -2212,7 +2320,88 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
 },
+  'number-systems': {
+    en: {
+      title: 'Chapter 1: Number Systems',
+      content: `### Introduction to Number Systems
+- **Natural Numbers (N):** Counting numbers: 1, 2, 3, 4, ...
+- **Whole Numbers (W):** Natural numbers including zero: 0, 1, 2, 3, ...
+- **Integers (Z):** Whole numbers and their negative counterparts: ..., -3, -2, -1, 0, 1, 2, 3, ...
+- **Rational Numbers (Q):** Numbers that can be expressed in the form p/q, where p and q are integers and q ≠ 0.
 
+### Rational Numbers
+- There are infinitely many rational numbers between any two given rational numbers.
+- **Finding Rational Numbers:** To find 'n' rational numbers between x and y, you can use the formula d = (y-x)/(n+1) and the numbers will be x+d, x+2d, ..., x+nd.
+
+### Irrational Numbers
+- A number is called irrational if it cannot be written in the form p/q, where p and q are integers and q ≠ 0.
+- **Examples:** √2, √3, √5, π, 0.101101110...
+- The decimal expansion of an irrational number is **non-terminating and non-recurring**.
+
+### Real Numbers and their Decimal Expansions
+- **Real Numbers (R):** The collection of all rational and irrational numbers. Every real number is represented by a unique point on the number line.
+- **Decimal expansion of Rational Numbers:** Either terminating or non-terminating recurring.
+- **Decimal expansion of Irrational Numbers:** Non-terminating non-recurring.
+
+### Representing Real Numbers on the Number Line
+- We can represent real numbers on the number line using the process of successive magnification.
+- For irrational numbers like √x, we can use geometric constructions (Pythagoras' theorem).
+
+### Operations on Real Numbers
+- The sum, difference, product, and quotient of two rational numbers are always rational.
+- The sum, difference, product, and quotient of a rational and an irrational number are irrational.
+- **Rationalising the Denominator:** To convert a number with an irrational denominator to an equivalent expression whose denominator is a rational number.
+- - **Example:** To rationalise 1/(√a + b), we multiply the numerator and denominator by (√a - b).
+
+### Laws of Exponents for Real Numbers
+- Let a > 0 be a real number and m, n be rational numbers. Then,
+- - 1. aᵐ ⋅ aⁿ = aᵐ⁺ⁿ
+- - 2. (aᵐ)ⁿ = aᵐⁿ
+- - 3. aᵐ / aⁿ = aᵐ⁻ⁿ
+- - 4. aᵐbᵐ = (ab)ᵐ
+`
+    },
+    hi: {
+      title: 'अध्याय 1: संख्या पद्धति',
+      content: `### संख्या पद्धतियों का परिचय
+- **प्राकृत संख्याएँ (N):** गिनती की संख्याएँ: 1, 2, 3, 4, ...
+- **पूर्ण संख्याएँ (W):** शून्य सहित प्राकृत संख्याएँ: 0, 1, 2, 3, ...
+- **पूर्णांक (Z):** पूर्ण संख्याएँ और उनके ऋणात्मक समकक्ष: ..., -3, -2, -1, 0, 1, 2, 3, ...
+- **परिमेय संख्याएँ (Q):** वे संख्याएँ जिन्हें p/q के रूप में व्यक्त किया जा सकता है, जहाँ p और q पूर्णांक हैं और q ≠ 0।
+
+### परिमेय संख्याएँ
+- किन्हीं दो दी गई परिमेय संख्याओं के बीच अपरिमित रूप से अनेक परिमेय संख्याएँ होती हैं।
+- **परिमेय संख्याएँ ज्ञात करना:** x और y के बीच 'n' परिमेय संख्याएँ ज्ञात करने के लिए, आप d = (y-x)/(n+1) सूत्र का उपयोग कर सकते हैं और संख्याएँ x+d, x+2d, ..., x+nd होंगी।
+
+### अपरिमेय संख्याएँ
+- एक संख्या अपरिमेय कहलाती है यदि उसे p/q के रूप में नहीं लिखा जा सकता है, जहाँ p और q पूर्णांक हैं और q ≠ 0।
+- **उदाहरण:** √2, √3, √5, π, 0.101101110...
+- एक अपरिमेय संख्या का दशमलव प्रसार **असांत अनावर्ती** होता है।
+
+### वास्तविक संख्याएँ और उनके दशमलव प्रसार
+- **वास्तविक संख्याएँ (R):** सभी परिमेय और अपरिमेय संख्याओं का संग्रह। प्रत्येक वास्तविक संख्या को संख्या रेखा पर एक अद्वितीय बिंदु द्वारा दर्शाया जाता है।
+- **परिमेय संख्याओं का दशमलव प्रसार:** या तो सांत या असांत आवर्ती।
+- **अपरिमेय संख्याओं का दशमलव प्रसार:** असांत अनावर्ती।
+
+### संख्या रेखा पर वास्तविक संख्याओं का निरूपण
+- हम उत्तरोत्तर आवर्धन की प्रक्रिया का उपयोग करके संख्या रेखा पर वास्तविक संख्याओं को निरूपित कर सकते हैं।
+- √x जैसी अपरिमेय संख्याओं के लिए, हम ज्यामितीय रचनाओं (पाइथागोरस प्रमेय) का उपयोग कर सकते हैं।
+
+### वास्तविक संख्याओं पर संक्रियाएँ
+- दो परिमेय संख्याओं का योग, अंतर, गुणनफल और भागफल हमेशा परिमेय होता है।
+- एक परिमेय और एक अपरिमेय संख्या का योग, अंतर, गुणनफल और भागफल अपरिमेय होता है।
+- **हर का परिमेयकरण:** एक अपरिमेय हर वाली संख्या को एक समतुल्य व्यंजक में बदलना जिसका हर एक परिमेय संख्या हो।
+- - **उदाहरण:** 1/(√a + b) का परिमेयकरण करने के लिए, हम अंश और हर को (√a - b) से गुणा करते हैं।
+
+### वास्तविक संख्याओं के लिए घातांक के नियम
+- मान लीजिए a > 0 एक वास्तविक संख्या है और m, n परिमेय संख्याएँ हैं। तब,
+- - 1. aᵐ ⋅ aⁿ = aᵐ⁺ⁿ
+- - 2. (aᵐ)ⁿ = aᵐⁿ
+- - 3. aᵐ / aⁿ = aᵐ⁻ⁿ
+- - 4. aᵐbᵐ = (ab)ᵐ
+`
+    }
+  },
   'default': {
     en: {
       title: 'Notes Not Found',
