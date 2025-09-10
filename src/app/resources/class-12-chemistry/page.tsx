@@ -10,14 +10,44 @@ const class12ChemistryResources = {
       name: "Chemistry Part - I",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: The Solid State", slug: "the-solid-state" },
+        { name: "Chapter 1: Solutions", slug: "solutions" },
+        { name: "Chapter 2: Electrochemistry", slug: "electrochemistry" },
+        { name: "Chapter 3: Chemical Kinetics", slug: "chemical-kinetics" },
+        { name: "Chapter 4: The d- and f-Block Elements", slug: "the-d-and-f-block-elements" },
+        { name: "Chapter 5: Coordination Compounds", slug: "coordination-compounds" },
       ],
     },
      {
       name: "Chemistry Part - II",
       lang: "en",
       chapters: [
-        { name: "Chapter 10: Haloalkanes and Haloarenes", slug: "haloalkanes-and-haloarenes" },
+        { name: "Chapter 6: Haloalkanes and Haloarenes", slug: "haloalkanes-and-haloarenes" },
+        { name: "Chapter 7: Alcohols, Phenols and Ethers", slug: "alcohols-phenols-and-ethers" },
+        { name: "Chapter 8: Aldehydes, Ketones and Carboxylic Acids", slug: "aldehydes-ketones-and-carboxylic-acids" },
+        { name: "Chapter 9: Amines", slug: "amines" },
+        { name: "Chapter 10: Biomolecules", slug: "biomolecules-12" },
+      ],
+    },
+    {
+      name: "रसायन विज्ञान भाग I (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: विलयन", slug: "solutions" },
+        { name: "अध्याय 2: वैद्युतरसायन", slug: "electrochemistry" },
+        { name: "अध्याय 3: रासायनिक बलगतिकी", slug: "chemical-kinetics" },
+        { name: "अध्याय 4: d- एवं f- ब्लॉक के तत्त्व", slug: "the-d-and-f-block-elements" },
+        { name: "अध्याय 5: उपसहसंयोजन यौगिक", slug: "coordination-compounds" },
+      ],
+    },
+    {
+      name: "रसायन विज्ञान भाग II (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 6: हैलोऐल्केन तथा हैलोऐरीन", slug: "haloalkanes-and-haloarenes" },
+        { name: "अध्याय 7: ऐल्कोहॉल, फ़िनॉल एवं ईथर", slug: "alcohols-phenols-and-ethers" },
+        { name: "अध्याय 8: ऐल्डिहाइड, कीटोन एवं कार्बोक्सिलिक अम्ल", slug: "aldehydes-ketones-and-carboxylic-acids" },
+        { name: "अध्याय 9: ऐमीन", slug: "amines" },
+        { name: "अध्याय 10: जैव-अणु", slug: "biomolecules-12" },
       ],
     },
   ],
@@ -51,7 +81,7 @@ export default function Class12ChemistryPage() {
               <div className="space-y-6">
                 {class12ChemistryResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
