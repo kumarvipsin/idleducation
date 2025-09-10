@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, ArrowRight } from 'lucide-react';
+import { BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, ArrowRight, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -55,7 +55,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'History', href: '/resources/class-11-history', icon: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />, gradient: 'from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30' },
     { name: 'Geography', href: '/resources/class-11-geography', icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />, gradient: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30' },
     { name: 'Political Science', href: '/resources/class-11-polsci', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
-    { name: 'Economics', href: '/resources/class-11-economics', icon: <BookText className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
+    { name: 'Economics', href: '/resources/class-11-economics', icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
   ],
   'Class 12': [
     { name: 'Maths', href: '/resources/class-12-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
@@ -65,7 +65,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'History', href: '/resources/class-12-history', icon: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />, gradient: 'from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30' },
     { name: 'Geography', href: '/resources/class-12-geography', icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />, gradient: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30' },
     { name: 'Political Science', href: '/resources/political-science-details', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
-    { name: 'Economics', href: '/resources/class-12-economics', icon: <BookText className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
+    { name: 'Economics', href: '/resources/class-12-economics', icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
   ],
 };
 
