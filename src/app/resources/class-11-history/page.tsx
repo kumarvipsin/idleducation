@@ -12,6 +12,32 @@ const class11HistoryResources = {
       chapters: [
         { name: "Chapter 1: From the Beginning of Time", slug: "from-the-beginning-of-time" },
         { name: "Chapter 2: Writing and City Life", slug: "writing-and-city-life" },
+        { name: "Chapter 3: An Empire Across Three Continents", slug: "an-empire-across-three-continents" },
+        { name: "Chapter 4: The Central Islamic Lands", slug: "the-central-islamic-lands" },
+        { name: "Chapter 5: Nomadic Empires", slug: "nomadic-empires" },
+        { name: "Chapter 6: The Three Orders", slug: "the-three-orders" },
+        { name: "Chapter 7: Changing Cultural Traditions", slug: "changing-cultural-traditions" },
+        { name: "Chapter 8: Confrontation of Cultures", slug: "confrontation-of-cultures" },
+        { name: "Chapter 9: The Industrial Revolution", slug: "the-industrial-revolution" },
+        { name: "Chapter 10: Displacing Indigenous Peoples", slug: "displacing-indigenous-peoples" },
+        { name: "Chapter 11: Paths to Modernisation", slug: "paths-to-modernisation" },
+      ],
+    },
+    {
+      name: "विश्व इतिहास के कुछ विषय (विषय सूचि)",
+      lang: "hi",
+      chapters: [
+        { name: "अध्याय 1: समय की शुरुआत से", slug: "from-the-beginning-of-time" },
+        { name: "अध्याय 2: लेखन कला और शहरी जीवन", slug: "writing-and-city-life" },
+        { name: "अध्याय 3: तीन महाद्वीपों में फैला हुआ साम्राज्य", slug: "an-empire-across-three-continents" },
+        { name: "अध्याय 4: इस्लाम का उदय और विस्तार—लगभग 570-1200 ई.", slug: "the-central-islamic-lands" },
+        { name: "अध्याय 5: यायावर साम्राज्य", slug: "nomadic-empires" },
+        { name: "अध्याय 6: तीन वर्ग", slug: "the-three-orders" },
+        { name: "अध्याय 7: बदलती हुई सांस्कृतिक परंपराएँ", slug: "changing-cultural-traditions" },
+        { name: "अध्याय 8: संस्कृतियों का टकराव", slug: "confrontation-of-cultures" },
+        { name: "अध्याय 9: औद्योगिक क्रांति", slug: "the-industrial-revolution" },
+        { name: "अध्याय 10: मूल निवासियों का विस्थापन", slug: "displacing-indigenous-peoples" },
+        { name: "अध्याय 11: आधुनिकीकरण के रास्ते", slug: "paths-to-modernisation" },
       ],
     },
   ],
@@ -45,7 +71,7 @@ export default function Class11HistoryPage() {
               <div className="space-y-6">
                 {class11HistoryResources.books.map((book, bookIndex) => (
                   <div key={bookIndex}>
-                    {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+                    <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                     <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
