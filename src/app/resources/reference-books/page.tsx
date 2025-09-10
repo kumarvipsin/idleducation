@@ -95,15 +95,8 @@ const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
 
 export default function ReferenceBooksPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
-  const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredBooks = booksByClass[selectedClass]?.map(subject => ({
-    ...subject,
-    books: subject.books.filter(book => 
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      book.author.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(subject => subject.books.length > 0);
+  const subjects = booksByClass[selectedClass];
   
   return (
     <div>
@@ -130,31 +123,10 @@ export default function ReferenceBooksPage() {
         </div>
       
       <main className="flex-1">
-        <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search by title or author..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full md:w-1/3 lg:w-1/4 rounded-full h-9"
-            />
-             {searchTerm && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-0 top-1/2 -translate-y-1/2 h-full rounded-l-none"
-                onClick={() => setSearchTerm('')}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-        </div>
-
         <div key={selectedClass} className="space-y-4">
-          {filteredBooks && filteredBooks.length > 0 ? (
-            <Accordion type="multiple" defaultValue={filteredBooks.map(s => s.subject)}>
-              {filteredBooks.map((subject, index) => (
+          {subjects && subjects.length > 0 ? (
+            <Accordion type="multiple" defaultValue={subjects.map(s => s.subject)}>
+              {subjects.map((subject, index) => (
                 <AccordionItem value={subject.subject} key={index}>
                   <AccordionTrigger className="text-xl font-semibold text-primary">{subject.subject}</AccordionTrigger>
                   <AccordionContent>
