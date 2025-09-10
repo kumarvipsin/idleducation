@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cn } from '@/lib/utils';
 
 type Book = {
   title: string;
@@ -109,41 +110,39 @@ const booksByClass: { [key: string]: SubjectBooks[] } = {
       ]
     },
   ],
-  'Class 11': [
-    {
-      subject: 'Physics',
-      books: [
-        { title: 'Concepts of Physics', author: 'H.C. Verma', description: 'A must-have for every competitive exam aspirant.', imageUrl: 'https://picsum.photos/seed/hcv11/200/300', href: '#', imageHint: 'physics textbook' },
-        { title: 'Fundamentals of Physics', author: 'Halliday, Resnick & Walker', description: 'An internationally acclaimed book for deep conceptual understanding.', imageUrl: 'https://picsum.photos/seed/halliday11/200/300', href: '#', imageHint: 'physics textbook' },
-      ]
-    },
-    {
-      subject: 'Chemistry',
-      books: [
-        { title: 'Modern ABC of Chemistry', author: 'S.P. Jauhar', description: 'Covers the entire syllabus with detailed explanations and practice questions.', imageUrl: 'https://picsum.photos/seed/abc11/200/300', href: '#', imageHint: 'chemistry textbook' },
-        { title: 'Organic Chemistry', author: 'O.P. Tandon', description: 'Specialized book for mastering organic chemistry concepts.', imageUrl: 'https://picsum.photos/seed/tandon11/200/300', href: '#', imageHint: 'chemistry textbook' },
-      ]
-    },
-  ],
-  'Class 12': [
-    {
-      subject: 'Physics',
-      books: [
-        { title: 'Concepts of Physics', author: 'H.C. Verma', description: 'A must-have for every competitive exam aspirant.', imageUrl: 'https://picsum.photos/200/302', href: '#', imageHint: 'physics textbook' },
-        { title: 'Fundamentals of Physics', author: 'Halliday, Resnick & Walker', description: 'An internationally acclaimed book for deep conceptual understanding.', imageUrl: 'https://picsum.photos/201/302', href: '#', imageHint: 'physics textbook' },
-      ]
-    },
-    {
-      subject: 'Chemistry',
-      books: [
-        { title: 'Modern ABC of Chemistry', author: 'S.P. Jauhar', description: 'Covers the entire syllabus with detailed explanations and practice questions.', imageUrl: 'https://picsum.photos/200/303', href: '#', imageHint: 'chemistry textbook' },
-        { title: 'Organic Chemistry', author: 'O.P. Tandon', description: 'Specialized book for mastering organic chemistry concepts.', imageUrl: 'https://picsum.photos/201/303', href: '#', imageHint: 'chemistry textbook' },
-      ]
-    },
-  ],
+  'Class 11': [],
+  'Class 12': [],
 };
 
 const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
+
+const BookCard = ({ book }: { book: Book }) => {
+    return (
+        <Card className="group relative w-full h-80 overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+            <Image
+                src={book.imageUrl}
+                alt={book.title}
+                data-ai-hint={book.imageHint}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 className="text-md font-bold truncate">{book.title}</h3>
+                <p className="text-xs text-white/80">by {book.author}</p>
+                <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-sm mb-3 h-16 overflow-hidden">{book.description}</p>
+                    <Button asChild size="sm" className="w-full bg-white/90 text-black hover:bg-white">
+                        <Link href={book.href}>
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            Buy on Amazon
+                        </Link>
+                    </Button>
+                </div>
+            </div>
+        </Card>
+    );
+};
 
 export default function ReferenceBooksPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
@@ -184,31 +183,7 @@ export default function ReferenceBooksPage() {
                   <AccordionContent>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 pt-4">
                       {subject.books.map((book, bookIndex) => (
-                         <Card key={bookIndex} className="overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                            <div className="flex flex-col h-full">
-                                <div className="flex-shrink-0 flex items-center justify-center p-4 bg-muted/30">
-                                    <Image
-                                        src={book.imageUrl}
-                                        alt={book.title}
-                                        data-ai-hint={book.imageHint}
-                                        width={150}
-                                        height={225}
-                                        className="object-contain h-48 w-auto rounded-md shadow-md"
-                                    />
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                    <h3 className="text-base font-bold text-foreground">{book.title}</h3>
-                                    <p className="text-xs text-muted-foreground mb-2">by {book.author}</p>
-                                    <p className="text-sm text-foreground/80 flex-grow">{book.description}</p>
-                                    <Button asChild className="w-full mt-4">
-                                        <Link href={book.href}>
-                                            <ShoppingCart className="mr-2 h-4 w-4" />
-                                            Buy on Amazon
-                                        </Link>
-                                    </Button>
-                                </CardContent>
-                            </div>
-                        </Card>
+                         <BookCard key={bookIndex} book={book} />
                       ))}
                     </div>
                   </AccordionContent>
@@ -220,7 +195,7 @@ export default function ReferenceBooksPage() {
                 <Card className="p-8 inline-block">
                     <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                     <p className="text-muted-foreground font-semibold">No books found.</p>
-                    <p className="text-sm text-muted-foreground">Please select another class or clear your search.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class to see available books.</p>
                 </Card>
             </div>
           )}
