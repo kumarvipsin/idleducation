@@ -91,7 +91,7 @@ export default function Class8SciencePage() {
             </div>
             <div className="lg:col-span-2">
               <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold text-foreground">Premium Notes</h2>
+                  <h2 className="text-2xl font-bold text-foreground">Important Questions</h2>
                   <div className="flex items-center border rounded-md p-1 bg-background/50">
                       <button 
                           onClick={() => setNotesLang('en')}
