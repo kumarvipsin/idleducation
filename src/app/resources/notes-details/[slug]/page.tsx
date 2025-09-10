@@ -2402,6 +2402,90 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
   },
+    'the-french-revolution': {
+    en: {
+      title: 'Chapter 1: The French Revolution',
+      content: `### Causes of the French Revolution
+- **Social:** French society was divided into three Estates. The First Estate (clergy) and Second Estate (nobility) enjoyed privileges, while the Third Estate (commoners) bore the tax burden.
+- **Economic:** Long years of war had drained the financial resources of France. The cost of maintaining an extravagant court at the immense palace of Versailles also added to the debt.
+- **Political:** Louis XVI was an autocratic ruler who could not solve the economic crisis.
+- **Intellectual:** Philosophers like John Locke, Jean Jacques Rousseau, and Montesquieu spread the ideas of liberty, equality, and fraternity.
+
+### The Outbreak of the Revolution
+- On 5 May 1789, Louis XVI called together an assembly of the Estates General to pass proposals for new taxes.
+- The Third Estate demanded that voting now be conducted by the assembly as a whole, where each member would have one vote. This was rejected.
+- On 20 June, they assembled in the hall of an indoor tennis court in the grounds of Versailles and declared themselves a National Assembly.
+- On 14 July, the agitated crowd stormed and destroyed the Bastille.
+
+### France Becomes a Constitutional Monarchy
+- The National Assembly completed the draft of the constitution in 1791.
+- Its main object was to limit the powers of the monarch.
+- The Constitution of 1791 vested the power to make laws in the National Assembly, which was indirectly elected.
+
+### France Abolishes Monarchy and Becomes a Republic
+- In 1792 the Jacobins planned an insurrection and imprisoned the royal family.
+- Elections were held. The newly elected assembly was called the Convention.
+- On 21 September 1792, it abolished the monarchy and declared France a republic.
+- Louis XVI was executed publicly on 21 January 1793. Queen Marie Antoinette met with the same fate shortly after.
+
+### The Reign of Terror
+- The period from 1793 to 1794 is referred to as the Reign of Terror.
+- Robespierre followed a policy of severe control and punishment. All those whom he saw as being ‘enemies’ of the republic were arrested, imprisoned and then tried by a revolutionary tribunal.
+- He was convicted by a court in July 1794, arrested and on the next day sent to the guillotine.
+
+### A Directory Rules France
+- The fall of the Jacobin government allowed the wealthier middle classes to seize power.
+- A new constitution was introduced which provided for two elected legislative councils. These then appointed a Directory, an executive made up of five members.
+- The political instability of the Directory paved the way for the rise of a military dictator, Napoleon Bonaparte.
+
+### The Rise of Napoleon Bonaparte
+- In 1804, Napoleon Bonaparte crowned himself Emperor of France.
+- He introduced many laws such as the protection of private property and a uniform system of weights and measures provided by the decimal system.
+- He was finally defeated at Waterloo in 1815.
+`
+    },
+    hi: {
+      title: 'अध्याय 1: फ्रांसीसी क्रांति',
+      content: `### फ्रांसीसी क्रांति के कारण
+- **सामाजिक:** फ्रांसीसी समाज तीन एस्टेट में विभाजित था। प्रथम एस्टेट (पादरी) और द्वितीय एस्टेट (कुलीन) को विशेषाधिकार प्राप्त थे, जबकि तृतीय एस्टेट (आम लोग) कर का बोझ उठाते थे।
+- **आर्थिक:** लंबे समय तक चले युद्धों ने फ्रांस के वित्तीय संसाधनों को समाप्त कर दिया था। वर्साय के विशाल महल में एक असाधारण दरबार को बनाए रखने की लागत ने भी कर्ज को बढ़ा दिया।
+- **राजनीतिक:** लुई सोलहवाँ एक निरंकुश शासक था जो आर्थिक संकट को हल नहीं कर सका।
+- **बौद्धिक:** जॉन लॉक, जीन जैक्स रूसो और मोंटेस्क्यू जैसे दार्शनिकों ने स्वतंत्रता, समानता और बंधुत्व के विचारों को फैलाया।
+
+### क्रांति का प्रकोप
+- 5 मई 1789 को, लुई सोलहवें ने नए करों के प्रस्तावों को पारित करने के लिए एस्टेट्स जनरल की एक सभा बुलाई।
+- तीसरे एस्टेट ने मांग की कि अब मतदान पूरी सभा द्वारा किया जाए, जहाँ प्रत्येक सदस्य का एक मत होगा। इसे अस्वीकार कर दिया गया।
+- 20 जून को, वे वर्साय के मैदान में एक इनडोर टेनिस कोर्ट के हॉल में इकट्ठे हुए और खुद को एक नेशनल असेंबली घोषित कर दिया।
+- 14 जुलाई को, उत्तेजित भीड़ ने बास्तील पर धावा बोल दिया और उसे नष्ट कर दिया।
+
+### फ्रांस एक संवैधानिक राजतंत्र बन गया
+- नेशनल असेंबली ने 1791 में संविधान का मसौदा पूरा किया।
+- इसका मुख्य उद्देश्य सम्राट की शक्तियों को सीमित करना था।
+- 1791 के संविधान ने कानून बनाने की शक्ति नेशनल असेंबली को दी, जो अप्रत्यक्ष रूप से चुनी गई थी।
+
+### फ्रांस ने राजशाही को समाप्त कर दिया और एक गणतंत्र बन गया
+- 1792 में जैकोबिन्स ने एक विद्रोह की योजना बनाई और शाही परिवार को कैद कर लिया।
+- चुनाव हुए। नवनिर्वाचित सभा को कन्वेंशन कहा गया।
+- 21 सितंबर 1792 को, इसने राजशाही को समाप्त कर दिया और फ्रांस को एक गणतंत्र घोषित कर दिया।
+- लुई सोलहवें को 21 जनवरी 1793 को सार्वजनिक रूप से मार दिया गया। रानी मैरी एंटोनेट को भी कुछ समय बाद उसी भाग्य का सामना करना पड़ा।
+
+### आतंक का शासन
+- 1793 से 1794 तक की अवधि को आतंक के शासन के रूप में जाना जाता है।
+- रोबेस्पयेर ने गंभीर नियंत्रण और दंड की नीति का पालन किया। उन सभी को जिन्हें वह गणतंत्र के 'दुश्मन' के रूप में देखता था, गिरफ्तार किया गया, कैद किया गया और फिर एक क्रांतिकारी न्यायाधिकरण द्वारा मुकदमा चलाया गया।
+- उसे जुलाई 1794 में एक अदालत द्वारा दोषी ठहराया गया, गिरफ्तार किया गया और अगले दिन गिलोटिन भेज दिया गया।
+
+### एक डायरेक्टरी फ्रांस पर शासन करती है
+- जैकोबिन सरकार के पतन ने धनी मध्य वर्गों को सत्ता पर कब्जा करने की अनुमति दी।
+- एक नया संविधान पेश किया गया जिसमें दो निर्वाचित विधान परिषदों का प्रावधान था। इन्होंने तब एक डायरेक्टरी नियुक्त की, जो पांच सदस्यों से बनी एक कार्यकारिणी थी।
+- डायरेक्टरी की राजनीतिक अस्थिरता ने एक सैन्य तानाशाह, नेपोलियन बोनापार्ट के उदय का मार्ग प्रशस्त किया।
+
+### नेपोलियन बोनापार्ट का उदय
+- 1804 में, नेपोलियन बोनापार्ट ने खुद को फ्रांस का सम्राट बनाया।
+- उन्होंने कई कानून पेश किए जैसे कि निजी संपत्ति की सुरक्षा और दशमलव प्रणाली द्वारा प्रदान किए गए भार और माप की एक समान प्रणाली।
+- वह अंततः 1815 में वाटरलू में हार गया।
+`
+    }
+  },
   'default': {
     en: {
       title: 'Notes Not Found',
