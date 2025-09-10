@@ -1,8 +1,12 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const class12GeographyResources = {
   books: [
@@ -27,8 +31,8 @@ const class12GeographyResources = {
         { name: "Chapter 1: Population: Distribution, Density, Growth and Composition", slug: "population-distribution-density-growth-and-composition" },
         { name: "Chapter 2: Human Settlements", slug: "human-settlements" },
         { name: "Chapter 3: Land Resources and Agriculture", slug: "land-resources-and-agriculture" },
-        { name: "Chapter 4: Water Resources", slug: "water-resources" },
-        { name: "Chapter 5: Mineral and Energy Resources", slug: "mineral-and-energy-resources" },
+        { name: "Chapter 4: Water Resources", slug: "water-resources-12" },
+        { name: "Chapter 5: Mineral and Energy Resources", slug: "mineral-and-energy-resources-12" },
         { name: "Chapter 6: Planning and Sustainable Development in Indian Context", slug: "planning-and-sustainable-development-in-indian-context" },
         { name: "Chapter 7: Transport and Communication", slug: "transport-and-communication-india" },
         { name: "Chapter 8: International Trade", slug: "international-trade-india" },
@@ -56,8 +60,8 @@ const class12GeographyResources = {
         { name: "अध्याय 1: जनसंख्या: वितरण, घनत्व, वृद्धि और संघटन", slug: "population-distribution-density-growth-and-composition" },
         { name: "अध्याय 2: मानव बस्तियाँ", slug: "human-settlements" },
         { name: "अध्याय 3: भूसंसाधन तथा कृषि", slug: "land-resources-and-agriculture" },
-        { name: "अध्याय 4: जल-संसाधन", slug: "water-resources" },
-        { name: "अध्याय 5: खनिज तथा ऊर्जा संसाधन", slug: "mineral-and-energy-resources" },
+        { name: "अध्याय 4: जल-संसाधन", slug: "water-resources-12" },
+        { name: "अध्याय 5: खनिज तथा ऊर्जा संसाधन", slug: "mineral-and-energy-resources-12" },
         { name: "अध्याय 6: भारत के संदर्भ में नियोजन और सततपोषणीय विकास", slug: "planning-and-sustainable-development-in-indian-context" },
         { name: "अध्याय 7: परिवहन तथा संचार", slug: "transport-and-communication-india" },
         { name: "अध्याय 8: अंतर्राष्ट्रीय व्यापार", slug: "international-trade-india" },
@@ -65,13 +69,15 @@ const class12GeographyResources = {
       ],
     },
   ],
-  papers: [
-    { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-    { name: "Annual Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
-  ],
 };
 
 export default function Class12GeographyPage() {
+  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+
+  const allChapters = class12GeographyResources.books
+    .filter(book => book.lang === notesLang)
+    .flatMap(book => book.chapters);
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <Card className="shadow-lg overflow-hidden">
@@ -111,21 +117,34 @@ export default function Class12GeographyPage() {
               </div>
             </div>
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Papers & Materials</h2>
-              <div className="space-y-4">
-                {class12GeographyResources.papers.map((paper, index) => (
-                  <Card key={index} className="hover:shadow-md transition-shadow bg-background">
-                    <CardContent className="p-4 flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        {paper.icon}
-                        <div>
-                          <p className="font-semibold">{paper.name}</p>
-                          <p className="text-sm text-muted-foreground">{paper.type}</p>
-                        </div>
+              <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-bold text-foreground">Premium Notes</h2>
+                  <div className="flex items-center border rounded-md p-1 bg-background/50">
+                      <button 
+                          onClick={() => setNotesLang('en')}
+                          className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                          EN
+                      </button>
+                      <button 
+                          onClick={() => setNotesLang('hi')}
+                          className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                          HI
+                      </button>
+                  </div>
+              </div>
+              <div className="space-y-2">
+                {allChapters.map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                          </Button>
                       </div>
-                      <Button asChild variant="outline" size="sm">
-                        <Link href="#">Download</Link>
-                      </Button>
                     </CardContent>
                   </Card>
                 ))}
