@@ -4,219 +4,141 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Book, ShoppingCart, Sigma, TestTube2, Landmark, BookText } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { ChevronRight, Filter, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-
 
 type Book = {
   title: string;
-  author: string;
-  description: string;
+  edition: string;
+  price: number;
+  originalPrice: number;
+  rating: number;
   imageUrl: string;
-  href: string;
   imageHint: string;
+  subject: 'Maths' | 'Science' | 'Social Studies' | 'English';
 };
 
-type SubjectBooks = {
-  subject: string;
-  icon: React.ReactNode;
-  gradient: string;
-  books: Book[];
-};
-
-const booksByClass: { [key: string]: SubjectBooks[] } = {
+const booksByClass: { [key: string]: Book[] } = {
   'Class 9': [
-    {
-      subject: 'Mathematics',
-      icon: <Sigma className="w-6 h-6" />,
-      gradient: 'from-green-500 to-emerald-600',
-      books: [
-        { title: 'Mathematics for Class 9', author: 'R.D. Sharma', description: 'A comprehensive book for in-depth understanding and practice.', imageUrl: 'https://picsum.photos/seed/rd9/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'Secondary School Mathematics for Class 9', author: 'R.S. Aggarwal', description: 'Popular for building a strong foundation with a variety of problems.', imageUrl: 'https://picsum.photos/seed/rs9/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'All in One Mathematics CBSE Class 9', author: 'Arihant Experts', description: 'Complete study material with theory, examples, and questions.', imageUrl: 'https://picsum.photos/seed/arihantmath9/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'Mathematics for Class 9', author: 'S. Chand', description: 'Follows the latest CBSE syllabus with clear explanations.', imageUrl: 'https://picsum.photos/seed/schandmath9/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'NCERT Exemplar Problems-Solutions Mathematics Class 9', author: 'NCERT', description: 'Contains higher-level questions to promote deeper understanding.', imageUrl: 'https://picsum.photos/seed/ncertmath9/200/300', href: '#', imageHint: 'math textbook' },
-      ]
-    },
-    {
-      subject: 'Science',
-      icon: <TestTube2 className="w-6 h-6" />,
-      gradient: 'from-blue-500 to-indigo-600',
-      books: [
-        { title: 'Science for Class 9 (Physics, Chemistry & Biology)', author: 'Lakhmir Singh & Manjit Kaur', description: 'Simple language and clear concepts for Physics, Chemistry, and Biology.', imageUrl: 'https://picsum.photos/seed/ls9/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'All in One Science CBSE Class 9', author: 'Arihant Experts', description: 'An all-encompassing guide with theory, practicals, and practice questions.', imageUrl: 'https://picsum.photos/seed/arihant9/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'S. Chand\'s Science for Class 9', author: 'S. Chand', description: 'Detailed explanations for a thorough understanding of scientific principles.', imageUrl: 'https://picsum.photos/seed/schandsci9/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'NCERT Exemplar Problems-Solutions Science Class 9', author: 'NCERT', description: 'Challenging questions to develop analytical skills in science.', imageUrl: 'https://picsum.photos/seed/ncertsci9/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'Foundation Science (Physics/Chemistry/Biology) for Class 9', author: 'H.C. Verma', description: 'Builds a strong base for competitive exams like JEE and NEET.', imageUrl: 'https://picsum.photos/seed/hcv9/200/300', href: '#', imageHint: 'science textbook' },
-      ]
-    },
-    {
-      subject: 'Social Studies',
-      icon: <Landmark className="w-6 h-6" />,
-      gradient: 'from-amber-500 to-orange-600',
-      books: [
-        { title: 'All in One Social Science CBSE Class 9', author: 'Arihant Experts', description: 'Comprehensive coverage of History, Geography, Civics, and Economics.', imageUrl: 'https://picsum.photos/seed/arihantsst9/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Golden Social Science for Class 9', author: 'Sudha Rastogi', description: 'A question-bank style guide for exam preparation.', imageUrl: 'https://picsum.photos/seed/goldensst9/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Xam Idea Social Science for Class 9', author: 'VK Global Publications', description: 'Includes chapter summaries, important questions, and sample papers.', imageUrl: 'https://picsum.photos/seed/xamidea9/200/300', href: '#', imageHint: 'history book' },
-        { title: 'India and the Contemporary World-I', author: 'NCERT', description: 'The official textbook for History, essential for CBSE exams.', imageUrl: 'https://picsum.photos/seed/history9/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Democratic Politics-I', author: 'NCERT', description: 'The official textbook for Civics, crucial for understanding political science.', imageUrl: 'https://picsum.photos/seed/civics9/200/300', href: '#', imageHint: 'history book' },
-      ]
-    },
-    {
-      subject: 'English',
-      icon: <BookText className="w-6 h-6" />,
-      gradient: 'from-rose-500 to-pink-600',
-      books: [
-        { title: 'All in One English Language & Literature CBSE Class 9', author: 'Arihant Experts', description: 'A complete guide covering literature, grammar, and writing skills.', imageUrl: 'https://picsum.photos/seed/arihanteng9/200/300', href: '#', imageHint: 'english book' },
-        { title: 'BBC Compacta English for Class 9', author: 'Brajindra Singh', description: 'Focuses on grammar, writing, and comprehension skills.', imageUrl: 'https://picsum.photos/seed/bbceng9/200/300', href: '#', imageHint: 'english book' },
-        { title: 'High School English Grammar and Composition', author: 'Wren & Martin', description: 'A classic grammar book for building a strong foundation in English.', imageUrl: 'https://picsum.photos/seed/wrenmartin9/200/300', href: '#', imageHint: 'english book' },
-        { title: 'Beehive - Textbook in English for Class 9', author: 'NCERT', description: 'The official literature textbook for Class 9.', imageUrl: 'https://picsum.photos/seed/beehive9/200/300', href: '#', imageHint: 'english book' },
-        { title: 'Moments - Supplementary Reader in English for Class 9', author: 'NCERT', description: 'The official supplementary reader for Class 9.', imageUrl: 'https://picsum.photos/seed/moments9/200/300', href: '#', imageHint: 'english book' },
-      ]
-    },
+    { title: 'NEEV For Class 9 Physics, Chemistry, Mathematics Part A...', edition: '2025 Edition', price: 1748, originalPrice: 1999, rating: 4.8, imageUrl: 'https://picsum.photos/seed/neev-bio/300/400', imageHint: 'textbook cover', subject: 'Science' },
+    { title: 'CBSE Question & Concept Bank (QCB) Class 9 Science...', edition: '2025 Edition', price: 1186, originalPrice: 1396, rating: 4.5, imageUrl: 'https://picsum.photos/seed/qcb-science/300/400', imageHint: 'textbook cover', subject: 'Science' },
+    { title: 'CBSE Class 9 Most Probable 20 Combined Sample Question...', edition: '2025 Edition', price: 270, originalPrice: 299, rating: 4.8, imageUrl: 'https://picsum.photos/seed/20-sample/300/400', imageHint: 'textbook cover', subject: 'Science' },
+    { title: 'CBSE Class 9 Mind Maps Book For 2025 Board Exam L...', edition: '2024 Edition', price: 467, originalPrice: 549, rating: 4.8, imageUrl: 'https://picsum.photos/seed/mind-maps/300/400', imageHint: 'textbook cover', subject: 'Maths' },
+    { title: 'Complete Course Class 9 2025', author: 'NCERT', edition: '2025 Edition', price: 3499, originalPrice: 4999, rating: 4.9, imageUrl: 'https://picsum.photos/seed/course9/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
+    { title: 'English Grammar & Composition Class 9', author: 'Arihant', edition: '2025 Edition', price: 450, originalPrice: 550, rating: 4.7, imageUrl: 'https://picsum.photos/seed/english9/300/400', imageHint: 'textbook cover', subject: 'English' },
   ],
   'Class 10': [
-     {
-      subject: 'Mathematics',
-      icon: <Sigma className="w-6 h-6" />,
-      gradient: 'from-green-500 to-emerald-600',
-      books: [
-        { title: 'Mathematics for Class 10', author: 'R.D. Sharma', description: 'Comprehensive guide with a wide range of problems for practice.', imageUrl: 'https://picsum.photos/seed/rd10/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'Secondary School Mathematics for Class 10', author: 'R.S. Aggarwal', description: 'Excellent for building a strong conceptual foundation.', imageUrl: 'https://picsum.photos/seed/rs10/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'All in One Mathematics CBSE Class 10', author: 'Arihant Experts', description: 'Complete study and practice material in a single book.', imageUrl: 'https://picsum.photos/seed/arihantmath10/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'Mathematics for Class 10', author: 'S. Chand', description: 'Structured according to the CBSE syllabus with solved examples.', imageUrl: 'https://picsum.photos/seed/schandmath10/200/300', href: '#', imageHint: 'math textbook' },
-        { title: 'NCERT Exemplar Problems-Solutions Mathematics Class 10', author: 'NCERT', description: 'A collection of higher-order thinking skill questions.', imageUrl: 'https://picsum.photos/seed/ncertmath10/200/300', href: '#', imageHint: 'math textbook' },
-      ]
-    },
-    {
-      subject: 'Science',
-      icon: <TestTube2 className="w-6 h-6" />,
-      gradient: 'from-blue-500 to-indigo-600',
-      books: [
-        { title: 'Science for Class 10 (Physics, Chemistry & Biology)', author: 'Lakhmir Singh & Manjit Kaur', description: 'Simple language and clear concepts for board exams.', imageUrl: 'https://picsum.photos/seed/ls10/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'S. Chand\'s Science for Class 10', author: 'S. Chand', description: 'A detailed book that clarifies complex scientific concepts effectively.', imageUrl: 'https://picsum.photos/seed/schandsci10/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'All in One Science CBSE Class 10', author: 'Arihant Experts', description: 'Comprehensive theory, practice questions, and sample papers.', imageUrl: 'https://picsum.photos/seed/arihantsci10/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'NCERT Exemplar Problems-Solutions Science Class 10', author: 'NCERT', description: 'Advanced problems to prepare for competitive exams.', imageUrl: 'https://picsum.photos/seed/ncertsci10/200/300', href: '#', imageHint: 'science textbook' },
-        { title: 'Foundation Science (Physics/Chemistry/Biology) for Class 10', author: 'H.C. Verma', description: 'Strengthens the foundation for future science studies.', imageUrl: 'https://picsum.photos/seed/hcv10/200/300', href: '#', imageHint: 'science textbook' },
-      ]
-    },
-     {
-      subject: 'Social Studies',
-      icon: <Landmark className="w-6 h-6" />,
-      gradient: 'from-amber-500 to-orange-600',
-      books: [
-        { title: 'All in One Social Science CBSE Class 10', author: 'Arihant Experts', description: 'A complete resource covering the entire syllabus with maps and projects.', imageUrl: 'https://picsum.photos/seed/arihantsst10/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Golden Social Science for Class 10', author: 'Sudha Rastogi', description: 'A comprehensive question bank for extensive practice.', imageUrl: 'https://picsum.photos/seed/goldensst10/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Xam Idea Social Science for Class 10', author: 'VK Global Publications', description: 'Includes chapter summaries, value-based questions, and mock tests.', imageUrl: 'https://picsum.photos/seed/xamidea10/200/300', href: '#', imageHint: 'history book' },
-        { title: 'India and the Contemporary World-II', author: 'NCERT', description: 'The core textbook for History required for the CBSE curriculum.', imageUrl: 'https://picsum.photos/seed/history10/200/300', href: '#', imageHint: 'history book' },
-        { title: 'Contemporary India-II', author: 'NCERT', description: 'The main textbook for Geography, essential for board exam preparation.', imageUrl: 'https://picsum.photos/seed/geo10/200/300', href: '#', imageHint: 'history book' },
-      ]
-    },
-     {
-      subject: 'English',
-      icon: <BookText className="w-6 h-6" />,
-      gradient: 'from-rose-500 to-pink-600',
-      books: [
-        { title: 'All in One English Language & Literature CBSE Class 10', author: 'Arihant Experts', description: 'Covers all sections of the English syllabus with ample practice material.', imageUrl: 'https://picsum.photos/seed/arihanteng10/200/300', href: '#', imageHint: 'english book' },
-        { title: 'BBC Compacta English for Class 10', author: 'Brajindra Singh', description: 'An excellent resource for grammar, writing, and comprehension practice.', imageUrl: 'https://picsum.photos/seed/bbceng10/200/300', href: '#', imageHint: 'english book' },
-        { title: 'High School English Grammar and Composition', author: 'Wren & Martin', description: 'A timeless classic for mastering English grammar rules.', imageUrl: 'https://picsum.photos/seed/wrenmartin10/200/300', href: '#', imageHint: 'english book' },
-        { title: 'First Flight - Textbook in English for Class 10', author: 'NCERT', description: 'The official literature textbook for Class 10 CBSE.', imageUrl: 'https://picsum.photos/seed/firstflight10/200/300', href: '#', imageHint: 'english book' },
-        { title: 'Footprints Without Feet - Supplementary Reader for Class 10', author: 'NCERT', description: 'The supplementary reader to enhance reading comprehension.', imageUrl: 'https://picsum.photos/seed/footprints10/200/300', href: '#', imageHint: 'english book' },
-      ]
-    },
+    { title: 'All in One Mathematics CBSE Class 10', author: 'Arihant', edition: '2025 Edition', price: 599, originalPrice: 750, rating: 4.8, imageUrl: 'https://picsum.photos/seed/arihant10/300/400', imageHint: 'textbook cover', subject: 'Maths' },
+    { title: 'Science for Class 10 by Lakhmir Singh', author: 'S. Chand', edition: '2025 Edition', price: 899, originalPrice: 1100, rating: 4.9, imageUrl: 'https://picsum.photos/seed/lakhmir10/300/400', imageHint: 'textbook cover', subject: 'Science' },
+    { title: 'Social Science Contemporary India II', author: 'NCERT', edition: '2025 Edition', price: 350, originalPrice: 400, rating: 4.7, imageUrl: 'https://picsum.photos/seed/sst10/300/400', imageHint: 'textbook cover', subject: 'Social Studies' },
+    { title: 'First Flight - English Class 10', author: 'NCERT', edition: '2025 Edition', price: 250, originalPrice: 300, rating: 4.6, imageUrl: 'https://picsum.photos/seed/english10/300/400', imageHint: 'textbook cover', subject: 'English' },
   ],
   'Class 11': [],
   'Class 12': [],
 };
 
-const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
+const classes = ['Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'];
 
 const BookCard = ({ book }: { book: Book }) => {
+    const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
     return (
-        <TooltipProvider>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <Card className="group relative w-full overflow-hidden rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105">
-                        <Link href={book.href} target="_blank" rel="noopener noreferrer">
-                            <div className="aspect-[2/3] w-full">
-                                <Image
-                                    src={book.imageUrl}
-                                    alt={book.title}
-                                    data-ai-hint={book.imageHint}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
-                                <h3 className="text-sm font-bold text-white truncate group-hover:whitespace-normal">{book.title}</h3>
-                                <p className="text-xs text-white/80">{book.author}</p>
-                            </div>
-                        </Link>
-                    </Card>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" align="center" className="max-w-xs">
-                    <p>{book.description}</p>
-                </TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
+        <Card className="group relative overflow-visible rounded-lg shadow-sm transition-all duration-300 hover:shadow-lg">
+            <div className="absolute -top-2 left-2 z-10">
+                <div className="relative text-xs font-semibold text-white bg-green-600 px-2 py-1">
+                    <svg className="absolute -left-[7px] top-0 h-full w-2 text-green-600" x="0px" y="0px" viewBox="0 0 9 30"><polygon fill="#16a34a" points="0,0 9,0 0,30"></polygon></svg>
+                    Price Drop
+                </div>
+            </div>
+            <CardContent className="p-2">
+                <div className="relative aspect-[3/4] w-full mb-2">
+                    <Image
+                        src={book.imageUrl}
+                        alt={book.title}
+                        data-ai-hint={book.imageHint}
+                        fill
+                        className="object-cover rounded-md"
+                    />
+                    <div className="absolute bottom-2 right-2">
+                        <Button variant="outline" className="bg-background/80 backdrop-blur-sm border-purple-300 text-purple-600 hover:bg-purple-100 hover:text-purple-700">
+                            ADD
+                        </Button>
+                    </div>
+                </div>
+                <div className="px-1">
+                    <h3 className="text-sm font-semibold text-foreground truncate group-hover:whitespace-normal group-hover:text-clip">{book.title}</h3>
+                    <p className="text-xs text-blue-500 font-medium my-1">{book.edition}</p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-lg font-bold">₹{book.price.toLocaleString()}</p>
+                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
+                        <p className="text-sm font-semibold text-green-600">({discount}% OFF)</p>
+                    </div>
+                    <div className="flex items-center justify-end">
+                        <div className="flex items-center gap-1 text-xs font-bold text-white bg-green-600 px-2 py-0.5 rounded-sm">
+                            <Star className="w-3 h-3 fill-white" />
+                            <span>{book.rating}</span>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
     );
 };
 
+
 export default function ReferenceBooksPage() {
-  const [selectedClass, setSelectedClass] = useState('Class 10');
+  const [activeClass, setActiveClass] = useState('Class 9');
+  const books = booksByClass[activeClass] || [];
 
-  const subjects = booksByClass[selectedClass];
-  
   return (
-    <div className="animate-fade-in-up">
-        <div className="mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Reference Books for {selectedClass}</h1>
-            <p className="text-muted-foreground">Explore our curated list of reference books to deepen your understanding.</p>
-        </div>
-      
-      <Tabs value={selectedClass} onValueChange={setSelectedClass}>
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto mb-8">
-            {classes.map(c => (
-              <TabsTrigger key={c} value={c}>{c}</TabsTrigger>
-            ))}
-          </TabsList>
-
-          {classes.map(className => (
-            <TabsContent key={className} value={className} className="mt-6">
-                <div className="space-y-10">
-                {booksByClass[className] && booksByClass[className].length > 0 ? (
-                    booksByClass[className].map((subject, index) => (
-                    <div key={index}>
-                        <div className={`flex items-center gap-3 mb-4 p-3 rounded-lg bg-gradient-to-r ${subject.gradient}`}>
-                           <div className="p-2 bg-white/20 rounded-full text-white">
-                                {subject.icon}
-                           </div>
-                           <h2 className="text-2xl font-bold text-white">{subject.subject}</h2>
+    <div className="container mx-auto py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+            <aside className="w-full md:w-1/4 lg:w-1/5">
+                <h2 className="text-lg font-bold mb-4 flex items-center"><Filter className="w-5 h-5 mr-2" />Filters</h2>
+                <Accordion type="single" collapsible defaultValue="class-9-books" className="w-full">
+                    <AccordionItem value="category" className="border-b-0">
+                        <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline">CATEGORY</AccordionTrigger>
+                        <AccordionContent>
+                            <Accordion type="single" collapsible defaultValue="class-9-books" className="w-full pl-2">
+                                {classes.map(c => (
+                                    <AccordionItem key={c} value={`${c.toLowerCase().replace(' ','-')}-books`}>
+                                        <AccordionTrigger 
+                                            className="text-sm font-medium py-2 hover:no-underline [&[data-state=open]>svg]:text-primary"
+                                            onClick={() => setActiveClass(c)}
+                                        >
+                                            {c} Books
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <div className="pl-4 text-muted-foreground text-sm space-y-2">
+                                                <p className="hover:text-primary cursor-pointer">{c} Modules</p>
+                                                <p className="hover:text-primary cursor-pointer">{c} Question Banks</p>
+                                                <p className="hover:text-primary cursor-pointer">{c} Revision Books</p>
+                                                <p className="hover:text-primary cursor-pointer">{c} Sample Papers</p>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </aside>
+            <main className="flex-1">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                    {books.length > 0 ? (
+                        books.map((book, index) => <BookCard key={index} book={book} />)
+                    ) : (
+                        <div className="col-span-full text-center py-16">
+                             <Card className="p-8 inline-block">
+                                <p className="text-muted-foreground font-semibold">No books found for {activeClass}.</p>
+                                <p className="text-sm text-muted-foreground">Please check back later.</p>
+                            </Card>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                            {subject.books.map((book, bookIndex) => (
-                                <BookCard key={bookIndex} book={book} />
-                            ))}
-                        </div>
-                    </div>
-                    ))
-                ) : (
-                    <div className="col-span-full text-center py-12">
-                        <Card className="p-8 inline-block">
-                            <Book className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                            <p className="text-muted-foreground font-semibold">No books found for {className}.</p>
-                            <p className="text-sm text-muted-foreground">Please check back later.</p>
-                        </Card>
-                    </div>
-                )}
+                    )}
                 </div>
-            </TabsContent>
-          ))}
-      </Tabs>
+            </main>
+        </div>
     </div>
   );
 }
