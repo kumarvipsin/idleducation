@@ -1244,7 +1244,88 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 `
     }
 },
+'number-systems': {
+    en: {
+      title: 'Chapter 1: Number Systems',
+      content: `### Introduction to Number Systems
+- **Natural Numbers (N):** Counting numbers: 1, 2, 3, 4, ...
+- **Whole Numbers (W):** Natural numbers including zero: 0, 1, 2, 3, ...
+- **Integers (Z):** Whole numbers and their negative counterparts: ..., -3, -2, -1, 0, 1, 2, 3, ...
+- **Rational Numbers (Q):** Numbers that can be expressed in the form p/q, where p and q are integers and q ≠ 0.
 
+### Rational Numbers
+- There are infinitely many rational numbers between any two given rational numbers.
+- **Finding Rational Numbers:** To find 'n' rational numbers between x and y, you can use the formula d = (y-x)/(n+1) and the numbers will be x+d, x+2d, ..., x+nd.
+
+### Irrational Numbers
+- A number is called irrational if it cannot be written in the form p/q, where p and q are integers and q ≠ 0.
+- **Examples:** √2, √3, √5, π, 0.101101110...
+- The decimal expansion of an irrational number is **non-terminating and non-recurring**.
+
+### Real Numbers and their Decimal Expansions
+- **Real Numbers (R):** The collection of all rational and irrational numbers. Every real number is represented by a unique point on the number line.
+- **Decimal expansion of Rational Numbers:** Either terminating or non-terminating recurring.
+- **Decimal expansion of Irrational Numbers:** Non-terminating non-recurring.
+
+### Representing Real Numbers on the Number Line
+- We can represent real numbers on the number line using the process of successive magnification.
+- For irrational numbers like √x, we can use geometric constructions (Pythagoras' theorem).
+
+### Operations on Real Numbers
+- The sum, difference, product, and quotient of two rational numbers are always rational.
+- The sum, difference, product, and quotient of a rational and an irrational number are irrational.
+- **Rationalising the Denominator:** To convert a number with an irrational denominator to an equivalent expression whose denominator is a rational number.
+- - **Example:** To rationalise 1/(√a + b), we multiply the numerator and denominator by (√a - b).
+
+### Laws of Exponents for Real Numbers
+- Let a > 0 be a real number and m, n be rational numbers. Then,
+- - 1. aᵐ ⋅ aⁿ = aᵐ⁺ⁿ
+- - 2. (aᵐ)ⁿ = aᵐⁿ
+- - 3. aᵐ / aⁿ = aᵐ⁻ⁿ
+- - 4. aᵐbᵐ = (ab)ᵐ
+`
+    },
+    hi: {
+      title: 'अध्याय 1: संख्या पद्धति',
+      content: `### संख्या पद्धतियों का परिचय
+- **प्राकृत संख्याएँ (N):** गिनती की संख्याएँ: 1, 2, 3, 4, ...
+- **पूर्ण संख्याएँ (W):** शून्य सहित प्राकृत संख्याएँ: 0, 1, 2, 3, ...
+- **पूर्णांक (Z):** पूर्ण संख्याएँ और उनके ऋणात्मक समकक्ष: ..., -3, -2, -1, 0, 1, 2, 3, ...
+- **परिमेय संख्याएँ (Q):** वे संख्याएँ जिन्हें p/q के रूप में व्यक्त किया जा सकता है, जहाँ p और q पूर्णांक हैं और q ≠ 0।
+
+### परिमेय संख्याएँ
+- किन्हीं दो दी गई परिमेय संख्याओं के बीच अपरिमित रूप से अनेक परिमेय संख्याएँ होती हैं।
+- **परिमेय संख्याएँ ज्ञात करना:** x और y के बीच 'n' परिमेय संख्याएँ ज्ञात करने के लिए, आप d = (y-x)/(n+1) सूत्र का उपयोग कर सकते हैं और संख्याएँ x+d, x+2d, ..., x+nd होंगी।
+
+### अपरिमेय संख्याएँ
+- एक संख्या अपरिमेय कहलाती है यदि उसे p/q के रूप में नहीं लिखा जा सकता है, जहाँ p और q पूर्णांक हैं और q ≠ 0।
+- **उदाहरण:** √2, √3, √5, π, 0.101101110...
+- एक अपरिमेय संख्या का दशमलव प्रसार **असांत अनावर्ती** होता है।
+
+### वास्तविक संख्याएँ और उनके दशमलव प्रसार
+- **वास्तविक संख्याएँ (R):** सभी परिमेय और अपरिमेय संख्याओं का संग्रह। प्रत्येक वास्तविक संख्या को संख्या रेखा पर एक अद्वितीय बिंदु द्वारा दर्शाया जाता है।
+- **परिमेय संख्याओं का दशमलव प्रसार:** या तो सांत या असांत आवर्ती।
+- **अपरिमेय संख्याओं का दशमलव प्रसार:** असांत अनावर्ती।
+
+### संख्या रेखा पर वास्तविक संख्याओं का निरूपण
+- हम उत्तरोत्तर आवर्धन की प्रक्रिया का उपयोग करके संख्या रेखा पर वास्तविक संख्याओं को निरूपित कर सकते हैं।
+- √x जैसी अपरिमेय संख्याओं के लिए, हम ज्यामितीय रचनाओं (पाइथागोरस प्रमेय) का उपयोग कर सकते हैं।
+
+### वास्तविक संख्याओं पर संक्रियाएँ
+- दो परिमेय संख्याओं का योग, अंतर, गुणनफल और भागफल हमेशा परिमेय होता है।
+- एक परिमेय और एक अपरिमेय संख्या का योग, अंतर, गुणनफल और भागफल अपरिमेय होता है।
+- **हर का परिमेयकरण:** एक अपरिमेय हर वाली संख्या को एक समतुल्य व्यंजक में बदलना जिसका हर एक परिमेय संख्या हो।
+- - **उदाहरण:** 1/(√a + b) का परिमेयकरण करने के लिए, हम अंश और हर को (√a - b) से गुणा करते हैं।
+
+### वास्तविक संख्याओं के लिए घातांक के नियम
+- मान लीजिए a > 0 एक वास्तविक संख्या है और m, n परिमेय संख्याएँ हैं। तब,
+- - 1. aᵐ ⋅ aⁿ = aᵐ⁺ⁿ
+- - 2. (aᵐ)ⁿ = aᵐⁿ
+- - 3. aᵐ / aⁿ = aᵐ⁻ⁿ
+- - 4. aᵐbᵐ = (ab)ᵐ
+`
+    }
+  },
   'food-where-does-it-come-from': {
     en: {
       title: 'Chapter 1: Food: Where Does It Come From?',
