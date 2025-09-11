@@ -385,7 +385,7 @@ export default function PreviousYearQuestionsPage() {
                             Filter by Subject
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[80%] bg-gradient-to-br from-primary via-primary to-accent border-0 p-6">
+                    <SheetContent side="left" className="w-[80%] bg-background/80 backdrop-blur-sm border-0 p-6">
                         <SheetHeader>
                             <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
                         </SheetHeader>
