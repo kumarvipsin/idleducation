@@ -419,7 +419,7 @@ export default function PreviousYearQuestionsPage() {
                 {selectedSubject && papersGrouped ? (
                     <Card key={selectedSubject} className="shadow-none border-0 animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-lg">
                         <CardHeader className="p-4 border-b border-primary/10">
-                            <CardTitle className="text-lg font-semibold text-primary">Available Papers for {selectedSubject}</CardTitle>
+                            <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="overflow-x-auto">
