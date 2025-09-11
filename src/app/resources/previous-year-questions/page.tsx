@@ -19,6 +19,7 @@ type Paper = {
 };
 
 const papersByExam: { [key: string]: Paper[] } = {
+  'CUET': [],
   'CBSE Class 10': [
     // 2025
     { subject: 'Science', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
@@ -277,9 +278,17 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2022, title: 'Compartment Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2022, title: 'Compartment Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
   ],
+  'NIOS Class 10': [],
+  'NIOS Class 12': [],
 };
 
-const examCategories = Object.keys(papersByExam);
+const examCategories = [
+  'CUET',
+  'CBSE Class 10',
+  'CBSE Class 12',
+  'NIOS Class 10',
+  'NIOS Class 12',
+];
 
 type GroupedPapersByYear = {
   [year: number]: Paper[];
@@ -334,7 +343,7 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
 
 
 export default function PreviousYearQuestionsPage() {
-  const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
+  const [selectedExam, setSelectedExam] = useState('CUET');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -415,8 +424,8 @@ export default function PreviousYearQuestionsPage() {
 
           <div className="flex-1">
               {selectedSubject && papersGrouped ? (
-                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
-                      <CardHeader className="p-4 border-b">
+                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10">
+                      <CardHeader className="p-4 border-b border-primary/10">
                           <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4">
@@ -427,7 +436,7 @@ export default function PreviousYearQuestionsPage() {
                                         Year {year}
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        <div className="divide-y">
+                                        <div className="divide-y divide-primary/10">
                                             {papersGrouped[year].map((paper, index) => (
                                                 <div key={index} className="flex items-center justify-between py-3">
                                                     <div>
