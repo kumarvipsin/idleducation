@@ -303,9 +303,9 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
     onSelectSubject: (subject: string) => void;
     onDone?: () => void;
 }) => (
-    <Card className="sticky top-24 border-0 shadow-none bg-transparent">
+    <Card className="sticky top-24 shadow-none border-0 p-4 bg-background">
         <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-lg text-primary-foreground">Subjects</CardTitle>
+            <CardTitle className="text-lg text-foreground">Subjects</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
             <div className="flex flex-col space-y-2">
@@ -319,8 +319,8 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
                         }}
                         className={cn("justify-start h-auto py-2.5 px-4 text-left rounded-lg transition-all duration-200", 
                             selectedSubject === subject 
-                                ? "bg-primary-foreground/90 text-primary font-semibold shadow-md"
-                                : "text-primary-foreground/80 hover:bg-primary-foreground/20 hover:text-primary-foreground"
+                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-md"
+                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                         )}
                     >
                         {subjectIcons[subject]}
@@ -400,7 +400,7 @@ export default function PreviousYearQuestionsPage() {
                     </SheetTrigger>
                     <SheetContent 
                         side="left" 
-                        className="w-[80%] bg-background/30 backdrop-blur-lg border-0 p-6"
+                        className="w-[80%] bg-background/80 backdrop-blur-sm p-0"
                     >
                          <SheetHeader>
                             <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
