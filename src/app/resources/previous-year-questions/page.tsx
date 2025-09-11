@@ -439,8 +439,8 @@ export default function PreviousYearQuestionsPage() {
 
           <div className="flex-1">
               {selectedSubject && papersGrouped ? (
-                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10">
-                      <CardHeader className="p-4 border-b border-primary/10">
+                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
+                      <CardHeader className="p-4 border-b">
                           <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4">
@@ -451,13 +451,13 @@ export default function PreviousYearQuestionsPage() {
                                         Year {year}
                                     </AccordionTrigger>
                                     <AccordionContent>
-                                        <div className="divide-y divide-primary/10">
+                                        <div className="divide-y">
                                             {papersGrouped[year].map((paper, index) => (
                                                 <div key={index} className="flex items-center justify-between py-3">
                                                     <div>
                                                         <p className="font-medium">{paper.title}</p>
                                                     </div>
-                                                     <Button asChild size="sm">
+                                                    <Button asChild size="sm">
                                                         <Link href={paper.href} target="_blank" rel="noopener noreferrer">
                                                             <Download className="mr-2 h-4 w-4" />
                                                             Download
