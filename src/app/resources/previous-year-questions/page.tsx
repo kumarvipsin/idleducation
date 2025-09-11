@@ -4,11 +4,11 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, BookOpen } from 'lucide-react';
+import { FileText, Download, Eye, BookOpen, PanelLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
 type Paper = {
@@ -285,10 +285,44 @@ type GroupedPapersByYear = {
   [year: number]: Paper[];
 };
 
+const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onDone }: {
+    subjects: string[];
+    selectedSubject: string;
+    onSelectSubject: (subject: string) => void;
+    onDone?: () => void;
+}) => (
+    <Card className="sticky top-24">
+        <CardHeader>
+            <CardTitle className="text-lg">Subjects</CardTitle>
+        </CardHeader>
+        <CardContent className="p-2">
+            <div className="flex flex-col space-y-1">
+                 {subjects.map(subject => (
+                    <Button 
+                        key={subject}
+                        variant="ghost"
+                        onClick={() => {
+                            onSelectSubject(subject);
+                            onDone?.();
+                        }}
+                        className={cn("justify-start h-auto py-2 text-left", 
+                            selectedSubject === subject && "bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:text-primary-foreground"
+                        )}
+                    >
+                        {subject}
+                    </Button>
+                 ))}
+            </div>
+        </CardContent>
+    </Card>
+);
+
+
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
   
@@ -337,29 +371,32 @@ export default function PreviousYearQuestionsPage() {
         </div>
 
         <main className="flex flex-col md:flex-row gap-8">
-            <aside className="w-full md:w-1/4 lg:w-1/5">
-                <Card className="sticky top-24">
-                    <CardHeader>
-                        <CardTitle className="text-lg">Subjects</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-2">
-                        <div className="flex flex-col space-y-1">
-                             {subjects.map(subject => (
-                                <Button 
-                                    key={subject}
-                                    variant="ghost"
-                                    onClick={() => setSelectedSubject(subject)}
-                                    className={cn("justify-start h-auto py-2 text-left", 
-                                        selectedSubject === subject && "bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:text-primary-foreground"
-                                    )}
-                                >
-                                    {subject}
-                                </Button>
-                             ))}
-                        </div>
-                    </CardContent>
-                </Card>
+            <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
+                <SubjectSidebarContent subjects={subjects} selectedSubject={selectedSubject} onSelectSubject={setSelectedSubject} />
             </aside>
+
+             <div className="md:hidden mb-4">
+                <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                    <SheetTrigger asChild>
+                         <Button variant="outline">
+                            <PanelLeft className="mr-2 h-4 w-4" />
+                            Filter by Subject
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[80%]">
+                        <SheetHeader>
+                            <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
+                        </SheetHeader>
+                        <SubjectSidebarContent 
+                            subjects={subjects} 
+                            selectedSubject={selectedSubject} 
+                            onSelectSubject={setSelectedSubject}
+                            onDone={() => setIsSidebarOpen(false)}
+                        />
+                    </SheetContent>
+                </Sheet>
+            </div>
+
             <div className="flex-1">
                 {selectedSubject && papersGrouped ? (
                     <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
