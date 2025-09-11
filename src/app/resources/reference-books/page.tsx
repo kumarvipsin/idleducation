@@ -43,7 +43,7 @@ const booksByClass: { [key: string]: Book[] } = {
   'Class 12': [],
 };
 
-const classes = ['Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'];
+const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
 
 const BookCard = ({ book, index }: { book: Book, index: number }) => {
     const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
@@ -146,7 +146,7 @@ export default function ReferenceBooksPage() {
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[80%]">
                              <SheetHeader>
-                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
+                                <SheetTitle>Filter Books</SheetTitle>
                              </SheetHeader>
                              <FilterSidebarContent 
                                 activeClass={activeClass} 
