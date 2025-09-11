@@ -11,10 +11,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"Josefin Sans"', 'sans-serif'],
-        headline: ['"Josefin Sans"', 'sans-serif'],
-        script: ['"Josefin Sans"', 'cursive'],
-        code: ['monospace'],
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          '"Noto Sans"',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Noto Color Emoji"',
+        ],
       },
       colors: {
         background: 'hsl(var(--background))',
