@@ -291,12 +291,12 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
     onSelectSubject: (subject: string) => void;
     onDone?: () => void;
 }) => (
-    <Card className="sticky top-24">
-        <CardHeader>
-            <CardTitle className="text-lg">Subjects</CardTitle>
+    <Card className="sticky top-24 border-0 shadow-none bg-transparent">
+        <CardHeader className="p-0 mb-4">
+            <CardTitle className="text-lg text-primary-foreground">Subjects</CardTitle>
         </CardHeader>
-        <CardContent className="p-2">
-            <div className="flex flex-col space-y-1">
+        <CardContent className="p-0">
+            <div className="flex flex-col space-y-2">
                  {subjects.map(subject => (
                     <Button 
                         key={subject}
@@ -305,8 +305,10 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
                             onSelectSubject(subject);
                             onDone?.();
                         }}
-                        className={cn("justify-start h-auto py-2 text-left", 
-                            selectedSubject === subject && "bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:text-primary-foreground"
+                        className={cn("justify-start h-auto py-2.5 px-4 text-left rounded-lg transition-all duration-200", 
+                            selectedSubject === subject 
+                                ? "bg-primary-foreground/90 text-primary font-semibold shadow-md"
+                                : "text-primary-foreground/80 hover:bg-primary-foreground/20 hover:text-primary-foreground"
                         )}
                     >
                         {subject}
@@ -383,7 +385,7 @@ export default function PreviousYearQuestionsPage() {
                             Filter by Subject
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[80%]">
+                    <SheetContent side="left" className="w-[80%] bg-gradient-to-br from-primary via-primary to-accent border-0 p-6">
                         <SheetHeader>
                             <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
                         </SheetHeader>
