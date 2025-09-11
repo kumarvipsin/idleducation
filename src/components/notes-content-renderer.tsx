@@ -11,7 +11,7 @@ export const NotesContentRenderer = ({ content }: { content: string }) => {
           return (
             <h3 
               key={index} 
-              className="text-xl font-bold mt-6 mb-3 p-3 bg-primary/10 text-primary rounded-md"
+              className="text-xl font-bold mt-8 mb-4 pb-2 border-b-2 border-primary/20"
             >
               {line.substring(4)}
             </h3>
