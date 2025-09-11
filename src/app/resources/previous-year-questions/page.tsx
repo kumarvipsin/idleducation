@@ -327,7 +327,7 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
     onSelectSubject: (subject: string) => void;
     onDone?: () => void;
 }) => (
-    <Card className="sticky top-24 shadow-none border-0 p-4 bg-background/80 backdrop-blur-sm">
+    <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
         <CardHeader className="p-0 mb-4">
             <CardTitle className="text-lg text-foreground">Subjects</CardTitle>
         </CardHeader>
@@ -439,9 +439,12 @@ export default function PreviousYearQuestionsPage() {
 
           <div className="flex-1">
               {selectedSubject && papersGrouped ? (
-                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
-                      <CardHeader className="p-4 border-b">
-                          <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
+                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up bg-background">
+                      <CardHeader className="p-4 border-b border-primary/10">
+                          <CardTitle className="text-lg font-semibold text-primary flex items-center gap-2">
+                            {subjectIcons[selectedSubject]}
+                            {`Available Papers for ${selectedSubject}`}
+                          </CardTitle>
                       </CardHeader>
                       <CardContent className="p-4">
                         <Accordion type="multiple" defaultValue={sortedYears.slice(0, 1).map(String)} className="w-full">
