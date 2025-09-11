@@ -20,7 +20,7 @@ type Book = {
   rating: number;
   imageUrl: string;
   imageHint: string;
-  subject: 'Maths' | 'Science' | 'Social Studies' | 'English';
+  subject: 'Maths' | 'Science' | 'Social Studies' | 'English' | 'General';
 };
 
 const booksByClass: { [key: string]: Book[] } = {
@@ -41,9 +41,22 @@ const booksByClass: { [key: string]: Book[] } = {
   ],
   'Class 11': [],
   'Class 12': [],
+  'CUET': [
+    { title: 'CUET (UG) General Test', author: 'Arihant Experts', description: 'Comprehensive guide for the Common University Entrance Test.', price: 450, originalPrice: 525, rating: 4.7, imageUrl: 'https://picsum.photos/seed/cuetbook/300/400', imageHint: 'exam textbook', subject: 'General' }
+  ],
+  'CBSE': [],
+  'NIOS': [],
+  'CLAT': [
+      { title: 'CLAT & AILET Chapter-wise Solved Papers', author: 'Arihant Experts', description: 'Solved papers for Common Law Admission Test.', price: 550, originalPrice: 620, rating: 4.8, imageUrl: 'https://picsum.photos/seed/clatbook/300/400', imageHint: 'exam textbook', subject: 'General' }
+  ],
+  'GATE': [],
+  'SSC': [
+      { title: 'SSC CGL Tier-I & II Solved Papers', author: 'Kiran Prakashan', description: 'A collection of solved papers for the SSC CGL exam.', price: 490, originalPrice: 580, rating: 4.7, imageUrl: 'https://picsum.photos/seed/sscbook/300/400', imageHint: 'exam textbook', subject: 'General' }
+  ],
+  'DELHI POLICE': [],
 };
 
-const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
+const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'CUET', 'CBSE', 'NIOS', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'];
 
 const BookCard = ({ book, index }: { book: Book, index: number }) => {
     const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
@@ -89,7 +102,6 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
 
 const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
     <>
-        <h2 className="text-lg font-bold mb-4 flex items-center"><Filter className="w-5 h-5 mr-2" />Filters</h2>
         <Accordion type="single" collapsible defaultValue="category" className="w-full">
             <AccordionItem value="category" className="border-b-0">
                 <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline">CATEGORY</AccordionTrigger>
@@ -108,7 +120,7 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
                                     onDone?.();
                                 }}
                             >
-                                {c} Books
+                                {c}
                             </Button>
                         ))}
                     </div>
