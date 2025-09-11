@@ -103,10 +103,15 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
 };
 
 const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
-    <>
+    <Card className="shadow-none border-0 p-4 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10">
         <Accordion type="single" collapsible defaultValue="category" className="w-full">
             <AccordionItem value="category" className="border-b-0">
-                <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline">CATEGORY</AccordionTrigger>
+                <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline text-foreground">
+                    <div className="flex items-center gap-2">
+                        <Filter className="w-4 h-4" />
+                        CATEGORY
+                    </div>
+                </AccordionTrigger>
                 <AccordionContent>
                     <div className="pl-2 space-y-1">
                         {classes.map(c => (
@@ -115,7 +120,7 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
                                 variant="ghost"
                                 className={cn(
                                     "w-full justify-start text-sm",
-                                    activeClass === c && "bg-primary/10 text-primary font-semibold"
+                                    activeClass === c && "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
                                 )}
                                 onClick={() => {
                                     onClassChange(c);
@@ -129,8 +134,9 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
                 </AccordionContent>
             </AccordionItem>
         </Accordion>
-    </>
+    </Card>
 );
+
 
 export default function ReferenceBooksPage() {
   const [activeClass, setActiveClass] = useState('Class 9');
@@ -158,9 +164,9 @@ export default function ReferenceBooksPage() {
                                 Filter Books
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" className="w-[80%]">
+                        <SheetContent side="left" className="w-[80%] p-0">
                              <SheetHeader>
-                                <SheetTitle>Filter Books</SheetTitle>
+                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
                              </SheetHeader>
                              <FilterSidebarContent 
                                 activeClass={activeClass} 
