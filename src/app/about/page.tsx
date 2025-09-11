@@ -42,9 +42,6 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
       <section className="my-12">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Director</h2>
-        </div>
         <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="md:col-span-1 bg-muted/40 p-8 flex flex-col items-center justify-center text-center">
