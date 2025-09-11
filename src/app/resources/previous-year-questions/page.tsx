@@ -302,7 +302,7 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
     onSelectSubject: (subject: string) => void;
     onDone?: () => void;
 }) => (
-    <Card className="sticky top-24 shadow-none border-0 p-4 bg-background/30 backdrop-blur-sm">
+    <Card className="shadow-none border-0 p-4 bg-transparent">
         <CardHeader className="p-0 mb-4">
             <CardTitle className="text-lg text-foreground">Subjects</CardTitle>
         </CardHeader>
