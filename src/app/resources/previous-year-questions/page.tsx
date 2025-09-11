@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, BookOpen, PanelLeft } from 'lucide-react';
+import { FileText, Download, Eye, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical } from 'lucide-react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -285,6 +285,18 @@ type GroupedPapersByYear = {
   [year: number]: Paper[];
 };
 
+const subjectIcons: { [key: string]: React.ReactNode } = {
+  'Science': <TestTube2 className="w-5 h-5 mr-3 shrink-0" />,
+  'Maths (Standard)': <Sigma className="w-5 h-5 mr-3 shrink-0" />,
+  'Maths (Basic)': <Sigma className="w-5 h-5 mr-3 shrink-0" />,
+  'Maths': <Sigma className="w-5 h-5 mr-3 shrink-0" />,
+  'Social Studies': <Landmark className="w-5 h-5 mr-3 shrink-0" />,
+  'English': <EnglishIcon className="w-5 h-5 mr-3 shrink-0" />,
+  'Physics': <Atom className="w-5 h-5 mr-3 shrink-0" />,
+  'Chemistry': <FlaskConical className="w-5 h-5 mr-3 shrink-0" />,
+  'Biology': <Dna className="w-5 h-5 mr-3 shrink-0" />,
+};
+
 const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onDone }: {
     subjects: string[];
     selectedSubject: string;
@@ -311,7 +323,8 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
                                 : "text-primary-foreground/80 hover:bg-primary-foreground/20 hover:text-primary-foreground"
                         )}
                     >
-                        {subject}
+                        {subjectIcons[subject]}
+                        <span className="truncate">{subject}</span>
                     </Button>
                  ))}
             </div>
@@ -385,11 +398,14 @@ export default function PreviousYearQuestionsPage() {
                             Filter by Subject
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[80%] bg-background/80 backdrop-blur-sm border-0 p-6">
-                        <SheetHeader>
+                    <SheetContent 
+                        side="left" 
+                        className="w-[80%] bg-gradient-to-br from-primary via-primary to-accent border-0 p-6"
+                    >
+                         <SheetHeader>
                             <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
-                        </SheetHeader>
-                        <SubjectSidebarContent 
+                         </SheetHeader>
+                         <SubjectSidebarContent 
                             subjects={subjects} 
                             selectedSubject={selectedSubject} 
                             onSelectSubject={setSelectedSubject}
