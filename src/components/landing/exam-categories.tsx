@@ -35,11 +35,8 @@ const allPrograms = [
     { name: "CBSE", href: "/school" },
     { name: "NIOS", href: "/school" },
     { name: "SSC", href: "/category/govt-job-exams" },
-    { name: "BANK PO", href: "/category/govt-job-exams" },
-    { name: "RRB", href: "/category/govt-job-exams" },
     { name: "CLAT", href: "/category/cuet" },
     { name: "GATE", href: "/category/iit-jee" },
-    { name: "DEFENCE", href: "/category/defence" },
     { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
@@ -60,11 +57,8 @@ const popularProgramsHi = [
   { name: "CBSE", href: "/school" },
   { name: "NIOS", href: "/school" },
   { name: "SSC", href: "/category/govt-job-exams" },
-  { name: "BANK PO", href: "/category/govt-job-exams" },
-  { name: "RRB", href: "/category/govt-job-exams" },
   { name: "CLAT", href: "/category/cuet" },
   { name: "GATE", href: "/category/iit-jee" },
-  { name: "DEFENCE", href: "/category/defence" },
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
@@ -175,7 +169,7 @@ export function ExamCategories() {
                     <div className="mt-4 flex justify-center">
                     <ExploreMoreDialog 
                             triggerText="Explore More" 
-                            programs={popularProgramsHi} 
+                            programs={allPrograms.filter(p => popularProgramsHi.some(ph => ph.name === p.name))} 
                             dialogTitle="For Competitive Exams"
                             dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
                         />
