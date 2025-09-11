@@ -41,6 +41,8 @@ const booksByClass: { [key: string]: Book[] } = {
   ],
   'Class 11': [],
   'Class 12': [],
+  'JEE': [],
+  'NEET': [],
   'CUET': [
     { title: 'CUET (UG) General Test', author: 'Arihant Experts', description: 'Comprehensive guide for the Common University Entrance Test.', price: 450, originalPrice: 525, rating: 4.7, imageUrl: 'https://picsum.photos/seed/cuetbook/300/400', imageHint: 'exam textbook', subject: 'General' }
   ],
@@ -56,7 +58,7 @@ const booksByClass: { [key: string]: Book[] } = {
   'DELHI POLICE': [],
 };
 
-const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'CUET', 'CBSE', 'NIOS', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'];
+const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'JEE', 'NEET', 'CUET', 'CBSE', 'NIOS', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'];
 
 const BookCard = ({ book, index }: { book: Book, index: number }) => {
     const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
