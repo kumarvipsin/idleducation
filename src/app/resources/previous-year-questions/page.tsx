@@ -417,30 +417,30 @@ export default function PreviousYearQuestionsPage() {
 
             <div className="flex-1">
                 {selectedSubject && papersGrouped ? (
-                    <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
-                        <CardHeader className="bg-gradient-to-r from-primary to-accent text-primary-foreground">
-                            <CardTitle>Available Papers for {selectedSubject}</CardTitle>
+                    <Card key={selectedSubject} className="shadow-none border-0 animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-lg">
+                        <CardHeader>
+                            <CardTitle className="text-foreground">Available Papers for {selectedSubject}</CardTitle>
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[120px]">Year</TableHead>
-                                            <TableHead>Paper Title</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
+                                        <TableRow className="border-b-primary/20">
+                                            <TableHead className="w-[120px] text-foreground font-semibold">Year</TableHead>
+                                            <TableHead className="text-foreground font-semibold">Paper Title</TableHead>
+                                            <TableHead className="text-right text-foreground font-semibold">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {sortedYears.map(year => 
                                             papersGrouped[year].map((paper, index) => (
-                                                <TableRow key={`${year}-${index}`} className={index === 0 ? "border-t-4 border-double" : ""}>
+                                                <TableRow key={`${year}-${index}`} className="border-b-primary/10">
                                                     {index === 0 && (
-                                                        <TableCell className="font-bold align-top" rowSpan={papersGrouped[year].length}>
+                                                        <TableCell className="font-bold align-top text-primary" rowSpan={papersGrouped[year].length}>
                                                             {year}
                                                         </TableCell>
                                                     )}
-                                                    <TableCell>{paper.title}</TableCell>
+                                                    <TableCell className="text-foreground/80">{paper.title}</TableCell>
                                                     <TableCell className="text-right space-x-2">
                                                         <DialogTrigger asChild>
                                                             <Button size="sm" variant="outline" onClick={() => setSelectedPaper(paper)}>
@@ -464,7 +464,7 @@ export default function PreviousYearQuestionsPage() {
                         </CardContent>
                     </Card>
                 ) : (
-                    <div className="col-span-full text-center py-12">
+                    <div className="col-span-full text-center py-12 animate-fade-in-up">
                         <Card className="p-8 inline-block">
                             <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                             <p className="text-muted-foreground font-semibold">Select a subject</p>
