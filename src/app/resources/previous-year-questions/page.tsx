@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Paper = {
   subject: string;
@@ -302,7 +303,7 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
     onSelectSubject: (subject: string) => void;
     onDone?: () => void;
 }) => (
-    <Card className="shadow-none border-0 p-4 bg-transparent">
+    <Card className="sticky top-24 shadow-none border-0 p-4 bg-background/80 backdrop-blur-sm">
         <CardHeader className="p-0 mb-4">
             <CardTitle className="text-lg text-foreground">Subjects</CardTitle>
         </CardHeader>
@@ -414,44 +415,37 @@ export default function PreviousYearQuestionsPage() {
 
           <div className="flex-1">
               {selectedSubject && papersGrouped ? (
-                  <Card key={selectedSubject} className="shadow-none border-0 animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-lg">
-                      <CardHeader className="p-4 border-b border-primary/10">
+                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up">
+                      <CardHeader className="p-4 border-b">
                           <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
                       </CardHeader>
-                      <CardContent className="p-0">
-                          <div className="overflow-x-auto">
-                              <Table>
-                                  <TableHeader>
-                                      <TableRow className="border-b-primary/20">
-                                          <TableHead className="w-[120px] text-foreground font-semibold">Year</TableHead>
-                                          <TableHead className="text-foreground font-semibold">Paper Title</TableHead>
-                                          <TableHead className="text-right text-foreground font-semibold">Actions</TableHead>
-                                      </TableRow>
-                                  </TableHeader>
-                                  <TableBody>
-                                      {sortedYears.map(year => 
-                                          papersGrouped[year].map((paper, index) => (
-                                              <TableRow key={`${year}-${index}`} className="border-b-primary/10">
-                                                  {index === 0 && (
-                                                      <TableCell className="font-bold align-top text-primary" rowSpan={papersGrouped[year].length}>
-                                                          {year}
-                                                      </TableCell>
-                                                  )}
-                                                  <TableCell className="text-foreground/80">{paper.title}</TableCell>
-                                                  <TableCell className="text-right space-x-2">
-                                                      <Button asChild size="sm">
-                                                          <Link href={paper.href} target="_blank" rel="noopener noreferrer">
-                                                              <Download className="mr-2 h-4 w-4" />
-                                                              Download
-                                                          </Link>
-                                                      </Button>
-                                                  </TableCell>
-                                              </TableRow>
-                                          ))
-                                      )}
-                                  </TableBody>
-                              </Table>
-                          </div>
+                      <CardContent className="p-4">
+                        <Accordion type="multiple" defaultValue={sortedYears.slice(0, 1).map(String)} className="w-full">
+                           {sortedYears.map(year => (
+                                <AccordionItem value={String(year)} key={year}>
+                                    <AccordionTrigger className="text-lg font-semibold">
+                                        Year {year}
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <div className="divide-y">
+                                            {papersGrouped[year].map((paper, index) => (
+                                                <div key={index} className="flex items-center justify-between py-3">
+                                                    <div>
+                                                        <p className="font-medium">{paper.title}</p>
+                                                    </div>
+                                                     <Button asChild size="sm">
+                                                        <Link href={paper.href} target="_blank" rel="noopener noreferrer">
+                                                            <Download className="mr-2 h-4 w-4" />
+                                                            Download
+                                                        </Link>
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                           ))}
+                        </Accordion>
                       </CardContent>
                   </Card>
               ) : (
