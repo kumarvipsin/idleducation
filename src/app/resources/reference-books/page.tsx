@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ChevronRight, Filter, Star, ShoppingCart, PanelLeft } from 'lucide-react';
+import { ChevronRight, Filter, Star, ShoppingCart, PanelLeft, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -60,45 +60,63 @@ const booksByClass: { [key: string]: Book[] } = {
 
 const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'JEE', 'NEET', 'CUET', 'CBSE', 'NIOS', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'];
 
+const subjectColors: { [key in Book['subject']]: string } = {
+  Maths: 'shadow-green-500/50',
+  Science: 'shadow-blue-500/50',
+  'Social Studies': 'shadow-amber-500/50',
+  English: 'shadow-purple-500/50',
+  General: 'shadow-gray-500/50',
+};
+
 const BookCard = ({ book, index }: { book: Book, index: number }) => {
     const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
+    const shadowColor = subjectColors[book.subject] || 'shadow-gray-500/50';
+
     return (
-        <Card 
-            className="group relative overflow-hidden rounded-lg shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-        >
-            <CardContent className="p-0">
-                <div className="relative aspect-[3/4] w-full">
-                    <Image
-                        src={book.imageUrl}
-                        alt={book.title}
-                        data-ai-hint={book.imageHint}
-                        fill
-                        className="object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
-                    />
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                     <div className="absolute top-2 left-2">
-                        <div className="flex items-center gap-1 text-xs font-bold text-background bg-green-600/90 px-2 py-0.5 rounded-sm">
-                            <Star className="w-3 h-3 fill-background" />
-                            <span>{book.rating}</span>
+        <div className="p-4 group">
+            <Card 
+                className={cn(
+                    "relative overflow-visible rounded-lg transition-all duration-300",
+                    "shadow-lg hover:shadow-2xl",
+                    shadowColor
+                )}
+            >
+                <div className="absolute -top-4 -left-4 -right-4 h-32 bg-gray-200 dark:bg-gray-700 rounded-t-lg transform -rotate-3 group-hover:rotate-0 transition-transform duration-300"></div>
+                <CardContent className="p-0 relative bg-background rounded-lg">
+                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-t-lg">
+                        <Image
+                            src={book.imageUrl}
+                            alt={book.title}
+                            data-ai-hint={book.imageHint}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                        <div className="absolute top-2 right-2">
+                           <div className="flex items-center gap-1 text-xs font-bold text-background bg-green-600/90 px-2 py-0.5 rounded-full shadow-md">
+                                <Star className="w-3 h-3 fill-background" />
+                                <span>{book.rating}</span>
+                            </div>
+                        </div>
+                         <div className="absolute bottom-0 left-0 right-0 p-3">
+                            <h3 className="text-sm font-bold text-white leading-tight truncate group-hover:whitespace-normal group-hover:text-clip">{book.title}</h3>
+                            <p className="text-xs text-white/80">{book.author}</p>
                         </div>
                     </div>
-                     <div className="absolute bottom-2 left-2 right-2 p-2">
-                        <h3 className="text-sm font-semibold text-white truncate group-hover:whitespace-normal group-hover:text-clip">{book.title}</h3>
+                    <div className="p-3">
+                         <div className="flex items-baseline gap-2">
+                            <p className="text-xl font-bold">₹{book.price.toLocaleString()}</p>
+                            <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
+                            <p className="text-xs font-semibold text-destructive">{discount}% OFF</p>
+                        </div>
+                         <Button className="w-full mt-2 bg-primary/90 hover:bg-primary transition-all duration-300 transform group-hover:scale-105">
+                            <ShoppingBag className="mr-2 h-4 w-4" />
+                            Buy Now
+                        </Button>
                     </div>
-                </div>
-                <div className="p-4 bg-background">
-                    <div className="flex items-center gap-2 mt-2">
-                        <p className="text-lg font-bold">₹{book.price.toLocaleString()}</p>
-                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
-                        <p className="text-xs font-semibold text-destructive">{discount}% OFF</p>
-                    </div>
-                     <Button className="w-full mt-3 bg-primary/90 hover:bg-primary">
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Buy Now
-                    </Button>
-                </div>
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 
@@ -166,7 +184,7 @@ export default function ReferenceBooksPage() {
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[80%] p-0">
                              <SheetHeader>
-                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
+                                <SheetTitle>Filter Books</SheetTitle>
                              </SheetHeader>
                              <FilterSidebarContent 
                                 activeClass={activeClass} 
