@@ -4,10 +4,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical } from 'lucide-react';
+import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical } from 'lucide-react';
 import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
@@ -336,7 +335,6 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
-  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
@@ -361,138 +359,112 @@ export default function PreviousYearQuestionsPage() {
   const sortedYears = papersGrouped ? Object.keys(papersGrouped).map(Number).sort((a, b) => b - a) : [];
 
   return (
-    <Dialog>
-      <div>
-        <div className="mb-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Question Papers</h1>
-          <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Question Papers</h1>
+        <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
+      </div>
+      
+      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {examCategories.map((examName) => (
+            <button
+              key={examName}
+              onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                ${selectedExam === examName 
+                  ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+            >
+              {examName}
+            </button>
+          ))}
         </div>
-        
-        <div className="bg-muted/50 rounded-lg p-4 mb-8">
-          <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {examCategories.map((examName) => (
-              <button
-                key={examName}
-                onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
-                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                  ${selectedExam === examName 
-                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-              >
-                {examName}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <main className="flex flex-col md:flex-row gap-8">
-            <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
-                <SubjectSidebarContent subjects={subjects} selectedSubject={selectedSubject} onSelectSubject={setSelectedSubject} />
-            </aside>
-
-             <div className="md:hidden mb-4">
-                <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                    <SheetTrigger asChild>
-                         <Button variant="outline">
-                            <PanelLeft className="mr-2 h-4 w-4" />
-                            Filter by Subject
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent 
-                        side="left" 
-                        className="w-[80%] bg-background/80 backdrop-blur-sm p-0"
-                    >
-                         <SheetHeader>
-                            <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
-                         </SheetHeader>
-                         <SubjectSidebarContent 
-                            subjects={subjects} 
-                            selectedSubject={selectedSubject} 
-                            onSelectSubject={setSelectedSubject}
-                            onDone={() => setIsSidebarOpen(false)}
-                        />
-                    </SheetContent>
-                </Sheet>
-            </div>
-
-            <div className="flex-1">
-                {selectedSubject && papersGrouped ? (
-                    <Card key={selectedSubject} className="shadow-none border-0 animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-lg">
-                        <CardHeader className="p-4 border-b border-primary/10">
-                            <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="p-0">
-                            <div className="overflow-x-auto">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="border-b-primary/20">
-                                            <TableHead className="w-[120px] text-foreground font-semibold">Year</TableHead>
-                                            <TableHead className="text-foreground font-semibold">Paper Title</TableHead>
-                                            <TableHead className="text-right text-foreground font-semibold">Actions</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {sortedYears.map(year => 
-                                            papersGrouped[year].map((paper, index) => (
-                                                <TableRow key={`${year}-${index}`} className="border-b-primary/10">
-                                                    {index === 0 && (
-                                                        <TableCell className="font-bold align-top text-primary" rowSpan={papersGrouped[year].length}>
-                                                            {year}
-                                                        </TableCell>
-                                                    )}
-                                                    <TableCell className="text-foreground/80">{paper.title}</TableCell>
-                                                    <TableCell className="text-right space-x-2">
-                                                        <DialogTrigger asChild>
-                                                            <Button size="sm" variant="outline" onClick={() => setSelectedPaper(paper)}>
-                                                                <Eye className="mr-2 h-4 w-4" />
-                                                                View
-                                                            </Button>
-                                                        </DialogTrigger>
-                                                        <Button asChild size="sm">
-                                                            <Link href={paper.href} target="_blank" rel="noopener noreferrer">
-                                                                <Download className="mr-2 h-4 w-4" />
-                                                                Download
-                                                            </Link>
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ) : (
-                    <div className="col-span-full text-center py-12 animate-fade-in-up">
-                        <Card className="p-8 inline-block">
-                            <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                            <p className="text-muted-foreground font-semibold">Select a subject</p>
-                            <p className="text-sm text-muted-foreground">Choose a subject from the left to see available papers.</p>
-                        </Card>
-                    </div>
-                )}
-            </div>
-        </main>
       </div>
 
-      {selectedPaper && (
-        <DialogContent className="sm:max-w-4xl h-[90vh]">
-            <DialogHeader>
-                <DialogTitle>{`${selectedPaper.subject} - ${selectedPaper.year} (${selectedPaper.title})`}</DialogTitle>
-                <DialogDescription>
-                    Scroll to view the question paper. You can also download it for offline use.
-                </DialogDescription>
-            </DialogHeader>
-            <div className="h-full w-full flex-grow">
-                <iframe
-                    src={selectedPaper.href}
-                    className="w-full h-full border rounded-md"
-                    title="Question Paper Viewer"
-                />
-            </div>
-        </DialogContent>
-      )}
-    </Dialog>
+      <main className="flex flex-col md:flex-row gap-8">
+          <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
+              <SubjectSidebarContent subjects={subjects} selectedSubject={selectedSubject} onSelectSubject={setSelectedSubject} />
+          </aside>
+
+           <div className="md:hidden mb-4">
+              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                  <SheetTrigger asChild>
+                       <Button variant="outline">
+                          <PanelLeft className="mr-2 h-4 w-4" />
+                          Filter by Subject
+                      </Button>
+                  </SheetTrigger>
+                  <SheetContent 
+                      side="left" 
+                      className="w-[80%] bg-background/80 backdrop-blur-sm p-0"
+                  >
+                       <SheetHeader>
+                          <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
+                       </SheetHeader>
+                       <SubjectSidebarContent 
+                          subjects={subjects} 
+                          selectedSubject={selectedSubject} 
+                          onSelectSubject={setSelectedSubject}
+                          onDone={() => setIsSidebarOpen(false)}
+                      />
+                  </SheetContent>
+              </Sheet>
+          </div>
+
+          <div className="flex-1">
+              {selectedSubject && papersGrouped ? (
+                  <Card key={selectedSubject} className="shadow-none border-0 animate-fade-in-up bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-lg">
+                      <CardHeader className="p-4 border-b border-primary/10">
+                          <CardTitle className="text-lg font-semibold text-primary">{`Available Papers for ${selectedSubject}`}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-0">
+                          <div className="overflow-x-auto">
+                              <Table>
+                                  <TableHeader>
+                                      <TableRow className="border-b-primary/20">
+                                          <TableHead className="w-[120px] text-foreground font-semibold">Year</TableHead>
+                                          <TableHead className="text-foreground font-semibold">Paper Title</TableHead>
+                                          <TableHead className="text-right text-foreground font-semibold">Actions</TableHead>
+                                      </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
+                                      {sortedYears.map(year => 
+                                          papersGrouped[year].map((paper, index) => (
+                                              <TableRow key={`${year}-${index}`} className="border-b-primary/10">
+                                                  {index === 0 && (
+                                                      <TableCell className="font-bold align-top text-primary" rowSpan={papersGrouped[year].length}>
+                                                          {year}
+                                                      </TableCell>
+                                                  )}
+                                                  <TableCell className="text-foreground/80">{paper.title}</TableCell>
+                                                  <TableCell className="text-right space-x-2">
+                                                      <Button asChild size="sm">
+                                                          <Link href={paper.href} target="_blank" rel="noopener noreferrer">
+                                                              <Download className="mr-2 h-4 w-4" />
+                                                              Download
+                                                          </Link>
+                                                      </Button>
+                                                  </TableCell>
+                                              </TableRow>
+                                          ))
+                                      )}
+                                  </TableBody>
+                              </Table>
+                          </div>
+                      </CardContent>
+                  </Card>
+              ) : (
+                  <div className="col-span-full text-center py-12 animate-fade-in-up">
+                      <Card className="p-8 inline-block">
+                          <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                          <p className="text-muted-foreground font-semibold">Select a subject</p>
+                          <p className="text-sm text-muted-foreground">Choose a subject from the left to see available papers.</p>
+                      </Card>
+                  </div>
+              )}
+          </div>
+      </main>
+    </div>
   );
 }
