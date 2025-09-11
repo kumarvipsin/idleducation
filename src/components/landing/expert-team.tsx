@@ -72,23 +72,23 @@ export function ExpertTeam() {
                 className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-background"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-muted/30 pt-8 pb-4 flex justify-center items-center">
-                    <div className="relative w-40 h-40">
-                        <div className="absolute inset-0 rounded-full bg-blue-500 transform transition-transform duration-300 group-hover:scale-105"></div>
-                         <Image
-                            src={member.avatar}
-                            alt={member.name}
-                            data-ai-hint={member.avatarHint}
-                            width={160}
-                            height={160}
-                            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[148px] h-[148px] object-cover rounded-full border-4 border-background shadow-md transition-transform duration-300 group-hover:scale-110"
-                        />
-                    </div>
+                <div className="relative">
+                  <div className="h-24 bg-primary/10"></div>
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-32 h-32">
+                    <Image
+                        src={member.avatar}
+                        alt={member.name}
+                        data-ai-hint={member.avatarHint}
+                        width={128}
+                        height={128}
+                        className="w-full h-full object-cover rounded-full border-4 border-background shadow-lg transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
                 </div>
-                <CardContent className="p-6 flex-1 flex flex-col items-center">
+                <CardContent className="p-6 pt-20 flex-1 flex flex-col items-center">
                     <h3 className="text-xl font-bold uppercase tracking-wide text-foreground">{member.name}</h3>
-                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1">{member.designation}</p>
-                    <p className="text-sm text-muted-foreground mt-4 h-16">
+                    <p className="text-sm font-semibold text-primary mt-1">{member.designation}</p>
+                    <p className="text-sm text-muted-foreground mt-2">
                         {member.experience}
                     </p>
                     <div className="mt-4 flex items-center justify-center gap-4">
