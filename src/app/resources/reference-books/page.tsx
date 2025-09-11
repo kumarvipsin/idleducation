@@ -9,7 +9,7 @@ import { ChevronRight, Filter, Star, ShoppingCart, PanelLeft } from 'lucide-reac
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 type Book = {
   title: string;
@@ -145,6 +145,9 @@ export default function ReferenceBooksPage() {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[80%]">
+                             <SheetHeader>
+                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
+                             </SheetHeader>
                              <FilterSidebarContent 
                                 activeClass={activeClass} 
                                 onClassChange={handleClassChange}
