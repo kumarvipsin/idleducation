@@ -19,7 +19,9 @@ type Paper = {
 };
 
 const papersByExam: { [key: string]: Paper[] } = {
-  'CUET': [],
+  'CUET': [
+    { subject: 'General Test', year: 2023, title: 'Mock Paper 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+  ],
   'CBSE Class 10': [
     // 2025
     { subject: 'Science', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
@@ -278,8 +280,20 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2022, title: 'Compartment Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2022, title: 'Compartment Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
   ],
-  'NIOS Class 10': [],
-  'NIOS Class 12': [],
+  'NIOS Class 10': [
+    { subject: 'Science', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Maths (Standard)', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Maths (Basic)', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Social Studies', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'English', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+  ],
+  'NIOS Class 12': [
+    { subject: 'Physics', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Chemistry', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Maths', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'Biology', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { subject: 'English', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+  ],
 };
 
 const examCategories = [
@@ -304,6 +318,7 @@ const subjectIcons: { [key: string]: React.ReactNode } = {
   'Physics': <Atom className="w-5 h-5 mr-3 shrink-0" />,
   'Chemistry': <FlaskConical className="w-5 h-5 mr-3 shrink-0" />,
   'Biology': <Dna className="w-5 h-5 mr-3 shrink-0" />,
+  'General Test': <BookOpen className="w-5 h-5 mr-3 shrink-0" />,
 };
 
 const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onDone }: {
