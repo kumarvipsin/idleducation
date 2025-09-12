@@ -105,7 +105,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-primary via-primary to-accent"
+            className="transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900"
             style={{ animationDelay: '0.2s' }}
         >
             <div className="flex flex-col lg:flex-row">
