@@ -338,11 +338,6 @@ export default function PreviousYearQuestionsPage() {
   
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
   
-  // Set the first subject as default when the exam changes
-  if (selectedSubject === '' || !subjects.includes(selectedSubject)) {
-      if(subjects.length > 0) setSelectedSubject(subjects[0]);
-  }
-
   const papersGrouped: GroupedPapersByYear = papersByExam[selectedExam]
     ?.filter(p => p.subject === selectedSubject)
     .reduce((acc, paper) => {
