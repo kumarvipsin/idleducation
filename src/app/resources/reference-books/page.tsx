@@ -164,7 +164,7 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
 
 
 export default function ReferenceBooksPage() {
-  const [activeClass, setActiveClass] = useState('Class 9');
+  const [activeClass, setActiveClass] = useState('Class 10');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const books = booksByClass[activeClass] || [];
   const [animationKey, setAnimationKey] = useState(0);
