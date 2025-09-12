@@ -127,7 +127,7 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
 const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
     <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
         <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-lg text-foreground">Categories</CardTitle>
+            <CardTitle className="text-lg text-foreground">Reference Books</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
             <Accordion type="multiple" defaultValue={["School Classes", "Competitive Exams"]} className="w-full">
