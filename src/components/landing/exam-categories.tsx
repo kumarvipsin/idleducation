@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -105,8 +104,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group"
-            style={{ backgroundColor: '#000034' }}
+            className="transition-all duration-300 border rounded-2xl group bg-card"
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -142,8 +140,8 @@ export function ExamCategories() {
                 </div>
                 
                 {/* Divider */}
-                <Separator orientation="vertical" className="h-auto hidden lg:block bg-white/20" />
-                <Separator orientation="horizontal" className="block lg:hidden bg-white/20" />
+                <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
+                <Separator orientation="horizontal" className="block lg:hidden bg-border" />
 
                 {/* Right Side */}
                 <div className="flex-1">
