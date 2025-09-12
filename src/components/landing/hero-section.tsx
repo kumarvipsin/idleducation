@@ -362,26 +362,12 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/hero/1920/1080')"}} data-ai-hint="education students">
+    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/hero2/1920/1080')"}} data-ai-hint="abstract geometric pattern">
       <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-primary via-primary/80 to-accent/90 z-0"></div>
       <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-4">Your Path to Academic Excellence Starts Here</h1>
-                <p className="text-lg md:text-xl mb-6 opacity-80">Book a FREE session and experience a new way of learning with our expert educators.</p>
-                <div className="space-y-4">
-                    {features.map((feature, index) => (
-                        <div key={index} className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-                            <div className="bg-accent p-2 rounded-full">
-                                {feature.icon}
-                            </div>
-                            <span className="font-semibold">{feature.text}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
+        <div className="grid lg:grid-cols-1 gap-8 items-center">
           <div className="w-full max-w-md mx-auto">
-            <Card className="bg-card text-card-foreground shadow-xl">
+            <Card className="bg-background/90 backdrop-blur-sm border-white/20 text-foreground shadow-lg">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
                 <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
