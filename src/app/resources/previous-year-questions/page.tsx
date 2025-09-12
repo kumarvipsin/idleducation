@@ -360,19 +360,21 @@ export default function PreviousYearQuestionsPage() {
       </div>
       
       <div className="bg-muted/50 rounded-lg p-4 mb-4">
-        <div className="flex items-center justify-center flex-wrap gap-2">
-          {examCategories.map((examName) => (
-            <button
-              key={examName}
-              onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                ${selectedExam === examName 
-                  ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-            >
-              {examName}
-            </button>
-          ))}
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                {examCategories.map((examName) => (
+                    <button
+                    key={examName}
+                    onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
+                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                        ${selectedExam === examName 
+                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                    >
+                    {examName}
+                    </button>
+                ))}
+            </div>
         </div>
       </div>
       
