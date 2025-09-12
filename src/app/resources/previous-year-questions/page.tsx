@@ -292,6 +292,12 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'Biology', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
   ],
+  'JEE': [],
+  'NEET': [],
+  'CLAT': [],
+  'GATE': [],
+  'SSC': [],
+  'DELHI POLICE': [],
 };
 
 const examCategories = [
@@ -300,6 +306,13 @@ const examCategories = [
   'CBSE Class 12',
   'NIOS Class 10',
   'NIOS Class 12',
+  'JEE', 
+  'NEET', 
+  'CUET', 
+  'CLAT', 
+  'GATE', 
+  'SSC', 
+  'DELHI POLICE'
 ];
 
 type GroupedPapersByYear = {
