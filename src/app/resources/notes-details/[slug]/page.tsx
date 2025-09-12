@@ -585,16 +585,13 @@ function NotesContent({ slug }: { slug: string }) {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto py-8 md:py-12">
           <Card className="shadow-lg border-primary/10 overflow-hidden bg-background/80 backdrop-blur-sm">
-            <div className="p-6 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+            <div className="p-4 bg-gradient-to-r from-primary to-accent text-primary-foreground">
                 <div className="flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                         <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
                         <h1 className="text-2xl md:text-3xl font-bold">{notes.title}</h1>
-                        <p className="text-sm opacity-80 mt-1">
-                            Detailed notes for your study and revision.
-                        </p>
                     </div>
                 </div>
             </div>
