@@ -203,7 +203,7 @@ export default function NcertSolutionsPage() {
 
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
         <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
       </div>
