@@ -46,8 +46,6 @@ const booksByClass: { [key: string]: Book[] } = {
   'CUET': [
     { title: 'CUET (UG) General Test', author: 'Arihant Experts', description: 'Comprehensive guide for the Common University Entrance Test.', price: 450, originalPrice: 525, rating: 4.7, imageUrl: 'https://picsum.photos/seed/cuetbook/300/400', imageHint: 'exam textbook', subject: 'General' }
   ],
-  'CBSE': [],
-  'NIOS': [],
   'CLAT': [
       { title: 'CLAT & AILET Chapter-wise Solved Papers', author: 'Arihant Experts', description: 'Solved papers for Common Law Admission Test.', price: 550, originalPrice: 620, rating: 4.8, imageUrl: 'https://picsum.photos/seed/clatbook/300/400', imageHint: 'exam textbook', subject: 'General' }
   ],
@@ -60,7 +58,7 @@ const booksByClass: { [key: string]: Book[] } = {
 
 const classGroups = {
   "School Classes": ['Class 9', 'Class 10', 'Class 11', 'Class 12'],
-  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE', 'CBSE', 'NIOS']
+  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE']
 };
 
 
