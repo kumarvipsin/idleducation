@@ -59,8 +59,8 @@ const booksByClass: { [key: string]: Book[] } = {
 };
 
 const classGroups = {
-  "School Classes": ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'CBSE', 'NIOS'],
-  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE']
+  "School Classes": ['Class 9', 'Class 10', 'Class 11', 'Class 12'],
+  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE', 'CBSE', 'NIOS']
 };
 
 
