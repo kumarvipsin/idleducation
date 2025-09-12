@@ -66,7 +66,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" className="font-bold text-primary/80 hover:text-primary hover:underline">
+                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-accent to-primary text-primary-foreground hover:from-accent/90 hover:to-primary/90">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -105,8 +105,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group"
-            style={{ backgroundColor: '#03045e' }}
+            className="transition-all duration-300 border rounded-2xl group bg-primary"
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -130,7 +129,7 @@ export function ExamCategories() {
                         ))}
                     </CarouselContent>
                     </Carousel>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-8 flex justify-center">
                         <ExploreMoreDialog 
                             triggerText="Explore More" 
                             programs={popularProgramsEn} 
@@ -166,7 +165,7 @@ export function ExamCategories() {
                         ))}
                     </CarouselContent>
                     </Carousel>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-8 flex justify-center">
                     <ExploreMoreDialog 
                             triggerText="Explore More" 
                             programs={allPrograms.filter(p => popularProgramsHi.some(ph => ph.name === p.name))} 
