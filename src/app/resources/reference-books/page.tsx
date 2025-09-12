@@ -139,7 +139,7 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
             <CardTitle className="text-lg text-foreground">Category</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-            <div className="flex flex-col space-y-2">
+            <div className="grid grid-cols-2 gap-2">
                  {classes.map(c => (
                     <Button
                         key={c}
@@ -148,9 +148,9 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
                             onClassChange(c);
                             onDone?.();
                         }}
-                        className={cn("justify-start h-auto py-2.5 px-4 text-left rounded-lg transition-all duration-200", 
+                        className={cn("justify-start h-auto py-2 px-3 text-left rounded-md text-sm transition-all duration-200", 
                             activeClass === c 
-                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-md"
+                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-sm"
                                 : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                         )}
                     >
