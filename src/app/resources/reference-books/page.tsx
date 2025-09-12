@@ -57,7 +57,21 @@ const booksByClass: { [key: string]: Book[] } = {
   'DELHI POLICE': [],
 };
 
-const classes = ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'JEE', 'NEET', 'CUET', 'CBSE', 'NIOS', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'];
+const classes = [
+  'Class 9', 
+  'Class 10', 
+  'Class 11', 
+  'Class 12', 
+  'CBSE', 
+  'NIOS', 
+  'JEE', 
+  'NEET', 
+  'CUET', 
+  'CLAT', 
+  'GATE', 
+  'SSC', 
+  'DELHI POLICE'
+];
 
 const subjectColors: { [key in Book['subject']]: string } = {
   Maths: 'shadow-green-500/50',
