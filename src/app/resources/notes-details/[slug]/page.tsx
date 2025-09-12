@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams } from 'next/navigation'
 import { Suspense, use } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
@@ -582,30 +582,28 @@ function NotesContent({ slug }: { slug: string }) {
 
   return (
     <div className="bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-4xl mx-auto">
-                <header className="py-6 md:py-8">
-                    <div className="flex items-center gap-4">
-                        <div className="bg-primary/10 p-3 rounded-lg">
-                            <BookOpen className="w-6 h-6 text-primary" />
-                        </div>
-                        <div>
-                            <h1 className="text-2xl md:text-3xl font-bold text-foreground">{notes.title}</h1>
-                            <p className="text-sm text-muted-foreground mt-1">
-                                Detailed notes for your study and revision.
-                            </p>
-                        </div>
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-4xl mx-auto py-8 md:py-12">
+          <Card className="shadow-lg border-primary/10 overflow-hidden">
+            <CardHeader className="bg-muted/30 p-6 border-b">
+                <div className="flex items-center gap-4">
+                    <div className="bg-primary/10 p-3 rounded-lg">
+                        <BookOpen className="w-6 h-6 text-primary" />
                     </div>
-                </header>
-                <main className="pb-12 md:pb-16">
-                    <Card className="shadow-lg border-primary/10">
-                        <CardContent className="p-6 md:p-8">
-                            <NotesContentRenderer content={notes.content} />
-                        </CardContent>
-                    </Card>
-                </main>
-            </div>
+                    <div>
+                        <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">{notes.title}</CardTitle>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            Detailed notes for your study and revision.
+                        </p>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent className="p-6 md:p-8">
+                <NotesContentRenderer content={notes.content} />
+            </CardContent>
+          </Card>
         </div>
+      </div>
     </div>
   )
 }
