@@ -105,7 +105,7 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group bg-primary"
+            className="transition-all duration-300 border rounded-2xl group bg-gradient-to-b from-[#000034] to-[#FFFFFF]"
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -120,7 +120,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted text-foreground">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
@@ -156,7 +156,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted text-foreground">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
