@@ -4,12 +4,11 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, List, PanelLeft } from 'lucide-react';
+import { Search, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const galleryCategories = [
   'All',
@@ -87,90 +86,50 @@ const galleryImages = [
   }
 ];
 
-const SidebarContent = ({ selectedCategory, onSelectCategory, searchTerm, onSearchTermChange }: {
-  selectedCategory: string;
-  onSelectCategory: (category: string) => void;
-  searchTerm: string;
-  onSearchTermChange: (term: string) => void;
-}) => (
-    <>
-        <div className="relative mb-8">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search by ID..."
-                value={searchTerm}
-                onChange={(e) => onSearchTermChange(e.target.value)}
-                className="pl-10 w-full rounded-full h-10"
-            />
-        </div>
-        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><List className="w-5 h-5"/>Categories</h2>
-        <div className="flex flex-col space-y-2">
-            {galleryCategories.map(category => (
-                 <Button
-                    key={category}
-                    variant={'ghost'}
-                    className={cn(
-                        "justify-start",
-                        selectedCategory === category ? "text-primary font-semibold hover:bg-transparent hover:text-primary" : "hover:bg-accent/50"
-                    )}
-                    onClick={() => onSelectCategory(category)}
-                >
-                    {category}
-                </Button>
-            ))}
-        </div>
-    </>
-);
-
-
 export default function GalleryPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const filteredImages = galleryImages.filter(image =>
     (selectedCategory === 'All' || image.category === selectedCategory) &&
     image.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
-  const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
-    setIsSidebarOpen(false); // Close sidebar on mobile after selection
-  };
-
   return (
     <Dialog>
-        <div className="container mx-auto py-12 px-4 md:px-6">
-          <div className="flex flex-col md:flex-row gap-8">
-             <aside className="hidden md:block w-full md:w-1/5 lg:w-[15%]">
-                <SidebarContent 
-                    selectedCategory={selectedCategory} 
-                    onSelectCategory={handleSelectCategory}
-                    searchTerm={searchTerm}
-                    onSearchTermChange={setSearchTerm}
-                />
-            </aside>
-            <main className="flex-1">
-                <div className="md:hidden mb-4">
-                    <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                        <SheetTrigger asChild>
-                             <Button variant="outline">
-                                <PanelLeft className="mr-2 h-4 w-4" />
-                                Filter Images
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left" className="w-[50%]">
-                             <SidebarContent 
-                                selectedCategory={selectedCategory} 
-                                onSelectCategory={handleSelectCategory}
-                                searchTerm={searchTerm}
-                                onSearchTermChange={setSearchTerm}
-                            />
-                        </SheetContent>
-                    </Sheet>
+        <div className="container mx-auto py-8 px-4 md:px-6">
+            <div className="mb-8 space-y-4">
+                 <div className="relative mx-auto max-w-md">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search by ID..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full rounded-full h-10"
+                    />
                 </div>
+                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                        {galleryCategories.map(category => (
+                            <button
+                                key={category}
+                                onClick={() => setSelectedCategory(category)}
+                                className={cn(`py-2 px-4 text-sm font-medium transition-colors border rounded-md`,
+                                    selectedCategory === category 
+                                    ? 'border-primary text-primary bg-primary/10' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                )}
+                                >
+                                {category}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            
+            <main>
                 {filteredImages.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {filteredImages.map((image, index) => (
@@ -207,7 +166,6 @@ export default function GalleryPage() {
                     </div>
                 )}
             </main>
-          </div>
         </div>
 
         {selectedImage && (
