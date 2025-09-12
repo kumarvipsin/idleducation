@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -357,13 +356,13 @@ export default function PreviousYearQuestionsPage() {
 
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Previous Year Question Papers</h1>
         <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
       </div>
       
       <div className="bg-muted/50 rounded-lg p-4 mb-4">
-        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center justify-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {examCategories.map((examName) => (
             <button
               key={examName}
