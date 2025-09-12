@@ -334,7 +334,7 @@ const subjectIcons: { [key: string]: React.ReactNode } = {
 
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
-  const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [selectedSubject, setSelectedSubject] = useState<string>('Science');
   
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
   
@@ -361,7 +361,7 @@ export default function PreviousYearQuestionsPage() {
       
       <div className="bg-muted/50 rounded-lg p-4 mb-4">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+            <div className="flex justify-start items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {examCategories.map((examName) => (
                     <button
                     key={examName}
@@ -381,7 +381,7 @@ export default function PreviousYearQuestionsPage() {
       {subjects.length > 0 && (
         <div className="bg-muted/50 rounded-lg p-4 mb-8">
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                <div className="flex justify-start items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                     {subjects.map((subject) => (
                         <button
                             key={subject}
