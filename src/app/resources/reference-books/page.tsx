@@ -23,10 +23,6 @@ type Book = {
 };
 
 const booksByClass: { [key: string]: Book[] } = {
-  'Class 5': [],
-  'Class 6': [],
-  'Class 7': [],
-  'Class 8': [],
   'Class 9': [
     { title: 'Mathematics for Class 9', author: 'R.D. Sharma', description: 'A comprehensive book for in-depth understanding and practice.', price: 550, originalPrice: 650, rating: 4.8, imageUrl: 'https://picsum.photos/seed/rdsharma9/300/400', imageHint: 'math textbook', subject: 'Maths' },
     { title: 'Science for Class 9', author: 'Lakhmir Singh & Manjit Kaur', description: 'Covers Physics, Chemistry, and Biology with clear explanations.', price: 600, originalPrice: 700, rating: 4.9, imageUrl: 'https://picsum.photos/seed/lakhmir9/300/400', imageHint: 'science textbook', subject: 'Science' },
@@ -60,7 +56,7 @@ const booksByClass: { [key: string]: Book[] } = {
 };
 
 const allCategories = [
-  'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12',
+  'Class 9', 'Class 10', 'Class 11', 'Class 12',
   'JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'
 ];
 
