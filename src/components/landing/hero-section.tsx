@@ -362,10 +362,10 @@ export function HeroSection() {
       <div className="container px-4 md:px-6 relative z-10 py-4 md:py-8 lg:py-12">
         <div className="flex justify-center">
           <div className="w-full max-w-md">
-            <Card className="bg-background text-foreground">
+            <Card className="bg-background/30 backdrop-blur-sm border-white/20 text-white">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
-                <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
+                <p className="text-white/80 text-sm">{t('bookFreeSession.subtitle')}</p>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -379,8 +379,8 @@ export function HeroSection() {
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             <Button 
                               type="button" 
-                              variant={sessionMode === 'online' ? 'default' : 'outline'} 
-                              className={`flex items-center justify-center gap-2 ${sessionMode === 'online' ? 'bg-purple text-purple-foreground ring-2 ring-purple-foreground' : ''}`}
+                              variant={sessionMode === 'online' ? 'secondary' : 'ghost'} 
+                              className={`flex items-center justify-center gap-2 text-white border-white/30 hover:bg-white/20 ${sessionMode === 'online' ? 'bg-white/20 ring-2 ring-white' : ''}`}
                               onClick={() => {
                                 setSessionMode('online');
                                 field.onChange('online');
@@ -391,8 +391,8 @@ export function HeroSection() {
                             </Button>
                             <Button 
                               type="button" 
-                              variant={sessionMode === 'offline' ? 'default' : 'outline'} 
-                              className={`flex items-center justify-center gap-2 ${sessionMode === 'offline' ? 'bg-purple text-purple-foreground ring-2 ring-purple-foreground' : ''}`}
+                              variant={sessionMode === 'offline' ? 'secondary' : 'ghost'} 
+                              className={`flex items-center justify-center gap-2 text-white border-white/30 hover:bg-white/20 ${sessionMode === 'offline' ? 'bg-white/20 ring-2 ring-white' : ''}`}
                               onClick={() => {
                                 setSessionMode('offline');
                                 field.onChange('offline');
@@ -402,7 +402,7 @@ export function HeroSection() {
                               {t('bookFreeSession.offline')}
                             </Button>
                           </div>
-                          <FormMessage />
+                          <FormMessage className="text-destructive" />
                         </FormItem>
                       )}
                     />
@@ -422,9 +422,10 @@ export function HeroSection() {
                                 const formatted = capitalizeWords(e.target.value);
                                 field.onChange(formatted);
                               }}
+                              className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                              />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-destructive" />
                         </FormItem>
                       )}
                     />
@@ -437,7 +438,7 @@ export function HeroSection() {
                           <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20">
                                 <SelectValue placeholder="Select a Class or Course" />
                               </SelectTrigger>
                             </FormControl>
@@ -447,7 +448,7 @@ export function HeroSection() {
                               ))}
                             </SelectContent>
                           </Select>
-                          <FormMessage />
+                          <FormMessage className="text-destructive" />
                         </FormItem>
                       )}
                     />
@@ -462,7 +463,7 @@ export function HeroSection() {
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="w-[120px]">
+                                        <SelectTrigger className="w-[120px] bg-white/10 border-white/30 focus:bg-white/20">
                                         <SelectValue placeholder="Code" />
                                         </SelectTrigger>
                                     </FormControl>
@@ -474,7 +475,7 @@ export function HeroSection() {
                                         ))}
                                     </SelectContent>
                                     </Select>
-                                    <FormMessage />
+                                    <FormMessage className="text-destructive" />
                                 </FormItem>
                                 )}
                             />
@@ -498,9 +499,10 @@ export function HeroSection() {
                                         }
                                       }}
                                       maxLength={maxLength}
+                                      className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                                     />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage className="text-destructive" />
                                 </FormItem>
                                 )}
                             />
@@ -523,9 +525,10 @@ export function HeroSection() {
                               onChange={(e) => {
                                 field.onChange(e.target.value.toLowerCase());
                               }}
+                              className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-destructive" />
                         </FormItem>
                       )}
                     />
@@ -538,7 +541,7 @@ export function HeroSection() {
                           <FormLabel>State <span className="text-destructive">*</span></FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20">
                                 <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
                               </SelectTrigger>
                             </FormControl>
@@ -548,7 +551,7 @@ export function HeroSection() {
                               ))}
                             </SelectContent>
                           </Select>
-                          <FormMessage />
+                          <FormMessage className="text-destructive" />
                         </FormItem>
                       )}
                     />
