@@ -62,22 +62,6 @@ const popularProgramsHi = [
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
-const svgTexture = `
-  <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>
-    <g fill='rgba(0,0,52,0.03)' fill-rule='evenodd'>
-      <g fill-rule='nonzero'>
-        <path d='M20 20v40h40V20H20zM0 0v80h80V0H0z' />
-      </g>
-    </g>
-  </svg>
-`;
-
-const textureStyle = {
-  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-  backgroundSize: '20px 20px',
-};
-
-
 const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string, dialogDescription: string }) => {
     return (
         <Dialog>
@@ -121,8 +105,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group bg-muted/30"
-            style={textureStyle}
+            className="transition-all duration-300 border rounded-2xl group"
+            style={{ backgroundColor: '#03045e' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -158,8 +142,8 @@ export function ExamCategories() {
                 </div>
                 
                 {/* Divider */}
-                <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
-                <Separator orientation="horizontal" className="block lg:hidden bg-border" />
+                <Separator orientation="vertical" className="h-auto hidden lg:block bg-white/20" />
+                <Separator orientation="horizontal" className="block lg:hidden bg-white/20" />
 
                 {/* Right Side */}
                 <div className="flex-1">
