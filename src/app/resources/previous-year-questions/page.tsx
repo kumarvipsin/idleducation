@@ -84,7 +84,7 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2024, title: 'Compartment Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2024, title: 'Compartment Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2024, title: 'Compartment Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
-    
+
     // 2023
     { subject: 'Science', year: 2023, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'Science', year: 2023, title: 'Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
@@ -301,17 +301,15 @@ const papersByExam: { [key: string]: Paper[] } = {
 };
 
 const examCategories = [
-  'CUET',
   'CBSE Class 10',
   'CBSE Class 12',
   'NIOS Class 10',
   'NIOS Class 12',
-  'JEE', 
-  'NEET', 
-  'CUET', 
-  'CLAT', 
-  'GATE', 
-  'SSC', 
+  'JEE',
+  'NEET',
+  'CLAT',
+  'GATE',
+  'SSC',
   'DELHI POLICE'
 ];
 
