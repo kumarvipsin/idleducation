@@ -78,7 +78,7 @@ export default function NotesPage() {
 
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Study Notes for {selectedClass}</h1>
         <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
       </div>
