@@ -139,21 +139,23 @@ export default function ReferenceBooksPage() {
       </div>
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center justify-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {allCategories.map((c) => (
-            <button
-              key={c}
-              onClick={() => handleClassChange(c)}
-              className={cn(
-                'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
-                activeClass === c
-                  ? 'border-primary text-primary bg-primary/10'
-                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
-              )}
-            >
-              {c}
-            </button>
-          ))}
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+              {allCategories.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => handleClassChange(c)}
+                  className={cn(
+                    'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
+                    activeClass === c
+                      ? 'border-primary text-primary bg-primary/10'
+                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                  )}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
         </div>
       </div>
 
