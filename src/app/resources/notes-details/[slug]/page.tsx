@@ -585,14 +585,14 @@ function NotesContent({ slug }: { slug: string }) {
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto py-8 md:py-12">
           <Card className="shadow-lg border-primary/10 overflow-hidden">
-            <CardHeader className="bg-muted/30 p-6 border-b">
-                <div className="flex items-center gap-4">
-                    <div className="bg-primary/10 p-3 rounded-lg">
-                        <BookOpen className="w-6 h-6 text-primary" />
+            <CardHeader className="bg-muted/30 p-4 border-b">
+                <div className="flex items-center gap-3">
+                    <div className="bg-primary/10 p-2 rounded-md">
+                        <BookOpen className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                        <CardTitle className="text-2xl md:text-3xl font-bold text-foreground">{notes.title}</CardTitle>
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <CardTitle className="text-xl md:text-2xl font-bold text-foreground">{notes.title}</CardTitle>
+                        <p className="text-xs text-muted-foreground mt-1">
                             Detailed notes for your study and revision.
                         </p>
                     </div>
@@ -616,3 +616,5 @@ export default function NotesDetailsPage({ params }: { params: { slug: string } 
         </Suspense>
     )
 }
+
+    
