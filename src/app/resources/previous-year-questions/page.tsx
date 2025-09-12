@@ -360,7 +360,7 @@ export default function PreviousYearQuestionsPage() {
       </div>
       
       <div className="bg-muted/50 rounded-lg p-4 mb-4">
-        <div className="flex items-center justify-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center justify-center flex-wrap gap-2">
           {examCategories.map((examName) => (
             <button
               key={examName}
@@ -441,7 +441,7 @@ export default function PreviousYearQuestionsPage() {
                       <Card className="p-8 inline-block">
                           <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                           <p className="text-muted-foreground font-semibold">Select a subject</p>
-                          <p className="text-sm text-muted-foreground">Choose a subject from the left to see available papers.</p>
+                          <p className="text-sm text-muted-foreground">Choose a subject to see available papers.</p>
                       </Card>
                   </div>
               )}
