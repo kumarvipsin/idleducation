@@ -105,7 +105,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group bg-gradient-to-b from-[#000034] to-[#FFFFFF]"
+            className="transition-all duration-300 border rounded-2xl group"
+            style={{ backgroundColor: '#000034' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
