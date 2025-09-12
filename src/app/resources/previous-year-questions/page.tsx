@@ -358,7 +358,7 @@ const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onD
 
 
 export default function PreviousYearQuestionsPage() {
-  const [selectedExam, setSelectedExam] = useState('CUET');
+  const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
