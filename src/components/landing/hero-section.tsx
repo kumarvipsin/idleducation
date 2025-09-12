@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -382,7 +381,7 @@ export function HeroSection() {
                 </div>
             </div>
           <div className="w-full max-w-md mx-auto">
-            <Card className="bg-background/90 backdrop-blur-sm border-white/20 text-foreground shadow-lg">
+            <Card className="bg-card text-card-foreground shadow-xl">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
                 <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
