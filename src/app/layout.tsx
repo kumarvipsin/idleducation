@@ -35,7 +35,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.png" sizes="any" />
       </head>
-      <body className="font-sans antialiased flex flex-col min-h-screen">
+      <body className="antialiased flex flex-col min-h-screen">
         <AuthProvider>
           <LanguageProvider>
             <ThemeProvider

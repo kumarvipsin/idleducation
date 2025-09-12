@@ -12,6 +12,7 @@ export default {
     extend: {
       fontFamily: {
         sans: [
+          '"Josefin Sans"',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',
