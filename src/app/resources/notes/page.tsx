@@ -84,19 +84,21 @@ export default function NotesPage() {
       </div>
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {classes.map((className) => (
-            <button
-              key={className}
-              onClick={() => setSelectedClass(className)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+            {classes.map((className) => (
+              <button
+                key={className}
+                onClick={() => setSelectedClass(className)}
+                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                 ${selectedClass === className 
                   ? 'border-primary text-primary bg-primary/10 rounded-md' 
                   : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-            >
-              {className}
-            </button>
-          ))}
+              >
+                {className}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
