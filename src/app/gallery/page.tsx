@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon } from 'lucide-react';
+import { Search, Image as ImageIcon, Plus } from 'lucide-react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -22,24 +22,24 @@ const galleryCategories = [
 const galleryImages = [
   {
     id: '101',
-    src: 'https://picsum.photos/400/400',
+    src: 'https://picsum.photos/seed/g1/800/600',
     alt: 'Annual Day 2024',
     title: 'Annual Day 2024',
     hint: 'students event',
     category: 'Annual Function',
-    className: 'md:col-span-2 md:row-span-2'
+    className: 'col-span-2 row-span-2'
   },
   {
     id: '102',
-    src: 'https://picsum.photos/400/401',
+    src: 'https://picsum.photos/seed/g2/400/600',
     alt: 'Graduation Ceremony',
     title: 'Graduation Ceremony',
     hint: 'students graduation',
-    category: 'Result Day'
+    category: 'Result Day',
   },
   {
     id: '103',
-    src: 'https://picsum.photos/401/400',
+    src: 'https://picsum.photos/seed/g3/400/400',
     alt: 'Science Fair',
     title: 'Science Fair',
     hint: 'student science',
@@ -47,16 +47,16 @@ const galleryImages = [
   },
   {
     id: '104',
-    src: 'https://picsum.photos/401/401',
+    src: 'https://picsum.photos/seed/g4/800/400',
     alt: 'Sports Day',
     title: 'Sports Day',
     hint: 'sports competition',
     category: 'Sports Day',
-    className: 'md:col-span-2'
+    className: 'col-span-2'
   },
   {
     id: '105',
-    src: 'https://picsum.photos/400/402',
+    src: 'https://picsum.photos/seed/g5/400/400',
     alt: 'Art Exhibition',
     title: 'Art Exhibition',
     hint: 'art exhibition',
@@ -64,28 +64,28 @@ const galleryImages = [
   },
   {
     id: '106',
-    src: 'https://picsum.photos/402/400',
+    src: 'https://picsum.photos/seed/g6/400/600',
     alt: 'Music Fest',
     title: 'Music Fest',
     hint: 'music concert',
-    category: 'Events'
+    category: 'Events',
   },
    {
     id: '107',
-    src: 'https://picsum.photos/401/402',
+    src: 'https://picsum.photos/seed/g7/800/600',
     alt: 'Guest Lecture Series',
     title: 'Guest Lecture Series',
     hint: 'students classroom',
-    category: 'Events'
+    category: 'Events',
+    className: 'col-span-2 row-span-2'
   },
   {
     id: '108',
-    src: 'https://picsum.photos/402/401',
+    src: 'https://picsum.photos/seed/g8/400/400',
     alt: 'Inter-School Athletics',
     title: 'Inter-School Athletics',
     hint: 'running race',
     category: 'Sports Day',
-    className: 'md:col-span-2'
   }
 ];
 
@@ -96,7 +96,7 @@ export default function GalleryPage() {
 
   const filteredImages = galleryImages.filter(image =>
     (selectedCategory === 'All' || image.category === selectedCategory) &&
-    image.id.toLowerCase().includes(searchTerm.toLowerCase())
+    (image.id.toLowerCase().includes(searchTerm.toLowerCase()) || image.title.toLowerCase().includes(searchTerm.toLowerCase()))
   );
   
   return (
@@ -107,7 +107,7 @@ export default function GalleryPage() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                         type="text"
-                        placeholder="Search by ID..."
+                        placeholder="Search by ID or title..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 w-full rounded-full h-10"
@@ -134,31 +134,33 @@ export default function GalleryPage() {
             
             <main>
                 {filteredImages.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4">
+                     <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
                         {filteredImages.map((image, index) => (
                             <DialogTrigger asChild key={image.id}>
-                                <Card 
+                                <div 
                                     className={cn(
-                                        "overflow-hidden group cursor-pointer animate-fade-in-up shadow-md hover:shadow-xl transition-shadow duration-300",
+                                        "group relative cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300",
                                         image.className
                                     )}
                                     style={{ animationDelay: `${index * 50}ms` }}
                                     onClick={() => setSelectedImage(image)}
                                 >
-                                    <div className="w-full h-full overflow-hidden">
-                                        <Image
-                                            src={image.src}
-                                            alt={image.alt}
-                                            data-ai-hint={image.hint}
-                                            width={400}
-                                            height={400}
-                                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                        />
+                                    <Image
+                                        src={image.src}
+                                        alt={image.alt}
+                                        data-ai-hint={image.hint}
+                                        fill
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="absolute bottom-0 left-0 p-4 transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+                                        <h3 className="text-white font-bold text-lg">{image.title}</h3>
+                                        <p className="text-white/80 text-sm">{image.category}</p>
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
-                                        <p className="text-xs text-white/80 font-mono">ID: {image.id}</p>
+                                    <div className="absolute top-2 right-2 p-2 bg-background/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <Plus className="w-4 h-4 text-foreground" />
                                     </div>
-                                </Card>
+                                </div>
                             </DialogTrigger>
                         ))}
                     </div>
