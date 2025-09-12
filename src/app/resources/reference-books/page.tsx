@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Book = {
   title: string;
@@ -57,21 +58,11 @@ const booksByClass: { [key: string]: Book[] } = {
   'DELHI POLICE': [],
 };
 
-const classes = [
-  'Class 9',
-  'Class 10',
-  'Class 11',
-  'Class 12',
-  'CBSE',
-  'NIOS',
-  'JEE',
-  'NEET',
-  'CUET',
-  'CLAT',
-  'GATE',
-  'SSC',
-  'DELHI POLICE',
-];
+const classGroups = {
+  "School Classes": ['Class 9', 'Class 10', 'Class 11', 'Class 12', 'CBSE', 'NIOS'],
+  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE']
+};
+
 
 const subjectColors: { [key in Book['subject']]: string } = {
   Maths: 'shadow-green-500/50',
@@ -136,28 +127,37 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
 const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
     <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
         <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-lg text-foreground">Category</CardTitle>
+            <CardTitle className="text-lg text-foreground">Categories</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-            <div className="grid grid-cols-2 gap-2">
-                 {classes.map(c => (
-                    <Button
-                        key={c}
-                        variant="ghost"
-                        onClick={() => {
-                            onClassChange(c);
-                            onDone?.();
-                        }}
-                        className={cn("justify-start h-auto py-2 px-3 text-left rounded-md text-sm transition-all duration-200", 
-                            activeClass === c 
-                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-sm"
-                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                        )}
-                    >
-                        <span className="truncate">{c}</span>
-                    </Button>
-                 ))}
-            </div>
+            <Accordion type="multiple" defaultValue={["School Classes", "Competitive Exams"]} className="w-full">
+                {Object.entries(classGroups).map(([groupName, classes]) => (
+                    <AccordionItem value={groupName} key={groupName}>
+                        <AccordionTrigger className="text-base font-semibold">{groupName}</AccordionTrigger>
+                        <AccordionContent>
+                            <div className="flex flex-col space-y-2 pt-2">
+                                {classes.map(c => (
+                                    <Button
+                                        key={c}
+                                        variant="ghost"
+                                        onClick={() => {
+                                            onClassChange(c);
+                                            onDone?.();
+                                        }}
+                                        className={cn("justify-start h-auto py-2 px-3 text-left rounded-md text-sm transition-all duration-200", 
+                                            activeClass === c 
+                                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-sm"
+                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                                        )}
+                                    >
+                                        <span className="truncate">{c}</span>
+                                    </Button>
+                                ))}
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                ))}
+            </Accordion>
         </CardContent>
     </Card>
 );
