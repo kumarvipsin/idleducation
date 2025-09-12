@@ -6,10 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical } from 'lucide-react';
 import Link from 'next/link';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cn } from '@/lib/utils';
 
 type Paper = {
   subject: string;
@@ -321,47 +319,10 @@ const subjectIcons: { [key: string]: React.ReactNode } = {
   'General Test': <BookOpen className="w-5 h-5 mr-3 shrink-0" />,
 };
 
-const SubjectSidebarContent = ({ subjects, selectedSubject, onSelectSubject, onDone }: {
-    subjects: string[];
-    selectedSubject: string;
-    onSelectSubject: (subject: string) => void;
-    onDone?: () => void;
-}) => (
-    <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
-        <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-lg text-foreground">Subjects</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-            <div className="flex flex-col space-y-2">
-                 {subjects.map(subject => (
-                    <Button 
-                        key={subject}
-                        variant="ghost"
-                        onClick={() => {
-                            onSelectSubject(subject);
-                            onDone?.();
-                        }}
-                        className={cn("justify-start h-auto py-2.5 px-4 text-left rounded-lg transition-all duration-200", 
-                            selectedSubject === subject 
-                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-md"
-                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                        )}
-                    >
-                        {subjectIcons[subject]}
-                        <span className="truncate">{subject}</span>
-                    </Button>
-                 ))}
-            </div>
-        </CardContent>
-    </Card>
-);
-
-
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
   
   // Set the first subject as default when the exam changes
@@ -390,7 +351,7 @@ export default function PreviousYearQuestionsPage() {
         <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
       </div>
       
-      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+      <div className="bg-muted/50 rounded-lg p-4 mb-4">
         <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {examCategories.map((examName) => (
             <button
@@ -406,37 +367,25 @@ export default function PreviousYearQuestionsPage() {
           ))}
         </div>
       </div>
+      
+      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {subjects.map((subject) => (
+            <button
+              key={subject}
+              onClick={() => setSelectedSubject(subject)}
+              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                ${selectedSubject === subject 
+                  ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+            >
+              {subject}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <main className="flex flex-col md:flex-row gap-8">
-          <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
-              <SubjectSidebarContent subjects={subjects} selectedSubject={selectedSubject} onSelectSubject={setSelectedSubject} />
-          </aside>
-
-           <div className="md:hidden mb-4">
-              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                  <SheetTrigger asChild>
-                       <Button variant="outline">
-                          <PanelLeft className="mr-2 h-4 w-4" />
-                          Filter by Subject
-                      </Button>
-                  </SheetTrigger>
-                  <SheetContent 
-                      side="left" 
-                      className="w-[80%] bg-background/80 backdrop-blur-sm p-0"
-                  >
-                       <SheetHeader>
-                          <SheetTitle className="sr-only">Filter by Subject</SheetTitle>
-                       </SheetHeader>
-                       <SubjectSidebarContent 
-                          subjects={subjects} 
-                          selectedSubject={selectedSubject} 
-                          onSelectSubject={setSelectedSubject}
-                          onDone={() => setIsSidebarOpen(false)}
-                      />
-                  </SheetContent>
-              </Sheet>
-          </div>
-
+      <main className="flex-1">
           <div className="flex-1">
               {selectedSubject && papersGrouped ? (
                   <Card key={selectedSubject} className="shadow-lg animate-fade-in-up bg-background">
