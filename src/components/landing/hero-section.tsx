@@ -355,17 +355,37 @@ export function HeroSection() {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
   };
+  
+  const features = [
+    { text: "Live Interactive Classes", icon: <Smartphone className="w-5 h-5 text-accent-foreground" /> },
+    { text: "Expert Doubt Solving", icon: <CheckCircle className="w-5 h-5 text-accent-foreground" /> },
+    { text: "Comprehensive Study Material", icon: <CheckCircle className="w-5 h-5 text-accent-foreground" /> }
+  ]
 
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}>
+    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/hero/1920/1080')"}} data-ai-hint="education students">
       <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-primary via-primary/80 to-accent/90 z-0"></div>
-      <div className="container px-4 md:px-6 relative z-10 py-4 md:py-8 lg:py-12">
-        <div className="flex justify-center">
-          <div className="w-full max-w-md">
-            <Card className="bg-background/30 backdrop-blur-sm border-white/20 text-white">
+      <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="text-white">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">Your Path to Academic Excellence Starts Here</h1>
+                <p className="text-lg md:text-xl mb-6 opacity-80">Book a FREE session and experience a new way of learning with our expert educators.</p>
+                <div className="space-y-4">
+                    {features.map((feature, index) => (
+                        <div key={index} className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-lg">
+                            <div className="bg-accent p-2 rounded-full">
+                                {feature.icon}
+                            </div>
+                            <span className="font-semibold">{feature.text}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+          <div className="w-full max-w-md mx-auto">
+            <Card className="bg-background/90 backdrop-blur-sm border-white/20 text-foreground shadow-lg">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
-                <p className="text-white/80 text-sm">{t('bookFreeSession.subtitle')}</p>
+                <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -379,8 +399,8 @@ export function HeroSection() {
                           <div className="grid grid-cols-2 gap-2 mt-2">
                             <Button 
                               type="button" 
-                              variant={sessionMode === 'online' ? 'secondary' : 'ghost'} 
-                              className={`flex items-center justify-center gap-2 text-white border-white/30 hover:bg-white/20 ${sessionMode === 'online' ? 'bg-white/20 ring-2 ring-white' : ''}`}
+                              variant={sessionMode === 'online' ? 'default' : 'outline'} 
+                              className="flex items-center justify-center gap-2"
                               onClick={() => {
                                 setSessionMode('online');
                                 field.onChange('online');
@@ -391,8 +411,8 @@ export function HeroSection() {
                             </Button>
                             <Button 
                               type="button" 
-                              variant={sessionMode === 'offline' ? 'secondary' : 'ghost'} 
-                              className={`flex items-center justify-center gap-2 text-white border-white/30 hover:bg-white/20 ${sessionMode === 'offline' ? 'bg-white/20 ring-2 ring-white' : ''}`}
+                              variant={sessionMode === 'offline' ? 'default' : 'outline'}
+                              className="flex items-center justify-center gap-2"
                               onClick={() => {
                                 setSessionMode('offline');
                                 field.onChange('offline');
@@ -422,7 +442,6 @@ export function HeroSection() {
                                 const formatted = capitalizeWords(e.target.value);
                                 field.onChange(formatted);
                               }}
-                              className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                              />
                           </FormControl>
                           <FormMessage className="text-destructive" />
@@ -438,7 +457,7 @@ export function HeroSection() {
                           <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20">
+                              <SelectTrigger>
                                 <SelectValue placeholder="Select a Class or Course" />
                               </SelectTrigger>
                             </FormControl>
@@ -463,7 +482,7 @@ export function HeroSection() {
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="w-[120px] bg-white/10 border-white/30 focus:bg-white/20">
+                                        <SelectTrigger className="w-[120px]">
                                         <SelectValue placeholder="Code" />
                                         </SelectTrigger>
                                     </FormControl>
@@ -499,7 +518,6 @@ export function HeroSection() {
                                         }
                                       }}
                                       maxLength={maxLength}
-                                      className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                                     />
                                     </FormControl>
                                     <FormMessage className="text-destructive" />
@@ -525,7 +543,6 @@ export function HeroSection() {
                               onChange={(e) => {
                                 field.onChange(e.target.value.toLowerCase());
                               }}
-                              className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20"
                             />
                           </FormControl>
                           <FormMessage className="text-destructive" />
@@ -541,7 +558,7 @@ export function HeroSection() {
                           <FormLabel>State <span className="text-destructive">*</span></FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger className="bg-white/10 border-white/30 placeholder:text-white/60 focus:bg-white/20">
+                              <SelectTrigger>
                                 <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
                               </SelectTrigger>
                             </FormControl>
@@ -557,7 +574,7 @@ export function HeroSection() {
                     />
 
                     <div className="flex justify-center">
-                       <Button type="submit" size="lg" className="w-3/5 transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30" disabled={form.formState.isSubmitting}>
+                       <Button type="submit" size="lg" className="w-full transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30" disabled={form.formState.isSubmitting}>
                         {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
                       </Button>
                     </div>
