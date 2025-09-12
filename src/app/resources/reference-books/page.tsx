@@ -9,7 +9,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Book = {
   title: string;
@@ -24,6 +23,10 @@ type Book = {
 };
 
 const booksByClass: { [key: string]: Book[] } = {
+  'Class 5': [],
+  'Class 6': [],
+  'Class 7': [],
+  'Class 8': [],
   'Class 9': [
     { title: 'Mathematics for Class 9', author: 'R.D. Sharma', description: 'A comprehensive book for in-depth understanding and practice.', price: 550, originalPrice: 650, rating: 4.8, imageUrl: 'https://picsum.photos/seed/rdsharma9/300/400', imageHint: 'math textbook', subject: 'Maths' },
     { title: 'Science for Class 9', author: 'Lakhmir Singh & Manjit Kaur', description: 'Covers Physics, Chemistry, and Biology with clear explanations.', price: 600, originalPrice: 700, rating: 4.9, imageUrl: 'https://picsum.photos/seed/lakhmir9/300/400', imageHint: 'science textbook', subject: 'Science' },
@@ -56,11 +59,10 @@ const booksByClass: { [key: string]: Book[] } = {
   'DELHI POLICE': [],
 };
 
-const classGroups = {
-  "School Classes": ['Class 9', 'Class 10', 'Class 11', 'Class 12'],
-  "Competitive Exams": ['JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE']
-};
-
+const allCategories = [
+  'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12',
+  'JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'
+];
 
 const subjectColors: { [key in Book['subject']]: string } = {
   Maths: 'shadow-green-500/50',
@@ -122,45 +124,6 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
     );
 };
 
-const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
-    <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
-        <CardHeader className="p-0 mb-4">
-            <CardTitle className="text-lg text-foreground">Reference Books</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-            <Accordion type="multiple" defaultValue={["School Classes", "Competitive Exams"]} className="w-full">
-                {Object.entries(classGroups).map(([groupName, classes]) => (
-                    <AccordionItem value={groupName} key={groupName}>
-                        <AccordionTrigger className="text-base font-semibold">{groupName}</AccordionTrigger>
-                        <AccordionContent>
-                            <div className="flex flex-col space-y-2 pt-2">
-                                {classes.map(c => (
-                                    <Button
-                                        key={c}
-                                        variant="ghost"
-                                        onClick={() => {
-                                            onClassChange(c);
-                                            onDone?.();
-                                        }}
-                                        className={cn("justify-start h-auto py-2 px-3 text-left rounded-md text-sm transition-all duration-200", 
-                                            activeClass === c 
-                                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-sm"
-                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                                        )}
-                                    >
-                                        <span className="truncate">{c}</span>
-                                    </Button>
-                                ))}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                ))}
-            </Accordion>
-        </CardContent>
-    </Card>
-);
-
-
 export default function ReferenceBooksPage() {
   const [activeClass, setActiveClass] = useState('Class 10');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -174,45 +137,44 @@ export default function ReferenceBooksPage() {
 
   return (
     <div className="container mx-auto py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-            <aside className="hidden md:block w-full md:w-1/4 lg:w-1/5">
-                <FilterSidebarContent activeClass={activeClass} onClassChange={handleClassChange} />
-            </aside>
-            <main className="flex-1">
-                <div className="md:hidden mb-4">
-                    <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                        <SheetTrigger asChild>
-                             <Button variant="outline">
-                                <PanelLeft className="mr-2 h-4 w-4" />
-                                Filter Books
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left" className="w-[80%] p-0">
-                             <SheetHeader>
-                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
-                             </SheetHeader>
-                             <FilterSidebarContent 
-                                activeClass={activeClass} 
-                                onClassChange={handleClassChange}
-                                onDone={() => setIsSidebarOpen(false)}
-                            />
-                        </SheetContent>
-                    </Sheet>
-                </div>
-                <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 animate-fade-in-up">
-                    {books.length > 0 ? (
-                        books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} index={index} />)
-                    ) : (
-                        <div className="col-span-full text-center py-16">
-                             <Card className="p-8 inline-block">
-                                <p className="text-muted-foreground font-semibold">No books found for {activeClass}.</p>
-                                <p className="text-sm text-muted-foreground">Please check back later.</p>
-                            </Card>
-                        </div>
-                    )}
-                </div>
-            </main>
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary">Reference Books</h1>
+        <p className="text-muted-foreground mt-2">Explore a curated collection of reference books to supplement your learning.</p>
+      </div>
+
+      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {allCategories.map((c) => (
+            <button
+              key={c}
+              onClick={() => handleClassChange(c)}
+              className={cn(
+                'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
+                activeClass === c
+                  ? 'border-primary text-primary bg-primary/10'
+                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+              )}
+            >
+              {c}
+            </button>
+          ))}
         </div>
+      </div>
+
+      <main className="flex-1">
+        <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 animate-fade-in-up">
+          {books.length > 0 ? (
+            books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} index={index} />)
+          ) : (
+            <div className="col-span-full text-center py-16">
+              <Card className="p-8 inline-block">
+                <p className="text-muted-foreground font-semibold">No books found for {activeClass}.</p>
+                <p className="text-sm text-muted-foreground">Please check back later.</p>
+              </Card>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
