@@ -379,22 +379,23 @@ export default function PreviousYearQuestionsPage() {
       </div>
       
       {subjects.length > 0 && (
-        <div className="bg-muted/50 rounded-lg p-4 mb-8 flex justify-center">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full md:w-auto min-w-[200px]">
-                        {selectedSubject || 'Select Subject'}
-                        <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+        <div className="bg-muted/50 rounded-lg p-4 mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                     {subjects.map((subject) => (
-                        <DropdownMenuItem key={subject} onSelect={() => setSelectedSubject(subject)}>
+                        <button
+                            key={subject}
+                            onClick={() => setSelectedSubject(subject)}
+                             className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                                ${selectedSubject === subject 
+                                ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                                : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                        >
                             {subject}
-                        </DropdownMenuItem>
+                        </button>
                     ))}
-                </DropdownMenuContent>
-            </DropdownMenu>
+                </div>
+            </div>
         </div>
       )}
 
