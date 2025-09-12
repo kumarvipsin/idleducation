@@ -2,9 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ChevronRight, Filter, Star, ShoppingCart, PanelLeft, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -121,37 +120,32 @@ const BookCard = ({ book, index }: { book: Book, index: number }) => {
 };
 
 const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeClass: string; onClassChange: (c: string) => void, onDone?: () => void }) => (
-    <Card className="shadow-none border-0 p-4 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10">
-        <Accordion type="single" collapsible defaultValue="category" className="w-full">
-            <AccordionItem value="category" className="border-b-0">
-                <AccordionTrigger className="font-semibold text-sm py-2 hover:no-underline text-foreground">
-                    <div className="flex items-center gap-2">
-                        <Filter className="w-4 h-4" />
-                        CATEGORY
-                    </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                    <div className="pl-2 space-y-1">
-                        {classes.map(c => (
-                            <Button
-                                key={c}
-                                variant="ghost"
-                                className={cn(
-                                    "w-full justify-start text-sm",
-                                    activeClass === c && "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
-                                )}
-                                onClick={() => {
-                                    onClassChange(c);
-                                    onDone?.();
-                                }}
-                            >
-                                {c}
-                            </Button>
-                        ))}
-                    </div>
-                </AccordionContent>
-            </AccordionItem>
-        </Accordion>
+    <Card className="sticky top-24 shadow-none border-0 p-4 bg-transparent">
+        <CardHeader className="p-0 mb-4">
+            <CardTitle className="text-lg text-foreground">Category</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+            <div className="flex flex-col space-y-2">
+                 {classes.map(c => (
+                    <Button
+                        key={c}
+                        variant="ghost"
+                        onClick={() => {
+                            onClassChange(c);
+                            onDone?.();
+                        }}
+                        className={cn("justify-start h-auto py-2.5 px-4 text-left rounded-lg transition-all duration-200", 
+                            activeClass === c 
+                                ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground font-semibold shadow-md"
+                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                        )}
+                    >
+                        <Filter className="w-4 h-4 mr-3 shrink-0"/>
+                        <span className="truncate">{c}</span>
+                    </Button>
+                 ))}
+            </div>
+        </CardContent>
     </Card>
 );
 
@@ -184,7 +178,7 @@ export default function ReferenceBooksPage() {
                         </SheetTrigger>
                         <SheetContent side="left" className="w-[80%] p-0">
                              <SheetHeader>
-                                <SheetTitle>Filter Books</SheetTitle>
+                                <SheetTitle className="sr-only">Filter Books</SheetTitle>
                              </SheetHeader>
                              <FilterSidebarContent 
                                 activeClass={activeClass} 
