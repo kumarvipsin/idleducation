@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -31,7 +32,7 @@ const indianStates = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
   "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
   "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-  "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+  "Kerala", "Ladakh", "Lakshadweeip", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
   "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
@@ -367,7 +368,7 @@ export function HeroSection() {
       <div className="container px-4 md:px-6 relative z-10 py-12 md:py-24">
         <div className="grid lg:grid-cols-1 gap-8 items-center">
           <div className="w-full max-w-md mx-auto">
-            <Card className="bg-background/90 backdrop-blur-sm border-white/20 text-foreground shadow-lg">
+            <Card className="bg-white text-foreground shadow-lg">
               <CardHeader className="text-center">
                 <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
                 <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
