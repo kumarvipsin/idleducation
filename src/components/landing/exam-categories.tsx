@@ -62,19 +62,35 @@ const popularProgramsHi = [
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
+const svgTexture = `
+  <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>
+    <g fill='rgba(0,0,52,0.03)' fill-rule='evenodd'>
+      <g fill-rule='nonzero'>
+        <path d='M20 20v40h40V20H20zM0 0v80h80V0H0z' />
+      </g>
+    </g>
+  </svg>
+`;
+
+const textureStyle = {
+  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  backgroundSize: '20px 20px',
+};
+
+
 const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string, dialogDescription: string }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" className="font-bold text-primary-foreground/80 hover:text-primary-foreground hover:underline">
+                <Button variant="link" className="font-bold text-primary/80 hover:text-primary hover:underline">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm bg-background/30 backdrop-blur-lg border-primary/20 rounded-2xl">
+            <DialogContent className="sm:max-w-sm bg-background/80 backdrop-blur-lg border-primary/20 rounded-2xl">
                 <DialogHeader className="text-center">
-                    <DialogTitle className="text-2xl font-bold text-primary-foreground">{dialogTitle}</DialogTitle>
-                    <DialogDescription className="text-primary-foreground/80">
+                    <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
                         {dialogDescription}
                     </DialogDescription>
                 </DialogHeader>
@@ -105,8 +121,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border-none rounded-2xl group bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900"
-            style={{ animationDelay: '0.2s' }}
+            className="transition-all duration-300 border rounded-2xl group bg-muted/30"
+            style={textureStyle}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -121,7 +137,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/20 text-white border-white/30 hover:bg-background/30">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
@@ -142,8 +158,8 @@ export function ExamCategories() {
                 </div>
                 
                 {/* Divider */}
-                <Separator orientation="vertical" className="h-auto hidden lg:block bg-white/20" />
-                <Separator orientation="horizontal" className="block lg:hidden bg-white/20" />
+                <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
+                <Separator orientation="horizontal" className="block lg:hidden bg-border" />
 
                 {/* Right Side */}
                 <div className="flex-1">
@@ -157,7 +173,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/20 text-white border-white/30 hover:bg-background/30">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-background/80 border-border hover:bg-muted">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
