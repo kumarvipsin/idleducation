@@ -135,7 +135,7 @@ export default function GalleryPage() {
                         {filteredImages.map((image, index) => (
                             <DialogTrigger asChild key={image.id}>
                                 <Card 
-                                    className="overflow-hidden group cursor-pointer animate-fade-in-up" 
+                                    className="overflow-hidden group cursor-pointer animate-fade-in-up shadow-md hover:shadow-xl transition-shadow duration-300" 
                                     style={{ animationDelay: `${index * 50}ms` }}
                                     onClick={() => setSelectedImage(image)}
                                 >
