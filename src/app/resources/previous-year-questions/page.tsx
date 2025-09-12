@@ -1,12 +1,15 @@
+
 'use client';
 
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical } from 'lucide-react';
+import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
 
 type Paper = {
   subject: string;
@@ -378,22 +381,26 @@ export default function PreviousYearQuestionsPage() {
         </div>
       </div>
       
-      <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center justify-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {subjects.map((subject) => (
-            <button
-              key={subject}
-              onClick={() => setSelectedSubject(subject)}
-              className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                ${selectedSubject === subject 
-                  ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-            >
-              {subject}
-            </button>
-          ))}
+      {subjects.length > 0 && (
+        <div className="bg-muted/50 rounded-lg p-4 mb-8 flex justify-center">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full md:w-auto min-w-[200px]">
+                        {selectedSubject || 'Select Subject'}
+                        <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                    {subjects.map((subject) => (
+                        <DropdownMenuItem key={subject} onSelect={() => setSelectedSubject(subject)}>
+                            {subject}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
-      </div>
+      )}
+
 
       <main className="flex-1">
           <div className="flex-1">
