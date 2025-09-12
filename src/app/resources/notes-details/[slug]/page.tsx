@@ -587,7 +587,7 @@ function NotesContent({ slug }: { slug: string }) {
           <Card className="shadow-lg border-primary/10 overflow-hidden bg-background/80 backdrop-blur-sm">
             <div className="p-6 bg-gradient-to-r from-primary to-accent text-primary-foreground">
                 <div className="flex items-center gap-4">
-                    <div className="bg-white/20 p-3 rounded-xl">
+                    <div className="bg-white/20 p-3 rounded-full">
                         <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
