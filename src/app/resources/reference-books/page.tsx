@@ -140,7 +140,6 @@ const FilterSidebarContent = ({ activeClass, onClassChange, onDone }: { activeCl
                                 : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                         )}
                     >
-                        <Filter className="w-4 h-4 mr-3 shrink-0"/>
                         <span className="truncate">{c}</span>
                     </Button>
                  ))}
