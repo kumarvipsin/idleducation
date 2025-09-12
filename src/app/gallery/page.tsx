@@ -26,7 +26,8 @@ const galleryImages = [
     alt: 'Annual Day 2024',
     title: 'Annual Day 2024',
     hint: 'students event',
-    category: 'Annual Function'
+    category: 'Annual Function',
+    className: 'md:col-span-2 md:row-span-2'
   },
   {
     id: '102',
@@ -50,7 +51,8 @@ const galleryImages = [
     alt: 'Sports Day',
     title: 'Sports Day',
     hint: 'sports competition',
-    category: 'Sports Day'
+    category: 'Sports Day',
+    className: 'md:col-span-2'
   },
   {
     id: '105',
@@ -82,7 +84,8 @@ const galleryImages = [
     alt: 'Inter-School Athletics',
     title: 'Inter-School Athletics',
     hint: 'running race',
-    category: 'Sports Day'
+    category: 'Sports Day',
+    className: 'md:col-span-2'
   }
 ];
 
@@ -131,15 +134,18 @@ export default function GalleryPage() {
             
             <main>
                 {filteredImages.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr gap-4">
                         {filteredImages.map((image, index) => (
                             <DialogTrigger asChild key={image.id}>
                                 <Card 
-                                    className="overflow-hidden group cursor-pointer animate-fade-in-up shadow-md hover:shadow-xl transition-shadow duration-300" 
+                                    className={cn(
+                                        "overflow-hidden group cursor-pointer animate-fade-in-up shadow-md hover:shadow-xl transition-shadow duration-300",
+                                        image.className
+                                    )}
                                     style={{ animationDelay: `${index * 50}ms` }}
                                     onClick={() => setSelectedImage(image)}
                                 >
-                                    <div className="aspect-square overflow-hidden">
+                                    <div className="w-full h-full overflow-hidden">
                                         <Image
                                             src={image.src}
                                             alt={image.alt}
@@ -149,9 +155,9 @@ export default function GalleryPage() {
                                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                         />
                                     </div>
-                                    <CardContent className="p-3">
-                                        <p className="text-xs text-muted-foreground font-mono">ID: {image.id}</p>
-                                    </CardContent>
+                                    <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
+                                        <p className="text-xs text-white/80 font-mono">ID: {image.id}</p>
+                                    </div>
                                 </Card>
                             </DialogTrigger>
                         ))}
