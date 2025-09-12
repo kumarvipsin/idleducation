@@ -139,7 +139,7 @@ export default function ReferenceBooksPage() {
       </div>
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
-        <div className="flex items-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center justify-center overflow-x-auto space-x-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {allCategories.map((c) => (
             <button
               key={c}
