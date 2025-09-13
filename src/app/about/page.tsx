@@ -89,7 +89,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className="flex items-start gap-4">
                 <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
-                  <Target className="w-8 h-8 text-primary" />
+                  <Eye className="w-8 h-8 text-primary" />
                 </div>
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-2">Our Vision</h3>
