@@ -94,7 +94,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 
 const svgTexture = `
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'>
-    <rect width='80' height='80' fill='#3454b4'/>
+    <rect width='80' height='80' fill='none'/>
     <g fill='#8ab8c5' fill-opacity='0.1'>
       <path d='M0 0h80v80H0z' fill='none'/>
       <path d='M20 40V0h40v40H20zM0 80V40h40v40H0z'/>
@@ -105,7 +105,7 @@ const svgTexture = `
 
 export function ExamCategories() {
   const textureStyle = {
-    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+    backgroundImage: `linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%), url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
   };
 
   return (
@@ -122,7 +122,6 @@ export function ExamCategories() {
         <Card
             className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
             style={{ 
-              background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)',
               ...textureStyle,
               maxWidth: '100%'
             }}
