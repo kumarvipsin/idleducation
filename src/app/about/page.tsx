@@ -67,7 +67,7 @@ export default function AboutPage() {
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="message" className="mt-6 text-foreground/90 leading-relaxed">
-                    <blockquote className="border-l-4 border-primary pl-4 italic text-lg">
+                    <blockquote className="border-l-4 border-border pl-4 italic text-lg">
                       "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
                     </blockquote>
                   </TabsContent>
