@@ -57,7 +57,7 @@ export function OurFeatures() {
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                     <div 
-                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full bg-gradient-to-br from-white to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
+                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full bg-gradient-to-br from-white to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
                         style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                     >
                          <div className="absolute inset-0 rounded-full border-2 border-white/50 dark:border-gray-600/50"></div>
