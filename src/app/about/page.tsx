@@ -74,10 +74,7 @@ export default function AboutPage() {
                   <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed">
                     <div className="border-l-4 border-border pl-4 space-y-4">
                       <p>
-                        Amod Kumar Sharma is a visionary in the field of educational technology with over two decades of experience. He has dedicated his career to exploring the intersection of technology and learning.
-                      </p>
-                      <p>
-                        Before founding IDL EDUCATION, Mr. Sharma was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions nationwide. His research on digital pedagogy is widely published, and he is a frequent keynote speaker at global education conferences. Mr. Sharma's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
+                        With over two decades in educational technology, Amod Kumar Sharma is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
                       </p>
                     </div>
                   </TabsContent>
