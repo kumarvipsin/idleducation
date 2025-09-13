@@ -380,7 +380,7 @@ export function HeroSection() {
                     </p>
                     <DialogTrigger asChild>
                         <Button size="lg" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30">
-                            {t('bookFreeClass')}
+                            Book a <span className="text-red-400 font-bold px-1">FREE</span> Demo
                         </Button>
                     </DialogTrigger>
                 </div>
@@ -606,8 +606,3 @@ export function HeroSection() {
     </Dialog>
   );
 }
-
-    
-
-    
-
