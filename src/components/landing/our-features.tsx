@@ -41,7 +41,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-muted/20"
+      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-[#F0F8FF]"
     >
       <div className="container mx-auto px-4 md:px-6">
         <Card className="shadow-lg rounded-xl">
