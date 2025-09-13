@@ -7,6 +7,7 @@ import { Link } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const youtubeChannels = [
   {
@@ -129,8 +130,9 @@ const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannel
 export function ToppersTestimonials() {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
   const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({ delay: 1000, stopOnInteraction: true, stopOnMouseEnter: true })
   );
+  const isMobile = useIsMobile();
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -141,7 +143,7 @@ export function ToppersTestimonials() {
   return (
     <Dialog onOpenChange={handleOpenChange}>
       <section className="w-full py-12 md:py-24 bg-background">
-        <div className="container mx-auto px-4 md:px-8">
+        <div className="container mx-auto px-4 md:px-8" style={{ maxWidth: '80%' }}>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
               <span className="text-black dark:text-white">Topper's</span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-600">Testimonials</span>
@@ -155,6 +157,7 @@ export function ToppersTestimonials() {
             opts={{
               align: "start",
               loop: true,
+              slidesPerView: isMobile ? 1 : 3,
             }}
             plugins={[autoplayPlugin.current]}
             className="w-full"
