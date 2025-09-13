@@ -379,30 +379,12 @@ export function HeroSection() {
                         Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                     </p>
                     <DialogTrigger asChild>
-                        <Button size="default" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
+                        <Button size="sm" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
                             BOOK <span className="text-red-600 font-bold px-1">FREE</span> DEMO
                         </Button>
                     </DialogTrigger>
                 </div>
             </div>
-        </div>
-        <div className="relative w-full h-[60px] md:h-[120px] bg-transparent">
-            <svg
-            className="absolute bottom-0 w-full h-full"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 1440 320"
-            preserveAspectRatio="none"
-            >
-            <g className="parallax" style={{ fill: '#F0F8FF' }}>
-                <use href="#wave-path" x="48" y="0" className="opacity-70" />
-                <use href="#wave-path" x="48" y="3" className="opacity-50" />
-                <use href="#wave-path" x="48" y="5" className="opacity-30" />
-                <use href="#wave-path" x="48" y="7" />
-            </g>
-            <defs>
-                <path id="wave-path" d="M0,160L48,181.3C96,203,192,245,288,261.3C384,277,480,267,576,229.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-            </defs>
-            </svg>
         </div>
         </section>
 
