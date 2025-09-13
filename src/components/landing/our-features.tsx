@@ -58,12 +58,12 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="bg-[#e9ecef] dark:bg-muted/50 p-6 rounded-xl">
+        <div className="bg-[#dee2e6] dark:bg-muted/50 p-6 rounded-xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                 <Card 
-                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20"
+                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/10"
                     style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
