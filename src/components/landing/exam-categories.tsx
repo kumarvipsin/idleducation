@@ -109,7 +109,7 @@ export function ExamCategories() {
             className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
             style={{ 
               maxWidth: '100%',
-              backgroundColor: '#4169E1'
+              background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
             }}
         >
             <div className="flex flex-col lg:flex-row">
