@@ -1,4 +1,3 @@
-
 'use client';
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,7 +15,7 @@ type TeacherCardProps = {
 export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
     return (
         <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-            <div className="relative h-48 w-full">
+            <div className="relative h-56 w-full">
                 <Image
                 src={avatar}
                 alt={name}
