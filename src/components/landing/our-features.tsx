@@ -48,7 +48,7 @@ export function OurFeatures() {
   return (
     <section 
       className="w-full pt-6 md:pt-12 pb-12 md:pb-16"
-      style={{ backgroundColor: '#FFFA8D' }}
+      style={{ backgroundColor: '#A8F1FF' }}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
@@ -63,7 +63,7 @@ export function OurFeatures() {
           {features.map((feature, index) => (
             <Link href={feature.href} key={index} className="group">
               <Card 
-                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 bg-gradient-to-br from-primary via-primary to-accent h-full"
+                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 bg-gradient-to-br from-violet-500 to-purple-600 h-full"
                 style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
               >
                 <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
