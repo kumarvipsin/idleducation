@@ -319,9 +319,9 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="top" className="w-full p-0 flex flex-col bg-background/80 backdrop-blur-sm rounded-b-lg">
-                    <SheetHeader>
-                        <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
+                <SheetContent side="left" className="w-full max-w-xs p-0 flex flex-col bg-background/80 backdrop-blur-sm">
+                    <SheetHeader className="p-4 border-b">
+                        <SheetTitle>Menu</SheetTitle>
                     </SheetHeader>
                     <div className="overflow-y-auto flex-grow">
                         <div className="p-4">

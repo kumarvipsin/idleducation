@@ -168,8 +168,6 @@ export function ToppersTestimonials() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden" />
-            <CarouselNext className="hidden" />
           </Carousel>
         </div>
       </section>

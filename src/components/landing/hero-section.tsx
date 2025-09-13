@@ -379,7 +379,7 @@ export function HeroSection() {
                         Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                     </p>
                     <DialogTrigger asChild>
-                        <Button size="sm" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
+                        <Button size="lg" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
                             BOOK <span className="text-red-600 font-bold px-1">FREE</span> DEMO
                         </Button>
                     </DialogTrigger>

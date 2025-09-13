@@ -89,7 +89,7 @@ export function AcademicExcellence() {
 
         <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.5)]" style={{ animationDelay: '0.4s' }}>
           <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-[16/5]">
+            <div className="relative w-full aspect-[16/9] md:aspect-[16/5]">
                 <Image
                 key={animationKey}
                 src="/result.jpg"
