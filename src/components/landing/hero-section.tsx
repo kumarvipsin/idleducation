@@ -379,7 +379,7 @@ export function HeroSection() {
                         Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                     </p>
                     <DialogTrigger asChild>
-                        <Button size="lg" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-yellow-400 to-orange-500 text-primary-foreground hover:shadow-lg hover:shadow-orange-500/30 hover:from-yellow-500 hover:to-orange-600">
+                        <Button size="lg" className="transition-all duration-300 ease-in-out text-primary-foreground hover:shadow-lg hover:shadow-orange-500/30" style={{background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)'}}>
                             Book <span className="text-red-600 font-bold px-1">FREE</span> DEMO
                         </Button>
                     </DialogTrigger>
@@ -510,7 +510,7 @@ export function HeroSection() {
                                 </FormControl>
                                 <SelectContent>
                                     {countryCodes.map((country) => (
-                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
+                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.country}-${country.code}`}>
                                         {country.code} ({country.country})
                                     </SelectItem>
                                     ))}
