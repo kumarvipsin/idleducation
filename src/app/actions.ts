@@ -10,7 +10,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
-  childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),

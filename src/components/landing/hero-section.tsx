@@ -19,7 +19,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
-  childName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
   countryCode: z.string(),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
@@ -305,7 +305,7 @@ export function HeroSection() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       sessionMode: 'offline',
-      childName: '',
+      studentName: '',
       classCourse: '',
       countryCode: "+91-India",
       mobile: '',
@@ -451,13 +451,13 @@ export function HeroSection() {
                 
                 <FormField
                 control={form.control}
-                name="childName"
+                name="studentName"
                 render={({ field }) => (
                     <FormItem className="space-y-1">
-                    <FormLabel>Child's Name <span className="text-destructive">*</span></FormLabel>
+                    <FormLabel>Student Name <span className="text-destructive">*</span></FormLabel>
                     <FormControl>
                         <Input 
-                        id="child-name" 
+                        id="student-name" 
                         placeholder={t('bookFreeSession.childNamePlaceholder')} 
                         {...field}
                         onChange={(e) => {
