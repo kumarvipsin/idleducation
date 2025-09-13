@@ -41,7 +41,7 @@ const resources = [
 
 export function StudyResources() {
   return (
-    <section className="w-full py-8 md:py-16 bg-[#e9ecef]">
+    <section className="w-full py-8 md:py-16 bg-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">
@@ -58,7 +58,7 @@ export function StudyResources() {
                 <Card 
                   className={`overflow-hidden h-full transition-all duration-300 hover:-translate-y-1 bg-card p-0 flex flex-col shadow-lg hover:shadow-2xl dark:bg-zinc-800/50`}
                 >
-                    <CardContent className={`p-6 flex flex-col flex-grow items-center text-center bg-white dark:from-zinc-900 dark:to-zinc-800`}>
+                    <CardContent className={`p-6 flex flex-col flex-grow items-center text-center bg-gradient-to-br ${resource.gradient} dark:from-zinc-900 dark:to-zinc-800`}>
                         <div className="p-4 bg-background/60 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 shadow-inner">
                             {resource.icon}
                         </div>
