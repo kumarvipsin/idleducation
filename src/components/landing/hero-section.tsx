@@ -379,8 +379,8 @@ export function HeroSection() {
                         Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                     </p>
                     <DialogTrigger asChild>
-                        <Button size="lg" className="transition-all duration-300 ease-in-out text-primary-foreground hover:shadow-lg hover:shadow-orange-500/30" style={{background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)'}}>
-                            Book <span className="text-red-600 font-bold px-1">FREE</span> DEMO
+                        <Button size="lg" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
+                            BOOK<span className="text-red-600 font-bold px-1">FREE</span>DEMO
                         </Button>
                     </DialogTrigger>
                 </div>
