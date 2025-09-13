@@ -1,38 +1,38 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users, Building } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, Building, Video, MessageSquare, Award, Tv } from "lucide-react";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 const features = [
   {
-    icon: <GraduationCap className="w-8 h-8 text-white" />,
+    icon: <Video className="w-10 h-10 text-red-500" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-8 h-8 text-white" />,
-    title: "100% Complete Syllabus",
-    subtitle: "Thorough coverage",
-    href: "#",
-  },
-  {
-    icon: <FileStack className="w-8 h-8 text-white" />,
-    title: "1000+",
+    icon: <BookUp className="w-10 h-10 text-blue-500" />,
+    title: "10 Million+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-8 h-8 text-white" />,
+    icon: <MessageSquare className="w-10 h-10 text-purple-500" />,
+    title: "24 x 7",
+    subtitle: "Doubt solving sessions",
+    href: "#",
+  },
+  {
+    icon: <Award className="w-10 h-10 text-yellow-500" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
   },
   {
-    icon: <Building className="w-8 h-8 text-white" />,
-    title: "5 +",
+    icon: <Building className="w-10 h-10 text-green-500" />,
+    title: "100+",
     subtitle: "Offline centres",
     href: "/offline-centers",
   },
@@ -41,39 +41,29 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-white dark:bg-background bg-[url('/texture.svg')] bg-repeat"
+      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-muted/20"
     >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Our</span> <span style={{ color: '#adb5bd' }}>Features</span>
-          </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Discover the key features that make our platform the best choice for your learning needs.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center justify-center gap-8 [perspective:1000px]">
-            {features.map((feature, index) => (
-                <Link href={feature.href} key={index} className="group">
-                    <div 
-                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
-                        style={{ 
-                          animationDelay: `${index * 0.1 + 0.3}s`,
-                          background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
-                        }}
-                    >
-                         <div className="absolute inset-0 rounded-full border-2 border-white/20"></div>
-                         <div className="relative z-10 flex flex-col items-center justify-center">
-                            {feature.icon}
-                            <h3 className="text-lg font-bold text-white mt-2">
-                                {feature.title}
-                            </h3>
-                            <p className="text-xs text-white/80">{feature.subtitle}</p>
-                         </div>
-                    </div>
-                </Link>
-            ))}
-        </div>
+        <Card className="shadow-lg rounded-xl">
+            <CardContent className="p-6">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    {features.map((feature, index) => (
+                        <Link href={feature.href} key={index} className="relative group">
+                            <div className="flex flex-col items-center text-center p-4 gap-2">
+                                {feature.icon}
+                                <h3 className="text-lg font-bold text-foreground">
+                                    {feature.title}
+                                </h3>
+                                <p className="text-sm text-muted-foreground">{feature.subtitle}</p>
+                            </div>
+                            {index < features.length - 1 && (
+                                <Separator orientation="vertical" className="absolute right-0 top-1/4 h-1/2 hidden md:block" />
+                            )}
+                        </Link>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
       </div>
     </section>
   );
