@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -41,7 +42,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-[#F0F8FF]"
+      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-[#F0F8FF] -mt-20"
     >
       <div className="container mx-auto px-4 md:px-6">
         <Card className="shadow-lg rounded-xl">
