@@ -7,37 +7,37 @@ import Link from "next/link";
 
 const features = [
   {
-    icon: <GraduationCap className="w-10 h-10 text-white" />,
+    icon: <GraduationCap className="w-10 h-10 text-primary" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-10 h-10 text-white" />,
+    icon: <BookUp className="w-10 h-10 text-primary" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
     href: "#",
   },
   {
-    icon: <FileQuestion className="w-10 h-10 text-white" />,
+    icon: <FileQuestion className="w-10 h-10 text-primary" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-10 h-10 text-white" />,
+    icon: <Users className="w-10 h-10 text-primary" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
   },
   {
-    icon: <MessageSquarePlus className="w-10 h-10 text-white" />,
+    icon: <MessageSquarePlus className="w-10 h-10 text-primary" />,
     title: "24 x 7",
     subtitle: "Doubt solving sessions",
     href: "#",
   },
   {
-    icon: <Building className="w-10 h-10 text-white" />,
+    icon: <Building className="w-10 h-10 text-primary" />,
     title: "5 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
@@ -62,17 +62,17 @@ export function OurFeatures() {
           {features.map((feature, index) => (
             <Link href={feature.href} key={index} className="group">
               <Card 
-                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 bg-gradient-to-br from-violet-500 to-purple-600 h-full"
-                style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
+                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full"
+                style={{ backgroundColor: '#4ED7F1', animationDelay: `${index * 0.1 + 0.3}s` }}
               >
                 <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
-                  <div className="p-4 bg-white/20 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
+                  <div className="p-4 bg-background/20 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-white">
+                  <h3 className="text-xl font-bold text-foreground">
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-primary-foreground/80">{feature.subtitle}</p>
+                  <p className="text-sm text-foreground/80">{feature.subtitle}</p>
                 </CardContent>
               </Card>
             </Link>
