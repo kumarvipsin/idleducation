@@ -407,6 +407,9 @@ export function HeroSection() {
         </section>
 
         <DialogContent className="sm:max-w-md p-4">
+            <DialogHeader>
+                <DialogTitle className="sr-only">Book a Free Demo Class</DialogTitle>
+            </DialogHeader>
             <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1 pt-4">
                 <FormField
@@ -607,3 +610,4 @@ export function HeroSection() {
     
 
     
+
