@@ -7,31 +7,31 @@ import Link from "next/link";
 
 const features = [
   {
-    icon: <GraduationCap className="w-8 h-8 text-primary" />,
+    icon: <GraduationCap className="w-8 h-8 text-white" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-8 h-8 text-primary" />,
+    icon: <BookUp className="w-8 h-8 text-white" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
     href: "#",
   },
   {
-    icon: <FileStack className="w-8 h-8 text-primary" />,
+    icon: <FileStack className="w-8 h-8 text-white" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-8 h-8 text-primary" />,
+    icon: <Users className="w-8 h-8 text-white" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
   },
   {
-    icon: <Building className="w-8 h-8 text-primary" />,
+    icon: <Building className="w-8 h-8 text-white" />,
     title: "5 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
@@ -57,17 +57,19 @@ export function OurFeatures() {
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                     <div 
-                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full bg-gradient-to-br from-white to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
-                        style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
+                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
+                        style={{ 
+                          animationDelay: `${index * 0.1 + 0.3}s`,
+                          background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
+                        }}
                     >
-                         <div className="absolute inset-0 rounded-full border-2 border-white/50 dark:border-gray-600/50"></div>
-                         <div className="absolute inset-2 rounded-full bg-gradient-radial from-white/80 via-transparent to-transparent opacity-50"></div>
+                         <div className="absolute inset-0 rounded-full border-2 border-white/20"></div>
                          <div className="relative z-10 flex flex-col items-center justify-center">
                             {feature.icon}
-                            <h3 className="text-lg font-bold text-primary mt-2">
+                            <h3 className="text-lg font-bold text-white mt-2">
                                 {feature.title}
                             </h3>
-                            <p className="text-xs text-muted-foreground">{feature.subtitle}</p>
+                            <p className="text-xs text-white/80">{feature.subtitle}</p>
                          </div>
                     </div>
                 </Link>
