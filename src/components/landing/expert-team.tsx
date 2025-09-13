@@ -68,7 +68,7 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-background"
+                className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative">
