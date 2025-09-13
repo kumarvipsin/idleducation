@@ -64,17 +64,17 @@ export function OurFeatures() {
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                 <Card 
-                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/10"
+                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-gradient-to-br from-blue-400 to-indigo-600 dark:from-blue-800 dark:to-indigo-900"
                     style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                 >
                     <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
-                    <div className="p-4 bg-primary/10 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
+                    <div className="p-4 bg-white/20 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
                         {feature.icon}
                     </div>
-                    <h3 className="text-xl font-bold text-foreground">
+                    <h3 className="text-xl font-bold text-white">
                         {feature.title}
                     </h3>
-                    <p className="text-sm text-foreground/80">{feature.subtitle}</p>
+                    <p className="text-sm text-white/80">{feature.subtitle}</p>
                     </CardContent>
                 </Card>
                 </Link>
