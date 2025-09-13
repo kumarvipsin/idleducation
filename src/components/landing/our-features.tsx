@@ -48,7 +48,7 @@ export function OurFeatures() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0 border-4 border-white"
       >
         <source src="/bgvideo.mp4" type="video/mp4" />
       </video>
