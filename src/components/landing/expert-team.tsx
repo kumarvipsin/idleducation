@@ -56,7 +56,7 @@ export function ExpertTeam() {
   ];
 
   return (
-    <section className="w-full py-12 md:py-24">
+    <section className="w-full py-12 md:py-24 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
@@ -68,7 +68,7 @@ export function ExpertTeam() {
             {teamMembers.map((member, index) => (
               <Card 
                 key={index} 
-                className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30"
+                className="group text-center shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-white dark:bg-card"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="relative">
