@@ -135,7 +135,7 @@ export function ToppersTestimonials() {
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-24 bg-white">
+      <section className="w-full py-12 md:py-24 bg-[#f8f9fa]">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -155,8 +155,8 @@ export function ToppersTestimonials() {
                       <ChannelCard key={`${channel.studentName}-${index}-clone`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
                   ))}
               </div>
-              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
-              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
+              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#f8f9fa] to-transparent pointer-events-none"></div>
+              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#f8f9fa] to-transparent pointer-events-none"></div>
           </div>
         </div>
       </section>
