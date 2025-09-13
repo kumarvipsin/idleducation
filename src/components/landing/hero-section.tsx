@@ -412,14 +412,14 @@ export function HeroSection() {
                 <DialogDescription className="text-center text-sm">{t('bookFreeSession.subtitle')}</DialogDescription>
             </DialogHeader>
             <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                 <FormField
                 control={form.control}
                 name="sessionMode"
                 render={({ field }) => (
                     <FormItem>
                     <FormLabel>Select Mode <span className="text-destructive">*</span></FormLabel>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="grid grid-cols-2 gap-2 mt-1">
                         <Button 
                         type="button" 
                         variant={sessionMode === 'online' ? 'default' : 'outline'} 
@@ -607,5 +607,7 @@ export function HeroSection() {
     </Dialog>
   );
 }
+
+    
 
     
