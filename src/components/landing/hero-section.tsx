@@ -578,7 +578,7 @@ export function HeroSection() {
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
         >
-          <g className="parallax" style={{ fill: 'var(--background)' }}>
+          <g className="parallax" style={{ fill: '#ffffff' }}>
             <use href="#wave-path" x="48" y="0" className="opacity-70" />
             <use href="#wave-path" x="48" y="3" className="opacity-50" />
             <use href="#wave-path" x="48" y="5" className="opacity-30" />
