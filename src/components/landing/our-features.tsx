@@ -51,10 +51,11 @@ export function OurFeatures() {
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                     <div 
-                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full border-4 border-primary/20 bg-background shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl group-hover:[transform:translateZ(40px)]"
+                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full bg-gradient-to-br from-white to-gray-200 dark:from-gray-700 dark:to-gray-800 shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl [transform-style:preserve-3d] group-hover:[transform:translateZ(40px)]"
                         style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                     >
-                         <div className="absolute inset-0 rounded-full border-4 border-white dark:border-gray-800 transform scale-90"></div>
+                         <div className="absolute inset-0 rounded-full border-2 border-white/50 dark:border-gray-600/50"></div>
+                         <div className="absolute inset-2 rounded-full bg-gradient-radial from-white/80 via-transparent to-transparent opacity-50"></div>
                          <div className="relative z-10 flex flex-col items-center justify-center">
                             {feature.icon}
                             <h3 className="text-lg font-bold text-primary mt-2">
