@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileQuestion, Users, MapPin } from "lucide-react";
+import { GraduationCap, BookUp, FileQuestion, Users, Building } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -30,7 +30,7 @@ const features = [
     href: "#",
   },
   {
-    icon: <MapPin className="w-8 h-8 text-primary" />,
+    icon: <Building className="w-8 h-8 text-primary" />,
     title: "5 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
