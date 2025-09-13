@@ -71,7 +71,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm bg-background/80 backdrop-blur-lg border-primary/20 rounded-2xl">
+            <DialogContent className="sm:max-w-sm bg-background rounded-2xl">
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
                     <DialogDescription className="text-muted-foreground">
@@ -81,7 +81,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 border-primary/50 text-primary hover:bg-primary/10 hover:text-primary transition-all duration-200 rounded-lg">
+                            <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
