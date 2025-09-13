@@ -94,19 +94,20 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 
 const svgTexture = `
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'>
-    <rect width='80' height='80' fill='none'/>
-    <g fill='#8ab8c5' fill-opacity='0.1'>
+    <rect width='80' height='80' fill='#f8f9fa'/>
+    <g fill='#e9ecef' fill-opacity='0.4'>
       <path d='M0 0h80v80H0z' fill='none'/>
       <path d='M20 40V0h40v40H20zM0 80V40h40v40H0z'/>
     </g>
   </svg>
 `;
 
+const textureStyle = {
+  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+};
+
 
 export function ExamCategories() {
-  const textureStyle = {
-    backgroundImage: `linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%), url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-  };
 
   return (
     <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#F0F8FF] dark:bg-background">
@@ -120,16 +121,15 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
+            className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto bg-gradient-to-r from-primary to-accent"
             style={{ 
-              background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%)',
               maxWidth: '100%'
             }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-gradient-to-br from-white to-[#f8f9fa] dark:from-gray-800 dark:to-gray-900 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none">
+                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none" style={textureStyle}>
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -165,7 +165,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-gradient-to-br from-white to-[#f8f9fa] dark:from-gray-800 dark:to-gray-900 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none">
+                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none" style={textureStyle}>
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
