@@ -122,14 +122,14 @@ export function ExamCategories() {
         <Card
             className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
             style={{ 
-              ...textureStyle,
+              backgroundImage: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%)',
               maxWidth: '100%'
             }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-[#f8f9fa] dark:bg-[#f8f9fa] rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none">
+                <CardContent className="p-6 bg-gradient-to-br from-white to-[#f8f9fa] dark:from-gray-800 dark:to-gray-900 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -165,7 +165,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-[#f8f9fa] dark:bg-[#f8f9fa] lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none">
+                <CardContent className="p-6 bg-gradient-to-br from-white to-[#f8f9fa] dark:from-gray-800 dark:to-gray-900 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
