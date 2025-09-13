@@ -94,12 +94,14 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 
 const svgTexture = `
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'>
-    <g fill='hsl(var(--primary))' fill-opacity='0.05'>
+    <rect width='80' height='80' fill='royalblue'/>
+    <g fill='lightblue' fill-opacity='0.1'>
       <path d='M0 0h80v80H0z' fill='none'/>
       <path d='M20 40V0h40v40H20zM0 80V40h40v40H0z'/>
     </g>
   </svg>
 `;
+
 
 export function ExamCategories() {
   const textureStyle = {
