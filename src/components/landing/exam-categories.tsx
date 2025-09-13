@@ -130,7 +130,7 @@ export function ExamCategories() {
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6">
+                <CardContent className="p-6 bg-white dark:bg-black">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -166,7 +166,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6">
+                <CardContent className="p-6 bg-white dark:bg-black">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
