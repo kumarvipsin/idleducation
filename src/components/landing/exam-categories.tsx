@@ -110,7 +110,7 @@ export function ExamCategories() {
 
   return (
     <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#F0F8FF] dark:bg-background">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6" style={{ maxWidth: '83%' }}>
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
@@ -124,13 +124,13 @@ export function ExamCategories() {
             style={{ 
               background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)',
               ...textureStyle,
-              maxWidth: '83%'
+              maxWidth: '100%'
             }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-white dark:bg-black rounded-tl-xl rounded-tr-xl lg:rounded-tr-none lg:rounded-bl-xl">
+                <CardContent className="p-6 bg-white dark:bg-black rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -166,7 +166,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 bg-white dark:bg-black lg:rounded-tr-xl rounded-bl-xl rounded-br-xl lg:rounded-bl-none">
+                <CardContent className="p-6 bg-white dark:bg-black lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
