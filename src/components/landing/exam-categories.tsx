@@ -81,7 +81,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg hover:bg-primary/10 hover:text-primary">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
