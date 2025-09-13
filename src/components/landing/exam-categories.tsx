@@ -109,7 +109,7 @@ export function ExamCategories() {
   };
 
   return (
-    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#e9ecef]">
+    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
@@ -121,7 +121,7 @@ export function ExamCategories() {
         </div>
         <Card
             className="transition-all duration-300 border rounded-2xl group bg-background shadow-lg border-border/50"
-            style={textureStyle}
+            style={{ backgroundColor: '#dee2e6' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
