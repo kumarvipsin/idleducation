@@ -66,7 +66,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600">
+                <Button variant="link" className="font-bold text-primary hover:underline">
                     {triggerText}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
