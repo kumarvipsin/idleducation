@@ -406,13 +406,9 @@ export function HeroSection() {
         </div>
         </section>
 
-        <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle className="text-xl md:text-2xl font-bold text-center">Free Demo Bookings</DialogTitle>
-                <DialogDescription className="text-center text-sm">{t('bookFreeSession.subtitle')}</DialogDescription>
-            </DialogHeader>
+        <DialogContent className="sm:max-w-md p-4">
             <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1 pt-4">
                 <FormField
                 control={form.control}
                 name="sessionMode"
