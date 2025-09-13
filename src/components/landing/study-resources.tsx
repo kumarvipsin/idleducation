@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -42,7 +41,7 @@ const resources = [
 
 export function StudyResources() {
   return (
-    <section className="w-full py-8 md:py-16 bg-[#4ED7F1]">
+    <section className="w-full py-8 md:py-16 bg-[#e9ecef]">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">
