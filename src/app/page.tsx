@@ -16,8 +16,8 @@ export default function Home() {
       <OurFeatures />
       <ExamCategories />
       <AcademicExcellence />
-      <StudyResources />
       <StudentTestimonials />
+      <StudyResources />
       <ToppersTestimonials />
     </div>
   );
