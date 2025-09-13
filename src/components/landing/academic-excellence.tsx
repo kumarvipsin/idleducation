@@ -55,11 +55,11 @@ export function AcademicExcellence() {
 
   return (
     <section 
-      className="w-full py-6 md:py-12"
+      className="w-full py-6 md:py-8"
       style={{ backgroundColor: '#4ED7F1' }}
     >
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Excellence </span> <span style={{ color: '#ced4da' }}>Results</span>
           </h2>
@@ -90,7 +90,7 @@ export function AcademicExcellence() {
 
         <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.5)]" style={{ animationDelay: '0.4s' }}>
           <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-[4/1.2]">
+            <div className="relative w-full aspect-[16/5]">
                 <Image
                 key={animationKey}
                 src="/result.jpg"
