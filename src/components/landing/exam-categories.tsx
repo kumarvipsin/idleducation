@@ -92,21 +92,6 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     )
 }
 
-const svgTexture = `
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'>
-    <rect width='80' height='80' fill='#f8f9fa'/>
-    <g fill='#e9ecef' fill-opacity='0.4'>
-      <path d='M0 0h80v80H0z' fill='none'/>
-      <path d='M20 40V0h40v40H20zM0 80V40h40v40H0z'/>
-    </g>
-  </svg>
-`;
-
-const textureStyle = {
-  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-};
-
-
 export function ExamCategories() {
 
   return (
@@ -129,7 +114,7 @@ export function ExamCategories() {
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none" style={textureStyle}>
+                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none bg-blue-100/20">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -165,7 +150,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none" style={textureStyle}>
+                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none bg-blue-100/20">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
