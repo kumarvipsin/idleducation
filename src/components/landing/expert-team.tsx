@@ -4,8 +4,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
-import { Briefcase, Facebook, Twitter, Instagram } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Facebook, Twitter, Instagram } from "lucide-react";
 import Link from "next/link";
 
 export function ExpertTeam() {
