@@ -122,7 +122,7 @@ export function ExamCategories() {
         <Card
             className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
             style={{ 
-              backgroundImage: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%)',
+              background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%)',
               maxWidth: '100%'
             }}
         >
