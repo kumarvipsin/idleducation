@@ -85,7 +85,7 @@ export default function AboutPage() {
         </section>
 
         <section className="my-12">
-          <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8">
+          <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className="flex items-start gap-4">
                 <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
@@ -124,7 +124,7 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
         </section>
         
         <section className="my-12">
