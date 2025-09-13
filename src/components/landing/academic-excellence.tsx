@@ -55,7 +55,8 @@ export function AcademicExcellence() {
 
   return (
     <section 
-      className="w-full py-12 md:py-24 bg-background"
+      className="w-full py-12 md:py-24"
+      style={{ backgroundColor: '#4ED7F1' }}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
