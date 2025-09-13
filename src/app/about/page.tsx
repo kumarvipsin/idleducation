@@ -47,7 +47,7 @@ export default function AboutPage() {
           <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-3">
               <div className="md:col-span-1 p-8 flex flex-col items-center justify-center text-center">
-                <Avatar className="w-48 h-48 mb-4 border-[6px] border-primary shadow-lg">
+                <Avatar className="w-48 h-48 mb-4 border-[6px] border-accent shadow-lg">
                   <AvatarImage src="/amod.jpg" alt="Director's Photo" />
                   <AvatarFallback>AK</AvatarFallback>
                 </Avatar>
