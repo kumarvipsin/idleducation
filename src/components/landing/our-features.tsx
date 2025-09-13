@@ -8,28 +8,28 @@ import { Separator } from "@/components/ui/separator";
 
 const features = [
   {
-    icon: <Video className="w-10 h-10 text-red-500" />,
-    title: "Daily Live",
+    icon: <GraduationCap className="w-10 h-10 text-red-500" />,
+    title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <FileStack className="w-10 h-10 text-blue-500" />,
-    title: "10 Million +",
+    icon: <BookUp className="w-10 h-10 text-blue-500" />,
+    title: "100% Complete Syllabus",
+    subtitle: "Thorough coverage",
+    href: "#",
+  },
+  {
+    icon: <FileStack className="w-10 h-10 text-purple-500" />,
+    title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <MessageSquare className="w-10 h-10 text-purple-500" />,
-    title: "24 x 7",
-    subtitle: "Doubt solving sessions",
+    icon: <Users className="w-10 h-10 text-yellow-500" />,
+    title: "100+",
+    subtitle: "Expert Teachers",
     href: "#",
-  },
-  {
-    icon: <Award className="w-10 h-10 text-yellow-500" />,
-    title: "100 +",
-    subtitle: "Offline centres",
-    href: "/offline-centers",
   },
 ];
 
