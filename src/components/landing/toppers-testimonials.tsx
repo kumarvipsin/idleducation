@@ -163,7 +163,7 @@ export function ToppersTestimonials() {
           >
             <CarouselContent className="-ml-4">
               {youtubeChannels.map((channel, index) => (
-                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-auto sm:basis-1/2 md:basis-1/3">
+                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-full sm:basis-1/2 lg:basis-1/4">
                    <ChannelCard channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
                 </CarouselItem>
               ))}
