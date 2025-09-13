@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileQuestion, MessageSquarePlus, Building, Users } from "lucide-react";
+import { GraduationCap, BookUp, FileQuestion, Users } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -30,18 +30,6 @@ const features = [
     subtitle: "Expert Teachers",
     href: "#",
   },
-  {
-    icon: <MessageSquarePlus className="w-8 h-8 text-primary" />,
-    title: "24 x 7",
-    subtitle: "Doubt solving sessions",
-    href: "#",
-  },
-  {
-    icon: <Building className="w-8 h-8 text-primary" />,
-    title: "5 +",
-    subtitle: "Offline centres",
-    href: "/offline-centers",
-  },
 ];
 
 export function OurFeatures() {
@@ -59,7 +47,7 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center">
+        <div className="flex flex-wrap items-center justify-center gap-8">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                     <div 
