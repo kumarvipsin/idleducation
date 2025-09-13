@@ -120,7 +120,8 @@ export function ExamCategories() {
           </p>
         </div>
         <Card
-            className="transition-all duration-300 border rounded-2xl group bg-background shadow-[0_0_25px_5px_rgba(30,58,138,0.2)]"
+            className="transition-all duration-300 border rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)]"
+            style={{ background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)' }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
