@@ -7,37 +7,37 @@ import Link from "next/link";
 
 const features = [
   {
-    icon: <GraduationCap className="w-10 h-10 text-primary" />,
+    icon: <GraduationCap className="w-10 h-10 text-white" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-10 h-10 text-primary" />,
+    icon: <BookUp className="w-10 h-10 text-white" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
     href: "#",
   },
   {
-    icon: <FileQuestion className="w-10 h-10 text-primary" />,
+    icon: <FileQuestion className="w-10 h-10 text-white" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-10 h-10 text-primary" />,
+    icon: <Users className="w-10 h-10 text-white" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
   },
   {
-    icon: <MessageSquarePlus className="w-10 h-10 text-primary" />,
+    icon: <MessageSquarePlus className="w-10 h-10 text-white" />,
     title: "24 x 7",
     subtitle: "Doubt solving sessions",
     href: "#",
   },
   {
-    icon: <Building className="w-10 h-10 text-primary" />,
+    icon: <Building className="w-10 h-10 text-white" />,
     title: "5 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
