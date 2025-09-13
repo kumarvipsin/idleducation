@@ -380,7 +380,7 @@ export function HeroSection() {
                     </p>
                     <DialogTrigger asChild>
                         <Button size="default" className="transition-all duration-300 ease-in-out text-[#000080] bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
-                            BOOK<span className="text-red-600 font-bold px-1">FREE</span>DEMO
+                            BOOK <span className="text-red-600 font-bold px-1">FREE</span> DEMO
                         </Button>
                     </DialogTrigger>
                 </div>
@@ -393,7 +393,7 @@ export function HeroSection() {
             viewBox="0 0 1440 320"
             preserveAspectRatio="none"
             >
-            <g className="parallax" style={{ fill: '#ffffff' }}>
+            <g className="parallax" style={{ fill: '#F0F8FF' }}>
                 <use href="#wave-path" x="48" y="0" className="opacity-70" />
                 <use href="#wave-path" x="48" y="3" className="opacity-50" />
                 <use href="#wave-path" x="48" y="5" className="opacity-30" />
