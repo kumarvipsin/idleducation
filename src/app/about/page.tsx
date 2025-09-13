@@ -71,13 +71,15 @@ export default function AboutPage() {
                       "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
                     </blockquote>
                   </TabsContent>
-                  <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed space-y-4">
-                    <p>
-                      Amod Kumar Sharma is a visionary in the field of educational technology with over two decades of experience. He has dedicated his career to exploring the intersection of technology and learning.
-                    </p>
-                    <p>
-                      Before founding IDL EDUCATION, Mr. Sharma was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions nationwide. His research on digital pedagogy is widely published, and he is a frequent keynote speaker at global education conferences. Mr. Sharma's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
-                    </p>
+                  <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed">
+                    <div className="border-l-4 border-border pl-4 space-y-4">
+                      <p>
+                        Amod Kumar Sharma is a visionary in the field of educational technology with over two decades of experience. He has dedicated his career to exploring the intersection of technology and learning.
+                      </p>
+                      <p>
+                        Before founding IDL EDUCATION, Mr. Sharma was a celebrated professor and led several successful ed-tech initiatives that have been adopted by institutions nationwide. His research on digital pedagogy is widely published, and he is a frequent keynote speaker at global education conferences. Mr. Sharma's passion for accessible and effective education is the cornerstone of IDL EDUCATION's mission.
+                      </p>
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>
