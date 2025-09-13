@@ -8,32 +8,26 @@ import { Separator } from "@/components/ui/separator";
 
 const features = [
   {
-    icon: <GraduationCap className="w-10 h-10 text-red-500" />,
-    title: "100% Quality Education",
+    icon: <Video className="w-10 h-10 text-red-500" />,
+    title: "Daily Live",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-10 h-10 text-blue-500" />,
-    title: "100% Complete Syllabus",
-    subtitle: "Thorough coverage",
-    href: "#",
-  },
-  {
-    icon: <FileStack className="w-10 h-10 text-purple-500" />,
-    title: "1000+",
+    icon: <FileStack className="w-10 h-10 text-blue-500" />,
+    title: "10 Million +",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-10 h-10 text-yellow-500" />,
-    title: "100+",
-    subtitle: "Expert Teachers",
+    icon: <MessageSquare className="w-10 h-10 text-purple-500" />,
+    title: "24 x 7",
+    subtitle: "Doubt solving sessions",
     href: "#",
   },
   {
-    icon: <Building className="w-10 h-10 text-green-500" />,
-    title: "5+",
+    icon: <Award className="w-10 h-10 text-yellow-500" />,
+    title: "100 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
   },
@@ -42,12 +36,12 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-[#F0F8FF] -mt-20"
+      className="w-full relative pb-12 md:pb-16"
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 -mt-16">
         <Card className="shadow-lg rounded-xl">
             <CardContent className="p-6">
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {features.map((feature, index) => (
                         <Link href={feature.href} key={index} className="relative group">
                             <div className="flex flex-col items-center text-center p-4 gap-2">
