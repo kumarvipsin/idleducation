@@ -48,12 +48,12 @@ export function OurFeatures() {
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
       >
-        <source src="https://cdn.pixabay.com/video/2024/05/29/211750-949110484_large.mp4" type="video/mp4" />
+        <source src="/bgvideo.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-primary/70 z-0"></div>
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="absolute inset-0 bg-primary/70 z-10"></div>
+      <div className="container mx-auto px-4 md:px-6 relative z-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-white">Our</span> <span className="text-white/80">Features</span>
