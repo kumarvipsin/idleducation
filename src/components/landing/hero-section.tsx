@@ -380,7 +380,7 @@ export function HeroSection() {
                     </p>
                     <DialogTrigger asChild>
                         <Button size="lg" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-yellow-400 to-orange-500 text-primary-foreground hover:shadow-lg hover:shadow-orange-500/30 hover:from-yellow-500 hover:to-orange-600">
-                            Book a <span className="text-red-600 font-bold px-1">FREE</span> Demo
+                            Book <span className="text-red-600 font-bold px-1">FREE</span> DEMO
                         </Button>
                     </DialogTrigger>
                 </div>
