@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -14,7 +13,7 @@ export function AppContent({
 }) {
   const pathname = usePathname();
   
-  const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact'));
+  const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
   
   // Don't show chatbot on admin pages
   const showChatBot = !pathname.startsWith('/admin');
