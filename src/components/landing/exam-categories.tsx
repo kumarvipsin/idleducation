@@ -92,7 +92,20 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     )
 }
 
+const svgTexture = `
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'>
+    <g fill='hsl(var(--primary))' fill-opacity='0.05'>
+      <path d='M0 0h80v80H0z' fill='none'/>
+      <path d='M20 40V0h40v40H20zM0 80V40h40v40H0z'/>
+    </g>
+  </svg>
+`;
+
 export function ExamCategories() {
+  const textureStyle = {
+    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  };
+
   return (
     <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-background">
       <div className="container mx-auto px-4 md:px-6">
@@ -106,6 +119,7 @@ export function ExamCategories() {
         </div>
         <Card
             className="transition-all duration-300 border rounded-2xl group bg-background shadow-lg border-border/50"
+            style={textureStyle}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
@@ -120,7 +134,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600">
+                                <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
@@ -156,7 +170,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-gradient-to-r from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600">
+                                <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
