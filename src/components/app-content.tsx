@@ -15,7 +15,7 @@ export function AppContent({
   const pathname = usePathname();
   
   // Define paths where the footer should be visible
-  const footerVisiblePaths = ['/', '/about', '/contact'];
+  const footerVisiblePaths = ['/'];
   
   // The footer should only be shown on the specified public pages.
   const showFooter = footerVisiblePaths.includes(pathname);
