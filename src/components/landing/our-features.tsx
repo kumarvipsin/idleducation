@@ -67,7 +67,7 @@ export function OurFeatures() {
                         style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                     >
                          <div className="absolute inset-0 rounded-full border-4 border-white dark:border-gray-800 transform scale-90"></div>
-                         <div className="relative z-10">
+                         <div className="relative z-10 flex flex-col items-center justify-center">
                             {feature.icon}
                             <h3 className="text-lg font-bold text-primary mt-2">
                                 {feature.title}
