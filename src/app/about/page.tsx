@@ -127,7 +127,11 @@ export default function AboutPage() {
           </Card>
         </section>
         
-        <ExpertTeam />
+        <section className="my-12">
+            <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
+                <ExpertTeam />
+            </Card>
+        </section>
       </div>
     </div>
   );
