@@ -48,7 +48,7 @@ export function ExpertTeam() {
     },
     {
         name: t('team.member6.name'),
-        designation: t('team.member6.designation'),
+        designation: t('team.member6.name'),
         experience: t('team.member6.experience'),
         avatar: "/vikash.jpg",
         avatarHint: "male teacher"
@@ -61,7 +61,7 @@ export function ExpertTeam() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">{t('team.title')}</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            The power of an organisation is its team. We believe that great teams build great organisations. In IDL EDUCATION we have a great team who makes our achievements possible with there loyal efforts and continuous hard work.
+            The power of an organisation is its team. We believe that great teams build great organisations.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
