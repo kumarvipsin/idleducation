@@ -62,7 +62,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
         <CardContent className="p-6 flex-1 flex flex-col relative">
           <QuoteIcon />
           <div className="relative z-10 flex-1 flex flex-col">
-            <ScrollArea className="h-24 flex-grow mb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <ScrollArea className="h-32 flex-grow mb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <blockquote className="text-sm text-foreground/80 pr-4 mt-8">
                 {fullText}
                 </blockquote>
@@ -116,7 +116,7 @@ export function StudentTestimonials() {
           >
             <CarouselContent>
               {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-[36%]">
                   <TestimonialCard testimonial={testimonial} />
                 </CarouselItem>
               ))}
