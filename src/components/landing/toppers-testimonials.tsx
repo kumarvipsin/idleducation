@@ -157,20 +157,19 @@ export function ToppersTestimonials() {
             opts={{
               align: "start",
               loop: true,
-              slidesPerView: isMobile ? 1 : 3,
             }}
             plugins={[autoplayPlugin.current]}
             className="w-full"
           >
             <CarouselContent className="-ml-4">
               {youtubeChannels.map((channel, index) => (
-                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-auto">
+                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-auto sm:basis-1/2 md:basis-1/3">
                    <ChannelCard channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="hidden" />
+            <CarouselNext className="hidden" />
           </Carousel>
         </div>
       </section>
