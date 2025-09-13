@@ -41,14 +41,24 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-white dark:bg-background bg-[url('/texture.svg')] bg-repeat"
+      className="w-full py-8 md:py-16 bg-white dark:bg-background relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+      >
+        <source src="https://cdn.pixabay.com/video/2024/05/29/211750-949110484_large.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-primary/70 z-0"></div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Our</span> <span style={{ color: '#adb5bd' }}>Features</span>
+            <span className="text-white">Our</span> <span className="text-white/80">Features</span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-white/90 mt-2 max-w-2xl mx-auto">
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
