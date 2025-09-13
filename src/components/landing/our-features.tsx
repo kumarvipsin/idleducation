@@ -58,7 +58,7 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="bg-[#dee2e6] dark:bg-muted/50 p-6 rounded-xl">
+        <div className="p-6 rounded-xl">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
