@@ -47,11 +47,11 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-8">
+        <div className="flex flex-wrap items-center justify-center gap-8 [perspective:1000px]">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
                     <div 
-                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full border-4 border-primary/20 bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full border-4 border-primary/20 bg-background shadow-lg transition-all duration-300 ease-in-out transform group-hover:scale-105 group-hover:shadow-2xl group-hover:[transform:translateZ(40px)]"
                         style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
                     >
                          <div className="absolute inset-0 rounded-full border-4 border-white dark:border-gray-800 transform scale-90"></div>
