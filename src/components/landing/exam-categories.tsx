@@ -71,7 +71,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm bg-background rounded-2xl">
+            <DialogContent className="sm:max-w-sm bg-white rounded-2xl">
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
                     <DialogDescription className="text-muted-foreground">
@@ -134,7 +134,7 @@ export function ExamCategories() {
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
+                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-primary text-primary-foreground hover:bg-primary/90">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
                             ))}
