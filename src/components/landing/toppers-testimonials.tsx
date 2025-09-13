@@ -5,6 +5,8 @@ import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { Link } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const youtubeChannels = [
   {
@@ -103,7 +105,7 @@ const shineStyle = {
 
 const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannels)[0], onCardClick: () => void }) => (
     <DialogTrigger asChild>
-        <button onClick={onCardClick} className="group shrink-0 focus:outline-none">
+        <button onClick={onCardClick} className="group shrink-0 focus:outline-none p-2">
             <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5`} style={shineStyle}>
                 <div 
                   className="bg-background/80 backdrop-blur-sm rounded-[.45rem] h-full p-2 text-center flex flex-col items-center justify-center gap-2"
@@ -126,6 +128,9 @@ const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannel
 
 export function ToppersTestimonials() {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true, stopOnMouseEnter: true })
+  );
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -135,29 +140,35 @@ export function ToppersTestimonials() {
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-24 bg-[#F0F8FF]">
-        <div className="container mx-auto px-4 md:px-8" style={{ maxWidth: '80%' }}>
+      <section className="w-full py-12 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
-              <span className="text-black dark:text-white">Topper's</span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
+              <span className="text-black dark:text-white">Topper's</span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-amber-600">Testimonials</span>
             </h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
               Discover how our top students achieved their goals. Watch their success stories and get inspired.
             </p>
           </div>
-          <div className="relative w-full overflow-hidden">
-              <div className="flex marquee-container gap-6" style={{ animationDuration: '15s' }}>
-                   {/* Render the list twice for a seamless loop */}
-                  {youtubeChannels.map((channel, index) => (
-                      <ChannelCard key={`${channel.studentName}-${index}`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
-                  ))}
-                   {youtubeChannels.map((channel, index) => (
-                      <ChannelCard key={`${channel.studentName}-${index}-clone`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
-                  ))}
-              </div>
-              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#F0F8FF] to-transparent pointer-events-none"></div>
-              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#F0F8FF] to-transparent pointer-events-none"></div>
-          </div>
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[autoplayPlugin.current]}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {youtubeChannels.map((channel, index) => (
+                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-auto">
+                   <ChannelCard channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
         </div>
       </section>
 
