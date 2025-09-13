@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,37 +7,37 @@ import Link from "next/link";
 
 const features = [
   {
-    icon: <GraduationCap className="w-10 h-10 text-white" />,
+    icon: <GraduationCap className="w-8 h-8 text-primary" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-10 h-10 text-white" />,
+    icon: <BookUp className="w-8 h-8 text-primary" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
     href: "#",
   },
   {
-    icon: <FileQuestion className="w-10 h-10 text-white" />,
+    icon: <FileQuestion className="w-8 h-8 text-primary" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-10 h-10 text-white" />,
+    icon: <Users className="w-8 h-8 text-primary" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
   },
   {
-    icon: <MessageSquarePlus className="w-10 h-10 text-white" />,
+    icon: <MessageSquarePlus className="w-8 h-8 text-primary" />,
     title: "24 x 7",
     subtitle: "Doubt solving sessions",
     href: "#",
   },
   {
-    icon: <Building className="w-10 h-10 text-white" />,
+    icon: <Building className="w-8 h-8 text-primary" />,
     title: "5 +",
     subtitle: "Offline centres",
     href: "/offline-centers",
@@ -58,27 +59,24 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="p-6 rounded-xl">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-items-center">
             {features.map((feature, index) => (
-                <Link href={feature.href} key={index} className="group h-full">
-                <Card 
-                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-gradient-to-br from-blue-600 to-sky-400"
-                    style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
-                >
-                    <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
-                    <div className="p-4 bg-white/20 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
-                        {feature.icon}
+                <Link href={feature.href} key={index} className="group">
+                    <div 
+                        className="relative w-48 h-48 sm:w-56 sm:h-56 flex flex-col items-center justify-center text-center p-4 rounded-full border-4 border-primary/20 bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                        style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
+                    >
+                         <div className="absolute inset-0 rounded-full border-4 border-white dark:border-gray-800 transform scale-90"></div>
+                         <div className="relative z-10">
+                            {feature.icon}
+                            <h3 className="text-lg font-bold text-primary mt-2">
+                                {feature.title}
+                            </h3>
+                            <p className="text-xs text-muted-foreground">{feature.subtitle}</p>
+                         </div>
                     </div>
-                    <h3 className="text-xl font-bold text-white">
-                        {feature.title}
-                    </h3>
-                    <p className="text-sm text-white/80">{feature.subtitle}</p>
-                    </CardContent>
-                </Card>
                 </Link>
             ))}
-            </div>
         </div>
       </div>
     </section>
