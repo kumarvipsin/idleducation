@@ -363,8 +363,8 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/hero42/1920/1080')"}} data-ai-hint="education learning students">
-      <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-primary via-primary/80 to-accent/90 z-0"></div>
+    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/student-bg/1920/1080')"}} data-ai-hint="student smiling">
+      <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
       <div className="container px-4 md:px-6 relative z-10 py-8 md:py-12">
         <div className="grid lg:grid-cols-1 gap-8 items-center">
           <div className="w-full max-w-md mx-auto">
