@@ -85,6 +85,12 @@ export default function AboutPage() {
         </section>
 
         <section className="my-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Philosophy</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+              We are committed to providing quality education and empowering both students and educators through our core principles.
+            </p>
+          </div>
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               <div className="flex items-start gap-4">
