@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ExpertTeam } from "@/components/landing/expert-team";
+import { Separator } from "@/components/ui/separator";
 
 const missionParts = [
     {
@@ -110,24 +111,20 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-          </Card>
-        </section>
-        
-        <section className="my-12">
-          <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                {missionParts.map((part, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
-                      {part.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2">{part.title}</h3>
-                      <p className="text-foreground/80">{part.description}</p>
-                    </div>
+            <Separator className="my-8" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+              {missionParts.map((part, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="bg-primary/10 p-3 rounded-full border shadow-sm">
+                    {part.icon}
                   </div>
-                ))}
-              </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">{part.title}</h3>
+                    <p className="text-foreground/80">{part.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </Card>
         </section>
         
