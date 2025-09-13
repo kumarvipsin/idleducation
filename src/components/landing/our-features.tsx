@@ -1,7 +1,8 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileQuestion, Users, Building } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, Building } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -18,7 +19,7 @@ const features = [
     href: "#",
   },
   {
-    icon: <FileQuestion className="w-8 h-8 text-primary" />,
+    icon: <FileStack className="w-8 h-8 text-primary" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
