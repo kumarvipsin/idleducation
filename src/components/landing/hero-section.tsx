@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage, FormLabel } from "
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "@/app/actions";
 import { useLanguage } from "@/context/language-context";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -299,6 +300,7 @@ export function HeroSection() {
   const { toast } = useToast();
   const { t } = useLanguage();
   const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -331,6 +333,7 @@ export function HeroSection() {
           description: result.message,
         });
         form.reset();
+        setIsFormOpen(false);
       } else {
         toast({
           variant: "destructive",
@@ -363,232 +366,246 @@ export function HeroSection() {
   ]
 
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/student-bg/1920/1080')"}} data-ai-hint="student smiling">
-      <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
-      <div className="container px-4 md:px-6 relative z-10 py-8 md:py-12">
-        <div className="grid lg:grid-cols-1 gap-8 items-center">
-          <div className="w-full max-w-md mx-auto">
-            <Card className="bg-white text-foreground shadow-lg">
-              <CardHeader className="text-center">
-                <CardTitle className="text-xl md:text-2xl font-bold">Free Demo Bookings</CardTitle>
-                <p className="text-muted-foreground text-sm">{t('bookFreeSession.subtitle')}</p>
-              </CardHeader>
-              <CardContent>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="sessionMode"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Select Mode <span className="text-destructive">*</span></FormLabel>
-                          <div className="grid grid-cols-2 gap-2 mt-2">
-                            <Button 
-                              type="button" 
-                              variant={sessionMode === 'online' ? 'default' : 'outline'} 
-                              className="flex items-center justify-center gap-2"
-                              onClick={() => {
-                                setSessionMode('online');
-                                field.onChange('online');
-                              }}
-                            >
-                              {sessionMode === 'online' && <CheckCircle className="w-5 h-5" />}
-                              {t('bookFreeSession.online')}
-                            </Button>
-                            <Button 
-                              type="button" 
-                              variant={sessionMode === 'offline' ? 'default' : 'outline'}
-                              className="flex items-center justify-center gap-2"
-                              onClick={() => {
-                                setSessionMode('offline');
-                                field.onChange('offline');
-                              }}
-                            >
-                              {sessionMode === 'offline' && <CheckCircle className="w-5 h-5" />}
-                              {t('bookFreeSession.offline')}
-                            </Button>
-                          </div>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="childName"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                           <FormLabel>Child's Name <span className="text-destructive">*</span></FormLabel>
-                          <FormControl>
-                            <Input 
-                              id="child-name" 
-                              placeholder={t('bookFreeSession.childNamePlaceholder')} 
-                              {...field}
-                              onChange={(e) => {
-                                const formatted = capitalizeWords(e.target.value);
-                                field.onChange(formatted);
-                              }}
-                             />
-                          </FormControl>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="classCourse"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
-                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a Class or Course" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {allPrograms.map(program => (
-                                <SelectItem key={program} value={program}>{program}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="space-y-1">
-                        <FormLabel>Mobile Number <span className="text-destructive">*</span></FormLabel>
-                        <div className="flex gap-2">
-                            <FormField
-                                control={form.control}
-                                name="countryCode"
-                                render={({ field }) => (
-                                <FormItem>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger className="w-[120px]">
-                                        <SelectValue placeholder="Code" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {countryCodes.map((country) => (
-                                        <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
-                                            {country.code} ({country.country})
-                                        </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                    </Select>
-                                    <FormMessage className="text-destructive" />
-                                </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="mobile"
-                                render={({ field }) => (
-                                <FormItem className="flex-1">
-                                    <FormControl>
-                                    <Input 
-                                      id="mobile" 
-                                      type="tel" 
-                                      placeholder={t('bookFreeSession.mobilePlaceholder')} 
-                                      {...field}
-                                      onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, '');
-                                        if (value.startsWith('0')) {
-                                            field.onChange(value.substring(1));
-                                        } else {
-                                            field.onChange(value);
-                                        }
-                                      }}
-                                      maxLength={maxLength}
-                                    />
-                                    </FormControl>
-                                    <FormMessage className="text-destructive" />
-                                </FormItem>
-                                )}
-                            />
-                        </div>
-                    </div>
-
-
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel>Email Address</FormLabel>
-                          <FormControl>
-                            <Input 
-                              id="email" 
-                              type="email" 
-                              placeholder={t('bookFreeSession.emailPlaceholder')} 
-                              {...field}
-                              onChange={(e) => {
-                                field.onChange(e.target.value.toLowerCase());
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="state"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel>State <span className="text-destructive">*</span></FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {indianStates.sort().map(state => (
-                                <SelectItem key={state} value={state}>{state}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-destructive" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="flex justify-center">
-                       <Button type="submit" size="lg" className="w-full transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
-          </div>
+    <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+        <section className="relative w-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: "url('https://picsum.photos/seed/student-bg/1920/1080')"}} data-ai-hint="student smiling">
+        <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
+        <div className="container px-4 md:px-6 relative z-10 py-16 md:py-24">
+            <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
+                <div className="space-y-4 text-white">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
+                       Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span>
+                    </h1>
+                    <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
+                        Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
+                    </p>
+                    <DialogTrigger asChild>
+                        <Button size="lg" className="transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30">
+                            {t('bookFreeClass')}
+                        </Button>
+                    </DialogTrigger>
+                </div>
+            </div>
         </div>
-      </div>
-      <div className="relative w-full h-[60px] md:h-[120px] bg-transparent">
-        <svg
-          className="absolute bottom-0 w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-        >
-          <g className="parallax" style={{ fill: '#ffffff' }}>
-            <use href="#wave-path" x="48" y="0" className="opacity-70" />
-            <use href="#wave-path" x="48" y="3" className="opacity-50" />
-            <use href="#wave-path" x="48" y="5" className="opacity-30" />
-            <use href="#wave-path" x="48" y="7" />
-          </g>
-           <defs>
-              <path id="wave-path" d="M0,160L48,181.3C96,203,192,245,288,261.3C384,277,480,267,576,229.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          </defs>
-        </svg>
-      </div>
-    </section>
+        <div className="relative w-full h-[60px] md:h-[120px] bg-transparent">
+            <svg
+            className="absolute bottom-0 w-full h-full"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            >
+            <g className="parallax" style={{ fill: '#ffffff' }}>
+                <use href="#wave-path" x="48" y="0" className="opacity-70" />
+                <use href="#wave-path" x="48" y="3" className="opacity-50" />
+                <use href="#wave-path" x="48" y="5" className="opacity-30" />
+                <use href="#wave-path" x="48" y="7" />
+            </g>
+            <defs>
+                <path id="wave-path" d="M0,160L48,181.3C96,203,192,245,288,261.3C384,277,480,267,576,229.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </defs>
+            </svg>
+        </div>
+        </section>
+
+        <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle className="text-xl md:text-2xl font-bold text-center">Free Demo Bookings</DialogTitle>
+                <DialogDescription className="text-center text-sm">{t('bookFreeSession.subtitle')}</DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                control={form.control}
+                name="sessionMode"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Select Mode <span className="text-destructive">*</span></FormLabel>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                        <Button 
+                        type="button" 
+                        variant={sessionMode === 'online' ? 'default' : 'outline'} 
+                        className="flex items-center justify-center gap-2"
+                        onClick={() => {
+                            setSessionMode('online');
+                            field.onChange('online');
+                        }}
+                        >
+                        {sessionMode === 'online' && <CheckCircle className="w-5 h-5" />}
+                        {t('bookFreeSession.online')}
+                        </Button>
+                        <Button 
+                        type="button" 
+                        variant={sessionMode === 'offline' ? 'default' : 'outline'}
+                        className="flex items-center justify-center gap-2"
+                        onClick={() => {
+                            setSessionMode('offline');
+                            field.onChange('offline');
+                        }}
+                        >
+                        {sessionMode === 'offline' && <CheckCircle className="w-5 h-5" />}
+                        {t('bookFreeSession.offline')}
+                        </Button>
+                    </div>
+                    <FormMessage className="text-destructive" />
+                    </FormItem>
+                )}
+                />
+                
+                <FormField
+                control={form.control}
+                name="childName"
+                render={({ field }) => (
+                    <FormItem className="space-y-1">
+                    <FormLabel>Child's Name <span className="text-destructive">*</span></FormLabel>
+                    <FormControl>
+                        <Input 
+                        id="child-name" 
+                        placeholder={t('bookFreeSession.childNamePlaceholder')} 
+                        {...field}
+                        onChange={(e) => {
+                            const formatted = capitalizeWords(e.target.value);
+                            field.onChange(formatted);
+                        }}
+                        />
+                    </FormControl>
+                    <FormMessage className="text-destructive" />
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                control={form.control}
+                name="classCourse"
+                render={({ field }) => (
+                    <FormItem className="space-y-1">
+                    <FormLabel>Class/Course <span className="text-destructive">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select a Class or Course" />
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                        {allPrograms.map(program => (
+                            <SelectItem key={program} value={program}>{program}</SelectItem>
+                        ))}
+                        </SelectContent>
+                    </Select>
+                    <FormMessage className="text-destructive" />
+                    </FormItem>
+                )}
+                />
+
+                <div className="space-y-1">
+                    <FormLabel>Mobile Number <span className="text-destructive">*</span></FormLabel>
+                    <div className="flex gap-2">
+                        <FormField
+                            control={form.control}
+                            name="countryCode"
+                            render={({ field }) => (
+                            <FormItem>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger className="w-[120px]">
+                                    <SelectValue placeholder="Code" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {countryCodes.map((country) => (
+                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
+                                        {country.code} ({country.country})
+                                    </SelectItem>
+                                    ))}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage className="text-destructive" />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="mobile"
+                            render={({ field }) => (
+                            <FormItem className="flex-1">
+                                <FormControl>
+                                <Input 
+                                id="mobile" 
+                                type="tel" 
+                                placeholder={t('bookFreeSession.mobilePlaceholder')} 
+                                {...field}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/\D/g, '');
+                                    if (value.startsWith('0')) {
+                                        field.onChange(value.substring(1));
+                                    } else {
+                                        field.onChange(value);
+                                    }
+                                }}
+                                maxLength={maxLength}
+                                />
+                                </FormControl>
+                                <FormMessage className="text-destructive" />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
+                </div>
+
+
+                <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                    <FormItem className="space-y-1">
+                    <FormLabel>Email Address</FormLabel>
+                    <FormControl>
+                        <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder={t('bookFreeSession.emailPlaceholder')} 
+                        {...field}
+                        onChange={(e) => {
+                            field.onChange(e.target.value.toLowerCase());
+                        }}
+                        />
+                    </FormControl>
+                    <FormMessage className="text-destructive" />
+                    </FormItem>
+                )}
+                />
+                
+                <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                    <FormItem className="space-y-1">
+                    <FormLabel>State <span className="text-destructive">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                        {indianStates.sort().map(state => (
+                            <SelectItem key={state} value={state}>{state}</SelectItem>
+                        ))}
+                        </SelectContent>
+                    </Select>
+                    <FormMessage className="text-destructive" />
+                    </FormItem>
+                )}
+                />
+
+                <div className="flex justify-center pt-2">
+                    <Button type="submit" size="lg" className="w-full transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-700 to-blue-500 text-primary-foreground hover:shadow-lg hover:shadow-blue-500/30" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : t('bookFreeSession.continueToSchedule')}
+                </Button>
+                </div>
+            </form>
+            </Form>
+        </DialogContent>
+    </Dialog>
   );
 }
+
+    
