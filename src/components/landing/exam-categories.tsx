@@ -124,7 +124,7 @@ export function ExamCategories() {
             style={{ 
               background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)',
               ...textureStyle,
-              maxWidth: '95%'
+              maxWidth: '81%'
             }}
         >
             <div className="flex flex-col lg:flex-row">
