@@ -44,8 +44,8 @@ export default function AboutPage() {
       <section className="my-12">
         <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-3">
-            <div className="md:col-span-1 bg-muted/40 p-8 flex flex-col items-center justify-center text-center">
-              <Avatar className="w-48 h-48 mb-4 border-[6px] border-white shadow-lg">
+            <div className="md:col-span-1 bg-gradient-to-br from-primary/10 to-accent/10 p-8 flex flex-col items-center justify-center text-center">
+              <Avatar className="w-48 h-48 mb-4 border-[6px] border-primary shadow-lg">
                 <AvatarImage src="/amod.jpg" alt="Director's Photo" />
                 <AvatarFallback>AK</AvatarFallback>
               </Avatar>
