@@ -13,8 +13,8 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection />
-      <ExamCategories />
       <OurFeatures />
+      <ExamCategories />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
