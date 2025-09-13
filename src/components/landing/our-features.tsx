@@ -41,8 +41,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full pt-6 md:pt-12 pb-12 md:pb-16"
-      style={{ backgroundColor: '#f8f9fa' }}
+      className="w-full pt-6 md:pt-12 pb-12 md:pb-16 bg-white dark:bg-background"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
