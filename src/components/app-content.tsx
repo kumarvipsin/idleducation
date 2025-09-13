@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
-import { useAuth } from '@/context/auth-context';
+import { ChatBotWrapper } from '@/components/chat-bot-wrapper';
 
 export function AppContent({
   children,
@@ -14,11 +14,10 @@ export function AppContent({
 }) {
   const pathname = usePathname();
   
-  // Define paths where the footer should be visible
-  const footerVisiblePaths = ['/'];
+  const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact'));
   
-  // The footer should only be shown on the specified public pages.
-  const showFooter = footerVisiblePaths.includes(pathname);
+  // Don't show chatbot on admin pages
+  const showChatBot = !pathname.startsWith('/admin');
 
   return (
     <>
@@ -27,6 +26,7 @@ export function AppContent({
         {children}
       </main>
       {showFooter && <Footer />}
+      {showChatBot && <ChatBotWrapper />}
       <Toaster />
     </>
   );

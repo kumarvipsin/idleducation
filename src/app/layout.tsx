@@ -6,7 +6,6 @@ import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/context/language-context';
-import { ChatBot } from '@/components/chat-bot';
 import { AuthProvider } from '@/context/auth-context';
 import { AppContent } from '@/components/app-content';
 
