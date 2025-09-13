@@ -114,7 +114,7 @@ export function ExamCategories() {
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none bg-blue-100/20">
+                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none bg-gradient-to-br from-blue-100/10 to-blue-200/20">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -150,7 +150,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none bg-blue-100/20">
+                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none bg-gradient-to-br from-blue-100/10 to-blue-200/20">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
