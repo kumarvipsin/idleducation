@@ -58,25 +58,27 @@ export function OurFeatures() {
             Discover the key features that make our platform the best choice for your learning needs.
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-          {features.map((feature, index) => (
-            <Link href={feature.href} key={index} className="group">
-              <Card 
-                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full"
-                style={{ backgroundColor: '#4ED7F1', animationDelay: `${index * 0.1 + 0.3}s` }}
-              >
-                <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
-                  <div className="p-4 bg-background/20 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-foreground/80">{feature.subtitle}</p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+        <div className="bg-[#dee2e6] dark:bg-muted/50 p-6 rounded-xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            {features.map((feature, index) => (
+                <Link href={feature.href} key={index} className="group">
+                <Card 
+                    className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 h-full bg-background"
+                    style={{ animationDelay: `${index * 0.1 + 0.3}s` }}
+                >
+                    <CardContent className="p-6 text-center flex flex-col items-center justify-center h-full">
+                    <div className="p-4 bg-primary/10 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110">
+                        {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground">
+                        {feature.title}
+                    </h3>
+                    <p className="text-sm text-foreground/80">{feature.subtitle}</p>
+                    </CardContent>
+                </Card>
+                </Link>
+            ))}
+            </div>
         </div>
       </div>
     </section>
