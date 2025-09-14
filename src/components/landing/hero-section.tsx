@@ -18,7 +18,7 @@ import { useLanguage } from "@/context/language-context";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const formSchema = z.object({
-  sessionMode: z.enum(["online", "offline"]),
+  sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
   countryCode: z.string().min(1, { message: "Country code is required." }),
@@ -379,7 +379,7 @@ export function HeroSection() {
                         Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                     </p>
                     <DialogTrigger asChild>
-                        <Button size="sm" className="rounded-full transition-all duration-300 ease-in-out text-black bg-white hover:bg-gray-100 hover:shadow-lg hover:shadow-white/30">
+                        <Button size="sm" className="rounded-full transition-all duration-300 ease-in-out text-primary-foreground bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-lg hover:shadow-green-500/30">
                            Book Free Demo
                         </Button>
                     </DialogTrigger>
@@ -584,5 +584,3 @@ export function HeroSection() {
     </Dialog>
   );
 }
-
-    
