@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users, PenSquare, UserCircle, Book, Zap, BrainCircuit, Rocket } from "lucide-react";
+import { Target, Eye, Users, PenSquare, UserCircle, Book, Zap, BrainCircuit, Rocket, Goal, Route } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -36,6 +36,29 @@ const missionParts = [
         icon: <Rocket className="w-8 h-8 text-primary" />,
         title: "Your growth",
         description: "The biggest success for a teacher is the growth of students. As an educational institute our priority is your growth. We always try to make our content worth more."
+    }
+];
+
+const visionAndMission = [
+    {
+        icon: <Eye className="w-8 h-8 text-primary" />,
+        title: "Our Vision",
+        description: "To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery."
+    },
+    {
+        icon: <Target className="w-8 h-8 text-primary" />,
+        title: "Our Mission",
+        description: "To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock potential."
+    },
+    {
+        icon: <Goal className="w-8 h-8 text-primary" />,
+        title: "Our Goal",
+        description: "To make high-quality education affordable and accessible to every student, regardless of their geographical location or economic background, fostering a community of lifelong learners."
+    },
+    {
+        icon: <Route className="w-8 h-8 text-primary" />,
+        title: "Our Approach",
+        description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
     }
 ]
 
@@ -91,26 +114,19 @@ export default function AboutPage() {
                   At IDL EDUCATION, we are guided by a clear vision and mission that shape our commitment to revolutionizing the learning experience for students everywhere.
               </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 max-w-5xl mx-auto">
-            <div className="relative overflow-hidden rounded-lg p-6 bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-lg">
-                <div className="flex items-center gap-4">
-                    <Eye className="w-10 h-10" />
-                    <h3 className="text-2xl font-bold">Our Vision</h3>
-                </div>
-                <p className="mt-4 text-white/90 leading-relaxed">
-                    To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
+              {visionAndMission.map((item, index) => (
+                <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow">
+                    <div className="flex justify-center mb-4">
+                        <div className="bg-primary/10 p-3 rounded-full">
+                            {item.icon}
+                        </div>
+                    </div>
+                  <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                  <p className="text-sm text-foreground/80">{item.description}</p>
+                </Card>
+              ))}
             </div>
-            <div className="relative overflow-hidden rounded-lg p-6 bg-gradient-to-br from-teal-500 to-cyan-600 text-white shadow-lg">
-                <div className="flex items-center gap-4">
-                    <Target className="w-10 h-10" />
-                    <h3 className="text-2xl font-bold">Our Mission</h3>
-                </div>
-                <p className="mt-4 text-white/90 leading-relaxed">
-                    To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
-                </p>
-            </div>
-          </div>
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
               {missionParts.map((part, index) => (
                 <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow">
