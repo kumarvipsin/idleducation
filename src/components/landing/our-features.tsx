@@ -38,7 +38,7 @@ export function OurFeatures() {
     <section 
       className="w-full relative pb-12 md:pb-16 bg-white dark:bg-muted/20"
     >
-      <div className="container mx-auto px-4 md:px-6 -mt-16">
+      <div className="container mx-auto px-4 md:px-[10%] -mt-16">
         <Card className="shadow-lg rounded-xl mx-auto" style={{ paddingBlock: '0.5rem' }}>
             <CardContent className="p-4 md:p-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
