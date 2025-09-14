@@ -25,14 +25,17 @@ const resourceLinks = [
 ];
 
 const competitiveExams = [
+    { name: "JEE", href: "/category/iit-jee" },
     { name: "NEET", href: "/category/neet" },
-    { name: "IIT JEE", href: "/category/iit-jee" },
-    { name: "CUET", href: "/category/cuet" },
-    { name: "Govt. Job Exams", href: "/category/govt-job-exams" },
-    { name: "Defence", href: "/category/defence" },
     { name: "GATE", href: "/category/gate" },
+    { name: "CUET", href: "/category/cuet" },
+    { name: "CBSE", href: "/school" },
+    { name: "NIOS", href: "/school" },
+    { name: "CLAT", href: "/category/cuet" },
     { name: "SSC", href: "/category/ssc" },
-    { name: "Delhi Police", href: "/category/delhi-police" },
+    { name: "DELHI POLICE", href: "/category/delhi-police" },
+    { name: "DEFENCE", href: "/category/defence" },
+    { name: "Govt. Job Exams", href: "/category/govt-job-exams" },
 ];
 
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
