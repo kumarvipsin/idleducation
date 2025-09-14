@@ -72,7 +72,7 @@ export default function Class10EnglishPage() {
           </div>
           <div className="lg:col-span-2">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground">Important Questions</h2>
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
             </div>
             <div className="space-y-2">
               {allChapters.map((chapter, index) => (
