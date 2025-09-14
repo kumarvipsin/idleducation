@@ -58,8 +58,8 @@ export default function AboutPage() {
       <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
         
         <section className="mb-12 md:mb-20 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Meet our Director</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4">Meet our Director</h1>
+          <p className="text-base md:text-lg max-w-3xl mx-auto text-foreground/80">
             Get to know the visionary leader behind IDL EDUCATION and his mission to revolutionize learning.
           </p>
         </section>
