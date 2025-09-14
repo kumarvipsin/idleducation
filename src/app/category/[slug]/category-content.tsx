@@ -164,7 +164,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                     <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
                                 <Button asChild variant="outline" key={link.href}>
                                     <Link href={link.href}>
