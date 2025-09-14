@@ -126,7 +126,7 @@ export default function Class6SocialPage() {
           </div>
         </div>
         <CardContent className="p-6 bg-muted/20">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-3">
               <h2 className="text-2xl font-bold mb-4 text-foreground">Contents</h2>
               <div className="space-y-6">
@@ -170,7 +170,7 @@ export default function Class6SocialPage() {
                       <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
                       <div className="flex items-center gap-2">
                           <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                              <Link href="#">View</Link>
                           </Button>
                           <Button asChild variant="ghost" size="sm">
                               <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
