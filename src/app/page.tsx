@@ -11,7 +11,7 @@ import { ExamCategories } from '@/components/landing/exam-categories';
 
 export default function Home() {
   return (
-    <div className="flex flex-col bg-[#F0F8FF] dark:bg-background">
+    <div className="flex flex-col bg-white dark:bg-background">
       <HeroSection />
       <OurFeatures />
       <ExamCategories />
