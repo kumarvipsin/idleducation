@@ -50,10 +50,10 @@ const popularProgramsEn = [
   { name: "CLASS X", href: "/school?class=Class 10" },
   { name: "CLASS XI", href: "/school?class=Class 11" },
   { name: "CLASS XII", href: "/school?class=Class 12" },
-  { name: "JEE", href: "/category/iit-jee" },
-  { name: "NEET", href: "/category/neet" },
 ];
 const popularProgramsHi = [
+  { name: "JEE", href: "/category/iit-jee" },
+  { name: "NEET", href: "/category/neet" },
   { name: "CUET", href: "/category/cuet" },
   { name: "CBSE", href: "/school" },
   { name: "NIOS", href: "/school" },
