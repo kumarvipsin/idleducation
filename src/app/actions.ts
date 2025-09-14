@@ -656,97 +656,68 @@ const getFiscalYearBoundaries = (date: Date) => {
 export async function getMonthlyUserStats() {
     try {
         const now = new Date();
-        const { fiscalYearStart } = getFiscalYearBoundaries(now);
+        const { fiscalYearStart, fiscalYearEnd } = getFiscalYearBoundaries(now);
         const fiscalYear = fiscalYearStart.getFullYear();
 
         const monthNames = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
         
-        const currentFiscalMonthIndex = (now.getMonth() - 3 + 12) % 12;
+        const allUsersQuery = query(collection(db, "users"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
+        const allUsersSnapshot = await getDocs(allUsersQuery);
+        const allUsers = allUsersSnapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                ...data,
+                createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date(data.createdAt)
+            };
+        });
 
-        const monthlyDataPromises = Array.from({ length: 12 }, async (_, i) => {
-            const monthName = monthNames[i];
+        const chartData = monthNames.map((monthName, i) => {
             const month = (i + 3) % 12;
             const year = month < 3 ? fiscalYear + 1 : fiscalYear;
             
-            const startDate = new Date(year, month, 1);
-            const endDate = new Date(year, month + 1, 1);
-
-            if (startDate > now) {
-                return null;
-            }
-
-            const usersQuery = query(collection(db, "users"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
-            const usersSnapshot = await getDocs(usersQuery);
-
-            let newStudents = 0;
-            usersSnapshot.docs.forEach(doc => {
-                if (doc.data().role === 'student' && doc.data().status === 'approved') {
-                    newStudents++;
-                }
+            const usersInMonth = allUsers.filter(u => {
+                const createdAtDate = u.createdAt;
+                return createdAtDate.getFullYear() === year && createdAtDate.getMonth() === month;
             });
 
-            return { name: monthName, newStudents };
+            const newStudents = usersInMonth.filter(u => u.role === 'student' && u.status === 'approved').length;
+            const totalUsers = usersInMonth.length;
+            const totalStudents = usersInMonth.filter(u => u.role === 'student').length;
+            const trainedStudents = usersInMonth.filter(u => u.role === 'student' && u.status === 'approved' && u.teacherIds && u.teacherIds.length > 0).length;
+            const totalTeachers = usersInMonth.filter(u => u.role === 'teacher').length;
+
+            return { 
+                name: monthName,
+                newStudents,
+                totalUsers,
+                totalStudents,
+                trainedStudents,
+                totalTeachers
+            };
         });
-
-        const monthlyDataWithNulls = await Promise.all(monthlyDataPromises);
-        const monthlyData = monthlyDataWithNulls.filter(Boolean) as { name: string, newStudents: number }[];
-
-        // Fetch total counts for cumulative calculations within the fiscal year
-        const { fiscalYearEnd } = getFiscalYearBoundaries(now);
-
-        const allUsersQuery = query(collection(db, "users"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
-        const allStudentsQuery = query(collection(db, "users"), where("role", "==", "student"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
-        const allTrainedStudentsQuery = query(
-            collection(db, "users"), 
-            where("role", "==", "student"), 
-            where("status", "==", "approved"), 
-            where("teacherIds", "!=", []), 
-            where("createdAt", ">=", fiscalYearStart), 
-            where("createdAt", "<=", fiscalYearEnd)
-        );
-        const allTeachersQuery = query(
-            collection(db, "users"), 
-            where("role", "==", "teacher"),
-            where("createdAt", ">=", fiscalYearStart), 
-            where("createdAt", "<=", fiscalYearEnd)
-        );
-        
-        const [totalUsersRes, totalStudentsRes, trainedStudentsRes, totalTeachersRes] = await Promise.all([
-            getDocs(allUsersQuery),
-            getDocs(allStudentsQuery),
-            getDocs(allTrainedStudentsQuery),
-            getDocs(allTeachersQuery),
-        ]);
-
-        const allUsers = totalUsersRes.docs.map(doc => doc.data());
-        const allStudents = totalStudentsRes.docs.map(doc => doc.data());
-        const allTrainedStudents = trainedStudentsRes.docs.map(doc => doc.data());
-        const allTeachers = totalTeachersRes.docs.map(doc => doc.data());
         
         let cumulativeUsers = 0;
         let cumulativeStudents = 0;
         let cumulativeTrained = 0;
         let cumulativeTeachers = 0;
 
-        const chartData = monthlyData.map(monthStat => {
-            const monthIndex = monthNames.indexOf(monthStat.name);
-            const fiscalMonthIndex = (monthIndex + 3) % 12;
+        const cumulativeChartData = chartData.map(monthData => {
+             cumulativeUsers += monthData.totalUsers;
+             cumulativeStudents += monthData.totalStudents;
+             cumulativeTrained += monthData.trainedStudents;
+             cumulativeTeachers += monthData.totalTeachers;
             
-            cumulativeUsers += allUsers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
-            cumulativeStudents += allStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
-            cumulativeTrained += allTrainedStudents.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
-            cumulativeTeachers += allTeachers.filter(u => u.createdAt && u.createdAt.toDate().getMonth() === fiscalMonthIndex).length;
-            
-            return {
-                ...monthStat,
+             return {
+                name: monthData.name,
+                newStudents: monthData.newStudents,
                 totalUsers: cumulativeUsers,
                 totalStudents: cumulativeStudents,
                 trainedStudents: cumulativeTrained,
-                totalTeachers: cumulativeTeachers,
-            };
+                totalTeachers: cumulativeTeachers
+             }
         });
 
-        return { success: true, data: chartData };
+        return { success: true, data: cumulativeChartData };
     } catch (error) {
         console.error("Error fetching monthly user stats:", error);
         return { success: false, message: "Failed to fetch monthly stats." };
