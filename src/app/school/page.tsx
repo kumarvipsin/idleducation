@@ -23,279 +23,6 @@ const classes = [
   'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
 ];
 
-const class9Courses = [
-    {
-        title: "CLASS-IX",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-9-maths" }],
-    },
-    {
-        title: "CLASS-IX",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-9-science" }],
-    },
-    {
-        title: "CLASS-IX",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-9-social" }],
-    },
-];
-
-const topCourses = [
-    {
-        title: "CLASS-X",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-10-maths" }],
-    },
-    {
-        title: "CLASS-X",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/science-details" }],
-    },
-    {
-        title: "CLASS-X",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-10-social" }],
-    },
-];
-
-const class5Courses = [
-    {
-        title: "CLASS-V",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-5-maths" }],
-    },
-    {
-        title: "CLASS-V",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-5-science" }],
-    },
-    {
-        title: "CLASS-V",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-5-social" }],
-    },
-];
-
-const class6Courses = [
-    {
-        title: "CLASS-VI",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-6-maths" }],
-    },
-    {
-        title: "CLASS-VI",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-6-science" }],
-    },
-    {
-        title: "CLASS-VI",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-6-social" }],
-    },
-];
-
-const class7Courses = [
-    {
-        title: "CLASS-VII",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-7-maths" }],
-    },
-    {
-        title: "CLASS-VII",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-7-science" }],
-    },
-    {
-        title: "CLASS-VII",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-7-social" }],
-    },
-];
-
-const class8Courses = [
-    {
-        title: "CLASS-VIII",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-8-maths" }],
-    },
-    {
-        title: "CLASS-VIII",
-        description: "Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-8-science" }],
-    },
-    {
-        title: "CLASS-VIII",
-        description: "Social Studies",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-8-social" }],
-    },
-];
-
-const class11Courses = [
-    {
-        title: "CLASS XI",
-        description: "Political Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-polsci" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "History",
-        language: "ENGLISH | HINDI",
-        gradient: "from-red-500 to-rose-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-history" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Geography",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-geography" }],
-    },
-     {
-        title: "CLASS XI",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-maths" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Physics",
-        language: "ENGLISH | HINDI",
-        gradient: "from-sky-500 to-cyan-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-physics" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Chemistry",
-        language: "ENGLISH | HINDI",
-        gradient: "from-purple-500 to-violet-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-chemistry" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Biology",
-        language: "ENGLISH | HINDI",
-        gradient: "from-lime-500 to-green-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-biology" }],
-    },
-    {
-        title: "CLASS XI",
-        description: "Economics",
-        language: "ENGLISH | HINDI",
-        gradient: "from-pink-500 to-rose-500",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-economics" }],
-    },
-]
-
-const class12Courses = [
-     {
-        title: "CLASS XII",
-        description: "Political Science",
-        language: "ENGLISH | HINDI",
-        gradient: "from-blue-500 to-indigo-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/political-science-details" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "History",
-        language: "ENGLISH | HINDI",
-        gradient: "from-red-500 to-rose-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-history" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Geography",
-        language: "ENGLISH | HINDI",
-        gradient: "from-amber-500 to-orange-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-geography" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Maths",
-        language: "ENGLISH | HINDI",
-        gradient: "from-green-500 to-emerald-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-maths" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Physics",
-        language: "ENGLISH | HINDI",
-        gradient: "from-sky-500 to-cyan-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-physics" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Chemistry",
-        language: "ENGLISH | HINDI",
-        gradient: "from-purple-500 to-violet-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-chemistry" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Biology",
-        language: "ENGLISH | HINDI",
-        gradient: "from-lime-500 to-green-600",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-biology" }],
-    },
-    {
-        title: "CLASS XII",
-        description: "Economics",
-        language: "ENGLISH | HINDI",
-        gradient: "from-pink-500 to-rose-500",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-economics" }],
-    },
-]
-
-const coursesByCategory: { [key: string]: any[] } = {
-  'Class 5': class5Courses,
-  'Class 6': class6Courses,
-  'Class 7': class7Courses,
-  'Class 8': class8Courses,
-  'Class 9': class9Courses,
-  'Class 10': topCourses,
-  'Class 11': class11Courses,
-  'Class 12': class12Courses,
-};
-
 const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
   { href: '/resources/previous-year-questions', label: 'PYQPs', icon: <FileText /> },
@@ -370,8 +97,6 @@ function SchoolPageContent() {
     }
   }, [classParam]);
 
-  const courses = coursesByCategory[activeClass] || [];
-
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
        <section className="mb-8">
@@ -440,47 +165,49 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="text-black dark:text-white">Course Details for </span>
-                <span className="text-primary">{activeClass}</span>
-            </h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                Everything you need to know about the curriculum, exams, and resources.
-            </p>
-          </div>
-          <Card className="shadow-lg">
-            <CardContent className="p-0">
-                <Tabs defaultValue="study-plan" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="study-plan">Study Plan</TabsTrigger>
-                        <TabsTrigger value="exam-details">Exam Details</TabsTrigger>
-                        <TabsTrigger value="resources">Resources</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="study-plan" className="p-6">
-                        <h3 className="font-bold text-lg mb-2">Syllabus & Study Strategy</h3>
-                        <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
-                    </TabsContent>
-                    <TabsContent value="exam-details" className="p-6">
-                        <h3 className="font-bold text-lg mb-2">Exam Pattern & Key Dates</h3>
-                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
-                    </TabsContent>
-                    <TabsContent value="resources" className="p-6">
-                        <h3 className="font-bold text-lg mb-4">Essential Resources</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href}>
-                                    <Link href={link.href}>
-                                        {link.icon}
-                                        <span className="ml-2">{link.label}</span>
-                                    </Link>
-                                </Button>
-                            ))}
-                        </div>
-                    </TabsContent>
-                </Tabs>
-            </CardContent>
-          </Card>
+          <div className="container mx-auto px-4 md:px-[10%]">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold">
+                    <span className="text-black dark:text-white">Course Details for </span>
+                    <span className="text-primary">{activeClass}</span>
+                </h2>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    Everything you need to know about the curriculum, exams, and resources.
+                </p>
+            </div>
+            <Card className="shadow-lg">
+                <CardContent className="p-0">
+                    <Tabs defaultValue="study-plan" className="w-full">
+                        <TabsList className="grid w-full grid-cols-3">
+                            <TabsTrigger value="study-plan">Study Plan</TabsTrigger>
+                            <TabsTrigger value="exam-details">Exam Details</TabsTrigger>
+                            <TabsTrigger value="resources">Resources</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="study-plan" className="p-6">
+                            <h3 className="font-bold text-lg mb-2">Syllabus & Study Strategy</h3>
+                            <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                        </TabsContent>
+                        <TabsContent value="exam-details" className="p-6">
+                            <h3 className="font-bold text-lg mb-2">Exam Pattern & Key Dates</h3>
+                            <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
+                        </TabsContent>
+                        <TabsContent value="resources" className="p-6">
+                            <h3 className="font-bold text-lg mb-4">Essential Resources</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {resourceLinks.map(link => (
+                                    <Button asChild variant="outline" key={link.href}>
+                                        <Link href={link.href}>
+                                            {link.icon}
+                                            <span className="ml-2">{link.label}</span>
+                                        </Link>
+                                    </Button>
+                                ))}
+                            </div>
+                        </TabsContent>
+                    </Tabs>
+                </CardContent>
+            </Card>
+        </div>
       </section>
 
     </div>
