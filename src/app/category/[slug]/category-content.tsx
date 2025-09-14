@@ -91,22 +91,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
           </div>
       </section>
       <div className="container mx-auto py-12 px-4 md:px-6">
-        {subCategories.length > 0 && (
-          <div className="border-b mb-8">
-              <div className="flex items-center justify-start md:justify-center overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  <div className="flex items-center space-x-8">
-                      {subCategories.map((sub, index) => (
-                          <button 
-                              key={index} 
-                              onClick={() => setActiveSubCategory(sub)}
-                              className={`whitespace-nowrap pb-2 border-b-2 font-medium ${activeSubCategory === sub ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
-                              {sub}
-                          </button>
-                      ))}
-                  </div>
-              </div>
-          </div>
-        )}
         
         {slug !== 'nios' && (
           <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
