@@ -365,7 +365,7 @@ function SchoolPageContent() {
   const courses = coursesByCategory[activeClass] || [];
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6" style={{ maxWidth: '79%' }}>
+    <div className="container mx-auto py-8 px-4 md:px-6">
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/4]">

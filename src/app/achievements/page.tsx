@@ -57,7 +57,7 @@ const achievements = [
 
 export default function AchievementsPage() {
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6" style={{ maxWidth: '79%' }}>
+    <div className="container mx-auto py-12 px-4 md:px-6">
       <section className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Celebrating Student Success</h1>
         <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">

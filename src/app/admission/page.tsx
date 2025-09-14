@@ -226,7 +226,7 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6" style={{ maxWidth: '79%' }}>
+    <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
         <header className="bg-[#03045e] text-white p-4">

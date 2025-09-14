@@ -101,7 +101,7 @@ export default function GalleryPage() {
   
   return (
     <Dialog>
-        <div className="container mx-auto py-8 px-4 md:px-6" style={{ maxWidth: '79%' }}>
+        <div className="container mx-auto py-8 px-4 md:px-6">
             <div className="mb-8 space-y-4">
                  <div className="relative mx-auto max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

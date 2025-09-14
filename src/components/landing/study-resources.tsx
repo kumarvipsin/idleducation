@@ -43,7 +43,7 @@ const resources = [
 export function StudyResources() {
   return (
     <section className="w-full py-8 md:py-16 bg-[#F0F8FF]">
-      <div className="container mx-auto px-4 md:px-6" style={{ maxWidth: '79%' }}>
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Study</span> <span style={{ color: '#adb5bd' }}>Resources</span>

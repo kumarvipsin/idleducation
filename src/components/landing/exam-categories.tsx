@@ -96,7 +96,7 @@ export function ExamCategories() {
 
   return (
     <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#F0F8FF] dark:bg-background">
-      <div className="container mx-auto px-4 md:px-6" style={{ maxWidth: '79%' }}>
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>

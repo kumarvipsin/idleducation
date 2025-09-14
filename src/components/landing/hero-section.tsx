@@ -369,7 +369,7 @@ export function HeroSection() {
     <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <section className="relative w-full bg-cover bg-center bg-no-repeat pb-10" style={{backgroundImage: "url('https://picsum.photos/seed/student-bg/1920/1080')"}} data-ai-hint="student smiling">
         <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 md:py-24" style={{ maxWidth: '79%' }}>
+        <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 md:py-24">
             <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                 <div className="space-y-4 text-white">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
