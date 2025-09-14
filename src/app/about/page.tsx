@@ -67,9 +67,9 @@ export default function AboutPage() {
     <div className="bg-white dark:bg-background">
       <div className="container mx-auto py-8 px-4 md:px-6">
         <section className="my-12">
-          <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
+          <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-3">
-              <div className="md:col-span-1 p-8 flex flex-col items-center justify-center text-center">
+              <div className="md:col-span-1 p-8 flex flex-col items-center justify-center text-center bg-muted/30">
                 <Avatar className="w-48 h-48 mb-4 border-[6px] border-white shadow-lg">
                   <AvatarImage src="/amod.jpg" alt="Director's Photo" />
                   <AvatarFallback>AK</AvatarFallback>
@@ -90,12 +90,12 @@ export default function AboutPage() {
                     </TabsTrigger>
                   </TabsList>
                   <TabsContent value="message" className="mt-6 text-foreground/90 leading-relaxed">
-                    <blockquote className="border-l-4 border-border pl-4 italic text-lg">
+                    <blockquote className="border-l-4 border-primary pl-4 italic text-lg">
                       "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
                     </blockquote>
                   </TabsContent>
                   <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed">
-                    <div className="border-l-4 border-border pl-4 space-y-4">
+                    <div className="space-y-4">
                       <p>
                         With over two decades in educational technology, Amod Kumar Sharma is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
                       </p>
@@ -115,8 +115,8 @@ export default function AboutPage() {
               </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
-              {visionAndMission.map((item, index) => (
-                <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow">
+              {[...visionAndMission, ...missionParts].map((item, index) => (
+                <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow rounded-lg">
                     <div className="flex justify-center mb-4">
                         <div className="bg-primary/10 p-3 rounded-full">
                             {item.icon}
@@ -124,19 +124,6 @@ export default function AboutPage() {
                     </div>
                   <h3 className="text-lg font-bold mb-2">{item.title}</h3>
                   <p className="text-sm text-foreground/80">{item.description}</p>
-                </Card>
-              ))}
-            </div>
-           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
-              {missionParts.map((part, index) => (
-                <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow">
-                    <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 p-3 rounded-full">
-                            {part.icon}
-                        </div>
-                    </div>
-                  <h3 className="text-lg font-bold mb-2">{part.title}</h3>
-                  <p className="text-sm text-foreground/80">{part.description}</p>
                 </Card>
               ))}
             </div>
