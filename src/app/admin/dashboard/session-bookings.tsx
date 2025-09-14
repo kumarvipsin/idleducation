@@ -15,9 +15,10 @@ import { useToast } from '@/hooks/use-toast';
 
 interface Booking {
   id: string;
-  childName: string;
+  studentName: string;
   classCourse: string;
   email: string;
+  countryCode?: string;
   mobile: string;
   sessionMode: 'online' | 'offline';
   state: string;
@@ -101,11 +102,11 @@ export function SessionBookings() {
                 {bookings.length > 0 ? (
                   bookings.map((booking) => (
                     <TableRow key={booking.id} className={booking.status === 'new' ? 'bg-primary/5' : ''}>
-                      <TableCell className="font-medium">{booking.childName}</TableCell>
+                      <TableCell className="font-medium">{booking.studentName}</TableCell>
                       <TableCell>{booking.classCourse}</TableCell>
                       <TableCell>
                         <div>{booking.email}</div>
-                        <div>{booking.mobile}</div>
+                        <div>{booking.countryCode?.split('-')[0]} {booking.mobile}</div>
                       </TableCell>
                       <TableCell>
                         <Badge variant={booking.sessionMode === 'online' ? 'default' : 'secondary'}>
