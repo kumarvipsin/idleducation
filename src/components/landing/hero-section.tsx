@@ -492,7 +492,7 @@ export function HeroSection() {
                                 </FormControl>
                                 <SelectContent>
                                     {countryCodes.map((country) => (
-                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.country}-${country.code}`}>
+                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
                                         {country.code} ({country.country})
                                     </SelectItem>
                                     ))}
@@ -515,11 +515,7 @@ export function HeroSection() {
                                 {...field}
                                 onChange={(e) => {
                                     const value = e.target.value.replace(/\D/g, '');
-                                    if (value.startsWith('0')) {
-                                        field.onChange(value.substring(1));
-                                    } else {
-                                        field.onChange(value);
-                                    }
+                                    field.onChange(value);
                                 }}
                                 maxLength={maxLength}
                                 />

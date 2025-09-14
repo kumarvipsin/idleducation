@@ -666,9 +666,14 @@ export async function getMonthlyUserStats() {
         const allUsersSnapshot = await getDocs(allUsersQuery);
         const allUsers = allUsersSnapshot.docs.map(doc => {
             const data = doc.data();
+            const createdAtData = data.createdAt;
+            // Handle both Firestore Timestamp and ISO string formats
+            const createdAtDate = createdAtData instanceof Timestamp 
+                                  ? createdAtData.toDate() 
+                                  : (typeof createdAtData === 'string' ? new Date(createdAtData) : new Date());
             return {
                 ...data,
-                createdAt: data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date(data.createdAt)
+                createdAt: createdAtDate
             };
         });
 
