@@ -100,7 +100,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
        )}
       <div className="container mx-auto py-12 px-4 md:px-6">
         
-        {slug !== 'nios' && subCategories && subCategories.length > 0 && (
+        {slug !== 'nios' && (
           <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-[10%]">
               <div className="text-center mb-12">
