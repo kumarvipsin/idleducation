@@ -55,8 +55,7 @@ const visionAndMission = [
 export default function AboutPage() {
   return (
     <div className="bg-white dark:bg-background">
-      <section className="relative py-20 md:py-32 bg-gradient-to-br from-primary/10 via-background to-background">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+      <section className="relative py-20 md:py-32">
       </section>
       
       <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
