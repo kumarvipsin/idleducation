@@ -21,31 +21,37 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'Maths', href: '/resources/class-5-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-5-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-5-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-5-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 6': [
     { name: 'Maths', href: '/resources/class-6-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-6-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-6-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-6-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 7': [
     { name: 'Maths', href: '/resources/class-7-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-7-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-7-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-7-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 8': [
     { name: 'Maths', href: '/resources/class-8-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-8-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-8-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-8-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 9': [
     { name: 'Maths', href: '/resources/class-9-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-9-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-9-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-9-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 10': [
     { name: 'Maths', href: '/resources/class-10-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
     { name: 'Science', href: '/resources/class-10-science', icon: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />, gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30' },
     { name: 'Social Studies', href: '/resources/class-10-social', icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />, gradient: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30' },
+    { name: 'English', href: '/resources/class-10-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 11': [
     { name: 'Maths', href: '/resources/class-11-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
@@ -56,6 +62,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'Geography', href: '/resources/class-11-geography', icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />, gradient: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30' },
     { name: 'Political Science', href: '/resources/class-11-polsci', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
     { name: 'Economics', href: '/resources/class-11-economics', icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
+    { name: 'English', href: '/resources/class-11-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
   'Class 12': [
     { name: 'Maths', href: '/resources/class-12-maths', icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />, gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30' },
@@ -66,6 +73,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'Geography', href: '/resources/class-12-geography', icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />, gradient: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30' },
     { name: 'Political Science', href: '/resources/political-science-details', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
     { name: 'Economics', href: '/resources/class-12-economics', icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
+     { name: 'English', href: '/resources/class-12-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
 };
 

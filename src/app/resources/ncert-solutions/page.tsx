@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, Search, X, ArrowRight, Sigma, TestTube2, Landmark, Atom, Dna } from 'lucide-react';
+import { BookCheck, Search, X, ArrowRight, Sigma, TestTube2, Landmark, Atom, Dna, BookText } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -36,6 +36,12 @@ const class10Courses: Note[] = [
         buttons: [{ text: "VIEW MORE", href: "/resources/class-10-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
     },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-10-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+    },
 ];
 
 const solutionsByClass: { [key: string]: Note[] } = {
@@ -58,6 +64,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-5-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
     },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-5-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+    },
   ],
   'Class 6': [
     {
@@ -77,6 +89,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-6-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
+    },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-6-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
   ],
   'Class 7': [
@@ -98,6 +116,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-7-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
     },
+     {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-7-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+    },
   ],
   'Class 8': [
     {
@@ -118,6 +142,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-8-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
     },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-8-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+    },
   ],
   'Class 9': [
     {
@@ -137,6 +167,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         gradient: "from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-9-social" }],
         icon: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
+    },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-9-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
   ],
   'Class 10': class10Courses,
@@ -165,6 +201,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
     },
+     {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+    },
   ],
   'Class 12': [
     {
@@ -190,6 +232,12 @@ const solutionsByClass: { [key: string]: Note[] } = {
         gradient: "from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
+    },
+    {
+        title: "English",
+        gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-english" }],
+        icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
   ],
 };
