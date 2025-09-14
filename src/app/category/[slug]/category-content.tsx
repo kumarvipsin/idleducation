@@ -84,7 +84,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
   return (
     <div>
        {slug === 'cuet' && (
-        <section className="mb-8">
+        <section className="container mx-auto px-4 md:px-[10%] pt-8">
             <Card className="overflow-hidden shadow-lg">
             <div className="relative w-full aspect-[16/4]">
                 <Image
@@ -108,7 +108,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
       </section>
       <div className="container mx-auto py-12 px-4 md:px-6">
         
-        {slug !== 'nios' && (
+        {slug !== 'nios' && subCategories && subCategories.length > 0 && (
           <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="container mx-auto px-4 md:px-[10%]">
               <div className="text-center mb-12">
