@@ -54,11 +54,11 @@ const popularProgramsEn = [
 const popularProgramsHi = [
   { name: "JEE", href: "/category/iit-jee" },
   { name: "NEET", href: "/category/neet" },
+  { name: "GATE", href: "/category/iit-jee" },
   { name: "CUET", href: "/category/cuet" },
   { name: "CBSE", href: "/school" },
   { name: "NIOS", href: "/school" },
   { name: "CLAT", href: "/category/cuet" },
-  { name: "GATE", href: "/category/iit-jee" },
   { name: "SSC", href: "/category/govt-job-exams" },
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
