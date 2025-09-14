@@ -107,23 +107,19 @@ export default function AboutPage() {
         <Separator className="my-12 md:my-20" />
         
         <section className="mb-12 md:mb-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {visionAndMission.map((item, index) => (
-                    <div key={index} className="flex items-start gap-6 animate-fade-in-up" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                        <div className="flex-shrink-0">
-                           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center shadow-inner">
-                               <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-md">
-                                  {item.icon}
-                               </div>
-                           </div>
-                        </div>
-                        <div className="flex-1">
-                           <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
-                           <p className="text-foreground/80 leading-relaxed">{item.description}</p>
-                        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {visionAndMission.map((item, index) => (
+              <Card key={index} className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
+                <CardContent className="p-6 flex flex-col items-center text-center">
+                    <div className="p-4 bg-background rounded-full mb-4 border shadow-inner transition-transform duration-300 group-hover:scale-110">
+                        {item.icon}
                     </div>
-                ))}
-            </div>
+                    <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
+                    <p className="text-foreground/80 leading-relaxed">{item.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 md:mb-20">
