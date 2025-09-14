@@ -83,7 +83,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
 
   return (
     <div>
-       {slug === 'cuet' && (
+       {['cuet', 'govt-job-exams', 'iit-jee', 'defence'].includes(slug) && (
         <section className="container mx-auto px-4 md:px-6 pt-8">
             <Card className="overflow-hidden shadow-lg">
             <div className="relative w-full aspect-[16/4]">
