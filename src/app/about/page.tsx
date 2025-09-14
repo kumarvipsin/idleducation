@@ -126,8 +126,8 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {coreValues.map((item, index) => (
                     <Card key={index} className="bg-gradient-to-br from-accent/5 to-primary/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                        <CardContent className="p-6 flex items-start gap-6">
-                            <div className="p-3 bg-background rounded-full border shadow-inner transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                        <CardContent className="p-6 flex flex-col items-center text-center">
+                            <div className="p-3 bg-background rounded-full border shadow-inner transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 mb-4">
                                 {item.icon}
                             </div>
                             <div className="flex-1">
