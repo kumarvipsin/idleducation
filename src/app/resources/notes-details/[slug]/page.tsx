@@ -591,7 +591,7 @@ function NotesContent({ slug }: { slug: string }) {
                         <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="text-lg md:text-3xl font-bold">{notes.title}</h1>
+                        <h1 className="text-base md:text-3xl font-bold">{notes.title}</h1>
                     </div>
                 </div>
             </div>
@@ -615,4 +615,3 @@ export default function NotesDetailsPage({ params }: { params: { slug: string } 
 }
 
     
-
