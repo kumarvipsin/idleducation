@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from '../ui/scroll-area';
 import { useEffect, useRef, useState } from 'react';
+import { cn } from "@/lib/utils";
 
 const allPrograms = [
     // EN
@@ -62,6 +63,15 @@ const popularProgramsHi = [
   { name: "DELHI POLICE", href: "/category/govt-job-exams" },
 ];
 
+const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.1)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
+
+const textureStyle = {
+  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  backgroundSize: '500px 500px',
+  animation: 'float 10s ease-in-out infinite',
+};
+
+
 const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string, dialogDescription: string }) => {
     return (
         <Dialog>
@@ -71,7 +81,10 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-sm bg-background/80 backdrop-blur-lg border-primary/20 rounded-2xl">
+            <DialogContent
+              className={cn("sm:max-w-sm border-0 rounded-2xl shadow-lg")}
+              style={{ backgroundColor: 'white', ...textureStyle }}
+            >
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
                     <DialogDescription className="text-muted-foreground">
@@ -81,7 +94,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg hover:bg-primary/10 hover:text-primary">
+                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
@@ -91,14 +104,6 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
         </Dialog>
     )
 }
-
-const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.1)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
-
-const textureStyle = {
-  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-  backgroundSize: '500px 500px',
-  animation: 'float 10s ease-in-out infinite',
-};
 
 export function ExamCategories() {
 
