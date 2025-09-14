@@ -85,27 +85,31 @@ export default function AboutPage() {
         </section>
 
         <section className="my-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <Card className="shadow-lg hover:shadow-xl transition-shadow">
-                <CardHeader>
-                    <CardTitle className="text-2xl text-primary">Our Vision</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-foreground/80 leading-relaxed">
-                        To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
-                    </p>
-                </CardContent>
-            </Card>
-             <Card className="shadow-lg hover:shadow-xl transition-shadow">
-                <CardHeader>
-                    <CardTitle className="text-2xl text-primary">Our Mission</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-foreground/80 leading-relaxed">
-                        To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
-                    </p>
-                </CardContent>
-            </Card>
+          <div className="max-w-5xl mx-auto text-center">
+              <h2 className="text-3xl font-bold text-primary mb-4">Our Core Principles</h2>
+              <p className="text-muted-foreground max-w-3xl mx-auto">
+                  At IDL EDUCATION, we are guided by a clear vision and mission that shape our commitment to revolutionizing the learning experience for students everywhere.
+              </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10 max-w-5xl mx-auto">
+            <div className="relative overflow-hidden rounded-lg p-6 bg-gradient-to-br from-purple-500 to-indigo-600 text-white shadow-lg">
+                <div className="flex items-center gap-4">
+                    <Eye className="w-10 h-10" />
+                    <h3 className="text-2xl font-bold">Our Vision</h3>
+                </div>
+                <p className="mt-4 text-white/90 leading-relaxed">
+                    To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery.
+                </p>
+            </div>
+            <div className="relative overflow-hidden rounded-lg p-6 bg-gradient-to-br from-teal-500 to-cyan-600 text-white shadow-lg">
+                <div className="flex items-center gap-4">
+                    <Target className="w-10 h-10" />
+                    <h3 className="text-2xl font-bold">Our Mission</h3>
+                </div>
+                <p className="mt-4 text-white/90 leading-relaxed">
+                    To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock the full potential of every learner.
+                </p>
+            </div>
           </div>
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
               {missionParts.map((part, index) => (
