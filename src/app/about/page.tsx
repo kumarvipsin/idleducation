@@ -6,7 +6,27 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExpertTeam } from "@/components/landing/expert-team";
 import { Separator } from "@/components/ui/separator";
 
-const coreValues = [
+const combinedValues = [
+    {
+        icon: <Eye className="w-10 h-10 text-primary" />,
+        title: "Our Vision",
+        description: "To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery."
+    },
+    {
+        icon: <Target className="w-10 h-10 text-primary" />,
+        title: "Our Mission",
+        description: "To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock potential."
+    },
+    {
+        icon: <Goal className="w-10 h-10 text-primary" />,
+        title: "Our Goal",
+        description: "To make high-quality education affordable and accessible to every student, regardless of their geographical location or economic background, fostering a community of lifelong learners."
+    },
+    {
+        icon: <Route className="w-10 h-10 text-primary" />,
+        title: "Our Approach",
+        description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
+    },
     {
         icon: <Book className="w-10 h-10 text-primary" />,
         title: "Simple Language",
@@ -29,28 +49,6 @@ const coreValues = [
     }
 ];
 
-const visionAndMission = [
-    {
-        icon: <Eye className="w-10 h-10 text-primary" />,
-        title: "Our Vision",
-        description: "To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery."
-    },
-    {
-        icon: <Target className="w-10 h-10 text-primary" />,
-        title: "Our Mission",
-        description: "To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock potential."
-    },
-    {
-        icon: <Goal className="w-10 h-10 text-primary" />,
-        title: "Our Goal",
-        description: "To make high-quality education affordable and accessible to every student, regardless of their geographical location or economic background, fostering a community of lifelong learners."
-    },
-    {
-        icon: <Route className="w-10 h-10 text-primary" />,
-        title: "Our Approach",
-        description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
-    }
-]
 
 export default function AboutPage() {
   return (
@@ -107,8 +105,8 @@ export default function AboutPage() {
         <Separator className="my-12 md:my-20" />
         
         <section className="mb-12 md:mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {visionAndMission.map((item, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {combinedValues.map((item, index) => (
               <Card key={index} className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
                 <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-4 bg-background rounded-full mb-4 border shadow-inner transition-transform duration-300 group-hover:scale-110">
@@ -120,24 +118,6 @@ export default function AboutPage() {
               </Card>
             ))}
           </div>
-        </section>
-
-        <section className="mb-12 md:mb-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {coreValues.map((item, index) => (
-                    <Card key={index} className="bg-gradient-to-br from-accent/5 to-primary/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                        <CardContent className="p-6 flex flex-col items-center text-center">
-                            <div className="p-3 bg-background rounded-full border shadow-inner transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 mb-4">
-                                {item.icon}
-                            </div>
-                            <div className="flex-1">
-                                <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
-                                <p className="text-foreground/80 leading-relaxed">{item.description}</p>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
         </section>
 
         <Separator className="my-12 md:my-20" />
