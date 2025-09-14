@@ -41,7 +41,7 @@ const missionParts = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-[#F0F8FF] dark:bg-background">
       <div className="container mx-auto py-8 px-4 md:px-6">
         <section className="my-12">
           <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl">
