@@ -180,26 +180,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             </div>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {data.courses?.map((course: any, index: number) => (
-            <div key={index} className="p-1 h-full" style={{ animationDelay: `${index * 0.05}s` }}>
-                <Card className={`flex flex-col h-full rounded-lg shadow-lg overflow-hidden ${course.bgColor}`}>
-                    <CardContent className="p-6 flex flex-col flex-grow items-center justify-center text-center">
-                    <h3 className={`text-xl font-semibold mb-2 ${course.textColor}`}>
-                        {course.title}
-                    </h3>
-                      {course.description && <p className={`text-sm mb-2 ${course.textColor}`}>{course.description}</p>}
-                      {course.language && <p className={`text-xs ${course.textColor}`}>{course.language}</p>}
-                    <div className="flex items-center justify-center gap-2 mt-auto pt-4">
-                        <Button asChild variant="outline" className="bg-white text-black hover:bg-gray-100 border-gray-300">
-                            <Link href="/resources/science-details">VIEW MORE</Link>
-                        </Button>
-                    </div>
-                    </CardContent>
-                </Card>
-            </div>
-          ))}
-        </div>
       </div>
   </div>
   );
