@@ -92,11 +92,12 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     )
 }
 
-const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><g fill='rgba(30,58,138,0.03)' font-family='Arial, sans-serif' font-size='20' font-weight='bold'><text x='20' y='40' transform='rotate(-15)'>π</text><text x='150' y='60' transform='rotate(10)'>Σ</text><text x='80' y='120'>∞</text><text x='120' y='180' transform='rotate(20)'>√</text><text x='30' y='160'>α</text><text x='180' y='110' transform='rotate(-5)'>∫</text><text x='70' y='20'>β</text></g></svg>`;
+const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><g fill='rgba(30,58,138,0.06)' font-family='Arial, sans-serif' font-size='30' font-weight='bold'><text x='20' y='50' transform='rotate(-20)'>π</text><text x='180' y='80' transform='rotate(15)'>Σ</text><text x='100' y='150'>∞</text><text x='220' y='250' transform='rotate(25)'>√</text><text x='30' y='240'>α</text><text x='250' y='160' transform='rotate(-10)'>∫</text><text x='80' y='40'>β</text><text x='150' y='220' transform='rotate(5)'>Δ</text></g></svg>`;
 
 const textureStyle = {
   backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-  backgroundSize: '200px 200px',
+  backgroundSize: '300px 300px',
+  animation: 'float 6s ease-in-out infinite',
 };
 
 export function ExamCategories() {
