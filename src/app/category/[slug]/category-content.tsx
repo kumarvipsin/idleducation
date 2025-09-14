@@ -83,7 +83,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
 
   return (
     <div>
-       {['cuet', 'govt-job-exams', 'iit-jee', 'defence'].includes(slug) && (
+       {['cuet', 'govt-job-exams', 'iit-jee', 'defence', 'gate', 'ssc', 'delhi-police'].includes(slug) && (
         <section className="container mx-auto px-4 md:px-6 pt-8">
             <Card className="overflow-hidden shadow-lg">
             <div className="relative w-full aspect-[16/4]">
@@ -100,38 +100,6 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
        )}
       <div className="container mx-auto py-12 px-4 md:px-6">
         
-        {!['nios', 'gate'].includes(slug) && (
-          <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-            <div className="container mx-auto px-4 md:px-[10%]">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="text-black dark:text-white">Know Your </span>
-                  <span style={{ color: '#ced4da' }}>Teachers</span>
-                </h2>
-                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                  Our dedicated team of educators is here to guide you on your learning journey.
-                </p>
-              </div>
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                plugins={[autoplayPlugin.current]}
-                className="w-full max-w-6xl mx-auto"
-              >
-                <CarouselContent className="-ml-4">
-                  {teamMembers.map((member, index) => (
-                    <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                      <TeacherCard {...member} />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </div>
-          </section>
-        )}
-
         <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="container mx-auto px-4 md:px-[10%]">
             <div className="text-center mb-12">
