@@ -605,11 +605,11 @@ function NotesContent({ slug }: { slug: string }) {
   )
 }
 
-export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
-    const { slug } = use(params);
+export default function NotesDetailsPage({ params: paramsProp }: { params: { slug: string } }) {
+    const params = use(paramsProp);
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <NotesContent slug={slug} />
+            <NotesContent slug={params.slug} />
         </Suspense>
     )
 }
