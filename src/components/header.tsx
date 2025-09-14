@@ -211,7 +211,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
-        <div className="bg-[#dee2e6] text-black py-0 text-xs">
+        <div className="bg-gray-200 text-black py-0 text-xs">
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
                 <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2">
                     <a href="tel:+917011117585" className="flex items-center gap-1">
@@ -235,7 +235,7 @@ export function Header() {
                 </Button>
             </div>
         </div>
-        <div className="container mx-auto px-4 md:px-6 h-14 flex items-center">
+        <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
             <Link href={logoHref} className="flex items-center justify-center">
             <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
             <span className="ml-2 text-lg font-semibold">
