@@ -104,7 +104,7 @@ export default function NotificationsPage() {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <div className="container mx-auto py-8 px-4 md:px-6">
+      <div className="container mx-auto py-8 px-4 md:px-6" style={{ maxWidth: '79%' }}>
         <Card className="max-w-4xl mx-auto bg-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>

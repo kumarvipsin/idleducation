@@ -53,7 +53,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
         avatar: "/chandu.jpg",
-        avatarHint: "Chandra Prakesh"
+        avatarHint: "CHANDRA PRAKASH"
     },
     {
         name: t('team.member1.name'),
@@ -74,14 +74,14 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
   return (
     <div>
       <section className="bg-primary/5 py-8 md:py-12">
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6" style={{ maxWidth: '79%' }}>
               <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">{data.name} Online Coaching, Complete Course for {data.name} Preparation</h1>
               <p className="text-base md:text-lg text-foreground/80">
                   {data.name} Online Coaching 2025 provides study material for the required sections. Students can solve mock tests and evaluate their performance in our {data.name} Online Coaching Class.
               </p>
           </div>
       </section>
-      <div className="container mx-auto py-12 px-4 md:px-6">
+      <div className="container mx-auto py-12 px-4 md:px-6" style={{ maxWidth: '79%' }}>
         <div className="border-b mb-8">
             <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex items-center space-x-8">
