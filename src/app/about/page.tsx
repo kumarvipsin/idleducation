@@ -2,21 +2,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Target, Eye, Users, PenSquare, UserCircle, Book, Zap, BrainCircuit, Rocket, Goal, Route } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ExpertTeam } from "@/components/landing/expert-team";
 import { Separator } from "@/components/ui/separator";
 
-const missionParts = [
+const coreValues = [
     {
         icon: <Book className="w-8 h-8 text-primary" />,
         title: "Simple Language",
@@ -64,74 +54,102 @@ const visionAndMission = [
 
 export default function AboutPage() {
   return (
-    <div className="bg-white dark:bg-background">
-      <div className="container mx-auto py-8 px-4 md:px-6">
-        <section className="my-12">
-          <Card className="max-w-5xl mx-auto overflow-hidden shadow-xl rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              <div className="md:col-span-1 p-8 flex flex-col items-center justify-center text-center bg-muted/30">
-                <Avatar className="w-48 h-48 mb-4 border-[6px] border-white shadow-lg">
-                  <AvatarImage src="/amod.jpg" alt="Director's Photo" />
-                  <AvatarFallback>AK</AvatarFallback>
-                </Avatar>
-                <h1 className="text-lg md:text-xl font-bold text-foreground whitespace-nowrap">AMOD KUMAR SHARMA</h1>
-                <p className="text-base text-muted-foreground mt-1">Founder & Managing Director</p>
+    <div className="bg-background">
+      <section className="relative py-20 md:py-32 bg-gradient-to-br from-primary/10 via-background to-background">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="container mx-auto px-4 md:px-6 relative text-center animate-fade-in-up">
+          <h1 className="text-4xl md:text-6xl font-bold text-primary tracking-tight">About IDL EDUCATION</h1>
+          <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground">
+            Shaping the future of learning with passion and innovation.
+          </p>
+        </div>
+      </section>
+      
+      <div className="container mx-auto py-12 md:py-20 px-4 md:px-6">
+        
+        <section className="mb-12 md:mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+              <div className="lg:col-span-2 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                  <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
+                      <CardContent className="p-0">
+                          <Image
+                            src="/amod.jpg"
+                            alt="Director's Photo"
+                            width={400}
+                            height={500}
+                            className="w-full h-auto object-cover"
+                          />
+                          <div className="p-4 bg-muted/30 text-center">
+                              <h2 className="text-lg font-bold text-foreground">AMOD KUMAR SHARMA</h2>
+                              <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                          </div>
+                      </CardContent>
+                  </Card>
               </div>
-              <div className="md:col-span-2 p-4 sm:p-8">
-                <Tabs defaultValue="message" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="message">
-                      <PenSquare className="mr-2 h-4 w-4" />
-                      Director's Message
-                    </TabsTrigger>
-                    <TabsTrigger value="biography">
-                      <UserCircle className="mr-2 h-4 w-4" />
-                      Biography
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="message" className="mt-6 text-foreground/90 leading-relaxed">
-                    <blockquote className="border-l-4 border-primary pl-4 italic text-lg">
-                      "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the best tools for both our dedicated educators and our ambitious students. Together, we are not just learning; we are shaping the future."
-                    </blockquote>
-                  </TabsContent>
-                  <TabsContent value="biography" className="mt-6 text-foreground/90 leading-relaxed">
-                    <div className="space-y-4">
-                      <p>
+              <div className="lg:col-span-3 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                  <div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
+                          <PenSquare className="w-7 h-7" /> Director's Message
+                      </h3>
+                      <blockquote className="border-l-4 border-primary pl-6 italic text-lg md:text-xl text-foreground/80 leading-relaxed">
+                        "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized."
+                      </blockquote>
+                  </div>
+                  <div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
+                          <UserCircle className="w-7 h-7" /> Biography
+                      </h3>
+                      <p className="text-foreground/80 leading-relaxed">
                         With over two decades in educational technology, Amod Kumar Sharma is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
                       </p>
-                    </div>
-                  </TabsContent>
-                </Tabs>
+                  </div>
               </div>
-            </div>
-          </Card>
-        </section>
-
-        <section className="my-12">
-          <div className="max-w-5xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-primary mb-4">Our Core Principles</h2>
-              <p className="text-muted-foreground max-w-3xl mx-auto">
-                  At IDL EDUCATION, we are guided by a clear vision and mission that shape our commitment to revolutionizing the learning experience for students everywhere.
-              </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12 max-w-6xl mx-auto">
-              {[...visionAndMission, ...missionParts].map((item, index) => (
-                <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow rounded-lg">
-                    <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 p-3 rounded-full">
-                            {item.icon}
-                        </div>
-                    </div>
-                  <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                  <p className="text-sm text-foreground/80">{item.description}</p>
-                </Card>
-              ))}
-            </div>
         </section>
         
-        <section className="my-12">
+        <Separator className="my-12 md:my-20" />
+
+        <section className="mb-12 md:mb-20 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Our Core Principles</h2>
+            <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
+                At IDL EDUCATION, we are guided by a clear vision and mission that shape our commitment to revolutionizing the learning experience for students everywhere.
+            </p>
+        </section>
+        
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 md:mb-20">
+            {visionAndMission.map((item, index) => (
+              <Card key={index} className="text-center p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-lg animate-fade-in-up" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
+                  <div className="flex justify-center mb-4">
+                      <div className="bg-primary/10 p-4 rounded-full">
+                          {item.icon}
+                      </div>
+                  </div>
+                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                <p className="text-sm text-foreground/80">{item.description}</p>
+              </Card>
+            ))}
+        </section>
+
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 md:mb-20">
+            {coreValues.map((item, index) => (
+              <div key={index} className="flex items-start gap-4 animate-fade-in-up" style={{ animationDelay: `${0.6 + index * 0.1}s` }}>
+                  <div className="bg-primary/10 p-3 rounded-full mt-1">
+                      {item.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                    <p className="text-sm text-foreground/80">{item.description}</p>
+                  </div>
+              </div>
+            ))}
+        </section>
+
+        <Separator className="my-12 md:my-20" />
+        
+        <section className="animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <ExpertTeam />
         </section>
+
       </div>
     </div>
   );
