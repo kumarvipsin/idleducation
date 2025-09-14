@@ -113,15 +113,13 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <Separator className="my-12 md:my-20" />
+        <Separator className="my-8 md:my-12" />
         
         <section className="animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <ExpertTeam />
         </section>
 
       </div>
-      <section className="relative py-20 md:py-32">
-      </section>
     </div>
   );
 }
