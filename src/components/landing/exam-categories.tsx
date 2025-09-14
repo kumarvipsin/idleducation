@@ -68,7 +68,6 @@ const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='
 const textureStyle = {
   backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
   backgroundSize: '500px 500px',
-  animation: 'float 10s ease-in-out infinite',
 };
 
 
@@ -83,7 +82,10 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
             </DialogTrigger>
             <DialogContent
               className={cn("sm:max-w-sm border-0 rounded-2xl shadow-lg")}
-              style={{ backgroundColor: 'white', ...textureStyle }}
+              style={{ 
+                backgroundColor: 'white', 
+                ...textureStyle, 
+              }}
             >
                 <DialogHeader className="text-center">
                     <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
@@ -123,7 +125,9 @@ export function ExamCategories() {
             style={{ 
               maxWidth: '100%',
               backgroundColor: 'white',
-              ...textureStyle
+              backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+              backgroundSize: '500px 500px',
+              animation: 'float 10s ease-in-out infinite',
             }}
         >
             <div className="flex flex-col lg:flex-row">
