@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageCircle, Tag, Tv, Zap, UserCheck } from 'lucide-react';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageCircle, Tag, Tv, Zap, UserCheck, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +16,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { useLanguage } from '@/context/language-context';
 import Autoplay from "embla-carousel-autoplay";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 const classes = [
@@ -295,6 +296,13 @@ const coursesByCategory: { [key: string]: any[] } = {
   'Class 12': class12Courses,
 };
 
+const resourceLinks = [
+  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
+  { href: '/resources/previous-year-questions', label: 'PYQPs', icon: <FileText /> },
+  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
+  { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+];
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -382,7 +390,7 @@ function SchoolPageContent() {
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {classes.map((className) => (
               <button
                 key={className}
@@ -431,6 +439,50 @@ function SchoolPageContent() {
           </section>
         )}
 
+      <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold">
+                <span className="text-black dark:text-white">Course Details for </span>
+                <span className="text-primary">{activeClass}</span>
+            </h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                Everything you need to know about the curriculum, exams, and resources.
+            </p>
+          </div>
+          <Card className="shadow-lg">
+            <CardContent className="p-0">
+                <Tabs defaultValue="study-plan" className="w-full">
+                    <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="study-plan">Study Plan</TabsTrigger>
+                        <TabsTrigger value="exam-details">Exam Details</TabsTrigger>
+                        <TabsTrigger value="resources">Resources</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="study-plan" className="p-6">
+                        <h3 className="font-bold text-lg mb-2">Syllabus & Study Strategy</h3>
+                        <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                    </TabsContent>
+                    <TabsContent value="exam-details" className="p-6">
+                        <h3 className="font-bold text-lg mb-2">Exam Pattern & Key Dates</h3>
+                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
+                    </TabsContent>
+                    <TabsContent value="resources" className="p-6">
+                        <h3 className="font-bold text-lg mb-4">Essential Resources</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {resourceLinks.map(link => (
+                                <Button asChild variant="outline" key={link.href}>
+                                    <Link href={link.href}>
+                                        {link.icon}
+                                        <span className="ml-2">{link.label}</span>
+                                    </Link>
+                                </Button>
+                            ))}
+                        </div>
+                    </TabsContent>
+                </Tabs>
+            </CardContent>
+          </Card>
+      </section>
+
        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {courses.length > 0 ? (
           courses.map((course, index) => (
@@ -468,3 +520,4 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
