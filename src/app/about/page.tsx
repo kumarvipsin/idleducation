@@ -31,22 +31,22 @@ const coreValues = [
 
 const visionAndMission = [
     {
-        icon: <Eye className="w-8 h-8 text-primary" />,
+        icon: <Eye className="w-10 h-10 text-primary" />,
         title: "Our Vision",
         description: "To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery."
     },
     {
-        icon: <Target className="w-8 h-8 text-primary" />,
+        icon: <Target className="w-10 h-10 text-primary" />,
         title: "Our Mission",
         description: "To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock potential."
     },
     {
-        icon: <Goal className="w-8 h-8 text-primary" />,
+        icon: <Goal className="w-10 h-10 text-primary" />,
         title: "Our Goal",
         description: "To make high-quality education affordable and accessible to every student, regardless of their geographical location or economic background, fostering a community of lifelong learners."
     },
     {
-        icon: <Route className="w-8 h-8 text-primary" />,
+        icon: <Route className="w-10 h-10 text-primary" />,
         title: "Our Approach",
         description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
     }
@@ -106,18 +106,24 @@ export default function AboutPage() {
             </p>
         </section>
         
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 md:mb-20">
-            {visionAndMission.map((item, index) => (
-              <Card key={index} className="text-center p-6 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 rounded-lg animate-fade-in-up" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                  <div className="flex justify-center mb-4">
-                      <div className="bg-primary/10 p-4 rounded-full">
-                          {item.icon}
-                      </div>
-                  </div>
-                <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-sm text-foreground/80">{item.description}</p>
-              </Card>
-            ))}
+        <section className="mb-12 md:mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {visionAndMission.map((item, index) => (
+                    <div key={index} className="flex items-start gap-6 animate-fade-in-up" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
+                        <div className="flex-shrink-0">
+                           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center shadow-inner">
+                               <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-md">
+                                  {item.icon}
+                               </div>
+                           </div>
+                        </div>
+                        <div className="flex-1">
+                           <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
+                           <p className="text-foreground/80 leading-relaxed">{item.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 md:mb-20">
