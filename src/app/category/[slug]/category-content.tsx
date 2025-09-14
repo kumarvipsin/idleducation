@@ -34,7 +34,6 @@ const competitiveExams = [
     { name: "CLAT", href: "/category/cuet" },
     { name: "SSC", href: "/category/ssc" },
     { name: "DELHI POLICE", href: "/category/delhi-police" },
-    { name: "DEFENCE", href: "/category/defence" },
     { name: "Govt. Job Exams", href: "/category/govt-job-exams" },
 ];
 
