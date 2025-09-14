@@ -55,13 +55,6 @@ export default function AboutPage() {
     <div className="bg-white dark:bg-background">
       <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
         
-        <section className="mb-12 md:mb-20 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4">Meet our Director</h1>
-          <p className="text-base md:text-lg max-w-3xl mx-auto text-foreground/80">
-            Get to know the visionary leader behind IDL EDUCATION and his mission to revolutionize learning.
-          </p>
-        </section>
-
         <section className="mb-12 md:mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
               <div className="lg:col-span-2 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
