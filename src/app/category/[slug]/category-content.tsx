@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useLanguage } from "@/context/language-context";
 import { TeacherCard } from "@/components/landing/teacher-card";
@@ -82,6 +83,21 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
 
   return (
     <div>
+       {slug === 'cuet' && (
+        <section className="mb-8">
+            <Card className="overflow-hidden shadow-lg">
+            <div className="relative w-full aspect-[16/4]">
+                <Image
+                src="/result.jpg"
+                alt="Our Toppers"
+                data-ai-hint="student success"
+                fill
+                className="object-cover"
+                />
+            </div>
+            </Card>
+        </section>
+       )}
       <section className="bg-primary/5 py-8 md:py-12">
           <div className="container mx-auto px-4 md:px-6">
               <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">{data.name} Online Coaching, Complete Course for {data.name} Preparation</h1>
