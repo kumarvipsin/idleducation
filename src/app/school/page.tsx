@@ -483,32 +483,6 @@ function SchoolPageContent() {
           </Card>
       </section>
 
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {courses.length > 0 ? (
-          courses.map((course, index) => (
-            <Card key={index} className={`flex flex-col text-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${course.gradient}`} style={{ animationDelay: `${index * 0.05}s` }}>
-                <CardContent className="p-6 flex flex-col flex-grow items-start">
-                    <div className="mb-4">
-                        <Badge variant="secondary" className="bg-white/20 text-white border-0">{course.title}</Badge>
-                    </div>
-                    <h3 className="text-2xl font-bold mb-2 flex-grow">{course.description}</h3>
-                    <p className="text-xs font-light opacity-80 mb-6">{course.language}</p>
-                    <Button asChild variant="secondary" className="mt-auto bg-white/90 text-black hover:bg-white w-full">
-                        <Link href={course.buttons[0].href}>
-                            {course.buttons[0].text} <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardContent>
-            </Card>
-          ))
-        ) : (
-          <div className="md:col-span-2 lg:col-span-4 text-center">
-             <Card className="p-8">
-                <p className="text-muted-foreground">No courses available for this class yet. Please check back later!</p>
-            </Card>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
@@ -520,4 +494,3 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
