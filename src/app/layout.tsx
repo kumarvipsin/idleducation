@@ -1,5 +1,6 @@
 
 import type { Metadata, Viewport } from 'next';
+import { Josefin_Sans } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -8,6 +9,11 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/context/language-context';
 import { AuthProvider } from '@/context/auth-context';
 import { AppContent } from '@/components/app-content';
+
+const josefin_sans = Josefin_Sans({
+  subsets: ['latin'],
+  variable: '--font-josefin-sans',
+});
 
 export const metadata: Metadata = {
   title: 'IDL EDUCATION',
@@ -34,7 +40,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.png" sizes="any" />
       </head>
-      <body className="antialiased flex flex-col min-h-screen">
+      <body className={`${josefin_sans.variable} font-sans antialiased flex flex-col min-h-screen`}>
         <AuthProvider>
           <LanguageProvider>
             <ThemeProvider
