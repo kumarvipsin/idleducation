@@ -322,7 +322,7 @@ export default function ContactPage() {
 
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
+    <div className="container mx-auto py-12 px-4 md:px-6" style={{ maxWidth: '79%' }}>
       <div className="max-w-4xl mx-auto">
         <Card className="mb-12 shadow-lg overflow-hidden">
           <CardContent className="p-8">
