@@ -129,10 +129,6 @@ const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannel
 
 export function ToppersTestimonials() {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
-  const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: true, stopOnMouseEnter: true })
-  );
-  const isMobile = useIsMobile();
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -153,22 +149,13 @@ export function ToppersTestimonials() {
             </p>
           </div>
           
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            plugins={[autoplayPlugin.current]}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-4">
-              {youtubeChannels.map((channel, index) => (
-                <CarouselItem key={`${channel.studentName}-${index}`} className="basis-full sm:basis-1/2 lg:basis-1/4">
-                   <ChannelCard channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
-                </CarouselItem>
+          <div className="relative w-full overflow-hidden">
+            <div className="flex marquee-container">
+              {[...youtubeChannels, ...youtubeChannels].map((channel, index) => (
+                <ChannelCard key={`${channel.studentName}-${index}`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
               ))}
-            </CarouselContent>
-          </Carousel>
+            </div>
+          </div>
         </div>
       </section>
 
