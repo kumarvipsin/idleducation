@@ -23,7 +23,7 @@ const resourceLinks = [
 
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
   const { t } = useLanguage();
-  const [activeSubCategory, setActiveSubCategory] = useState(subCategories[0] || '');
+  const [activeSubCategory, setActiveSubCategory] = useState(subCategories && subCategories.length > 0 ? subCategories[0] : '');
   const [animationKey, setAnimationKey] = useState(0);
   const isMobile = useIsMobile();
   
