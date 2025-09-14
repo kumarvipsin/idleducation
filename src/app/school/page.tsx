@@ -338,7 +338,7 @@ function SchoolPageContent() {
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
         avatar: "/chandu.jpg",
-        avatarHint: "Chandra Prakesh"
+        avatarHint: "CHANDRA PRAKASH"
     },
     {
         name: t('team.member1.name'),
