@@ -581,7 +581,7 @@ function NotesContent({ slug }: { slug: string }) {
   const notes = chapterNotes[lang];
 
   return (
-    <div className="bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10 min-h-screen">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="max-w-4xl mx-auto py-8 md:py-12">
           <Card className="shadow-lg border-primary/10 overflow-hidden bg-background/80 backdrop-blur-sm">
@@ -591,7 +591,7 @@ function NotesContent({ slug }: { slug: string }) {
                         <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="text-base md:text-3xl font-bold">{notes.title}</h1>
+                        <h1 className="text-base md:text-xl font-bold">{notes.title}</h1>
                     </div>
                 </div>
             </div>
