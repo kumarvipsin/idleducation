@@ -8,22 +8,22 @@ import { Separator } from "@/components/ui/separator";
 
 const coreValues = [
     {
-        icon: <Book className="w-8 h-8 text-primary" />,
+        icon: <Book className="w-10 h-10 text-primary" />,
         title: "Simple Language",
         description: "We develop content by keeping by simplicity and flow of learning in mind. All the content on our platform is simple in language and easily relatable."
     },
     {
-        icon: <BrainCircuit className="w-8 h-8 text-primary" />,
+        icon: <BrainCircuit className="w-10 h-10 text-primary" />,
         title: "Highly Skilled",
         description: "Everyone working behind the scene is highly skilled and motivated to develop and deliver the quality content."
     },
     {
-        icon: <Zap className="w-8 h-8 text-primary" />,
+        icon: <Zap className="w-10 h-10 text-primary" />,
         title: "Learning cycle",
         description: "We develop our content according to the learning cycle of the students. We give most of our efforts and time to research and understand that how a student learns and understands."
     },
     {
-        icon: <Rocket className="w-8 h-8 text-primary" />,
+        icon: <Rocket className="w-10 h-10 text-primary" />,
         title: "Your growth",
         description: "The biggest success for a teacher is the growth of students. As an educational institute our priority is your growth. We always try to make our content worth more."
     }
@@ -126,15 +126,19 @@ export default function AboutPage() {
             </div>
         </section>
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 md:mb-20">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 md:mb-20">
             {coreValues.map((item, index) => (
-              <div key={index} className="flex items-start gap-4 animate-fade-in-up" style={{ animationDelay: `${0.6 + index * 0.1}s` }}>
-                  <div className="bg-primary/10 p-3 rounded-full mt-1">
-                      {item.icon}
+              <div key={index} className="flex items-start gap-6 animate-fade-in-up" style={{ animationDelay: `${0.6 + index * 0.1}s` }}>
+                  <div className="flex-shrink-0">
+                     <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center shadow-inner">
+                         <div className="w-16 h-16 rounded-full bg-background flex items-center justify-center shadow-md">
+                            {item.icon}
+                         </div>
+                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold mb-1">{item.title}</h3>
-                    <p className="text-sm text-foreground/80">{item.description}</p>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
+                    <p className="text-foreground/80 leading-relaxed">{item.description}</p>
                   </div>
               </div>
             ))}
