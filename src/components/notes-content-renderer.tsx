@@ -5,13 +5,13 @@ export const NotesContentRenderer = ({ content }: { content: string }) => {
   const lines = content.split('\n');
 
   return (
-    <div className="space-y-4 prose prose-lg dark:prose-invert max-w-none">
+    <div className="space-y-4 prose prose-lg dark:prose-invert max-w-none text-base md:text-lg">
       {lines.map((line, index) => {
         if (line.startsWith('### ')) {
           return (
             <h3 
               key={index} 
-              className="text-xl font-bold mt-8 mb-4 pb-2 border-b-2 border-primary/20"
+              className="text-lg md:text-xl font-bold mt-6 md:mt-8 mb-3 md:mb-4 pb-2 border-b-2 border-primary/20"
             >
               {line.substring(4)}
             </h3>
