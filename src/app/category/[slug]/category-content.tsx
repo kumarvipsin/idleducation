@@ -14,6 +14,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
@@ -22,11 +24,23 @@ const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
 ];
 
+const competitiveExams = [
+    { name: "NEET", href: "/category/neet" },
+    { name: "IIT JEE", href: "/category/iit-jee" },
+    { name: "CUET", href: "/category/cuet" },
+    { name: "Govt. Job Exams", href: "/category/govt-job-exams" },
+    { name: "Defence", href: "/category/defence" },
+    { name: "GATE", href: "/category/gate" },
+    { name: "SSC", href: "/category/ssc" },
+    { name: "Delhi Police", href: "/category/delhi-police" },
+];
+
 export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
   const { t } = useLanguage();
   const [activeSubCategory, setActiveSubCategory] = useState(subCategories && subCategories.length > 0 ? subCategories[0] : '');
   const [animationKey, setAnimationKey] = useState(0);
   const isMobile = useIsMobile();
+  const router = useRouter();
   
   const autoplayPlugin = useRef(
     Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -81,6 +95,9 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
     }
   ];
 
+  const competitiveExamSlugs = competitiveExams.map(e => e.href.split('/')[2]);
+  const isCompetitiveExamPage = competitiveExamSlugs.includes(slug);
+
   return (
     <div>
        {['cuet', 'govt-job-exams', 'iit-jee', 'defence', 'gate', 'ssc', 'delhi-police'].includes(slug) && (
@@ -99,6 +116,30 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
         </section>
        )}
       <div className="container mx-auto py-12 px-4 md:px-6">
+        
+        {isCompetitiveExamPage && (
+          <div className="bg-muted/50 rounded-lg p-4 mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                {competitiveExams.map((exam) => {
+                  const currentSlug = exam.href.split('/')[2];
+                  return (
+                    <Link href={exam.href} key={exam.name}>
+                      <button
+                        className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                          ${slug === currentSlug
+                            ? 'border-primary text-primary bg-primary/10 rounded-md'
+                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                      >
+                        {exam.name}
+                      </button>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
         
         <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="container mx-auto px-4 md:px-[10%]">
