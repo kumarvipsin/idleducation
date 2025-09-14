@@ -13,7 +13,7 @@ const testimonials = [
     {
       name: "Priya Sharma",
       achievement: "Class 10 Topper | CBSE",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://picsum.photos/seed/student1/100/100",
       avatarHint: "female student",
       testimonial: "IDL EDUCATION's structured approach and regular tests were a game-changer for my Class 10 boards. The teachers are incredibly supportive, and the platform made learning complex topics so much easier. I'm grateful for their guidance!",
       testimonial_hi: "आईडीएल एजुकेशन का संरचित दृष्टिकोण और नियमित परीक्षण मेरे कक्षा 10 बोर्ड के लिए गेम-चेंजर थे। शिक्षक अविश्वसनीय रूप से सहायक हैं, और मंच ने जटिल विषयों को सीखना बहुत आसान बना दिया। मैं उनके मार्गदर्शन के लिए आभारी हूं!",
@@ -21,7 +21,7 @@ const testimonials = [
     {
       name: "Rohan Verma",
       achievement: "Scored 96% in Science | CBSE Class 12",
-      avatar: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://picsum.photos/seed/student2/100/100",
       avatarHint: "male student",
       testimonial: "Amod Sharma Sir's teaching method for Physics and Chemistry is phenomenal. He breaks down the most difficult concepts into simple, understandable parts. Thanks to him, I scored 96% in Science in my Class 12 exams!",
       testimonial_hi: "भौतिकी और रसायन विज्ञान के लिए अमोद शर्मा सर की शिक्षण पद्धति अभूतपूर्व है। वह सबसे कठिन अवधारणाओं को सरल, समझने योग्य भागों में तोड़ देते हैं। उनकी बदौलत, मैंने अपनी कक्षा 12 की परीक्षा में विज्ञान में 96% अंक प्राप्त किए!",
@@ -29,7 +29,7 @@ const testimonials = [
     {
       name: "Aisha Khan",
       achievement: "Scored 98 in Maths | CBSE Class 10",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://picsum.photos/seed/student3/100/100",
       avatarHint: "female professional",
       testimonial: "I used to struggle with Mathematics, but Amod Sharma Sir's classes at IDL EDUCATION made all the difference. His patient and clear explanations helped me score 98 in my Class 10 board exams. Highly recommended!",
       testimonial_hi: "मैं गणित के साथ संघर्ष करती थी, लेकिन आईडीएल एजुकेशन में अमोद शर्मा सर की कक्षाओं ने सब कुछ बदल दिया। उनके धैर्यपूर्ण और स्पष्ट स्पष्टीकरण ने मुझे अपनी कक्षा 10 की बोर्ड परीक्षा में 98 अंक प्राप्त करने में मदद की। अत्यधिक अनुशंसित!",
@@ -37,7 +37,7 @@ const testimonials = [
     {
       name: "Arjun Singh",
       achievement: "Commerce Topper | CBSE Class 12",
-      avatar: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto-format=fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8",
+      avatar: "https://picsum.photos/seed/student4/100/100",
       avatarHint: "male teacher",
       testimonial: "The two-teacher model at IDL EDUCATION is fantastic for clearing doubts instantly. The study materials provided were comprehensive and helped me excel in my Class 12 Commerce exams. The platform is truly dedicated to student success.",
       testimonial_hi: "आईडीएल एजुकेशन में दो-शिक्षक मॉडल संदेहों को तुरंत दूर करने के लिए शानदार है। प्रदान की गई अध्ययन सामग्री व्यापक थी और इसने मुझे अपनी कक्षा 12 की वाणिज्य परीक्षाओं में उत्कृष्टता प्राप्त करने में मदद की। यह मंच वास्तव में छात्र की सफलता के लिए समर्पित है।",
@@ -99,7 +99,7 @@ export function StudentTestimonials() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-black dark:text-white">What Our </span>
-            <span style={{ color: '#adb5bd' }}>Students Say</span>
+            <span className="text-gray-300">Students Say</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             {t('testimonials.subtitle')}
