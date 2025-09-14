@@ -92,6 +92,13 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
     )
 }
 
+const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><g fill='rgba(0,0,50,0.03)'><circle cx='50' cy='50' r='50'/><g fill='rgba(0,0,50,0.02)'><circle cx='0' cy='100' r='50'/><circle cx='100' cy='100' r='50'/></g></g></svg>`;
+
+const textureStyle = {
+  backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  backgroundSize: '100px 100px',
+};
+
 export function ExamCategories() {
 
   return (
@@ -109,12 +116,14 @@ export function ExamCategories() {
             className="transition-all duration-300 border-0 rounded-2xl group shadow-[0_0_25px_5px_rgba(30,58,138,0.2)] mx-auto"
             style={{ 
               maxWidth: '100%',
+              backgroundColor: 'white',
+              ...textureStyle
             }}
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 rounded-tl-xl lg:rounded-bl-xl rounded-tr-xl lg:rounded-tr-none bg-gradient-to-br from-blue-50 to-purple-50">
+                <CardContent className="p-6">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
@@ -150,7 +159,7 @@ export function ExamCategories() {
 
                 {/* Right Side */}
                 <div className="flex-1">
-                <CardContent className="p-6 lg:rounded-tr-xl rounded-br-xl lg:rounded-bl-none bg-gradient-to-br from-blue-50 to-purple-50">
+                <CardContent className="p-6">
                     <Carousel
                         opts={{ align: "start" }}
                         className="w-full"
