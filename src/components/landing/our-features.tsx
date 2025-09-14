@@ -36,7 +36,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative pb-12 md:pb-16 bg-[#f8f9fa] dark:bg-muted/20"
+      className="w-full relative pb-12 md:pb-16 bg-white dark:bg-muted/20"
     >
       <div className="container mx-auto px-4 md:px-6 -mt-16">
         <Card className="shadow-lg rounded-xl mx-auto" style={{ paddingBlock: '0.5rem' }}>
