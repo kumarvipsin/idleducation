@@ -65,7 +65,7 @@ export default function AboutPage() {
         </div>
       </section>
       
-      <div className="container mx-auto py-12 md:py-20 px-4 md:px-6">
+      <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
         
         <section className="mb-12 md:mb-20">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
