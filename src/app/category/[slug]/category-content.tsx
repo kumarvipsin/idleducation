@@ -93,7 +93,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
       <div className="container mx-auto py-12 px-4 md:px-6">
         {subCategories.length > 0 && (
           <div className="border-b mb-8">
-              <div className="flex items-center justify-between overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex items-center justify-start md:justify-center overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   <div className="flex items-center space-x-8">
                       {subCategories.map((sub, index) => (
                           <button 
@@ -110,7 +110,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
         
         {slug !== 'nios' && (
           <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container mx-auto px-4 md:px-[10%]">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold">
                   <span className="text-black dark:text-white">Know Your </span>
@@ -141,10 +141,10 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
         )}
 
         <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="container mx-auto px-4 md:px-[10%]">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="text-black dark:text-white">Course Details for </span>
-                  <span className="text-primary">{data.name}</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                {`${data.name} Online Coaching 2025-2026`}
               </h2>
               <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                   Everything you need to know about the curriculum, exams, and resources.
@@ -164,7 +164,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                     <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
                                 <Button asChild variant="outline" key={link.href} className="justify-start">
                                     <Link href={link.href}>
@@ -177,6 +177,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
                     </div>
                 </CardContent>
             </Card>
+            </div>
         </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
