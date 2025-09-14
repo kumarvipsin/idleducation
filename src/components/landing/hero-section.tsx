@@ -21,7 +21,7 @@ const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
-  countryCode: z.string(),
+  countryCode: z.string().min(1, { message: "Country code is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -584,3 +584,5 @@ export function HeroSection() {
     </Dialog>
   );
 }
+
+    

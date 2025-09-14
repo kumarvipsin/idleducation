@@ -12,7 +12,7 @@ const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please enter your class or course." }),
-  countryCode: z.string(),
+  countryCode: z.string().min(1, { message: "Country code is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -658,72 +658,96 @@ export async function getMonthlyUserStats() {
     try {
         const now = new Date();
         const { fiscalYearStart, fiscalYearEnd } = getFiscalYearBoundaries(now);
-        const fiscalYear = fiscalYearStart.getFullYear();
 
-        const monthNames = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
-        
-        const allUsersQuery = query(collection(db, "users"), where("createdAt", ">=", fiscalYearStart), where("createdAt", "<=", fiscalYearEnd));
+        // Fetch all users within the fiscal year once.
+        const allUsersQuery = query(
+            collection(db, "users"),
+            where("createdAt", ">=", fiscalYearStart),
+            where("createdAt", "<=", fiscalYearEnd)
+        );
         const allUsersSnapshot = await getDocs(allUsersQuery);
         const allUsers = allUsersSnapshot.docs.map(doc => {
             const data = doc.data();
             const createdAtData = data.createdAt;
             // Handle both Firestore Timestamp and ISO string formats
-            const createdAtDate = createdAtData instanceof Timestamp 
-                                  ? createdAtData.toDate() 
-                                  : (typeof createdAtData === 'string' ? new Date(createdAtData) : new Date());
+            const createdAtDate = createdAtData instanceof Timestamp
+                ? createdAtData.toDate()
+                : (typeof createdAtData === 'string' ? new Date(createdAtData) : new Date());
             return {
                 ...data,
                 createdAt: createdAtDate
             };
         });
 
-        const chartData = monthNames.map((monthName, i) => {
-            const month = (i + 3) % 12;
-            const year = month < 3 ? fiscalYear + 1 : fiscalYear;
-            
-            const usersInMonth = allUsers.filter(u => {
-                const createdAtDate = u.createdAt;
-                return createdAtDate.getFullYear() === year && createdAtDate.getMonth() === month;
-            });
+        const monthNames = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+        
+        let cumulativeData: { [key: string]: any } = {};
 
-            const newStudents = usersInMonth.filter(u => u.role === 'student' && u.status === 'approved').length;
-            const totalUsers = usersInMonth.length;
-            const totalStudents = usersInMonth.filter(u => u.role === 'student').length;
-            const trainedStudents = usersInMonth.filter(u => u.role === 'student' && u.status === 'approved' && u.teacherIds && u.teacherIds.length > 0).length;
-            const totalTeachers = usersInMonth.filter(u => u.role === 'teacher').length;
-
-            return { 
-                name: monthName,
-                newStudents,
-                totalUsers,
-                totalStudents,
-                trainedStudents,
-                totalTeachers
+        // Initialize cumulative data for each month
+        monthNames.forEach(month => {
+            cumulativeData[month] = {
+                name: month,
+                newStudents: 0,
+                totalUsers: 0,
+                totalStudents: 0,
+                trainedStudents: 0,
+                totalTeachers: 0
             };
         });
+
+        // Process users and accumulate stats
+        allUsers.forEach(user => {
+            const monthIndex = user.createdAt.getMonth();
+            const year = user.createdAt.getFullYear();
+            
+            let fiscalMonthName: string;
+            // Adjust month index for fiscal year (April is 0)
+            if (monthIndex >= 3) {
+                fiscalMonthName = monthNames[monthIndex - 3];
+            } else {
+                fiscalMonthName = monthNames[monthIndex + 9];
+            }
+
+            if(cumulativeData[fiscalMonthName]) {
+                cumulativeData[fiscalMonthName].totalUsers += 1;
+                if (user.role === 'student') {
+                    cumulativeData[fiscalMonthName].totalStudents += 1;
+                    if (user.status === 'approved') {
+                        cumulativeData[fiscalMonthName].newStudents += 1;
+                        if (user.teacherIds && user.teacherIds.length > 0) {
+                            cumulativeData[fiscalMonthName].trainedStudents += 1;
+                        }
+                    }
+                } else if (user.role === 'teacher') {
+                    cumulativeData[fiscalMonthName].totalTeachers += 1;
+                }
+            }
+        });
         
+        // Create the final cumulative chart data
         let cumulativeUsers = 0;
         let cumulativeStudents = 0;
         let cumulativeTrained = 0;
         let cumulativeTeachers = 0;
+        
+        const cumulativeChartData = monthNames.map(month => {
+            cumulativeUsers += cumulativeData[month].totalUsers;
+            cumulativeStudents += cumulativeData[month].totalStudents;
+            cumulativeTrained += cumulativeData[month].trainedStudents;
+            cumulativeTeachers += cumulativeData[month].totalTeachers;
 
-        const cumulativeChartData = chartData.map(monthData => {
-             cumulativeUsers += monthData.totalUsers;
-             cumulativeStudents += monthData.totalStudents;
-             cumulativeTrained += monthData.trainedStudents;
-             cumulativeTeachers += monthData.totalTeachers;
-            
-             return {
-                name: monthData.name,
-                newStudents: monthData.newStudents,
+            return {
+                name: month,
+                newStudents: cumulativeData[month].newStudents, // This should be monthly, not cumulative
                 totalUsers: cumulativeUsers,
                 totalStudents: cumulativeStudents,
                 trainedStudents: cumulativeTrained,
                 totalTeachers: cumulativeTeachers
-             }
+            };
         });
 
         return { success: true, data: cumulativeChartData };
+
     } catch (error) {
         console.error("Error fetching monthly user stats:", error);
         return { success: false, message: "Failed to fetch monthly stats." };
@@ -844,3 +868,5 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: false, message: "Failed to submit admission form." };
     }
 }
+
+    
