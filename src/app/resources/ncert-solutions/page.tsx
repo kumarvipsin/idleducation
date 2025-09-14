@@ -210,7 +210,7 @@ export default function NcertSolutionsPage() {
 
       <div className="bg-muted/50 rounded-lg p-4 mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+          <div className="flex justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {classes.map((className) => (
               <button
                 key={className}
