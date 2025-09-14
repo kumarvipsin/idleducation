@@ -139,7 +139,7 @@ export function ToppersTestimonials() {
   return (
     <Dialog onOpenChange={handleOpenChange}>
       <section className="w-full py-12 md:py-24 bg-[#F0F8FF]">
-        <div className="container mx-auto px-4 md:px-8" style={{ maxWidth: '80%' }}>
+        <div className="container mx-auto px-4 md:px-8" style={{ maxWidth: '79%' }}>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
               <span className="text-black dark:text-white">Topper's</span> <span style={{ color: '#ced4da' }}>Testimonials</span>

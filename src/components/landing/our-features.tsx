@@ -38,8 +38,8 @@ export function OurFeatures() {
     <section 
       className="w-full relative pb-12 md:pb-16"
     >
-      <div className="container mx-auto px-4 md:px-6 -mt-16">
-        <Card className="shadow-lg rounded-xl mx-auto" style={{ maxWidth: '80%', paddingBlock: '0.5rem' }}>
+      <div className="container mx-auto px-4 md:px-6 -mt-16" style={{ maxWidth: '79%' }}>
+        <Card className="shadow-lg rounded-xl mx-auto" style={{ paddingBlock: '0.5rem' }}>
             <CardContent className="p-4 md:p-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {features.map((feature, index) => (
