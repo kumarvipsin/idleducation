@@ -26,7 +26,7 @@ const classes = [
 
 const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
-  { href: '/resources/previous-year-questions', label: 'PYQPs', icon: <FileText /> },
+  { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
   { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
 ];
@@ -192,7 +192,7 @@ function SchoolPageContent() {
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href}>
+                                <Button asChild variant="outline" key={link.href} className="justify-start">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>
