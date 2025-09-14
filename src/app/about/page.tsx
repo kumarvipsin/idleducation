@@ -55,9 +55,6 @@ const visionAndMission = [
 export default function AboutPage() {
   return (
     <div className="bg-white dark:bg-background">
-      <section className="relative py-20 md:py-32">
-      </section>
-      
       <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
         
         <section className="mb-12 md:mb-20">
@@ -144,6 +141,8 @@ export default function AboutPage() {
         </section>
 
       </div>
+      <section className="relative py-20 md:py-32">
+      </section>
     </div>
   );
 }
