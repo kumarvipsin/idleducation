@@ -98,13 +98,6 @@ export default function AboutPage() {
         </section>
         
         <Separator className="my-12 md:my-20" />
-
-        <section className="mb-12 md:mb-20 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Our Core Principles</h2>
-            <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-                At IDL EDUCATION, we are guided by a clear vision and mission that shape our commitment to revolutionizing the learning experience for students everywhere.
-            </p>
-        </section>
         
         <section className="mb-12 md:mb-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
