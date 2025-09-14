@@ -591,7 +591,7 @@ function NotesContent({ slug }: { slug: string }) {
                         <BookOpen className="w-6 h-6" />
                     </div>
                     <div>
-                        <h1 className="text-2xl md:text-3xl font-bold">{notes.title}</h1>
+                        <h1 className="text-lg md:text-3xl font-bold">{notes.title}</h1>
                     </div>
                 </div>
             </div>
@@ -605,13 +605,14 @@ function NotesContent({ slug }: { slug: string }) {
   )
 }
 
-export default function NotesDetailsPage({ params: paramsProp }: { params: { slug: string } }) {
-    const params = use(paramsProp);
+export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
+    
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <NotesContent slug={params.slug} />
+            <NotesContent slug={use(params).slug} />
         </Suspense>
     )
 }
 
     
+
