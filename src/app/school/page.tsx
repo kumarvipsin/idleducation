@@ -52,6 +52,35 @@ const class5MathsSyllabus = {
   ],
 };
 
+const class5EvsSyllabus = {
+  description: "The class 5 CBSE EVS syllabus covers topics like understanding ecosystems, natural resources, sustainability, and conservation. They study various food sources, including plants and animals, and learn about balanced diets and healthy eating habits. The curriculum introduces students to different types of houses and shelters worldwide, the properties of magnets, and the basics of electricity. The CBSE class 5 syllabus for EVS is as follows:",
+  chapters: [
+    { chapter: "Chapter 1", name: "Super Senses" },
+    { chapter: "Chapter 2", name: "A Snake Charmer's Story" },
+    { chapter: "Chapter 3", name: "From Tasting to Digesting" },
+    { chapter: "Chapter 4", name: "Mangoes Round the Year" },
+    { chapter: "Chapter 5", name: "Seeds And Seeds" },
+    { chapter: "Chapter 6", name: "Every Drop Counts" },
+    { chapter: "Chapter 7", name: "Experiments With Water" },
+    { chapter: "Chapter 8", name: "A Treat for Mosquitoes" },
+    { chapter: "Chapter 9", name: "Up You Go" },
+    { chapter: "Chapter 10", name: "Walls Tell Stories" },
+    { chapter: "Chapter 11", name: "Sunita In Space" },
+    { chapter: "Chapter 12", name: "What If It Finishes" },
+    { chapter: "Chapter 13", name: "A Shelter So High" },
+    { chapter: "Chapter 14", name: "When The Earth Shook" },
+    { chapter: "Chapter 15", name: "Blow Hot Blow Cold" },
+    { chapter: "Chapter 16", name: "Who Will Do This Work" },
+    { chapter: "Chapter 17", name: "Across The Wall" },
+    { chapter: "Chapter 18", name: "No Place for Us" },
+    { chapter: "Chapter 19", name: "A Seed Tells a Farmer's Story" },
+    { chapter: "Chapter 20", name: "Whose Forests" },
+    { chapter: "Chapter 21", name: "Like Father Like Daughter" },
+    { chapter: "Chapter 22", name: "On The Move Again" },
+  ],
+};
+
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -201,25 +230,48 @@ function SchoolPageContent() {
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
                         {activeClass === 'Class 5' ? (
-                          <div className="space-y-4">
-                              <h4 className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
-                              <p className="text-muted-foreground">{class5MathsSyllabus.description}</p>
-                              <Table>
-                                <TableHeader>
-                                  <TableRow>
-                                    <TableHead className="w-[150px]">Unit</TableHead>
-                                    <TableHead>Chapter Name</TableHead>
-                                  </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                  {class5MathsSyllabus.chapters.map(item => (
-                                    <TableRow key={item.chapter}>
-                                      <TableCell className="font-medium">{item.chapter}</TableCell>
-                                      <TableCell>{item.name}</TableCell>
-                                    </TableRow>
-                                  ))}
-                                </TableBody>
-                              </Table>
+                          <div className="space-y-8">
+                              <div className="space-y-4">
+                                  <h4 className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
+                                  <p className="text-muted-foreground">{class5MathsSyllabus.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Chapter Name</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {class5MathsSyllabus.chapters.map(item => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
+                               <Separator />
+                              <div className="space-y-4">
+                                  <h4 className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4>
+                                  <p className="text-muted-foreground">{class5EvsSyllabus.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Chapter Name</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {class5EvsSyllabus.chapters.map(item => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
                           </div>
                         ) : (
                           <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
