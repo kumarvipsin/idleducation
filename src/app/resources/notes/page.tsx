@@ -71,7 +71,7 @@ const notesByClass: { [key: string]: Subject[] } = {
     { name: 'Biology', href: '/resources/class-12-biology', icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />, gradient: 'from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30' },
     { name: 'History', href: '/resources/class-12-history', icon: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />, gradient: 'from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30' },
     { name: 'Geography', href: '/resources/class-12-geography', icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />, gradient: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30' },
-    { name: 'Political Science', href: '/resources/political-science-details', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
+    { name: 'Political Science', href: '/resources/class-12-polsci', icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />, gradient: 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30' },
     { name: 'Economics', href: '/resources/class-12-economics', icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />, gradient: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30' },
      { name: 'English', href: '/resources/class-12-english', icon: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />, gradient: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30' },
   ],
@@ -87,7 +87,7 @@ export default function NotesPage() {
   return (
     <div>
       <div className="mb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Study Notes for {selectedClass}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Primum Notes for {selectedClass}</h1>
         <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
       </div>
 
