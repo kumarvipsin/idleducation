@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, BookText as EnglishIcon, Atom, Dna, FlaskConical, ChevronDown } from 'lucide-react';
+import { FileText, Download, BookOpen, PanelLeft, Sigma, TestTube2, Landmark, Atom, Dna, BookText, Globe, Scale, TrendingUp, FlaskConical, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
@@ -359,44 +359,40 @@ export default function PreviousYearQuestionsPage() {
         <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
       </div>
       
-      <div className="bg-muted/50 rounded-lg p-4 mb-4">
-        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-                {examCategories.map((examName) => (
-                    <button
-                    key={examName}
-                    onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                        ${selectedExam === examName 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-                    >
-                    {examName}
-                    </button>
-                ))}
-            </div>
+      <div className="p-4 mb-4">
+        <div className="flex flex-wrap justify-center items-center gap-2">
+            {examCategories.map((examName) => (
+                <button
+                key={examName}
+                onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
+                className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
+                    ${selectedExam === examName 
+                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                >
+                {examName}
+                </button>
+            ))}
         </div>
       </div>
       
       {subjects.length > 0 && (
-        <div className="bg-muted/50 rounded-lg p-4 mb-8">
-          <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+        <div className="p-4 mb-8">
+            <div className="flex flex-wrap justify-center items-center gap-2">
                 {subjects.map((subject) => (
                     <button
                     key={subject}
                     onClick={() => setSelectedSubject(subject)}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                    className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
                         ${selectedSubject === subject 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                        ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                     >
                     {subject}
                     </button>
                 ))}
             </div>
         </div>
-      </div>
       )}
 
 
