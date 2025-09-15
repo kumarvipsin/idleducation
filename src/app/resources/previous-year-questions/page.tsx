@@ -151,6 +151,7 @@ const papersByExam: { [key: string]: Paper[] } = {
     { subject: 'English', year: 2022, title: 'Compartment Set 2', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'English', year: 2022, title: 'Compartment Set 3', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
   ],
+  'CBSE Class 12': [],
   'NIOS Class 10': [
     { subject: 'Science', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
     { subject: 'Maths (Standard)', year: 2025, title: 'Set 1', href: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
@@ -230,8 +231,9 @@ export default function PreviousYearQuestionsPage() {
         <p className="text-muted-foreground">Practice with past exam papers for {selectedExam} to familiarize yourself with the format and question types.</p>
       </div>
       
-      <div className="p-4 mb-4">
-        <div className="flex flex-wrap justify-center items-center gap-2">
+      <div className="mb-4">
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {examCategories.map((examName) => (
                 <button
                 key={examName}
@@ -245,23 +247,26 @@ export default function PreviousYearQuestionsPage() {
                 </button>
             ))}
         </div>
+        </div>
       </div>
       
       {subjects.length > 0 && (
-        <div className="p-4 mb-8">
-            <div className="flex flex-wrap justify-center items-center gap-2">
-                {subjects.map((subject) => (
-                    <button
-                    key={subject}
-                    onClick={() => setSelectedSubject(subject)}
-                    className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
-                        ${selectedSubject === subject 
-                        ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
-                    >
-                    {subject}
-                    </button>
-                ))}
+        <div className="mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                    {subjects.map((subject) => (
+                        <button
+                        key={subject}
+                        onClick={() => setSelectedSubject(subject)}
+                        className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
+                            ${selectedSubject === subject 
+                            ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                        >
+                        {subject}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
       )}
