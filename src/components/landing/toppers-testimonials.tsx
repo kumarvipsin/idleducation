@@ -75,7 +75,7 @@ const youtubeChannels = [
   },
 ];
 
-const toppers = [
+const toppers1 = [
   { img: "https://picsum.photos/seed/topper1/600/400", hint: "student success story" },
   { img: "https://picsum.photos/seed/topper2/600/400", hint: "student achievement" },
   { img: "https://picsum.photos/seed/topper3/600/400", hint: "exam success" },
@@ -86,6 +86,18 @@ const toppers = [
   { img: "https://picsum.photos/seed/topper8/600/400", hint: "student interview" },
 ];
 
+const toppers2 = [...toppers1].reverse(); // Create a reversed version for the opposite direction
+
+const toppers3 = [
+  { img: "https://picsum.photos/seed/topper9/600/400", hint: "learning environment" },
+  { img: "https://picsum.photos/seed/topper10/600/400", hint: "classroom success" },
+  { img: "https://picsum.photos/seed/topper11/600/400", hint: "top student" },
+  { img: "https://picsum.photos/seed/topper12/600/400", hint: "study group" },
+  { img: "https://picsum.photos/seed/topper13/600/400", hint: "proud student" },
+  { img: "https://picsum.photos/seed/topper14/600/400", hint: "achiever" },
+  { img: "https://picsum.photos/seed/topper15/600/400", hint: "graduation day" },
+  { img: "https://picsum.photos/seed/topper16/600/400", hint: "exam preparation" },
+];
 
 const YoutubeIcon = ({ className }: { className?: string }) => (
     <svg
@@ -162,18 +174,40 @@ export function ToppersTestimonials() {
                 <Button variant="secondary" className="mt-6 bg-white text-primary hover:bg-white/90">Watch Videos</Button>
               </DialogTrigger>
             </div>
-            <div className="relative h-64 lg:h-80">
-                <div className="absolute inset-0 grid grid-cols-4 animate-marquee-slow">
-                    {[...toppers, ...toppers].map((topper, index) => (
-                        <div key={index} className="aspect-[4/3] p-2">
-                            <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
-                                <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
-                                <div className="absolute inset-0 bg-primary/30"></div>
+            <div className="relative h-[360px] lg:h-[480px] overflow-hidden">
+                <div className="absolute inset-0 flex flex-col gap-4">
+                    <div className="flex animate-marquee-slow">
+                        {[...toppers1, ...toppers1].map((topper, index) => (
+                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
+                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
+                                    <div className="absolute inset-0 bg-primary/30"></div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <div className="flex animate-marquee-slow-reverse">
+                         {[...toppers2, ...toppers2].map((topper, index) => (
+                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
+                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
+                                    <div className="absolute inset-0 bg-primary/30"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex animate-marquee-slow">
+                         {[...toppers3, ...toppers3].map((topper, index) => (
+                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
+                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
+                                    <div className="absolute inset-0 bg-primary/30"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#27408b] via-transparent to-[#27408b]"></div>
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#27408b]/50 to-[#27408b]"></div>
             </div>
           </div>
         </div>
