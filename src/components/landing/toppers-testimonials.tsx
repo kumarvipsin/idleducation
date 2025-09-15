@@ -99,6 +99,8 @@ const toppers3 = [
   { img: "https://picsum.photos/seed/topper16/600/400", hint: "exam preparation" },
 ];
 
+const toppers4 = [...toppers3].reverse();
+
 const YoutubeIcon = ({ className }: { className?: string }) => (
     <svg
         viewBox="0 0 24 24"
@@ -175,10 +177,10 @@ export function ToppersTestimonials() {
               </DialogTrigger>
             </div>
             <div className="relative h-[216px] lg:h-[288px] overflow-hidden">
-                <div className="absolute inset-0 flex flex-col gap-4">
-                    <div className="flex animate-marquee-slow">
+                <div className="absolute inset-0 flex flex-col gap-2">
+                    <div className="flex animate-marquee-slower">
                         {[...toppers1, ...toppers1].map((topper, index) => (
-                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                            <div key={index} className="aspect-video p-1 h-full shrink-0">
                                 <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
                                     <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
                                     <div className="absolute inset-0 bg-primary/30"></div>
@@ -186,9 +188,9 @@ export function ToppersTestimonials() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex animate-marquee-slow-reverse">
+                    <div className="flex animate-marquee-slower-reverse">
                          {[...toppers2, ...toppers2].map((topper, index) => (
-                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                            <div key={index} className="aspect-video p-1 h-full shrink-0">
                                 <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
                                     <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
                                     <div className="absolute inset-0 bg-primary/30"></div>
@@ -196,9 +198,19 @@ export function ToppersTestimonials() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex animate-marquee-slow">
+                    <div className="flex animate-marquee-slower">
                          {[...toppers3, ...toppers3].map((topper, index) => (
-                            <div key={index} className="aspect-[4/3] p-2 w-48 shrink-0">
+                            <div key={index} className="aspect-video p-1 h-full shrink-0">
+                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
+                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
+                                    <div className="absolute inset-0 bg-primary/30"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex animate-marquee-slower-reverse">
+                         {[...toppers4, ...toppers4].map((topper, index) => (
+                            <div key={index} className="aspect-video p-1 h-full shrink-0">
                                 <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
                                     <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
                                     <div className="absolute inset-0 bg-primary/30"></div>
