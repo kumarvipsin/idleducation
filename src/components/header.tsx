@@ -222,10 +222,10 @@ export function Header() {
                     </a>
                 </Button>
                  <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
-                    <div className="marquee inline-block">
-                        <Link href="/admission" className="flex items-center gap-2 hover:underline">
-                            <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
-                            <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                    <div className="marquee">
+                        <Link href="/admission" className="hover:underline inline-block">
+                            <span className="font-bold inline-block mr-16">Admissions Open for Session 2024-25. Click here to apply!</span>
+                            <span className="font-bold inline-block mr-16">Admissions Open for Session 2024-25. Click here to apply!</span>
                         </Link>
                     </div>
                  </div>
