@@ -73,7 +73,7 @@ export default function Class12EnglishPage() {
   const primumNotes = (
     <div>
       <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Important Questions</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
       </div>
       <div className="space-y-2">
         {allChapters.map((chapter, index) => (
@@ -112,7 +112,7 @@ export default function Class12EnglishPage() {
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="contents">Contents</TabsTrigger>
-              <TabsTrigger value="notes">Notes</TabsTrigger>
+              <TabsTrigger value="notes">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
