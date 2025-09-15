@@ -174,7 +174,7 @@ export function ToppersTestimonials() {
                 <Button variant="secondary" className="mt-6 bg-white text-primary hover:bg-white/90">Watch Videos</Button>
               </DialogTrigger>
             </div>
-            <div className="relative h-[360px] lg:h-[480px] overflow-hidden">
+            <div className="relative h-[216px] lg:h-[288px] overflow-hidden">
                 <div className="absolute inset-0 flex flex-col gap-4">
                     <div className="flex animate-marquee-slow">
                         {[...toppers1, ...toppers1].map((topper, index) => (
