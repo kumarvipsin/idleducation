@@ -1,3 +1,4 @@
+
 'use client';
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,17 +22,17 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
           }}
         >
             <div className="absolute top-0 left-0 w-full h-24 bg-primary/10 dark:bg-primary/20 rounded-t-lg"></div>
-            <div className="relative -mt-12">
+            <div className="relative -mt-16">
                 <Image
                     src={avatar}
                     alt={name}
                     data-ai-hint={avatarHint}
-                    width={100}
-                    height={100}
+                    width={120}
+                    height={120}
                     className="rounded-full border-4 border-background bg-background shadow-md object-cover inline-block"
                 />
             </div>
-            <CardContent className="p-6 text-white">
+            <CardContent className="p-6 pt-4 text-white">
                 <h3 className="text-lg font-bold uppercase tracking-wider">{name}</h3>
                 <p className="text-sm text-white/90">{designation}</p>
                 <p className="text-sm text-white/80 mt-1">{experience}</p>
