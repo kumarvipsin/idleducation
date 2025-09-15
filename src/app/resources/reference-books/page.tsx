@@ -138,7 +138,7 @@ export default function ReferenceBooksPage() {
         <p className="text-muted-foreground mt-2">Explore a curated collection of reference books to supplement your learning.</p>
       </div>
 
-      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+      <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
               {allCategories.map((c) => (
@@ -146,7 +146,7 @@ export default function ReferenceBooksPage() {
                   key={c}
                   onClick={() => handleClassChange(c)}
                   className={cn(
-                    'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
+                    'py-1 px-3 whitespace-nowrap text-xs font-medium transition-colors border rounded-full',
                     activeClass === c
                       ? 'border-primary text-primary bg-primary/10'
                       : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
