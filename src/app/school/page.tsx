@@ -18,6 +18,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 
 const classes = [
@@ -30,6 +31,26 @@ const resourceLinks = [
   { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
 ];
+
+const class5MathsSyllabus = {
+  description: "The CBSE class 5 Maths syllabus will cover numbers, measurements, geometry, arithmetic operations, and data handling. Students will learn to solve real-life problems with logical reasoning skills. They will learn to use the BODMAS rule, solve fractions, understand various geometric shapes, and be introduced to mensuration and data handling. The CBSE class 5 syllabus for Maths is as follows:",
+  chapters: [
+    { chapter: "Chapter 1", name: "The Fish Tale" },
+    { chapter: "Chapter 2", name: "Shapes and Angles" },
+    { chapter: "Chapter 3", name: "How Many Squares?" },
+    { chapter: "Chapter 4", name: "Parts and Wholes" },
+    { chapter: "Chapter 5", name: "Does it Look the Same?" },
+    { chapter: "Chapter 6", name: "Be My Multiple, I'll Be Your Factor" },
+    { chapter: "Chapter 7", name: "Can You See the Pattern?" },
+    { chapter: "Chapter 8", name: "Mapping Your Way" },
+    { chapter: "Chapter 9", name: "Boxes and Sketches" },
+    { chapter: "Chapter 10", name: "Tenths and Hundredths" },
+    { chapter: "Chapter 11", name: "Area and its Boundary" },
+    { chapter: "Chapter 12", name: "Smart Charts" },
+    { chapter: "Chapter 13", name: "Ways to Multiply and Divide" },
+    { chapter: "Chapter 14", name: "How Big, How Heavy?" },
+  ],
+};
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -179,7 +200,30 @@ function SchoolPageContent() {
                 <CardContent className="p-6 space-y-8">
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                        <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                        {activeClass === 'Class 5' ? (
+                          <div className="space-y-4">
+                              <h4 className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
+                              <p className="text-muted-foreground">{class5MathsSyllabus.description}</p>
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead className="w-[150px]">Unit</TableHead>
+                                    <TableHead>Chapter Name</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {class5MathsSyllabus.chapters.map(item => (
+                                    <TableRow key={item.chapter}>
+                                      <TableCell className="font-medium">{item.chapter}</TableCell>
+                                      <TableCell>{item.name}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </Table>
+                          </div>
+                        ) : (
+                          <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                        )}
                     </div>
                     <Separator />
                     <div>
