@@ -1,4 +1,3 @@
-
 'use client';
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +17,7 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
         <Card 
           className="relative pt-12 text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg"
           style={{
-            background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
+            background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 100%)'
           }}
         >
             <div className="absolute top-0 left-0 w-full h-24 bg-primary/10 dark:bg-primary/20 rounded-t-lg"></div>
