@@ -16,21 +16,17 @@ type TeacherCardProps = {
 export function TeacherCardV2({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
     return (
         <div className="relative group overflow-hidden rounded-lg bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
-            <div 
-              className="absolute top-0 left-0 w-full h-2/5 bg-primary transition-all duration-300 ease-in-out group-hover:h-1/2" 
-              style={{ clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)' }}
-            ></div>
-            <div className="relative p-6 flex flex-col items-center text-center">
-                <div className="relative w-32 h-32 rounded-full border-4 border-white shadow-md mb-4 -mt-20 group-hover:scale-105 transition-transform duration-300">
-                    <Image
-                        src={avatar}
-                        alt={name}
-                        data-ai-hint={avatarHint}
-                        width={128}
-                        height={128}
-                        className="rounded-full object-cover"
-                    />
-                </div>
+            <div className="relative w-full h-56">
+                <Image
+                    src={avatar}
+                    alt={name}
+                    data-ai-hint={avatarHint}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div className="p-4 text-center bg-background">
                 <h3 className="text-lg font-bold text-foreground">{name}</h3>
                 <p className="text-sm text-primary font-semibold">{designation}</p>
                 <p className="text-xs text-muted-foreground mt-1">{experience}</p>
