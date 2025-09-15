@@ -113,7 +113,7 @@ export default function GalleryPage() {
                         className="pl-10 w-full rounded-full h-10"
                     />
                 </div>
-                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-[10%]">
                     <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                         {galleryCategories.map(category => (
                             <button
