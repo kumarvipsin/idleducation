@@ -214,8 +214,10 @@ export function Header() {
         <div className="bg-[#000080] text-white py-0 text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center">
                 <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
-                    <a href="tel:+917011117585" className="flex items-center gap-1">
-                        <Phone className="h-4 w-4 animate-ring" />
+                    <a href="tel:+917011117585" className="flex items-center gap-2">
+                         <div className="p-1.5 bg-white/20 rounded-full">
+                           <Phone className="h-3 w-3 animate-ring" />
+                         </div>
                         <span className="hidden sm:inline">+91 7011117585</span>
                     </a>
                 </Button>
