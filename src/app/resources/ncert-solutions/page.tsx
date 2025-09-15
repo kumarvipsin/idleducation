@@ -281,7 +281,7 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-economics" }],
         icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
     },
-    {
+     {
         title: "English",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-english" }],
@@ -304,7 +304,7 @@ export default function NcertSolutionsPage() {
         <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
       </div>
 
-      <div className="bg-muted/50 rounded-lg p-4 mb-8">
+      <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {classes.map((className) => (
