@@ -52,7 +52,7 @@ export function ExpertTeam() {
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
         avatar: "/vikash.jpg",
-        avatarHint: "male teacher"
+        avatarHint: "Vikas Kumar"
     }
   ];
 
