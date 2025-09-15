@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -23,6 +23,11 @@ interface Update {
   createdAt: string;
 }
 
+const cartItems = [
+    { id: 1, name: 'Mathematics for Class 10', price: 600, quantity: 1, image: 'https://picsum.photos/seed/rdsharma10/100/100' },
+    { id: 2, name: 'Science for Class 10', price: 650, quantity: 1, image: 'https://picsum.photos/seed/lakhmir10/100/100' },
+];
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
@@ -32,6 +37,10 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
+
+  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const gst = subtotal * 0.18;
+  const total = subtotal + gst;
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -222,11 +231,23 @@ export function Header() {
                     </a>
                 </Button>
                  <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
-                    <div className="marquee">
-                        <Link href="/admission" className="hover:underline inline-block">
-                            <span className="font-bold inline-block mr-16">Admissions Open for Session 2024-25. Click here to apply!</span>
-                            <span className="font-bold inline-block mr-16">Admissions Open for Session 2024-25. Click here to apply!</span>
-                        </Link>
+                    <div className="marquee-container">
+                        <div className="marquee">
+                            <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                            </Link>
+                            <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                            </Link>
+                        </div>
+                         <div className="marquee">
+                            <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                            </Link>
+                             <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                            </Link>
+                        </div>
                     </div>
                  </div>
                  <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
@@ -263,6 +284,58 @@ export function Header() {
                   </Link>
                 ))}
             {renderAuthSection()}
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon" className="relative">
+                        <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
+                        {cartItems.length > 0 && (
+                            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                                {cartItems.length}
+                            </span>
+                        )}
+                        <span className="sr-only">Open Cart</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                    <DropdownMenuLabel>My Cart</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {cartItems.length > 0 ? (
+                        <>
+                            {cartItems.map(item => (
+                                <DropdownMenuItem key={item.id} className="flex items-center gap-2">
+                                    <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
+                                    <div className="flex-1">
+                                        <p className="font-medium text-xs truncate">{item.name}</p>
+                                        <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+                                    </div>
+                                    <p className="font-semibold text-xs">₹{item.price.toFixed(2)}</p>
+                                </DropdownMenuItem>
+                            ))}
+                             <DropdownMenuSeparator />
+                             <div className="p-2 space-y-1 text-xs">
+                                <div className="flex justify-between">
+                                    <span>Subtotal</span>
+                                    <span>₹{subtotal.toFixed(2)}</span>
+                                </div>
+                                 <div className="flex justify-between">
+                                    <span>GST (18%)</span>
+                                    <span>₹{gst.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between font-bold text-sm">
+                                    <span>Total</span>
+                                    <span>₹{total.toFixed(2)}</span>
+                                </div>
+                             </div>
+                             <DropdownMenuSeparator />
+                              <DropdownMenuItem asChild>
+                                  <Button className="w-full">Proceed to Checkout</Button>
+                              </DropdownMenuItem>
+                        </>
+                    ) : (
+                         <DropdownMenuItem disabled>Your cart is empty.</DropdownMenuItem>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu onOpenChange={handleNotificationOpenChange}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="relative">
