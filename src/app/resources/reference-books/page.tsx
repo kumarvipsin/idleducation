@@ -146,7 +146,7 @@ export default function ReferenceBooksPage() {
                   key={c}
                   onClick={() => handleClassChange(c)}
                   className={cn(
-                    'py-1 px-3 whitespace-nowrap text-xs font-medium transition-colors border rounded-full',
+                    'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
                     activeClass === c
                       ? 'border-primary text-primary bg-primary/10'
                       : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
