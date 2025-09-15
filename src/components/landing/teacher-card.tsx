@@ -16,31 +16,22 @@ type TeacherCardProps = {
 export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
     return (
         <Card 
-          className="relative pt-12 text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg"
-          style={{
-            background: 'linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 100%)'
-          }}
+          className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full"
         >
-            <div className="absolute top-0 left-0 w-full h-24 bg-primary/10 dark:bg-primary/20 rounded-t-lg"></div>
-            <div className="relative -mt-16">
+            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
                 <Image
                     src={avatar}
                     alt={name}
                     data-ai-hint={avatarHint}
-                    width={120}
-                    height={120}
-                    className="rounded-full border-4 border-background bg-background shadow-md object-cover inline-block"
+                    fill
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
             </div>
-            <CardContent className="p-6 pt-4 text-white">
+            <CardContent className="absolute bottom-0 left-0 right-0 p-4 text-white">
                 <h3 className="text-lg font-bold uppercase tracking-wider">{name}</h3>
                 <p className="text-sm text-white/90">{designation}</p>
-                <p className="text-sm text-white/80 mt-1">{experience}</p>
-                <div className="flex justify-center gap-4 mt-4 text-white/80">
-                    <Link href="#" className="hover:text-white"><Facebook className="h-4 w-4" /></Link>
-                    <Link href="#" className="hover:text-white"><Twitter className="h-4 w-4" /></Link>
-                    <Link href="#" className="hover:text-white"><Instagram className="h-4 w-4" /></Link>
-                </div>
+                <p className="text-xs text-white/80 mt-1">{experience}</p>
             </CardContent>
         </Card>
     );
