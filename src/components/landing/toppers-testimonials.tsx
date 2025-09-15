@@ -165,55 +165,6 @@ export function ToppersTestimonials() {
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-16 bg-[#27408b] text-white overflow-hidden">
-        <div className="container mx-auto px-4 md:px-[10%]">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="relative z-10 text-center lg:text-left">
-              <h2 className="text-4xl md:text-5xl font-bold">IDL Stars</h2>
-              <p className="mt-4 text-lg text-white/80">Uncover the Journey to Rise and Shine</p>
-              <DialogTrigger asChild>
-                <Button variant="secondary" className="mt-6 bg-white text-primary hover:bg-white/90">Watch Videos</Button>
-              </DialogTrigger>
-            </div>
-            <div className="relative h-[216px] lg:h-[288px] overflow-hidden">
-                <div className="absolute inset-0 flex flex-col gap-2">
-                    <div className="flex animate-marquee-slower">
-                        {[...toppers1, ...toppers1].map((topper, index) => (
-                            <div key={index} className="aspect-video p-1 h-full shrink-0">
-                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
-                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
-                                    <div className="absolute inset-0 bg-primary/30"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex animate-marquee-slower-reverse">
-                         {[...toppers2, ...toppers2].map((topper, index) => (
-                            <div key={index} className="aspect-video p-1 h-full shrink-0">
-                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
-                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
-                                    <div className="absolute inset-0 bg-primary/30"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex animate-marquee-slower">
-                         {[...toppers3, ...toppers3].map((topper, index) => (
-                            <div key={index} className="aspect-video p-1 h-full shrink-0">
-                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
-                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
-                                    <div className="absolute inset-0 bg-primary/30"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#27408b]/50 to-[#27408b]"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="w-full py-12 md:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-[10%]">
           <div className="text-center mb-12">
