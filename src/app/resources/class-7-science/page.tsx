@@ -69,16 +69,16 @@ export default function Class7SciencePage() {
   
   const contents = (
      <div>
-        <h2 className="text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
-        <div className="space-y-6">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+        <div className="space-y-4 md:space-y-6">
         {class7ScienceResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
-            {book.lang === 'hi' && <h3 className="text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
+            {book.lang === 'hi' && <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
             <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-4 group">
-                    <span className="font-medium text-foreground/90">{chapter.name}</span>
+                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                    <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                     </Link>
                 </Card>
@@ -93,7 +93,7 @@ export default function Class7SciencePage() {
   const primumNotes = (
     <div>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-foreground">Important Questions</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
             <div className="flex items-center border rounded-md p-1 bg-background/50">
                 <button 
                     onClick={() => setNotesLang('en')}
@@ -111,8 +111,8 @@ export default function Class7SciencePage() {
         {(class7ScienceResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
             <Card key={index} className="bg-background">
             <CardContent className="p-3 flex items-center justify-between">
-                <p className="font-medium text-sm flex-1 pr-2">{chapter.name}</p>
-                <div className="flex items-center gap-2">
+                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                <div className="flex items-center gap-1 md:gap-2">
                     <Button asChild variant="ghost" size="sm">
                         <Link href="#">View</Link>
                     </Button>
@@ -120,7 +120,7 @@ export default function Class7SciencePage() {
                         <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                     </Button>
                 </div>
-            </CardContent>
+              </CardContent>
             </Card>
         ))}
         </div>
@@ -128,8 +128,7 @@ export default function Class7SciencePage() {
   );
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
           <div className="flex items-center gap-4">
             <div className="bg-white/20 p-3 rounded-full">
@@ -140,7 +139,7 @@ export default function Class7SciencePage() {
             </div>
           </div>
         </div>
-        <CardContent className="p-6 bg-muted/20">
+        <CardContent className="p-4 md:p-6 bg-muted/20">
           {isMobile ? (
             <Tabs defaultValue="contents" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
@@ -151,9 +150,9 @@ export default function Class7SciencePage() {
                 <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
             </Tabs>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
                 <div className="lg:col-span-3">
-                <h2 className="text-2xl font-bold mb-4 text-foreground">Contents</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
                 {contents}
                 </div>
                 <div className="lg:col-span-2">
@@ -162,7 +161,6 @@ export default function Class7SciencePage() {
             </div>
           )}
         </CardContent>
-      </Card>
-    </div>
+    </Card>
   );
 }
