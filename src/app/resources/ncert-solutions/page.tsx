@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, Search, X, ArrowRight, Sigma, TestTube2, Landmark, Atom, Dna, BookText } from 'lucide-react';
+import { BookCheck, Search, X, ArrowRight, Sigma, TestTube2, Landmark, Atom, Dna, BookText, Globe, Scale, TrendingUp, FlaskConical } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
@@ -193,7 +193,7 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Chemistry",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-chemistry" }],
-        icon: <TestTube2 className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+        icon: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
     {
         title: "Biology",
@@ -201,7 +201,31 @@ const solutionsByClass: { [key: string]: Note[] } = {
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
     },
-     {
+    {
+        title: "History",
+        gradient: "from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-history" }],
+        icon: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
+    },
+    {
+        title: "Geography",
+        gradient: "from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-geography" }],
+        icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
+    },
+    {
+        title: "Political Science",
+        gradient: "from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-polsci" }],
+        icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+    },
+    {
+        title: "Economics",
+        gradient: "from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-11-economics" }],
+        icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
+    },
+    {
         title: "English",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-11-english" }],
@@ -225,13 +249,37 @@ const solutionsByClass: { [key: string]: Note[] } = {
         title: "Chemistry",
         gradient: "from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-chemistry" }],
-        icon: <TestTube2 className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+        icon: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
     },
     {
         title: "Biology",
         gradient: "from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30",
         buttons: [{ text: "VIEW MORE", href: "/resources/class-12-biology" }],
         icon: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
+    },
+    {
+        title: "History",
+        gradient: "from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-history" }],
+        icon: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
+    },
+    {
+        title: "Geography",
+        gradient: "from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-geography" }],
+        icon: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
+    },
+    {
+        title: "Political Science",
+        gradient: "from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/political-science-details" }],
+        icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+    },
+    {
+        title: "Economics",
+        gradient: "from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
+        buttons: [{ text: "VIEW MORE", href: "/resources/class-12-economics" }],
+        icon: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
     },
     {
         title: "English",
