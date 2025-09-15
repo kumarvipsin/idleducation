@@ -80,6 +80,30 @@ const class5EvsSyllabus = {
   ],
 };
 
+const class5EnglishSyllabus = {
+  description: "The CBSE class 5 English syllabus aims to improve language skills by focusing on reading, writing, grammar, vocabulary, and comprehension. Introducing students to different forms of literature enhances their appreciation of storytelling and hones their communication abilities. The 5th class CBSE syllabus for English also teaches students the importance of proper spelling, punctuation, and sentence structure. The CBSE 5 standard syllabus for English is as follows:",
+  chapters: [
+    { chapter: "Chapter 1", name: "Ice-cream Man" },
+    { chapter: "Chapter 2", name: "Wonderful Waste!" },
+    { chapter: "Chapter 3", name: "Teamwork" },
+    { chapter: "Chapter 4", name: "Flying Together" },
+    { chapter: "Chapter 5", name: "My Shadow" },
+    { chapter: "Chapter 6", name: "Robinson Crusoe Discovers a Footprint" },
+    { chapter: "Chapter 7", name: "Crying" },
+    { chapter: "Chapter 8", name: "My Elder Brother" },
+    { chapter: "Chapter 9", name: "The Lazy Frog" },
+    { chapter: "Chapter 10", name: "Rip Van Winkle" },
+    { chapter: "Chapter 11", name: "Class Discussion" },
+    { chapter: "Chapter 12", name: "The Talkative Barber" },
+    { chapter: "Chapter 13", name: "Topsy-turvy Land" },
+    { chapter: "Chapter 14", name: "Gulliver's Travels" },
+    { chapter: "Chapter 15", name: "Nobody's Friend" },
+    { chapter: "Chapter 16", name: "The Little Bully" },
+    { chapter: "Chapter 17", name: "Sing a Song of People" },
+    { chapter: "Chapter 18", name: "Malu Bhalu" },
+    { chapter: "Chapter 19", name: "Who Will be Ningthou?" },
+  ],
+};
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -264,6 +288,27 @@ function SchoolPageContent() {
                                     </TableHeader>
                                     <TableBody>
                                       {class5EvsSyllabus.chapters.map(item => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
+                              <Separator />
+                              <div className="space-y-4">
+                                  <h4 className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4>
+                                  <p className="text-muted-foreground">{class5EnglishSyllabus.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Literature Syllabus</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {class5EnglishSyllabus.chapters.map(item => (
                                         <TableRow key={item.chapter}>
                                           <TableCell className="font-medium">{item.chapter}</TableCell>
                                           <TableCell>{item.name}</TableCell>
