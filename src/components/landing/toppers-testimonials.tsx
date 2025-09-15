@@ -208,16 +208,6 @@ export function ToppersTestimonials() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex animate-marquee-slower-reverse">
-                         {[...toppers4, ...toppers4].map((topper, index) => (
-                            <div key={index} className="aspect-video p-1 h-full shrink-0">
-                                <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
-                                    <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
-                                    <div className="absolute inset-0 bg-primary/30"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#27408b]/50 to-[#27408b]"></div>
             </div>
