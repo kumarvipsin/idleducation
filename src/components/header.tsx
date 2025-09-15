@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -23,7 +23,15 @@ interface Update {
   createdAt: string;
 }
 
-const cartItems = [
+type CartItem = {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+};
+
+const initialCartItems: CartItem[] = [
     { id: 1, name: 'Mathematics for Class 10', price: 600, quantity: 1, image: 'https://picsum.photos/seed/rdsharma10/100/100' },
     { id: 2, name: 'Science for Class 10', price: 650, quantity: 1, image: 'https://picsum.photos/seed/lakhmir10/100/100' },
 ];
@@ -37,10 +45,28 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
+  const [cartItems, setCartItems] = useState(initialCartItems);
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const gst = subtotal * 0.18;
   const total = subtotal + gst;
+
+  const handleUpdateQuantity = (itemId: number, newQuantity: number) => {
+    if (newQuantity < 1) {
+        handleRemoveItem(itemId);
+    } else {
+        setCartItems(currentItems =>
+            currentItems.map(item =>
+                item.id === itemId ? { ...item, quantity: newQuantity } : item
+            )
+        );
+    }
+  };
+
+  const handleRemoveItem = (itemId: number) => {
+    setCartItems(currentItems => currentItems.filter(item => item.id !== itemId));
+  };
+
 
   useEffect(() => {
     const fetchUpdates = async () => {
@@ -220,7 +246,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
-        <div className="bg-[#000080] text-white py-0 text-xs">
+        <div className="bg-[#000080] text-white py-1 text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center">
                 <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
                     <a href="tel:+917011117585" className="flex items-center gap-2">
@@ -290,27 +316,34 @@ export function Header() {
                         <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
                         {cartItems.length > 0 && (
                             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                                {cartItems.length}
+                                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                             </span>
                         )}
                         <span className="sr-only">Open Cart</span>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-80">
+                <DropdownMenuContent align="end" className="w-96">
                     <DropdownMenuLabel>My Cart</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {cartItems.length > 0 ? (
                         <>
-                            {cartItems.map(item => (
-                                <DropdownMenuItem key={item.id} className="flex items-center gap-2">
-                                    <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
-                                    <div className="flex-1">
-                                        <p className="font-medium text-xs truncate">{item.name}</p>
-                                        <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
+                            <div className="max-h-64 overflow-y-auto pr-2">
+                                {cartItems.map(item => (
+                                    <div key={item.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted">
+                                        <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
+                                        <div className="flex-1">
+                                            <p className="font-medium text-xs truncate">{item.name}</p>
+                                            <div className="flex items-center gap-1 mt-1">
+                                                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}><Minus className="h-3 w-3" /></Button>
+                                                <span className="text-xs w-4 text-center">{item.quantity}</span>
+                                                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}><Plus className="h-3 w-3" /></Button>
+                                            </div>
+                                        </div>
+                                        <p className="font-semibold text-xs">₹{(item.price * item.quantity).toFixed(2)}</p>
+                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => handleRemoveItem(item.id)}><XCircle className="h-4 w-4" /></Button>
                                     </div>
-                                    <p className="font-semibold text-xs">₹{item.price.toFixed(2)}</p>
-                                </DropdownMenuItem>
-                            ))}
+                                ))}
+                            </div>
                              <DropdownMenuSeparator />
                              <div className="p-2 space-y-1 text-xs">
                                 <div className="flex justify-between">
@@ -332,7 +365,7 @@ export function Header() {
                               </DropdownMenuItem>
                         </>
                     ) : (
-                         <DropdownMenuItem disabled>Your cart is empty.</DropdownMenuItem>
+                         <div className="text-center text-sm text-muted-foreground p-4">Your cart is empty.</div>
                     )}
                 </DropdownMenuContent>
             </DropdownMenu>
