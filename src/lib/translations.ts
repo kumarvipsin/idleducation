@@ -113,7 +113,7 @@ const translations = {
         experience: '5+ Years of Experience',
       },
       member3: {
-        name: 'CHANDRA PRAKASH',
+        name: 'Chandra Prakash',
         designation: 'Mathematics',
         experience: '5+ Years of Experience',
       },
