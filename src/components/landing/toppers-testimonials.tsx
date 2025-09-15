@@ -76,30 +76,29 @@ const youtubeChannels = [
 ];
 
 const toppers1 = [
-  { img: "https://picsum.photos/seed/topper1/600/400", hint: "student success story" },
-  { img: "https://picsum.photos/seed/topper2/600/400", hint: "student achievement" },
-  { img: "https://picsum.photos/seed/topper3/600/400", hint: "exam success" },
-  { img: "https://picsum.photos/seed/topper4/600/400", hint: "student journey" },
-  { img: "https://picsum.photos/seed/topper5/600/400", hint: "academic excellence" },
-  { img: "https://picsum.photos/seed/topper6/600/400", hint: "student testimonial" },
-  { img: "https://picsum.photos/seed/topper7/600/400", hint: "education success" },
-  { img: "https://picsum.photos/seed/topper8/600/400", hint: "student interview" },
+  { img: "https://placehold.co/600x400/EAB308/FFFFFF?text=Topper", hint: "student success story" },
+  { img: "https://placehold.co/600x400/22C55E/FFFFFF?text=Topper", hint: "student achievement" },
+  { img: "https://placehold.co/600x400/3B82F6/FFFFFF?text=Topper", hint: "exam success" },
+  { img: "https://placehold.co/600x400/8B5CF6/FFFFFF?text=Topper", hint: "student journey" },
+  { img: "https://placehold.co/600x400/F43F5E/FFFFFF?text=Topper", hint: "academic excellence" },
+  { img: "https://placehold.co/600x400/14B8A6/FFFFFF?text=Topper", hint: "student testimonial" },
+  { img: "https://placehold.co/600x400/EC4899/FFFFFF?text=Topper", hint: "education success" },
+  { img: "https://placehold.co/600x400/D97706/FFFFFF?text=Topper", hint: "student interview" },
 ];
 
-const toppers2 = [...toppers1].reverse(); // Create a reversed version for the opposite direction
+const toppers2 = [...toppers1].reverse();
 
 const toppers3 = [
-  { img: "https://picsum.photos/seed/topper9/600/400", hint: "learning environment" },
-  { img: "https://picsum.photos/seed/topper10/600/400", hint: "classroom success" },
-  { img: "https://picsum.photos/seed/topper11/600/400", hint: "top student" },
-  { img: "https://picsum.photos/seed/topper12/600/400", hint: "study group" },
-  { img: "https://picsum.photos/seed/topper13/600/400", hint: "proud student" },
-  { img: "https://picsum.photos/seed/topper14/600/400", hint: "achiever" },
-  { img: "https://picsum.photos/seed/topper15/600/400", hint: "graduation day" },
-  { img: "https://picsum.photos/seed/topper16/600/400", hint: "exam preparation" },
+  { img: "https://placehold.co/600x400/0284C7/FFFFFF?text=Topper", hint: "learning environment" },
+  { img: "https://placehold.co/600x400/6D28D9/FFFFFF?text=Topper", hint: "classroom success" },
+  { img: "https://placehold.co/600x400/DC2626/FFFFFF?text=Topper", hint: "top student" },
+  { img: "https://placehold.co/600x400/4D7C0F/FFFFFF?text=Topper", hint: "study group" },
+  { img: "https://placehold.co/600x400/BE123C/FFFFFF?text=Topper", hint: "proud student" },
+  { img: "https://placehold.co/600x400/0D9488/FFFFFF?text=Topper", hint: "achiever" },
+  { img: "https://placehold.co/600x400/5B21B6/FFFFFF?text=Topper", hint: "graduation day" },
+  { img: "https://placehold.co/600x400/B45309/FFFFFF?text=Topper", hint: "exam preparation" },
 ];
 
-const toppers4 = [...toppers3].reverse();
 
 const YoutubeIcon = ({ className }: { className?: string }) => (
     <svg
