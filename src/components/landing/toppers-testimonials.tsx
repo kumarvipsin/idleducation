@@ -8,6 +8,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 const youtubeChannels = [
   {
@@ -70,6 +73,17 @@ const youtubeChannels = [
     studentClass: "SSC ASPIRANT",
     studentPlace: "DELHI"
   },
+];
+
+const toppers = [
+  { img: "https://picsum.photos/seed/topper1/600/400", hint: "student success story" },
+  { img: "https://picsum.photos/seed/topper2/600/400", hint: "student achievement" },
+  { img: "https://picsum.photos/seed/topper3/600/400", hint: "exam success" },
+  { img: "https://picsum.photos/seed/topper4/600/400", hint: "student journey" },
+  { img: "https://picsum.photos/seed/topper5/600/400", hint: "academic excellence" },
+  { img: "https://picsum.photos/seed/topper6/600/400", hint: "student testimonial" },
+  { img: "https://picsum.photos/seed/topper7/600/400", hint: "education success" },
+  { img: "https://picsum.photos/seed/topper8/600/400", hint: "student interview" },
 ];
 
 
@@ -138,6 +152,33 @@ export function ToppersTestimonials() {
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
+      <section className="w-full py-12 md:py-16 bg-[#27408b] text-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-[10%]">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="relative z-10 text-center lg:text-left">
+              <h2 className="text-4xl md:text-5xl font-bold">IDL Stars</h2>
+              <p className="mt-4 text-lg text-white/80">Uncover the Journey to Rise and Shine</p>
+              <DialogTrigger asChild>
+                <Button variant="secondary" className="mt-6 bg-white text-primary hover:bg-white/90">Watch Videos</Button>
+              </DialogTrigger>
+            </div>
+            <div className="relative h-64 lg:h-80">
+                <div className="absolute inset-0 grid grid-cols-4 animate-marquee-slow">
+                    {[...toppers, ...toppers].map((topper, index) => (
+                        <div key={index} className="aspect-[4/3] p-2">
+                            <div className="relative h-full w-full rounded-lg overflow-hidden shadow-lg">
+                                <Image src={topper.img} alt={`Topper ${index + 1}`} data-ai-hint={topper.hint} fill className="object-cover" />
+                                <div className="absolute inset-0 bg-primary/30"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#27408b] via-transparent to-[#27408b]"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="w-full py-12 md:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-[10%]">
           <div className="text-center mb-12">
