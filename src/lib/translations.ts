@@ -128,7 +128,7 @@ const translations = {
         experience: '8+ Years of Experience',
       },
       member6: {
-        name: 'Vikash Goel',
+        name: 'Vikas Kumar',
         designation: 'Maths & Accounts',
         experience: '15+ Years of Experience',
       },
@@ -267,7 +267,7 @@ const translations = {
         experience: '8+ वर्ष का अनुभव',
       },
       member6: {
-        name: 'विकास गोयल',
+        name: 'विकास कुमार',
         designation: 'गणित और लेखा',
         experience: '15+ वर्ष का अनुभव',
       },
