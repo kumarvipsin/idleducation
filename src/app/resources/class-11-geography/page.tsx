@@ -170,7 +170,7 @@ export default function Class11GeographyPage() {
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="contents">Contents</TabsTrigger>
-              <TabsTrigger value="notes">Primum Notes</TabsTrigger>
+              <TabsTrigger value="notes">Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
