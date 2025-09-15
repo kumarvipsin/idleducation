@@ -255,8 +255,24 @@ function SchoolPageContent() {
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
                         {activeClass === 'Class 5' ? (
                           <div className="space-y-8">
+                              <Card className="mb-8">
+                                <CardContent className="p-6">
+                                  <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li>
+                                      <a href="#maths-syllabus" className="text-primary hover:underline">CBSE Class 5 Maths Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#evs-syllabus" className="text-primary hover:underline">Class 5 CBSE EVS Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#english-syllabus" className="text-primary hover:underline">CBSE Class 5 English Syllabus</a>
+                                    </li>
+                                  </ul>
+                                </CardContent>
+                              </Card>
                               <div className="space-y-4">
-                                  <h4 className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
+                                  <h4 id="maths-syllabus" className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
                                   <p className="text-muted-foreground">{class5MathsSyllabus.description}</p>
                                   <Table>
                                     <TableHeader>
@@ -277,7 +293,7 @@ function SchoolPageContent() {
                               </div>
                                <Separator />
                               <div className="space-y-4">
-                                  <h4 className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4>
+                                  <h4 id="evs-syllabus" className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4>
                                   <p className="text-muted-foreground">{class5EvsSyllabus.description}</p>
                                   <Table>
                                     <TableHeader>
@@ -298,7 +314,7 @@ function SchoolPageContent() {
                               </div>
                               <Separator />
                               <div className="space-y-4">
-                                  <h4 className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4>
+                                  <h4 id="english-syllabus" className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4>
                                   <p className="text-muted-foreground">{class5EnglishSyllabus.description}</p>
                                   <Table>
                                     <TableHeader>
