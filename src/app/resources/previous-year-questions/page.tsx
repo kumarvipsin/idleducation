@@ -238,10 +238,10 @@ export default function PreviousYearQuestionsPage() {
                 <button
                 key={examName}
                 onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
-                className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
+                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${selectedExam === examName 
-                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                 >
                 {examName}
                 </button>
