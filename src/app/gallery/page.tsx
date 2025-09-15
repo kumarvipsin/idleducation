@@ -101,7 +101,7 @@ export default function GalleryPage() {
   
   return (
     <Dialog>
-        <div className="container mx-auto py-8 px-4 md:px-6">
+        <div className="container mx-auto py-8 px-4 md:px-[10%]">
             <div className="mb-8 space-y-4">
                  <div className="relative mx-auto max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -113,7 +113,7 @@ export default function GalleryPage() {
                         className="pl-10 w-full rounded-full h-10"
                     />
                 </div>
-                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-[10%]">
+                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                         {galleryCategories.map(category => (
                             <button
