@@ -16,13 +16,13 @@ type TeacherCardProps = {
 export function TeacherCardV2({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
     return (
         <div className="relative group overflow-hidden rounded-lg bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
-            <div className="relative w-full h-56">
+            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
                 <Image
                     src={avatar}
                     alt={name}
                     data-ai-hint={avatarHint}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
