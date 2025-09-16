@@ -558,7 +558,6 @@ export default function ContactPage() {
                         name="studentName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Your Name</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Enter your full name" {...field} />
                                 </FormControl>
@@ -571,7 +570,6 @@ export default function ContactPage() {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Your Email</FormLabel>
                                 <FormControl>
                                     <Input type="email" placeholder="Enter your email address" {...field} />
                                 </FormControl>
@@ -584,7 +582,6 @@ export default function ContactPage() {
                         name="problem"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Problem Description</FormLabel>
                                 <FormControl>
                                     <Textarea placeholder="Describe your issue in detail..." {...field} />
                                 </FormControl>
