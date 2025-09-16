@@ -25,6 +25,7 @@ interface Admission {
   gender?: string;
   bloodGroup?: string;
   aadharNumber?: string;
+  apaarId?: string;
   email: string;
   studentPhone?: string;
   fatherPhone: string;
@@ -174,6 +175,7 @@ export default function AdminAdmissionsPage() {
                                 <DetailItem icon={<VenetianMask size={16}/>} label="Gender" value={selectedAdmission.gender} />
                                 <DetailItem icon={<Droplets size={16}/>} label="Blood Group" value={selectedAdmission.bloodGroup} />
                                 <DetailItem icon={<KeyRound size={16}/>} label="Aadhar Number" value={selectedAdmission.aadharNumber} />
+                                <DetailItem icon={<KeyRound size={16}/>} label="APAAR/ABC ID" value={selectedAdmission.apaarId} />
                                 <DetailItem icon={<Mail size={16}/>} label="Email" value={selectedAdmission.email} />
                                 <DetailItem icon={<Phone size={16}/>} label="Student Phone" value={selectedAdmission.studentPhone} />
                                 <DetailItem icon={<MapPin size={16}/>} label="Branch" value={selectedAdmission.branch} />

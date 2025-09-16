@@ -894,6 +894,7 @@ export async function submitAdmissionForm(formData: FormData) {
         gender: rawFormData.gender as string,
         bloodGroup: rawFormData.bloodGroup as string || '',
         aadharNumber: rawFormData.aadharNumber as string || '',
+        apaarId: rawFormData.apaarId as string || '',
         email: rawFormData.email as string,
         studentPhone: rawFormData.studentPhone as string || '',
         fatherPhone: rawFormData.fatherPhone as string,

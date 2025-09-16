@@ -56,6 +56,7 @@ const admissionFormSchema = z.object({
   gender: z.enum(["male", "female", "other"], { required_error: "Please select a gender." }),
   bloodGroup: z.string().optional(),
   aadharNumber: z.string().regex(aadharRegex, { message: "Please enter a valid 12-digit Aadhar number." }).optional().or(z.literal('')),
+  apaarId: z.string().optional(),
   email: z.string().email({ message: "Please enter a valid email." }),
   studentPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
   fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
@@ -105,6 +106,7 @@ export default function AdmissionPage() {
       gender: undefined,
       bloodGroup: '',
       aadharNumber: '',
+      apaarId: '',
     },
   });
 
@@ -481,21 +483,38 @@ export default function AdmissionPage() {
                             )}
                         />
                     </div>
-                     <FormField
-                        control={form.control}
-                        name="aadharNumber"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="relative">
-                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Aadhar Number" {...field} className="pl-9" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
-                                </div>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="aadharNumber"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className="relative">
+                                        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input placeholder="Aadhar Number" {...field} className="pl-9" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="apaarId"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className="relative">
+                                        <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input placeholder="APAAR/ABC ID" {...field} className="pl-9" />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
                     <div className="grid sm:grid-cols-2 gap-6">
                     <FormField
                         control={form.control}
@@ -795,6 +814,7 @@ export default function AdmissionPage() {
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Gender</td><td className="p-2 capitalize">{form.getValues('gender')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Blood Group</td><td className="p-2">{form.getValues('bloodGroup') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Aadhar Number</td><td className="p-2">{form.getValues('aadharNumber') || 'N/A'}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">APAAR/ABC ID</td><td className="p-2">{form.getValues('apaarId') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Name</td><td className="p-2">{form.getValues('fatherName')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Occupation</td><td className="p-2">{form.getValues('fatherOccupation') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Mother's Name</td><td className="p-2">{form.getValues('motherName')}</td></tr>
