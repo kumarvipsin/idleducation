@@ -236,7 +236,16 @@ export default function AdmissionPage() {
       </Link>
       <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
         <div className="max-w-4xl mx-auto">
-          <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden">
+          <div className="text-center mb-8 animate-fade-in-up">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight group inline-block">
+                  Admission Form
+                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+              </h1>
+              <p className="mt-2 text-lg text-muted-foreground font-semibold">
+                  Fill out the form below to start your journey with IDL Education.
+              </p>
+          </div>
+          <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <header className="bg-primary text-white p-4">
                 <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <div>
@@ -245,9 +254,6 @@ export default function AdmissionPage() {
                 </div>
                 </div>
             </header>
-            <div className="bg-muted/30 text-center py-2">
-                <h2 className="text-lg font-bold tracking-widest text-foreground">ADMISSION FORM</h2>
-            </div>
             
             <CardContent className="p-8">
                 <Form {...form}>
