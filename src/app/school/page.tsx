@@ -112,7 +112,7 @@ const class6MathsSyllabus = {
     { chapter: "Lines and Angles", topics: ["2.1 Point", "2.2 Line Segment", "2.3 Line", "2.4 Ray", "2.5 Angle", "2.6 Comparing Angles", "2.7 Making Rotating Arms", "2.8 Special Types of Angles", "2.9 Measuring Angles", "2.10 Drawing Angles", "2.11 Types of Angles and their Measures"] },
     { chapter: "Number Play", topics: ["3.1 Numbers can Tell us Things", "3.2 Supercells", "3.3 Patterns of Numbers on the Number Line", "3.4 Playing with Digits", "3.5 Pretty Palindromic Patterns", "3.6 The Magic Number of Kaprekar", "3.7 Clock and Calendar Numbers", "3.8 Mental Math", "3.9 Playing with Number Patterns", "3.10 An Unsolved Mystery — the Collatz Conjecture", "3.11 Simple Summation", "3.12 Games and Winning Strategies"] },
     { chapter: "Data Handling and Presentation", topics: ["4.1 Collecting and Organising Data", "4.2 Pictographs", "4.3 Bar Graphs", "4.4 Drawing a Bar Graph", "4.5 Artistic and Aesthetic Considerations"] },
-    { chapter: "Prime Time", topics: ["5.1 Common Multiples and Common Factors", "5.2 Prime Numbers", "5.3 Co-prime numbers for safekeeping treasures", "5.4 Prime Factorisation", "5.5 Divisibility Tests", "5.6 Fun with numbers"] },
+    { chapter: "Prime Time", topics: ["5.1 Common Multiples and Common Factors", "5.2 Prime Numbers", "5.3 Co-prime numbers for safekeeping treasures", "5.4 Prime Factorisation", "5.6 Fun with numbers"] },
     { chapter: "Perimeter and Area", topics: ["6.1 Perimeter", "6.2 Area", "6.3 Area of a Triangle"] },
     { chapter: "Fractions", topics: ["7.1 Fractional Units and Equal Shares", "7.2 Fractional Units as Parts of a Whole", "7.3 Measuring Using Fractional Units", "7.4 Marking Fraction Lengths on the Number Line", "7.5 Mixed Fractions", "7.6 Equivalent Fractions", "7.7 Comparing Fractions", "7.8 Addition and Subtraction of Fractions", "7.9 A Pinch of History"] },
     { chapter: "Play with Construction", topics: ["8.1 Artwork", "8.2 Squares and Rectangles", "8.3 Constructing Squares and Rectangles", "8.4 An Exploration in Rectangles", "8.5 Exploring Diagonals of Rectangles and Squares", "8.6 Points Equidistant from Two Given Points"] },
@@ -255,19 +255,19 @@ const class7EnglishSyllabus = {
 const class8MathsSyllabus = {
   description: "Here is the CBSE Class 8 Mathematics syllabus for the academic session 2025-26. This syllabus covers a wide range of mathematical concepts, from basic number systems to more advanced topics like algebraic expressions, mensuration, and graphs. It helps students develop problem-solving and analytical skills that are essential for future learning.",
   chapters: [
-    { chapter: "Chapter 1", name: "Rational Numbers" },
-    { chapter: "Chapter 2", name: "Linear Equations In One Variable" },
-    { chapter: "Chapter 3", name: "Understanding Quadrilaterals" },
-    { chapter: "Chapter 4", name: "Data Handling" },
-    { chapter: "Chapter 5", name: "Squares and Square Roots" },
-    { chapter: "Chapter 6", name: "Cubes and Cube Roots" },
-    { chapter: "Chapter 7", name: "Comparing Quantities" },
-    { chapter: "Chapter 8", name: "Algebraic Expressions and Identities" },
-    { chapter: "Chapter 9", name: "Mensuration" },
-    { chapter: "Chapter 10", name: "Exponents and Powers" },
-    { chapter: "Chapter 11", name: "Direct and Inverse Proportions" },
-    { chapter: "Chapter 12", name: "Factorisation" },
-    { chapter: "Chapter 13", name: "Introduction to Graphs" },
+    { chapter: "Chapter 1", name: "Rational Numbers", topics: ["1.1 Introduction", "1.2 Properties of Rational Numbers", "1.3 Representation of Rational Numbers on the Number Line", "1.4 Rational Numbers between Two Rational Numbers"] },
+    { chapter: "Chapter 2", name: "Linear Equations in One Variable", topics: ["2.1 Introduction", "2.2 Solving Equations which have Linear Expressions on one Side and Numbers on the other Side", "2.3 Some Applications", "2.4 Solving Equations having the Variable on both Sides", "2.5 Some More Applications", "2.6 Reducing Equations to Simpler Form", "2.7 Equations Reducible to the Linear Form"] },
+    { chapter: "Chapter 3", name: "Understanding Quadrilaterals", topics: ["3.1 Introduction", "3.2 Polygons", "3.3 Sum of the Measures of the Exterior Angles of a Polygon", "3.4 Kinds of Quadrilaterals", "3.5 Some Special Parallelograms"] },
+    { chapter: "Chapter 4", name: "Data Handling", topics: ["4.1 Looking for Information", "4.2 Organising Data", "4.3 Grouping Data", "4.4 Circle Graph or Pie Chart", "4.5 Chance and Probability"] },
+    { chapter: "Chapter 5", name: "Squares and Square Roots", topics: ["5.1 Introduction", "5.2 Properties of Square Numbers", "5.3 Some More Interesting Patterns", "5.4 Finding the Square of a Number", "5.5 Square Roots", "5.6 Square Roots of Decimals", "5.7 Estimating Square Root"] },
+    { chapter: "Chapter 6", name: "Cubes and Cube Roots", topics: ["6.1 Introduction", "6.2 Cubes", "6.3 Cube Roots"] },
+    { chapter: "Chapter 7", name: "Comparing Quantities", topics: ["7.1 Recalling Ratios and Percentages", "7.2 Finding the Increase or Decrease Percent", "7.3 Finding Discounts", "7.4 Prices Related to Buying and Selling (Profit and Loss)", "7.5 Sales Tax/Value Added Tax/Goods and Services Tax", "7.6 Compound Interest", "7.7 Deducing a Formula for Compound Interest", "7.8 Rate Compounded Annually or Half Yearly (Semi Annually)", "7.9 Applications of Compound Interest Formula"] },
+    { chapter: "Chapter 8", name: "Algebraic Expressions and Identities", topics: ["8.1 What are Expressions?", "8.2 Terms, Factors and Coefficients", "8.3 Monomials, Binomials and Polynomials", "8.4 Like and Unlike Terms", "8.5 Addition and Subtraction of Algebraic Expressions", "8.6 Multiplication of Algebraic Expressions: Introduction", "8.7 Multiplying a Monomial by a Monomial", "8.8 Multiplying a Monomial by a Polynomial", "8.9 Multiplying a Polynomial by a Polynomial", "8.10 What is an Identity?", "8.11 Standard Identities", "8.12 Applying Identities"] },
+    { chapter: "Chapter 9", name: "Mensuration", topics: ["9.1 Introduction", "9.2 Let us Recall", "9.3 Area of a Trapezium", "9.4 Area of a General Quadrilateral", "9.5 Area of a Polygon", "9.6 Solid Shapes", "9.7 Surface Area of Cube, Cuboid and Cylinder", "9.8 Volume of Cube, Cuboid and Cylinder", "9.9 Volume and Capacity"] },
+    { chapter: "Chapter 10", name: "Exponents and Powers", topics: ["10.1 Introduction", "10.2 Powers with Negative Exponents", "10.3 Laws of Exponents", "10.4 Use of Exponents to Express Small Numbers in Standard Form"] },
+    { chapter: "Chapter 11", name: "Direct and Inverse Proportions", topics: ["11.1 Introduction", "11.2 Direct Proportion", "11.3 Inverse Proportion"] },
+    { chapter: "Chapter 12", name: "Factorisation", topics: ["12.1 Introduction", "12.2 What is Factorisation?", "12.3 Division of Algebraic Expressions", "12.4 Division of a Monomial by another Monomial", "12.5 Division of a Polynomial by a Monomial", "12.6 Division of a Polynomial by a Polynomial", "12.7 Can you Find the Error?"] },
+    { chapter: "Chapter 13", name: "Introduction to Graphs", topics: ["13.1 Introduction", "13.2 A Bar Graph", "13.3 A Pie Graph (or a Circle Graph)", "13.4 A Histogram", "13.5 A Line Graph", "13.6 Linear Graphs", "13.7 Some Applications"] },
   ],
 };
 
@@ -342,6 +342,131 @@ const class8EnglishSyllabus = {
     { chapter: "Chapter 6", name: "The Fight" },
     { chapter: "Chapter 7", name: "Jalebis" },
   ]
+};
+
+const syllabusData: any = {
+    'Class 9': {
+      maths: {
+        description: "The CBSE Class 9 Maths syllabus lays the groundwork for higher mathematics. It covers number systems, algebra, geometry, and statistics.",
+        chapters: [
+          { name: "Number Systems", topics: ["1.1 Introduction", "1.2 Irrational Numbers", "1.3 Real Numbers and their Decimal Expansions", "1.4 Representing Real Numbers on the Number Line", "1.5 Operations on Real Numbers", "1.6 Laws of Exponents for Real Numbers"] },
+          { name: "Polynomials", topics: ["2.1 Introduction", "2.2 Polynomials in One Variable", "2.3 Zeros of a Polynomial", "2.4 Remainder Theorem", "2.5 Factorisation of Polynomials", "2.6 Algebraic Identities"] },
+        ],
+      },
+      science: {
+        description: "Class 9 Science introduces fundamental concepts in Physics, Chemistry, and Biology, building a base for future studies.",
+        chapters: [
+          { name: "Matter in Our Surroundings", topics: [] },
+          { name: "Atoms and Molecules", topics: [] },
+        ],
+      },
+      social: {
+        description: "The Social Science syllabus for Class 9 covers History, Geography, Political Science, and Economics.",
+        chapters: [
+          { name: "The French Revolution", topics: [] },
+          { name: "India - Size and Location", topics: [] },
+        ],
+      },
+      english: {
+        description: "The English syllabus for Class 9 aims to develop strong communication skills through literature and grammar.",
+        chapters: [
+          { name: "The Fun They Had", topics: [] },
+          { name: "The Road Not Taken", topics: [] },
+        ],
+      },
+    },
+    'Class 10': {
+       maths: {
+        description: "The CBSE Class 10 Maths syllabus is crucial for board examinations, focusing on algebra, geometry, trigonometry, and statistics.",
+        chapters: [
+          { name: "Real Numbers", topics: [] },
+          { name: "Polynomials", topics: [] },
+        ],
+      },
+      science: {
+        description: "Class 10 Science covers key topics in Physics, Chemistry, and Biology to prepare students for their board exams.",
+        chapters: [
+          { name: "Chemical Reactions and Equations", topics: [] },
+          { name: "Life Processes", topics: [] },
+        ],
+      },
+       social: {
+        description: "The Social Science syllabus for Class 10 is designed to give students a comprehensive understanding of historical and contemporary India and the world.",
+        chapters: [
+          { name: "The Rise of Nationalism in Europe", topics: [] },
+          { name: "Resources and Development", topics: [] },
+        ],
+      },
+      english: {
+        description: "The English syllabus for Class 10 focuses on enhancing literary comprehension and writing skills for the board exams.",
+        chapters: [
+          { name: "A Letter to God", topics: [] },
+          { name: "Dust of Snow", topics: [] },
+        ],
+      },
+    },
+     'Class 11': {
+       maths: {
+        description: "The CBSE Class 11 Maths syllabus introduces advanced topics like sets, relations, functions, and calculus.",
+        chapters: [
+          { name: "Sets", topics: [] },
+          { name: "Trigonometric Functions", topics: [] },
+        ],
+      },
+      science: {
+        description: "Class 11 Science is divided into Physics, Chemistry, and Biology, each with a detailed and advanced curriculum.",
+        chapters: [
+          { name: "Units and Measurements (Physics)", topics: [] },
+          { name: "Some Basic Concepts of Chemistry (Chemistry)", topics: [] },
+          { name: "The Living World (Biology)", topics: [] },
+        ],
+      },
+       social: {
+        description: "The Social Science stream in Class 11 includes subjects like History, Geography, Political Science, and Economics.",
+        chapters: [
+          { name: "The Central Islamic Lands (History)", topics: [] },
+          { name: "India - Location (Geography)", topics: [] },
+        ],
+      },
+       english: {
+        description: "The English syllabus for Class 11 focuses on advanced literature, comprehension, and writing skills.",
+        chapters: [
+          { name: "The Portrait of a Lady", topics: [] },
+          { name: "A Photograph", topics: [] },
+        ],
+      },
+    },
+     'Class 12': {
+       maths: {
+        description: "The CBSE Class 12 Maths syllabus is designed for the final board examination, covering topics like calculus, vectors, and probability.",
+        chapters: [
+          { name: "Relations and Functions", topics: [] },
+          { name: "Matrices", topics: [] },
+        ],
+      },
+      science: {
+        description: "Class 12 Science includes in-depth study of Physics, Chemistry, and Biology, preparing students for competitive exams.",
+        chapters: [
+          { name: "Electric Charges and Fields (Physics)", topics: [] },
+          { name: "The Solid State (Chemistry)", topics: [] },
+          { name: "Reproduction in Organisms (Biology)", topics: [] },
+        ],
+      },
+       social: {
+        description: "The Social Science stream in Class 12 covers advanced topics in History, Geography, Political Science, and Economics.",
+        chapters: [
+          { name: "Bricks, Beads and Bones (History)", topics: [] },
+          { name: "Human Geography: Nature and Scope (Geography)", topics: [] },
+        ],
+      },
+       english: {
+        description: "The English syllabus for Class 12 is aimed at mastering literary analysis and advanced writing skills for the board exams.",
+        chapters: [
+          { name: "The Last Lesson", topics: [] },
+          { name: "My Mother at Sixty-Six", topics: [] },
+        ],
+      },
+    }
 };
 
 
@@ -846,6 +971,7 @@ function SchoolPageContent() {
                                         <TableRow>
                                             <TableHead className="w-[150px]">Chapter No.</TableHead>
                                             <TableHead>Chapter Name</TableHead>
+                                            <TableHead>Topics</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -853,6 +979,11 @@ function SchoolPageContent() {
                                             <TableRow key={item.chapter}>
                                                 <TableCell className="font-medium">{item.chapter}</TableCell>
                                                 <TableCell>{item.name}</TableCell>
+                                                <TableCell>
+                                                    <ul className="list-disc pl-5">
+                                                        {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                    </ul>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -956,8 +1087,103 @@ function SchoolPageContent() {
                             </div>
                           </div>
                         )}
-                        {!['Class 5', 'Class 6', 'Class 7', 'Class 8'].includes(activeClass) && (
-                          <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                        {['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(activeClass) && (
+                            <Tabs defaultValue="maths" className="w-full">
+                                <TabsList className="grid w-full grid-cols-4">
+                                    <TabsTrigger value="maths">Maths</TabsTrigger>
+                                    <TabsTrigger value="science">Science</TabsTrigger>
+                                    <TabsTrigger value="social">Social Science</TabsTrigger>
+                                    <TabsTrigger value="english">English</TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="maths" className="pt-4">
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].maths.chapters.map((item: any) => (
+                                                <TableRow key={item.name}>
+                                                    <TableCell>{item.name}</TableCell>
+                                                    <TableCell>
+                                                        {item.topics.length > 0 ? (
+                                                            <ul className="list-disc pl-5">
+                                                                {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
+                                                            </ul>
+                                                        ) : 'Topics will be updated soon.'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TabsContent>
+                                <TabsContent value="science" className="pt-4">
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
+                                     <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].science.chapters.map((item: any) => (
+                                                <TableRow key={item.name}>
+                                                    <TableCell>{item.name}</TableCell>
+                                                    <TableCell>
+                                                        {item.topics.length > 0 ? (
+                                                            <ul className="list-disc pl-5">
+                                                                {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
+                                                            </ul>
+                                                        ) : 'Topics will be updated soon.'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TabsContent>
+                                <TabsContent value="social" className="pt-4">
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p>
+                                     <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].social.chapters.map((item: any) => (
+                                                <TableRow key={item.name}>
+                                                    <TableCell>{item.name}</TableCell>
+                                                    <TableCell>
+                                                        {item.topics.length > 0 ? (
+                                                            <ul className="list-disc pl-5">
+                                                                {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
+                                                            </ul>
+                                                        ) : 'Topics will be updated soon.'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TabsContent>
+                                 <TabsContent value="english" className="pt-4">
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
+                                     <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].english.chapters.map((item: any) => (
+                                                <TableRow key={item.name}>
+                                                    <TableCell>{item.name}</TableCell>
+                                                    <TableCell>
+                                                        {item.topics.length > 0 ? (
+                                                            <ul className="list-disc pl-5">
+                                                                {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
+                                                            </ul>
+                                                        ) : 'Topics will be updated soon.'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TabsContent>
+                            </Tabs>
                         )}
                     </div>
                     
