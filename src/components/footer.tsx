@@ -56,10 +56,6 @@ export function Footer() {
                                 <Mail className="h-4 w-4 shrink-0 text-primary" />
                                 <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
                             </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0 text-primary" />
-                                <a href="mailto:support@idleducation.in" className="hover:underline hover:text-primary">support@idleducation.in</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
