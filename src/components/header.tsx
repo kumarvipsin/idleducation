@@ -360,13 +360,11 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2">
-                    <a href="tel:+917011117585" className="flex items-center gap-2">
-                        <div className="p-1.5 bg-black/10 rounded-full">
-                        <Phone className="h-3 w-3 animate-ring" />
-                        </div>
-                        <span className="hidden sm:inline">+91 7011117585</span>
-                    </a>
+                 <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2">
+                    <Link href="/admission" className="flex items-center gap-1">
+                        <FileText className="h-4 w-4"/>
+                        <span className="hidden sm:inline">{t('admissionForm')}</span>
+                    </Link>
                 </Button>
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                     <div className="marquee-container">
@@ -378,12 +376,6 @@ export function Header() {
                         </div>
                     </div>
                 </div>
-                <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2">
-                    <Link href="/admission" className="flex items-center gap-1">
-                        <FileText className="h-4 w-4"/>
-                        <span className="hidden sm:inline">{t('admissionForm')}</span>
-                    </Link>
-                </Button>
             </div>
         </div>
         <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
