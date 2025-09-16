@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
@@ -288,77 +287,10 @@ export function Header() {
   };
 
   const ScholarshipButton = () => (
-    <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
-        <DialogTrigger asChild>
-            <button className="hover:underline inline-block mr-16">
-            <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
-            <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
-            </button>
-        </DialogTrigger>
-        <DialogContent className="w-[90vw] sm:max-w-[350px] p-4 rounded-lg">
-            <DialogHeader className="text-center">
-                <DialogTitle className="text-xl">Register for Scholarship</DialogTitle>
-                <DialogDescription>
-                    Fill in your details to register for the scholarship program.
-                </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-3">
-                    <FormField
-                        control={form.control}
-                        name="studentName"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-xs">Student Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Enter student's name" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="class"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-xs">Class</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select a class" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {scholarshipClasses.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="mobile"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-xs">Mobile Number</FormLabel>
-                                <FormControl>
-                                    <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <DialogFooter className="pt-2">
-                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                            {form.formState.isSubmitting ? 'Registering...' : 'Register'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Form>
-        </DialogContent>
-    </Dialog>
+     <Link href="/scholarship" className="hover:underline inline-block mr-16">
+        <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
+        <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
+    </Link>
   );
 
   return (
