@@ -97,19 +97,7 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gray-100 dark:bg-gray-900">
-            {/* Background Image */}
-            <div className="absolute inset-0 z-0">
-                <Image
-                    src="https://picsum.photos/seed/success-study/1920/1080"
-                    alt="Student celebrating success"
-                    data-ai-hint="student success"
-                    fill
-                    className="object-cover opacity-30"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/50" />
-            </div>
-
+        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
             {/* Content */}
             <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center">
                 
