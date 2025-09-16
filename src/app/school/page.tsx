@@ -274,19 +274,19 @@ const class8MathsSyllabus = {
 const class8ScienceSyllabus = {
   description: "Here is the detailed CBSE Class 8 Science syllabus for the academic session 2025-26. The syllabus covers a variety of important scientific topics, providing students with an in-depth understanding of the natural world and its processes.",
   chapters: [
-    { chapter: "Chapter 1", name: "Crop Production and Management" },
-    { chapter: "Chapter 2", name: "Microorganisms: Friend and Foe" },
-    { chapter: "Chapter 3", name: "Coal and Petroleum" },
-    { chapter: "Chapter 4", name: "Combustion and Flame" },
-    { chapter: "Chapter 5", name: "Conservation of Plants and Animals" },
-    { chapter: "Chapter 6", name: "Reproduction in Animals" },
-    { chapter: "Chapter 7", name: "Reaching the Age of Adolescence" },
-    { chapter: "Chapter 8", name: "Force and Pressure" },
-    { chapter: "Chapter 9", name: "Friction" },
-    { chapter: "Chapter 10", name: "Sound" },
-    { chapter: "Chapter 11", name: "Chemical Effects of Electric Current" },
-    { chapter: "Chapter 12", name: "Some Natural Phenomena" },
-    { chapter: "Chapter 13", name: "Light" },
+    { chapter: "Chapter 1", name: "Crop Production and Management", topics: ["1.1 Agricultural Practices", "1.2 Basic Practices of Crop Production", "1.3 Preparation of Soil", "1.4 Sowing", "1.5 Adding Manure and Fertilisers", "1.6 Irrigation", "1.7 Protection from Weeds", "1.8 Harvesting", "1.9 Storage", "1.10 Food from Animals"] },
+    { chapter: "Chapter 2", name: "Microorganisms: Friend and Foe", topics: ["2.1 Microorganisms", "2.2 Where do Microorganisms Live?", "2.3 Microorganisms and Us", "2.4 Friendly Microorganisms", "2.5 Harmful Microorganisms", "2.6 Food Preservation", "2.7 Nitrogen Fixation", "2.8 Nitrogen Cycle"] },
+    { chapter: "Chapter 3", name: "Coal and Petroleum", topics: ["3.1 Inexhaustible and Exhaustible Natural Resources", "3.2 Coal", "3.3 Petroleum", "3.4 Natural Gas", "3.5 Some Natural Resources are Limited"] },
+    { chapter: "Chapter 4", name: "Combustion and Flame", topics: ["4.1 What is Combustion?", "4.2 How Do We Control Fire?", "4.3 Types of Combustion", "4.4 Flame", "4.5 Structure of a Flame", "4.6 What is a Fuel?", "4.7 Fuel Efficiency"] },
+    { chapter: "Chapter 5", name: "Conservation of Plants and Animals", topics: ["5.1 Deforestation and Its Causes", "5.2 Consequences of Deforestation", "5.3 Conservation of Forest and Wildlife", "5.4 Biosphere Reserve", "5.5 Flora and Fauna", "5.6 Endemic Species", "5.7 Wildlife Sanctuary", "5.8 National Park", "5.9 Red Data Book", "5.10 Migration", "5.11 Recycling of Paper", "5.12 Reforestation"] },
+    { chapter: "Chapter 6", name: "Reproduction in Animals", topics: ["6.1 Modes of Reproduction", "6.2 Sexual Reproduction", "6.3 Asexual Reproduction", "6.4 Cloning"] },
+    { chapter: "Chapter 7", name: "Reaching the Age of Adolescence", topics: ["7.1 Adolescence and Puberty", "7.2 Changes at Puberty", "7.3 Secondary Sexual Characters", "7.4 Role of Hormones in Initiating Reproductive Function", "7.5 Reproductive Phase of Life in Humans", "7.6 How is the Sex of the Baby Determined?", "7.7 Hormones other than Sex Hormones", "7.8 Role of Hormones in Completing the Life History of Insects and Frogs", "7.9 Reproductive Health"] },
+    { chapter: "Chapter 8", name: "Force and Pressure", topics: ["8.1 Force: A Push or a Pull", "8.2 Forces are due to an Interaction", "8.3 Exploring Forces", "8.4 A Force can Change the State of Motion", "8.5 Force can Change the Shape of an Object", "8.6 Contact Forces", "8.7 Non-contact Forces", "8.8 Pressure", "8.9 Pressure Exerted by Liquids and Gases", "8.10 Atmospheric Pressure"] },
+    { chapter: "Chapter 9", name: "Friction", topics: ["9.1 Force of Friction", "9.2 Factors affecting Friction", "9.3 Friction: A Necessary Evil", "9.4 Increasing and Reducing Friction", "9.5 Wheels Reduce Friction", "9.6 Fluid Friction"] },
+    { chapter: "Chapter 10", name: "Sound", topics: ["10.1 Sound is Produced by a Vibrating Body", "10.2 Sound Produced by Humans", "10.3 Sound Needs a Medium for Propagation", "10.4 We Hear Sound through Our Ears", "10.5 Amplitude, Time Period and Frequency of a Vibration", "10.6 Audible and Inaudible Sounds", "10.7 Noise and Music", "10.8 Noise Pollution"] },
+    { chapter: "Chapter 11", name: "Chemical Effects of Electric Current", topics: ["11.1 Do Liquids Conduct Electricity?", "11.2 Chemical Effects of Electric Current", "11.3 Electroplating"] },
+    { chapter: "Chapter 12", name: "Some Natural Phenomena", topics: ["12.1 Lightning", "12.2 Charging by Rubbing", "12.3 Types of Charges and Their Interaction", "12.4 Transfer of Charge", "12.5 The Story of Lightning", "12.6 Lightning Safety", "12.7 Earthquakes"] },
+    { chapter: "Chapter 13", name: "Light", topics: ["13.1 What makes Things Visible", "13.2 Laws of Reflection", "13.3 Regular and Diffused Reflection", "13.4 Reflected Light Can be Reflected Again", "13.5 Multiple Images", "13.6 Sunlight – White or Coloured", "13.7 What is inside Our Eyes?", "13.8 Care of the Eyes", "13.9 Visually Impaired Persons Can Read and Write", "13.10 What is the Braille System?"] },
   ]
 };
 
@@ -605,7 +605,7 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="container mx-auto md:px-[10%]">
+          <div className="container mx-auto px-4 md:px-[10%]">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
@@ -997,7 +997,8 @@ function SchoolPageContent() {
                                     <TableHeader>
                                         <TableRow>
                                             <TableHead className="w-[150px]">Chapter No.</TableHead>
-                                            <TableHead>Unit</TableHead>
+                                            <TableHead>Chapter Name</TableHead>
+                                            <TableHead>Topics</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -1005,6 +1006,11 @@ function SchoolPageContent() {
                                             <TableRow key={item.chapter}>
                                                 <TableCell className="font-medium">{item.chapter}</TableCell>
                                                 <TableCell>{item.name}</TableCell>
+                                                 <TableCell>
+                                                    <ul className="list-disc pl-5">
+                                                        {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                    </ul>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
