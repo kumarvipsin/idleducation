@@ -299,12 +299,10 @@ const phoneLengthByCountryCode: { [key: string]: number } = {
 export function HeroSection() {
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [sessionMode, setSessionMode] = useState<'online' | 'offline'>('offline');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      sessionMode: 'offline',
       studentName: '',
       classCourse: '',
       countryCode: "+91-India",
@@ -315,6 +313,7 @@ export function HeroSection() {
   });
   
   const selectedCountryCode = form.watch("countryCode");
+  const sessionMode = form.watch("sessionMode");
 
   const getPhoneLength = (countryCodeValue: string) => {
     const code = countryCodeValue.split('-')[0];
@@ -406,7 +405,6 @@ export function HeroSection() {
                         variant={sessionMode === 'online' ? 'default' : 'outline'} 
                         className="flex items-center justify-center gap-2"
                         onClick={() => {
-                            setSessionMode('online');
                             field.onChange('online');
                         }}
                         >
@@ -418,7 +416,6 @@ export function HeroSection() {
                         variant={sessionMode === 'offline' ? 'default' : 'outline'}
                         className="flex items-center justify-center gap-2"
                         onClick={() => {
-                            setSessionMode('offline');
                             field.onChange('offline');
                         }}
                         >
