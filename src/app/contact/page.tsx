@@ -358,7 +358,7 @@ export default function ContactPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       
-       <section className="mb-12">
+       <section className="mb-12 md:mx-[10%]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
                 <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
