@@ -26,6 +26,16 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
 const phoneRegex = /^\d{10}$/;
+const pincodeRegex = /^\d{6}$/;
+
+const indianStates = [
+    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
+    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
 
 const admissionFormSchema = z.object({
   studentId: z.string(),
@@ -46,6 +56,8 @@ const admissionFormSchema = z.object({
   fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
   motherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
   address: z.string().min(5, { message: "Address is required." }),
+  state: z.string().min(1, { message: "Please select a state." }),
+  pincode: z.string().regex(pincodeRegex, { message: "Please enter a valid 6-digit pincode." }),
   classApplied: z.string().min(1, { message: "Please select a class." }),
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
@@ -78,6 +90,8 @@ export default function AdmissionPage() {
       fatherPhone: '',
       motherPhone: '',
       address: '',
+      state: '',
+      pincode: '',
       classApplied: '',
       previousSchool: '',
       additionalInfo: '',
@@ -148,7 +162,7 @@ export default function AdmissionPage() {
 
   const handlePreview = async () => {
     const result = await form.trigger([
-        "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "classApplied", "branch"
+        "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "state", "pincode", "classApplied", "branch"
     ]);
     if (result) {
       setIsPreviewOpen(true);
@@ -537,18 +551,65 @@ export default function AdmissionPage() {
                         )}
                         />
                     </div>
+                    
                     <FormField
                         control={form.control}
                         name="address"
                         render={({ field }) => (
                         <FormItem>
-                            <FormControl>
-                            <Textarea placeholder="Full Address *" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                           <FormControl>
+                                <div className="relative">
+                                    <Home className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                    <Textarea placeholder="Full Address *" className="min-h-[100px] pl-9" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                         )}
                     />
+
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field }) => (
+                                <FormItem>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                    <div className="relative">
+                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <SelectTrigger className="pl-9">
+                                            <SelectValue placeholder="Select a state *" />
+                                        </SelectTrigger>
+                                    </div>
+                                    </FormControl>
+                                    <SelectContent>
+                                    {indianStates.map(state => (
+                                        <SelectItem key={state} value={state}>{state}</SelectItem>
+                                    ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="pincode"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <div className="relative">
+                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Pincode *" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={6} />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
+
                     <div className="grid sm:grid-cols-2 gap-6">
                         <FormField
                         control={form.control}
@@ -666,7 +727,7 @@ export default function AdmissionPage() {
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Student's Phone</td><td className="p-2">{form.getValues('studentPhone') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Contact</td><td className="p-2">{form.getValues('fatherPhone')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Mother's Contact</td><td className="p-2">{form.getValues('motherPhone')}</td></tr>
-                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold align-top">Address</td><td className="p-2">{form.getValues('address')}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold align-top">Address</td><td className="p-2">{`${form.getValues('address')}, ${form.getValues('state')} - ${form.getValues('pincode')}`}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Applying for Class</td><td className="p-2">{form.getValues('classApplied')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Previous School</td><td className="p-2">{form.getValues('previousSchool') || 'N/A'}</td></tr>
                                 <tr><td className="p-2 border-r border-gray-300 font-semibold align-top">Additional Information</td><td className="p-2">{form.getValues('additionalInfo') || 'N/A'}</td></tr>
