@@ -294,6 +294,68 @@ export function Header() {
     </Link>
   );
 
+  const cartDropdown = (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon" className="relative">
+                <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
+                {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                        {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                    </span>
+                )}
+                <span className="sr-only">Open Cart</span>
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-96">
+            <DropdownMenuLabel>My Cart</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {cartItems.length > 0 ? (
+                <>
+                    <div className="max-h-64 overflow-y-auto pr-2">
+                        {cartItems.map(item => (
+                            <div key={item.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted">
+                                <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
+                                <div className="flex-1">
+                                    <p className="font-medium text-xs truncate">{item.name}</p>
+                                    <div className="flex items-center gap-1 mt-1">
+                                        <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}><Minus className="h-3 w-3" /></Button>
+                                        <span className="text-xs w-4 text-center">{item.quantity}</span>
+                                        <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}><Plus className="h-3 w-3" /></Button>
+                                    </div>
+                                </div>
+                                <p className="font-semibold text-xs">₹{(item.price * item.quantity).toFixed(2)}</p>
+                                <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => handleRemoveItem(item.id)}><XCircle className="h-4 w-4" /></Button>
+                            </div>
+                        ))}
+                    </div>
+                     <DropdownMenuSeparator />
+                     <div className="p-2 space-y-1 text-xs">
+                        <div className="flex justify-between">
+                            <span>Subtotal</span>
+                            <span>₹{subtotal.toFixed(2)}</span>
+                        </div>
+                         <div className="flex justify-between">
+                            <span>GST (18%)</span>
+                            <span>₹{gst.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between font-bold text-sm">
+                            <span>Total</span>
+                            <span>₹{total.toFixed(2)}</span>
+                        </div>
+                     </div>
+                     <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                          <Button className="w-full">Proceed to Checkout</Button>
+                      </DropdownMenuItem>
+                </>
+            ) : (
+                 <div className="text-center text-sm text-muted-foreground p-4">Your cart is empty.</div>
+            )}
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#000080] text-white text-xs">
@@ -350,65 +412,7 @@ export function Header() {
                   </Link>
                 ))}
             {renderAuthSection()}
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon" className="relative">
-                        <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
-                        {cartItems.length > 0 && (
-                            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-                            </span>
-                        )}
-                        <span className="sr-only">Open Cart</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-96">
-                    <DropdownMenuLabel>My Cart</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {cartItems.length > 0 ? (
-                        <>
-                            <div className="max-h-64 overflow-y-auto pr-2">
-                                {cartItems.map(item => (
-                                    <div key={item.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted">
-                                        <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
-                                        <div className="flex-1">
-                                            <p className="font-medium text-xs truncate">{item.name}</p>
-                                            <div className="flex items-center gap-1 mt-1">
-                                                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}><Minus className="h-3 w-3" /></Button>
-                                                <span className="text-xs w-4 text-center">{item.quantity}</span>
-                                                <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}><Plus className="h-3 w-3" /></Button>
-                                            </div>
-                                        </div>
-                                        <p className="font-semibold text-xs">₹{(item.price * item.quantity).toFixed(2)}</p>
-                                        <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => handleRemoveItem(item.id)}><XCircle className="h-4 w-4" /></Button>
-                                    </div>
-                                ))}
-                            </div>
-                             <DropdownMenuSeparator />
-                             <div className="p-2 space-y-1 text-xs">
-                                <div className="flex justify-between">
-                                    <span>Subtotal</span>
-                                    <span>₹{subtotal.toFixed(2)}</span>
-                                </div>
-                                 <div className="flex justify-between">
-                                    <span>GST (18%)</span>
-                                    <span>₹{gst.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between font-bold text-sm">
-                                    <span>Total</span>
-                                    <span>₹{total.toFixed(2)}</span>
-                                </div>
-                             </div>
-                             <DropdownMenuSeparator />
-                              <DropdownMenuItem asChild>
-                                  <Button className="w-full">Proceed to Checkout</Button>
-                              </DropdownMenuItem>
-                        </>
-                    ) : (
-                         <div className="text-center text-sm text-muted-foreground p-4">Your cart is empty.</div>
-                    )}
-                </DropdownMenuContent>
-            </DropdownMenu>
+            {cartDropdown}
             <DropdownMenu onOpenChange={handleNotificationOpenChange}>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="relative">
@@ -448,6 +452,7 @@ export function Header() {
             </DropdownMenu>
             </nav>
             <div className="ml-auto md:hidden flex items-center gap-2">
+            {cartDropdown}
             <Link href="/notifications">
                 <Button variant="ghost" size="icon" className="relative">
                     <Bell className="h-6 w-6" />
