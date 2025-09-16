@@ -360,7 +360,6 @@ export default function ContactPage() {
         title: "For Admission Enquiry",
         details: [
             { type: 'phone', value: '+91 7011117585' },
-            { type: 'phone', value: '+91 8860040010' },
         ],
     },
     {
@@ -368,7 +367,6 @@ export default function ContactPage() {
         title: "For Enrolled Students",
         details: [
             { type: 'phone', value: '011 45035713' },
-            { type: 'dialog' },
         ],
     },
     {
@@ -376,7 +374,6 @@ export default function ContactPage() {
         title: "Email",
         details: [
             { type: 'email', value: 'info@idleducation.in' },
-            { type: 'email', value: 'support@idleducation.in' },
         ],
     },
     {
