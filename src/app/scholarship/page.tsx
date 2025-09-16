@@ -106,7 +106,7 @@ export default function ScholarshipPage() {
                 </Button>
             </Link>
             {/* Content */}
-            <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center">
+            <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center md:mx-[10%]">
                 
                 {/* Header Information */}
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
