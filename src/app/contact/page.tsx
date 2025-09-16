@@ -1,10 +1,11 @@
+
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Headset, Building } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +13,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitContactForm } from "@/app/actions";
+import Link from "next/link";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -286,6 +288,38 @@ const phoneLengthByCountryCode: { [key: string]: number } = {
   // Add more country codes and their lengths as needed
 };
 
+const contactInfo = [
+    {
+        icon: <Phone className="w-8 h-8 text-primary" />,
+        title: "For Admission Enquiry",
+        details: [
+            { type: 'phone', value: '+91 8860040010' },
+        ],
+    },
+    {
+        icon: <Headset className="w-8 h-8 text-primary" />,
+        title: "For Enrolled Students",
+        details: [
+            { type: 'phone', value: '011 45035713' },
+            { type: 'link', value: 'Support Form', href: '#' },
+        ],
+    },
+    {
+        icon: <Mail className="w-8 h-8 text-primary" />,
+        title: "Email",
+        details: [
+            { type: 'email', value: 'info@idleducation.in' },
+            { type: 'email', value: 'support@idleducation.in' },
+        ],
+    },
+    {
+        icon: <Building className="w-8 h-8 text-primary" />,
+        title: "Corporate Office",
+        details: [
+            { type: 'text', value: 'E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086' },
+        ],
+    },
+]
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -323,8 +357,42 @@ export default function ContactPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
+      
+       <section className="mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {contactInfo.map((info, index) => (
+                <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <CardContent className="p-6 flex flex-col items-center">
+                        <div className="p-4 bg-primary/10 rounded-full mb-4">
+                           {info.icon}
+                        </div>
+                        <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
+                        <div className="text-sm text-muted-foreground space-y-1">
+                            {info.details.map((detail, i) => {
+                                if (detail.type === 'phone') {
+                                    return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                }
+                                if (detail.type === 'email') {
+                                    return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                }
+                                if (detail.type === 'link') {
+                                    return <Link key={i} href={detail.href} className="block text-primary hover:underline">{detail.value}</Link>
+                                }
+                                return <p key={i}>{detail.value}</p>
+                            })}
+                        </div>
+                    </CardContent>
+                </Card>
+            ))}
+        </div>
+      </section>
+
       <div className="max-w-4xl mx-auto">
-        <Card className="mb-12 shadow-lg overflow-hidden">
+        <Card className="shadow-lg overflow-hidden">
+            <CardHeader className="text-center bg-muted/30 p-8">
+                <CardTitle className="text-3xl font-bold text-primary">Get In Touch</CardTitle>
+                <CardDescription>We'd love to hear from you. Please fill out the form below.</CardDescription>
+            </CardHeader>
           <CardContent className="p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
