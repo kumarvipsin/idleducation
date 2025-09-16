@@ -363,7 +363,7 @@ export default function BookDemoPage() {
       </Link>
       <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
           <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight bg-primary/10 px-8 py-4 rounded-full inline-block">
                   Book a Free Demo Class
               </h1>
               <p className="mt-2 text-lg text-muted-foreground font-semibold">
