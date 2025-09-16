@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -20,10 +19,10 @@ export function HeroSection() {
                     Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                 </p>
                 <div className="flex justify-center items-center gap-4">
-                    <Button size="lg" asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
+                    <Button asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
                         <Link href="/admission">Admission</Link>
                     </Button>
-                    <Button size="lg" asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
+                    <Button asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
                        <Link href="/book-demo">Book Free Demo</Link>
                     </Button>
                 </div>
