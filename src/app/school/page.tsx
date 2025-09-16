@@ -150,6 +150,17 @@ const class6SocialScienceSyllabus = {
   ]
 };
 
+const class6EnglishSyllabus = {
+  description: "The CBSE Class 6 English syllabus is designed to build a strong foundation in language skills through literature, grammar, and writing. It encourages reading comprehension, creative expression, and vocabulary development. Students explore a variety of prose and poetry to enhance their understanding. Check the table below for a detailed breakdown of the syllabus components and learning objectives.",
+  units: [
+    { name: "Unit 1 - Fables and Folk Tales", topics: ["A Bottle of Dew", "The Raven and the Fox", "Rama to the Rescue"] },
+    { name: "Unit 2 - Friendship", topics: ["The Unlikely Best Friends", "A Friend's Prayer", "The Chair"] },
+    { name: "Unit 3 - Nurturing Nature", topics: ["Neem Baba", "What a Bird Thought", "Spices that Heal Us"] },
+    { name: "Unit 4 - Sports and Wellness", topics: ["Change of Heart", "The Winner", "Yoga—A Way of Life"] },
+    { name: "Unit 5 - Culture and Tradition", topics: ["Hamara Bharat—Incredible India!", "The Kites", "Ila Sachani: Embroidering Dreams with her Feet", "National War Memorial"] },
+  ]
+};
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -474,8 +485,28 @@ function SchoolPageContent() {
                                 </div>
                                  <Separator />
                                 <div className="space-y-4">
-                                  <h4 id="english-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Syllabus</h4>
-                                  <p className="text-muted-foreground">Class 6 English syllabus will be updated here soon.</p>
+                                    <h4 id="english-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6EnglishSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Unit Name</TableHead>
+                                                <TableHead>Topics</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class6EnglishSyllabus.units.map(item => (
+                                                <TableRow key={item.name}>
+                                                    <TableCell className="font-medium">{item.name}</TableCell>
+                                                    <TableCell>
+                                                        <ul className="list-disc pl-5">
+                                                            {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                        </ul>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
                                 </div>
                             </div>
                         )}
