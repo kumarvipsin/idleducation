@@ -16,8 +16,9 @@ export function AppContent({
   
   const isScholarshipPage = pathname.startsWith('/scholarship');
   const isBookDemoPage = pathname.startsWith('/book-demo');
+  const isAdmissionPage = pathname.startsWith('/admission');
 
-  if (isScholarshipPage || isBookDemoPage) {
+  if (isScholarshipPage || isBookDemoPage || isAdmissionPage) {
     return (
         <>
             <main className="flex-grow">

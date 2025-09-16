@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download, Hash } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download, Hash, Home } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
+import Link from "next/link";
 
 const phoneRegex = /^\d{10}$/;
 
@@ -226,351 +227,359 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg overflow-hidden">
-        <header className="bg-[#03045e] text-white p-4">
-            <div className="flex flex-col items-center justify-center gap-2 text-center">
-            <div>
-                <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
-                <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+      <Link href="/" className="absolute top-4 right-4 z-20">
+          <Button variant="ghost" size="icon">
+              <Home className="h-6 w-6 text-primary" />
+              <span className="sr-only">Home</span>
+          </Button>
+      </Link>
+      <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden">
+            <header className="bg-primary text-white p-4">
+                <div className="flex flex-col items-center justify-center gap-2 text-center">
+                <div>
+                    <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
+                    <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+                </div>
+                </div>
+            </header>
+            <div className="bg-muted/30 text-center py-2">
+                <h2 className="text-lg font-bold tracking-widest text-foreground">ADMISSION FORM</h2>
             </div>
-            </div>
-        </header>
-        <div className="bg-gray-100 text-center py-2">
-            <h2 className="text-lg font-bold tracking-widest">ADMISSION FORM</h2>
-        </div>
-        
-        <CardContent className="p-8 bg-gray-50">
-            <Form {...form}>
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                      <div className="md:col-span-2 space-y-2 text-sm">
-                        <p>To,</p>
-                        <p>The Managing Director,</p>
-                        <p>IDL EDUCATION PVT. LTD.</p>
-                        <FormField
-                            control={form.control}
-                            name="branch"
-                            render={({ field }) => (
-                                <FormItem className="flex items-center gap-2">
-                                <FormLabel className="font-bold whitespace-nowrap">Branch <span className="text-destructive">*</span>:</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <FormControl>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select Your Nearest Branch" />
-                                    </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                    {branches.map(b => (
-                                        <SelectItem key={b} value={b}>{b}</SelectItem>
-                                    ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="md:col-span-1 space-y-4 flex flex-col items-center">
-                        <FormField
-                            control={form.control}
-                            name="studentId"
-                            render={({ field }) => (
-                                <FormItem className="flex items-center gap-2 w-full">
-                                <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider" />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
+            
+            <CardContent className="p-8">
+                <Form {...form}>
+                <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                        <div className="md:col-span-2 space-y-2 text-sm">
+                            <p>To,</p>
+                            <p>The Managing Director,</p>
+                            <p>IDL EDUCATION PVT. LTD.</p>
+                            <FormField
+                                control={form.control}
+                                name="branch"
+                                render={({ field }) => (
+                                    <FormItem className="flex items-center gap-2">
+                                    <FormLabel className="font-bold whitespace-nowrap">Branch <span className="text-destructive">*</span>:</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select Your Nearest Branch" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                        {branches.map(b => (
+                                            <SelectItem key={b} value={b}>{b}</SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                        <FormField
-                            control={form.control}
-                            name="studentPhoto"
-                            render={({ field: { onChange, value, ...rest } }) => (
-                                <FormItem>
-                                    <FormLabel htmlFor="photo-upload" className="cursor-pointer">
-                                        <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
-                                        {photoPreview ? (
-                                                <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
-                                        ) : (
-                                                <div className="text-center text-muted-foreground p-2">
-                                                    <Upload className="w-6 h-6 mx-auto mb-2" />
-                                                    <p className="text-xs">Upload Photo</p>
-                                                </div>
-                                        )}
-                                        </div>
-                                    </FormLabel>
+                        </div>
+                        <div className="md:col-span-1 space-y-4 flex flex-col items-center">
+                            <FormField
+                                control={form.control}
+                                name="studentId"
+                                render={({ field }) => (
+                                    <FormItem className="flex items-center gap-2 w-full">
+                                    <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
                                     <FormControl>
-                                        <Input
-                                            id="photo-upload"
-                                            ref={fileInputRef}
-                                            type="file"
-                                            accept="image/png, image/jpeg"
-                                            className="hidden"
-                                            onChange={(e) => {
-                                                const file = e.target.files?.[0];
-                                                onChange(file);
-                                                if (file) {
-                                                    const reader = new FileReader();
-                                                    reader.onloadend = () => {
-                                                        setPhotoPreview(reader.result as string);
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                } else {
-                                                    setPhotoPreview(null);
-                                                }
-                                            }}
-                                            {...rest}
-                                        />
+                                        <Input placeholder="Generating..." {...field} readOnly className="h-8 font-mono tracking-wider" />
                                     </FormControl>
                                     <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                                    </FormItem>
+                                )}
+                                />
+                            <FormField
+                                control={form.control}
+                                name="studentPhoto"
+                                render={({ field: { onChange, value, ...rest } }) => (
+                                    <FormItem>
+                                        <FormLabel htmlFor="photo-upload" className="cursor-pointer">
+                                            <div className="w-[132px] h-[170px] mx-auto rounded-md bg-muted flex items-center justify-center overflow-hidden border-2 border-dashed border-muted-foreground">
+                                            {photoPreview ? (
+                                                    <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
+                                            ) : (
+                                                    <div className="text-center text-muted-foreground p-2">
+                                                        <Upload className="w-6 h-6 mx-auto mb-2" />
+                                                        <p className="text-xs">Upload Photo</p>
+                                                    </div>
+                                            )}
+                                            </div>
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                id="photo-upload"
+                                                ref={fileInputRef}
+                                                type="file"
+                                                accept="image/png, image/jpeg"
+                                                className="hidden"
+                                                onChange={(e) => {
+                                                    const file = e.target.files?.[0];
+                                                    onChange(file);
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onloadend = () => {
+                                                            setPhotoPreview(reader.result as string);
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    } else {
+                                                        setPhotoPreview(null);
+                                                    }
+                                                }}
+                                                {...rest}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <Separator />
+                    <Separator />
 
-                <div className="grid sm:grid-cols-2 gap-6">
-                <FormField
-                    control={form.control}
-                    name="studentName"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Student's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Full Name" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="dob"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                        <Input type="date" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                <FormField
-                    control={form.control}
-                    name="fatherName"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                        <Input placeholder="Father's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="fatherOccupation"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Father's Occupation</FormLabel>
-                        <FormControl>
-                        <div className="relative">
-                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                <FormField
-                    control={form.control}
-                    name="motherName"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                        <Input placeholder="Mother's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="motherOccupation"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Mother's Occupation</FormLabel>
-                        <FormControl>
-                        <div className="relative">
-                                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input type="email" placeholder="example@email.com" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="studentPhone"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Student's Phone Number</FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
                     <FormField
-                    control={form.control}
-                    name="fatherPhone"
-                    render={({ field }) => (
+                        control={form.control}
+                        name="studentName"
+                        render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
+                            <FormLabel>Student's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Full Name" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
                         </FormItem>
-                    )}
+                        )}
                     />
                     <FormField
-                    control={form.control}
-                    name="motherPhone"
-                    render={({ field }) => (
+                        control={form.control}
+                        name="dob"
+                        render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
+                            <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="fatherName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input placeholder="Father's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="fatherOccupation"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Father's Occupation</FormLabel>
+                            <FormControl>
                             <div className="relative">
+                                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="motherName"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Input placeholder="Mother's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="motherOccupation"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mother's Occupation</FormLabel>
+                            <FormControl>
+                            <div className="relative">
+                                    <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="example@email.com" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="studentPhone"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Student's Phone Number</FormLabel>
+                            <FormControl>
+                                <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                </div>
-                <FormField
-                    control={form.control}
-                    name="address"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                        <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <div className="grid sm:grid-cols-2 gap-6">
-                    <FormField
-                    control={form.control}
-                    name="classApplied"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Applying for Class <span className="text-destructive">*</span></FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select a class" />
-                            </SelectTrigger>
+                                </div>
                             </FormControl>
-                            <SelectContent>
-                            {classes.map(c => (
-                                <SelectItem key={c} value={c}>{c}</SelectItem>
-                            ))}
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
+                            <FormMessage />
                         </FormItem>
-                    )}
+                        )}
                     />
+                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                        control={form.control}
+                        name="fatherPhone"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="motherPhone"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    </div>
+                    <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
+                            <FormControl>
+                            <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                        control={form.control}
+                        name="classApplied"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Applying for Class <span className="text-destructive">*</span></FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a class" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                {classes.map(c => (
+                                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                                ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="previousSchool"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Previous School Name (if any)</FormLabel>
+                            <FormControl>
+                                <div className="relative">
+                                <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Last school attended" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                    </div>
                     <FormField
                     control={form.control}
-                    name="previousSchool"
+                    name="additionalInfo"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Previous School Name (if any)</FormLabel>
+                        <FormLabel>Additional Information</FormLabel>
                         <FormControl>
-                            <div className="relative">
-                            <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input placeholder="Last school attended" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
-                            </div>
+                            <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
                     )}
                     />
-                </div>
-                <FormField
-                control={form.control}
-                name="additionalInfo"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Additional Information</FormLabel>
-                    <FormControl>
-                        <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-            </form>
-            </Form>
-        </CardContent>
-        </Card>
-        <div className="mt-8">
-            <Button type="button" size="lg" className="w-full" onClick={handlePreview} disabled={!form.getValues('studentId')}>
-                <FileText className="mr-2 h-4 w-4" />
-                Preview Form
-            </Button>
+                </form>
+                </Form>
+            </CardContent>
+          </Card>
+          <div className="mt-8">
+              <Button type="button" size="lg" className="w-full" onClick={handlePreview} disabled={!form.getValues('studentId')}>
+                  <FileText className="mr-2 h-4 w-4" />
+                  Preview Form
+              </Button>
+          </div>
         </div>
       </div>
       
@@ -583,18 +592,18 @@ export default function AdmissionPage() {
           <ScrollArea className="max-h-[70vh] p-1 border rounded-md">
             <div ref={previewRef} className="bg-white text-black p-4">
                <Card className="shadow-none border-0">
-                    <header className="bg-[#03045e] text-white p-4">
+                    <header className="bg-primary text-white p-4">
                         <div className="flex flex-col items-center justify-center gap-2 text-center">
                         <div>
-                            <h1 className="text-2xl font-bold tracking-[0.17em]">IDL EDUCATION</h1>
+                            <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
                             <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
                         </div>
                         </div>
                     </header>
-                    <div className="bg-gray-100 text-center py-2">
-                        <h2 className="text-lg font-bold tracking-widest text-black">ADMISSION FORM</h2>
+                    <div className="bg-muted/30 text-center py-2">
+                        <h2 className="text-lg font-bold tracking-widest text-foreground">ADMISSION FORM</h2>
                     </div>
-                    <CardContent className="p-8 bg-gray-50 text-sm">
+                    <CardContent className="p-8 text-sm">
                         <div className="grid grid-cols-3 gap-8 mb-6">
                              <div className="col-span-2 space-y-1">
                                 <p>To,</p>
