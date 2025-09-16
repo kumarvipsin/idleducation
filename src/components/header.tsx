@@ -10,11 +10,19 @@ import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useEffect, useState } from "react";
-import { getUpdates } from "@/app/actions";
+import { getUpdates, registerForScholarship } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Input } from "./ui/input";
 
 interface Update {
   id: string;
@@ -36,6 +44,98 @@ const initialCartItems: CartItem[] = [
     { id: 2, name: 'Science for Class 10', price: 650, quantity: 1, image: 'https://picsum.photos/seed/lakhmir10/100/100' },
 ];
 
+const scholarshipSchema = z.object({
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
+type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+
+const ScholarshipForm = ({ setDialogOpen }: { setDialogOpen: (open: boolean) => void }) => {
+    const { toast } = useToast();
+    const form = useForm<ScholarshipFormValues>({
+        resolver: zodResolver(scholarshipSchema),
+        defaultValues: { studentName: '', class: '', mobile: '' },
+    });
+
+    const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
+        const result = await registerForScholarship(data);
+        if (result.success) {
+            toast({
+                title: "Success!",
+                description: result.message,
+            });
+            form.reset();
+            setDialogOpen(false);
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: result.message || "Something went wrong.",
+            });
+        }
+    };
+    
+    const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+
+    return (
+         <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                    control={form.control}
+                    name="studentName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Student Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter student's name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="class"
+                    render={({ field }) => (
+                         <FormItem>
+                            <FormLabel>Class</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select class" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {scholarshipClasses.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                 <FormField
+                    control={form.control}
+                    name="mobile"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mobile Number</FormLabel>
+                            <FormControl>
+                                <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? 'Registering...' : 'Register for Scholarship'}
+                </Button>
+            </form>
+        </Form>
+    )
+}
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
@@ -44,6 +144,7 @@ export function Header() {
   const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState(initialCartItems);
 
@@ -247,42 +348,44 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#000080] text-white text-xs">
-            <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
-                    <a href="tel:+917011117585" className="flex items-center gap-2">
-                         <div className="p-1.5 bg-white/20 rounded-full">
-                           <Phone className="h-3 w-3 animate-ring" />
-                         </div>
-                        <span className="hidden sm:inline">+91 7011117585</span>
-                    </a>
-                </Button>
-                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
-                    <div className="marquee-container">
-                        <div className="marquee">
-                            <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
-                            </Link>
-                             <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
-                            </Link>
-                        </div>
-                         <div className="marquee">
-                             <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
-                            </Link>
-                             <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
-                            </Link>
+             <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
+                <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
+                    <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
+                        <a href="tel:+917011117585" className="flex items-center gap-2">
+                            <div className="p-1.5 bg-white/20 rounded-full">
+                            <Phone className="h-3 w-3 animate-ring" />
+                            </div>
+                            <span className="hidden sm:inline">+91 7011117585</span>
+                        </a>
+                    </Button>
+                    <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
+                        <div className="marquee-container">
+                            <div className="marquee">
+                                <DialogTrigger asChild>
+                                    <button className="hover:underline inline-block mr-16">
+                                        <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
+                                    </button>
+                                </DialogTrigger>
+                            </div>
                         </div>
                     </div>
-                 </div>
-                 <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
-                    <Link href="/admission" className="flex items-center gap-1">
-                        <FileText className="h-4 w-4"/>
-                        <span className="hidden sm:inline">{t('admissionForm')}</span>
-                    </Link>
-                </Button>
-            </div>
+                    <Button variant="link" size="sm" asChild className="text-white hover:no-underline px-2">
+                        <Link href="/admission" className="flex items-center gap-1">
+                            <FileText className="h-4 w-4"/>
+                            <span className="hidden sm:inline">{t('admissionForm')}</span>
+                        </Link>
+                    </Button>
+                </div>
+                 <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Scholarship Registration</DialogTitle>
+                        <DialogDescription>
+                            Fill out the form below to register for the scholarship program.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <ScholarshipForm setDialogOpen={setIsScholarshipDialogOpen} />
+                </DialogContent>
+             </Dialog>
         </div>
         <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
             <Link href={logoHref} className="flex items-center justify-center">

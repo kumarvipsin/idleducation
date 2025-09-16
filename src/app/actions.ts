@@ -42,6 +42,33 @@ export async function bookFreeSession(data: FormValues) {
   }
 }
 
+const scholarshipSchema = z.object({
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
+type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+
+export async function registerForScholarship(data: ScholarshipFormValues) {
+    const validation = scholarshipSchema.safeParse(data);
+    if (!validation.success) {
+        return { success: false, message: "Invalid data. Please check your inputs." };
+    }
+
+    try {
+        await addDoc(collection(db, "scholarshipRegistrations"), {
+            ...validation.data,
+            createdAt: serverTimestamp(),
+        });
+        return { success: true, message: "You have successfully registered for the scholarship!" };
+    } catch (error) {
+        console.error("Error registering for scholarship:", error);
+        return { success: false, message: "Registration failed. Please try again later." };
+    }
+}
+
+
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, { message: "Password is required." }),
@@ -868,5 +895,3 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: false, message: "Failed to submit admission form." };
     }
 }
-
-    
