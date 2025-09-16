@@ -373,9 +373,6 @@ function SchoolPageContent() {
                                             <a href="#maths-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Maths Syllabus</a>
                                             </li>
                                             <li>
-                                            <a href="#science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Science Syllabus</a>
-                                            </li>
-                                            <li>
                                             <a href="#social-science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Social Science Syllabus</a>
                                             </li>
                                             <li>
@@ -407,11 +404,6 @@ function SchoolPageContent() {
                                         ))}
                                         </TableBody>
                                     </Table>
-                                </div>
-                                <Separator />
-                                <div className="space-y-4">
-                                  <h4 id="science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Science Syllabus</h4>
-                                  <p className="text-muted-foreground">Class 6 Science syllabus will be updated here soon.</p>
                                 </div>
                                 <Separator />
                                 <div className="space-y-4">
@@ -470,7 +462,7 @@ function SchoolPageContent() {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+          </div>
       </section>
 
     </div>
