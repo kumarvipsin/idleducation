@@ -551,7 +551,7 @@ export default function ContactPage() {
         </section>
 
         </div>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="w-[90vw] sm:max-w-md p-4 rounded-lg">
             <DialogHeader>
                 <DialogTitle>Submit a Support Ticket</DialogTitle>
                 <DialogDescription>
