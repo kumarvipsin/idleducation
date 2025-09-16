@@ -559,16 +559,12 @@ export default function ContactPage() {
 
         </div>
         <DialogContent className="w-[90vw] sm:max-w-md p-6 rounded-lg overflow-hidden bg-background">
-            <div className="bg-muted/30 p-4 rounded-md text-center">
-                <h3 className="font-semibold">Need Help?</h3>
-                <p className="text-xs text-muted-foreground">
-                    For immediate assistance, please call us at:
-                </p>
-                <div className="flex justify-center items-center gap-4 mt-2">
-                    <a href="tel:01145035713" className="text-sm font-semibold text-primary hover:underline">011 45035713</a>
-                    <a href="mailto:support@idleducation.in" className="text-sm font-semibold text-primary hover:underline">support@idleducation.in</a>
-                </div>
-            </div>
+            <DialogHeader className="text-center">
+                <DialogTitle>Submit a Support Ticket</DialogTitle>
+                <DialogDescription>
+                Please describe your issue, and our support team will get back to you shortly.
+                </DialogDescription>
+            </DialogHeader>
             <div className="pt-4">
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
