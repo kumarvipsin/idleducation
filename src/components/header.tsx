@@ -208,7 +208,7 @@ export function Header() {
     }
 
     return (
-       <Button asChild variant="outline" className="h-8 py-1 uppercase font-bold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out">
+       <Button asChild className="h-8 py-1 uppercase font-bold bg-purple text-purple-foreground rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ease-in-out">
           <Link href="/login">{t('login')}</Link>
       </Button>
     );
@@ -278,7 +278,7 @@ export function Header() {
     }
     return (
        <div className="border-t p-4">
-        <Button asChild variant="outline" className="w-full h-8 py-1 uppercase font-bold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out">
+        <Button asChild className="w-full h-8 py-1 uppercase font-bold bg-purple text-purple-foreground rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ease-in-out">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                 <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
@@ -301,7 +301,7 @@ export function Header() {
   const cartDropdown = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative hover:bg-muted/50 focus-visible:bg-transparent">
                 <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
