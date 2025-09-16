@@ -484,9 +484,12 @@ export default function ContactPage() {
                           <FormItem>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a state *" />
-                                </SelectTrigger>
+                                <div className="relative">
+                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <SelectTrigger className="pl-9">
+                                      <SelectValue placeholder="Select a state *" />
+                                    </SelectTrigger>
+                                </div>
                               </FormControl>
                               <SelectContent>
                                 {indianStates.map(state => (
