@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -552,12 +551,6 @@ export default function ContactPage() {
 
         </div>
         <DialogContent className="w-[90vw] sm:max-w-md p-4 rounded-lg">
-            <DialogHeader>
-                <DialogTitle>Submit a Support Ticket</DialogTitle>
-                <DialogDescription>
-                    Please describe your issue, and our support team will get back to you shortly.
-                </DialogDescription>
-            </DialogHeader>
             <Form {...supportForm}>
                 <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
                     <FormField
