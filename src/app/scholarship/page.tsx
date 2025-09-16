@@ -129,7 +129,7 @@ export default function ScholarshipPage() {
                                         name="studentName"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-sm font-semibold text-muted-foreground">Student's Name</FormLabel>
+                                                
                                                 <FormControl>
                                                     <Input placeholder="Enter student's name" {...field} />
                                                 </FormControl>
@@ -142,7 +142,7 @@ export default function ScholarshipPage() {
                                         name="class"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel className="text-sm font-semibold text-muted-foreground">Class</FormLabel>
+                                                
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
                                                         <SelectTrigger>
@@ -164,7 +164,7 @@ export default function ScholarshipPage() {
                                         name="mobile"
                                         render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel htmlFor="phone" className="text-sm font-semibold text-muted-foreground">Phone number</FormLabel>
+                                            
                                             <FormControl>
                                                 <div className="flex items-center mt-1">
                                                     <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm h-10">
