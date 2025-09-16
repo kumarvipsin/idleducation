@@ -40,7 +40,6 @@ const indianStates = [
 ];
 
 const countryCodes = [
-    { code: "+91", country: "India" },
     { code: "+93", country: "Afghanistan" },
     { code: "+355", country: "Albania" },
     { code: "+213", country: "Algeria" },
@@ -135,6 +134,7 @@ const countryCodes = [
     { code: "+852", country: "Hong Kong" },
     { code: "+36", country: "Hungary" },
     { code: "+354", country: "Iceland" },
+    { code: "+91", country: "India" },
     { code: "+62", country: "Indonesia" },
     { code: "+98", country: "Iran" },
     { code: "+964", country: "Iraq" },
@@ -471,7 +471,7 @@ export default function BookDemoPage() {
                                         name="countryCode"
                                         render={({ field }) => (
                                         <FormItem>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="w-[120px]">
                                                 <SelectValue placeholder="Code" />
