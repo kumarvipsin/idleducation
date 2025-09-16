@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Award, Calendar, IndianRupee, Home } from 'lucide-react';
+import { Award, Calendar, IndianRupee, Home, User, GraduationCap, Phone, MapPin } from 'lucide-react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -151,14 +151,17 @@ export default function ScholarshipPage() {
                             </div>
 
                             <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
                                         control={form.control}
                                         name="studentName"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <Input placeholder="Enter student's name" {...field} />
+                                                    <div className="relative">
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <Input placeholder="Enter student's name" {...field} className="pl-9" />
+                                                    </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -170,7 +173,10 @@ export default function ScholarshipPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <Input placeholder="Enter guardian's name" {...field} />
+                                                    <div className="relative">
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <Input placeholder="Enter guardian's name" {...field} className="pl-9" />
+                                                    </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -183,9 +189,12 @@ export default function ScholarshipPage() {
                                             <FormItem>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
-                                                        <SelectTrigger>
+                                                      <div className="relative">
+                                                        <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <SelectTrigger className="pl-9">
                                                             <SelectValue placeholder="Select a class" />
                                                         </SelectTrigger>
+                                                      </div>
                                                     </FormControl>
                                                     <SelectContent>
                                                         {scholarshipClasses.map(c => (
@@ -203,11 +212,10 @@ export default function ScholarshipPage() {
                                         render={({ field }) => (
                                         <FormItem>
                                             <FormControl>
-                                                <div className="flex items-center mt-1">
-                                                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm h-10">
-                                                        +91
-                                                    </span>
-                                                    <Input type="tel" id="phone" placeholder="Enter Your Mobile Number" className="rounded-l-none h-10" {...field}/>
+                                                <div className="relative">
+                                                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                  <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                                                  <Input type="tel" placeholder="Enter Mobile Number" className="pl-16" {...field}/>
                                                 </div>
                                             </FormControl>
                                             <FormMessage />
@@ -221,9 +229,12 @@ export default function ScholarshipPage() {
                                           <FormItem>
                                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                <SelectTrigger>
-                                                  <SelectValue placeholder="Select a state" />
-                                                </SelectTrigger>
+                                                <div className="relative">
+                                                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                  <SelectTrigger className="pl-9">
+                                                    <SelectValue placeholder="Select a state" />
+                                                  </SelectTrigger>
+                                                </div>
                                               </FormControl>
                                               <SelectContent>
                                                 {indianStates.map(state => (
