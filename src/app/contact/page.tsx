@@ -393,36 +393,7 @@ export default function ContactPage() {
       <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
         <div className="container mx-auto py-12 px-4 md:px-6">
           
-        <section className="mb-12 md:mx-[10%]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {contactInfo.map((info, index) => (
-                  <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                      <CardContent className="p-6 flex flex-col items-center">
-                          <div className="p-4 bg-primary/10 rounded-full mb-4">
-                            {info.icon}
-                          </div>
-                          <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
-                          <div className="text-sm text-muted-foreground space-y-1">
-                              {info.details.map((detail, i) => {
-                                  if (detail.type === 'phone') {
-                                      return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
-                                  }
-                                  if (detail.type === 'email') {
-                                      return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
-                                  }
-                                  if (detail.type === 'dialog') {
-                                      return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
-                                  }
-                                  return <p key={i}>{detail.value}</p>
-                              })}
-                          </div>
-                      </CardContent>
-                  </Card>
-              ))}
-          </div>
-        </section>
-
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto mb-12">
           <Card className="shadow-lg overflow-hidden">
               <CardHeader className="text-center bg-muted/30 p-8">
                   <CardTitle className="text-3xl font-bold text-primary">Enquiry Form</CardTitle>
@@ -549,6 +520,35 @@ export default function ContactPage() {
             </CardContent>
           </Card>
         </div>
+
+        <section className="md:mx-[10%]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactInfo.map((info, index) => (
+                  <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-6 flex flex-col items-center">
+                          <div className="p-4 bg-primary/10 rounded-full mb-4">
+                            {info.icon}
+                          </div>
+                          <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
+                          <div className="text-sm text-muted-foreground space-y-1">
+                              {info.details.map((detail, i) => {
+                                  if (detail.type === 'phone') {
+                                      return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                  }
+                                  if (detail.type === 'email') {
+                                      return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                  }
+                                  if (detail.type === 'dialog') {
+                                      return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
+                                  }
+                                  return <p key={i}>{detail.value}</p>
+                              })}
+                          </div>
+                      </CardContent>
+                  </Card>
+              ))}
+          </div>
+        </section>
 
         </div>
         <DialogContent className="sm:max-w-md">
