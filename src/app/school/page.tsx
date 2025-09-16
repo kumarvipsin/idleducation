@@ -321,6 +321,29 @@ const class8SocialScienceSyllabus = {
   ]
 };
 
+const class8EnglishSyllabus = {
+  description: "Here’s the breakdown of the CBSE Class 8 English Syllabus for both Honeydew and Its So Happened books. The chapters are designed to enhance students’ reading, writing, and analytical skills through engaging prose and poetry.",
+  honeydew: [
+    { chapter: "Chapter 1", prose: "The Best Christmas Present in the World", poem: "The Ant and the Cricket" },
+    { chapter: "Chapter 2", prose: "The Tsunami", poem: "Geography Lesson" },
+    { chapter: "Chapter 3", prose: "Glimpses of the Past", poem: "" },
+    { chapter: "Chapter 4", prose: "Bepin Choudhury’s Lapse of Memory", poem: "The Last Bargain" },
+    { chapter: "Chapter 5", prose: "The Summit Within", poem: "The School Boy" },
+    { chapter: "Chapter 6", prose: "This is Jody’s Fawn", poem: "" },
+    { chapter: "Chapter 7", prose: "A Visit to Cambridge", poem: "" },
+    { chapter: "Chapter 8", prose: "A Short Monsoon Diary", poem: "On the Grasshopper and Cricket" },
+  ],
+  itSoHappened: [
+    { chapter: "Chapter 1", name: "How the Camel Got His Hump" },
+    { chapter: "Chapter 2", name: "Children at Work" },
+    { chapter: "Chapter 3", name: "The Selfish Giant" },
+    { chapter: "Chapter 4", name: "The Treasure Within" },
+    { chapter: "Chapter 5", name: "Princess September" },
+    { chapter: "Chapter 6", name: "The Fight" },
+    { chapter: "Chapter 7", name: "Jalebis" },
+  ]
+};
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -892,8 +915,44 @@ function SchoolPageContent() {
                             </div>
                             <Separator />
                             <div className="space-y-4">
-                                <h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus</h4>
-                                <p className="text-muted-foreground">Class 8 English syllabus will be updated here soon.</p>
+                                <h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus 2025-26</h4>
+                                <p className="text-muted-foreground">{class8EnglishSyllabus.description}</p>
+                                <h5 className='font-semibold'>Honeydew (Prose and Poems)</h5>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Chapter No.</TableHead>
+                                            <TableHead>Prose</TableHead>
+                                            <TableHead>Poem</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {class8EnglishSyllabus.honeydew.map(item => (
+                                            <TableRow key={item.chapter}>
+                                                <TableCell>{item.chapter}</TableCell>
+                                                <TableCell>{item.prose}</TableCell>
+                                                <TableCell>{item.poem}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                                <h5 className='font-semibold'>Its So Happened (Stories)</h5>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Chapter No.</TableHead>
+                                            <TableHead>Chapter Name</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {class8EnglishSyllabus.itSoHappened.map(item => (
+                                            <TableRow key={item.chapter}>
+                                                <TableCell>{item.chapter}</TableCell>
+                                                <TableCell>{item.name}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </div>
                           </div>
                         )}
