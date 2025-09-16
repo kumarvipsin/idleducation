@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
@@ -14,7 +15,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -44,6 +45,15 @@ const initialCartItems: CartItem[] = [
     { id: 2, name: 'Science for Class 10', price: 650, quantity: 1, image: 'https://picsum.photos/seed/lakhmir10/100/100' },
 ];
 
+const scholarshipSchema = z.object({
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
+type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
@@ -54,6 +64,13 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState(initialCartItems);
+  const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
+  const { toast } = useToast();
+  
+  const form = useForm<ScholarshipFormValues>({
+    resolver: zodResolver(scholarshipSchema),
+    defaultValues: { studentName: '', class: '', mobile: '' },
+  });
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const gst = subtotal * 0.18;
@@ -73,6 +90,24 @@ export function Header() {
 
   const handleRemoveItem = (itemId: number) => {
     setCartItems(currentItems => currentItems.filter(item => item.id !== itemId));
+  };
+  
+  const onScholarshipSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
+    const result = await registerForScholarship(data);
+    if (result.success) {
+      toast({
+        title: "Registration Successful",
+        description: result.message,
+      });
+      form.reset();
+      setIsScholarshipDialogOpen(false);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Registration Failed",
+        description: result.message,
+      });
+    }
   };
 
 
@@ -267,9 +302,77 @@ export function Header() {
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                     <div className="marquee-container">
                         <div className="marquee">
-                           <Link href="/scholarship" target="_blank" className="hover:underline inline-block mr-16">
-                             <span className="font-bold">The Gateway to Rewards, Recognition & Scholarships</span>
-                           </Link>
+                           <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
+                                <DialogTrigger asChild>
+                                     <button className="hover:underline inline-block mr-16">
+                                        <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold">NEW</Badge>
+                                        <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
+                                     </button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-md">
+                                    <DialogHeader>
+                                        <DialogTitle>Register for Scholarship</DialogTitle>
+                                        <DialogDescription>
+                                            Fill in your details to register for the scholarship program.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <Form {...form}>
+                                        <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-4">
+                                            <FormField
+                                                control={form.control}
+                                                name="studentName"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Student Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder="Enter student's name" {...field} />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="class"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Class</FormLabel>
+                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                            <FormControl>
+                                                                <SelectTrigger>
+                                                                    <SelectValue placeholder="Select a class" />
+                                                                </SelectTrigger>
+                                                            </FormControl>
+                                                            <SelectContent>
+                                                                {scholarshipClasses.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                                                            </SelectContent>
+                                                        </Select>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="mobile"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Mobile Number</FormLabel>
+                                                        <FormControl>
+                                                            <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <DialogFooter>
+                                                <Button type="submit" disabled={form.formState.isSubmitting}>
+                                                    {form.formState.isSubmitting ? 'Registering...' : 'Register'}
+                                                </Button>
+                                            </DialogFooter>
+                                        </form>
+                                    </Form>
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
                 </div>
