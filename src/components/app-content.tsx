@@ -13,10 +13,24 @@ export function AppContent({
 }) {
   const pathname = usePathname();
   
+  const isScholarshipPage = pathname.startsWith('/scholarship');
+
+  if (isScholarshipPage) {
+    return (
+        <>
+            <main className="flex-grow">
+                {children}
+            </main>
+            <Toaster />
+        </>
+    )
+  }
+
   const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
   
   // Don't show chatbot on admin pages
   const showChatBot = !pathname.startsWith('/admin');
+
 
   return (
     <>
