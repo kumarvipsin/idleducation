@@ -240,11 +240,11 @@ export default function AdmissionPage() {
       <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8 animate-fade-in-up">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight group inline-block">
+              <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
                   Admission Form
                   <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
               </h1>
-              <p className="mt-2 text-lg text-muted-foreground font-semibold">
+              <p className="mt-2 text-base text-muted-foreground font-semibold">
                   Fill out the form below to start your journey with IDL Education.
               </p>
           </div>
@@ -379,7 +379,7 @@ export default function AdmissionPage() {
                                         <Button
                                             variant={"outline"}
                                             className={cn(
-                                                "w-full justify-start text-left font-normal",
+                                                "w-full pl-3 text-left font-normal",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                         >
