@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "@/app/actions";
 import { useLanguage } from "@/context/language-context";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { allPrograms } from "@/lib/courses";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
@@ -36,11 +37,6 @@ const indianStates = [
   "Kerala", "Ladakh", "Lakshadweeip", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
   "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-];
-
-const allPrograms = [
-    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
-    "JEE", "NEET", "CUET", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
 ];
 
 const countryCodes = [
@@ -464,7 +460,7 @@ export function HeroSection() {
                         </FormControl>
                         <SelectContent>
                         {allPrograms.map(program => (
-                            <SelectItem key={program} value={program}>{program}</SelectItem>
+                            <SelectItem key={program.name} value={program.name}>{program.name}</SelectItem>
                         ))}
                         </SelectContent>
                     </Select>

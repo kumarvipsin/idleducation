@@ -18,50 +18,7 @@ import {
 import { ScrollArea } from '../ui/scroll-area';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from "@/lib/utils";
-
-const allPrograms = [
-    // EN
-    { name: "CLASS V", href: "/school?class=Class 5" },
-    { name: "CLASS VI", href: "/school?class=Class 6" },
-    { name: "CLASS VII", href: "/school?class=Class 7" },
-    { name: "CLASS VIII", href: "/school?class=Class 8" },
-    { name: "CLASS IX", href: "/school?class=Class 9" },
-    { name: "CLASS X", href: "/school?class=Class 10" },
-    { name: "CLASS XI", href: "/school?class=Class 11" },
-    { name: "CLASS XII", href: "/school?class=Class 12" },
-    { name: "JEE", href: "/category/iit-jee" },
-    { name: "NEET", href: "/category/neet" },
-    // HI
-    { name: "CUET", href: "/category/cuet" },
-    { name: "CBSE", href: "/school" },
-    { name: "NIOS", href: "/school" },
-    { name: "CLAT", href: "/category/cuet" },
-    { name: "GATE", href: "/category/iit-jee" },
-    { name: "SSC", href: "/category/govt-job-exams" },
-    { name: "DELHI POLICE", href: "/category/govt-job-exams" },
-];
-
-const popularProgramsEn = [
-  { name: "CLASS V", href: "/school?class=Class 5" },
-  { name: "CLASS VI", href: "/school?class=Class 6" },
-  { name: "CLASS VII", href: "/school?class=Class 7" },
-  { name: "CLASS VIII", href: "/school?class=Class 8" },
-  { name: "CLASS IX", href: "/school?class=Class 9" },
-  { name: "CLASS X", href: "/school?class=Class 10" },
-  { name: "CLASS XI", href: "/school?class=Class 11" },
-  { name: "CLASS XII", href: "/school?class=Class 12" },
-];
-const popularProgramsHi = [
-  { name: "JEE", href: "/category/iit-jee" },
-  { name: "NEET", href: "/category/neet" },
-  { name: "GATE", href: "/category/iit-jee" },
-  { name: "CUET", href: "/category/cuet" },
-  { name: "CBSE", href: "/school" },
-  { name: "NIOS", href: "/school" },
-  { name: "CLAT", href: "/category/cuet" },
-  { name: "SSC", href: "/category/govt-job-exams" },
-  { name: "DELHI POLICE", href: "/category/govt-job-exams" },
-];
+import { schoolPrograms, competitivePrograms, allPrograms } from "@/lib/courses";
 
 const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.1)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
 
@@ -139,10 +96,10 @@ export function ExamCategories() {
                         className="w-full"
                     >
                     <CarouselContent>
-                        {Array.from({ length: Math.ceil(popularProgramsEn.length / 6) }).map((_, slideIndex) => (
+                        {Array.from({ length: Math.ceil(schoolPrograms.length / 6) }).map((_, slideIndex) => (
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                            {popularProgramsEn.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                            {schoolPrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
                                 <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
@@ -155,7 +112,7 @@ export function ExamCategories() {
                     <div className="mt-8 flex justify-center">
                         <ExploreMoreDialog 
                             triggerText="Explore More" 
-                            programs={popularProgramsEn} 
+                            programs={schoolPrograms} 
                             dialogTitle="For School Exams"
                             dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
                         />
@@ -175,10 +132,10 @@ export function ExamCategories() {
                         className="w-full"
                     >
                     <CarouselContent>
-                        {Array.from({ length: Math.ceil(popularProgramsHi.length / 6) }).map((_, slideIndex) => (
+                        {Array.from({ length: Math.ceil(competitivePrograms.length / 6) }).map((_, slideIndex) => (
                         <CarouselItem key={slideIndex}>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                            {popularProgramsHi.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                            {competitivePrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
                                 <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                                 </Button>
@@ -191,7 +148,7 @@ export function ExamCategories() {
                     <div className="mt-8 flex justify-center">
                     <ExploreMoreDialog 
                             triggerText="Explore More" 
-                            programs={allPrograms.filter(p => popularProgramsHi.some(ph => ph.name === p.name))} 
+                            programs={competitivePrograms} 
                             dialogTitle="For Competitive Exams"
                             dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
                         />
