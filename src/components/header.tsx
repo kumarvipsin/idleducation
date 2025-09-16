@@ -364,7 +364,7 @@ export function Header() {
                             <div className="marquee">
                                 <DialogTrigger asChild>
                                     <button className="hover:underline inline-block mr-16">
-                                        <Badge variant="destructive" className="mr-2 px-1.5 py-0.5 text-[10px] font-bold">NEW</Badge>
+                                        <span className="mr-2 text-destructive font-bold text-xs">NEW</span>
                                         <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                                     </button>
                                 </DialogTrigger>
