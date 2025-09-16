@@ -17,16 +17,6 @@ const combinedValues = [
         title: "Our Mission",
         description: "IDL EDUCATION has developed a sustainable, innovative, aspiring learning environment for its pupils, with focus on the three main fundamentals of life-Physical, Mental and Spiritual fitness. We at IDL EDUCATION are equipped with 21st century skills. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity."
     },
-    {
-        icon: <Goal className="w-10 h-10 text-primary" />,
-        title: "Our Goal",
-        description: "To make high-quality education affordable and accessible to every student, regardless of their geographical location or economic background, fostering a community of lifelong learners."
-    },
-    {
-        icon: <Route className="w-10 h-10 text-primary" />,
-        title: "Our Approach",
-        description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
-    },
 ];
 
 
@@ -84,7 +74,7 @@ export default function AboutPage() {
               We are driven by a set of core values that define our mission and guide our approach to education.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {combinedValues.map((item, index) => (
               <Card key={index} className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
                 <CardContent className="p-6 flex flex-col items-center text-center">
