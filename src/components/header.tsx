@@ -278,7 +278,7 @@ export function Header() {
     }
     return (
        <div className="border-t p-4">
-        <Button asChild className="w-full">
+        <Button asChild variant="outline" className="w-full h-8 py-1 uppercase font-bold border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                 <LogIn className="mr-2 h-4 w-4" /> {t('login')}
             </Link>
@@ -450,11 +450,6 @@ export function Header() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-             <Button variant="outline" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Toggle theme</span>
-            </Button>
             </nav>
             <div className="ml-auto md:hidden flex items-center gap-2">
             {cartDropdown}
