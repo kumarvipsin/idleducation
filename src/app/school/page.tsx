@@ -194,6 +194,24 @@ const class7MathsSyllabus = {
     ]
 };
 
+const class7ScienceSyllabus = {
+  description: "Here is the detailed CBSE Class 7 Science Syllabus 2025-26, which covers various important scientific concepts and topics to be studied throughout the academic year. The following table outlines the chapters and their respective subtopics:",
+  chapters: [
+    { chapter: "The Ever-Evolving World of Science", subTopics: "Introduction to Science, Science in Everyday Life" },
+    { chapter: "Exploring Substances: Acidic, Basic, and Neutral", subTopics: "Acids and Bases, Indicators, Neutralisation" },
+    { chapter: "Electricity: Circuits and their Components", subTopics: "Introduction to Electricity, Symbols of Electric Components, Electrical Conductors and Insulators" },
+    { chapter: "The World of Metals and Non-metals", subTopics: "Properties of Materials, Corrosion, Effects of Air and Water" },
+    { chapter: "Changes Around Us: Physical and Chemical", subTopics: "Types of Changes, Chemical Change in Everyday Life, Natural Changes" },
+    { chapter: "Adolescence: A Stage of Growth and Change", subTopics: "Adolescence, Puberty, Changes During Puberty, Menstruation, Myths and Taboos, Making Adolescence a Joyful Experience" },
+    { chapter: "Heat Transfer in Nature", subTopics: "Conduction, Convection, Radiation, Water Cycle, Seepage of Water Beneath Earth" },
+    { chapter: "Measurement of Time and Motion", subTopics: "Types of Motion, Time, Measurement of Time & Speed, Relationship Between Time & Speed" },
+    { chapter: "Life Processes in Animals", subTopics: "Nutrition, Alimentary Canal, Human Digestive System, Digestion in Animals, Introduction to Respiration, Breathing & Respiration, Mechanism of Breathing, Process of Respiration, Respiration in Animals" },
+    { chapter: "Life Processes in Plants", subTopics: "How Do Plants Grow?, Leaves: Food Factories, Photosynthesis, Transportation in Plants, Respiration in Plants" },
+    { chapter: "Light: Shadows and Reflections", subTopics: "Introduction to Light, Light Through Different Materials, Shadow Formation, Reflection of Light, Images Formed in a Plane Mirror, Pinhole Camera, Periscope, Kaleidoscope" },
+    { chapter: "Earth, Moon, and the Sun", subTopics: "Rotation of the Earth, Revolution of the Earth, Eclipses" },
+  ]
+};
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -608,8 +626,24 @@ function SchoolPageContent() {
                                 </div>
                                 <Separator />
                                 <div className="space-y-4">
-                                    <h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4>
-                                    <p className="text-muted-foreground">Class 7 Science syllabus will be updated here soon.</p>
+                                  <h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4>
+                                  <p className="text-muted-foreground">{class7ScienceSyllabus.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead>Chapter</TableHead>
+                                        <TableHead>Sub Topics</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {class7ScienceSyllabus.chapters.map(item => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.subTopics}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
                                 </div>
                                 <Separator />
                                 <div className="space-y-4">
@@ -658,4 +692,5 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
 
