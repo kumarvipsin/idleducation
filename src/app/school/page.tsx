@@ -290,6 +290,38 @@ const class8ScienceSyllabus = {
   ]
 };
 
+const class8SocialScienceSyllabus = {
+  description: "Here is the CBSE Class 8 Social Science syllabus for the academic session 2025-26. The syllabus is divided into three sections: History, Social and Political Life, and Geography. It aims to provide students with a broad understanding of historical events, social structures, political systems, and geographical concepts.",
+  history: [
+    { chapter: "Chapter 1", name: "Introduction: How, When and Where" },
+    { chapter: "Chapter 2", name: "From Trade to Territory: The Company Establishes Power" },
+    { chapter: "Chapter 3", name: "Ruling the Countryside" },
+    { chapter: "Chapter 4", name: "Tribals, Dikus, and the Vision of a Golden Age" },
+    { chapter: "Chapter 5", name: "When People Rebel 1857 and After" },
+    { chapter: "Chapter 6", name: "Civilising the “Native”, Educating the Nation" },
+    { chapter: "Chapter 7", name: "Women, Caste and Reform" },
+    { chapter: "Chapter 8", name: "The Making of the National Movement: 1870s–1947" },
+  ],
+  socialAndPoliticalLife: [
+    { chapter: "Chapter 1", name: "The Indian Constitution" },
+    { chapter: "Chapter 2", name: "Understanding Secularism" },
+    { chapter: "Chapter 3", name: "Parliament and the Making of Laws" },
+    { chapter: "Chapter 4", name: "Judiciary" },
+    { chapter: "Chapter 5", name: "Understanding Marginalisation" },
+    { chapter: "Chapter 6", name: "Confronting Marginalisation" },
+    { chapter: "Chapter 7", name: "Public Facilities" },
+    { chapter: "Chapter 8", name: "Law and Social Justice" },
+  ],
+  geography: [
+    { chapter: "Chapter 1", name: "Resources" },
+    { chapter: "Chapter 2", name: "Land, Soil, Water, Natural Vegetation and Wildlife Resources" },
+    { chapter: "Chapter 3", name: "Agriculture" },
+    { chapter: "Chapter 4", name: "Industries" },
+    { chapter: "Chapter 5", name: "Human Resources" },
+  ]
+};
+
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -826,8 +858,37 @@ function SchoolPageContent() {
                             </div>
                             <Separator />
                             <div className="space-y-4">
-                                <h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus</h4>
-                                <p className="text-muted-foreground">Class 8 Social Science syllabus will be updated here soon.</p>
+                                <h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus 2025-26</h4>
+                                <p className="text-muted-foreground">{class8SocialScienceSyllabus.description}</p>
+                                <div className='space-y-4'>
+                                    <h5 className='font-semibold'>CBSE Class 8th History Syllabus</h5>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class8SocialScienceSyllabus.history.map(item => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                        </TableBody>
+                                    </Table>
+                                    <h5 className='font-semibold'>CBSE Class 8th Social and Political Life Syllabus</h5>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class8SocialScienceSyllabus.socialAndPoliticalLife.map(item => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                        </TableBody>
+                                    </Table>
+                                    <h5 className='font-semibold'>CBSE Class 8th Geography Syllabus</h5>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class8SocialScienceSyllabus.geography.map(item => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </div>
                             <Separator />
                             <div className="space-y-4">
