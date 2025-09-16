@@ -291,9 +291,8 @@ export function Header() {
      <Link href="/scholarship" className="hover:underline inline-block mr-16">
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
         <span className="font-bold uppercase text-[0.6rem] text-black">
-          <span className="hidden sm:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
-          <span className="sm:inline md:hidden">IDL Scholarship Test</span>
-          <span className="hidden">IDL Scholarship Test</span>
+          <span className="hidden md:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
+          <span className="md:hidden">IDL Scholarship Test</span>
         </span>
     </Link>
   );
@@ -301,7 +300,7 @@ export function Header() {
   const cartDropdown = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50 focus-visible:bg-transparent">
+            <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50">
                 <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -363,7 +362,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50 focus-visible:bg-transparent">
+        <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50">
             <Bell className="h-[1.2rem] w-[1.2rem]" />
             {hasNewUpdates && (
                 <span className="absolute top-0 right-0 flex h-2 w-2">
@@ -405,12 +404,7 @@ export function Header() {
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center">
-                    <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2 flex items-center gap-1">
-                        <Link href="/admission" className="flex items-center gap-1">
-                            <FileText className="h-4 w-4"/>
-                            <span className="hidden sm:inline">{t('admissionForm')}</span>
-                        </Link>
-                    </Button>
+                    
                 </div>
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                     <div className="marquee-container">
@@ -422,7 +416,7 @@ export function Header() {
                         </div>
                     </div>
                 </div>
-                 <div className="flex items-center">
+                 <div className="flex items-center gap-1">
                     {cartDropdown}
                     {notificationDropdown}
                 </div>
