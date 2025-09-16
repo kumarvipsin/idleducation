@@ -44,8 +44,10 @@ export async function bookFreeSession(data: FormValues) {
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  state: z.string().min(1, { message: "Please select a state." }),
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;

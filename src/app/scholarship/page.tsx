@@ -20,13 +20,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  state: z.string().min(1, { message: "Please select a state." }),
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+
+const indianStates = [
+    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
+    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
 
 export default function ScholarshipPage() {
     const { toast } = useToast();
@@ -34,8 +45,10 @@ export default function ScholarshipPage() {
         resolver: zodResolver(scholarshipSchema),
         defaultValues: {
             studentName: '',
+            guardianName: '',
             class: '',
             mobile: '',
+            state: '',
         },
     });
 
@@ -129,9 +142,20 @@ export default function ScholarshipPage() {
                                         name="studentName"
                                         render={({ field }) => (
                                             <FormItem>
-                                                
                                                 <FormControl>
                                                     <Input placeholder="Enter student's name" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="guardianName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input placeholder="Enter guardian's name" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -142,7 +166,6 @@ export default function ScholarshipPage() {
                                         name="class"
                                         render={({ field }) => (
                                             <FormItem>
-                                                
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                     <FormControl>
                                                         <SelectTrigger>
@@ -164,7 +187,6 @@ export default function ScholarshipPage() {
                                         name="mobile"
                                         render={({ field }) => (
                                         <FormItem>
-                                            
                                             <FormControl>
                                                 <div className="flex items-center mt-1">
                                                     <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm h-10">
@@ -177,6 +199,27 @@ export default function ScholarshipPage() {
                                         </FormItem>
                                         )}
                                     />
+                                    <FormField
+                                        control={form.control}
+                                        name="state"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                              <FormControl>
+                                                <SelectTrigger>
+                                                  <SelectValue placeholder="Select a state" />
+                                                </SelectTrigger>
+                                              </FormControl>
+                                              <SelectContent>
+                                                {indianStates.map(state => (
+                                                  <SelectItem key={state} value={state}>{state}</SelectItem>
+                                                ))}
+                                              </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
                                     <Button type="submit" className="w-full text-lg h-12 rounded-full font-bold" disabled={form.formState.isSubmitting}>
                                         {form.formState.isSubmitting ? 'Registering...' : 'Submit'}
                                     </Button>
