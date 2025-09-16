@@ -252,10 +252,29 @@ const class7EnglishSyllabus = {
   ],
 };
 
+const class8MathsSyllabus = {
+  description: "Here is the CBSE Class 8 Mathematics syllabus for the academic session 2025-26. This syllabus covers a wide range of mathematical concepts, from basic number systems to more advanced topics like algebraic expressions, mensuration, and graphs. It helps students develop problem-solving and analytical skills that are essential for future learning.",
+  chapters: [
+    { chapter: "Chapter 1", name: "Rational Numbers" },
+    { chapter: "Chapter 2", name: "Linear Equations In One Variable" },
+    { chapter: "Chapter 3", name: "Understanding Quadrilaterals" },
+    { chapter: "Chapter 4", name: "Data Handling" },
+    { chapter: "Chapter 5", name: "Squares and Square Roots" },
+    { chapter: "Chapter 6", name: "Cubes and Cube Roots" },
+    { chapter: "Chapter 7", name: "Comparing Quantities" },
+    { chapter: "Chapter 8", name: "Algebraic Expressions and Identities" },
+    { chapter: "Chapter 9", name: "Mensuration" },
+    { chapter: "Chapter 10", name: "Exponents and Powers" },
+    { chapter: "Chapter 11", name: "Direct and Inverse Proportions" },
+    { chapter: "Chapter 12", name: "Factorisation" },
+    { chapter: "Chapter 13", name: "Introduction to Graphs" },
+  ],
+};
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('Class 7');
+  const [activeClass, setActiveClass] = useState('Class 8');
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
@@ -387,7 +406,7 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="container mx-auto">
+          <div className="container mx-auto md:px-[10%]">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
@@ -732,7 +751,57 @@ function SchoolPageContent() {
                                 </div>
                             </div>
                         )}
-                        {!['Class 5', 'Class 6', 'Class 7'].includes(activeClass) && (
+                        {activeClass === 'Class 8' && (
+                          <div className="space-y-8">
+                            <Card className="mb-8">
+                                <CardContent className="p-6">
+                                    <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                    <ul className="list-disc pl-5 space-y-2">
+                                        <li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li>
+                                        <li><a href="#science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Science Syllabus</a></li>
+                                        <li><a href="#social-science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Social Science Syllabus</a></li>
+                                        <li><a href="#english-syllabus-8" className="text-primary hover:underline">CBSE Class 8 English Syllabus</a></li>
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                            <div className="space-y-4">
+                                <h4 id="maths-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Maths Syllabus 2025-26</h4>
+                                <p className="text-muted-foreground">{class8MathsSyllabus.description}</p>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                            <TableHead>Chapter Name</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {class8MathsSyllabus.chapters.map(item => (
+                                            <TableRow key={item.chapter}>
+                                                <TableCell className="font-medium">{item.chapter}</TableCell>
+                                                <TableCell>{item.name}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            <Separator />
+                            <div className="space-y-4">
+                                <h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus</h4>
+                                <p className="text-muted-foreground">Class 8 Science syllabus will be updated here soon.</p>
+                            </div>
+                            <Separator />
+                            <div className="space-y-4">
+                                <h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus</h4>
+                                <p className="text-muted-foreground">Class 8 Social Science syllabus will be updated here soon.</p>
+                            </div>
+                            <Separator />
+                            <div className="space-y-4">
+                                <h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus</h4>
+                                <p className="text-muted-foreground">Class 8 English syllabus will be updated here soon.</p>
+                            </div>
+                          </div>
+                        )}
+                        {!['Class 5', 'Class 6', 'Class 7', 'Class 8'].includes(activeClass) && (
                           <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
                     </div>
@@ -767,7 +836,3 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
-
-
-
