@@ -5,15 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, Headset, Building } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { submitContactForm } from "@/app/actions";
+import { submitContactForm, submitSupportTicket } from "@/app/actions";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -25,6 +27,15 @@ const contactFormSchema = z.object({
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
+
+const supportTicketSchema = z.object({
+    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email({ message: "Please enter a valid email." }),
+    problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
+});
+
+type SupportTicketValues = z.infer<typeof supportTicketSchema>;
+
 
 const countryCodes = [
     { code: "+91", country: "India" },
@@ -288,7 +299,62 @@ const phoneLengthByCountryCode: { [key: string]: number } = {
   // Add more country codes and their lengths as needed
 };
 
-const contactInfo = [
+export default function ContactPage() {
+  const { toast } = useToast();
+  const [isSupportDialogOpen, setIsSupportDialogOpen] = useState(false);
+
+  const contactForm = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      countryCode: "+91-India",
+      phone: '',
+      state: '',
+      message: '',
+    },
+  });
+
+  const supportForm = useForm<SupportTicketValues>({
+    resolver: zodResolver(supportTicketSchema),
+    defaultValues: {
+      studentName: '',
+      email: '',
+      problem: '',
+    },
+  });
+  
+  const selectedCountryCode = contactForm.watch("countryCode");
+
+  const getPhoneLength = (countryCodeValue: string) => {
+    const code = countryCodeValue.split('-')[0];
+    return phoneLengthByCountryCode[code] || 10; // Default to 10 if not found
+  };
+  
+  const maxLength = getPhoneLength(selectedCountryCode);
+
+  const onContactSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    const result = await submitContactForm(data);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      contactForm.reset();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
+
+  const onSupportSubmit: SubmitHandler<SupportTicketValues> = async (data) => {
+    const result = await submitSupportTicket(data);
+    if (result.success) {
+        toast({ title: "Success", description: result.message });
+        supportForm.reset();
+        setIsSupportDialogOpen(false);
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  }
+  
+  const contactInfo = [
     {
         icon: <Phone className="w-8 h-8 text-primary" />,
         title: "For Admission Enquiry",
@@ -301,7 +367,7 @@ const contactInfo = [
         title: "For Enrolled Students",
         details: [
             { type: 'phone', value: '011 45035713' },
-            { type: 'link', value: 'Support Form', href: '#' },
+            { type: 'dialog' },
         ],
     },
     {
@@ -321,43 +387,10 @@ const contactInfo = [
     },
 ]
 
-export default function ContactPage() {
-  const { toast } = useToast();
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      countryCode: "+91-India",
-      phone: '',
-      state: '',
-      message: '',
-    },
-  });
-  
-  const selectedCountryCode = form.watch("countryCode");
-
-  const getPhoneLength = (countryCodeValue: string) => {
-    const code = countryCodeValue.split('-')[0];
-    return phoneLengthByCountryCode[code] || 10; // Default to 10 if not found
-  };
-  
-  const maxLength = getPhoneLength(selectedCountryCode);
-
-  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    const result = await submitContactForm(data);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-      form.reset();
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-  };
-
-
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      
+    <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        
        <section className="mb-12 md:mx-[10%]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
@@ -375,8 +408,8 @@ export default function ContactPage() {
                                 if (detail.type === 'email') {
                                     return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
                                 }
-                                if (detail.type === 'link') {
-                                    return <Link key={i} href={detail.href} className="block text-primary hover:underline">{detail.value}</Link>
+                                if (detail.type === 'dialog') {
+                                    return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
                                 }
                                 return <p key={i}>{detail.value}</p>
                             })}
@@ -394,11 +427,11 @@ export default function ContactPage() {
                 <CardDescription>Have a question or need more information? Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
             </CardHeader>
           <CardContent className="p-8">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <Form {...contactForm}>
+              <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <FormField
-                    control={form.control}
+                    control={contactForm.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
@@ -411,7 +444,7 @@ export default function ContactPage() {
                     )}
                   />
                   <FormField
-                    control={form.control}
+                    control={contactForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
@@ -429,7 +462,7 @@ export default function ContactPage() {
                     <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
                     <div className="flex gap-2">
                        <FormField
-                          control={form.control}
+                          control={contactForm.control}
                           name="countryCode"
                           render={({ field }) => (
                             <FormItem>
@@ -452,7 +485,7 @@ export default function ContactPage() {
                           )}
                         />
                        <FormField
-                          control={form.control}
+                          control={contactForm.control}
                           name="phone"
                           render={({ field }) => (
                             <FormItem className="flex-1">
@@ -466,7 +499,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                    <FormField
-                      control={form.control}
+                      control={contactForm.control}
                       name="state"
                       render={({ field }) => (
                         <FormItem>
@@ -489,7 +522,7 @@ export default function ContactPage() {
                     />
                 </div>
                 <FormField
-                  control={form.control}
+                  control={contactForm.control}
                   name="message"
                   render={({ field }) => (
                     <FormItem>
@@ -501,8 +534,8 @@ export default function ContactPage() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting}>
-                   {form.formState.isSubmitting ? 'Sending...' : (
+                <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
+                   {contactForm.formState.isSubmitting ? 'Sending...' : (
                     <>
                       <Send className="mr-2 h-4 w-4" />
                       Send Message
@@ -514,6 +547,63 @@ export default function ContactPage() {
           </CardContent>
         </Card>
       </div>
+
+      <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Submit a Support Ticket</DialogTitle>
+                <DialogDescription>
+                    Please describe your issue, and our support team will get back to you shortly.
+                </DialogDescription>
+            </DialogHeader>
+            <Form {...supportForm}>
+                <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
+                    <FormField
+                        control={supportForm.control}
+                        name="studentName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Your Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter your full name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={supportForm.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Your Email</FormLabel>
+                                <FormControl>
+                                    <Input type="email" placeholder="Enter your email address" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={supportForm.control}
+                        name="problem"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Problem Description</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="Describe your issue in detail..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <Button type="submit" disabled={supportForm.formState.isSubmitting}>
+                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </Form>
+        </DialogContent>
     </div>
   );
 }

@@ -424,6 +424,34 @@ export async function submitContactForm(data: ContactFormValues) {
   }
 }
 
+const supportTicketSchema = z.object({
+    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email({ message: "Please enter a valid email." }),
+    problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
+});
+
+type SupportTicketValues = z.infer<typeof supportTicketSchema>;
+
+export async function submitSupportTicket(data: SupportTicketValues) {
+    const validation = supportTicketSchema.safeParse(data);
+    if (!validation.success) {
+        return { success: false, message: "Invalid data provided. Please check your inputs." };
+    }
+
+    try {
+        await addDoc(collection(db, "supportTickets"), {
+            ...validation.data,
+            status: 'new',
+            createdAt: serverTimestamp(),
+        });
+        return { success: true, message: "Your support ticket has been submitted successfully!" };
+    } catch (error) {
+        console.error("Error submitting support ticket:", error);
+        return { success: false, message: "Failed to submit ticket. Please try again later." };
+    }
+}
+
+
 export async function getContactSubmissions() {
   try {
     const submissionsQuery = query(collection(db, "contactSubmissions"), orderBy("createdAt", "desc"));
