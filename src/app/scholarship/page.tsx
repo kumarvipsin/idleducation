@@ -3,20 +3,18 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
-import Link from "next/link";
 import { Award, Calendar, IndianRupee } from 'lucide-react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { registerForScholarship } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { format, lastDayOfMonth, getDate } from "date-fns";
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -41,6 +39,7 @@ const indianStates = [
 
 export default function ScholarshipPage() {
     const { toast } = useToast();
+    const [examDates, setExamDates] = useState({ sat: '', sun: '', monthYear: '' });
     const form = useForm<ScholarshipFormValues>({
         resolver: zodResolver(scholarshipSchema),
         defaultValues: {
@@ -51,6 +50,34 @@ export default function ScholarshipPage() {
             state: '',
         },
     });
+
+    useEffect(() => {
+      const today = new Date();
+      const lastDay = lastDayOfMonth(today);
+      let lastSunday = new Date(lastDay);
+      let lastSaturday = new Date(lastDay);
+
+      // Find last Sunday
+      while (lastSunday.getDay() !== 0) {
+        lastSunday.setDate(lastSunday.getDate() - 1);
+      }
+      
+      // Find last Saturday
+      lastSaturday.setDate(lastSunday.getDate() - 1);
+      // If last day of month is a saturday, saturday should be last day of month and sunday should be the one before
+      if (lastDay.getDay() === 6) {
+        lastSaturday = lastDay;
+        lastSunday = new Date(lastDay);
+        lastSunday.setDate(lastDay.getDate() - 1);
+      }
+
+
+      setExamDates({
+        sat: format(lastSaturday, 'do'),
+        sun: format(lastSunday, 'do'),
+        monthYear: format(today, 'MMMM yyyy')
+      });
+    }, []);
 
     const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
         const result = await registerForScholarship(data);
@@ -121,7 +148,7 @@ export default function ScholarshipPage() {
                             <CardContent className="p-4">
                                 <Calendar className="w-8 h-8 text-green-500 mx-auto mb-2" />
                                 <span className="text-sm font-semibold text-muted-foreground">Exam Dates</span>
-                                <p className="text-lg font-bold text-primary">5th & 12th<br/>October 2025</p>
+                                <p className="text-lg font-bold text-primary">{examDates.sat} & {examDates.sun}<br/>{examDates.monthYear}</p>
                              </CardContent>
                         </Card>
                     </div>
