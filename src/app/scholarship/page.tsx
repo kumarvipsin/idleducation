@@ -13,7 +13,7 @@ import { Award, Calendar, IndianRupee } from 'lucide-react';
 
 export default function ScholarshipPage() {
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center p-4 bg-gray-100 dark:bg-gray-900">
+        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gray-100 dark:bg-gray-900">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
@@ -23,56 +23,54 @@ export default function ScholarshipPage() {
                     fill
                     className="object-cover opacity-30"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/50" />
             </div>
 
             {/* Content */}
-            <div className="relative z-10 container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center">
                 
-                {/* Left Side: Information */}
-                <div className="space-y-8 text-center lg:text-left animate-fade-in-up">
-                    <div>
-                         <Image
-                            src="/logo.png"
-                            alt="IDL Education Logo"
-                            width={120}
-                            height={120}
-                            className="mx-auto lg:mx-0 mb-4 filter hue-rotate-15 saturate-150"
-                        />
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
-                            The Gateway to Rewards, Recognition & Scholarships
-                        </h1>
-                        <p className="mt-4 text-lg text-muted-foreground font-semibold">
-                            For Class V to X
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div className="flex flex-col items-center lg:items-start">
-                            <div className="flex items-center gap-2">
-                                <Award className="w-8 h-8 text-yellow-500" />
+                {/* Header Information */}
+                <div className="space-y-6 mb-8 animate-fade-in-up text-center">
+                    <Image
+                        src="/logo.png"
+                        alt="IDL Education Logo"
+                        width={100}
+                        height={100}
+                        className="mx-auto filter hue-rotate-15 saturate-150"
+                    />
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
+                        The Gateway to Rewards, Recognition & Scholarships
+                    </h1>
+                    <p className="mt-2 text-lg text-muted-foreground font-semibold">
+                        For Class V to X
+                    </p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                        <Card className="bg-background/50 backdrop-blur-sm">
+                            <CardContent className="p-4">
+                                <Award className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
                                 <span className="text-sm font-semibold text-muted-foreground">Cash Prize</span>
-                            </div>
-                            <p className="text-2xl font-bold text-primary">₹ 2.5 Cr.</p>
-                        </div>
-                        <div className="flex flex-col items-center lg:items-start">
-                             <div className="flex items-center gap-2">
-                                <IndianRupee className="w-8 h-8 text-blue-500" />
+                                <p className="text-2xl font-bold text-primary">₹ 2.5 Cr.</p>
+                             </CardContent>
+                        </Card>
+                        <Card className="bg-background/50 backdrop-blur-sm">
+                             <CardContent className="p-4">
+                                <IndianRupee className="w-8 h-8 text-blue-500 mx-auto mb-2" />
                                 <span className="text-sm font-semibold text-muted-foreground">Scholarships</span>
-                            </div>
-                            <p className="text-2xl font-bold text-primary">₹ 250 Cr.</p>
-                        </div>
-                        <div className="flex flex-col items-center lg:items-start">
-                            <div className="flex items-center gap-2">
-                                <Calendar className="w-8 h-8 text-green-500" />
+                                <p className="text-2xl font-bold text-primary">₹ 250 Cr.</p>
+                            </CardContent>
+                        </Card>
+                         <Card className="bg-background/50 backdrop-blur-sm">
+                            <CardContent className="p-4">
+                                <Calendar className="w-8 h-8 text-green-500 mx-auto mb-2" />
                                 <span className="text-sm font-semibold text-muted-foreground">Exam Dates</span>
-                            </div>
-                            <p className="text-lg font-bold text-primary">5th & 12th<br/>October 2025</p>
-                        </div>
+                                <p className="text-lg font-bold text-primary">5th & 12th<br/>October 2025</p>
+                             </CardContent>
+                        </Card>
                     </div>
                 </div>
 
-                {/* Right Side: Registration Form */}
+                {/* Registration Form */}
                 <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                     <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
                         <CardContent className="p-8 space-y-6">
