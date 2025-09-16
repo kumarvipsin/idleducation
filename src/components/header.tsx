@@ -260,18 +260,18 @@ export function Header() {
                     <div className="marquee-container">
                         <div className="marquee">
                             <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                             </Link>
-                            <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                             <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                             </Link>
                         </div>
                          <div className="marquee">
-                            <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                             <Link href="/admission" className="hover:underline inline-block mr-16">
+                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                             </Link>
                              <Link href="/admission" className="hover:underline inline-block mr-16">
-                                <span className="font-bold">Admissions Open for Session 2024-25. Click here to apply!</span>
+                                <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                             </Link>
                         </div>
                     </div>
@@ -427,7 +427,7 @@ export function Header() {
                     <span className="sr-only">Toggle navigation menu</span>
                 </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-full max-w-xs p-0 flex flex-col bg-background">
+                <SheetContent side="left" className="w-full max-w-xs p-0 flex flex-col bg-white dark:bg-background">
                     <SheetHeader className="p-4 border-b">
                         <SheetTitle>Menu</SheetTitle>
                     </SheetHeader>
