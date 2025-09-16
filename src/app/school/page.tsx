@@ -121,6 +121,24 @@ const class6MathsSyllabus = {
   ]
 };
 
+const class6ScienceSyllabus = {
+  description: "The CBSE Class 6 Science syllabus is designed to spark curiosity and develop scientific thinking in young learners. It covers a range of topics from food, materials, and living organisms to motion, measurement, and electricity. Check the table below for a detailed overview of the chapters included in the Class 6 Science syllabus for the academic year.",
+  chapters: [
+    { chapter: "Chapter 1", name: "The Wonderful World of Science" },
+    { chapter: "Chapter 2", name: "Diversity in Living World" },
+    { chapter: "Chapter 3", name: "Mindful Eating: A Path to a Healthy Body" },
+    { chapter: "Chapter 4", name: "Exploring Magnets" },
+    { chapter: "Chapter 5", name: "Measurement of Length and Motion" },
+    { chapter: "Chapter 6", name: "Material Around Us" },
+    { chapter: "Chapter 7", name: "Temperature and its Measurement" },
+    { chapter: "Chapter 8", name: "A Journey through States of Water" },
+    { chapter: "Chapter 9", name: "Methods of Separation in Everyday Life" },
+    { chapter: "Chapter 10", name: "Living Creatures: Exploring their Characteristics" },
+    { chapter: "Chapter 11", name: "Nature's Treasures" },
+    { chapter: "Chapter 12", name: "Beyond Earth" },
+  ],
+};
+
 const class6SocialScienceSyllabus = {
   description: "Check the table below for the detailed CBSE Class 6 Social Science syllabus. It covers topics from History, Geography, and Civics, designed to build a strong foundation in understanding society, the environment, and past civilizations. This syllabus encourages students to think critically and explore how historical and social processes shape the world around them.",
   themes: [
@@ -370,13 +388,16 @@ function SchoolPageContent() {
                                         <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
                                         <ul className="list-disc pl-5 space-y-2">
                                             <li>
-                                            <a href="#maths-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Maths Syllabus</a>
+                                                <a href="#maths-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Maths Syllabus</a>
                                             </li>
                                             <li>
-                                            <a href="#social-science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Social Science Syllabus</a>
+                                                <a href="#science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Science Syllabus</a>
                                             </li>
                                             <li>
-                                            <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
+                                                <a href="#social-science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Social Science Syllabus</a>
+                                            </li>
+                                            <li>
+                                                <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
                                             </li>
                                         </ul>
                                     </CardContent>
@@ -403,6 +424,27 @@ function SchoolPageContent() {
                                             </TableRow>
                                         ))}
                                         </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Science Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6ScienceSyllabus.description}</p>
+                                    <Table>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead className="w-[150px]">Chapter Number</TableHead>
+                                          <TableHead>Chapter Name</TableHead>
+                                        </TableRow>
+                                      </TableHeader>
+                                      <TableBody>
+                                        {class6ScienceSyllabus.chapters.map(item => (
+                                          <TableRow key={item.chapter}>
+                                            <TableCell className="font-medium">{item.chapter}</TableCell>
+                                            <TableCell>{item.name}</TableCell>
+                                          </TableRow>
+                                        ))}
+                                      </TableBody>
                                     </Table>
                                 </div>
                                 <Separator />
