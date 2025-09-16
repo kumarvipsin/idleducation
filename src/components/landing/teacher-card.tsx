@@ -28,9 +28,9 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                 />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
             </div>
-            <CardContent className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="text-lg font-bold uppercase tracking-wider">{name}</h3>
-                <p className="text-sm text-white/90">{designation}</p>
+            <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
+                <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
+                <p className="text-xs md:text-sm text-white/90">{designation}</p>
                 <p className="text-xs text-white/80 mt-1">{experience}</p>
             </CardContent>
         </Card>
