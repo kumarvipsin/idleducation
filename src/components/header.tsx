@@ -292,7 +292,7 @@ export function Header() {
         <DialogTrigger asChild>
             <button className="hover:underline inline-block mr-16">
             <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold">NEW</Badge>
-            <span className="font-bold uppercase">Scholarships available for Classes 5 to 10. Click to learn more!</span>
+            <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
             </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
