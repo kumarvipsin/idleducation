@@ -287,6 +287,80 @@ export function Header() {
     );
   };
 
+  const ScholarshipButton = () => (
+    <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
+        <DialogTrigger asChild>
+            <button className="hover:underline inline-block mr-16">
+            <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold">NEW</Badge>
+            <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
+            </button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Register for Scholarship</DialogTitle>
+                <DialogDescription>
+                    Fill in your details to register for the scholarship program.
+                </DialogDescription>
+            </DialogHeader>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="studentName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Student Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter student's name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="class"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Class</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a class" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {scholarshipClasses.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="mobile"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Mobile Number</FormLabel>
+                                <FormControl>
+                                    <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Registering...' : 'Register'}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </Form>
+        </DialogContent>
+    </Dialog>
+  );
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#000080] text-white text-xs">
@@ -302,77 +376,10 @@ export function Header() {
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                     <div className="marquee-container">
                         <div className="marquee">
-                           <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
-                                <DialogTrigger asChild>
-                                     <button className="hover:underline inline-block mr-16">
-                                        <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold">NEW</Badge>
-                                        <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
-                                     </button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-md">
-                                    <DialogHeader>
-                                        <DialogTitle>Register for Scholarship</DialogTitle>
-                                        <DialogDescription>
-                                            Fill in your details to register for the scholarship program.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <Form {...form}>
-                                        <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-4">
-                                            <FormField
-                                                control={form.control}
-                                                name="studentName"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Student Name</FormLabel>
-                                                        <FormControl>
-                                                            <Input placeholder="Enter student's name" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="class"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Class</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Select a class" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                {scholarshipClasses.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                                                            </SelectContent>
-                                                        </Select>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="mobile"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Mobile Number</FormLabel>
-                                                        <FormControl>
-                                                            <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <DialogFooter>
-                                                <Button type="submit" disabled={form.formState.isSubmitting}>
-                                                    {form.formState.isSubmitting ? 'Registering...' : 'Register'}
-                                                </Button>
-                                            </DialogFooter>
-                                        </form>
-                                    </Form>
-                                </DialogContent>
-                            </Dialog>
+                           <ScholarshipButton />
+                        </div>
+                         <div className="marquee">
+                           <ScholarshipButton />
                         </div>
                     </div>
                 </div>
