@@ -388,167 +388,169 @@ export default function ContactPage() {
 ]
 
   return (
-    <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
-      <div className="container mx-auto py-12 px-4 md:px-6">
-        
-       <section className="mb-12 md:mx-[10%]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {contactInfo.map((info, index) => (
-                <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-6 flex flex-col items-center">
-                        <div className="p-4 bg-primary/10 rounded-full mb-4">
-                           {info.icon}
-                        </div>
-                        <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
-                        <div className="text-sm text-muted-foreground space-y-1">
-                            {info.details.map((detail, i) => {
-                                if (detail.type === 'phone') {
-                                    return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
-                                }
-                                if (detail.type === 'email') {
-                                    return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
-                                }
-                                if (detail.type === 'dialog') {
-                                    return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
-                                }
-                                return <p key={i}>{detail.value}</p>
-                            })}
-                        </div>
-                    </CardContent>
-                </Card>
-            ))}
-        </div>
-      </section>
+    <div>
+      <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
+        <div className="container mx-auto py-12 px-4 md:px-6">
+          
+        <section className="mb-12 md:mx-[10%]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {contactInfo.map((info, index) => (
+                  <Card key={index} className="text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-6 flex flex-col items-center">
+                          <div className="p-4 bg-primary/10 rounded-full mb-4">
+                            {info.icon}
+                          </div>
+                          <h3 className="text-lg font-semibold mb-2">{info.title}</h3>
+                          <div className="text-sm text-muted-foreground space-y-1">
+                              {info.details.map((detail, i) => {
+                                  if (detail.type === 'phone') {
+                                      return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                  }
+                                  if (detail.type === 'email') {
+                                      return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
+                                  }
+                                  if (detail.type === 'dialog') {
+                                      return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
+                                  }
+                                  return <p key={i}>{detail.value}</p>
+                              })}
+                          </div>
+                      </CardContent>
+                  </Card>
+              ))}
+          </div>
+        </section>
 
-      <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg overflow-hidden">
-            <CardHeader className="text-center bg-muted/30 p-8">
-                <CardTitle className="text-3xl font-bold text-primary">Enquiry Form</CardTitle>
-                <CardDescription>Have a question or need more information? Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
-            </CardHeader>
-          <CardContent className="p-8">
-            <Form {...contactForm}>
-              <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <FormField
-                    control={contactForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={contactForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="Enter your email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
-                    <div className="flex gap-2">
-                       <FormField
-                          control={contactForm.control}
-                          name="countryCode"
-                          render={({ field }) => (
-                            <FormItem>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="w-[120px]">
-                                    <SelectValue placeholder="Code" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {countryCodes.map((country, index) => (
-                                    <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
-                                      {country.code} ({country.country})
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                       <FormField
-                          control={contactForm.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem className="flex-1">
-                              <FormControl>
-                                <Input type="tel" placeholder="Enter phone number" {...field} maxLength={maxLength} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                    </div>
-                  </div>
-                   <FormField
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-lg overflow-hidden">
+              <CardHeader className="text-center bg-muted/30 p-8">
+                  <CardTitle className="text-3xl font-bold text-primary">Enquiry Form</CardTitle>
+                  <CardDescription>Have a question or need more information? Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+              </CardHeader>
+            <CardContent className="p-8">
+              <Form {...contactForm}>
+                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <FormField
                       control={contactForm.control}
-                      name="state"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>State <span className="text-destructive">*</span></FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a state" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {indianStates.map(state => (
-                                <SelectItem key={state} value={state}>{state}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                          <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your name" {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                </div>
-                <FormField
-                  control={contactForm.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Message</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Enter your message" className="min-h-[150px]" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
-                   {contactForm.formState.isSubmitting ? 'Sending...' : (
-                    <>
-                      <Send className="mr-2 h-4 w-4" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </div>
+                    <FormField
+                      control={contactForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="Enter your email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
+                      <div className="flex gap-2">
+                        <FormField
+                            control={contactForm.control}
+                            name="countryCode"
+                            render={({ field }) => (
+                              <FormItem>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="w-[120px]">
+                                      <SelectValue placeholder="Code" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    {countryCodes.map((country, index) => (
+                                      <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
+                                        {country.code} ({country.country})
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        <FormField
+                            control={contactForm.control}
+                            name="phone"
+                            render={({ field }) => (
+                              <FormItem className="flex-1">
+                                <FormControl>
+                                  <Input type="tel" placeholder="Enter phone number" {...field} maxLength={maxLength} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                      </div>
+                    </div>
+                    <FormField
+                        control={contactForm.control}
+                        name="state"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>State <span className="text-destructive">*</span></FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a state" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {indianStates.map(state => (
+                                  <SelectItem key={state} value={state}>{state}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                  </div>
+                  <FormField
+                    control={contactForm.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Enter your message" className="min-h-[150px]" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
+                    {contactForm.formState.isSubmitting ? 'Sending...' : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Send Message
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </div>
 
-      <DialogContent className="sm:max-w-md">
+        </div>
+        <DialogContent className="sm:max-w-md">
             <DialogHeader>
                 <DialogTitle>Submit a Support Ticket</DialogTitle>
                 <DialogDescription>
@@ -570,7 +572,7 @@ export default function ContactPage() {
                             </FormItem>
                         )}
                     />
-                     <FormField
+                      <FormField
                         control={supportForm.control}
                         name="email"
                         render={({ field }) => (
@@ -604,6 +606,7 @@ export default function ContactPage() {
                 </form>
             </Form>
         </DialogContent>
+      </Dialog>
     </div>
   );
 }
