@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar, FileText, Edit, Download, Hash, Home } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +20,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const phoneRegex = /^\d{10}$/;
 
@@ -30,11 +34,12 @@ const admissionFormSchema = z.object({
   fatherOccupation: z.string().optional(),
   motherName: z.string().min(2, { message: "Mother's name must be at least 2 characters." }),
   motherOccupation: z.string().optional(),
-  dob: z.string().min(1, { message: "Date of birth is required." }).refine((dob) => {
+  dob: z.date({
+    required_error: "Date of birth is required.",
+  }).refine((dob) => {
     const today = new Date();
     const threeYearsAgo = new Date(today.getFullYear() - 3, today.getMonth(), today.getDate());
-    const dobDate = new Date(dob);
-    return dobDate <= threeYearsAgo;
+    return dob <= threeYearsAgo;
   }, { message: "Student must be at least 3 years old." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   studentPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
@@ -68,7 +73,6 @@ export default function AdmissionPage() {
       fatherOccupation: '',
       motherName: '',
       motherOccupation: '',
-      dob: '',
       email: '',
       studentPhone: '',
       fatherPhone: '',
@@ -165,7 +169,9 @@ export default function AdmissionPage() {
     try {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
-            if (value instanceof File) {
+            if (key === 'dob' && value instanceof Date) {
+                formData.append(key, value.toISOString());
+            } else if (value instanceof File) {
                 formData.append(key, value);
             } else if (value) {
                 formData.append(key, value as string);
@@ -216,14 +222,11 @@ export default function AdmissionPage() {
         .join(' ');
   };
   
-  const formatDateForDisplay = (dateString: string) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return '';
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+  const formatDateForDisplay = (date: Date | string | undefined) => {
+    if (!date) return '';
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    if (isNaN(dateObj.getTime())) return '';
+    return format(dateObj, "dd/MM/yyyy");
   };
 
   return (
@@ -365,17 +368,42 @@ export default function AdmissionPage() {
                         </FormItem>
                         )}
                     />
-                    <FormField
+                     <FormField
                         control={form.control}
                         name="dob"
                         render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="relative">
-                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="date" placeholder="Date of Birth *" {...field} className="pl-9" />
-                                </div>
-                            </FormControl>
+                        <FormItem className="flex flex-col">
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <FormControl>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                "w-full pl-3 text-left font-normal",
+                                                !field.value && "text-muted-foreground"
+                                            )}
+                                        >
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {field.value ? (
+                                            format(field.value, "dd/MM/yyyy")
+                                            ) : (
+                                            <span>Date of Birth *</span>
+                                            )}
+                                        </Button>
+                                    </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) =>
+                                        date > new Date() || date < new Date("1900-01-01")
+                                    }
+                                    initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
                             <FormMessage />
                         </FormItem>
                         )}

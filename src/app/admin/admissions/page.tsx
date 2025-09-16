@@ -61,6 +61,17 @@ export default function AdminAdmissionsPage() {
     fetchAdmissions();
   }, []);
 
+  const formatDateForDisplay = (dateString: string) => {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'N/A';
+        return format(date, "dd/MM/yyyy");
+    } catch (error) {
+        return 'N/A';
+    }
+  };
+
   const renderSkeleton = () => (
     [...Array(5)].map((_, i) => (
         <TableRow key={i}>
@@ -153,7 +164,7 @@ export default function AdminAdmissionsPage() {
                             <CardContent className="p-4 space-y-3">
                                 <DetailItem icon={<KeyRound size={16}/>} label="Student ID" value={selectedAdmission.studentId} />
                                 <DetailItem icon={<User size={16}/>} label="Name" value={selectedAdmission.studentName} />
-                                <DetailItem icon={<Calendar size={16}/>} label="Date of Birth" value={selectedAdmission.dob} />
+                                <DetailItem icon={<Calendar size={16}/>} label="Date of Birth" value={formatDateForDisplay(selectedAdmission.dob)} />
                                 <DetailItem icon={<Mail size={16}/>} label="Email" value={selectedAdmission.email} />
                                 <DetailItem icon={<Phone size={16}/>} label="Student Phone" value={selectedAdmission.studentPhone} />
                                 <DetailItem icon={<MapPin size={16}/>} label="Branch" value={selectedAdmission.branch} />
