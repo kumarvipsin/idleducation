@@ -599,7 +599,7 @@ export default function ContactPage() {
                             </FormItem>
                         )}
                     />
-                    <DialogFooter>
+                    <DialogFooter className="!justify-center">
                         <Button type="submit" disabled={supportForm.formState.isSubmitting}>
                             {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
                         </Button>
