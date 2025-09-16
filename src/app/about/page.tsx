@@ -27,26 +27,6 @@ const combinedValues = [
         title: "Our Approach",
         description: "We use a student-centric approach, combining technology with proven teaching methodologies to create a personalized learning experience that is both effective and engaging for all."
     },
-    {
-        icon: <Book className="w-10 h-10 text-primary" />,
-        title: "Simple Language",
-        description: "We develop content by keeping by simplicity and flow of learning in mind. All the content on our platform is simple in language and easily relatable."
-    },
-    {
-        icon: <BrainCircuit className="w-10 h-10 text-primary" />,
-        title: "Highly Skilled",
-        description: "Everyone working behind the scene is highly skilled and motivated to develop and deliver the quality content."
-    },
-    {
-        icon: <Zap className="w-10 h-10 text-primary" />,
-        title: "Learning cycle",
-        description: "We develop our content according to the learning cycle of the students. We give most of our efforts and time to research and understand that how a student learns and understands."
-    },
-    {
-        icon: <Rocket className="w-10 h-10 text-primary" />,
-        title: "Your growth",
-        description: "The biggest success for a teacher is the growth of students. As an educational institute our priority is your growth. We always try to make our content worth more."
-    }
 ];
 
 
