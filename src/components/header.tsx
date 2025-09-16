@@ -23,6 +23,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Input } from "./ui/input";
+import { Badge } from "./ui/badge";
 
 interface Update {
   id: string;
@@ -363,6 +364,7 @@ export function Header() {
                             <div className="marquee">
                                 <DialogTrigger asChild>
                                     <button className="hover:underline inline-block mr-16">
+                                        <Badge variant="destructive" className="mr-2">NEW</Badge>
                                         <span className="font-bold">Scholarships available for Classes 5 to 10. Click to learn more!</span>
                                     </button>
                                 </DialogTrigger>
