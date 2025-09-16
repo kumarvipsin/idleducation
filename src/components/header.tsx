@@ -352,41 +352,40 @@ export function Header() {
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full bg-background/50 hover:bg-muted/50">
-            <Bell className="h-[1.2rem] w-[1.2rem]" />
-            {hasNewUpdates && (
-                <span className="absolute top-0 right-0 flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                </span>
+        <DropdownMenuTrigger asChild>
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                <Bell className="h-3 w-3 mr-1" />
+                <span>UPDATES</span>
+                {hasNewUpdates && (
+                    <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                        {updates.length}
+                    </span>
+                )}
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {updates.length > 0 ? (
+            updates.map(update => (
+                <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
+                    <p className="font-semibold">{update.title}</p>
+                    <p className="text-xs text-muted-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end">
+                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                    </p>
+                </DropdownMenuItem>
+            ))
+            ) : (
+            <DropdownMenuItem>No new updates.</DropdownMenuItem>
             )}
-            <span className="sr-only">Notifications</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
-        <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {updates.length > 0 ? (
-          updates.map(update => (
-            <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
-                <p className="font-semibold">{update.title}</p>
-                <p className="text-xs text-muted-foreground">{update.description}</p>
-                <p className="text-xs text-muted-foreground self-end">
-                  {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                </p>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+            <Link href="/notifications" className="text-center justify-center">
+                View all notifications
+            </Link>
             </DropdownMenuItem>
-          ))
-        ) : (
-          <DropdownMenuItem>No new updates.</DropdownMenuItem>
-        )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/notifications" className="text-center justify-center">
-            View all notifications
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+        </DropdownMenuContent>
     </DropdownMenu>
   );
 
