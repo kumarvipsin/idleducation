@@ -106,7 +106,7 @@ export default function ScholarshipPage() {
                 </Button>
             </Link>
             {/* Content */}
-            <div className="relative z-10 container mx-auto text-center py-12 md:px-[10%]">
+            <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
                 
                 {/* Header Information */}
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
@@ -117,7 +117,7 @@ export default function ScholarshipPage() {
                         height={100}
                         className="mx-auto filter hue-rotate-15 saturate-150"
                     />
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
+                    <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight">
                         IDL National Scholarship & Admission Test
                     </h1>
                     <p className="mt-2 text-lg text-muted-foreground font-semibold">
