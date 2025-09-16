@@ -10,8 +10,52 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import Link from "next/link";
 import { Award, Calendar, IndianRupee } from 'lucide-react';
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { registerForScholarship } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const scholarshipSchema = z.object({
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
+type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+
+const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 export default function ScholarshipPage() {
+    const { toast } = useToast();
+    const form = useForm<ScholarshipFormValues>({
+        resolver: zodResolver(scholarshipSchema),
+        defaultValues: {
+            studentName: '',
+            class: '',
+            mobile: '',
+        },
+    });
+
+    const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
+        const result = await registerForScholarship(data);
+        if (result.success) {
+            toast({
+                title: "Registration Successful",
+                description: result.message,
+            });
+            form.reset();
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Registration Failed",
+                description: result.message,
+            });
+        }
+    };
+    
     return (
         <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gray-100 dark:bg-gray-900">
             {/* Background Image */}
@@ -78,54 +122,66 @@ export default function ScholarshipPage() {
                                 <h2 className="text-2xl font-bold text-primary">Register Here</h2>
                             </div>
 
-                            <form className="space-y-6">
-                                <div>
-                                    <Label className="text-sm font-semibold text-muted-foreground">What is your preferred mode of study?</Label>
-                                    <RadioGroup className="mt-2 grid grid-cols-2 gap-4">
-                                        <div>
-                                            <RadioGroupItem value="online" id="online" className="peer sr-only" />
-                                            <Label htmlFor="online" className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
-                                                Online
-                                            </Label>
-                                        </div>
-                                         <div>
-                                            <RadioGroupItem value="offline" id="offline" className="peer sr-only" />
-                                            <Label htmlFor="offline" className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
-                                                Offline
-                                            </Label>
-                                        </div>
-                                    </RadioGroup>
-                                </div>
-
-                                <div>
-                                    <Label htmlFor="phone" className="text-sm font-semibold text-muted-foreground">Phone number</Label>
-                                    <div className="flex items-center mt-1">
-                                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm h-10">
-                                            +91
-                                        </span>
-                                        <Input type="tel" id="phone" placeholder="Enter Your Mobile Number" className="rounded-l-none h-10" />
-                                    </div>
-                                </div>
-                                
-                                <div className="space-y-4">
-                                    <div className="flex items-start space-x-2">
-                                        <Checkbox id="terms" className="mt-1" />
-                                        <Label htmlFor="terms" className="text-xs text-muted-foreground">
-                                            I agree to the <Link href="#" className="underline text-primary">Terms & conditions</Link>.
-                                        </Label>
-                                    </div>
-                                    <div className="flex items-start space-x-2">
-                                        <Checkbox id="authorize" className="mt-1" />
-                                        <Label htmlFor="authorize" className="text-xs text-muted-foreground">
-                                            I authorize IDL EDUCATION to send me regular updates via Phone Calls, WhatsApp, SMS, Robocalls (Automated Calls), Email, or on Postal addresses.
-                                        </Label>
-                                    </div>
-                                </div>
-
-                                <Button type="submit" className="w-full text-lg h-12 rounded-full font-bold">
-                                    Submit
-                                </Button>
-                            </form>
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                    <FormField
+                                        control={form.control}
+                                        name="studentName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-semibold text-muted-foreground">Student's Name</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Enter student's name" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="class"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-semibold text-muted-foreground">Class</FormLabel>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select a class" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {scholarshipClasses.map(c => (
+                                                            <SelectItem key={c} value={c}>{c}</SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="mobile"
+                                        render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel htmlFor="phone" className="text-sm font-semibold text-muted-foreground">Phone number</FormLabel>
+                                            <FormControl>
+                                                <div className="flex items-center mt-1">
+                                                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm h-10">
+                                                        +91
+                                                    </span>
+                                                    <Input type="tel" id="phone" placeholder="Enter Your Mobile Number" className="rounded-l-none h-10" {...field}/>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className="w-full text-lg h-12 rounded-full font-bold" disabled={form.formState.isSubmitting}>
+                                        {form.formState.isSubmitting ? 'Registering...' : 'Submit'}
+                                    </Button>
+                                </form>
+                            </Form>
                         </CardContent>
                     </Card>
                 </div>
