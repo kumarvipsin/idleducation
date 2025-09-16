@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -14,8 +15,9 @@ export function AppContent({
   const pathname = usePathname();
   
   const isScholarshipPage = pathname.startsWith('/scholarship');
+  const isBookDemoPage = pathname.startsWith('/book-demo');
 
-  if (isScholarshipPage) {
+  if (isScholarshipPage || isBookDemoPage) {
     return (
         <>
             <main className="flex-grow">
