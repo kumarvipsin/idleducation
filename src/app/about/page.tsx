@@ -15,7 +15,7 @@ const combinedValues = [
     {
         icon: <Target className="w-10 h-10 text-primary" />,
         title: "Our Mission",
-        description: "To empower educators and inspire students by creating a seamless, accessible, and engaging digital learning environment. We believe that technology can bridge gaps in education and unlock potential."
+        description: "IDL EDUCATION has developed a sustainable, innovative, aspiring learning environment for its pupils, with focus on the three main fundamentals of life-Physical, Mental and Spiritual fitness. We at IDL EDUCATION are equipped with 21st century skills. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity."
     },
     {
         icon: <Goal className="w-10 h-10 text-primary" />,
