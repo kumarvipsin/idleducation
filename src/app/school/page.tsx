@@ -180,11 +180,25 @@ const class6EnglishGrammarSyllabus = {
   ],
 };
 
+const class7MathsSyllabus = {
+    description: "Here is the detailed CBSE Class 7 Maths Syllabus 2025-26, which covers various important concepts and topics to be studied throughout the academic year. The following table provides a clear breakdown of the chapters and their respective topics.",
+    chapters: [
+        { chapter: "Large Numbers Around Us", topics: ["A Lakh Varieties, Reading and Writing Numbers, Land of Tens, Of Crores and Crores, Exact and Approximate Values, Patterns in Products, Did You Ever Wonder...?"] },
+        { chapter: "Arithmetic Expressions", topics: ["Simple Expressions, Reading and Evaluating Complex Expressions, Brackets in Expressions, Terms in Expressions, Swapping and Grouping, Swapping the Order of Things in Everyday Life, Removing Brackets"] },
+        { chapter: "A Peek Beyond the Point", topics: ["The Need for Smaller Units, A Tenth Part, A Hundredth Part, Decimal Place Value, Notation, Writing and Reading of Decimal Numbers, Units of Measurement, Locating and Comparing Decimals, Addition and Subtraction of Decimals, More on the Decimal System"] },
+        { chapter: "Expressions Using Letter Numbers", topics: ["The Notion of Letter-Numbers, Revisiting Arithmetic Expressions, Omission of the Multiplication Symbol in Algebraic Expressions, Simplification of Algebraic Expressions, Formula Detective, Algebraic Expressions to Describe Patterns, Patterns in a Calendar, Matchstick Patterns"] },
+        { chapter: "Parallel and Intersecting Lines", topics: ["Across the Line, Perpendicular Lines, Between Lines, Parallel and Perpendicular Lines in Paper Folding, Transversals, Corresponding Angles, Alternate Angles, Consecutive Angles, Parallel Illusions"] },
+        { chapter: "Number Play", topics: ["Numbers Tell Us Things, Picking Parity, Some Explorations in Grids, 3 × 3 & 4 × 4 Magic Square, Nature's Favourite Sequence: The Virahāṅka Fibonacci Numbers, Digits in Disguise"] },
+        { chapter: "A Tale of Three Intersecting Lines", topics: ["Triangles, Equilateral Triangles, Constructing a Triangle When its Sides are Given, Triangle Inequality, Visualizing the Construction of Circles, Construction of Triangles When Some Sides and Angles are Given, Angle Sum Property, Exterior Angles Property, Constructions Related to Altitudes of Triangles, Types of Triangles"] },
+        { chapter: "Working with Fractions", topics: ["Multiplication of Fractions, Connection Between the Area of a Rectangle and Fraction Multiplication, Simplifying to Lowest Form, Order of Multiplication, Division of Fractions, Some Problems Involving Fractions"] },
+    ]
+};
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('Class 6');
+  const [activeClass, setActiveClass] = useState('Class 7');
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
@@ -285,7 +299,7 @@ function SchoolPageContent() {
       
        {activeClass && (
         <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-            <div className="container mx-auto px-4 md:px-[10%]">
+            <div className="px-4 md:px-[10%]">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold">
                   <span className="text-black dark:text-white">Know Your </span>
@@ -316,7 +330,7 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="container mx-auto px-4 md:px-[10%]">
+          <div className="px-4 md:px-[10%]">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
@@ -555,7 +569,61 @@ function SchoolPageContent() {
                                 </div>
                             </div>
                         )}
-                        {activeClass !== 'Class 5' && activeClass !== 'Class 6' && (
+                        {activeClass === 'Class 7' && (
+                            <div className="space-y-8">
+                                <Card className="mb-8">
+                                    <CardContent className="p-6">
+                                        <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li><a href="#maths-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Maths Syllabus</a></li>
+                                            <li><a href="#science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Science Syllabus</a></li>
+                                            <li><a href="#social-science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Social Science Syllabus</a></li>
+                                            <li><a href="#english-syllabus-7" className="text-primary hover:underline">CBSE Class 7 English Syllabus</a></li>
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                                <div className="space-y-4">
+                                    <h4 id="maths-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Maths Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class7MathsSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Chapter</TableHead>
+                                                <TableHead>Topics</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class7MathsSyllabus.chapters.map(item => (
+                                                <TableRow key={item.chapter}>
+                                                    <TableCell className="font-medium">{item.chapter}</TableCell>
+                                                    <TableCell>
+                                                        <ul className="list-disc pl-5">
+                                                            {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                        </ul>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4>
+                                    <p className="text-muted-foreground">Class 7 Science syllabus will be updated here soon.</p>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="social-science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Social Science Syllabus</h4>
+                                    <p className="text-muted-foreground">Class 7 Social Science syllabus will be updated here soon.</p>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4>
+                                    <p className="text-muted-foreground">Class 7 English syllabus will be updated here soon.</p>
+                                </div>
+                            </div>
+                        )}
+                        {!['Class 5', 'Class 6', 'Class 7'].includes(activeClass) && (
                           <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
                     </div>
@@ -590,3 +658,4 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
