@@ -396,7 +396,7 @@ export function Header() {
                 <div className="flex items-center gap-2">
                     {/* Intentionally left blank for right alignment */}
                 </div>
-                 <div className="flex items-center gap-2">
+                 <div className="flex items-center gap-4">
                     <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/scholarship">
                             <Award className="h-3 w-3 mr-1"/> Apply Scholarship
@@ -411,18 +411,23 @@ export function Header() {
         </div>
         <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
             <Link href={logoHref} className="flex items-center justify-center">
-            <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
-            <span className="ml-2 text-lg font-semibold">
-                {brandName.split('').map((char, index) => (
-                <span
-                    key={index}
-                    className="animate-fade-in-up"
-                    style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                    {char}
-                </span>
-                ))}
-            </span>
+              <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
+              <div className="ml-2 flex flex-col leading-tight">
+                  <span className="text-lg font-semibold">
+                      {brandName.split('').map((char, index) => (
+                      <span
+                          key={index}
+                          className="animate-fade-in-up"
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                          {char}
+                      </span>
+                      ))}
+                  </span>
+                  <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
+                    (Institute of Distance Learning Pvt. Ltd.)
+                  </span>
+              </div>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
                 {navLinks.map(({ href, label }) => (
