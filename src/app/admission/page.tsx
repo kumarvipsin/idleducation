@@ -526,9 +526,12 @@ export default function AdmissionPage() {
                             <FormItem>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Applying for Class *" />
-                                </SelectTrigger>
+                                <div className="relative">
+                                    <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <SelectTrigger className="pl-9">
+                                        <SelectValue placeholder="Applying for Class *" />
+                                    </SelectTrigger>
+                                </div>
                                 </FormControl>
                                 <SelectContent>
                                 {classes.map(c => (
