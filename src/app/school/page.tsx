@@ -151,7 +151,7 @@ const class6SocialScienceSyllabus = {
 };
 
 const class6EnglishSyllabus = {
-  description: "The CBSE Class 6 English syllabus is designed to build a strong foundation in language skills through literature, grammar, and writing. It encourages reading comprehension, creative expression, and vocabulary development. Students explore a variety of prose and poetry to enhance their understanding. Check the table below for a detailed breakdown of the syllabus components and learning objectives.",
+  description: "The CBSE Class 6 English syllabus is designed to build a strong foundation in language skills through literature, grammar, and writing. It encourages reading comprehension, creative expression, and vocabulary development. Students explore a variety of prose and poetry to enhance their understanding of the world. Check the table below for a detailed breakdown of the syllabus components and learning objectives.",
   units: [
     { name: "Unit 1 - Fables and Folk Tales", topics: ["A Bottle of Dew", "The Raven and the Fox", "Rama to the Rescue"] },
     { name: "Unit 2 - Friendship", topics: ["The Unlikely Best Friends", "A Friend's Prayer", "The Chair"] },
@@ -212,6 +212,24 @@ const class7ScienceSyllabus = {
   ]
 };
 
+const class7SocialScienceSyllabus = {
+  description: "Here is the CBSE Class 7 Social Science (SST) Syllabus 2025-26. The syllabus includes various chapters and subtopics covering historical, geographical, political, and economic aspects of India and beyond.",
+  chapters: [
+    { name: "Geographical Diversity of India", subtopics: ["The Himalayas, The Cold Desert - Ladakh and Gangetic Plains, The Great Indian Desert, Aravalli Hills, Peninsular Plateau, India's Coastline and Islands, Sundarban Delta"] },
+    { name: "Understanding the Weather", subtopics: ["Weather and Its Elements, Weather Instruments, Weather Stations"] },
+    { name: "Climates of India", subtopics: ["Weather, Seasons and Climate, Types of Climate in India, Factors Determining Climate, The Monsoons, Climate and Our Lives, Climate and Disaster, Climate Change"] },
+    { name: "New Beginnings: Cities and States", subtopics: ["Janpads and Mahajanpads, Early Democratic Traditions, More Innovations, The Varna-Jati System"] },
+    { name: "The Rise of Empires", subtopics: ["What is Empire, Trade Routes and Guilds, The Rise of Magadha, Arrival of Greeks, The Mighty Mauryas"] },
+    { name: "The Age of Reorganisation", subtopics: ["Introduction, Surge of the Shungas, The Satvahanas, Coming of Chedi, Invasions of Indo Greeks, Emergence of Kushanas, Kingdom and Life in South - Cholas, Cheras, and Pandayas"] },
+    { name: "The Gupta Era: An Age of Tireless Creativity", subtopics: ["Introduction, New Power Emerges, A Traveller's Account, Glimpse of Gupta Empire, Decline of Guptas"] },
+    { name: "How Land Became Sacred", subtopics: ["What is Sacredness, Pilgrimages, Sacred Geography and Ecology, Mountains and Forests"] },
+    { name: "From Pilgrimage to Trades, Beyond India", subtopics: ["From Pilgrimage to Trades, Beyond India"] },
+    { name: "From the Rulers to Ruled: Types of Government", subtopics: ["Government and Its Functions, What Makes Government Different, Democratic Governments Around the World, Forms of Government, Other Forms of Government"] },
+    { name: "The Constitution of India", subtopics: ["What is Constitution, Writing of Indian Constitution, What Shaped Indian Constitution, Learning from World, Key Features, Understanding the Preamble"] },
+    { name: "From Barter to Money", subtopics: ["Introduction, Why Do We Need Money, The Journey of Money"] },
+    { name: "Understanding Markets", subtopics: ["What is Market, Prices and Markets, Market Around Us, Role of Market in People's Lives"] },
+  ],
+};
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -648,7 +666,27 @@ function SchoolPageContent() {
                                 <Separator />
                                 <div className="space-y-4">
                                     <h4 id="social-science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Social Science Syllabus</h4>
-                                    <p className="text-muted-foreground">Class 7 Social Science syllabus will be updated here soon.</p>
+                                    <p className="text-muted-foreground">{class7SocialScienceSyllabus.description}</p>
+                                    <Table>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead>Chapter Name</TableHead>
+                                          <TableHead>Subtopics</TableHead>
+                                        </TableRow>
+                                      </TableHeader>
+                                      <TableBody>
+                                        {class7SocialScienceSyllabus.chapters.map(item => (
+                                          <TableRow key={item.name}>
+                                            <TableCell className="font-medium">{item.name}</TableCell>
+                                            <TableCell>
+                                              <ul className="list-disc pl-5">
+                                                {item.subtopics.map(subtopic => <li key={subtopic}>{subtopic}</li>)}
+                                              </ul>
+                                            </TableCell>
+                                          </TableRow>
+                                        ))}
+                                      </TableBody>
+                                    </Table>
                                 </div>
                                 <Separator />
                                 <div className="space-y-4">
@@ -692,5 +730,6 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
 
 
