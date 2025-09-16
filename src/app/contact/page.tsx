@@ -409,7 +409,10 @@ export default function ContactPage() {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input placeholder="Enter your name *" {...field} />
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Enter your name *" {...field} className="pl-9" />
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -421,7 +424,10 @@ export default function ContactPage() {
                       render={({ field }) => (
                         <FormItem>
                           <FormControl>
-                            <Input type="email" placeholder="Enter your email" {...field} />
+                             <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -460,7 +466,10 @@ export default function ContactPage() {
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} />
+                                  <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} className="pl-9" />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -496,7 +505,10 @@ export default function ContactPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Textarea placeholder="Enter your message" className="min-h-[150px]" {...field} />
+                          <div className="relative">
+                            <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <Textarea placeholder="Enter your message" className="min-h-[150px] pl-9" {...field} />
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
