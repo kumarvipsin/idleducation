@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, Moon, Sun, Search } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -24,7 +24,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
-import { useTheme } from "next-themes";
 
 interface Update {
   id: string;
@@ -67,7 +66,6 @@ export function Header() {
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { theme, setTheme } = useTheme();
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -208,7 +206,7 @@ export function Header() {
     }
 
     return (
-       <Button asChild className="h-8 py-1 uppercase font-bold bg-purple text-purple-foreground rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 ease-in-out">
+       <Button asChild variant="outline" className="h-8 py-1 uppercase font-bold rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out">
           <Link href="/login">{t('login')}</Link>
       </Button>
     );
