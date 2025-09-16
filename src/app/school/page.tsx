@@ -161,6 +161,25 @@ const class6EnglishSyllabus = {
   ]
 };
 
+const class6EnglishGrammarSyllabus = {
+  description: "The CBSE Class 6 English Grammar syllabus focuses on strengthening the foundation of language through essential grammar topics. Students learn sentence structure, tenses, punctuation, and parts of speech. This builds their writing and comprehension skills effectively. For a detailed overview of all topics included in the syllabus, check the table below.",
+  topics: [
+    { grammar: "Noun", applied: "Gap Filling / Sentence Completion", writing: "Formal Letter" },
+    { grammar: "Pronoun", applied: "Dialogue Completion", writing: "Informal Letter" },
+    { grammar: "Verb", applied: "Sentence Reordering", writing: "Diary Entry" },
+    { grammar: "Tense", applied: "Editing", writing: "Notice Writing" },
+    { grammar: "Voice", applied: "Omission", writing: "Message Writing" },
+    { grammar: "Adjective", applied: "Sentence Transformation", writing: "Debate" },
+    { grammar: "Adverb", applied: "—", writing: "Speech" },
+    { grammar: "Sentence and Phrase", applied: "—", writing: "Article Writing" },
+    { grammar: "Subject-Verb Agreement", applied: "—", writing: "Report Writing" },
+    { grammar: "Reported Speech", applied: "—", writing: "Story Completion" },
+    { grammar: "Framing Questions", applied: "—", writing: "—" },
+    { grammar: "Preposition", applied: "—", writing: "—" },
+    { grammar: "Conjunction", applied: "—", writing: "—" },
+  ],
+};
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -297,7 +316,7 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="container mx-auto px-4 md:px-[10%]">
+          <div className="container mx-auto">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
@@ -410,6 +429,9 @@ function SchoolPageContent() {
                                             <li>
                                                 <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
                                             </li>
+                                            <li>
+                                                <a href="#english-grammar-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Grammar Syllabus</a>
+                                            </li>
                                         </ul>
                                     </CardContent>
                                 </Card>
@@ -503,6 +525,29 @@ function SchoolPageContent() {
                                                             {item.topics.map(topic => <li key={topic}>{topic}</li>)}
                                                         </ul>
                                                     </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="english-grammar-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Grammar Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6EnglishGrammarSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Grammar Topics</TableHead>
+                                                <TableHead>Applied Grammar</TableHead>
+                                                <TableHead>Writing Section</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class6EnglishGrammarSyllabus.topics.map(item => (
+                                                <TableRow key={item.grammar}>
+                                                    <TableCell>{item.grammar}</TableCell>
+                                                    <TableCell>{item.applied}</TableCell>
+                                                    <TableCell>{item.writing}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
