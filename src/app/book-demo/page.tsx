@@ -363,13 +363,6 @@ export default function BookDemoPage() {
       </Link>
       <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
           <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-              <Image
-                  src="/logo.png"
-                  alt="IDL Education Logo"
-                  width={100}
-                  height={100}
-                  className="mx-auto filter hue-rotate-15 saturate-150"
-              />
               <h1 className="text-3xl md:text-5xl font-extrabold text-primary tracking-tight">
                   Book a Free Demo Class
               </h1>
