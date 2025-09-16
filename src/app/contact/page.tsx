@@ -450,7 +450,7 @@ export default function ContactPage() {
                                   </FormControl>
                                   <SelectContent>
                                     {countryCodes.map((country, index) => (
-                                      <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
+                                      <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.country}-${country.code}`}>
                                         {country.code} ({country.country})
                                       </SelectItem>
                                     ))}
@@ -558,12 +558,18 @@ export default function ContactPage() {
         </section>
 
         </div>
-        <DialogContent className="w-[90vw] sm:max-w-md p-0 rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-            <DialogHeader className="p-6 text-center">
-                <DialogTitle className="text-2xl font-bold text-primary">Submit a Support Ticket</DialogTitle>
-                <DialogDescription>Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
-            </DialogHeader>
-            <div className="p-6">
+        <DialogContent className="w-[90vw] sm:max-w-md p-6 rounded-lg overflow-hidden bg-background">
+            <div className="bg-muted/30 p-4 rounded-md text-center">
+                <h3 className="font-semibold">Need Help?</h3>
+                <p className="text-xs text-muted-foreground">
+                    For immediate assistance, please call us at:
+                </p>
+                <div className="flex justify-center items-center gap-4 mt-2">
+                    <a href="tel:01145035713" className="text-sm font-semibold text-primary hover:underline">011 45035713</a>
+                    <a href="mailto:support@idleducation.in" className="text-sm font-semibold text-primary hover:underline">support@idleducation.in</a>
+                </div>
+            </div>
+            <div className="pt-4">
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
                         <FormField
