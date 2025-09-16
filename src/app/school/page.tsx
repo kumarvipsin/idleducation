@@ -285,7 +285,7 @@ function SchoolPageContent() {
       
        {activeClass && (
         <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-            <div className="container mx-auto px-4 md:px-[10%]">
+            <div className="container mx-auto">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold">
                   <span className="text-black dark:text-white">Know Your </span>
@@ -559,11 +559,7 @@ function SchoolPageContent() {
                           <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
                     </div>
-                    <Separator />
-                    <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
-                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
-                    </div>
+                    
                     <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
