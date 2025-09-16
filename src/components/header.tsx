@@ -290,7 +290,10 @@ export function Header() {
   const ScholarshipButton = () => (
      <Link href="/scholarship" className="hover:underline inline-block mr-16">
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
-        <span className="font-bold uppercase text-[0.6rem] text-black">IDL National Scholarship & Admission Test For Class 5 To 10</span>
+        <span className="font-bold uppercase text-[0.6rem] text-black">
+          <span className="hidden sm:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
+          <span className="sm:hidden">IDL Scholarship Test</span>
+        </span>
     </Link>
   );
 
@@ -400,7 +403,7 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                <div className="hidden sm:flex items-center">
+                <div className="flex items-center">
                     <Button variant="link" size="sm" asChild className="text-black hover:no-underline px-2">
                         <Link href="/admission" className="flex items-center gap-1">
                             <FileText className="h-4 w-4"/>
