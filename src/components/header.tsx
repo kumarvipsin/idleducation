@@ -292,7 +292,8 @@ export function Header() {
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
         <span className="font-bold uppercase text-[0.6rem] text-black">
           <span className="hidden sm:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
-          <span className="sm:hidden">IDL Scholarship Test</span>
+          <span className="sm:inline md:hidden">IDL Scholarship Test</span>
+          <span className="hidden">IDL Scholarship Test</span>
         </span>
     </Link>
   );
@@ -300,7 +301,7 @@ export function Header() {
   const cartDropdown = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative hover:bg-transparent focus-visible:bg-transparent">
                 <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -494,3 +495,4 @@ export function Header() {
     </header>
   );
 }
+
