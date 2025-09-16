@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -10,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin, KeyRound } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin, KeyRound, Droplets, VenetianMask } from 'lucide-react';
 
 interface Admission {
   id: string;
@@ -21,11 +22,16 @@ interface Admission {
   motherName: string;
   motherOccupation?: string;
   dob: string;
+  gender?: string;
+  bloodGroup?: string;
+  aadharNumber?: string;
   email: string;
   studentPhone?: string;
   fatherPhone: string;
   motherPhone: string;
   address: string;
+  state: string;
+  pincode: string;
   classApplied: string;
   previousSchool?: string;
   additionalInfo?: string;
@@ -165,6 +171,9 @@ export default function AdminAdmissionsPage() {
                                 <DetailItem icon={<KeyRound size={16}/>} label="Student ID" value={selectedAdmission.studentId} />
                                 <DetailItem icon={<User size={16}/>} label="Name" value={selectedAdmission.studentName} />
                                 <DetailItem icon={<Calendar size={16}/>} label="Date of Birth" value={formatDateForDisplay(selectedAdmission.dob)} />
+                                <DetailItem icon={<VenetianMask size={16}/>} label="Gender" value={selectedAdmission.gender} />
+                                <DetailItem icon={<Droplets size={16}/>} label="Blood Group" value={selectedAdmission.bloodGroup} />
+                                <DetailItem icon={<KeyRound size={16}/>} label="Aadhar Number" value={selectedAdmission.aadharNumber} />
                                 <DetailItem icon={<Mail size={16}/>} label="Email" value={selectedAdmission.email} />
                                 <DetailItem icon={<Phone size={16}/>} label="Student Phone" value={selectedAdmission.studentPhone} />
                                 <DetailItem icon={<MapPin size={16}/>} label="Branch" value={selectedAdmission.branch} />
@@ -175,7 +184,7 @@ export default function AdminAdmissionsPage() {
                                <CardTitle className="text-base">Address</CardTitle>
                             </CardHeader>
                             <CardContent className="p-4 pt-0 text-sm">
-                                <p>{selectedAdmission.address}</p>
+                                <p>{`${selectedAdmission.address}, ${selectedAdmission.state} - ${selectedAdmission.pincode}`}</p>
                             </CardContent>
                         </Card>
                     </div>

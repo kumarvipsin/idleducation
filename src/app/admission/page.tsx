@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home, Droplets, VenetianMask } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
+const aadharRegex = /^\d{12}$/;
 
 const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -36,6 +37,7 @@ const indianStates = [
     "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
     "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
+const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const admissionFormSchema = z.object({
   studentId: z.string(),
@@ -51,6 +53,9 @@ const admissionFormSchema = z.object({
     const threeYearsAgo = new Date(today.getFullYear() - 3, today.getMonth(), today.getDate());
     return dob <= threeYearsAgo;
   }, { message: "Student must be at least 3 years old." }),
+  gender: z.enum(["male", "female", "other"], { required_error: "Please select a gender." }),
+  bloodGroup: z.string().optional(),
+  aadharNumber: z.string().regex(aadharRegex, { message: "Please enter a valid 12-digit Aadhar number." }).optional().or(z.literal('')),
   email: z.string().email({ message: "Please enter a valid email." }),
   studentPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
   fatherPhone: z.string().regex(phoneRegex, { message: "Please enter a valid 10-digit mobile number." }),
@@ -97,6 +102,9 @@ export default function AdmissionPage() {
       additionalInfo: '',
       branch: '',
       transactionId: '',
+      gender: undefined,
+      bloodGroup: '',
+      aadharNumber: '',
     },
   });
 
@@ -162,7 +170,7 @@ export default function AdmissionPage() {
 
   const handlePreview = async () => {
     const result = await form.trigger([
-        "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "state", "pincode", "classApplied", "branch"
+        "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "state", "pincode", "classApplied", "branch", "gender"
     ]);
     if (result) {
       setIsPreviewOpen(true);
@@ -423,6 +431,71 @@ export default function AdmissionPage() {
                         )}
                     />
                     </div>
+                     <div className="grid sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <div className="relative">
+                                            <VenetianMask className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <SelectTrigger className="pl-9">
+                                                <SelectValue placeholder="Select Gender *" />
+                                            </SelectTrigger>
+                                        </div>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="male">Male</SelectItem>
+                                            <SelectItem value="female">Female</SelectItem>
+                                            <SelectItem value="other">Other</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="bloodGroup"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <div className="relative">
+                                            <Droplets className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <SelectTrigger className="pl-9">
+                                                <SelectValue placeholder="Select Blood Group" />
+                                            </SelectTrigger>
+                                        </div>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {bloodGroups.map(group => (
+                                                <SelectItem key={group} value={group}>{group}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                     <FormField
+                        control={form.control}
+                        name="aadharNumber"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="relative">
+                                    <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Aadhar Number" {...field} className="pl-9" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
                     <div className="grid sm:grid-cols-2 gap-6">
                     <FormField
                         control={form.control}
@@ -719,6 +792,9 @@ export default function AdmissionPage() {
                             <tbody>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Student's Name</td><td className="p-2">{form.getValues('studentName')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Date of Birth</td><td className="p-2">{formatDateForDisplay(form.getValues('dob'))}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Gender</td><td className="p-2 capitalize">{form.getValues('gender')}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Blood Group</td><td className="p-2">{form.getValues('bloodGroup') || 'N/A'}</td></tr>
+                                <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Aadhar Number</td><td className="p-2">{form.getValues('aadharNumber') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Name</td><td className="p-2">{form.getValues('fatherName')}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Father's Occupation</td><td className="p-2">{form.getValues('fatherOccupation') || 'N/A'}</td></tr>
                                 <tr className="border-b border-gray-300"><td className="p-2 border-r border-gray-300 font-semibold">Mother's Name</td><td className="p-2">{form.getValues('motherName')}</td></tr>
