@@ -242,7 +242,7 @@ export default function ScholarshipPage() {
                                           </FormItem>
                                         )}
                                       />
-                                    <Button type="submit" className="w-full text-lg h-12 rounded-full font-bold" disabled={form.formState.isSubmitting}>
+                                    <Button type="submit" className="w-full text-base h-10 rounded-full font-bold" disabled={form.formState.isSubmitting}>
                                         {form.formState.isSubmitting ? 'Registering...' : 'Submit'}
                                     </Button>
                                 </form>
