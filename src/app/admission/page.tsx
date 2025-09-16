@@ -355,11 +355,10 @@ export default function AdmissionPage() {
                         name="studentName"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Student's Name <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Full Name" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                    <Input placeholder="Student's Name *" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -371,9 +370,8 @@ export default function AdmissionPage() {
                         name="dob"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Input type="date" {...field} />
+                            <Input type="date" placeholder="Date of Birth *" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -386,9 +384,11 @@ export default function AdmissionPage() {
                         name="fatherName"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Father's Name <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Input placeholder="Father's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Father's Name *" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -399,11 +399,10 @@ export default function AdmissionPage() {
                         name="fatherOccupation"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Father's Occupation</FormLabel>
                             <FormControl>
                             <div className="relative">
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="e.g., Engineer, Doctor" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                    <Input placeholder="Father's Occupation" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -417,9 +416,11 @@ export default function AdmissionPage() {
                         name="motherName"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Mother's Name <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Input placeholder="Mother's Full Name" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Mother's Name *" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -430,11 +431,10 @@ export default function AdmissionPage() {
                         name="motherOccupation"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Mother's Occupation</FormLabel>
                             <FormControl>
                             <div className="relative">
                                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="e.g., Teacher, Homemaker" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                    <Input placeholder="Mother's Occupation" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -448,11 +448,10 @@ export default function AdmissionPage() {
                         name="email"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email Address <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
                                 <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="email" placeholder="example@email.com" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
+                                <Input type="email" placeholder="Email Address *" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -464,11 +463,10 @@ export default function AdmissionPage() {
                         name="studentPhone"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Student's Phone Number</FormLabel>
                             <FormControl>
                                 <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                <Input type="tel" placeholder="Student's Phone Number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -482,11 +480,10 @@ export default function AdmissionPage() {
                         name="fatherPhone"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Father's Contact <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                    <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -498,11 +495,10 @@ export default function AdmissionPage() {
                         name="motherPhone"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Mother's Contact <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="tel" placeholder="10-digit mobile number" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                    <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-9" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -515,9 +511,8 @@ export default function AdmissionPage() {
                         name="address"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Full Address <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                            <Textarea placeholder="Enter your complete address" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                            <Textarea placeholder="Full Address *" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -529,11 +524,10 @@ export default function AdmissionPage() {
                         name="classApplied"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Applying for Class <span className="text-destructive">*</span></FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select a class" />
+                                    <SelectValue placeholder="Applying for Class *" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
@@ -551,11 +545,10 @@ export default function AdmissionPage() {
                         name="previousSchool"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Previous School Name (if any)</FormLabel>
                             <FormControl>
                                 <div className="relative">
                                 <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Last school attended" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                <Input placeholder="Previous School Name (if any)" {...field} className="pl-9" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -568,9 +561,8 @@ export default function AdmissionPage() {
                     name="additionalInfo"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Additional Information</FormLabel>
                         <FormControl>
-                            <Textarea placeholder="Any other information you would like to share" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                            <Textarea placeholder="Additional Information" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
