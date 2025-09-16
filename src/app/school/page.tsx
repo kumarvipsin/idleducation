@@ -121,6 +121,18 @@ const class6MathsSyllabus = {
   ]
 };
 
+const class6SocialScienceSyllabus = {
+  description: "Check the table below for the detailed CBSE Class 6 Social Science syllabus. It covers topics from History, Geography, and Civics, designed to build a strong foundation in understanding society, the environment, and past civilizations. This syllabus encourages students to think critically and explore how historical and social processes shape the world around them.",
+  themes: [
+    { theme: "Theme A — India and the World: Land and the People", topics: ["Locating Places on Earth", "Oceans and Continents", "Landforms and Life"] },
+    { theme: "Theme B — Tapestry of the Past", topics: ["Timelines and Sources of History", "India, That is Bharat", "Beginnings of Indian Civilisation"] },
+    { theme: "Theme C — Our Cultural Heritage and Knowledge Traditions", topics: ["Indian Cultural Roots", "Unity in Diversity, or ‘Many in the One’"] },
+    { theme: "Theme D — Governance and Democracy", topics: ["Family and Community", "Grassroots Democracy - Part 1: Governance", "Grassroots Democracy - Part 2: Local Government in Rural Areas", "Grassroots Democracy - Part 3: Local Government in Urban Areas", "Unity in Diversity, or ‘Many in the One’"] },
+    { theme: "Theme E — Economic Life Around Us", topics: ["The Value of Work", "Economic Activities Around Us"] }
+  ]
+};
+
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -403,8 +415,28 @@ function SchoolPageContent() {
                                 </div>
                                 <Separator />
                                 <div className="space-y-4">
-                                  <h4 id="social-science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Social Science Syllabus</h4>
-                                  <p className="text-muted-foreground">Class 6 Social Science syllabus will be updated here soon.</p>
+                                    <h4 id="social-science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Social Science Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6SocialScienceSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Theme</TableHead>
+                                                <TableHead>Topics</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class6SocialScienceSyllabus.themes.map(item => (
+                                                <TableRow key={item.theme}>
+                                                    <TableCell className="font-medium">{item.theme}</TableCell>
+                                                    <TableCell>
+                                                        <ul className="list-disc pl-5">
+                                                            {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                        </ul>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
                                 </div>
                                  <Separator />
                                 <div className="space-y-4">
