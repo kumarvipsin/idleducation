@@ -53,6 +53,20 @@ export function ExpertTeam() {
         experience: t('team.member6.experience'),
         avatar: "/vikash.jpg",
         avatarHint: "Vikas Kumar"
+    },
+    {
+        name: "Nikhil Sharma",
+        designation: "Marketing Head",
+        experience: "7+ Years of Experience",
+        avatar: "https://picsum.photos/seed/nikhil/400/500",
+        avatarHint: "male professional"
+    },
+    {
+        name: "Nishu Sharma",
+        designation: "Operations Head",
+        experience: "6+ Years of Experience",
+        avatar: "https://picsum.photos/seed/nishu/400/500",
+        avatarHint: "female professional"
     }
   ];
 
