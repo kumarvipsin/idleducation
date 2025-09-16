@@ -5,7 +5,7 @@ const translations = {
     contact: 'CONTACT',
     gallery: 'GALLERY',
     admissionForm: 'Admission Form',
-    login: 'Login',
+    login: 'LOGIN',
     readMore: 'Read more',
     knowMore: 'Know more',
     bookFreeClass: 'Book a FREE class',
