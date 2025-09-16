@@ -394,13 +394,15 @@ export function Header() {
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center gap-2">
-                     <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                    {/* Intentionally left blank for right alignment */}
+                </div>
+                 <div className="flex items-center gap-2">
+                    <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/scholarship">
                             <Award className="h-3 w-3 mr-1"/> Apply Scholarship
                         </Link>
                     </Button>
-                </div>
-                 <div className="flex items-center gap-2">
+                    <Separator orientation="vertical" className="h-4 bg-black/20" />
                     {cartDropdown}
                     <Separator orientation="vertical" className="h-4 bg-black/20" />
                     {notificationDropdown}
