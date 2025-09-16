@@ -206,9 +206,12 @@ export function Header() {
     }
 
     return (
-       <Button asChild variant="outline" className="h-8 py-1 uppercase font-bold rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out">
-          <Link href="/login">{t('login')}</Link>
-      </Button>
+       <Button asChild variant="outline" className="h-9 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+            <Link href="/login" className="flex items-center">
+                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="font-bold uppercase text-xs">{t('login')}</span>
+            </Link>
+        </Button>
     );
   };
   
@@ -286,7 +289,7 @@ export function Header() {
   };
 
   const ScholarshipButton = () => (
-     <Link href="/scholarship" className="hover:underline inline-block mr-16">
+     <Link href="/scholarship" className="hover:underline inline-block">
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
         <span className="font-bold uppercase text-[0.6rem] text-black">
           <span className="hidden md:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
@@ -298,7 +301,7 @@ export function Header() {
   const cartDropdown = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50">
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full bg-background/50 hover:bg-muted/50">
                 <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -360,7 +363,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50">
+        <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full bg-background/50 hover:bg-muted/50">
             <Bell className="h-[1.2rem] w-[1.2rem]" />
             {hasNewUpdates && (
                 <span className="absolute top-0 right-0 flex h-2 w-2">
@@ -414,7 +417,7 @@ export function Header() {
                         </div>
                     </div>
                 </div>
-                 <div className="flex items-center gap-1">
+                 <div className="flex items-center gap-2">
                     {cartDropdown}
                     {notificationDropdown}
                 </div>
