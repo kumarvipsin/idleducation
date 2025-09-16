@@ -291,11 +291,11 @@ export function Header() {
     <Dialog open={isScholarshipDialogOpen} onOpenChange={setIsScholarshipDialogOpen}>
         <DialogTrigger asChild>
             <button className="hover:underline inline-block mr-16">
-            <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold">NEW</Badge>
+            <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-xs font-bold uppercase">NEW</Badge>
             <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
             </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[350px] p-4">
+        <DialogContent className="w-[90vw] sm:max-w-[350px] p-4">
             <DialogHeader className="text-center">
                 <DialogTitle className="text-xl">Register for Scholarship</DialogTitle>
                 <DialogDescription>
