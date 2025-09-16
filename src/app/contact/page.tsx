@@ -546,60 +546,69 @@ export default function ContactPage() {
         </section>
 
         </div>
-        <DialogContent className="w-[90vw] sm:max-w-md p-4 rounded-lg">
-            <DialogHeader className="sr-only">
-                <DialogTitle>Submit a Support Ticket</DialogTitle>
+        <DialogContent className="w-[90vw] sm:max-w-md p-0 rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+            <DialogHeader className="p-6 text-center">
+                <DialogTitle className="text-2xl font-bold text-primary">Submit a Support Ticket</DialogTitle>
                 <DialogDescription>Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
             </DialogHeader>
-            <Form {...supportForm}>
-                <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
-                    <FormField
-                        control={supportForm.control}
-                        name="studentName"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input placeholder="Enter your full name" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                      <FormField
-                        control={supportForm.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input type="email" placeholder="Enter your email address" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={supportForm.control}
-                        name="problem"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Textarea placeholder="Describe your issue in detail..." {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <DialogFooter className="!justify-center">
-                        <Button type="submit" disabled={supportForm.formState.isSubmitting}>
-                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Form>
+            <div className="p-6">
+                <Form {...supportForm}>
+                    <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
+                        <FormField
+                            control={supportForm.control}
+                            name="studentName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Enter your full name" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={supportForm.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                      <div className="relative">
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input type="email" placeholder="Enter your email address" {...field} className="pl-9" />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={supportForm.control}
+                            name="problem"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                      <div className="relative">
+                                        <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                        <Textarea placeholder="Describe your issue in detail..." {...field} className="pl-9" />
+                                      </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <DialogFooter>
+                            <Button type="submit" disabled={supportForm.formState.isSubmitting} className="w-full">
+                                {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
+            </div>
         </DialogContent>
       </Dialog>
     </div>
   );
 }
-
-    
