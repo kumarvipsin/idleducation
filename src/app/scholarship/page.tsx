@@ -98,7 +98,7 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
              <Link href="/" className="absolute top-4 right-4 z-20">
                 <Button variant="ghost" size="icon">
                     <Home className="h-6 w-6 text-primary" />
