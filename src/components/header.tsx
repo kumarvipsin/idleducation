@@ -15,7 +15,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "./ui/dialog";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -295,21 +295,21 @@ export function Header() {
             <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
             </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle>Register for Scholarship</DialogTitle>
+        <DialogContent className="sm:max-w-sm p-4">
+            <DialogHeader className="text-center">
+                <DialogTitle className="text-xl">Register for Scholarship</DialogTitle>
                 <DialogDescription>
                     Fill in your details to register for the scholarship program.
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onScholarshipSubmit)} className="space-y-3">
                     <FormField
                         control={form.control}
                         name="studentName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Student Name</FormLabel>
+                                <FormLabel className="text-xs">Student Name</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Enter student's name" {...field} />
                                 </FormControl>
@@ -322,7 +322,7 @@ export function Header() {
                         name="class"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Class</FormLabel>
+                                <FormLabel className="text-xs">Class</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
@@ -342,7 +342,7 @@ export function Header() {
                         name="mobile"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Mobile Number</FormLabel>
+                                <FormLabel className="text-xs">Mobile Number</FormLabel>
                                 <FormControl>
                                     <Input type="tel" placeholder="Enter 10-digit mobile number" {...field} />
                                 </FormControl>
@@ -350,8 +350,8 @@ export function Header() {
                             </FormItem>
                         )}
                     />
-                    <DialogFooter>
-                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                    <DialogFooter className="pt-2">
+                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                             {form.formState.isSubmitting ? 'Registering...' : 'Register'}
                         </Button>
                     </DialogFooter>
