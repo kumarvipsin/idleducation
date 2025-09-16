@@ -359,6 +359,7 @@ export default function ContactPage() {
         icon: <Phone className="w-8 h-8 text-primary" />,
         title: "For Admission Enquiry",
         details: [
+            { type: 'phone', value: '+91 7011117585' },
             { type: 'phone', value: '+91 8860040010' },
         ],
     },
