@@ -231,6 +231,27 @@ const class7SocialScienceSyllabus = {
   ],
 };
 
+const class7EnglishSyllabus = {
+  description: "Here is the CBSE Class 7 English Syllabus 2025-26. The syllabus consists of various units and lessons focusing on developing language skills and broadening knowledge through storytelling, poetry, and human values.",
+  chapters: [
+    { unit: "Learning Together", lessonName: "The Day the River Spoke" },
+    { unit: "", lessonName: "Try Again" },
+    { unit: "", lessonName: "Three Days to See" },
+    { unit: "Wit and Humour", lessonName: "Animals, Birds, and Dr. Dolittle" },
+    { unit: "", lessonName: "A Funny Man" },
+    { unit: "", lessonName: "Say the Right Thing" },
+    { unit: "Dreams and Discoveries", lessonName: "My Brother's Great Invention" },
+    { unit: "", lessonName: "Paper Boats" },
+    { unit: "", lessonName: "North, South, East, West" },
+    { unit: "Travel and Adventure", lessonName: "The Tunnel" },
+    { unit: "", lessonName: "Travel" },
+    { unit: "", lessonName: "Conquering the Summit" },
+    { unit: "Bravehearts", lessonName: "A Homage to Our Brave Soldiers" },
+    { unit: "", lessonName: "My Dear Soldiers" },
+    { unit: "", lessonName: "Rani Abbakka" },
+  ],
+};
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -366,7 +387,7 @@ function SchoolPageContent() {
         )}
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="px-4 md:px-[10%]">
+          <div className="container mx-auto">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
@@ -691,7 +712,23 @@ function SchoolPageContent() {
                                 <Separator />
                                 <div className="space-y-4">
                                     <h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4>
-                                    <p className="text-muted-foreground">Class 7 English syllabus will be updated here soon.</p>
+                                    <p className="text-muted-foreground">{class7EnglishSyllabus.description}</p>
+                                     <Table>
+                                      <TableHeader>
+                                        <TableRow>
+                                          <TableHead>Unit</TableHead>
+                                          <TableHead>Lesson Name</TableHead>
+                                        </TableRow>
+                                      </TableHeader>
+                                      <TableBody>
+                                        {class7EnglishSyllabus.chapters.map((item, index) => (
+                                          <TableRow key={index}>
+                                            <TableCell className="font-medium">{item.unit}</TableCell>
+                                            <TableCell>{item.lessonName}</TableCell>
+                                          </TableRow>
+                                        ))}
+                                      </TableBody>
+                                    </Table>
                                 </div>
                             </div>
                         )}
@@ -730,6 +767,7 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
 
 
 
