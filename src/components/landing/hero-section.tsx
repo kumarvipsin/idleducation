@@ -1,8 +1,10 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Smartphone } from "lucide-react";
 import Link from 'next/link';
+import { Separator } from "../ui/separator";
 
 export function HeroSection() {
   
@@ -18,13 +20,16 @@ export function HeroSection() {
                 <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
                     Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                 </p>
-                <div className="flex justify-center items-center gap-4">
-                    <Button asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
-                        <Link href="/admission">Admission</Link>
-                    </Button>
-                    <Button asChild className="rounded-full transition-all duration-300 ease-in-out bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary">
-                       <Link href="/book-demo">Book Free Demo</Link>
-                    </Button>
+                <div className="flex justify-center items-center">
+                    <div className="flex items-center rounded-full border-2 border-white overflow-hidden">
+                        <Button asChild className="rounded-none border-0 transition-all duration-300 ease-in-out bg-transparent text-white hover:bg-white hover:text-primary h-9 px-4">
+                            <Link href="/admission">Admission</Link>
+                        </Button>
+                        <Separator orientation="vertical" className="h-5 bg-white/50" />
+                        <Button asChild className="rounded-none border-0 transition-all duration-300 ease-in-out bg-transparent text-white hover:bg-white hover:text-primary h-9 px-4">
+                           <Link href="/book-demo">Book Free Demo</Link>
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>
