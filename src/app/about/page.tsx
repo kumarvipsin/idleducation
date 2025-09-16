@@ -76,7 +76,7 @@ export default function AboutPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {combinedValues.map((item, index) => (
-              <Card key={index} className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
+              <Card key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
                 <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-4 bg-background rounded-full mb-4 border shadow-inner transition-transform duration-300 group-hover:scale-110">
                         {item.icon}
