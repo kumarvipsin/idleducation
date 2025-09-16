@@ -288,16 +288,6 @@ export function Header() {
     );
   };
 
-  const ScholarshipAnnouncement = () => (
-     <Link href="/scholarship" className="hover:underline inline-block">
-        <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
-        <span className="font-bold uppercase text-[0.6rem] text-black">
-          <span className="hidden md:inline">IDL National Scholarship & Admission Test For Class 5 To 10</span>
-          <span className="md:hidden">IDL Scholarship Test</span>
-        </span>
-    </Link>
-  );
-
   const cartDropdown = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -405,10 +395,7 @@ export function Header() {
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center">
-                  <Link href="/scholarship" className="hover:underline flex items-center gap-1 text-black font-bold text-[0.6rem] uppercase">
-                    <Award className="h-3 w-3" />
-                    <span className="hidden md:inline">Scholarship</span>
-                  </Link>
+                  
                 </div>
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                 </div>
