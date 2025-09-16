@@ -390,8 +390,8 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-lg overflow-hidden">
             <CardHeader className="text-center bg-muted/30 p-8">
-                <CardTitle className="text-3xl font-bold text-primary">Get In Touch</CardTitle>
-                <CardDescription>We'd love to hear from you. Please fill out the form below.</CardDescription>
+                <CardTitle className="text-3xl font-bold text-primary">Enquiry Form</CardTitle>
+                <CardDescription>Have a question or need more information? Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
             </CardHeader>
           <CardContent className="p-8">
             <Form {...form}>
