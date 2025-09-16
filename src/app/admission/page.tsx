@@ -596,7 +596,10 @@ export default function AdmissionPage() {
                     render={({ field }) => (
                         <FormItem>
                         <FormControl>
-                            <Textarea placeholder="Additional Information" className="min-h-[100px]" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                           <div className="relative">
+                                <Info className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                <Textarea placeholder="Additional Information" className="min-h-[100px] pl-9" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                            </div>
                         </FormControl>
                         <FormMessage />
                         </FormItem>
