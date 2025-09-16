@@ -78,6 +78,12 @@ export default function AboutPage() {
         <Separator className="my-12 md:my-20" />
         
         <section className="mb-12 md:mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Core Values</h2>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
+              We are driven by a set of core values that define our mission and guide our approach to education.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {combinedValues.map((item, index) => (
               <Card key={index} className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
