@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
@@ -289,7 +290,7 @@ export function Header() {
   const ScholarshipButton = () => (
      <Link href="/scholarship" className="hover:underline inline-block mr-16">
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
-        <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
+        <span className="font-bold uppercase text-[0.6rem]">IDL National Scholarship & Admission Test For Class 5 To 10</span>
     </Link>
   );
 
