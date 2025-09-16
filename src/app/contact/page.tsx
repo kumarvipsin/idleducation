@@ -408,9 +408,8 @@ export default function ContactPage() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Name <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your name" {...field} />
+                            <Input placeholder="Enter your name *" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -421,7 +420,6 @@ export default function ContactPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
                           <FormControl>
                             <Input type="email" placeholder="Enter your email" {...field} />
                           </FormControl>
@@ -432,7 +430,6 @@ export default function ContactPage() {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
                       <div className="flex gap-2">
                         <FormField
                             control={contactForm.control}
@@ -463,7 +460,7 @@ export default function ContactPage() {
                             render={({ field }) => (
                               <FormItem className="flex-1">
                                 <FormControl>
-                                  <Input type="tel" placeholder="Enter phone number" {...field} maxLength={maxLength} />
+                                  <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -476,11 +473,10 @@ export default function ContactPage() {
                         name="state"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>State <span className="text-destructive">*</span></FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select a state" />
+                                  <SelectValue placeholder="Select a state *" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -499,7 +495,6 @@ export default function ContactPage() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Message</FormLabel>
                         <FormControl>
                           <Textarea placeholder="Enter your message" className="min-h-[150px]" {...field} />
                         </FormControl>
