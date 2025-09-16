@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users, PenSquare, UserCircle, Book, Zap, BrainCircuit, Rocket, Goal, Route } from "lucide-react";
+import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExpertTeam } from "@/components/landing/expert-team";
 import { Separator } from "@/components/ui/separator";
