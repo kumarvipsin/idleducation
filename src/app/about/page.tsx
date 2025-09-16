@@ -10,7 +10,7 @@ const combinedValues = [
     {
         icon: <Eye className="w-10 h-10 text-primary" />,
         title: "Our Vision",
-        description: "To become the leading platform for online education, known for our commitment to quality, innovation, and user success. We envision a future where learning is not confined to classrooms, but is a lifelong journey of discovery."
+        description: "Brilliants' Convent shall remain a Unique Educational Centre defined by its core values. With excellence in all our activities of instructing, we are committed to provide the best education in the most cultivable environment so as to empower everyone. Our vision is to prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world."
     },
     {
         icon: <Target className="w-10 h-10 text-primary" />,
