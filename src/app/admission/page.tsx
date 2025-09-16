@@ -371,7 +371,10 @@ export default function AdmissionPage() {
                         render={({ field }) => (
                         <FormItem>
                             <FormControl>
-                            <Input type="date" placeholder="Date of Birth *" {...field} />
+                                <div className="relative">
+                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="date" placeholder="Date of Birth *" {...field} className="pl-9" />
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
