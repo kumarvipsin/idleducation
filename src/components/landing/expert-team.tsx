@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import Link from "next/link";
-import { TeacherCardV2 } from "./teacher-card-v2";
+import { TeacherCard } from "./teacher-card";
 
 export function ExpertTeam() {
   const { t } = useLanguage();
@@ -81,7 +81,7 @@ export function ExpertTeam() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {teamMembers.map((member, index) => (
-              <TeacherCardV2 key={index} {...member} />
+              <TeacherCard key={index} {...member} />
             ))}
           </div>
       </div>

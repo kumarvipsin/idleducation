@@ -1,9 +1,9 @@
 
 'use client';
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type TeacherCardProps = {
     name: string;
@@ -15,10 +15,8 @@ type TeacherCardProps = {
 
 export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
     return (
-        <Card 
-          className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full"
-        >
-            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
+        <div className="relative group overflow-hidden rounded-lg bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+            <div className="relative w-full aspect-[4/5]">
                 <Image
                     src={avatar}
                     alt={name}
@@ -26,13 +24,21 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                     fill
                     className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
-            <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
-                <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
-                <p className="text-xs md:text-sm text-white/90">{designation}</p>
-                <p className="text-xs text-white/80 mt-1">{experience}</p>
-            </CardContent>
-        </Card>
+            <div className="p-3 text-center bg-background">
+                <h3 className="text-base font-bold text-foreground">{name}</h3>
+                <p className="text-xs text-primary font-semibold">{designation}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{experience}</p>
+                
+                <div className="mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="flex justify-center gap-3 text-muted-foreground">
+                        <Link href="#" className="hover:text-primary"><Facebook className="h-4 w-4" /></Link>
+                        <Link href="#" className="hover:text-primary"><Twitter className="h-4 w-4" /></Link>
+                        <Link href="#" className="hover:text-primary"><Instagram className="h-4 w-4" /></Link>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
