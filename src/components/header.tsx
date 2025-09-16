@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -400,7 +400,8 @@ export function Header() {
                  <div className="flex items-center gap-4">
                     <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/scholarship">
-                            <Award className="h-3 w-3 mr-1"/> Apply Scholarship
+                            <GraduationCap className="h-3 w-3 mr-1"/>
+                            Apply Scholarship
                         </Link>
                     </Button>
                     <Separator orientation="vertical" className="h-4 bg-black/20" />
@@ -426,7 +427,7 @@ export function Header() {
                       ))}
                   </span>
                   <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
-                    (Institute of Distance Learning Pvt. Ltd.)
+                    Institute of Distance Learning Pvt. Ltd.
                   </span>
               </div>
             </Link>
