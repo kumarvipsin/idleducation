@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Briefcase } from "lucide-react";
+import { GraduationCap, Briefcase, Mail, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -95,9 +95,11 @@ export default function LoginPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="student@example.com" {...field} />
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="student@example.com" {...field} className="pl-9" />
+                            </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -108,9 +110,11 @@ export default function LoginPage() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" {...field} />
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="password" placeholder="Password" {...field} className="pl-9" />
+                            </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -142,9 +146,11 @@ export default function LoginPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="teacher@example.com" {...field} />
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="teacher@example.com" {...field} className="pl-9" />
+                            </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -155,9 +161,11 @@ export default function LoginPage() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" {...field} />
+                             <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="password" placeholder="Password" {...field} className="pl-9" />
+                            </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
