@@ -539,7 +539,7 @@ export default function ContactPage() {
                                       return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary">{detail.value}</a>
                                   }
                                   if (detail.type === 'dialog') {
-                                      return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Submit a Ticket</Button></DialogTrigger>
+                                      return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Raise a Ticket</Button></DialogTrigger>
                                   }
                                   return <p key={i}>{detail.value}</p>
                               })}
@@ -552,9 +552,9 @@ export default function ContactPage() {
 
         </div>
         <DialogContent className="w-[90vw] sm:max-w-md p-4 rounded-lg">
-            <DialogHeader>
-                <DialogTitle className="sr-only">Submit a Support Ticket</DialogTitle>
-                <DialogDescription className="sr-only">Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
+            <DialogHeader className="sr-only">
+                <DialogTitle>Submit a Support Ticket</DialogTitle>
+                <DialogDescription>Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
             </DialogHeader>
             <Form {...supportForm}>
                 <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
@@ -609,3 +609,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    
