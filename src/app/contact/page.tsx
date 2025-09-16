@@ -380,7 +380,7 @@ export default function ContactPage() {
     },
     {
         icon: <Building className="w-8 h-8 text-primary" />,
-        title: "Corporate Office",
+        title: "Local Head Office",
         details: [
             { type: 'text', value: 'E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086' },
         ],
