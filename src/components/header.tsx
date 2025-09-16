@@ -355,6 +355,46 @@ export function Header() {
         </DropdownMenuContent>
     </DropdownMenu>
   );
+  
+  const notificationDropdown = (
+    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="relative">
+            <Bell className="h-[1.2rem] w-[1.2rem]" />
+            {hasNewUpdates && (
+                <span className="absolute top-0 right-0 flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
+            )}
+            <span className="sr-only">Notifications</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-80">
+        <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {updates.length > 0 ? (
+          updates.map(update => (
+            <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
+                <p className="font-semibold">{update.title}</p>
+                <p className="text-xs text-muted-foreground">{update.description}</p>
+                <p className="text-xs text-muted-foreground self-end">
+                  {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                </p>
+            </DropdownMenuItem>
+          ))
+        ) : (
+          <DropdownMenuItem>No new updates.</DropdownMenuItem>
+        )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/notifications" className="text-center justify-center">
+            View all notifications
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
@@ -376,8 +416,9 @@ export function Header() {
                         </div>
                     </div>
                 </div>
-                 <div className="hidden md:flex">
+                 <div className="flex items-center">
                     {cartDropdown}
+                    {notificationDropdown}
                 </div>
             </div>
         </div>
@@ -407,58 +448,8 @@ export function Header() {
                   </Link>
                 ))}
             {renderAuthSection()}
-            <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                    <Bell className="h-[1.2rem] w-[1.2rem]" />
-                    {hasNewUpdates && (
-                        <span className="absolute top-0 right-0 flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
-                    )}
-                    <span className="sr-only">Notifications</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
-                <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {updates.length > 0 ? (
-                  updates.map(update => (
-                    <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
-                        <p className="font-semibold">{update.title}</p>
-                        <p className="text-xs text-muted-foreground">{update.description}</p>
-                        <p className="text-xs text-muted-foreground self-end">
-                          {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                        </p>
-                    </DropdownMenuItem>
-                  ))
-                ) : (
-                  <DropdownMenuItem>No new updates.</DropdownMenuItem>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/notifications" className="text-center justify-center">
-                    View all notifications
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
             </nav>
             <div className="ml-auto md:hidden flex items-center gap-2">
-            {cartDropdown}
-            <Link href="/notifications">
-                <Button variant="ghost" size="icon" className="relative">
-                    <Bell className="h-6 w-6" />
-                    {hasNewUpdates && (
-                        <span className="absolute top-1 right-1 flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
-                    )}
-                    <span className="sr-only">Notifications</span>
-                </Button>
-            </Link>
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
