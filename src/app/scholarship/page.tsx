@@ -39,7 +39,7 @@ export default function ScholarshipPage() {
                         className="mx-auto filter hue-rotate-15 saturate-150"
                     />
                     <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
-                        The Gateway to Rewards, Recognition & Scholarships
+                        IDL National Scholarship & Admission Test
                     </h1>
                     <p className="mt-2 text-lg text-muted-foreground font-semibold">
                         For Class V to X
