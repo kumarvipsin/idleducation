@@ -271,6 +271,25 @@ const class8MathsSyllabus = {
   ],
 };
 
+const class8ScienceSyllabus = {
+  description: "Here is the detailed CBSE Class 8 Science syllabus for the academic session 2025-26. The syllabus covers a variety of important scientific topics, providing students with an in-depth understanding of the natural world and its processes.",
+  chapters: [
+    { chapter: "Chapter 1", name: "Crop Production and Management" },
+    { chapter: "Chapter 2", name: "Microorganisms: Friend and Foe" },
+    { chapter: "Chapter 3", name: "Coal and Petroleum" },
+    { chapter: "Chapter 4", name: "Combustion and Flame" },
+    { chapter: "Chapter 5", name: "Conservation of Plants and Animals" },
+    { chapter: "Chapter 6", name: "Reproduction in Animals" },
+    { chapter: "Chapter 7", name: "Reaching the Age of Adolescence" },
+    { chapter: "Chapter 8", name: "Force and Pressure" },
+    { chapter: "Chapter 9", name: "Friction" },
+    { chapter: "Chapter 10", name: "Sound" },
+    { chapter: "Chapter 11", name: "Chemical Effects of Electric Current" },
+    { chapter: "Chapter 12", name: "Some Natural Phenomena" },
+    { chapter: "Chapter 13", name: "Light" },
+  ]
+};
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
@@ -786,8 +805,24 @@ function SchoolPageContent() {
                             </div>
                             <Separator />
                             <div className="space-y-4">
-                                <h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus</h4>
-                                <p className="text-muted-foreground">Class 8 Science syllabus will be updated here soon.</p>
+                                <h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus 2025-26</h4>
+                                <p className="text-muted-foreground">{class8ScienceSyllabus.description}</p>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                            <TableHead>Unit</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {class8ScienceSyllabus.chapters.map(item => (
+                                            <TableRow key={item.chapter}>
+                                                <TableCell className="font-medium">{item.chapter}</TableCell>
+                                                <TableCell>{item.name}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </div>
                             <Separator />
                             <div className="space-y-4">
