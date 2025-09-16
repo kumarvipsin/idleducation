@@ -107,7 +107,7 @@ export default function ScholarshipPage() {
                             <CardContent className="p-4">
                                 <Award className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
                                 <span className="text-sm font-semibold text-muted-foreground">Cash Prize</span>
-                                <p className="text-2xl font-bold text-primary">₹ 2.5 Cr.</p>
+                                <p className="text-2xl font-bold text-primary">₹ 50 K</p>
                              </CardContent>
                         </Card>
                         <Card className="bg-background/50 backdrop-blur-sm">
