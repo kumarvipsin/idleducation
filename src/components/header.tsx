@@ -295,7 +295,7 @@ export function Header() {
             <span className="font-bold uppercase text-[0.6rem]">SCHOLARSHIPS AVAILABLE FOR CLASSES 5 TO 10. CLICK TO LEARN MORE!</span>
             </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-sm p-4">
+        <DialogContent className="sm:max-w-[350px] p-4">
             <DialogHeader className="text-center">
                 <DialogTitle className="text-xl">Register for Scholarship</DialogTitle>
                 <DialogDescription>
