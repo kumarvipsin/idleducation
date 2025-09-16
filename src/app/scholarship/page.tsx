@@ -98,7 +98,7 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+        <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
              <Link href="/" className="absolute top-4 right-4 z-20">
                 <Button variant="ghost" size="icon">
                     <Home className="h-6 w-6 text-primary" />
@@ -106,7 +106,7 @@ export default function ScholarshipPage() {
                 </Button>
             </Link>
             {/* Content */}
-            <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center md:mx-[10%]">
+            <div className="relative z-10 container mx-auto text-center py-12 md:px-[10%]">
                 
                 {/* Header Information */}
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
