@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Home } from "lucide-react";
+import { CheckCircle, Home, User, GraduationCap, Phone, Mail, MapPin } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -421,14 +421,18 @@ export default function BookDemoPage() {
                             render={({ field }) => (
                                 <FormItem>
                                 <FormControl>
-                                    <Input 
-                                    placeholder={t('bookFreeSession.childNamePlaceholder')} 
-                                    {...field}
-                                    onChange={(e) => {
-                                        const formatted = capitalizeWords(e.target.value);
-                                        field.onChange(formatted);
-                                    }}
-                                    />
+                                    <div className="relative">
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input 
+                                        placeholder={t('bookFreeSession.childNamePlaceholder')} 
+                                        {...field}
+                                        className="pl-9"
+                                        onChange={(e) => {
+                                            const formatted = capitalizeWords(e.target.value);
+                                            field.onChange(formatted);
+                                        }}
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage className="text-destructive" />
                                 </FormItem>
@@ -442,9 +446,12 @@ export default function BookDemoPage() {
                                 <FormItem>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a Class or Course" />
-                                    </SelectTrigger>
+                                    <div className="relative">
+                                        <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <SelectTrigger className="pl-9">
+                                            <SelectValue placeholder="Select a Class or Course" />
+                                        </SelectTrigger>
+                                    </div>
                                     </FormControl>
                                     <SelectContent>
                                     {allPrograms.map(program => (
@@ -488,16 +495,20 @@ export default function BookDemoPage() {
                                         render={({ field }) => (
                                         <FormItem className="flex-1">
                                             <FormControl>
-                                            <Input 
-                                            type="tel" 
-                                            placeholder={t('bookFreeSession.mobilePlaceholder')} 
-                                            {...field}
-                                            onChange={(e) => {
-                                                const value = e.target.value.replace(/\D/g, '');
-                                                field.onChange(value);
-                                            }}
-                                            maxLength={maxLength}
-                                            />
+                                            <div className="relative">
+                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                <Input 
+                                                type="tel" 
+                                                placeholder={t('bookFreeSession.mobilePlaceholder')} 
+                                                {...field}
+                                                className="pl-9"
+                                                onChange={(e) => {
+                                                    const value = e.target.value.replace(/\D/g, '');
+                                                    field.onChange(value);
+                                                }}
+                                                maxLength={maxLength}
+                                                />
+                                            </div>
                                             </FormControl>
                                             <FormMessage className="text-destructive" />
                                         </FormItem>
@@ -512,14 +523,18 @@ export default function BookDemoPage() {
                             render={({ field }) => (
                                 <FormItem>
                                 <FormControl>
-                                    <Input 
-                                    type="email" 
-                                    placeholder={t('bookFreeSession.emailPlaceholder')} 
-                                    {...field}
-                                    onChange={(e) => {
-                                        field.onChange(e.target.value.toLowerCase());
-                                    }}
-                                    />
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input 
+                                        type="email" 
+                                        placeholder={t('bookFreeSession.emailPlaceholder')} 
+                                        {...field}
+                                        className="pl-9"
+                                        onChange={(e) => {
+                                            field.onChange(e.target.value.toLowerCase());
+                                        }}
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage className="text-destructive" />
                                 </FormItem>
@@ -533,9 +548,12 @@ export default function BookDemoPage() {
                                 <FormItem>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
-                                    </SelectTrigger>
+                                    <div className="relative">
+                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <SelectTrigger className="pl-9">
+                                            <SelectValue placeholder={t('bookFreeSession.statePlaceholder')} />
+                                        </SelectTrigger>
+                                    </div>
                                     </FormControl>
                                     <SelectContent>
                                     {indianStates.sort().map(state => (
