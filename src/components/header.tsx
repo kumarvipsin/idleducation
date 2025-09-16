@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -288,7 +288,7 @@ export function Header() {
     );
   };
 
-  const ScholarshipButton = () => (
+  const ScholarshipAnnouncement = () => (
      <Link href="/scholarship" className="hover:underline inline-block">
         <Badge variant="destructive" className="mr-2 animate-pulse text-red-500 bg-transparent border-none p-0 text-[0.6rem] font-bold uppercase">NEW</Badge>
         <span className="font-bold uppercase text-[0.6rem] text-black">
@@ -405,19 +405,28 @@ export function Header() {
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center">
-                    
+                  <Link href="/admission" className="hover:underline flex items-center gap-1 text-black font-bold text-[0.6rem] uppercase">
+                    <FileType className="h-3 w-3" />
+                    <span className="hidden md:inline">Admission Form</span>
+                  </Link>
                 </div>
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
                     <div className="marquee-container">
                         <div className="marquee">
-                           <ScholarshipButton />
+                           <ScholarshipAnnouncement />
                         </div>
                          <div className="marquee">
-                           <ScholarshipButton />
+                           <ScholarshipAnnouncement />
                         </div>
                     </div>
                 </div>
                  <div className="flex items-center gap-2">
+                    <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                        <Link href="/scholarship">
+                            <Award className="h-3 w-3 mr-1"/> Apply Scholarship
+                        </Link>
+                    </Button>
+                    <Separator orientation="vertical" className="h-4 bg-black/20" />
                     {cartDropdown}
                     {notificationDropdown}
                 </div>
