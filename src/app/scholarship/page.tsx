@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -82,17 +83,17 @@ export default function ScholarshipPage() {
                             <form className="space-y-6">
                                 <div>
                                     <Label className="text-sm font-semibold text-muted-foreground">What is your preferred mode of study?</Label>
-                                    <RadioGroup defaultValue="classroom" className="mt-2 grid grid-cols-2 gap-4">
+                                    <RadioGroup defaultValue="online" className="mt-2 grid grid-cols-2 gap-4">
                                         <div>
-                                            <RadioGroupItem value="classroom" id="classroom" className="peer sr-only" />
-                                            <Label htmlFor="classroom" className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
-                                                Classroom
-                                            </Label>
-                                        </div>
-                                         <div>
                                             <RadioGroupItem value="online" id="online" className="peer sr-only" />
                                             <Label htmlFor="online" className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
                                                 Online
+                                            </Label>
+                                        </div>
+                                         <div>
+                                            <RadioGroupItem value="offline" id="offline" className="peer sr-only" />
+                                            <Label htmlFor="offline" className="flex items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                                Offline
                                             </Label>
                                         </div>
                                     </RadioGroup>
