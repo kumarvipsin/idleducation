@@ -558,13 +558,7 @@ export default function ContactPage() {
         </section>
 
         </div>
-        <DialogContent className="w-[90vw] sm:max-w-md p-6 rounded-lg overflow-hidden bg-background">
-            <DialogHeader className="text-center">
-                <DialogTitle>Submit a Support Ticket</DialogTitle>
-                <DialogDescription>
-                Please describe your issue, and our support team will get back to you shortly.
-                </DialogDescription>
-            </DialogHeader>
+        <DialogContent className="w-[90vw] sm:max-w-md p-6 rounded-lg overflow-hidden bg-white">
             <div className="pt-4">
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
