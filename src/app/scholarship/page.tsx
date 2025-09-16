@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Award, Calendar, IndianRupee } from 'lucide-react';
+import { Award, Calendar, IndianRupee, Home } from 'lucide-react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { format, lastDayOfMonth, getDate } from "date-fns";
+import Link from "next/link";
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -98,6 +99,12 @@ export default function ScholarshipPage() {
     
     return (
         <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+             <Link href="/" className="absolute top-4 right-4 z-20">
+                <Button variant="ghost" size="icon">
+                    <Home className="h-6 w-6 text-primary" />
+                    <span className="sr-only">Home</span>
+                </Button>
+            </Link>
             {/* Content */}
             <div className="relative z-10 container mx-auto flex flex-col items-center justify-center text-center">
                 
