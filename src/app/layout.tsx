@@ -2,13 +2,10 @@
 import type { Metadata, Viewport } from 'next';
 import { Josefin_Sans } from 'next/font/google';
 import './globals.css';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Toaster } from "@/components/ui/toaster"
-import { ThemeProvider } from '@/components/theme-provider';
-import { LanguageProvider } from '@/context/language-context';
-import { AuthProvider } from '@/context/auth-context';
 import { AppContent } from '@/components/app-content';
+import { AuthProvider } from '@/context/auth-context';
+import { LanguageProvider } from '@/context/language-context';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const josefin_sans = Josefin_Sans({
   subsets: ['latin'],
