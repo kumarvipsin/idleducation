@@ -38,7 +38,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 </Button>
             </DialogTrigger>
             <DialogContent
-              className={cn("sm:max-w-sm border-0 rounded-2xl shadow-lg")}
+              className={cn("w-[90vw] sm:max-w-sm border-0 rounded-2xl shadow-lg")}
               style={{ 
                 backgroundColor: 'white', 
                 ...textureStyle, 
