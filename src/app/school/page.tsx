@@ -105,10 +105,26 @@ const class5EnglishSyllabus = {
   ],
 };
 
+const class6MathsSyllabus = {
+  description: "The CBSE Class 6 Maths syllabus is designed to build a strong foundation in basic mathematical concepts and problem-solving skills. Students are encouraged to understand and apply concepts through practical examples and exercises. Check the table below for a detailed breakdown of the syllabus.",
+  chapters: [
+    { chapter: "Pattern In Mathematics", topics: ["1.1 What is Mathematics?", "1.2 Patterns in Numbers", "1.3 Visualising Number Sequences", "1.4 Relations among Number Sequences", "1.5 Patterns In Shapes", "1.6 Relation to Number Sequences"] },
+    { chapter: "Lines and Angles", topics: ["2.1 Point", "2.2 Line Segment", "2.3 Line", "2.4 Ray", "2.5 Angle", "2.6 Comparing Angles", "2.7 Making Rotating Arms", "2.8 Special Types of Angles", "2.9 Measuring Angles", "2.10 Drawing Angles", "2.11 Types of Angles and their Measures"] },
+    { chapter: "Number Play", topics: ["3.1 Numbers can Tell us Things", "3.2 Supercells", "3.3 Patterns of Numbers on the Number Line", "3.4 Playing with Digits", "3.5 Pretty Palindromic Patterns", "3.6 The Magic Number of Kaprekar", "3.7 Clock and Calendar Numbers", "3.8 Mental Math", "3.9 Playing with Number Patterns", "3.10 An Unsolved Mystery — the Collatz Conjecture", "3.11 Simple Summation", "3.12 Games and Winning Strategies"] },
+    { chapter: "Data Handling and Presentation", topics: ["4.1 Collecting and Organising Data", "4.2 Pictographs", "4.3 Bar Graphs", "4.4 Drawing a Bar Graph", "4.5 Artistic and Aesthetic Considerations"] },
+    { chapter: "Prime Time", topics: ["5.1 Common Multiples and Common Factors", "5.2 Prime Numbers", "5.3 Co-prime numbers for safekeeping treasures", "5.4 Prime Factorisation", "5.5 Divisibility Tests", "5.6 Fun with numbers"] },
+    { chapter: "Perimeter and Area", topics: ["6.1 Perimeter", "6.2 Area", "6.3 Area of a Triangle"] },
+    { chapter: "Fractions", topics: ["7.1 Fractional Units and Equal Shares", "7.2 Fractional Units as Parts of a Whole", "7.3 Measuring Using Fractional Units", "7.4 Marking Fraction Lengths on the Number Line", "7.5 Mixed Fractions", "7.6 Equivalent Fractions", "7.7 Comparing Fractions", "7.8 Addition and Subtraction of Fractions", "7.9 A Pinch of History"] },
+    { chapter: "Play with Construction", topics: ["8.1 Artwork", "8.2 Squares and Rectangles", "8.3 Constructing Squares and Rectangles", "8.4 An Exploration in Rectangles", "8.5 Exploring Diagonals of Rectangles and Squares", "8.6 Points Equidistant from Two Given Points"] },
+    { chapter: "Symmetry", topics: ["9.1 Line of Symmetry", "9.2 Rotational Symmetry"] },
+    { chapter: "The Other Side of Zero", topics: ["10.1 Bela's Building of Fun", "10.2 The Token Model", "10.3 Integers in Other Places", "10.4 Explorations with Integers", "10.5 A Pinch of History"] }
+  ]
+};
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('Class 5');
+  const [activeClass, setActiveClass] = useState('Class 6');
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
@@ -253,7 +269,7 @@ function SchoolPageContent() {
                 <CardContent className="p-6 space-y-8">
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                        {activeClass === 'Class 5' ? (
+                        {activeClass === 'Class 5' && (
                           <div className="space-y-8">
                               <Card className="mb-8">
                                 <CardContent className="p-6">
@@ -334,7 +350,70 @@ function SchoolPageContent() {
                                   </Table>
                               </div>
                           </div>
-                        ) : (
+                        )}
+                        {activeClass === 'Class 6' && (
+                            <div className="space-y-8">
+                                <Card className="mb-8">
+                                    <CardContent className="p-6">
+                                        <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li>
+                                            <a href="#maths-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Maths Syllabus</a>
+                                            </li>
+                                            <li>
+                                            <a href="#science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Science Syllabus</a>
+                                            </li>
+                                            <li>
+                                            <a href="#social-science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Social Science Syllabus</a>
+                                            </li>
+                                            <li>
+                                            <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
+                                            </li>
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                                <div className="space-y-4">
+                                    <h4 id="maths-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Maths Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6MathsSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Chapters</TableHead>
+                                            <TableHead>Topics</TableHead>
+                                        </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                        {class6MathsSyllabus.chapters.map(item => (
+                                            <TableRow key={item.chapter}>
+                                            <TableCell className="font-medium">{item.chapter}</TableCell>
+                                            <TableCell>
+                                                <ul className="list-disc pl-5">
+                                                    {item.topics.map(topic => <li key={topic}>{topic}</li>)}
+                                                </ul>
+                                            </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                  <h4 id="science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Science Syllabus</h4>
+                                  <p className="text-muted-foreground">Class 6 Science syllabus will be updated here soon.</p>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                  <h4 id="social-science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Social Science Syllabus</h4>
+                                  <p className="text-muted-foreground">Class 6 Social Science syllabus will be updated here soon.</p>
+                                </div>
+                                 <Separator />
+                                <div className="space-y-4">
+                                  <h4 id="english-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Syllabus</h4>
+                                  <p className="text-muted-foreground">Class 6 English syllabus will be updated here soon.</p>
+                                </div>
+                            </div>
+                        )}
+                        {activeClass !== 'Class 5' && activeClass !== 'Class 6' && (
                           <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
                     </div>
