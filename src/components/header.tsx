@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType } from "lucide-react";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
@@ -206,7 +206,7 @@ export function Header() {
     }
 
     return (
-       <Button asChild variant="outline" className="h-9 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+       <Button asChild variant="outline" className="h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
             <Link href="/login" className="flex items-center">
                 <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 <span className="font-bold uppercase text-xs">{t('login')}</span>
