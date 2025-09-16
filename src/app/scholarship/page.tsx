@@ -101,9 +101,9 @@ export default function ScholarshipPage() {
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="https://picsum.photos/seed/trophy-student/1920/1080"
-                    alt="Student with a trophy"
-                    data-ai-hint="student trophy"
+                    src="https://picsum.photos/seed/success-study/1920/1080"
+                    alt="Student celebrating success"
+                    data-ai-hint="student success"
                     fill
                     className="object-cover opacity-30"
                 />
