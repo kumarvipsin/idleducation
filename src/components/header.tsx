@@ -405,20 +405,12 @@ export function Header() {
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center">
-                  <Link href="/admission" className="hover:underline flex items-center gap-1 text-black font-bold text-[0.6rem] uppercase">
-                    <FileType className="h-3 w-3" />
-                    <span className="hidden md:inline">Admission Form</span>
+                  <Link href="/scholarship" className="hover:underline flex items-center gap-1 text-black font-bold text-[0.6rem] uppercase">
+                    <Award className="h-3 w-3" />
+                    <span className="hidden md:inline">Scholarship</span>
                   </Link>
                 </div>
                 <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
-                    <div className="marquee-container">
-                        <div className="marquee">
-                           <ScholarshipAnnouncement />
-                        </div>
-                         <div className="marquee">
-                           <ScholarshipAnnouncement />
-                        </div>
-                    </div>
                 </div>
                  <div className="flex items-center gap-2">
                     <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
