@@ -16,6 +16,7 @@ import { useLanguage } from "@/context/language-context";
 import { allPrograms } from "@/lib/courses";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
@@ -293,6 +294,8 @@ const phoneLengthByCountryCode: { [key: string]: number } = {
 export default function BookDemoPage() {
   const { toast } = useToast();
   const { t } = useLanguage();
+  const [studentId, setStudentId] = useState('');
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -351,7 +354,7 @@ export default function BookDemoPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+    <div key={studentId} className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
           <Button variant="ghost" size="icon">
               <Home className="h-6 w-6 text-primary" />
