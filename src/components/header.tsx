@@ -289,16 +289,16 @@ export function Header() {
   };
 
   const cartDropdown = (
-      <DropdownMenu>
+    <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full bg-background/50 hover:bg-muted/50">
-                <ShoppingCart className="h-[1.2rem] w-[1.2rem]" />
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                <ShoppingCart className="h-3 w-3 mr-1" />
+                <span>CART</span>
                 {cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                    <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                     </span>
                 )}
-                <span className="sr-only">Open Cart</span>
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-96">
@@ -394,16 +394,16 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                <div className="flex-1 text-center overflow-hidden whitespace-nowrap">
-                </div>
-                 <div className="flex items-center gap-2">
-                    <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                <div className="flex items-center gap-2">
+                     <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/scholarship">
                             <Award className="h-3 w-3 mr-1"/> Apply Scholarship
                         </Link>
                     </Button>
-                    <Separator orientation="vertical" className="h-4 bg-black/20" />
+                </div>
+                 <div className="flex items-center gap-2">
                     {cartDropdown}
+                    <Separator orientation="vertical" className="h-4 bg-black/20" />
                     {notificationDropdown}
                 </div>
             </div>
