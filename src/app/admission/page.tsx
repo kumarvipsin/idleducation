@@ -379,7 +379,7 @@ export default function AdmissionPage() {
                                         <Button
                                             variant={"outline"}
                                             className={cn(
-                                                "w-full pl-3 text-left font-normal",
+                                                "w-full pl-3 text-left font-normal justify-start",
                                                 !field.value && "text-muted-foreground"
                                             )}
                                         >
