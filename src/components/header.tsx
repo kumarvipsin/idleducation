@@ -363,7 +363,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
+        <Button variant="ghost" size="icon" className="relative h-7 w-7 rounded-full bg-background/50 hover:bg-muted/50 focus-visible:bg-transparent">
             <Bell className="h-[1.2rem] w-[1.2rem]" />
             {hasNewUpdates && (
                 <span className="absolute top-0 right-0 flex h-2 w-2">
