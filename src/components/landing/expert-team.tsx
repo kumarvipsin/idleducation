@@ -16,56 +16,56 @@ export function ExpertTeam() {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "https://picsum.photos/seed/prof1/400/500",
+        avatar: "https://picsum.photos/seed/t1/400/500",
         avatarHint: "male professional"
     },
     {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "https://picsum.photos/seed/prof2/400/500",
+        avatar: "https://picsum.photos/seed/t2/400/500",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "https://picsum.photos/seed/prof3/400/500",
+        avatar: "https://picsum.photos/seed/t3/400/500",
         avatarHint: "female teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "https://picsum.photos/seed/prof4/400/500",
+        avatar: "https://picsum.photos/seed/t4/400/500",
         avatarHint: "male professional"
     },
     {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "https://picsum.photos/seed/prof5/400/500",
+        avatar: "https://picsum.photos/seed/t5/400/500",
         avatarHint: "male teacher"
     },
     {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "https://picsum.photos/seed/prof6/400/500",
+        avatar: "https://picsum.photos/seed/t6/400/500",
         avatarHint: "male teacher"
     },
     {
         name: "Nikhil Sharma",
         designation: "Marketing Head",
         experience: "7+ Years of Experience",
-        avatar: "https://picsum.photos/seed/prof7/400/500",
+        avatar: "https://picsum.photos/seed/t7/400/500",
         avatarHint: "male professional"
     },
     {
         name: "Nishu Sharma",
         designation: "Operations Head",
         experience: "6+ Years of Experience",
-        avatar: "https://picsum.photos/seed/prof8/400/500",
+        avatar: "https://picsum.photos/seed/t8/400/500",
         avatarHint: "female professional"
     }
   ];
