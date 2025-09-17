@@ -416,107 +416,101 @@ export default function ContactPage() {
 
               <div className="p-8 md:w-1/2">
                 <Form {...contactForm}>
-                  <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-6">
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <FormField
-                        control={contactForm.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="relative">
-                                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <Input placeholder="Enter your name *" {...field} className="pl-9" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={contactForm.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                               <div className="relative">
-                                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="grid sm:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          <FormField
-                              control={contactForm.control}
-                              name="countryCode"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <FormControl>
-                                      <SelectTrigger className="w-[120px]">
-                                        <SelectValue placeholder="Code" />
-                                      </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                      {countryCodes.map((country, index) => (
-                                        <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
-                                          {country.code} ({country.country})
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          <FormField
-                              control={contactForm.control}
-                              name="phone"
-                              render={({ field }) => (
-                                <FormItem className="flex-1">
-                                  <FormControl>
-                                    <div className="relative">
-                                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} className="pl-9" />
-                                    </div>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                        </div>
-                      </div>
-                      <FormField
-                          control={contactForm.control}
-                          name="state"
-                          render={({ field }) => (
-                            <FormItem>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
+                    <FormField
+                      control={contactForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Enter your name *" {...field} className="pl-9" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={contactForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                             <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex gap-2">
+                        <FormField
+                            control={contactForm.control}
+                            name="countryCode"
+                            render={({ field }) => (
+                            <FormItem className="w-[120px]">
+                                <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
-                                  <div className="relative">
-                                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <SelectTrigger className="pl-9">
-                                        <SelectValue placeholder="Select a state *" />
-                                      </SelectTrigger>
-                                  </div>
+                                    <SelectTrigger>
+                                    <SelectValue placeholder="Code" />
+                                    </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  {indianStates.map(state => (
-                                    <SelectItem key={state} value={state}>{state}</SelectItem>
-                                  ))}
+                                    {countryCodes.map((country, index) => (
+                                    <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
+                                        {country.code} ({country.country})
+                                    </SelectItem>
+                                    ))}
                                 </SelectContent>
-                              </Select>
-                              <FormMessage />
+                                </Select>
+                                <FormMessage />
                             </FormItem>
-                          )}
+                            )}
+                        />
+                        <FormField
+                            control={contactForm.control}
+                            name="phone"
+                            render={({ field }) => (
+                            <FormItem className="flex-1">
+                                <FormControl>
+                                <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} className="pl-9" />
+                                </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
                         />
                     </div>
+                    <FormField
+                        control={contactForm.control}
+                        name="state"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <div className="relative">
+                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <SelectTrigger className="pl-9">
+                                      <SelectValue placeholder="Select a state *" />
+                                    </SelectTrigger>
+                                </div>
+                              </FormControl>
+                              <SelectContent>
+                                {indianStates.map(state => (
+                                  <SelectItem key={state} value={state}>{state}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     <FormField
                       control={contactForm.control}
                       name="message"
