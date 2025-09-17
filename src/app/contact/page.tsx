@@ -370,7 +370,7 @@ export default function ContactPage() {
         <div className="container mx-auto py-12 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row">
-              <div className="p-8 space-y-8 md:w-1/2">
+              <div className="p-8 space-y-8 md:w-1/2 bg-white">
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold text-primary">Get in Touch</h2>
                   <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
@@ -412,7 +412,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <Separator orientation="vertical" className="h-auto hidden md:block" />
+              <div className="w-px bg-gradient-to-b from-transparent via-border to-transparent hidden md:block" />
 
               <div className="p-8 md:w-1/2">
                 <Form {...contactForm}>
