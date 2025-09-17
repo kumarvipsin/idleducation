@@ -448,7 +448,7 @@ export function Header() {
               <div className="ml-auto md:hidden flex items-center gap-2">
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" size="icon">
-                    {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                     <span className="sr-only">Toggle navigation menu</span>
                   </Button>
                 </CollapsibleTrigger>
@@ -467,7 +467,7 @@ export function Header() {
                       key={href}
                       href={href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+                      className={`flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                       >
                       {icon}
                       <span className="text-sm">{label}</span>

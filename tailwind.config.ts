@@ -76,20 +76,24 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
-        'accordion-down': {
+        'collapsible-down': {
           from: {
             height: '0',
+            opacity: '0',
           },
           to: {
-            height: 'var(--radix-accordion-content-height)',
+            height: 'var(--radix-collapsible-content-height)',
+            opacity: '1',
           },
         },
-        'accordion-up': {
+        'collapsible-up': {
           from: {
-            height: 'var(--radix-accordion-content-height)',
+            height: 'var(--radix-collapsible-content-height)',
+            opacity: '1',
           },
           to: {
             height: '0',
+            opacity: '0',
           },
         },
         'marquee-slower': {
@@ -98,8 +102,8 @@ export default {
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'collapsible-down': 'collapsible-down 0.3s ease-out',
+        'collapsible-up': 'collapsible-up 0.3s ease-out',
         'marquee-slower': 'marquee-slower 60s linear infinite',
         'marquee-slower-reverse': 'marquee-slower 60s linear infinite reverse',
       },
