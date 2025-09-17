@@ -57,7 +57,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
   return (
     <div className="p-2 h-full">
       <Card
-        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-foreground"
+        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground"
       >
         <CardContent className="p-6 flex-1 flex flex-col relative">
           <QuoteIcon />
