@@ -67,7 +67,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 export function ExamCategories() {
 
   return (
-    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-white dark:bg-background">
+    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#edf2fb] dark:bg-background">
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
