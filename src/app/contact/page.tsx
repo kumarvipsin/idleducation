@@ -355,36 +355,17 @@ export default function ContactPage() {
     }
   }
   
-  const contactInfo = [
-    {
-        icon: <Phone className="w-6 h-6 text-primary group-hover:text-primary-foreground" />,
-        title: "For Admission Enquiry",
-        details: [
-            { type: 'phone', value: '+91 7011117585' },
-        ],
-    },
-    {
-        icon: <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground" />,
-        title: "Email",
-        details: [
-            { type: 'email', value: 'info@idleducation.in' },
-        ],
-    },
-    {
-        icon: <Headset className="w-6 h-6 text-primary group-hover:text-primary-foreground" />,
-        title: "For Enrolled Students",
-        details: [
-            { type: 'phone', value: '011 45035713' },
-        ],
-    },
-    {
-        icon: <Building className="w-6 h-6 text-primary group-hover:text-primary-foreground" />,
-        title: "Local Head Office",
-        details: [
-            { type: 'text', value: 'E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086' },
-        ],
-    },
-]
+  const contactDetails = [
+    { icon: Phone, label: "For Admission Enquiry", value: "+91 7011117585", href: "tel:+917011117585" },
+    { icon: Headset, label: "For Enrolled Students", value: "011 45035713", href: "tel:01145035713" },
+    { icon: Mail, label: "Email Address", value: "info@idleducation.in", href: "mailto:info@idleducation.in" },
+  ];
+
+  const officeLocation = {
+    icon: Building,
+    label: "Local Head Office",
+    value: "E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086"
+  };
 
   return (
     <div>
@@ -530,31 +511,36 @@ export default function ContactPage() {
         </div>
 
         <section className="md:mx-[10%]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {contactInfo.map((info, index) => (
-                    <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-                        <CardContent className="p-6 flex items-start gap-4">
-                            <div className="p-3 bg-primary/10 rounded-full transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-                                {info.icon}
+          <Card className="shadow-lg">
+            <CardHeader>
+                <CardTitle>Contact Information</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {contactDetails.map((item, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                            <div className="p-3 bg-primary/10 text-primary rounded-full">
+                                <item.icon className="w-5 h-5" />
                             </div>
-                            <div className="flex-1">
-                                <h3 className="font-bold text-lg text-foreground">{info.title}</h3>
-                                <div className="text-muted-foreground mt-1">
-                                    {info.details.map((detail, i) => {
-                                        if (detail.type === 'phone') {
-                                            return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                        }
-                                        if (detail.type === 'email') {
-                                            return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                        }
-                                        return <p key={i}>{detail.value}</p>
-                                    })}
-                                </div>
+                            <div>
+                                <h4 className="font-semibold text-foreground">{item.label}</h4>
+                                <a href={item.href} className="text-muted-foreground hover:text-primary hover:underline">{item.value}</a>
                             </div>
-                        </CardContent>
-                    </Card>
-                ))}
-            </div>
+                        </div>
+                    ))}
+                </div>
+                <Separator />
+                <div className="flex items-start gap-4">
+                    <div className="p-3 bg-primary/10 text-primary rounded-full">
+                        <officeLocation.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <h4 className="font-semibold text-foreground">{officeLocation.label}</h4>
+                        <p className="text-muted-foreground">{officeLocation.value}</p>
+                    </div>
+                </div>
+            </CardContent>
+          </Card>
         </section>
 
         </div>
