@@ -391,7 +391,7 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b">
+    <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
         <div className="bg-[#e9ecef] text-black text-xs">
             <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
                 <div className="flex items-center gap-2">
