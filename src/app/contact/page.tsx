@@ -357,28 +357,28 @@ export default function ContactPage() {
   
   const contactInfo = [
     {
-        icon: <Phone className="w-6 h-6 text-primary" />,
+        icon: <Phone className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
         title: "For Admission Enquiry",
         details: [
             { type: 'phone', value: '+91 7011117585' },
         ],
     },
     {
-        icon: <Headset className="w-6 h-6 text-primary" />,
+        icon: <Headset className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
         title: "For Enrolled Students",
         details: [
             { type: 'phone', value: '011 45035713' },
         ],
     },
     {
-        icon: <Mail className="w-6 h-6 text-primary" />,
+        icon: <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
         title: "Email",
         details: [
             { type: 'email', value: 'info@idleducation.in' },
         ],
     },
     {
-        icon: <Building className="w-6 h-6 text-primary" />,
+        icon: <Building className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
         title: "Local Head Office",
         details: [
             { type: 'text', value: 'E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086' },
