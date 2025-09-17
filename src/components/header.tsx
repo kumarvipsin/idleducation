@@ -407,6 +407,13 @@ export function Header() {
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
+                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                        <Link href="/feedback" className="flex items-center">
+                            <MessageSquare className="h-3 w-3 mr-1"/>
+                            Feedback
+                        </Link>
+                      </Button>
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
                       {cartDropdown}
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       {notificationDropdown}
