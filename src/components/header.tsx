@@ -305,7 +305,7 @@ export function Header() {
                 )}
             </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-96">
+        <DropdownMenuContent align="end" className="w-80">
             <DropdownMenuLabel>My Cart</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {cartItems.length > 0 ? (
