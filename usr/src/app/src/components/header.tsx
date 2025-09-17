@@ -64,6 +64,11 @@ export function Header() {
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -387,9 +392,24 @@ export function Header() {
     </DropdownMenu>
   );
   
-  // Prevent hydration errors by not rendering the top bar on the server
-  if (isMobile === undefined) {
-    return null;
+  if (!isClient) {
+    return (
+        <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
+            <div className="bg-[#e9ecef] h-8"></div>
+            <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
+                <Skeleton className="h-8 w-48" />
+                <div className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-10 w-24" />
+                </div>
+                <div className="ml-auto md:hidden">
+                    <Skeleton className="h-8 w-8" />
+                </div>
+            </div>
+        </header>
+    );
   }
 
   return (
