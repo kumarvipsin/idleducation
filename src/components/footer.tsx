@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-[#e9ecef] text-secondary-foreground">
+    <footer className="bg-gradient-to-b from-white to-[#e9ecef] dark:from-background dark:to-[#1a202c] text-secondary-foreground">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
