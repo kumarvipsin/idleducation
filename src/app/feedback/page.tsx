@@ -5,11 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Home } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Link from "next/link";
 
 export default function FeedbackPage() {
     const { toast } = useToast();
@@ -57,6 +58,12 @@ export default function FeedbackPage() {
 
     return (
         <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+            <Link href="/" className="absolute top-4 right-4 z-20">
+                <Button variant="ghost" size="icon">
+                    <Home className="h-6 w-6 text-primary" />
+                    <span className="sr-only">Home</span>
+                </Button>
+            </Link>
             <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
                     <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
