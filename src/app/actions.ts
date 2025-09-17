@@ -931,3 +931,43 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: false, message: "Failed to submit admission form." };
     }
 }
+
+const feedbackSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional().or(z.literal('')),
+  category: z.string().min(1, { message: "Please select a category." }),
+  rating: z.number().min(1, { message: "Please provide a rating." }),
+  feedback: z.string().min(10, { message: "Feedback must be at least 10 characters." }),
+});
+
+type FeedbackFormValues = z.infer<typeof feedbackSchema>;
+
+export async function submitFeedback(data: FeedbackFormValues) {
+  const validation = feedbackSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check your inputs." };
+  }
+
+  try {
+    await addDoc(collection(db, "feedbackSubmissions"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Thank you for your valuable feedback!" };
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    return { success: false, message: "Failed to submit feedback. Please try again later." };
+  }
+}
+
+export async function getFeedbackSubmissions() {
+    try {
+        const feedbackQuery = query(collection(db, "feedbackSubmissions"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(feedbackQuery);
+        const feedback = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: feedback };
+    } catch (error) {
+        console.error("Error fetching feedback:", error);
+        return { success: false, message: "Failed to fetch feedback submissions." };
+    }
+}
