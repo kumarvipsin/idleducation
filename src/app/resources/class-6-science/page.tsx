@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -57,24 +57,24 @@ export default function Class6SciencePage() {
   
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
-      <div className="space-y-4 md:space-y-6">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+        <div className="space-y-4 md:space-y-6">
         {class6ScienceResources.books.map((book, bookIndex) => (
-          <div key={bookIndex}>
+            <div key={bookIndex}>
             {book.lang === 'hi' && <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
             <div className="space-y-2">
-              {book.chapters.map((chapter, chapterIndex) => (
+                {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
                     <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                  </Link>
+                    </Link>
                 </Card>
-              ))}
+                ))}
             </div>
-          </div>
+            </div>
         ))}
-      </div>
+        </div>
     </div>
   );
 
@@ -105,7 +105,7 @@ export default function Class6SciencePage() {
                         <Link href="#">View</Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                     </Button>
                 </div>
               </CardContent>

@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -109,7 +109,7 @@ export default function Class5MathsPage() {
                         <Link href="#">View</Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                     </Button>
                 </div>
             </CardContent>
