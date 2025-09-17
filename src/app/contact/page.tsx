@@ -368,13 +368,13 @@ export default function ContactPage() {
   };
 
   return (
-    <div>
+    <div className="bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
       <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
         <div className="container mx-auto py-12 px-4 md:px-6">
           
         <div className="max-w-4xl mx-auto mb-12">
           <Card className="shadow-lg overflow-hidden">
-              <CardHeader className="text-center p-8 bg-white">
+              <CardHeader className="text-center p-8">
                   <CardTitle className="text-3xl font-bold text-primary">Enquiry Form</CardTitle>
                   <CardDescription>Have a question or need more information? Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
               </CardHeader>
