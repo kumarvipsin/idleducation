@@ -415,7 +415,7 @@ export function Header() {
           </div>
           <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
+                <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto" />
                 <div className="ml-2 flex flex-col leading-tight">
                     <span className="text-lg font-semibold">
                         {brandName.split('').map((char, index) => (
