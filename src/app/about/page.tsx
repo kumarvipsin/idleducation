@@ -75,15 +75,15 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-8">
             {combinedValues.map((item, index) => (
               <Card key={index} className="bg-background rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-t-4 border-primary overflow-hidden group">
-                  <div className="p-6 flex items-start gap-6">
-                      <div className="bg-primary/10 text-primary p-4 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                        {item.icon}
+                  <CardContent className="p-6 text-center">
+                      <div className="flex justify-center mb-4">
+                        <div className="bg-primary/10 text-primary p-4 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                          {item.icon}
+                        </div>
                       </div>
-                      <div className="flex-1">
-                          <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
-                          <p className="text-foreground/80 leading-relaxed">{item.description}</p>
-                      </div>
-                  </div>
+                      <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
+                      <p className="text-foreground/80 leading-relaxed">{item.description}</p>
+                  </CardContent>
               </Card>
             ))}
           </div>
