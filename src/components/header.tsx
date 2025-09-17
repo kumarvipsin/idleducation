@@ -453,7 +453,7 @@ export function Header() {
               <div className="ml-auto md:hidden flex items-center gap-2">
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent">
-                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                    <Menu className="h-5 w-5" />
                     <span className="sr-only">Toggle navigation menu</span>
                   </Button>
                 </CollapsibleTrigger>
