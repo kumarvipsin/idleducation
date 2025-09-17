@@ -109,7 +109,7 @@ export function Footer() {
                 </div>
             </div>
             <div className="relative mt-8 pt-4">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
                     <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                     <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
