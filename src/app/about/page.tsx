@@ -31,8 +31,9 @@ export default function AboutPage() {
                   <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
                       <CardContent className="p-0">
                           <Image
-                            src="/amod.jpg"
+                            src="https://picsum.photos/seed/director/400/500"
                             alt="Director's Photo"
+                            data-ai-hint="male director"
                             width={400}
                             height={500}
                             className="w-full h-auto object-cover"
