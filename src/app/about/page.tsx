@@ -30,14 +30,15 @@ export default function AboutPage() {
               <div className="lg:col-span-2 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                   <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
                       <CardContent className="p-0">
-                          <Image
-                            src="https://images.unsplash.com/photo-1757873469320-05980cf694be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5kb20lMjBwaG90byUyMG1hbiUyMHRlYWNoZXJ8ZW58MHx8fHwxNzU4MTE4OTc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                            alt="Director's Photo"
-                            data-ai-hint="male director"
-                            width={400}
-                            height={500}
-                            className="w-full h-auto object-cover"
-                          />
+                          <div className="relative w-full aspect-[4/5]">
+                            <Image
+                              src="https://images.unsplash.com/photo-1757873469320-05980cf694be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5kb20lMjBwaG90byUyMG1hbiUyMHRlYWNoZXJ8ZW58MHx8fHwxNzU4MTE4OTc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                              alt="Director's Photo"
+                              data-ai-hint="male director"
+                              fill
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                           <div className="p-4 bg-muted/30 text-center">
                               <h2 className="text-lg font-bold text-foreground">AMOD KUMAR SHARMA</h2>
                               <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
