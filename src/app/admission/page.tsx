@@ -254,15 +254,15 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+    <div className="relative min-h-screen w-full md:p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
           <Button variant="ghost" size="icon">
               <Home className="h-6 w-6 text-primary" />
               <span className="sr-only">Home</span>
           </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
-        <div className="max-w-4xl mx-auto">
+      <div className="relative z-10 container mx-auto py-12 px-4 md:px-0">
+        <div className="md:max-w-4xl md:mx-auto">
           <div className="text-center mb-8 animate-fade-in-up">
               <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
                   Admission Form
@@ -272,7 +272,7 @@ export default function AdmissionPage() {
                   Fill out the form below to start your journey with IDL Education.
               </p>
           </div>
-          <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up md:rounded-2xl" style={{ animationDelay: '0.2s' }}>
             <header className="bg-primary text-white p-4">
                 <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <div>
@@ -282,7 +282,7 @@ export default function AdmissionPage() {
                 </div>
             </header>
             
-            <CardContent className="p-8">
+            <CardContent className="p-4 md:p-8">
                 <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
