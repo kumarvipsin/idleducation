@@ -401,8 +401,8 @@ export function Header() {
                   </div>
                   <div className="flex items-center gap-4">
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                          <Link href="/scholarship" className="flex items-center gap-1">
-                              <GraduationCap className="h-3 w-3"/>
+                          <Link href="/scholarship" className="flex items-center">
+                              <GraduationCap className="h-3 w-3 mr-1"/>
                               Apply Scholarship
                           </Link>
                       </Button>

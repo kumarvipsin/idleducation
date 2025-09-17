@@ -102,8 +102,8 @@ export default {
         },
       },
       animation: {
-        'collapsible-down': 'collapsible-down 0.3s ease-out',
-        'collapsible-up': 'collapsible-up 0.3s ease-out',
+        'collapsible-down': 'collapsible-down 0.2s ease-out',
+        'collapsible-up': 'collapsible-up 0.2s ease-out',
         'marquee-slower': 'marquee-slower 60s linear infinite',
         'marquee-slower-reverse': 'marquee-slower 60s linear infinite reverse',
       },
