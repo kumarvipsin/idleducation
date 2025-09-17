@@ -42,11 +42,6 @@ type CartItem = {
     image: string;
 };
 
-const initialCartItems: CartItem[] = [
-    { id: 1, name: 'Mathematics for Class 10', price: 600, quantity: 1, image: 'https://picsum.photos/seed/rdsharma10/100/100' },
-    { id: 2, name: 'Science for Class 10', price: 650, quantity: 1, image: 'https://picsum.photos/seed/lakhmir10/100/100' },
-];
-
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
@@ -65,7 +60,7 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -358,7 +353,7 @@ export function Header() {
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <Bell className="h-3 w-3 mr-1" />
+                <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -406,14 +401,14 @@ export function Header() {
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
                               <GraduationCap className="h-4 w-4 mr-1"/>
-                              <span className="md:hidden lg:inline">Apply Scholarship</span>
+                              <span>Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
                             <MessageSquare className="h-4 w-4 mr-1"/>
-                            <span className="md:hidden lg:inline">Feedback</span>
+                            <span>Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
