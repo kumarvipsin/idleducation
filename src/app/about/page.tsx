@@ -30,7 +30,7 @@ export default function AboutPage() {
               <div className="lg:col-span-2 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                   <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
                       <CardContent className="p-0">
-                          <div className="relative w-full aspect-[4/5]">
+                          <div className="relative w-full aspect-[4/4.5]">
                             <Image
                               src="https://images.unsplash.com/photo-1757873469320-05980cf694be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5kb20lMjBwaG90byUyMG1hbiUyMHRlYWNoZXJ8ZW58MHx8fHwxNzU4MTE4OTc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                               alt="Director's Photo"
