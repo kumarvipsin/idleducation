@@ -292,7 +292,7 @@ export function Header() {
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <ShoppingCart className="h-3 w-3 mr-1" />
-                <span className="md:hidden lg:inline">CART</span>
+                <span className="sm:inline">CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -401,14 +401,14 @@ export function Header() {
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
                               <GraduationCap className="h-4 w-4 mr-1"/>
-                              <span className="hidden sm:inline">Apply Scholarship</span>
+                              <span className="sm:inline">Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
                             <MessageSquare className="h-4 w-4 mr-1"/>
-                            <span className="hidden sm:inline">Feedback</span>
+                            <span className="sm:inline">Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
@@ -452,7 +452,7 @@ export function Header() {
               </nav>
               <div className="ml-auto md:hidden flex items-center gap-2">
                 <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="icon" className="hover:bg-transparent">
+                  <Button variant="ghost" size="icon" className="hover:bg-transparent focus-visible:bg-transparent">
                     {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                     <span className="sr-only">Toggle navigation menu</span>
                   </Button>
@@ -461,8 +461,7 @@ export function Header() {
           </div>
           <CollapsibleContent asChild>
             <div className={cn(
-              "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down",
-              "md:hidden"
+              "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
               <div className="border-t bg-background">
                 <div className="p-2">
