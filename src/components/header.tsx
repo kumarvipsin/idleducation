@@ -217,24 +217,24 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/', label: t('home'), icon: <HomeIcon className="h-5 w-5" /> },
-    { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" /> },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" /> },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-5 w-5" /> },
+    { href: '/', label: t('home'), icon: <HomeIcon className="h-4 w-4" /> },
+    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
-    { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
-    { href: getProfilePath(user), label: 'Profile', icon: <User className="h-5 w-5" /> },
+    { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+    { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
   ];
 
   const renderMobileAuthSection = () => {
     if (loading) {
         return (
-            <div className="flex items-center gap-3 p-4 border-t">
-                <Skeleton className="h-12 w-12 rounded-full" />
-                <div className="w-full space-y-2">
-                    <Skeleton className="h-4 w-3/4" />
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
                     <Skeleton className="h-3 w-1/2" />
                 </div>
             </div>
@@ -242,20 +242,20 @@ export function Header() {
     }
     if (user) {
       return (
-        <div className="p-4 border-t">
-          <div className="flex items-center gap-3 mb-4 p-2 rounded-md bg-muted/50">
-            <Avatar className="h-12 w-12 border-2 border-primary">
+        <div className="p-2 border-t">
+          <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
+            <Avatar className="h-10 w-10 border-2 border-primary">
               <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
               <AvatarFallback>
                 {user.name ? user.name.charAt(0).toUpperCase() : <User />}
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-semibold">{user.name}</p>
+              <p className="font-semibold text-sm">{user.name}</p>
               <p className="text-xs text-muted-foreground">{user.email}</p>
             </div>
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-1">
             {loggedInNavLinks.map(({ href, label, icon }) => (
               <Link
                 key={href}
@@ -271,7 +271,7 @@ export function Header() {
               onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
               className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-4 w-4" />
               Logout
             </button>
           </div>
@@ -279,7 +279,7 @@ export function Header() {
       );
     }
     return (
-       <div className="border-t p-4">
+       <div className="border-t p-2">
         <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
                 <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -460,8 +460,8 @@ export function Header() {
               "md:hidden"
             )}>
               <div className="border-t bg-background">
-                <div className="p-4">
-                  <nav className="grid gap-2 text-base font-medium">
+                <div className="p-2">
+                  <nav className="grid gap-1 text-base font-medium">
                   {navLinks.map(({ href, label, icon }) => (
                       <Link
                       key={href}
@@ -470,7 +470,7 @@ export function Header() {
                       className={`flex items-center gap-3 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                       >
                       {icon}
-                      <span>{label}</span>
+                      <span className="text-sm">{label}</span>
                       </Link>
                   ))}
                   </nav>
