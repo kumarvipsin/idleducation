@@ -207,6 +207,7 @@ const subjectIcons: { [key: string]: React.ReactNode } = {
 export default function PreviousYearQuestionsPage() {
   const [selectedExam, setSelectedExam] = useState('CBSE Class 10');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [animationKey, setAnimationKey] = useState(0);
   
   const subjects = Array.from(new Set(papersByExam[selectedExam]?.map(p => p.subject))).sort();
   
@@ -224,6 +225,17 @@ export default function PreviousYearQuestionsPage() {
 
   const sortedYears = papersGrouped ? Object.keys(papersGrouped).map(Number).sort((a, b) => b - a) : [];
 
+  const handleExamChange = (exam: string) => {
+    setSelectedExam(exam);
+    setSelectedSubject('');
+    setAnimationKey(prev => prev + 1);
+  };
+  
+  const handleSubjectChange = (subject: string) => {
+    setSelectedSubject(subject);
+    setAnimationKey(prev => prev + 1);
+  };
+
   return (
     <div>
       <div className="mb-6 text-center">
@@ -237,7 +249,7 @@ export default function PreviousYearQuestionsPage() {
             {examCategories.map((examName) => (
                 <button
                 key={examName}
-                onClick={() => { setSelectedExam(examName); setSelectedSubject(''); }}
+                onClick={() => handleExamChange(examName)}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${selectedExam === examName 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
@@ -257,7 +269,7 @@ export default function PreviousYearQuestionsPage() {
                     {subjects.map((subject) => (
                         <button
                         key={subject}
-                        onClick={() => setSelectedSubject(subject)}
+                        onClick={() => handleSubjectChange(subject)}
                         className={`py-1 px-3 whitespace-nowrap text-sm font-medium transition-colors border
                             ${selectedSubject === subject 
                             ? 'border-primary text-primary bg-primary/10 rounded-full' 
@@ -273,9 +285,9 @@ export default function PreviousYearQuestionsPage() {
 
 
       <main className="flex-1">
-          <div className="flex-1">
+          <div className="flex-1" key={animationKey}>
               {selectedSubject && papersGrouped ? (
-                  <Card key={selectedSubject} className="shadow-lg animate-fade-in-up bg-background">
+                  <Card className="shadow-lg animate-fade-in-up bg-background">
                       <CardHeader className="p-4 border-b border-primary/10">
                           <CardTitle className="text-lg font-semibold text-primary flex items-center gap-2">
                             {subjectIcons[selectedSubject]}

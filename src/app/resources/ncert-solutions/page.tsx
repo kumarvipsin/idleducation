@@ -294,8 +294,14 @@ const classes = Object.keys(solutionsByClass);
 
 export default function NcertSolutionsPage() {
   const [selectedClass, setSelectedClass] = useState('Class 10');
+  const [animationKey, setAnimationKey] = useState(0);
 
   const filteredSolutions = solutionsByClass[selectedClass];
+
+  const handleClassChange = (className: string) => {
+    setSelectedClass(className);
+    setAnimationKey(prev => prev + 1);
+  };
 
   return (
     <div>
@@ -310,7 +316,7 @@ export default function NcertSolutionsPage() {
             {classes.map((className) => (
               <button
                 key={className}
-                onClick={() => setSelectedClass(className)}
+                onClick={() => handleClassChange(className)}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${selectedClass === className 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
@@ -324,12 +330,12 @@ export default function NcertSolutionsPage() {
       </div>
 
       <main className="flex-1">
-        <div key={selectedClass} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
           {filteredSolutions && filteredSolutions.length > 0 ? (
             filteredSolutions.map((solution, index) => (
               <Card 
                 key={index} 
-                className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${solution.gradient} animate-fade-in-up`}
+                className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${solution.gradient}`}
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
@@ -347,7 +353,7 @@ export default function NcertSolutionsPage() {
               </Card>
             ))
           ) : (
-             <div className="col-span-full text-center py-12 animate-fade-in-up">
+             <div className="col-span-full text-center py-12">
                 <Card className="p-8 inline-block">
                     <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                     <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
