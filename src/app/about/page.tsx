@@ -31,7 +31,7 @@ export default function AboutPage() {
                   <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
                       <CardContent className="p-0">
                           <Image
-                            src="https://picsum.photos/seed/director/400/500"
+                            src="https://images.unsplash.com/photo-1757873469320-05980cf694be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5kb20lMjBwaG90byUyMG1hbiUyMHRlYWNoZXJ8ZW58MHx8fHwxNzU4MTE4OTc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Director's Photo"
                             data-ai-hint="male director"
                             width={400}
