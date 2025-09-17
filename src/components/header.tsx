@@ -297,7 +297,7 @@ export function Header() {
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <ShoppingCart className="h-3 w-3 mr-1" />
-                <span>CART</span>
+                <span className="md:hidden lg:inline">CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -359,7 +359,6 @@ export function Header() {
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <Bell className="h-3 w-3 mr-1" />
-                <span>UPDATES</span>
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -407,14 +406,14 @@ export function Header() {
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
                               <GraduationCap className="h-4 w-4 mr-1"/>
-                              <span>Apply Scholarship</span>
+                              <span className="md:hidden lg:inline">Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
                             <MessageSquare className="h-4 w-4 mr-1"/>
-                            <span>Feedback</span>
+                            <span className="md:hidden lg:inline">Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
