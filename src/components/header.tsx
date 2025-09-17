@@ -296,8 +296,8 @@ export function Header() {
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <ShoppingCart className="h-3 w-3 mr-1" />
-                <span>CART</span>
+                <ShoppingCart className="h-3 w-3 md:mr-1" />
+                <span className="hidden md:inline">CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -358,8 +358,8 @@ export function Header() {
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <Bell className="h-3 w-3 mr-1" />
-                <span>UPDATES</span>
+                <Bell className="h-3 w-3 md:mr-1" />
+                <span className="hidden md:inline">UPDATES</span>
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -403,18 +403,18 @@ export function Header() {
       <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
           <div className="bg-[#e9ecef] text-black text-xs">
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
-                  <div className={cn("items-center", isMobile ? "flex gap-x-2" : "hidden md:flex md:gap-x-4")}>
+                  <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
-                              <GraduationCap className={cn("mr-1", isMobile ? "h-3 w-3" : "h-4 w-4")}/>
-                              Apply Scholarship
+                              <GraduationCap className={cn("h-4 w-4", isMobile ? "" : "md:mr-1")}/>
+                              <span className={cn(isMobile ? "sr-only" : "")}>Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
-                            <MessageSquare className={cn("mr-1", isMobile ? "h-3 w-3" : "h-4 w-4")}/>
-                            Feedback
+                            <MessageSquare className={cn("h-4 w-4", isMobile ? "" : "md:mr-1")}/>
+                            <span className={cn(isMobile ? "sr-only" : "")}>Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
