@@ -96,7 +96,7 @@ export function AcademicExcellence() {
                 alt="Excellent student results"
                 data-ai-hint="student results success"
                 fill
-                className="object-cover"
+                className="object-cover animate-fade-in-up"
                 />
             </div>
           </div>
