@@ -139,7 +139,7 @@ export default function GalleryPage() {
                             <DialogTrigger asChild key={image.id}>
                                 <div 
                                     className={cn(
-                                        "group relative cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300",
+                                        "group relative cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up",
                                         image.className
                                     )}
                                     style={{ animationDelay: `${index * 50}ms` }}
