@@ -16,43 +16,43 @@ export function ExpertTeam() {
         name: t('team.member5.name'),
         designation: t('team.member5.designation'),
         experience: t('team.member5.experience'),
-        avatar: "/vijay.jpg",
-        avatarHint: "Vijay Verma"
+        avatar: "https://picsum.photos/seed/member1/400/500",
+        avatarHint: "male professional"
     },
     {
         name: t('team.member2.name'),
         designation: t('team.member2.designation'),
         experience: t('team.member2.experience'),
-        avatar: "/manish.jpg",
-        avatarHint: "Manish Sharma"
+        avatar: "https://picsum.photos/seed/member2/400/500",
+        avatarHint: "male teacher"
     },
     {
         name: t('team.member4.name'),
         designation: t('team.member4.designation'),
         experience: t('team.member4.experience'),
-        avatar: "/vidhi.jpg",
-        avatarHint: "Vidhi Sharma"
+        avatar: "https://picsum.photos/seed/member3/400/500",
+        avatarHint: "female teacher"
     },
     {
         name: t('team.member3.name'),
         designation: t('team.member3.designation'),
         experience: t('team.member3.experience'),
-        avatar: "/chandu.jpg",
-        avatarHint: "Chandra Prakash"
+        avatar: "https://picsum.photos/seed/member4/400/500",
+        avatarHint: "male professional"
     },
     {
         name: t('team.member1.name'),
         designation: t('team.member1.designation'),
         experience: t('team.member1.experience'),
-        avatar: "/amod.jpg",
-        avatarHint: "Amod Sharma"
+        avatar: "https://picsum.photos/seed/member5/400/500",
+        avatarHint: "male teacher"
     },
     {
         name: t('team.member6.name'),
         designation: t('team.member6.designation'),
         experience: t('team.member6.experience'),
-        avatar: "/vikash.jpg",
-        avatarHint: "Vikas Kumar"
+        avatar: "https://picsum.photos/seed/member6/400/500",
+        avatarHint: "male teacher"
     },
     {
         name: "Nikhil Sharma",
