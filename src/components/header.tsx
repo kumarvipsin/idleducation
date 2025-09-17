@@ -25,6 +25,7 @@ import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Update {
   id: string;
@@ -67,6 +68,7 @@ export function Header() {
   const [cartItems, setCartItems] = useState(initialCartItems);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -390,23 +392,28 @@ export function Header() {
         </DropdownMenuContent>
     </DropdownMenu>
   );
+  
+  // Prevent hydration errors by not rendering the top bar on the server
+  if (isMobile === undefined) {
+    return null;
+  }
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
           <div className="bg-[#e9ecef] text-black text-xs">
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
-                  <div className="flex items-center gap-x-2 sm:gap-x-4">
+                  <div className={cn("items-center", isMobile ? "flex gap-x-2" : "hidden md:flex md:gap-x-4")}>
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
-                              <GraduationCap className="h-4 w-4 mr-1"/>
+                              <GraduationCap className={cn("mr-1", isMobile ? "h-3 w-3" : "h-4 w-4")}/>
                               Apply Scholarship
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
-                            <MessageSquare className="h-4 w-4 mr-1"/>
+                            <MessageSquare className={cn("mr-1", isMobile ? "h-3 w-3" : "h-4 w-4")}/>
                             Feedback
                         </Link>
                       </Button>
