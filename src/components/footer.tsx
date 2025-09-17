@@ -108,16 +108,19 @@ export function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="border-t border-border mt-8 pt-4 flex flex-col sm:flex-row justify-between items-center text-xs">
-                <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
-                <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
-                    <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
-                    Terms of Service
-                    </Link>
-                    <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
-                    Privacy
-                    </Link>
-                </nav>
+            <div className="relative mt-8 pt-4">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
+                <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
+                    <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
+                    <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
+                        <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
+                        Terms of Service
+                        </Link>
+                        <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
+                        Privacy
+                        </Link>
+                    </nav>
+                </div>
             </div>
         </div>
     </footer>
