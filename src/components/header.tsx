@@ -1,9 +1,8 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
@@ -24,6 +23,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { cn } from "@/lib/utils";
 
 interface Update {
   id: string;
@@ -391,95 +392,94 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
-        <div className="bg-[#e9ecef] text-black text-xs">
-            <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                <div className="flex items-center gap-2">
-                    {/* Intentionally left blank for right alignment */}
-                </div>
-                 <div className="flex items-center gap-4">
-                    <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                        <Link href="/scholarship" className="flex items-center gap-1">
-                            <GraduationCap className="h-3 w-3"/>
-                            Apply Scholarship
-                        </Link>
-                    </Button>
-                    <Separator orientation="vertical" className="h-4 bg-black/20" />
-                    {cartDropdown}
-                    <Separator orientation="vertical" className="h-4 bg-black/20" />
-                    {notificationDropdown}
-                </div>
-            </div>
-        </div>
-        <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-            <Link href={logoHref} className="flex items-center justify-center">
-              <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
-              <div className="ml-2 flex flex-col leading-tight">
-                  <span className="text-lg font-semibold">
-                      {brandName.split('').map((char, index) => (
-                      <span
-                          key={index}
-                          className="animate-fade-in-up"
-                          style={{ animationDelay: `${index * 0.05}s` }}
-                      >
-                          {char}
-                      </span>
-                      ))}
-                  </span>
-                  <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
-                    Institute of Distance Learning Pvt. Ltd.
-                  </span>
+    <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+      <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
+          <div className="bg-[#e9ecef] text-black text-xs">
+              <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
+                  <div className="flex items-center gap-2">
+                      {/* Intentionally left blank for right alignment */}
+                  </div>
+                  <div className="flex items-center gap-4">
+                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
+                          <Link href="/scholarship" className="flex items-center gap-1">
+                              <GraduationCap className="h-3 w-3"/>
+                              Apply Scholarship
+                          </Link>
+                      </Button>
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
+                      {cartDropdown}
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
+                      {notificationDropdown}
+                  </div>
               </div>
-            </Link>
-            <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                {navLinks.map(({ href, label }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
-                  >
-                    {label}
-                  </Link>
-                ))}
-            {renderAuthSection()}
-            </nav>
-            <div className="ml-auto md:hidden flex items-center gap-2">
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle navigation menu</span>
-                </Button>
-                </SheetTrigger>
-                <SheetContent side="top" className="w-full p-0 flex flex-col bg-white dark:bg-background h-auto">
-                    <SheetHeader className="p-4 border-b">
-                        <SheetTitle>Menu</SheetTitle>
-                    </SheetHeader>
-                    <div className="overflow-y-auto flex-grow">
-                        <div className="p-4">
-                        <nav className="grid gap-2 text-base font-medium">
-                        {navLinks.map(({ href, label, icon }) => (
-                            <Link
-                            key={href}
-                            href={href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center gap-3 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-                            >
-                            {icon}
-                            <span>{label}</span>
-                            </Link>
+          </div>
+          <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
+              <Link href={logoHref} className="flex items-center justify-center">
+                <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto filter hue-rotate-15 saturate-150" />
+                <div className="ml-2 flex flex-col leading-tight">
+                    <span className="text-lg font-semibold">
+                        {brandName.split('').map((char, index) => (
+                        <span
+                            key={index}
+                            className="animate-fade-in-up"
+                            style={{ animationDelay: `${index * 0.05}s` }}
+                        >
+                            {char}
+                        </span>
                         ))}
-                        </nav>
-                    </div>
-                  </div>
-
-                  <div className="mt-auto shrink-0">
-                    {renderMobileAuthSection()}
-                  </div>
-                </SheetContent>
-            </Sheet>
+                    </span>
+                    <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
+                      Institute of Distance Learning Pvt. Ltd.
+                    </span>
+                </div>
+              </Link>
+              <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
+                  {navLinks.map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+              {renderAuthSection()}
+              </nav>
+              <div className="ml-auto md:hidden flex items-center gap-2">
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    <span className="sr-only">Toggle navigation menu</span>
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+          </div>
+          <CollapsibleContent asChild>
+            <div className={cn(
+              "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down",
+              "md:hidden"
+            )}>
+              <div className="border-t bg-background">
+                <div className="p-4">
+                  <nav className="grid gap-2 text-base font-medium">
+                  {navLinks.map(({ href, label, icon }) => (
+                      <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-2.5 py-2 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+                      >
+                      {icon}
+                      <span>{label}</span>
+                      </Link>
+                  ))}
+                  </nav>
+                </div>
+                {renderMobileAuthSection()}
+              </div>
             </div>
-        </div>
-    </header>
+          </CollapsibleContent>
+      </header>
+    </Collapsible>
   );
 }
