@@ -65,18 +65,16 @@ export default function AboutPage() {
           </div>
         </section>
         
-        <Separator className="my-12 md:my-20" />
-        
-        <section className="mb-12 md:mb-20">
-          <div className="text-center mb-12">
+        <section className="py-12 md:py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl">
+          <div className="text-center mb-12 px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Core Values</h2>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
               We are driven by a set of core values that define our mission and guide our approach to education.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 md:px-8">
             {combinedValues.map((item, index) => (
-              <Card key={index} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group">
+              <Card key={index} className="bg-background/80 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up border-primary/10 group backdrop-blur-sm">
                 <CardContent className="p-6 flex flex-col items-center text-center">
                     <div className="p-4 bg-background rounded-full mb-4 border shadow-inner transition-transform duration-300 group-hover:scale-110">
                         {item.icon}
@@ -88,10 +86,8 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
-
-        <Separator className="my-8 md:my-12" />
         
-        <section className="animate-fade-in-up" style={{ animationDelay: '1s' }}>
+        <section className="animate-fade-in-up mt-12 md:mt-20" style={{ animationDelay: '1s' }}>
             <ExpertTeam />
         </section>
 
