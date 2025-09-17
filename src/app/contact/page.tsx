@@ -357,28 +357,28 @@ export default function ContactPage() {
   
   const contactInfo = [
     {
-        icon: <Phone className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
+        icon: <Phone className="w-6 h-6 text-primary" />,
         title: "For Admission Enquiry",
         details: [
             { type: 'phone', value: '+91 7011117585' },
         ],
     },
     {
-        icon: <Headset className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
+        icon: <Headset className="w-6 h-6 text-primary" />,
         title: "For Enrolled Students",
         details: [
             { type: 'phone', value: '011 45035713' },
         ],
     },
     {
-        icon: <Mail className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
+        icon: <Mail className="w-6 h-6 text-primary" />,
         title: "Email",
         details: [
             { type: 'email', value: 'info@idleducation.in' },
         ],
     },
     {
-        icon: <Building className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />,
+        icon: <Building className="w-6 h-6 text-primary" />,
         title: "Local Head Office",
         details: [
             { type: 'text', value: 'E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086' },
@@ -530,37 +530,29 @@ export default function ContactPage() {
         </div>
 
         <section className="md:mx-[10%]">
-          <Card className="shadow-lg">
-            <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                  {contactInfo.map((info, index) => (
-                    <div key={index} className="flex items-start gap-4 group">
-                      <div className="p-3 bg-primary/10 rounded-full transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
-                        {info.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold">{info.title}</h3>
-                        <div className="text-sm text-muted-foreground mt-1">
-                          {info.details.map((detail, i) => {
-                                if (detail.type === 'phone') {
-                                    return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                }
-                                if (detail.type === 'email') {
-                                    return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                }
-                                if (detail.type === 'dialog') {
-                                    return <DialogTrigger asChild key={i}><Button variant="link" className="text-primary p-0 h-auto">Raise a Ticket</Button></DialogTrigger>
-                                }
-                                return <p key={i}>{detail.value}</p>
-                            })}
-                        </div>
-                      </div>
-                      {index % 2 === 0 && <Separator orientation="vertical" className="h-full hidden md:block" />}
-                    </div>
-                  ))}
-                </div>
-            </CardContent>
-          </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {contactInfo.map((info, index) => (
+                    <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <CardContent className="p-6 flex flex-col items-center text-center">
+                            <div className="p-4 bg-primary/10 rounded-full mb-4">
+                                {info.icon}
+                            </div>
+                            <h3 className="font-bold text-lg mb-2 text-foreground">{info.title}</h3>
+                            <div className="text-muted-foreground">
+                                {info.details.map((detail, i) => {
+                                    if (detail.type === 'phone') {
+                                        return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
+                                    }
+                                    if (detail.type === 'email') {
+                                        return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
+                                    }
+                                    return <p key={i}>{detail.value}</p>
+                                })}
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
         </section>
 
         </div>
