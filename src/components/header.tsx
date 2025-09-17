@@ -296,8 +296,8 @@ export function Header() {
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <ShoppingCart className="h-3 w-3 md:mr-1" />
-                <span className="hidden md:inline">CART</span>
+                <ShoppingCart className="h-3 w-3 mr-1" />
+                <span>CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -358,8 +358,8 @@ export function Header() {
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <Bell className="h-3 w-3 md:mr-1" />
-                <span className="hidden md:inline">UPDATES</span>
+                <Bell className="h-3 w-3 mr-1" />
+                <span>UPDATES</span>
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -406,15 +406,15 @@ export function Header() {
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
-                              <GraduationCap className={cn("h-4 w-4", isMobile ? "" : "md:mr-1")}/>
-                              <span className={cn(isMobile ? "sr-only" : "")}>Apply Scholarship</span>
+                              <GraduationCap className="h-4 w-4 mr-1"/>
+                              <span>Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
-                            <MessageSquare className={cn("h-4 w-4", isMobile ? "" : "md:mr-1")}/>
-                            <span className={cn(isMobile ? "sr-only" : "")}>Feedback</span>
+                            <MessageSquare className="h-4 w-4 mr-1"/>
+                            <span>Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
