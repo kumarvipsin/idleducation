@@ -364,17 +364,17 @@ export default function ContactPage() {
         ],
     },
     {
-        icon: <Headset className="w-6 h-6 text-primary" />,
-        title: "For Enrolled Students",
-        details: [
-            { type: 'phone', value: '011 45035713' },
-        ],
-    },
-    {
         icon: <Mail className="w-6 h-6 text-primary" />,
         title: "Email",
         details: [
             { type: 'email', value: 'info@idleducation.in' },
+        ],
+    },
+    {
+        icon: <Headset className="w-6 h-6 text-primary" />,
+        title: "For Enrolled Students",
+        details: [
+            { type: 'phone', value: '011 45035713' },
         ],
     },
     {
@@ -532,22 +532,24 @@ export default function ContactPage() {
         <section className="md:mx-[10%]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {contactInfo.map((info, index) => (
-                    <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardContent className="p-6 flex flex-col items-center text-center">
-                            <div className="p-4 bg-primary/10 rounded-full mb-4">
+                    <Card key={index} className="shadow-lg hover:shadow-xl transition-shadow duration-300 group">
+                        <CardContent className="p-6 flex items-start gap-4">
+                            <div className="p-3 bg-primary/10 rounded-full transition-all duration-300 group-hover:bg-primary group-hover:scale-110">
                                 {info.icon}
                             </div>
-                            <h3 className="font-bold text-lg mb-2 text-foreground">{info.title}</h3>
-                            <div className="text-muted-foreground">
-                                {info.details.map((detail, i) => {
-                                    if (detail.type === 'phone') {
-                                        return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                    }
-                                    if (detail.type === 'email') {
-                                        return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
-                                    }
-                                    return <p key={i}>{detail.value}</p>
-                                })}
+                            <div className="flex-1">
+                                <h3 className="font-bold text-lg text-foreground">{info.title}</h3>
+                                <div className="text-muted-foreground mt-1">
+                                    {info.details.map((detail, i) => {
+                                        if (detail.type === 'phone') {
+                                            return <a key={i} href={`tel:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
+                                        }
+                                        if (detail.type === 'email') {
+                                            return <a key={i} href={`mailto:${detail.value}`} className="block hover:text-primary hover:underline">{detail.value}</a>
+                                        }
+                                        return <p key={i}>{detail.value}</p>
+                                    })}
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
