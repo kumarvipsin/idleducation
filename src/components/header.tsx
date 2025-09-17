@@ -413,7 +413,6 @@ export function Header() {
   }
 
   return (
-    <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
           <div className="bg-[#e9ecef] text-black text-xs">
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
@@ -471,19 +470,14 @@ export function Header() {
               {renderAuthSection()}
               </nav>
               <div className="ml-auto md:hidden flex items-center gap-2">
-                <CollapsibleTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Menu className="h-5 w-5" />
+                <Button variant="outline" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                     <span className="sr-only">Toggle navigation menu</span>
-                  </Button>
-                </CollapsibleTrigger>
+                </Button>
               </div>
           </div>
-          <CollapsibleContent asChild>
-            <div className={cn(
-              "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
-            )}>
-              <div className="border-t bg-background">
+          {isMobileMenuOpen && isMobile && (
+             <div className="md:hidden border-t bg-background">
                 <div className="p-2">
                   <nav className="grid gap-1 text-base font-medium">
                   {navLinks.map(({ href, label, icon }) => (
@@ -501,9 +495,7 @@ export function Header() {
                 </div>
                 {renderMobileAuthSection()}
               </div>
-            </div>
-          </CollapsibleContent>
+          )}
       </header>
-    </Collapsible>
   );
 }
