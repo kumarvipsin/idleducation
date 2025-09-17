@@ -67,7 +67,7 @@ export default function AboutPage() {
           </div>
         </section>
         
-        <section className="py-12 md:py-20">
+        <section className="py-12 md:py-20 bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
           <div className="text-center mb-12 px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Core Values</h2>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
