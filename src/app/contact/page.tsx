@@ -512,10 +512,7 @@ export default function ContactPage() {
 
         <section className="md:mx-[10%]">
           <Card className="shadow-lg">
-            <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {contactDetails.map((item, index) => (
                         <div key={index} className="flex items-start gap-4">
