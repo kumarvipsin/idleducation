@@ -401,14 +401,14 @@ export function Header() {
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
                               <GraduationCap className="h-4 w-4 mr-1"/>
-                              <span>Apply Scholarship</span>
+                              <span className="hidden sm:inline">Apply Scholarship</span>
                           </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
                       <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
                             <MessageSquare className="h-4 w-4 mr-1"/>
-                            <span>Feedback</span>
+                            <span className="hidden sm:inline">Feedback</span>
                         </Link>
                       </Button>
                       <Separator orientation="vertical" className="h-4 bg-black/20" />
@@ -452,7 +452,7 @@ export function Header() {
               </nav>
               <div className="ml-auto md:hidden flex items-center gap-2">
                 <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="icon">
+                  <Button variant="ghost" size="icon" className="hover:bg-transparent">
                     {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                     <span className="sr-only">Toggle navigation menu</span>
                   </Button>
