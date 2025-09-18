@@ -15,24 +15,24 @@ export function Footer() {
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
                             <Separator className="my-3 bg-gray-700"/>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Mangol Puri, Delhi-110083</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Budh Vihar, Delhi-110086</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Burari, Delhi-110084</span>
                             </li>
                         </ul>
@@ -45,15 +45,15 @@ export function Footer() {
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                              <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-primary" />
+                                <Phone className="h-4 w-4 shrink-0 text-white" />
                                 <a href="tel:01145035713" className="hover:underline hover:text-primary">011 45035713</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-primary" />
+                                <Phone className="h-4 w-4 shrink-0 text-white" />
                                 <a href="tel:+917011117585" className="hover:underline hover:text-primary">+91 7011117585</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0 text-primary" />
+                                <Mail className="h-4 w-4 shrink-0 text-white" />
                                 <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
                             </li>
                         </ul>
