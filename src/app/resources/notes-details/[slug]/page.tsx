@@ -606,7 +606,7 @@ function NotesContent({ slug }: { slug: string }) {
 }
 
 export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
-    const slug = use(Promise.resolve(params.slug));
+    const { slug } = use(Promise.resolve(params));
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <NotesContent slug={slug} />
