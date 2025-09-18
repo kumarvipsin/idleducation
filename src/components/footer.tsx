@@ -12,8 +12,8 @@ export function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-foreground">Our Branch</h3>
-                    <div className="bg-background/50 p-4 rounded-md border">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground border-b-2 border-primary pb-2 inline-block">Our Branch</h3>
+                    <div className="bg-background/50 p-4 rounded-md border mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
@@ -42,8 +42,8 @@ export function Footer() {
 
                 {/* Column 2: Connect With Us */}
                 <div className="relative">
-                    <h3 className="text-lg font-semibold mb-4 text-foreground">Connect With Us</h3>
-                    <div className="bg-background/50 p-4 rounded-md border">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground border-b-2 border-primary pb-2 inline-block">Connect With Us</h3>
+                    <div className="bg-background/50 p-4 rounded-md border mt-4">
                         <ul className="space-y-3 text-sm">
                              <li className="flex items-center justify-start gap-3">
                                 <Phone className="h-4 w-4 shrink-0 text-primary" />
@@ -63,8 +63,8 @@ export function Footer() {
 
                 {/* Column 3: Social Media */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-foreground">Social Media</h3>
-                    <div className="flex items-center justify-start gap-4">
+                    <h3 className="text-lg font-semibold mb-4 text-foreground border-b-2 border-primary pb-2 inline-block">Social Media</h3>
+                    <div className="flex items-center justify-start gap-4 mt-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-background/50 hover:bg-muted/80 text-foreground" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
