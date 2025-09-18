@@ -32,7 +32,6 @@ const class5EnglishResources = {
 };
 
 export default function Class5EnglishPage() {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = class5EnglishResources.books.flatMap(book => book.chapters);

@@ -99,6 +99,7 @@ const class7SocialResources = {
 
 export default function Class7SocialPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+  const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = class7SocialResources.books
@@ -107,9 +108,20 @@ export default function Class7SocialPage() {
     
   const contents = (
     <div>
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+        <div className="flex justify-between items-center mb-4 lg:hidden">
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+            <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+                className="rounded-full bg-background/50 border"
+            >
+                <Languages className="w-5 h-5" />
+                <span className="sr-only">Toggle Language</span>
+            </Button>
+        </div>
         <div className="space-y-4 md:space-y-6">
-        {class7SocialResources.books.map((book, bookIndex) => (
+        {class7SocialResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
             <div key={bookIndex}>
             <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
             <div className="space-y-2">
@@ -187,7 +199,18 @@ export default function Class7SocialPage() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
               <div className="lg:col-span-1">
-                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+                        className="rounded-full bg-background/50 border"
+                    >
+                        <Languages className="w-5 h-5" />
+                        <span className="sr-only">Toggle Language</span>
+                    </Button>
+                </div>
                 {contents}
               </div>
               <div className="lg:col-span-1">

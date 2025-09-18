@@ -36,7 +36,6 @@ const class7EnglishResources = {
 };
 
 export default function Class7EnglishPage() {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = class7EnglishResources.books.flatMap(book => book.chapters);

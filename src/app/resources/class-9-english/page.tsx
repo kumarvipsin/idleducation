@@ -34,7 +34,6 @@ const class9EnglishResources = {
 };
 
 export default function Class9EnglishPage() {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = class9EnglishResources.books.flatMap(book => book.chapters);
