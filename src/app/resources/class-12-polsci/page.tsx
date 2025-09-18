@@ -88,7 +88,7 @@ export default function PoliticalScienceDetailsPage() {
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
             className="text-xs px-2 py-1 h-auto"
         >
-            <Languages className="w-4 h-4 mr-2" />
+            
             {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
         </Button>
       </div>
@@ -122,7 +122,7 @@ export default function PoliticalScienceDetailsPage() {
                 onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
                 className="text-xs px-2 py-1 h-auto"
             >
-                <Languages className="w-4 h-4 mr-2" />
+                
                 {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
             </Button>
       </div>
@@ -179,7 +179,7 @@ export default function PoliticalScienceDetailsPage() {
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
                         className="text-xs px-2 py-1 h-auto"
                     >
-                        <Languages className="w-4 h-4 mr-2" />
+                        
                         {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
                     </Button>
                 </div>
