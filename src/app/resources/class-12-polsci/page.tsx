@@ -71,6 +71,7 @@ const politicalScienceResources = {
 
 export default function PoliticalScienceDetailsPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+  const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = politicalScienceResources.books
@@ -79,9 +80,23 @@ export default function PoliticalScienceDetailsPage() {
     
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+      <div className="flex justify-between items-center mb-4 lg:hidden">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+        <div className="flex items-center border rounded-md p-1 bg-background/50">
+            <button 
+                onClick={() => setContentsLang('en')}
+                className={cn("px-2 py-1 text-xs rounded-sm", contentsLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                EN
+            </button>
+            <button 
+                onClick={() => setContentsLang('hi')}
+                className={cn("px-2 py-1 text-xs rounded-sm", contentsLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                HI
+            </button>
+        </div>
+      </div>
       <div className="space-y-4 md:space-y-6">
-        {politicalScienceResources.books.map((book, bookIndex) => (
+        {politicalScienceResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
             <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
             <div className="space-y-2">
@@ -136,7 +151,7 @@ export default function PoliticalScienceDetailsPage() {
       </div>
     </div>
   );
-
+  
   return (
     <Card className="shadow-lg overflow-hidden">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
@@ -162,7 +177,21 @@ export default function PoliticalScienceDetailsPage() {
         ) : (
            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
               <div className="lg:col-span-3">
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                    <div className="flex items-center border rounded-md p-1 bg-background/50">
+                        <button 
+                            onClick={() => setContentsLang('en')}
+                            className={cn("px-2 py-1 text-xs rounded-sm", contentsLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                            EN
+                        </button>
+                        <button 
+                            onClick={() => setContentsLang('hi')}
+                            className={cn("px-2 py-1 text-xs rounded-sm", contentsLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
+                            HI
+                        </button>
+                    </div>
+                </div>
               {contents}
               </div>
               <div className="lg:col-span-2">
