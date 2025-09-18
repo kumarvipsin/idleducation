@@ -18,7 +18,7 @@ export function Footer() {
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
-                            <Separator className="my-3 bg-gray-700" />
+                            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
                              <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
