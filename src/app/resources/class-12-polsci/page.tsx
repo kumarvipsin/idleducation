@@ -156,21 +156,21 @@ export default function PoliticalScienceDetailsPage() {
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden border-t-8 border-primary rounded-t-lg">
-      <CardHeader>
+    <Card className="shadow-lg overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
         <div className="flex items-center gap-4">
-          <div className="bg-primary/10 p-3 rounded-full">
-            <BookOpen className="w-6 h-6 text-primary" />
+          <div className="bg-white/20 p-3 rounded-full">
+            <BookOpen className="w-6 h-6" />
           </div>
           <div>
             <CardTitle className="text-2xl font-bold">Class 12 | Political Science</CardTitle>
           </div>
         </div>
-      </CardHeader>
+      </div>
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
+            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
               <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
               <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
