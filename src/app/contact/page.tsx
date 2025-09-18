@@ -111,79 +111,78 @@ export default function ContactPage() {
                         </div>
                     </div>
                   ))}
-              </div>
-
-              <div className="pt-4 border-t mt-8">
-                {showSupportForm ? (
-                  <div className="p-4 border rounded-lg bg-muted/30">
-                     <h3 className="text-sm font-semibold mb-2">Submit a Support Ticket</h3>
-                     <p className="text-xs text-muted-foreground mb-3">Please describe your issue, and our support team will get back to you shortly.</p>
-                     <Form {...supportForm}>
-                        <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-3">
-                            <FormField
-                                control={supportForm.control}
-                                name="studentName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <User className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                                                <Input placeholder="Your full name" {...field} className="pl-7 h-9 text-xs" />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={supportForm.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                          <div className="relative">
-                                            <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                                            <Input type="email" placeholder="Your email address" {...field} className="pl-7 h-9 text-xs" />
-                                          </div>
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={supportForm.control}
-                                name="problem"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                          <div className="relative">
-                                            <Edit className="absolute left-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
-                                            <Textarea placeholder="Describe your issue..." {...field} className="pl-7 text-xs" />
-                                          </div>
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>
-                                )}
-                            />
-                            <div className="flex gap-2">
-                                <Button type="submit" size="sm" className="flex-1" disabled={supportForm.formState.isSubmitting}>
-                                    {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
-                                </Button>
-                                <Button type="button" variant="outline" size="sm" onClick={() => setShowSupportForm(false)}>Cancel</Button>
-                            </div>
-                        </form>
-                    </Form>
+                  <div className="pt-4 border-t">
+                    {showSupportForm ? (
+                      <div className="p-4 border rounded-lg bg-muted/30">
+                         <h3 className="text-sm font-semibold mb-2">Submit a Support Ticket</h3>
+                         <p className="text-xs text-muted-foreground mb-3">Please describe your issue, and our support team will get back to you shortly.</p>
+                         <Form {...supportForm}>
+                            <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-3">
+                                <FormField
+                                    control={supportForm.control}
+                                    name="studentName"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <User className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                                                    <Input placeholder="Your full name" {...field} className="pl-7 h-9 text-xs" />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={supportForm.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                              <div className="relative">
+                                                <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                                                <Input type="email" placeholder="Your email address" {...field} className="pl-7 h-9 text-xs" />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={supportForm.control}
+                                    name="problem"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                              <div className="relative">
+                                                <Edit className="absolute left-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
+                                                <Textarea placeholder="Describe your issue..." {...field} className="pl-7 text-xs" />
+                                              </div>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <div className="flex gap-2">
+                                    <Button type="submit" size="sm" className="flex-1" disabled={supportForm.formState.isSubmitting}>
+                                        {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+                                    </Button>
+                                    <Button type="button" variant="outline" size="sm" onClick={() => setShowSupportForm(false)}>Cancel</Button>
+                                </div>
+                            </form>
+                        </Form>
+                      </div>
+                    ) : (
+                      <div>
+                          <h3 className="text-sm font-semibold mb-1">Technical Support</h3>
+                          <p className="text-xs text-muted-foreground mb-3">Are you an enrolled student facing a technical issue? Please raise a support ticket.</p>
+                          <Button variant="outline" size="sm" onClick={() => setShowSupportForm(true)}>
+                              <Headset className="mr-2 h-4 w-4"/>
+                              Raise a Support Ticket
+                          </Button>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div>
-                      <h3 className="text-sm font-semibold mb-1">Technical Support</h3>
-                      <p className="text-xs text-muted-foreground mb-3">Are you an enrolled student facing a technical issue? Please raise a support ticket.</p>
-                      <Button variant="outline" size="sm" onClick={() => setShowSupportForm(true)}>
-                          <Headset className="mr-2 h-4 w-4"/>
-                          Raise a Support Ticket
-                      </Button>
-                  </div>
-                )}
               </div>
             </div>
 
