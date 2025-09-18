@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-[#e9ecef] dark:bg-[#1a202c] text-secondary-foreground">
+    <footer className="bg-white dark:bg-background text-secondary-foreground">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="relative mb-8 pb-4">
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
