@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  countryCode: z.string(),
   phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
   message: z.string().optional(),
 });
@@ -354,18 +355,18 @@ export default function ContactPage() {
               
               <div className="space-y-6">
                   {contactDetails.map((item, index) => (
-                      <div key={index} className="flex items-start gap-4">
-                          <div className="p-3 bg-primary/10 text-primary rounded-full">
-                              <item.icon className="w-5 h-5" />
-                          </div>
-                          <div>
-                              <h4 className="font-semibold text-foreground">{item.label}</h4>
-                              <a href={item.href} className="text-muted-foreground hover:text-primary hover:underline">{item.value}</a>
-                          </div>
-                      </div>
+                    <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-muted/30">
+                        <div className="p-3 bg-primary/10 text-primary rounded-full">
+                            <item.icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <h4 className="font-semibold text-foreground">{item.label}</h4>
+                            <a href={item.href} className="text-muted-foreground hover:text-primary hover:underline">{item.value}</a>
+                        </div>
+                    </div>
                   ))}
-                  <Separator />
-                  <div className="flex items-start gap-4">
+                  
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30">
                       <div className="p-3 bg-primary/10 text-primary rounded-full">
                           <officeLocation.icon className="w-5 h-5" />
                       </div>
