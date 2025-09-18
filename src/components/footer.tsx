@@ -16,7 +16,7 @@ export function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
-                                <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
+                                <span><strong className="font-semibold text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
                             <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
                              <li className="flex items-start justify-start gap-3">
