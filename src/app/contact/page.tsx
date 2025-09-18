@@ -401,7 +401,7 @@ export default function ContactPage() {
               <div className="pt-2">
                 {showSupportForm ? (
                   <div className="p-4 border rounded-lg bg-muted/30">
-                     <h3 className="text-base font-semibold mb-2">Submit a Support Ticket</h3>
+                     <h3 className="text-sm font-semibold mb-2">Submit a Support Ticket</h3>
                      <p className="text-xs text-muted-foreground mb-3">Please describe your issue, and our support team will get back to you shortly.</p>
                      <Form {...supportForm}>
                         <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-3">
@@ -472,7 +472,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-8 md:w-3/5 border rounded-lg">
+            <div className="p-8 md:w-3/5 border rounded-lg m-[5%]">
               <Form {...contactForm}>
                 <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
                   <FormField
