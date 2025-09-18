@@ -45,7 +45,7 @@ const class11PolSciResources = {
       ],
     },
     {
-      name: "भारत का संविधान: सिद्धांत और व्यवहार (विषय सूचि)",
+      name: "भारत का संविधान: सिद्धांत और व्यवहार",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: संविधान: क्यों और कैसे?", slug: "constitution-why-and-how" },
@@ -61,7 +61,7 @@ const class11PolSciResources = {
       ],
     },
     {
-      name: "राजनीतिक सिद्धांत (विषय सूचि)",
+      name: "राजनीतिक सिद्धांत",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: राजनीतिक सिद्धांत: एक परिचय", slug: "political-theory-an-introduction" },
@@ -93,19 +93,19 @@ export default function Class11PolSciPage() {
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
         <Button 
-            variant="outline" 
-            size="sm" 
+            variant="ghost" 
+            size="icon" 
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="text-xs"
+            className="rounded-full bg-background/50 border"
         >
-            <Languages className="w-4 h-4 mr-2" />
-            {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+            <Languages className="w-5 h-5" />
+            <span className="sr-only">Toggle Language</span>
         </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
         {class11PolSciResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -127,75 +127,84 @@ export default function Class11PolSciPage() {
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
           <Button 
-              variant="outline" 
-              size="sm" 
+              variant="ghost" 
+              size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="text-xs"
+              className="rounded-full bg-background/50 border"
           >
-              <Languages className="w-4 h-4 mr-2" />
-              {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+              <Languages className="w-5 h-5" />
+              <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-2">
-        {allChapters.map((chapter, index) => (
-          <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
-              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-              <div className="flex items-center gap-1 md:gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                  </Button>
+       <div className="space-y-4">
+        {class11PolSciResources.books
+          .filter(book => book.lang === notesLang)
+          .map((book, bookIndex) => (
+            <div key={bookIndex}>
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                  <Card key={index} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                    <div className="flex items-center justify-between p-3 md:p-4 group">
+                      <p className="font-medium text-sm md:text-base flex-1 pr-2 text-foreground/90">{chapter.name}</p>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#">View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                          </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
       </div>
     </div>
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-blue-700">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 11 | Political Science</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Political Science</CardTitle>
           </div>
         </div>
       </div>
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 rounded-full">
-              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
                   <Button 
-                      variant="outline" 
-                      size="sm" 
+                      variant="ghost" 
+                      size="icon"
                       onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                      className="text-xs"
+                      className="rounded-full bg-background/50 border"
                   >
-                      <Languages className="w-4 h-4 mr-2" />
-                      {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+                      <Languages className="w-5 h-5" />
+                         <span className="sr-only">Toggle Language</span>
                   </Button>
               </div>
               {contents}
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               {primumNotes}
             </div>
           </div>
