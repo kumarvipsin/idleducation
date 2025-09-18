@@ -85,7 +85,7 @@ export default function AboutPage() {
                           {item.icon}
                         </div>
                       </div>
-                      <h3 className="text-2xl font-bold text-primary mb-2">{item.title}</h3>
+                      <h3 className="text-2xl font-bold text-foreground mb-2">{item.title}</h3>
                       <p className="text-foreground/80 leading-relaxed">{item.description}</p>
                   </CardContent>
               </Card>
