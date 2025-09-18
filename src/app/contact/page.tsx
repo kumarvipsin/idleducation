@@ -400,19 +400,19 @@ export default function ContactPage() {
                     </div>
                 </div>
 
-                <div className="pt-4 border-t">
-                  <h3 className="text-lg font-semibold mb-2">Technical Support</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Are you an enrolled student facing a technical issue? Please raise a support ticket.</p>
-                  <DialogTrigger asChild>
-                      <Button variant="outline">
-                          <Headset className="mr-2 h-4 w-4"/>
-                          Raise a Support Ticket
-                      </Button>
-                  </DialogTrigger>
+                <div className="pt-2">
+                    <h3 className="text-base font-semibold mb-1">Technical Support</h3>
+                    <p className="text-xs text-muted-foreground mb-3">Are you an enrolled student facing a technical issue? Please raise a support ticket.</p>
+                    <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                            <Headset className="mr-2 h-4 w-4"/>
+                            Raise a Support Ticket
+                        </Button>
+                    </DialogTrigger>
                 </div>
               </div>
 
-              <div className="p-8 md:w-3/5 border rounded-lg m-2">
+              <div className="p-8 md:w-3/5">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
                     <FormField
