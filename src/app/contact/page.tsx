@@ -412,8 +412,6 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="w-px bg-gradient-to-b from-transparent via-border to-transparent hidden md:block" />
-
               <div className="p-8 md:w-1/2 border rounded-lg m-2">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
