@@ -40,7 +40,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "समकालीन विश्व राजनीति (विषय सूचि)",
+      name: "समकालीन विश्व राजनीति",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
@@ -53,7 +53,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "स्वतंत्र भारत में राजनीति (विषय सूचि)",
+      name: "स्वतंत्र भारत में राजनीति",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
