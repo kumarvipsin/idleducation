@@ -7,13 +7,13 @@ import Link from "next/link";
 
 const resources = [
   {
-    icon: <FileText className="w-8 h-8 text-violet-500" />,
+    icon: <FileText className="w-8 h-8 text-rose-500" />,
     title: "Previous Year Questions",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
-    gradient: "from-violet-100 to-violet-50",
-    shadowColor: "shadow-violet-500/20",
-    borderColor: "border-violet-500",
+    gradient: "from-rose-100 to-rose-50",
+    shadowColor: "shadow-rose-500/20",
+    borderColor: "border-rose-500",
   },
   {
     icon: <BookCheck className="w-8 h-8 text-green-500" />,
