@@ -83,13 +83,13 @@ export default function PoliticalScienceDetailsPage() {
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
         <Button 
-            variant="ghost" 
-            size="icon"
+            variant="outline" 
+            size="sm" 
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="rounded-full bg-background/50 border"
+            className="text-xs"
         >
-            <Languages className="w-5 h-5" />
-            <span className="sr-only">Toggle Language</span>
+            <Languages className="w-4 h-4 mr-2" />
+            {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
         </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
@@ -116,7 +116,7 @@ export default function PoliticalScienceDetailsPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
-          <Button 
+           <Button 
               variant="ghost" 
               size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
@@ -156,23 +156,23 @@ export default function PoliticalScienceDetailsPage() {
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden border-0">
-      <div className="bg-primary text-white p-4 rounded-t-lg">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-primary rounded-t-lg">
+      <CardHeader>
         <div className="flex items-center gap-4">
-          <div className="bg-white/20 p-3 rounded-full">
-            <BookOpen className="w-6 h-6" />
+          <div className="bg-primary/10 p-3 rounded-full">
+            <BookOpen className="w-6 h-6 text-primary" />
           </div>
           <div>
             <CardTitle className="text-2xl font-bold">Class 12 | Political Science</CardTitle>
           </div>
         </div>
-      </div>
+      </CardHeader>
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 rounded-full">
-              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
+              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
