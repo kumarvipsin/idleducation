@@ -472,7 +472,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-8 md:w-3/5">
+            <div className="p-8 md:w-3/5 border rounded-lg">
               <Form {...contactForm}>
                 <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
                   <FormField
