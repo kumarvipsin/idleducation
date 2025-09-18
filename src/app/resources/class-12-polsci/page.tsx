@@ -73,7 +73,11 @@ export default function PoliticalScienceDetailsPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
-    
+
+  const allChapters = politicalScienceResources.books
+    .filter(book => book.lang === notesLang)
+    .flatMap(book => book.chapters);
+
   const contents = (
     <div>
       <div className="flex justify-between items-center mb-4 lg:hidden">
@@ -82,7 +86,7 @@ export default function PoliticalScienceDetailsPage() {
             variant="ghost" 
             size="icon"
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="rounded-full"
+            className="rounded-full bg-background/50 border"
         >
             <Languages className="w-5 h-5" />
             <span className="sr-only">Toggle Language</span>
@@ -116,7 +120,7 @@ export default function PoliticalScienceDetailsPage() {
               variant="ghost" 
               size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="rounded-full"
+              className="rounded-full bg-background/50 border"
           >
               <Languages className="w-5 h-5" />
               <span className="sr-only">Toggle Language</span>
@@ -182,7 +186,7 @@ export default function PoliticalScienceDetailsPage() {
                         variant="ghost" 
                         size="icon"
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="rounded-full"
+                        className="rounded-full bg-background/50 border"
                     >
                         <Languages className="w-5 h-5" />
                          <span className="sr-only">Toggle Language</span>
