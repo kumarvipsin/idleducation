@@ -20,7 +20,6 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   countryCode: z.string(),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
 
@@ -279,15 +278,6 @@ const countryCodes = [
     { code: "+263", country: "Zimbabwe" },
   ].sort((a, b) => a.country.localeCompare(b.country));
 
-const indianStates = [
-    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-];
-
 const phoneLengthByCountryCode: { [key: string]: number } = {
   "+91": 10,
   "+1": 10,
@@ -307,7 +297,6 @@ export default function ContactPage() {
       email: '',
       countryCode: "+91-India",
       phone: '',
-      state: '',
       message: '',
     },
   });
@@ -546,30 +535,6 @@ export default function ContactPage() {
                       />
                   </div>
                   <FormField
-                      control={contactForm.control}
-                      name="state"
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <div className="relative">
-                                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <SelectTrigger className="pl-9">
-                                    <SelectValue placeholder="Select a state *" />
-                                  </SelectTrigger>
-                              </div>
-                            </FormControl>
-                            <SelectContent>
-                              {indianStates.map(state => (
-                                <SelectItem key={state} value={state}>{state}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  <FormField
                     control={contactForm.control}
                     name="message"
                     render={({ field }) => (
@@ -601,5 +566,3 @@ export default function ContactPage() {
     </div>
   );
 }
-
-    

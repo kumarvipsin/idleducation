@@ -15,7 +15,6 @@ const formSchema = z.object({
   countryCode: z.string().min(1, { message: "Country code is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
-  state: z.string().min(1, { message: "Please select a state." }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -47,7 +46,6 @@ const scholarshipSchema = z.object({
   guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  state: z.string().min(1, { message: "Please select a state." }),
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
@@ -402,7 +400,6 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   countryCode: z.string(),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
 
