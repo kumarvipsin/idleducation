@@ -135,9 +135,9 @@ export default function Class11MathsPage() {
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 rounded-full">
-              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
