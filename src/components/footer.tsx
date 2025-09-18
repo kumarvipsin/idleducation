@@ -40,7 +40,8 @@ export function Footer() {
                 </div>
 
                 {/* Column 2: Connect With Us */}
-                <div>
+                <div className="relative">
+                    <div className="absolute -top-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
                     <h3 className="text-lg font-semibold mb-4 text-foreground">Connect With Us</h3>
                     <div className="bg-background/50 p-4 rounded-md border">
                         <ul className="space-y-3 text-sm">
@@ -110,7 +111,7 @@ export function Footer() {
             </div>
         </div>
         <div className="bg-[#e9ecef] dark:bg-muted/20">
-            <div className="container mx-auto px-4 md:px-6 py-4">
+            <div className="container mx-auto px-4 md:px-6 py-2">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
                     <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                     <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
