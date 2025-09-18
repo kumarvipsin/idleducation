@@ -18,8 +18,7 @@ import { Separator } from "@/components/ui/separator";
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
-  countryCode: z.string(),
-  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
   message: z.string().optional(),
 });
 
@@ -295,7 +294,6 @@ export default function ContactPage() {
     defaultValues: {
       name: '',
       email: '',
-      countryCode: "+91-India",
       phone: '',
       message: '',
     },
@@ -310,17 +308,8 @@ export default function ContactPage() {
     },
   });
   
-  const selectedCountryCode = contactForm.watch("countryCode");
-
-  const getPhoneLength = (countryCodeValue: string) => {
-    const code = countryCodeValue.split('-')[0];
-    return phoneLengthByCountryCode[code] || 10;
-  };
-  
-  const maxLength = getPhoneLength(selectedCountryCode);
-
   const onContactSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    const result = await submitContactForm(data);
+    const result = await submitContactForm({ ...data, countryCode: '+91-India' });
     if (result.success) {
       toast({ title: "Success", description: result.message });
       contactForm.reset();
@@ -494,46 +483,22 @@ export default function ContactPage() {
                       </FormItem>
                     )}
                   />
-                  <div className="flex gap-2">
-                      <FormField
-                          control={contactForm.control}
-                          name="countryCode"
-                          render={({ field }) => (
-                          <FormItem className="w-[120px]">
-                              <Select onValueChange={field.onChange} value={field.value}>
-                              <FormControl>
-                                  <SelectTrigger>
-                                  <SelectValue placeholder="Code" />
-                                  </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                  {countryCodes.map((country, index) => (
-                                  <SelectItem key={`${country.country}-${country.code}-${index}`} value={`${country.code}-${country.country}`}>
-                                      {country.code} ({country.country})
-                                  </SelectItem>
-                                  ))}
-                              </SelectContent>
-                              </Select>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                      <FormField
-                          control={contactForm.control}
-                          name="phone"
-                          render={({ field }) => (
-                          <FormItem className="flex-1">
-                              <FormControl>
-                              <div className="relative">
-                                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={maxLength} className="pl-9" />
-                              </div>
-                              </FormControl>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                  </div>
+                   <FormField
+                      control={contactForm.control}
+                      name="phone"
+                      render={({ field }) => (
+                      <FormItem>
+                          <FormControl>
+                          <div className="relative">
+                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                              <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
+                          </div>
+                          </FormControl>
+                          <FormMessage />
+                      </FormItem>
+                      )}
+                  />
                   <FormField
                     control={contactForm.control}
                     name="message"
