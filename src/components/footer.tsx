@@ -13,7 +13,7 @@ export function Footer() {
                 {/* Column 1: Our Branch */}
                 <div>
                     <h3 className="text-lg font-semibold mb-4 text-foreground border-b-2 border-primary pb-2 inline-block">Our Branch</h3>
-                    <div className="bg-background/50 p-4 rounded-md border mt-4">
+                    <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
