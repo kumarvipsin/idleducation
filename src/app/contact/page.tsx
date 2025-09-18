@@ -111,16 +111,6 @@ export default function ContactPage() {
                         </div>
                     </div>
                   ))}
-                  
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30">
-                      <div className="p-3 bg-primary/10 text-primary rounded-full">
-                          <officeLocation.icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                          <h4 className="font-semibold text-foreground">{officeLocation.label}</h4>
-                          <p className="text-muted-foreground">{officeLocation.value}</p>
-                      </div>
-                  </div>
               </div>
 
               <div className="pt-4 border-t mt-8">
@@ -198,7 +188,7 @@ export default function ContactPage() {
             </div>
 
             <div className="md:w-3/5 m-[5%] flex flex-col gap-4">
-              <div className="p-8 border rounded-lg flex flex-col justify-start h-1/2">
+              <div className="p-8 border rounded-lg flex flex-col justify-start">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
                     <FormField
@@ -284,6 +274,10 @@ export default function ContactPage() {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="IDL EDUCATION Location"
                 ></iframe>
+                <div className="mt-4">
+                    <h4 className="font-semibold text-foreground">{officeLocation.label}</h4>
+                    <p className="text-muted-foreground">{officeLocation.value}</p>
+                </div>
               </div>
             </div>
           </Card>
