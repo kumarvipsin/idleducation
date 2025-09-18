@@ -156,8 +156,8 @@ export default function PoliticalScienceDetailsPage() {
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden">
-      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
+    <Card className="shadow-lg overflow-hidden border-0">
+      <div className="bg-primary text-white p-4 rounded-t-lg">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
             <BookOpen className="w-6 h-6" />
@@ -170,33 +170,33 @@ export default function PoliticalScienceDetailsPage() {
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 rounded-full">
+              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-3">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
-                    <Button 
-                        variant="ghost" 
-                        size="icon"
-                        onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="rounded-full bg-background/50 border"
-                    >
-                        <Languages className="w-5 h-5" />
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-3">
+              <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                  <Button 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+                      className="rounded-full bg-background/50 border"
+                  >
+                      <Languages className="w-5 h-5" />
                          <span className="sr-only">Toggle Language</span>
-                    </Button>
-                </div>
+                  </Button>
+              </div>
               {contents}
-              </div>
-              <div className="lg:col-span-2">
+            </div>
+            <div className="lg:col-span-2">
               {primumNotes}
-              </div>
+            </div>
           </div>
         )}
       </CardContent>
