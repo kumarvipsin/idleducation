@@ -165,7 +165,7 @@ export function ToppersTestimonials() {
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-24 bg-gradient-to-b from-white via-amber-50 to-white dark:from-background dark:via-yellow-900/10 dark:to-background">
+      <section className="w-full py-12 md:py-24 bg-gradient-to-b from-white via-purple-50 to-white dark:from-background dark:via-purple-900/10 dark:to-background">
         <div className="container mx-auto px-4 md:px-[10%]">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold">
