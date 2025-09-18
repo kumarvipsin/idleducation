@@ -93,7 +93,7 @@ export default function ContactPage() {
       <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg">
-            <div className="p-8 md:w-2/5 bg-white dark:bg-card m-[5%] border rounded-lg flex flex-col">
+            <div className="p-8 md:w-2/5 bg-white dark:bg-card m-[5%] border rounded-lg flex flex-col justify-start">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
                 <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
@@ -197,80 +197,93 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-8 md:w-3/5 border rounded-lg m-[5%] flex flex-col h-1/2">
-              <Form {...contactForm}>
-                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
-                  <FormField
-                    control={contactForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="relative">
-                              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Enter your name *" {...field} className="pl-9" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={contactForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                           <div className="relative">
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                   <FormField
+            <div className="md:w-3/5 m-[5%] flex flex-col gap-4">
+              <div className="p-8 border rounded-lg flex flex-col justify-start">
+                <Form {...contactForm}>
+                  <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
+                    <FormField
                       control={contactForm.control}
-                      name="phone"
+                      name="name"
                       render={({ field }) => (
-                      <FormItem>
+                        <FormItem>
                           <FormControl>
-                          <div className="relative">
-                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                              <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
-                          </div>
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Enter your name *" {...field} className="pl-9" />
+                            </div>
                           </FormControl>
                           <FormMessage />
-                      </FormItem>
+                        </FormItem>
                       )}
-                  />
-                  <FormField
-                    control={contactForm.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="relative">
-                            <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                            <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
-                    {contactForm.formState.isSubmitting ? 'Sending...' : (
-                      <>
-                        <Send className="mr-2 h-4 w-4" />
-                        Send Message
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </Form>
+                    />
+                    <FormField
+                      control={contactForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                        control={contactForm.control}
+                        name="phone"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                            <div className="relative">
+                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                                <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
+                            </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                      control={contactForm.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                              <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
+                      {contactForm.formState.isSubmitting ? 'Sending...' : (
+                        <>
+                          <Send className="mr-2 h-4 w-4" />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
+              <div className="p-8 border rounded-lg">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3497.882582885942!2d77.1165038751513!3d28.75283997782654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0134a3541629%3A0x4694f425b441f17a!2sIDL%20EDUCATION!5e0!3m2!1sen!2sin!4v1700669145952!5m2!1sen!2sin"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
           </Card>
         </div>
