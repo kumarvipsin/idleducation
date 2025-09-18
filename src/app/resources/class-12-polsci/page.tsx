@@ -163,7 +163,7 @@ export default function PoliticalScienceDetailsPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Political Science</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Political Science | CBSE</CardTitle>
           </div>
         </div>
       </div>
