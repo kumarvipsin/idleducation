@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-white via-blue-50 to-[#e9ecef] dark:from-background dark:via-black/20 dark:to-[#1a202c] text-secondary-foreground">
+    <footer className="bg-[#e9ecef] dark:bg-[#1a202c] text-secondary-foreground">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="relative mb-8 pb-4">
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
@@ -111,7 +111,7 @@ export function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="relative mt-8 pt-4">
+            <div className="relative mt-8">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
                     <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                     <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
