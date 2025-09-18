@@ -57,7 +57,7 @@ export function StudyResources() {
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
-                  className={`overflow-hidden h-full transition-all duration-300 bg-card p-0 flex flex-col shadow-lg hover:shadow-xl dark:bg-zinc-800/50 border-b-4 border-primary/20 hover:-translate-y-2`}
+                  className={`overflow-hidden h-full transition-all duration-300 bg-card p-0 flex flex-col shadow-lg hover:shadow-xl dark:bg-zinc-800/50 border-t-8 border-primary rounded-t-lg hover:-translate-y-2`}
                 >
                     <CardContent className={`p-6 flex flex-col flex-grow items-center text-center bg-gradient-to-br ${resource.gradient} dark:from-zinc-900 dark:to-zinc-800`}>
                         <div className="p-4 bg-background/60 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 shadow-inner">
