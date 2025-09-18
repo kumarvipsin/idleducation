@@ -82,18 +82,12 @@ export default function ContactPage() {
     { icon: Mail, label: "Email Address", value: "info@idleducation.in", href: "mailto:info@idleducation.in" },
   ];
 
-  const officeLocation = {
-    icon: Building,
-    label: "Local Head Office",
-    value: "E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086"
-  };
-
   return (
     <div className="bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
       <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg">
-            <div className="p-8 md:w-1/2 bg-white dark:bg-card m-[2.5%] border rounded-lg flex flex-col justify-start">
+            <div className="p-8 md:w-1/2 bg-white dark:bg-card m-[2.5%] mr-[1.25%] border rounded-lg flex flex-col justify-start">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
                 <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
@@ -111,7 +105,7 @@ export default function ContactPage() {
                         </div>
                     </div>
                   ))}
-                  <div className="pt-4 border-t">
+                   <div className="pt-4 border-t">
                     {showSupportForm ? (
                       <div className="p-4 border rounded-lg bg-muted/30">
                          <h3 className="text-sm font-semibold mb-2">Submit a Support Ticket</h3>
@@ -186,7 +180,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="md:w-1/2 m-[2.5%] flex flex-col gap-4">
+            <div className="md:w-1/2 m-[2.5%] ml-[1.25%] flex flex-col gap-4">
               <div className="p-8 border rounded-lg flex flex-col justify-start">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
@@ -274,8 +268,8 @@ export default function ContactPage() {
                   title="IDL EDUCATION Location"
                 ></iframe>
                 <div className="mt-4">
-                    <h4 className="font-semibold text-foreground">{officeLocation.label}</h4>
-                    <p className="text-muted-foreground">{officeLocation.value}</p>
+                    <h4 className="font-semibold text-foreground">Local Head Office</h4>
+                    <p className="text-muted-foreground">E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086</p>
                 </div>
               </div>
             </div>
