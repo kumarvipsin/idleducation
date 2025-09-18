@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Translate } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -88,7 +88,7 @@ export default function PoliticalScienceDetailsPage() {
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
             className="text-xs"
         >
-            <Languages className="w-4 h-4 mr-2" />
+            <Translate className="w-4 h-4 mr-2" />
             {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
         </Button>
       </div>
@@ -122,7 +122,7 @@ export default function PoliticalScienceDetailsPage() {
                 onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
                 className="text-xs"
             >
-                <Languages className="w-4 h-4 mr-2" />
+                <Translate className="w-4 h-4 mr-2" />
                 {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
             </Button>
       </div>
@@ -179,7 +179,7 @@ export default function PoliticalScienceDetailsPage() {
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
                         className="text-xs"
                     >
-                        <Languages className="w-4 h-4 mr-2" />
+                        <Translate className="w-4 h-4 mr-2" />
                         {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
                     </Button>
                 </div>
