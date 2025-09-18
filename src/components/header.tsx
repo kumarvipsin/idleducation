@@ -65,25 +65,10 @@ export function Header() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrolled]);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -429,10 +414,7 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className={cn(
-          "sticky top-0 z-50 transition-colors duration-300",
-          scrolled ? "bg-[#f8f9fa] border-b" : "bg-transparent border-b border-transparent"
-      )}>
+       <header className="sticky top-0 z-50 bg-white border-b">
           <div className="bg-[#ED1C24] text-white text-xs">
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
@@ -483,7 +465,7 @@ export function Header() {
                       href={href}
                       className={cn(
                         "text-sm font-medium hover:underline underline-offset-4",
-                        pathname === href ? 'text-primary' : (scrolled ? '' : 'text-white'),
+                        pathname === href ? 'text-primary' : 'text-foreground',
                       )}
                     >
                       {label}
