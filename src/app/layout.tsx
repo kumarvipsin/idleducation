@@ -2,10 +2,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Josefin_Sans } from 'next/font/google';
 import './globals.css';
-import { AppContent } from '@/components/app-content';
-import { AuthProvider } from '@/context/auth-context';
-import { LanguageProvider } from '@/context/language-context';
-import { ThemeProvider } from '@/components/theme-provider';
+import { Providers } from '@/components/providers';
 
 const josefin_sans = Josefin_Sans({
   subsets: ['latin'],
@@ -38,20 +35,9 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" sizes="any" />
       </head>
       <body className={`${josefin_sans.variable} font-sans antialiased flex flex-col min-h-screen`}>
-        <AuthProvider>
-          <LanguageProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem={false}
-              disableTransitionOnChange
-            >
-              <AppContent>
-                {children}
-              </AppContent>
-            </ThemeProvider>
-          </LanguageProvider>
-        </AuthProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
