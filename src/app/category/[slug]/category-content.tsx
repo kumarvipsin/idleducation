@@ -18,10 +18,10 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const resourceLinks = [
-  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
   { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
 const competitiveExams = [
