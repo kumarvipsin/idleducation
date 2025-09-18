@@ -197,7 +197,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-8 md:w-3/5 border rounded-lg m-[5%] flex flex-col justify-center h-1/2 my-auto">
+            <div className="p-8 md:w-3/5 border rounded-lg m-[5%] flex flex-col h-1/2">
               <Form {...contactForm}>
                 <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
                   <FormField
