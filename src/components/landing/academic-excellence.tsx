@@ -60,7 +60,7 @@ export function AcademicExcellence() {
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-6">
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Excellence </span> <span style={{ color: '#ced4da' }}>Results</span>
+            <span className="text-primary">Excellence </span> <span style={{ color: '#ced4da' }}>Results</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Our students consistently achieve outstanding results. Here's a glimpse of their success.
