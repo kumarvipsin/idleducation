@@ -79,13 +79,13 @@ export default function PoliticalScienceDetailsPage() {
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
         <Button 
-            variant="outline" 
-            size="sm" 
+            variant="ghost" 
+            size="icon"
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="text-xs"
+            className="rounded-full"
         >
-            <Languages className="w-4 h-4 mr-2" />
-            {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+            <Languages className="w-5 h-5" />
+            <span className="sr-only">Toggle Language</span>
         </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
@@ -113,13 +113,13 @@ export default function PoliticalScienceDetailsPage() {
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
           <Button 
-              variant="outline" 
-              size="sm" 
+              variant="ghost" 
+              size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="text-xs"
+              className="rounded-full"
           >
-              <Languages className="w-4 h-4 mr-2" />
-              {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+              <Languages className="w-5 h-5" />
+              <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
       <div className="space-y-4">
@@ -179,13 +179,13 @@ export default function PoliticalScienceDetailsPage() {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
                     <Button 
-                        variant="outline" 
-                        size="sm" 
+                        variant="ghost" 
+                        size="icon"
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="text-xs"
+                        className="rounded-full"
                     >
-                        <Languages className="w-4 h-4 mr-2" />
-                        {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+                        <Languages className="w-5 h-5" />
+                         <span className="sr-only">Toggle Language</span>
                     </Button>
                 </div>
               {contents}
