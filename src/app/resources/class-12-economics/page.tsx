@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -98,18 +98,15 @@ export default function Class12EconomicsPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
-          <div className="flex items-center border rounded-md p-1 bg-background/50">
-              <button 
-                  onClick={() => setNotesLang('en')}
-                  className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
-                  EN
-              </button>
-              <button 
-                  onClick={() => setNotesLang('hi')}
-                  className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
-                  HI
-              </button>
-          </div>
+          <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
+              className="text-xs"
+          >
+              <Languages className="w-4 h-4 mr-2" />
+              {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+          </Button>
       </div>
       <div className="space-y-2">
         {allChapters.map((chapter, index) => (
@@ -146,9 +143,9 @@ export default function Class12EconomicsPage() {
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="contents">Contents</TabsTrigger>
-              <TabsTrigger value="notes">Primum Notes</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 rounded-full">
+              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
