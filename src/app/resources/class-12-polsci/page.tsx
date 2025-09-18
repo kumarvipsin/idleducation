@@ -88,7 +88,7 @@ export default function PoliticalScienceDetailsPage() {
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
             className="text-xs"
         >
-            <Languages className="w-4 h-4 mr-2" />
+            
             {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
         </Button>
       </div>
@@ -111,7 +111,7 @@ export default function PoliticalScienceDetailsPage() {
       </div>
     </div>
   );
-
+  
   const primumNotes = (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -122,7 +122,7 @@ export default function PoliticalScienceDetailsPage() {
                 onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
                 className="text-xs"
             >
-                <Languages className="w-4 h-4 mr-2" />
+                
                 {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
             </Button>
       </div>
@@ -179,7 +179,7 @@ export default function PoliticalScienceDetailsPage() {
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
                         className="text-xs"
                     >
-                        <Languages className="w-4 h-4 mr-2" />
+                        
                         {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
                     </Button>
                 </div>
