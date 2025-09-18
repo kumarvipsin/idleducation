@@ -198,7 +198,7 @@ export default function ContactPage() {
             </div>
 
             <div className="md:w-3/5 m-[5%] flex flex-col gap-4">
-              <div className="p-8 border rounded-lg flex flex-col justify-start">
+              <div className="p-8 border rounded-lg flex flex-col justify-start h-1/2">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
                     <FormField
@@ -282,6 +282,7 @@ export default function ContactPage() {
                   allowFullScreen={false}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
+                  title="IDL EDUCATION Location"
                 ></iframe>
               </div>
             </div>
