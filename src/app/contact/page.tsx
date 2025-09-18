@@ -197,9 +197,9 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-8 md:w-3/5 border rounded-lg m-[5%] flex flex-col">
+            <div className="p-8 md:w-3/5 border rounded-lg m-[5%] flex flex-col justify-center h-1/2 my-auto">
               <Form {...contactForm}>
-                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col flex-grow">
+                <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
                   <FormField
                     control={contactForm.control}
                     name="name"
@@ -250,18 +250,18 @@ export default function ContactPage() {
                     control={contactForm.control}
                     name="message"
                     render={({ field }) => (
-                      <FormItem className="flex-grow flex flex-col">
-                        <FormControl className="flex-grow">
-                          <div className="relative h-full">
+                      <FormItem>
+                        <FormControl>
+                          <div className="relative">
                             <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                            <Textarea placeholder="Enter your message" className="min-h-[150px] pl-9 h-full" {...field} />
+                            <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
                           </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" size="lg" className="w-full mt-auto" disabled={contactForm.formState.isSubmitting}>
+                  <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
                     {contactForm.formState.isSubmitting ? 'Sending...' : (
                       <>
                         <Send className="mr-2 h-4 w-4" />
