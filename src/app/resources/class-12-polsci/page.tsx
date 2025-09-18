@@ -167,7 +167,7 @@ export default function PoliticalScienceDetailsPage() {
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6 bg-muted/20">
+      <CardContent className="p-4 md:p-6">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
