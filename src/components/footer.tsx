@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
@@ -6,33 +5,33 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-black text-gray-300">
+    <footer className="bg-[#f8f9fa] text-gray-800 dark:bg-gray-900 dark:text-gray-300">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
-                                <span><strong className="font-semibold text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
+                                <span><strong className="font-semibold text-gray-900 dark:text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
-                            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+                            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Mangol Puri, Delhi-110083</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Budh Vihar, Delhi-110086</span>
                             </li>
                              <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
+                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
                                 <span>Burari, Delhi-110084</span>
                             </li>
                         </ul>
@@ -41,19 +40,19 @@ export function Footer() {
 
                 {/* Column 2: Connect With Us */}
                 <div className="relative">
-                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                              <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-white" />
+                                <Phone className="h-4 w-4 shrink-0 text-primary" />
                                 <a href="tel:01145035713" className="hover:underline hover:text-primary">011 45035713</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-white" />
+                                <Phone className="h-4 w-4 shrink-0 text-primary" />
                                 <a href="tel:+917011117585" className="hover:underline hover:text-primary">+91 7011117585</a>
                             </li>
                             <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0 text-white" />
+                                <Mail className="h-4 w-4 shrink-0 text-primary" />
                                 <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
                             </li>
                         </ul>
@@ -62,29 +61,29 @@ export function Footer() {
 
                 {/* Column 3: Social Media */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
                     <div className="flex items-center justify-start gap-3 mt-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="LinkedIn">
                           <Linkedin className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Telegram">
+                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
                     <div className="mt-6">
-                        <h4 className="text-md font-semibold mb-2 text-white">IDL Learning App - Learn Smart</h4>
+                        <h4 className="text-md font-semibold mb-2 text-gray-900 dark:text-white">IDL Learning App - Learn Smart</h4>
                         <div className="flex items-center gap-2">
                             <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                                 <Image 
@@ -92,7 +91,7 @@ export function Footer() {
                                     alt="Get it on Google Play"
                                     width={135}
                                     height={40}
-                                    className="h-auto filter grayscale hover:grayscale-0 transition-all duration-300"
+                                    className="h-auto"
                                 />
                             </Link>
                             <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
@@ -101,7 +100,7 @@ export function Footer() {
                                     alt="Download on the App Store"
                                     width={120}
                                     height={40}
-                                    className="h-auto filter grayscale hover:grayscale-0 transition-all duration-300"
+                                    className="h-auto"
                                 />
                             </Link>
                         </div>
@@ -109,7 +108,7 @@ export function Footer() {
                 </div>
             </div>
         </div>
-        <div className="bg-black border-t border-gray-800">
+        <div className="bg-[#f8f9fa] dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
             <div className="container mx-auto px-4 md:px-6 py-2">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
                     <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
