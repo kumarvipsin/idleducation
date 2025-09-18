@@ -83,19 +83,19 @@ export default function PoliticalScienceDetailsPage() {
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
         <Button 
-            variant="ghost" 
-            size="icon" 
+            variant="outline" 
+            size="sm" 
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="rounded-full"
+            className="text-xs"
         >
-            <Languages className="w-5 h-5" />
-            <span className="sr-only">Toggle Language</span>
+            <Languages className="w-4 h-4 mr-2" />
+            {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
         </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
         {politicalScienceResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -117,13 +117,13 @@ export default function PoliticalScienceDetailsPage() {
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
           <Button 
-              variant="ghost" 
-              size="icon" 
+              variant="outline" 
+              size="sm" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="rounded-full"
+              className="text-xs"
           >
-              <Languages className="w-5 h-5" />
-              <span className="sr-only">Toggle Language</span>
+              <Languages className="w-4 h-4 mr-2" />
+              {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
           </Button>
       </div>
       <div className="space-y-2">
@@ -161,12 +161,12 @@ export default function PoliticalScienceDetailsPage() {
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 rounded-full">
-                  <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
-                  <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
-              </TabsList>
-              <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-              <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
+            <TabsList className="grid w-full grid-cols-2 rounded-full">
+              <TabsTrigger value="contents" className="rounded-full">Contents</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-full">Primum Notes</TabsTrigger>
+            </TabsList>
+            <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
+            <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
@@ -174,13 +174,13 @@ export default function PoliticalScienceDetailsPage() {
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
                     <Button 
-                        variant="ghost" 
-                        size="icon" 
+                        variant="outline" 
+                        size="sm" 
                         onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="rounded-full"
+                        className="text-xs"
                     >
-                        <Languages className="w-5 h-5" />
-                        <span className="sr-only">Toggle Language</span>
+                        <Languages className="w-4 h-4 mr-2" />
+                        {contentsLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
                     </Button>
                 </div>
               {contents}
