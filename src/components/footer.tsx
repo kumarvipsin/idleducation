@@ -7,6 +7,7 @@ import Image from "next/image";
 export function Footer() {
   return (
     <footer className="bg-white dark:bg-background text-secondary-foreground">
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent my-4"></div>
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
@@ -41,7 +42,6 @@ export function Footer() {
 
                 {/* Column 2: Connect With Us */}
                 <div className="relative">
-                    <div className="absolute -top-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
                     <h3 className="text-lg font-semibold mb-4 text-foreground">Connect With Us</h3>
                     <div className="bg-background/50 p-4 rounded-md border">
                         <ul className="space-y-3 text-sm">
