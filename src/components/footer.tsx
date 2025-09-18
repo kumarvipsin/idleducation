@@ -8,9 +8,6 @@ export function Footer() {
   return (
     <footer className="bg-white dark:bg-background text-secondary-foreground">
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="relative mb-8 pb-4">
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-700"></div>
-            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
