@@ -156,7 +156,7 @@ export default function PoliticalScienceDetailsPage() {
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-blue-700">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -170,7 +170,7 @@ export default function PoliticalScienceDetailsPage() {
       <CardContent className="p-4 md:p-6 bg-muted/20">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+            <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
               <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
               <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
