@@ -368,7 +368,7 @@ export default function ContactPage() {
       <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg">
-            <div className="p-8 space-y-8 md:w-2/5 bg-white dark:bg-card m-[5%]">
+            <div className="p-8 space-y-8 md:w-2/5 bg-white dark:bg-card m-[5%] border rounded-lg">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
                 <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
@@ -601,3 +601,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    
