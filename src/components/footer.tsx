@@ -14,24 +14,23 @@ export function Footer() {
                     <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
-                            <li className="flex items-start justify-start gap-3">
+                            <li className="flex items-start justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Local Head Office : E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
-                            <Separator className="my-3 bg-gray-700"/>
-                             <li className="flex items-start justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Mukherjee Nagar, Delhi-110009</span>
                             </li>
-                             <li className="flex items-start justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Mangol Puri, Delhi-110083</span>
                             </li>
-                             <li className="flex items-start justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Budh Vihar, Delhi-110086</span>
                             </li>
-                             <li className="flex items-start justify-start gap-3">
+                             <li className="flex items-start justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-white" />
                                 <span>Burari, Delhi-110084</span>
                             </li>
@@ -44,15 +43,15 @@ export function Footer() {
                     <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
-                             <li className="flex items-center justify-start gap-3">
+                             <li className="flex items-center justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <Phone className="h-4 w-4 shrink-0 text-white" />
                                 <a href="tel:01145035713" className="hover:underline hover:text-primary">011 45035713</a>
                             </li>
-                            <li className="flex items-center justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <Phone className="h-4 w-4 shrink-0 text-white" />
                                 <a href="tel:+917011117585" className="hover:underline hover:text-primary">+91 7011117585</a>
                             </li>
-                            <li className="flex items-center justify-start gap-3">
+                            <li className="flex items-center justify-start gap-3 p-3 bg-gray-900/50 rounded-md">
                                 <Mail className="h-4 w-4 shrink-0 text-white" />
                                 <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
                             </li>
@@ -64,22 +63,22 @@ export function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
                     <div className="flex items-center justify-start gap-4 mt-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Instagram">
                           <Instagram className="h-5 w-5" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="LinkedIn">
                           <Linkedin className="h-5 w-5" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Facebook">
                           <Facebook className="h-5 w-5" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Twitter">
                           <Twitter className="h-5 w-5" />
                         </Link>
-                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="Telegram">
+                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="Telegram">
                           <Send className="h-5 w-5" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 border border-gray-700 rounded-md text-white hover:text-primary hover:border-primary transition-colors" aria-label="YouTube">
                           <Youtube className="h-5 w-5" />
                         </Link>
                     </div>
