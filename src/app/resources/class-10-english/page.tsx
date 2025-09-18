@@ -88,7 +88,7 @@ export default function Class10EnglishPage() {
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
       <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -99,7 +99,7 @@ export default function Class10EnglishPage() {
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6 bg-muted/20">
+      <CardContent className="p-4 md:p-6">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
@@ -110,12 +110,12 @@ export default function Class10EnglishPage() {
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
               {contents}
             </div>
-            <div className="lg:col-span-2">{primumNotes}</div>
+            <div className="lg:col-span-1">{primumNotes}</div>
           </div>
         )}
       </CardContent>

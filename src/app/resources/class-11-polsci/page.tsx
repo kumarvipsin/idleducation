@@ -173,14 +173,14 @@ export default function Class11PolSciPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Political Science</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 11 | Political Science</CardTitle>
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6 bg-muted/20">
+      <CardContent className="p-4 md:p-6">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+            <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
               <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
               <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>

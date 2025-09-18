@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -104,18 +104,15 @@ export default function PoliticalScienceDetailsPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
-          <div className="flex items-center border rounded-md p-1 bg-background/50">
-              <button 
-                  onClick={() => setNotesLang('en')}
-                  className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'en' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
-                  EN
-              </button>
-              <button 
-                  onClick={() => setNotesLang('hi')}
-                  className={cn("px-2 py-1 text-xs rounded-sm", notesLang === 'hi' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground')}>
-                  HI
-              </button>
-          </div>
+          <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
+              className="rounded-full bg-background/50 border"
+          >
+              <Languages className="w-5 h-5" />
+              <span className="sr-only">Toggle Language</span>
+          </Button>
       </div>
       <div className="space-y-2">
         {allChapters.map((chapter, index) => (
@@ -138,7 +135,7 @@ export default function PoliticalScienceDetailsPage() {
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-blue-700">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -149,7 +146,7 @@ export default function PoliticalScienceDetailsPage() {
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6 bg-muted/20">
+      <CardContent className="p-4 md:p-6">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
@@ -160,12 +157,12 @@ export default function PoliticalScienceDetailsPage() {
               <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-3">
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+              <div className="lg:col-span-1">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
               {contents}
               </div>
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-1">
               {primumNotes}
               </div>
           </div>
