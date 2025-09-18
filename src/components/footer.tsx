@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
@@ -63,22 +64,22 @@ export function Footer() {
                 <div>
                     <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
                     <div className="flex items-center justify-start gap-3 mt-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
                           <Linkedin className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="Telegram">
+                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-1.5 border border-gray-300 dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary hover:border-primary transition-colors" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-200 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
