@@ -59,7 +59,7 @@ const class6SocialResources = {
       ],
     },
     {
-      name: "हमारे अतीत - I (विषय सूचि)",
+      name: "हमारे अतीत - I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: क्या, कब, कहाँ और कैसे?", slug: "what-where-how-and-when" },
@@ -76,7 +76,7 @@ const class6SocialResources = {
       ],
     },
     {
-      name: "पृथ्वी: हमारा आवास (विषय सूचि)",
+      name: "पृथ्वी: हमारा आवास",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: सौरमंडल में पृथ्वी", slug: "the-earth-in-the-solar-system" },
@@ -90,7 +90,7 @@ const class6SocialResources = {
       ],
     },
     {
-      name: "सामाजिक एवं राजनीतिक जीवन - I (विषय सूचि)",
+      name: "सामाजिक एवं राजनीतिक जीवन - I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: विविधता की समझ", slug: "understanding-diversity" },
