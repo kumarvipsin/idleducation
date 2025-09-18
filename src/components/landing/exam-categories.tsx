@@ -71,7 +71,7 @@ export function ExamCategories() {
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-black dark:text-white">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
+            <span className="text-primary">Exam</span> <span style={{ color: '#adb5bd' }}>Categories</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
             We offer comprehensive coaching for a wide range of exams. Find your path to success by exploring our categories below.
