@@ -11,7 +11,7 @@ export function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white border-b-2 border-white pb-2 inline-block">Our Branch</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
@@ -41,7 +41,7 @@ export function Footer() {
 
                 {/* Column 2: Connect With Us */}
                 <div className="relative">
-                    <h3 className="text-lg font-semibold mb-4 text-white border-b-2 border-white pb-2 inline-block">Connect With Us</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                              <li className="flex items-center justify-start gap-3">
@@ -62,7 +62,7 @@ export function Footer() {
 
                 {/* Column 3: Social Media */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white border-b-2 border-white pb-2 inline-block">Social Media</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-white to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
                     <div className="flex items-center justify-start gap-4 mt-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
