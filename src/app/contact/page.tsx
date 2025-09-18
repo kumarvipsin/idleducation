@@ -93,7 +93,7 @@ export default function ContactPage() {
       <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg">
-            <div className="p-8 md:w-2/5 bg-white dark:bg-card m-[5%] border rounded-lg flex flex-col justify-start">
+            <div className="p-8 md:w-1/2 bg-white dark:bg-card m-[5%] border rounded-lg flex flex-col justify-start">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
                 <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
@@ -186,7 +186,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="md:w-3/5 m-[5%] flex flex-col gap-4">
+            <div className="md:w-1/2 m-[5%] flex flex-col gap-4">
               <div className="p-8 border rounded-lg flex flex-col justify-start">
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
