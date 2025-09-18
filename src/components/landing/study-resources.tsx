@@ -7,15 +7,6 @@ import Link from "next/link";
 
 const resources = [
   {
-    icon: <BookCopy className="w-8 h-8 text-blue-500" />,
-    title: "Reference Books",
-    description: "Explore a curated collection of reference books to supplement your learning.",
-    href: "/resources/reference-books",
-    gradient: "from-blue-100 to-blue-50",
-    shadowColor: "shadow-blue-500/20",
-    borderColor: "border-blue-500",
-  },
-  {
     icon: <FileText className="w-8 h-8 text-red-500" />,
     title: "Previous Year Questions",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
@@ -41,6 +32,15 @@ const resources = [
     gradient: "from-yellow-100 to-yellow-50",
     shadowColor: "shadow-yellow-500/20",
     borderColor: "border-yellow-500",
+  },
+  {
+    icon: <BookCopy className="w-8 h-8 text-blue-500" />,
+    title: "Reference Books",
+    description: "Explore a curated collection of reference books to supplement your learning.",
+    href: "/resources/reference-books",
+    gradient: "from-blue-100 to-blue-50",
+    shadowColor: "shadow-blue-500/20",
+    borderColor: "border-blue-500",
   },
 ]
 
