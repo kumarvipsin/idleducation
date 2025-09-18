@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-background dark:via-gray-900/20 dark:to-background text-secondary-foreground">
+    <footer className="bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-background dark:via-gray-900/20 dark:to-background text-secondary-foreground">
         <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent my-4"></div>
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
