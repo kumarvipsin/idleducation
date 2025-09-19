@@ -141,7 +141,7 @@ export default function Class12HistoryPage() {
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-red-700">
       <div className="bg-gradient-to-r from-red-500 to-rose-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -163,12 +163,12 @@ export default function Class12HistoryPage() {
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
               {contents}
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               {primumNotes}
             </div>
           </div>
