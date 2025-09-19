@@ -90,7 +90,7 @@ export default function Class11PolSciPage() {
 
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
         <Button 
             variant="ghost" 
@@ -190,18 +190,6 @@ export default function Class11PolSciPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-1">
-              <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
-                  <Button 
-                      variant="ghost" 
-                      size="icon"
-                      onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                      className="rounded-full bg-background/50 border"
-                  >
-                      <Languages className="w-5 h-5" />
-                         <span className="sr-only">Toggle Language</span>
-                  </Button>
-              </div>
               {contents}
             </div>
             <div className="lg:col-span-1">
