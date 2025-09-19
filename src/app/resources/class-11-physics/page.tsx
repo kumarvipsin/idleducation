@@ -154,7 +154,7 @@ export default function Class11PhysicsPage() {
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-sky-700">
       <div className="bg-gradient-to-r from-sky-500 to-cyan-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
