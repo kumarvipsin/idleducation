@@ -75,7 +75,6 @@ export default function ScienceDetailsPage() {
       <div className="space-y-4 md:space-y-6">
         {scienceResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            {book.lang === 'hi' && <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
