@@ -69,20 +69,20 @@ export default function Class12MathsPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
-
+  
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground lg:hidden">Contents</h2>
-        <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="rounded-full bg-background/50 border"
-        >
-            <Languages className="w-5 h-5" />
-            <span className="sr-only">Toggle Language</span>
-        </Button>
+      <div className="flex justify-between items-center mb-4 lg:hidden">
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+          <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+              className="rounded-full bg-background/50 border"
+          >
+              <Languages className="w-5 h-5" />
+              <span className="sr-only">Toggle Language</span>
+          </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
         {class12MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
@@ -106,19 +106,10 @@ export default function Class12MathsPage() {
   
   const primumNotes = (
     <div>
-      <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
-          <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="rounded-full bg-background/50 border"
-          >
-              <Languages className="w-4 h-4" />
-              <span className="sr-only">Toggle Language</span>
-          </Button>
-      </div>
-      <div className="space-y-4 md:space-y-6">
+        <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
+        </div>
+        <div className="space-y-4 md:space-y-6">
         {class12MathsResources.books
           .filter(book => book.lang === notesLang)
           .map((book, bookIndex) => (
