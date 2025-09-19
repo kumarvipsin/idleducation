@@ -123,7 +123,7 @@ export default function Class8SocialPage() {
         <div className="space-y-4 md:space-y-6">
         {class8SocialResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -154,23 +154,32 @@ export default function Class8SocialPage() {
                 <span className="sr-only">Toggle Language</span>
             </Button>
         </div>
-        <div className="space-y-2">
-          {allChapters.map((chapter, index) => (
-            <Card key={index} className="bg-background">
-              <CardContent className="p-3 flex items-center justify-between">
-                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#">View</Link>
-                    </Button>
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
+        <div className="space-y-4">
+        {class8SocialResources.books
+          .filter(book => book.lang === notesLang)
+          .map((book, bookIndex) => (
+            <div key={bookIndex}>
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#">View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                          </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
           ))}
-        </div>
+      </div>
     </div>
   );
 
