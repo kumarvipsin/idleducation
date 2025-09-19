@@ -70,14 +70,10 @@ export default function Class12MathsPage() {
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
-  const allChapters = class12MathsResources.books
-    .filter(book => book.lang === notesLang)
-    .flatMap(book => book.chapters);
-
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground lg:hidden">Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -122,22 +118,31 @@ export default function Class12MathsPage() {
               <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-2">
-        {allChapters.map((chapter, index) => (
-          <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
-              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-              <div className="flex items-center gap-1 md:gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                  </Button>
+      <div className="space-y-4 md:space-y-6">
+        {class12MathsResources.books
+          .filter(book => book.lang === notesLang)
+          .map((book, bookIndex) => (
+            <div key={bookIndex}>
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                          </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
       </div>
     </div>
   );
