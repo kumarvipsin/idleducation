@@ -103,13 +103,13 @@ export default function Class11PhysicsPage() {
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
           <Button 
-              variant="outline" 
-              size="sm" 
+              variant="ghost" 
+              size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-              className="text-xs"
+              className="rounded-full bg-background/50 border"
           >
-              <Languages className="w-4 h-4 mr-2" />
-              {notesLang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+              <Languages className="w-5 h-5" />
+              <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
       <div className="space-y-2">
