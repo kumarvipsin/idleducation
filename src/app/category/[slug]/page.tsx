@@ -45,7 +45,7 @@ const subCategories: { [key: string]: string[] } = {
 
 
 export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const resolvedParams = use(Promise.resolve(params));
+  const resolvedParams = use(params);
   const slug = resolvedParams.slug;
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
   const subs = subCategories[slug] || subCategories["default"];
