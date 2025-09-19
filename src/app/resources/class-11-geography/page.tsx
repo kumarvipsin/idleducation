@@ -98,7 +98,7 @@ export default function Class11GeographyPage() {
     <div>
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
-        <Button 
+         <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
@@ -142,7 +142,7 @@ export default function Class11GeographyPage() {
               <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-4">
+       <div className="space-y-4">
         {class11GeographyResources.books
           .filter(book => book.lang === notesLang)
           .map((book, bookIndex) => (
@@ -172,7 +172,7 @@ export default function Class11GeographyPage() {
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-amber-700">
       <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -183,7 +183,7 @@ export default function Class11GeographyPage() {
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6 bg-muted/20">
+      <CardContent className="p-4 md:p-6">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
@@ -219,7 +219,3 @@ export default function Class11GeographyPage() {
     </Card>
   );
 }
-
-
-
-    
