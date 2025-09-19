@@ -123,7 +123,6 @@ export default function Class11BiologyPage() {
           .filter(book => book.lang === notesLang)
           .map((book, bookIndex) => (
             <div key={bookIndex}>
-              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
               <div className="space-y-2">
                 {book.chapters.map((chapter, index) => (
                   <Card key={index} className="bg-background">
