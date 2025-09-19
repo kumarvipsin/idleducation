@@ -84,7 +84,7 @@ export default function ContactPage() {
 
   return (
     <div className="bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
-      <div className="container mx-auto py-12 px-4 md:px-6">
+      <div className="container mx-auto py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg">
             <div className="p-8 md:w-1/2 bg-white dark:bg-card m-[2.5%] border rounded-lg flex flex-col justify-start">
