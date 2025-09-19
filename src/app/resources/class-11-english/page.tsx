@@ -41,7 +41,6 @@ export default function Class11EnglishPage() {
 
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
       <div className="space-y-4 md:space-y-6">
         {class11EnglishResources.books.map((book, bookIndex) => (
           <div key={bookIndex}>
@@ -113,7 +112,10 @@ export default function Class11EnglishPage() {
               <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
               <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
             </TabsList>
-            <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
+            <TabsContent value="contents" className="pt-4">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
+                {contents}
+            </TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
