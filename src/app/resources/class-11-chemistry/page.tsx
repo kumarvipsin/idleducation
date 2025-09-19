@@ -34,7 +34,7 @@ const class11ChemistryResources = {
       ],
     },
     {
-      name: "रसायन विज्ञान भाग I (विषय सूचि)",
+      name: "रसायन विज्ञान भाग I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: रसायन विज्ञान की कुछ मूल अवधारणाएँ", slug: "some-basic-concepts-of-chemistry" },
@@ -46,7 +46,7 @@ const class11ChemistryResources = {
       ],
     },
     {
-      name: "रसायन विज्ञान भाग II (विषय सूचि)",
+      name: "रसायन विज्ञान भाग II",
       lang: "hi",
       chapters: [
         { name: "अध्याय 7: अपचयोपचय अभिक्रियाएँ", slug: "redox-reactions" },
