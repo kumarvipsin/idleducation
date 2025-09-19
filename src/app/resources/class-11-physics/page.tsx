@@ -93,7 +93,7 @@ export default function Class11PhysicsPage() {
       <div className="space-y-4 md:space-y-6">
         {class11PhysicsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -124,22 +124,31 @@ export default function Class11PhysicsPage() {
               <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-2">
-        {allChapters.map((chapter, index) => (
-          <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
-              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-              <div className="flex items-center gap-1 md:gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                  </Button>
+      <div className="space-y-4">
+        {class11PhysicsResources.books
+          .filter(book => book.lang === notesLang)
+          .map((book, bookIndex) => (
+            <div key={bookIndex}>
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                          </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
       </div>
     </div>
   );
@@ -167,8 +176,8 @@ export default function Class11PhysicsPage() {
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
                 <Button 
@@ -183,7 +192,7 @@ export default function Class11PhysicsPage() {
               </div>
               {contents}
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               {primumNotes}
             </div>
           </div>
