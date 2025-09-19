@@ -38,7 +38,7 @@ const class12MathsResources = {
       ],
     },
     {
-      name: "गणित भाग I (विषय सूचि)",
+      name: "गणित भाग I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: संबंध एवं फलन", slug: "relations-and-functions-12" },
@@ -50,7 +50,7 @@ const class12MathsResources = {
       ],
     },
     {
-      name: "गणित भाग II (विषय सूचि)",
+      name: "गणित भाग II",
       lang: "hi",
       chapters: [
         { name: "अध्याय 7: समाकलन", slug: "integrals" },
@@ -131,7 +131,7 @@ export default function Class12MathsPage() {
                       <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                       <div className="flex items-center gap-1 md:gap-2">
                           <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                              <Link href="#">View</Link>
                           </Button>
                           <Button asChild variant="ghost" size="sm">
                               <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
