@@ -81,7 +81,7 @@ export default function Class11MathsPage() {
       <div className="space-y-4 md:space-y-6">
         {class11MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+            {book.lang === 'hi' && <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>}
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -155,8 +155,8 @@ export default function Class11MathsPage() {
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
                 <Button 
@@ -171,7 +171,7 @@ export default function Class11MathsPage() {
               </div>
               {contents}
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               {primumNotes}
             </div>
           </div>
