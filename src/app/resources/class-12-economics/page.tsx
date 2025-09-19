@@ -37,7 +37,7 @@ const class12EconomicsResources = {
       ],
     },
     {
-      name: "व्यष्टि अर्थशास्त्र: एक परिचय (विषय सूचि)",
+      name: "व्यष्टि अर्थशास्त्र: एक परिचय",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: परिचय", slug: "introduction-micro" },
@@ -49,7 +49,7 @@ const class12EconomicsResources = {
       ],
     },
     {
-      name: "समष्टि अर्थशास्त्र: एक परिचय (विषय सूचि)",
+      name: "समष्टि अर्थशास्त्र: एक परिचय",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: परिचय", slug: "introduction-macro" },
@@ -76,7 +76,7 @@ export default function Class12EconomicsPage() {
     <div>
       <div className="flex justify-between items-center mb-4 lg:hidden">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
-        <Button 
+         <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
@@ -110,7 +110,7 @@ export default function Class12EconomicsPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
-          <Button 
+           <Button 
               variant="ghost" 
               size="icon" 
               onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
@@ -120,26 +120,35 @@ export default function Class12EconomicsPage() {
               <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-2">
-        {allChapters.map((chapter, index) => (
-          <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
-              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-              <div className="flex items-center gap-1 md:gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                  </Button>
+       <div className="space-y-4">
+        {class12EconomicsResources.books
+          .filter(book => book.lang === notesLang)
+          .map((book, bookIndex) => (
+            <div key={bookIndex}>
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                  <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                      <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                          </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
       </div>
     </div>
   );
-  
+
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-pink-700">
       <div className="bg-gradient-to-r from-pink-500 to-rose-600 text-white p-4">
@@ -167,7 +176,7 @@ export default function Class12EconomicsPage() {
             <div className="lg:col-span-1">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
-                <Button 
+                 <Button 
                     variant="ghost" 
                     size="icon" 
                     onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
