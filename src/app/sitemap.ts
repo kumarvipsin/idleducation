@@ -8,7 +8,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/achievements',
     '/contact',
-    '/director',
     '/login',
     '/signup',
     '/notifications',
@@ -34,6 +33,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'cuet',
     'govt-job-exams',
     'defence',
+    'nios',
+    'gate',
+    'ssc',
+    'delhi-police'
   ]
 
   const categoryUrls = categorySlugs.map((slug) => ({

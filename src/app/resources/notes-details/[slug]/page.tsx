@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams } from 'next/navigation'
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
 import { BookOpen } from "lucide-react";
 
@@ -606,8 +606,7 @@ function NotesContent({ slug }: { slug: string }) {
 }
 
 export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
-    const resolvedParams = use(params);
-    const slug = resolvedParams.slug;
+    const slug = params.slug;
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <NotesContent slug={slug} />
