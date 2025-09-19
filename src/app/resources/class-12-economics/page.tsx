@@ -136,7 +136,7 @@ export default function Class12EconomicsPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Economics</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Economics | CBSE</CardTitle>
           </div>
         </div>
       </div>

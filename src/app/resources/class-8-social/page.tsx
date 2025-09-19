@@ -54,7 +54,7 @@ const class8SocialResources = {
       ],
     },
     {
-      name: "हमारे अतीत - III (विषय सूचि)",
+      name: "हमारे अतीत - III",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: कैसे, कब और कहाँ", slug: "how-when-and-where" },
@@ -70,7 +70,7 @@ const class8SocialResources = {
       ],
     },
     {
-      name: "संसाधन एवं विकास (विषय सूचि)",
+      name: "संसाधन एवं विकास",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: संसाधन", slug: "resources" },
@@ -81,7 +81,7 @@ const class8SocialResources = {
       ],
     },
     {
-      name: "सामाजिक एवं राजनीतिक जीवन - III (विषय सूचि)",
+      name: "सामाजिक एवं राजनीतिक जीवन - III",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: भारतीय संविधान", slug: "the-indian-constitution" },
@@ -182,7 +182,7 @@ export default function Class8SocialPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">Class 8 | Social Studies</CardTitle>
+              <CardTitle className="text-2xl font-bold">Class 8 | Social Studies | CBSE</CardTitle>
             </div>
           </div>
         </div>

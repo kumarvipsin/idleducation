@@ -146,7 +146,7 @@ export default function Class12GeographyPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Geography</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Geography | CBSE</CardTitle>
           </div>
         </div>
       </div>

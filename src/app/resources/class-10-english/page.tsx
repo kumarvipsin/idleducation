@@ -95,7 +95,7 @@ export default function Class10EnglishPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 10 | English</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 10 | English | CBSE</CardTitle>
           </div>
         </div>
       </div>

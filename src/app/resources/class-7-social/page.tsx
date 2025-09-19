@@ -54,7 +54,7 @@ const class7SocialResources = {
       ],
     },
     {
-      name: "हमारे अतीत - II (विषय सूचि)",
+      name: "हमारे अतीत - II",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: हज़ार वर्षों के दौरान हुए परिवर्तनों की पड़ताल", slug: "tracing-changes-through-a-thousand-years" },
@@ -68,7 +68,7 @@ const class7SocialResources = {
       ],
     },
     {
-      name: "हमारा पर्यावरण (विषय सूचि)",
+      name: "हमारा पर्यावरण",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: पर्यावरण", slug: "environment" },
@@ -81,7 +81,7 @@ const class7SocialResources = {
       ],
     },
     {
-      name: "सामाजिक एवं राजनीतिक जीवन - II (विषय सूचि)",
+      name: "सामाजिक एवं राजनीतिक जीवन - II",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: समानता", slug: "on-equality" },
@@ -122,7 +122,7 @@ export default function Class7SocialPage() {
         </div>
         <div className="space-y-4 md:space-y-6">
         {class7SocialResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
-            <div key={bookIndex}>
+          <div key={bookIndex}>
             <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
             <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
@@ -134,7 +134,7 @@ export default function Class7SocialPage() {
                 </Card>
                 ))}
             </div>
-            </div>
+          </div>
         ))}
         </div>
     </div>
@@ -182,7 +182,7 @@ export default function Class7SocialPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">Class 7 | Social Studies</CardTitle>
+              <CardTitle className="text-2xl font-bold">Class 7 | Social Studies | CBSE</CardTitle>
             </div>
           </div>
         </div>

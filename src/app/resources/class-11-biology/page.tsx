@@ -134,7 +134,7 @@ export default function Class11BiologyPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 11 | Biology</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 11 | Biology | CBSE</CardTitle>
           </div>
         </div>
       </div>

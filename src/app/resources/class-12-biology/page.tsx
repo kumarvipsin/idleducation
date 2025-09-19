@@ -122,7 +122,7 @@ export default function Class12BiologyPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Biology</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Biology | CBSE</CardTitle>
           </div>
         </div>
       </div>

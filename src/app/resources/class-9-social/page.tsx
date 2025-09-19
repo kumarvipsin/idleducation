@@ -57,7 +57,7 @@ const class9SocialResources = {
       ],
     },
     {
-      name: "भारत और समकालीन विश्व - I (विषय सूचि)",
+      name: "भारत और समकालीन विश्व - I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: फ्रांसीसी क्रांति", slug: "the-french-revolution" },
@@ -68,7 +68,7 @@ const class9SocialResources = {
       ],
     },
     {
-      name: "समकालीन भारत - I (विषय सूचि)",
+      name: "समकालीन भारत - I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: भारत - आकार और स्थिति", slug: "india-size-and-location" },
@@ -80,7 +80,7 @@ const class9SocialResources = {
       ],
     },
     {
-      name: "लोकतांत्रिक राजनीति - I (विषय सूचि)",
+      name: "लोकतांत्रिक राजनीति - I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: लोकतंत्र क्या? लोकतंत्र क्यों?", slug: "what-is-democracy-why-democracy" },
@@ -91,7 +91,7 @@ const class9SocialResources = {
       ],
     },
     {
-      name: "अर्थशास्त्र (विषय सूचि)",
+      name: "अर्थशास्त्र",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: पालमपुर गाँव की कहानी", slug: "the-story-of-village-palampur" },
@@ -188,7 +188,7 @@ export default function Class9SocialPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">Class 9 | Social Studies</CardTitle>
+              <CardTitle className="text-2xl font-bold">Class 9 | Social Studies | CBSE</CardTitle>
             </div>
           </div>
         </div>

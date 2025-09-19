@@ -124,7 +124,7 @@ export default function Class10MathsPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 10 | Maths</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 10 | Maths | CBSE</CardTitle>
           </div>
         </div>
       </div>

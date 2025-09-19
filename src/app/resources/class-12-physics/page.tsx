@@ -140,7 +140,7 @@ export default function Class12PhysicsPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Physics</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 12 | Physics | CBSE</CardTitle>
           </div>
         </div>
       </div>

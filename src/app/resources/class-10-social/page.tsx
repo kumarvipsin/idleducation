@@ -180,7 +180,7 @@ export default function Class10SocialPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 10 | Social Studies</CardTitle>
+            <CardTitle className="text-2xl font-bold">Class 10 | Social Studies | CBSE</CardTitle>
           </div>
         </div>
       </div>
