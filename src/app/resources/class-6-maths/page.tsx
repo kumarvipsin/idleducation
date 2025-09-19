@@ -59,7 +59,7 @@ export default function Class6MathsPage() {
   const contents = (
     <div>
         <div className="flex justify-between items-center mb-4 lg:hidden">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
             <Button 
                 variant="ghost" 
                 size="icon" 
@@ -93,7 +93,7 @@ export default function Class6MathsPage() {
   const primumNotes = (
     <div>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
             <Button 
                 variant="ghost" 
                 size="icon" 
@@ -150,7 +150,7 @@ export default function Class6MathsPage() {
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
                 <div className="lg:col-span-1">
                      <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                        <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
                         <Button 
                             variant="ghost" 
                             size="icon" 
