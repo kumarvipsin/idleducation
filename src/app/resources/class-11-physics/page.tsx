@@ -39,7 +39,7 @@ const class11PhysicsResources = {
       ],
     },
     {
-      name: "भौतिकी भाग I (विषय सूचि)",
+      name: "भौतिकी भाग I",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: मात्रक और मापन", slug: "units-and-measurements" },
@@ -52,7 +52,7 @@ const class11PhysicsResources = {
       ],
     },
     {
-      name: "भौतिकी भाग II (विषय सूचि)",
+      name: "भौतिकी भाग II",
       lang: "hi",
       chapters: [
         { name: "अध्याय 8: ठोसों के यांत्रिक गुण", slug: "mechanical-properties-of-solids" },
