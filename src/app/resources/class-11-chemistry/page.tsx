@@ -59,6 +59,7 @@ const class11ChemistryResources = {
 
 export default function Class11ChemistryPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+  const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
 
   const allChapters = class11ChemistryResources.books
@@ -67,9 +68,20 @@ export default function Class11ChemistryPage() {
 
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+      <div className="flex justify-between items-center mb-4 lg:hidden">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+        <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+            className="rounded-full bg-background/50 border"
+        >
+            <Languages className="w-5 h-5" />
+            <span className="sr-only">Toggle Language</span>
+        </Button>
+      </div>
       <div className="space-y-4 md:space-y-6">
-        {class11ChemistryResources.books.map((book, bookIndex) => (
+        {class11ChemistryResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
             <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
             <div className="space-y-2">
@@ -147,7 +159,18 @@ export default function Class11ChemistryPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-3">
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
+               <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                 <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+                    className="rounded-full bg-background/50 border"
+                >
+                    <Languages className="w-5 h-5" />
+                    <span className="sr-only">Toggle Language</span>
+                </Button>
+              </div>
               {contents}
             </div>
             <div className="lg:col-span-2">
