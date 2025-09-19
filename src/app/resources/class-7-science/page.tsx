@@ -85,7 +85,7 @@ export default function Class7SciencePage() {
         <div className="space-y-4 md:space-y-6">
         {class7ScienceResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
             <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            {book.lang === 'hi' && <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>}
             <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -117,7 +117,7 @@ export default function Class7SciencePage() {
             </Button>
         </div>
         <div className="space-y-2">
-        {(class7ScienceResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
+          {(class7ScienceResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
             <Card key={index} className="bg-background">
               <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
@@ -131,7 +131,7 @@ export default function Class7SciencePage() {
                 </div>
               </CardContent>
             </Card>
-        ))}
+          ))}
         </div>
     </div>
   );
