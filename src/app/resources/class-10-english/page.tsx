@@ -41,7 +41,7 @@ export default function Class10EnglishPage() {
   
   const contents = (
     <div>
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden">Contents</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <div className="space-y-4 md:space-y-6">
           {class10EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
@@ -65,7 +65,7 @@ export default function Class10EnglishPage() {
   const primumNotes = (
     <div>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
         </div>
         <div className="space-y-4">
           {class10EnglishResources.books.map((book, bookIndex) => (
@@ -119,7 +119,7 @@ export default function Class10EnglishPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-1">
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
+              <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
               {contents}
             </div>
             <div className="lg:col-span-1">{primumNotes}</div>
