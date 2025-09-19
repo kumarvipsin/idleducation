@@ -45,7 +45,7 @@ export default function Class11EnglishPage() {
       <div className="space-y-4 md:space-y-6">
         {class11EnglishResources.books.map((book, bookIndex) => (
           <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -67,28 +67,35 @@ export default function Class11EnglishPage() {
       <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
       </div>
-      <div className="space-y-2">
-        {allChapters.map((chapter, index) => (
-          <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
-              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-              <div className="flex items-center gap-1 md:gap-2">
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                  </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="space-y-4">
+        {class11EnglishResources.books.map((book, bookIndex) => (
+            <div key={bookIndex}>
+                <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+                <div className="space-y-2">
+                {book.chapters.map((chapter, index) => (
+                    <Card key={index} className="bg-background">
+                    <CardContent className="p-3 flex items-center justify-between">
+                        <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                        <div className="flex items-center gap-1 md:gap-2">
+                            <Button asChild variant="ghost" size="sm">
+                                <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                            </Button>
+                            <Button asChild variant="ghost" size="sm">
+                                <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                            </Button>
+                        </div>
+                    </CardContent>
+                    </Card>
+                ))}
+                </div>
+            </div>
+          ))}
       </div>
     </div>
   );
 
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
       <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
@@ -110,12 +117,12 @@ export default function Class11EnglishPage() {
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
           </Tabs>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="lg:col-span-1">
               <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground">Contents</h2>
               {contents}
             </div>
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-1">
               {primumNotes}
             </div>
           </div>
