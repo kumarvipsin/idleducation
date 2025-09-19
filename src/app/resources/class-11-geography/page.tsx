@@ -48,7 +48,7 @@ const class11GeographyResources = {
       ],
     },
     {
-      name: "भौतिक भूगोल के मूल सिद्धांत (विषय सूचि)",
+      name: "भौतिक भूगोल के मूल सिद्धांत",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: भूगोल एक विषय के रूप में", slug: "geography-as-a-discipline" },
@@ -70,7 +70,7 @@ const class11GeographyResources = {
       ],
     },
     {
-      name: "भारत भौतिक पर्यावरण (विषय सूचि)",
+      name: "भारत भौतिक पर्यावरण",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: भारत - स्थिति", slug: "india-location" },
@@ -211,3 +211,6 @@ export default function Class11GeographyPage() {
   );
 }
 
+
+
+    
