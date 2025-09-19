@@ -125,7 +125,7 @@ export default function Class12ChemistryPage() {
   );
   
   return (
-    <Card className="shadow-lg overflow-hidden">
+    <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
       <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
         <div className="flex items-center gap-4">
           <div className="bg-white/20 p-3 rounded-full">
