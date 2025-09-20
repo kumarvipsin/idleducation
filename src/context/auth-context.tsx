@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Attempt to load user from sessionStorage on initial load
     try {
       const storedUser = sessionStorage.getItem('userProfile');
+      console.log('[auth-context] Reading from sessionStorage on mount. Value:', storedUser);
       if (storedUser) {
         console.log('[auth-context] Found user in sessionStorage, setting initial state.');
         setUser(JSON.parse(storedUser));
@@ -89,16 +90,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           console.log('[auth-context] Setting user profile and storing in sessionStorage.');
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
+          console.log('[auth-context] Stored in sessionStorage:', JSON.stringify(userProfile));
         } else {
           console.error('[auth-context] Firebase user exists but no profile found. Logging out.');
           await signOut(auth); 
           setUser(null);
           sessionStorage.removeItem('userProfile');
+          console.log('[auth-context] Removed from sessionStorage due to missing profile.');
         }
       } else {
         console.log('[auth-context] No Firebase user. Clearing state and sessionStorage.');
         setUser(null);
         sessionStorage.removeItem('userProfile');
+        console.log('[auth-context] Removed from sessionStorage on Firebase logout.');
       }
       console.log('[auth-context] Finished auth state check, setting loading to false.');
       setLoading(false);
@@ -113,6 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (profile: UserProfile) => {
     console.log('[auth-context] login function called with profile:', profile);
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
+    console.log('[auth-context] Stored in sessionStorage:', JSON.stringify(profile));
     setUser(profile);
     setLoading(false);
     console.log('[auth-context] User state and sessionStorage updated.');
