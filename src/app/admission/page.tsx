@@ -1,5 +1,6 @@
 
 'use client';
+import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -29,6 +30,7 @@ import Script from "next/script";
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
 const aadharRegex = /^\d{12}$/;
+const MAX_FILE_SIZE = 100 * 1024; // 100KB
 
 const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -69,7 +71,9 @@ const admissionFormSchema = z.object({
   previousSchool: z.string().optional(),
   additionalInfo: z.string().optional(),
   branch: z.string().min(1, { message: "Please select your nearest branch." }),
-  studentPhoto: z.instanceof(File).optional(),
+  studentPhoto: z.instanceof(File).optional().refine(file => !file || file.size <= MAX_FILE_SIZE, {
+    message: `Max file size is 100KB.`,
+  }),
   transactionId: z.string().min(1, { message: "Transaction ID is required." }),
 });
 
@@ -471,7 +475,7 @@ export default function AdmissionPage() {
                         control={form.control}
                         name="dob"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col">
+                            <FormItem>
                                 <div className="grid grid-cols-3 gap-2">
                                     <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
                                         <SelectTrigger><SelectValue placeholder="Day *" /></SelectTrigger>
