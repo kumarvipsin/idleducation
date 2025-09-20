@@ -22,7 +22,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { format, getDaysInMonth } from "date-fns";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
 
@@ -75,6 +75,10 @@ const admissionFormSchema = z.object({
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
 
+const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
+
 export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -82,6 +86,19 @@ export default function AdmissionPage() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+
+  const [dobDay, setDobDay] = useState<string>('');
+  const [dobMonth, setDobMonth] = useState<string>('');
+  const [dobYear, setDobYear] = useState<string>('');
+  
+  const daysInMonth = (month: string, year: string) => {
+    const monthIndex = months.indexOf(month);
+    const yearNum = parseInt(year, 10);
+    if (monthIndex < 0 || isNaN(yearNum)) return 31;
+    return getDaysInMonth(new Date(yearNum, monthIndex));
+  };
+  const availableDays = Array.from({ length: daysInMonth(dobMonth, dobYear) }, (_, i) => i + 1);
+
 
   const form = useForm<AdmissionFormValues>({
     resolver: zodResolver(admissionFormSchema),
@@ -110,6 +127,24 @@ export default function AdmissionPage() {
       apaarId: '',
     },
   });
+  
+  useEffect(() => {
+    if (dobDay && dobMonth && dobYear) {
+      const monthIndex = months.indexOf(dobMonth);
+      if (monthIndex >= 0) {
+        const date = new Date(parseInt(dobYear), monthIndex, parseInt(dobDay));
+        form.setValue('dob', date, { shouldValidate: true });
+      }
+    }
+  }, [dobDay, dobMonth, dobYear, form]);
+
+  useEffect(() => {
+    const currentDay = parseInt(dobDay);
+    if (currentDay > availableDays.length) {
+      setDobDay(availableDays.length.toString());
+    }
+  }, [dobMonth, dobYear, dobDay, availableDays.length]);
+
 
   useEffect(() => {
     async function fetchStudentId() {
@@ -211,6 +246,9 @@ export default function AdmissionPage() {
             setIsPreviewOpen(false);
             setIsPaymentDialogOpen(false);
             form.reset();
+            setDobDay('');
+            setDobMonth('');
+            setDobYear('');
             setPhotoPreview(null);
             if(fileInputRef.current) fileInputRef.current.value = '';
             const nextIdResult = await getNextStudentId();
@@ -435,45 +473,32 @@ export default function AdmissionPage() {
                         control={form.control}
                         name="dob"
                         render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-full pl-3 text-left font-normal justify-start",
-                                                !field.value && "text-muted-foreground"
-                                            )}
-                                        >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {field.value ? (
-                                            format(field.value, "dd/MM/yyyy")
-                                            ) : (
-                                            <span>Date of Birth *</span>
-                                            )}
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                    <Calendar
-                                    mode="single"
-                                    captionLayout="dropdown-buttons"
-                                    fromYear={1990}
-                                    toYear={new Date().getFullYear() - 3}
-                                    selected={field.value}
-                                    onSelect={field.onChange}
-                                    disabled={(date) =>
-                                        date > new Date() || date < new Date("1900-01-01")
-                                    }
-                                    initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormMessage />
-                        </FormItem>
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
+                                <div className="grid grid-cols-3 gap-2">
+                                    <Select onValueChange={setDobDay} value={dobDay}>
+                                        <SelectTrigger><SelectValue placeholder="Day" /></SelectTrigger>
+                                        <SelectContent>
+                                            {availableDays.map(day => <SelectItem key={day} value={String(day)}>{day}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                    <Select onValueChange={setDobMonth} value={dobMonth}>
+                                        <SelectTrigger><SelectValue placeholder="Month" /></SelectTrigger>
+                                        <SelectContent>
+                                            {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                    <Select onValueChange={setDobYear} value={dobYear}>
+                                        <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
+                                        <SelectContent>
+                                            {years.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <FormMessage />
+                            </FormItem>
                         )}
-                    />
+                        />
                     </div>
                      <div className="grid sm:grid-cols-2 gap-6">
                         <FormField
