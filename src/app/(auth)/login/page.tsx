@@ -1,79 +1,89 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Briefcase, User, Mail, Lock } from "lucide-react";
+import { GraduationCap, Briefcase, Mail, Lock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { signUpUser } from "@/app/actions";
+import { loginUser } from "@/app/actions";
 import Link from "next/link";
+import { useAuth, type UserProfile } from "@/context/auth-context";
 
-const signupSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  password: z.string().min(1, { message: "Password is required." }),
 });
 
-type SignupValues = z.infer<typeof signupSchema>;
+type LoginValues = z.infer<typeof loginSchema>;
 
-export default function SignupPage() {
+export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { login } = useAuth();
 
-  const studentForm = useForm<SignupValues>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: { name: '', email: '', password: '' },
+  const studentForm = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
   });
 
-  const teacherForm = useForm<SignupValues>({
-    resolver: zodResolver(signupSchema),
-    defaultValues: { name: '', email: '', password: '' },
+  const teacherForm = useForm<LoginValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
   });
 
-  const handleSignup = async (data: SignupValues, role: 'student' | 'teacher') => {
-    const result = await signUpUser({ ...data, role });
+  const handleLogin = async (data: LoginValues) => {
+    const result = await loginUser(data);
 
-    if (result.success) {
+    if (result.success && result.user) {
       toast({
-        title: "Account Created",
-        description: result.message,
+        title: "Login Successful",
+        description: "Welcome back!",
       });
-      router.push('/login');
+
+      // Update the auth context and session storage
+      login(result.user as UserProfile);
+
+      const redirectPath = result.user.role === 'admin' 
+        ? '/admin/dashboard' 
+        : `/${result.user.role}/dashboard`;
+        
+      router.push(redirectPath);
+
     } else {
       toast({
         variant: "destructive",
-        title: "Signup Failed",
+        title: "Login Failed",
         description: result.message,
       });
     }
   };
 
-  const onStudentSubmit: SubmitHandler<SignupValues> = (data) => handleSignup(data, 'student');
-  const onTeacherSubmit: SubmitHandler<SignupValues> = (data) => handleSignup(data, 'teacher');
+  const onStudentSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
+  const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-128px)] py-12 px-4">
+    <div className="flex flex-col items-center justify-center py-12 px-4">
       <Tabs defaultValue="student" className="w-full max-w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="student">
-            <GraduationCap className="mr-2 h-4 w-4" /> Student Signup
+            <GraduationCap className="mr-2 h-4 w-4" /> Student
           </TabsTrigger>
           <TabsTrigger value="teacher">
-            <Briefcase className="mr-2 h-4 w-4" /> Teacher Signup
+            <Briefcase className="mr-2 h-4 w-4" /> Teacher
           </TabsTrigger>
         </TabsList>
         <TabsContent value="student">
           <Card>
             <CardHeader>
-              <CardTitle>Create Student Account</CardTitle>
+              <CardTitle>Student Login</CardTitle>
               <CardDescription>
-                Join our platform to start your learning journey.
+                Access your courses and track your progress.
               </CardDescription>
             </CardHeader>
             <Form {...studentForm}>
@@ -81,26 +91,11 @@ export default function SignupPage() {
                 <CardContent className="space-y-4">
                   <FormField
                     control={studentForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Full Name" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={studentForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                             <div className="relative">
+                            <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input placeholder="student@example.com" {...field} className="pl-9" />
                             </div>
@@ -115,7 +110,7 @@ export default function SignupPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                             <div className="relative">
+                            <div className="relative">
                                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input type="password" placeholder="Password" {...field} className="pl-9" />
                             </div>
@@ -127,7 +122,7 @@ export default function SignupPage() {
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full" disabled={studentForm.formState.isSubmitting}>
-                    {studentForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
+                    {studentForm.formState.isSubmitting ? 'Logging in...' : 'Login'}
                   </Button>
                 </CardFooter>
               </form>
@@ -137,36 +132,21 @@ export default function SignupPage() {
         <TabsContent value="teacher">
           <Card>
             <CardHeader>
-              <CardTitle>Create Teacher Account</CardTitle>
+              <CardTitle>Teacher Login</CardTitle>
               <CardDescription>
-                Join our platform to manage your classes.
+                Manage your classes and upload materials.
               </CardDescription>
             </CardHeader>
             <Form {...teacherForm}>
               <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)}>
                 <CardContent className="space-y-4">
-                     <FormField
-                    control={teacherForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                           <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Jane Smith" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                   <FormField
                     control={teacherForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                           <div className="relative">
+                            <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input placeholder="teacher@example.com" {...field} className="pl-9" />
                             </div>
@@ -181,7 +161,7 @@ export default function SignupPage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                           <div className="relative">
+                             <div className="relative">
                                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input type="password" placeholder="Password" {...field} className="pl-9" />
                             </div>
@@ -193,7 +173,7 @@ export default function SignupPage() {
                 </CardContent>
                 <CardFooter>
                   <Button type="submit" className="w-full" disabled={teacherForm.formState.isSubmitting}>
-                    {teacherForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
+                    {teacherForm.formState.isSubmitting ? 'Logging in...' : 'Login'}
                   </Button>
                 </CardFooter>
               </form>
@@ -202,9 +182,9 @@ export default function SignupPage() {
         </TabsContent>
       </Tabs>
       <div className="mt-4 text-center text-sm">
-        Already have an account?{" "}
-        <Link href="/login" className="underline">
-          Login
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="underline">
+          Sign Up
         </Link>
       </div>
     </div>
