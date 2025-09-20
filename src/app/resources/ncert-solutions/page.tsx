@@ -21,7 +21,7 @@ const class10Courses: Note[] = [
     {
         title: "Maths",
         gradient: "from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
-        buttons: [{ text: "VIEW MORE", href: "/resources/class-10-maths" }],
+        buttons: [{ text: "VIEW MORE", href: "/resources/ncert-solutions/class-10-maths" }],
         icon: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
     },
     {
