@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home, Droplets, VenetianMask } from "lucide-react";
+import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home, Droplets, VenetianMask, CheckCircle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -83,6 +83,7 @@ export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [isThankYouOpen, setIsThankYouOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -240,7 +241,7 @@ export default function AdmissionPage() {
         const result = await submitAdmissionForm(formData);
 
         if (result.success) {
-            toast({ title: "Success", description: "Your admission form has been submitted successfully!" });
+            setIsThankYouOpen(true);
             
             setIsPreviewOpen(false);
             setIsPaymentDialogOpen(false);
@@ -933,6 +934,23 @@ export default function AdmissionPage() {
                 </Button>
             </div>
         </DialogContent>
+      </Dialog>
+      
+      <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
+          <DialogContent>
+              <DialogHeader>
+                  <div className="flex justify-center mb-4">
+                      <CheckCircle className="w-16 h-16 text-green-500" />
+                  </div>
+                  <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
+                  <DialogDescription className="text-center">
+                      Your admission form has been submitted successfully. We will get in touch with you shortly.
+                  </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                  <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
+              </DialogFooter>
+          </DialogContent>
       </Dialog>
     </div>
     </>
