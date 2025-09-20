@@ -111,7 +111,7 @@ export default function ScholarshipPage() {
                 {/* Header Information */}
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
                     <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
-                        IDL National Scholarship & Admission Test
+                        IDL Scholarship & Admission Test
                     </h1>
                     <p className="mt-2 text-lg text-muted-foreground font-semibold">
                         For Class V to X
