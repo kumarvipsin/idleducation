@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, se
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit, startAt } from "firebase/firestore";
 import { format } from "date-fns";
 import { uploadFileToGCS, getSignedUrl as getGcsSignedUrl } from '@/lib/gcs';
+import Razorpay from 'razorpay';
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -937,6 +938,25 @@ export async function submitAdmissionForm(formData: FormData) {
     } catch (error) {
         console.error("Error submitting admission form:", error);
         return { success: false, message: "Failed to submit admission form." };
+    }
+}
+
+export async function createRazorpayOrder(options: { amount: number; currency: string }) {
+    const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID!,
+        key_secret: process.env.RAZORPAY_KEY_SECRET!,
+    });
+
+    try {
+        const order = await razorpay.orders.create({
+            amount: options.amount * 100, // amount in the smallest currency unit
+            currency: options.currency,
+            receipt: `receipt_order_${new Date().getTime()}`,
+        });
+        return { success: true, order };
+    } catch (error) {
+        console.error("Error creating Razorpay order:", error);
+        return { success: false, message: "Failed to create Razorpay order." };
     }
 }
 
