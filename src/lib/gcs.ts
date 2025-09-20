@@ -1,7 +1,7 @@
 'use server';
 import { Storage } from '@google-cloud/storage';
 
-const bucketName = 'learnscape-p4l0x-admissions';
+const bucketName = 'idlcloud';
 
 let storage: Storage;
 
