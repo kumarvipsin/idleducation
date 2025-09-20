@@ -39,27 +39,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   
   useEffect(() => {
+    console.log('[auth-context] AuthProvider mounting. Setting up onAuthStateChanged listener.');
     // Attempt to load user from sessionStorage on initial load
     try {
       const storedUser = sessionStorage.getItem('userProfile');
       if (storedUser) {
+        console.log('[auth-context] Found user in sessionStorage, setting initial state.');
         setUser(JSON.parse(storedUser));
+      } else {
+         console.log('[auth-context] No user in sessionStorage.');
       }
     } catch (error) {
-        console.error("Failed to parse user from sessionStorage", error);
+        console.error("[auth-context] Failed to parse user from sessionStorage", error);
         sessionStorage.removeItem('userProfile');
     }
     // We still set loading to true to allow Firebase to verify the session
     setLoading(true);
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log('[auth-context] onAuthStateChanged triggered.');
       if (firebaseUser) {
+        console.log('[auth-context] Firebase user detected with UID:', firebaseUser.uid);
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
         let userProfile: UserProfile | null = null;
 
         if (userDoc.exists()) {
+            console.log('[auth-context] Found user document in Firestore.');
             const userData = userDoc.data();
             userProfile = {
                 uid: firebaseUser.uid,
@@ -69,6 +76,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 ...serializeFirestoreData(userData),
             };
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+            console.log('[auth-context] Admin user detected.');
             userProfile = {
               uid: firebaseUser.uid,
               email: firebaseUser.email,
@@ -78,35 +86,49 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (userProfile) {
+          console.log('[auth-context] Setting user profile and storing in sessionStorage.');
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
+          console.error('[auth-context] Firebase user exists but no profile found. Logging out.');
           await signOut(auth); 
           setUser(null);
           sessionStorage.removeItem('userProfile');
         }
       } else {
+        console.log('[auth-context] No Firebase user. Clearing state and sessionStorage.');
         setUser(null);
         sessionStorage.removeItem('userProfile');
       }
+      console.log('[auth-context] Finished auth state check, setting loading to false.');
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+        console.log('[auth-context] AuthProvider unmounting. Cleaning up listener.');
+        unsubscribe();
+    }
   }, []);
 
   const login = (profile: UserProfile) => {
+    console.log('[auth-context] login function called with profile:', profile);
     sessionStorage.setItem('userProfile', JSON.stringify(profile));
     setUser(profile);
     setLoading(false);
+    console.log('[auth-context] User state and sessionStorage updated.');
   };
 
   const logout = async () => {
+    console.log('[auth-context] logout function called.');
     await signOut(auth);
+    console.log('[auth-context] Firebase signOut successful.');
     sessionStorage.removeItem('userProfile');
+    console.log('[auth-context] Removed user from sessionStorage.');
     setUser(null);
+    console.log('[auth-context] User state set to null.');
     setLoading(false);
     router.push('/');
+    console.log('[auth-context] Redirected to home page.');
   };
 
   return (

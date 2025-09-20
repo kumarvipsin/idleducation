@@ -90,8 +90,10 @@ const serializeFirestoreData = (docData: any) => {
 
 
 export async function loginUser(data: LoginValues) {
+  console.log('[actions.ts] loginUser: Initiating login process for', data.email);
   const validation = loginSchema.safeParse(data);
   if (!validation.success) {
+    console.error('[actions.ts] loginUser: Invalid input data.');
     return { success: false, message: "Invalid input." };
   }
 
@@ -101,6 +103,7 @@ export async function loginUser(data: LoginValues) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+    console.log('[actions.ts] loginUser: Firebase sign-in successful for UID:', user.uid);
     
     let userProfile;
 
@@ -111,18 +114,22 @@ export async function loginUser(data: LoginValues) {
         name: 'Admin',
         role: 'admin',
       };
+      console.log('[actions.ts] loginUser: Admin user detected.');
     } else {
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
+            console.log('[actions.ts] loginUser: Found user document in Firestore.');
             const userData = userDoc.data();
 
             if (userData.status === 'pending') {
+                console.warn('[actions.ts] loginUser: Account is pending approval.');
                 await signOut(auth);
                 return { success: false, message: "Your account is pending approval. Please wait for an admin to approve it." };
             }
             if (userData.status === 'inactive') {
+                console.warn('[actions.ts] loginUser: Account is inactive.');
                 await signOut(auth);
                 return { success: false, message: "Your account is currently inactive. Please contact support." };
             }
@@ -134,16 +141,20 @@ export async function loginUser(data: LoginValues) {
                 role: userData.role,
                 ...serializeFirestoreData(userData),
             };
+            console.log('[actions.ts] loginUser: User profile created.', userProfile);
         } else {
+            console.error('[actions.ts] loginUser: User document not found in Firestore.');
             await signOut(auth);
             return { success: false, message: "User data not found. Please contact support." };
         }
     }
 
+    console.log('[actions.ts] loginUser: Login successful, returning user profile.');
     return { success: true, message: "Login successful!", user: userProfile };
 
   } catch (error: any) {
     let message = "An unknown error occurred.";
+    console.error('[actions.ts] loginUser: Firebase Auth error:', error);
     switch (error.code) {
       case 'auth/user-not-found':
       case 'auth/wrong-password':
@@ -164,6 +175,7 @@ export async function loginUser(data: LoginValues) {
         message = 'Failed to login. Please try again later.';
         break;
     }
+    console.log('[actions.ts] loginUser: Login failed with message:', message);
     return { success: false, message };
   }
 }
@@ -250,12 +262,14 @@ export async function resetUserPassword(email: string) {
 // This server action is a placeholder and will not work as expected for signing out a user.
 // The client-side implementation will handle the sign-out.
 export async function logoutUser() {
+  console.log('[actions.ts] logoutUser: Server action called.');
   try {
     // This will not sign out the client, as auth state is managed on the client.
     // await signOut(auth); 
+    console.log('[actions.ts] logoutUser: Returning success. Client-side will handle actual sign out.');
     return { success: true, message: "Logout successful." };
   } catch (error) {
-    console.error("Logout Error:", error);
+    console.error("[actions.ts] logoutUser: Error during server-side logout attempt:", error);
     return { success: false, message: "Logout failed. Please try again." };
   }
 }
