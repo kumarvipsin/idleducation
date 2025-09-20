@@ -64,7 +64,7 @@ export default function Class9EnglishPage() {
   const primumNotes = (
     <div>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
         </div>
         <div className="space-y-4">
           {class9EnglishResources.books.map((book, bookIndex) => (
@@ -110,7 +110,7 @@ export default function Class9EnglishPage() {
             <Tabs defaultValue="contents" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="contents">Contents</TabsTrigger>
-                <TabsTrigger value="notes">Primum Notes</TabsTrigger>
+                <TabsTrigger value="notes">Important Questions</TabsTrigger>
               </TabsList>
               <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
               <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>

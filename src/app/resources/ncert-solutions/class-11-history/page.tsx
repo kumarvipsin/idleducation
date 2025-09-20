@@ -91,7 +91,7 @@ export default function Class11HistoryPage() {
   const primumNotes = (
     <div>
       <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
           <Button 
               variant="ghost" 
               size="icon" 
@@ -148,7 +148,7 @@ export default function Class11HistoryPage() {
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
               <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
+              <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
             </TabsList>
             <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
             <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
