@@ -87,17 +87,17 @@ export default function AdmissionPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const [dobDay, setDobDay] = useState<string>('');
-  const [dobMonth, setDobMonth] = useState<string>('');
-  const [dobYear, setDobYear] = useState<string>('');
+  const [dob, setDob] = useState({ day: '', month: '', year: '' });
   
-  const daysInMonth = (month: string, year: string) => {
-    const monthIndex = months.indexOf(month);
-    const yearNum = parseInt(year, 10);
-    if (monthIndex < 0 || isNaN(yearNum)) return 31;
-    return getDaysInMonth(new Date(yearNum, monthIndex));
-  };
-  const availableDays = Array.from({ length: daysInMonth(dobMonth, dobYear) }, (_, i) => i + 1);
+  const daysInMonth = React.useMemo(() => {
+    if (dob.year && dob.month) {
+      const monthIndex = months.indexOf(dob.month);
+      return getDaysInMonth(new Date(parseInt(dob.year, 10), monthIndex));
+    }
+    return 31;
+  }, [dob.month, dob.year]);
+
+  const availableDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
 
   const form = useForm<AdmissionFormValues>({
@@ -129,21 +129,20 @@ export default function AdmissionPage() {
   });
   
   useEffect(() => {
-    if (dobDay && dobMonth && dobYear) {
-      const monthIndex = months.indexOf(dobMonth);
+    if (dob.day && dob.month && dob.year) {
+      const monthIndex = months.indexOf(dob.month);
       if (monthIndex >= 0) {
-        const date = new Date(parseInt(dobYear), monthIndex, parseInt(dobDay));
+        const date = new Date(parseInt(dob.year, 10), monthIndex, parseInt(dob.day, 10));
         form.setValue('dob', date, { shouldValidate: true });
       }
     }
-  }, [dobDay, dobMonth, dobYear, form]);
-
+  }, [dob, form]);
+  
   useEffect(() => {
-    const currentDay = parseInt(dobDay);
-    if (currentDay > availableDays.length) {
-      setDobDay(availableDays.length.toString());
+    if (parseInt(dob.day, 10) > daysInMonth) {
+      setDob(d => ({ ...d, day: daysInMonth.toString() }));
     }
-  }, [dobMonth, dobYear, dobDay, availableDays.length]);
+  }, [dob.day, daysInMonth]);
 
 
   useEffect(() => {
@@ -246,9 +245,7 @@ export default function AdmissionPage() {
             setIsPreviewOpen(false);
             setIsPaymentDialogOpen(false);
             form.reset();
-            setDobDay('');
-            setDobMonth('');
-            setDobYear('');
+            setDob({ day: '', month: '', year: '' });
             setPhotoPreview(null);
             if(fileInputRef.current) fileInputRef.current.value = '';
             const nextIdResult = await getNextStudentId();
@@ -476,19 +473,19 @@ export default function AdmissionPage() {
                             <FormItem className="flex flex-col">
                                 <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
                                 <div className="grid grid-cols-3 gap-2">
-                                    <Select onValueChange={setDobDay} value={dobDay}>
+                                    <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
                                         <SelectTrigger><SelectValue placeholder="Day" /></SelectTrigger>
                                         <SelectContent>
                                             {availableDays.map(day => <SelectItem key={day} value={String(day)}>{day}</SelectItem>)}
                                         </SelectContent>
                                     </Select>
-                                    <Select onValueChange={setDobMonth} value={dobMonth}>
+                                    <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
                                         <SelectTrigger><SelectValue placeholder="Month" /></SelectTrigger>
                                         <SelectContent>
                                             {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                                         </SelectContent>
                                     </Select>
-                                    <Select onValueChange={setDobYear} value={dobYear}>
+                                    <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
                                         <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
                                         <SelectContent>
                                             {years.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
