@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, Languages } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, Languages, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -40,7 +40,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "समकालीन विश्व राजनीति (विषय सूचि)",
+      name: "समकालीन विश्व राजनीति",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
@@ -53,7 +53,7 @@ const politicalScienceResources = {
       ],
     },
     {
-      name: "स्वतंत्र भारत में राजनीति (विषय सूचि)",
+      name: "स्वतंत्र भारत में राजनीति",
       lang: "hi",
       chapters: [
         { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
@@ -69,7 +69,7 @@ const politicalScienceResources = {
   ],
 };
 
-export default function PoliticalScienceDetailsPage() {
+export default function Class12PolSciPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
@@ -81,7 +81,7 @@ export default function PoliticalScienceDetailsPage() {
   const contents = (
     <div>
       <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -115,7 +115,7 @@ export default function PoliticalScienceDetailsPage() {
   const primumNotes = (
     <div>
       <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">Primum Notes</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
            <Button 
               variant="ghost" 
               size="icon" 
@@ -181,7 +181,7 @@ export default function PoliticalScienceDetailsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
             <div className="lg:col-span-1">
               <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl md:text-2xl font-bold text-foreground">Contents</h2>
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
                   <Button 
                       variant="ghost" 
                       size="icon"
