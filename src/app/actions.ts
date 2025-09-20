@@ -919,16 +919,16 @@ export async function submitAdmissionForm(formData: FormData) {
     };
     
     try {
-        let studentPhotoUrl = '';
+        let studentPhotoPath = '';
         if (studentPhoto && studentPhoto.size > 0) {
             const destination = `student_photos/${admissionData.studentId}-${studentPhoto.name}`;
             await uploadFileToGCS(studentPhoto, destination);
-            studentPhotoUrl = destination; // Store the GCS file path
+            studentPhotoPath = destination;
         }
         
         await addDoc(collection(db, "admissions"), {
             ...admissionData,
-            studentPhotoUrl, // This is now a path, not a URL
+            studentPhotoUrl: studentPhotoPath, // Store the GCS file path
             createdAt: serverTimestamp(),
             status: 'submitted',
         });

@@ -1,3 +1,4 @@
+
 'use server';
 import { Storage } from '@google-cloud/storage';
 
@@ -24,25 +25,20 @@ try {
 
 const bucket = storage.bucket(bucketName);
 
-export async function uploadFileToGCS(file: File, destination: string): Promise<string> {
+export async function uploadFileToGCS(file: File, destination: string): Promise<void> {
     const buffer = Buffer.from(await file.arrayBuffer());
-
     const blob = bucket.file(destination);
-    const blobStream = blob.createWriteStream({
-        resumable: false,
-    });
 
-    return new Promise((resolve, reject) => {
-        blobStream.on('finish', () => {
-            const publicUrl = `https://storage.googleapis.com/${bucketName}/${destination}`;
-            resolve(publicUrl);
-        })
-        .on('error', (err) => {
-            reject(`Unable to upload image, something went wrong: ${err}`);
-        })
-        .end(buffer);
-    });
+    try {
+        await blob.save(buffer, {
+            contentType: file.type,
+        });
+    } catch (err) {
+        console.error("Error uploading to GCS:", err);
+        throw new Error(`Unable to upload image, something went wrong: ${err}`);
+    }
 }
+
 
 export async function getSignedUrl(filePath: string): Promise<string> {
   const options = {
