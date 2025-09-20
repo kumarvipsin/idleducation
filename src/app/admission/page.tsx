@@ -471,22 +471,21 @@ export default function AdmissionPage() {
                         name="dob"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                                <FormLabel>Date of Birth <span className="text-destructive">*</span></FormLabel>
                                 <div className="grid grid-cols-3 gap-2">
                                     <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                                        <SelectTrigger><SelectValue placeholder="Day" /></SelectTrigger>
+                                        <SelectTrigger><SelectValue placeholder="Day *" /></SelectTrigger>
                                         <SelectContent>
                                             {availableDays.map(day => <SelectItem key={day} value={String(day)}>{day}</SelectItem>)}
                                         </SelectContent>
                                     </Select>
                                     <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                                        <SelectTrigger><SelectValue placeholder="Month" /></SelectTrigger>
+                                        <SelectTrigger><SelectValue placeholder="Month *" /></SelectTrigger>
                                         <SelectContent>
                                             {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                                         </SelectContent>
                                     </Select>
                                     <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                                        <SelectTrigger><SelectValue placeholder="Year" /></SelectTrigger>
+                                        <SelectTrigger><SelectValue placeholder="Year *" /></SelectTrigger>
                                         <SelectContent>
                                             {years.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                                         </SelectContent>
