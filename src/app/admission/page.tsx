@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useState, useEffect, useRef } from "react";
-import { getNextStudentId, submitAdmissionForm } from "@/app/actions";
+import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -24,6 +24,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import Script from "next/script";
 
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
@@ -102,7 +103,7 @@ export default function AdmissionPage() {
       previousSchool: '',
       additionalInfo: '',
       branch: '',
-      transactionId: '',
+      transactionId: 'N/A', // Default to N/A, will be updated by Razorpay
       gender: undefined,
       bloodGroup: '',
       aadharNumber: '',
@@ -224,6 +225,39 @@ export default function AdmissionPage() {
         toast({ variant: "destructive", title: "Error", description: "Failed to submit form. Please try again later." });
     }
   };
+  
+  const handlePayment = async () => {
+    const result = await createRazorpayOrder({ amount: 1000, currency: 'INR' });
+    if (!result.success || !result.order) {
+        toast({ variant: 'destructive', title: 'Payment Error', description: 'Could not create payment order.' });
+        return;
+    }
+    const order = result.order;
+    const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'IDL Education Admission',
+        description: 'Admission Registration Fee',
+        order_id: order.id,
+        handler: async function (response: any) {
+            form.setValue('transactionId', response.razorpay_payment_id);
+            await form.handleSubmit(onSubmit)();
+        },
+        prefill: {
+            name: form.getValues('studentName'),
+            email: form.getValues('email'),
+            contact: form.getValues('fatherPhone'),
+        },
+        theme: {
+            color: '#0d47a1',
+        },
+    };
+    // @ts-ignore
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  }
+
 
   const classes = [
     "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
@@ -254,6 +288,11 @@ export default function AdmissionPage() {
   };
 
   return (
+    <>
+    <Script
+        id="razorpay-checkout-js"
+        src="https://checkout.razorpay.com/v1/checkout.js"
+    />
     <div className="relative min-h-screen w-full md:p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
           <Button variant="ghost" size="icon">
@@ -855,44 +894,26 @@ export default function AdmissionPage() {
 
       <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
         <DialogContent className="sm:max-w-md">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <DialogHeader>
-                        <DialogTitle>Payment Confirmation</DialogTitle>
-                        <DialogDescription>
-                            Please scan the QR code to pay the ₹10 registration fee. After payment, enter the transaction ID and click submit.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="flex flex-col items-center justify-center gap-4 py-4">
-                        <Image src="/qrcode.jpg" alt="Payment QR Code" width={200} height={200} />
-                        <p className="font-bold text-lg">Scan to pay ₹10</p>
-                        <FormField
-                            control={form.control}
-                            name="transactionId"
-                            render={({ field }) => (
-                                <FormItem className="w-full">
-                                <FormLabel>Transaction ID <span className="text-destructive">*</span></FormLabel>
-                                <FormControl>
-                                    <div className="relative">
-                                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Enter your transaction ID" {...field} className="pl-9" />
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <DialogFooter>
-                        <Button variant="outline" type="button" onClick={() => setIsPaymentDialogOpen(false)}>Cancel</Button>
-                        <Button type="submit" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? 'Submitting...' : 'Confirm Payment & Submit'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Form>
+            <DialogHeader>
+                <DialogTitle>Payment Confirmation</DialogTitle>
+                <DialogDescription>
+                    Please click the button below to pay the ₹10 registration fee.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col items-center justify-center gap-4 py-4">
+                <Button 
+                    type="button" 
+                    onClick={handlePayment}
+                    disabled={form.formState.isSubmitting}
+                    className="w-full"
+                    size="lg"
+                >
+                    {form.formState.isSubmitting ? 'Processing...' : 'Pay ₹10 Now'}
+                </Button>
+            </div>
         </DialogContent>
       </Dialog>
     </div>
+    </>
   );
 }
