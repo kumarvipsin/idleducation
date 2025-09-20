@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAdmissions } from '@/app/actions';
+import { getAdmissions, getSignedUrlForAdmissionPhoto } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -37,7 +37,7 @@ interface Admission {
   previousSchool?: string;
   additionalInfo?: string;
   createdAt: string;
-  studentPhotoUrl?: string; // Assuming the photo URL is stored
+  studentPhotoUrl?: string; // This is now a file path
   branch?: string;
 }
 
@@ -50,6 +50,42 @@ const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: stri
         </div>
     </div>
 );
+
+function AdmissionPhoto({ filePath }: { filePath: string }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchSignedUrl() {
+      if (!filePath) {
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      const result = await getSignedUrlForAdmissionPhoto(filePath);
+      if (result.success && result.url) {
+        setImageUrl(result.url);
+      }
+      setLoading(false);
+    }
+    fetchSignedUrl();
+  }, [filePath]);
+
+  if (loading) {
+    return <Skeleton className="h-full w-full" />;
+  }
+  
+  if (imageUrl) {
+    return <Image src={imageUrl} alt="Student photo" width={132} height={170} className="object-cover h-full w-full"/>
+  }
+
+  return (
+    <div className="text-center text-muted-foreground p-2">
+        <User className="w-8 h-8 mx-auto mb-2" />
+        <p className="text-xs">No Photo</p>
+    </div>
+  );
+}
 
 export default function AdminAdmissionsPage() {
   const [admissions, setAdmissions] = useState<Admission[]>([]);
@@ -159,7 +195,7 @@ export default function AdminAdmissionsPage() {
                     <div className="lg:col-span-1 space-y-4">
                         <div className="w-[132px] h-[170px] rounded-md bg-muted flex items-center justify-center overflow-hidden border mx-auto">
                            {selectedAdmission.studentPhotoUrl ? (
-                              <Image src={selectedAdmission.studentPhotoUrl} alt="Student photo" width={132} height={170} className="object-cover h-full w-full"/>
+                              <AdmissionPhoto filePath={selectedAdmission.studentPhotoUrl} />
                             ) : (
                               <div className="text-center text-muted-foreground p-2">
                                   <User className="w-8 h-8 mx-auto mb-2" />

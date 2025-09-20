@@ -6,7 +6,7 @@ import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, limit, startAt } from "firebase/firestore";
 import { format } from "date-fns";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { uploadFileToGCS, getSignedUrl as getGcsSignedUrl } from '@/lib/gcs';
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"]),
@@ -876,6 +876,18 @@ export async function getAdmissions() {
   }
 }
 
+export async function getSignedUrlForAdmissionPhoto(filePath: string) {
+  if (!filePath) {
+    return { success: false, message: 'File path is required.' };
+  }
+  try {
+    const url = await getGcsSignedUrl(filePath);
+    return { success: true, url: url };
+  } catch (error) {
+    return { success: false, message: 'Failed to get signed URL.' };
+  }
+}
+
 export async function submitAdmissionForm(formData: FormData) {
     const rawFormData = Object.fromEntries(formData.entries());
     const studentPhoto = rawFormData.studentPhoto as File;
@@ -909,15 +921,14 @@ export async function submitAdmissionForm(formData: FormData) {
     try {
         let studentPhotoUrl = '';
         if (studentPhoto && studentPhoto.size > 0) {
-            const storage = getStorage();
-            const photoRef = ref(storage, `student_photos/${admissionData.studentId}-${studentPhoto.name}`);
-            const snapshot = await uploadBytes(photoRef, studentPhoto);
-            studentPhotoUrl = await getDownloadURL(snapshot.ref);
+            const destination = `student_photos/${admissionData.studentId}-${studentPhoto.name}`;
+            await uploadFileToGCS(studentPhoto, destination);
+            studentPhotoUrl = destination; // Store the GCS file path
         }
         
         await addDoc(collection(db, "admissions"), {
             ...admissionData,
-            studentPhotoUrl,
+            studentPhotoUrl, // This is now a path, not a URL
             createdAt: serverTimestamp(),
             status: 'submitted',
         });
