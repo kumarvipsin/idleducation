@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronRight, Download, Languages } from "lucide-react";
+import { ChevronRight, Download, Languages, ShoppingCart } from "lucide-react";
 
 interface Chapter {
     name: string;
@@ -87,7 +87,7 @@ export function NcertChapterList({ resources }: { resources: Resources }) {
                       <Link href="#">View</Link>
                   </Button>
                   <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                   </Button>
               </div>
             </CardContent>

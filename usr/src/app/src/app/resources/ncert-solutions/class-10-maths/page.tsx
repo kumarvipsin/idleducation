@@ -1,10 +1,19 @@
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { BookOpen } from "lucide-react";
-import { getNcertSolutions } from "@/app/actions";
+
+'use client';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, BookOpen, ChevronRight, Download, ShoppingCart, Languages } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { NcertChapterList } from "@/components/ncert-chapter-list";
-import { Skeleton } from "@/components/ui/skeleton";
+import { getNcertSolutions } from "@/app/actions";
 import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 async function NcertSolutionsContent() {
   const result = await getNcertSolutions('class-10', 'maths');
