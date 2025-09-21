@@ -1090,3 +1090,27 @@ export async function seedImportantQuestions(className: string, data: any) {
     return { success: false, message: "Failed to seed important questions." };
   }
 }
+
+export async function getNotes() {
+  try {
+    const notesQuery = query(collection(db, "notes"));
+    const querySnapshot = await getDocs(notesQuery);
+    const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: notes };
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+    return { success: false, message: "Failed to fetch notes." };
+  }
+}
+
+export async function getImportantQuestions() {
+  try {
+    const questionsQuery = query(collection(db, "importantQuestions"));
+    const querySnapshot = await getDocs(questionsQuery);
+    const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: questions };
+  } catch (error) {
+    console.error("Error fetching important questions:", error);
+    return { success: false, message: "Failed to fetch important questions." };
+  }
+}

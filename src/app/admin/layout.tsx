@@ -196,6 +196,22 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
+                  <Link href="/admin/notes">
+                    <BookOpen />
+                    <span>Manage Notes</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/important-questions')}>
+                  <Link href="/admin/important-questions">
+                    <FileText />
+                    <span>Manage Imp Questions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="#">
