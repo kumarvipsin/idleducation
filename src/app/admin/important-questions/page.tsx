@@ -6,21 +6,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
+import { PlusCircle, Edit, Trash2, File } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 interface Topic {
   name: string;
   slug: string;
+  pdfUrl?: string;
 }
 interface Chapter {
   name: string;
   slug: string;
   topics: Topic[];
+  pdfUrl?: string;
 }
 interface Part {
   name: string;
@@ -73,24 +75,24 @@ export default function AdminImportantQuestionsPage() {
     fetchQuestions();
   }, []);
 
-  const handleFormSubmit = async (formData: any) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!editState) return;
 
+    const formData = new FormData(e.currentTarget);
     let result;
     const { type, classId, partKey, chapterIndex } = editState;
-
+    
     try {
         if (type === 'class') {
-             result = await setClassData('importantQuestions', formData.id, {});
+             result = await setClassData('importantQuestions', formData.get('id') as string, {});
         } else if (type === 'part' && classId) {
-            const partData = { name: formData.name, chapters: [] };
-            result = await updatePart('importantQuestions', classId, formData.key, partData);
+            const partData = { name: formData.get('name') as string, chapters: [] };
+            result = await updatePart('importantQuestions', classId, formData.get('key') as string, partData);
         } else if (type === 'chapter' && classId && partKey) {
-            const chapterData = { name: formData.name, slug: formData.slug, topics: [] };
-            result = await addChapter('importantQuestions', classId, partKey, chapterData);
+            result = await addChapter('importantQuestions', classId, partKey, formData);
         } else if (type === 'topic' && classId && partKey && chapterIndex !== undefined) {
-            const topicData = { name: formData.name, slug: formData.slug };
-            result = await addTopic('importantQuestions', classId, partKey, chapterIndex, topicData);
+            result = await addTopic('importantQuestions', classId, partKey, chapterIndex, formData);
         }
         
         if (result && result.success) {
@@ -103,7 +105,6 @@ export default function AdminImportantQuestionsPage() {
         toast({ variant: "destructive", title: "Error", description: error.message });
     } finally {
         setEditState(null);
-        setIsDialogOpen(false);
     }
   };
   
@@ -123,6 +124,12 @@ export default function AdminImportantQuestionsPage() {
     setEditState(state);
     setIsDialogOpen(true);
   };
+  
+  useEffect(() => {
+    if (!editState) {
+        setIsDialogOpen(false);
+    }
+  }, [editState]);
 
   const renderSkeleton = () => (
     [...Array(3)].map((_, i) => (
@@ -137,7 +144,11 @@ export default function AdminImportantQuestionsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div><CardTitle>Manage Important Questions</CardTitle><CardDescription>Manage content for classes, parts, chapters, and topics.</CardDescription></div>
-              <Button size="sm" onClick={() => openDialog({ type: 'class', action: 'add', data: {} })}><PlusCircle className="mr-2 h-4 w-4" /> Add Class</Button>
+              <DialogTrigger asChild>
+                <Button size="sm" onClick={() => openDialog({ type: 'class', action: 'add', data: {} })}>
+                    <PlusCircle className="mr-2 h-4 w-4" /> Add Class
+                </Button>
+              </DialogTrigger>
             </CardHeader>
           </Card>
           {loading ? renderSkeleton() : (
@@ -164,14 +175,14 @@ export default function AdminImportantQuestionsPage() {
                         </div>
                       </div><AccordionContent className="p-2">
                         {Array.isArray(partData.chapters) && partData.chapters.map((chapter, chapterIndex) => (<AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0"><div className="mb-2 p-2 border rounded-md">
-                          <div className="flex justify-between items-center"><AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name}</AccordionTrigger>
+                          <div className="flex justify-between items-center"><AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name} {chapter.pdfUrl && <File className="w-4 h-4 text-primary ml-2 inline"/>}</AccordionTrigger>
                             <div className="flex items-center gap-1">
                                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openDialog({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
                                 <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div><AccordionContent className="p-2"><ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
                             {chapter.topics && chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
-                              <span>{topic.name}</span><div className="flex items-center gap-1">
+                              <span>{topic.name} {topic.pdfUrl && <File className="w-3 h-3 text-primary ml-1 inline"/>}</span><div className="flex items-center gap-1">
                                 <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
                               </div>
                             </li>))}
@@ -187,13 +198,17 @@ export default function AdminImportantQuestionsPage() {
         </div>
         
         {editState && (<DialogContent><DialogHeader><DialogTitle>{editState.action === 'add' ? 'Add New' : 'Edit'} {editState.type}</DialogTitle></DialogHeader>
-          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(Object.fromEntries(new FormData(e.currentTarget).entries())); }}>
+          <form onSubmit={handleFormSubmit}>
             <div className="grid gap-4 py-4">
               {editState.type === 'class' && (<div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="id" className="text-right">Class ID</Label><Input id="id" name="id" defaultValue={editState.data.id} className="col-span-3" placeholder="e.g., class-5"/></div>)}
               {editState.type === 'part' && (<><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="key" className="text-right">Part Key</Label><Input id="key" name="key" defaultValue={editState.partKey} className="col-span-3" placeholder="e.g., part-1-maths"/></div><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Part Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" placeholder="e.g., Mathematics"/></div></>)}
-              {(editState.type === 'chapter' || editState.type === 'topic') && (<><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" /></div><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="slug" className="text-right">Slug</Label><Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" /></div></>)}
+              {(editState.type === 'chapter' || editState.type === 'topic') && (<>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" /></div>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="slug" className="text-right">Slug</Label><Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" /></div>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="pdf" className="text-right">PDF</Label><Input id="pdf" name="pdf" type="file" accept=".pdf" className="col-span-3" /></div>
+              </>)}
             </div>
-            <DialogFooter><Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button><Button type="submit">Save Changes</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="outline" onClick={() => setEditState(null)}>Cancel</Button><Button type="submit">Save Changes</Button></DialogFooter>
           </form>
         </DialogContent>)}
         

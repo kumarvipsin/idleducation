@@ -25,7 +25,7 @@ try {
 
 const bucket = storage.bucket(bucketName);
 
-export async function uploadFileToGCS(file: File, destination: string): Promise<void> {
+export async function uploadFileToGCS(file: File, destination: string): Promise<string> {
     const buffer = Buffer.from(await file.arrayBuffer());
     const blob = bucket.file(destination);
 
@@ -33,6 +33,7 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
         await blob.save(buffer, {
             contentType: file.type,
         });
+        return blob.publicUrl();
     } catch (err) {
         console.error("Error uploading to GCS:", err);
         throw new Error(`Unable to upload image, something went wrong: ${err}`);

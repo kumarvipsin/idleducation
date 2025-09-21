@@ -3,17 +3,20 @@
 import { db } from "@/lib/firebase";
 import { doc, setDoc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { z } from "zod";
+import { uploadFileToGCS } from "@/lib/gcs";
 
 // Schemas for validation
 const TopicSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
+  pdfUrl: z.string().optional(),
 });
 
 const ChapterSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
   topics: z.array(TopicSchema),
+  pdfUrl: z.string().optional(),
 });
 
 const PartSchema = z.object({
@@ -83,15 +86,30 @@ export async function updatePart(collectionType: CollectionType, classId: string
     }
 }
 
-export async function addChapter(collectionType: CollectionType, classId: string, partKey: string, chapterData: z.infer<typeof ChapterSchema>) {
-    const validation = ChapterSchema.safeParse(chapterData);
+export async function addChapter(collectionType: CollectionType, classId: string, partKey: string, formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const chapterData = {
+        name: rawFormData.name as string,
+        slug: rawFormData.slug as string,
+        topics: [],
+    };
+    const pdfFile = rawFormData.pdf as File;
+
+    const validation = ChapterSchema.pick({ name: true, slug: true }).safeParse(chapterData);
     if (!validation.success) {
         return { success: false, message: "Invalid chapter data." };
     }
+    
     try {
+        let pdfUrl = '';
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${partKey}/${chapterData.slug}-${pdfFile.name}`;
+            pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
         const docRef = getContentDocRef(collectionType, classId);
         await updateDoc(docRef, {
-            [`${partKey}.chapters`]: arrayUnion(validation.data)
+            [`${partKey}.chapters`]: arrayUnion({ ...chapterData, pdfUrl })
         });
         return { success: true, message: "Chapter added successfully." };
     } catch (error) {
@@ -100,13 +118,27 @@ export async function addChapter(collectionType: CollectionType, classId: string
     }
 }
 
-export async function addTopic(collectionType: CollectionType, classId: string, partKey: string, chapterIndex: number, topicData: z.infer<typeof TopicSchema>) {
-    const validation = TopicSchema.safeParse(topicData);
+export async function addTopic(collectionType: CollectionType, classId: string, partKey: string, chapterIndex: number, formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const topicData = {
+        name: rawFormData.name as string,
+        slug: rawFormData.slug as string,
+    };
+    const pdfFile = rawFormData.pdf as File;
+
+    const validation = TopicSchema.pick({ name: true, slug: true }).safeParse(topicData);
     if (!validation.success) {
         return { success: false, message: "Invalid topic data." };
     }
     
     try {
+        let pdfUrl = '';
+        if (pdfFile && pdfFile.size > 0) {
+            const chapterSlug = (await getDoc(getContentDocRef(collectionType, classId))).data()?.[partKey].chapters[chapterIndex].slug;
+            const destination = `${collectionType}/${classId}/${partKey}/${chapterSlug}/${topicData.slug}-${pdfFile.name}`;
+            pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
         const docRef = getContentDocRef(collectionType, classId);
         const docSnap = await getDoc(docRef);
 
@@ -118,7 +150,10 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
         const part = classData[partKey];
         
         if (part && Array.isArray(part.chapters) && part.chapters[chapterIndex]) {
-            part.chapters[chapterIndex].topics.push(validation.data);
+            if(!part.chapters[chapterIndex].topics) {
+                part.chapters[chapterIndex].topics = [];
+            }
+            part.chapters[chapterIndex].topics.push({ ...topicData, pdfUrl });
             await updateDoc(docRef, { [partKey]: part });
             return { success: true, message: "Topic added successfully." };
         }
