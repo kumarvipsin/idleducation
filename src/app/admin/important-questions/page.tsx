@@ -1,4 +1,3 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass } from '@/app/actions';
@@ -204,7 +203,6 @@ export default function AdminImportantQuestionsPage() {
               {editState.type === 'part' && (<><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="key" className="text-right">Part Key</Label><Input id="key" name="key" defaultValue={editState.partKey} className="col-span-3" placeholder="e.g., part-1-maths"/></div><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Part Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" placeholder="e.g., Mathematics"/></div></>)}
               {(editState.type === 'chapter' || editState.type === 'topic') && (<>
                 <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" /></div>
-                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="slug" className="text-right">Slug</Label><Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" /></div>
                 <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="pdf" className="text-right">PDF</Label><Input id="pdf" name="pdf" type="file" accept=".pdf" className="col-span-3" /></div>
               </>)}
             </div>

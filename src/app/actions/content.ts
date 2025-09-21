@@ -5,6 +5,12 @@ import { doc, setDoc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove } fr
 import { z } from "zod";
 import { uploadFileToGCS } from "@/lib/gcs";
 
+// Helper to generate a slug from a string
+const generateSlug = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+};
+
+
 // Schemas for validation
 const TopicSchema = z.object({
   name: z.string().min(1),
@@ -88,9 +94,13 @@ export async function updatePart(collectionType: CollectionType, classId: string
 
 export async function addChapter(collectionType: CollectionType, classId: string, partKey: string, formData: FormData) {
     const rawFormData = Object.fromEntries(formData.entries());
+    
+    const name = rawFormData.name as string;
+    const slug = generateSlug(name);
+    
     const chapterData = {
-        name: rawFormData.name as string,
-        slug: rawFormData.slug as string,
+        name,
+        slug,
         topics: [],
     };
     const pdfFile = rawFormData.pdf as File;
@@ -120,9 +130,13 @@ export async function addChapter(collectionType: CollectionType, classId: string
 
 export async function addTopic(collectionType: CollectionType, classId: string, partKey: string, chapterIndex: number, formData: FormData) {
     const rawFormData = Object.fromEntries(formData.entries());
+    
+    const name = rawFormData.name as string;
+    const slug = generateSlug(name);
+
     const topicData = {
-        name: rawFormData.name as string,
-        slug: rawFormData.slug as string,
+        name,
+        slug,
     };
     const pdfFile = rawFormData.pdf as File;
 
