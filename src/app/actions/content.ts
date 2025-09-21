@@ -1,14 +1,14 @@
 'use server';
 
 import { db } from "@/lib/firebase";
-import { doc, setDoc, deleteDoc, writeBatch, collection, getDocs, query, where, DocumentData } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { z } from "zod";
+import { FieldValue } from 'firebase-admin/firestore';
 
 // Schemas for validation
 const ChapterSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
-  // Add other chapter fields if necessary, e.g., content: z.string()
 });
 
 const BookSchema = z.object({
@@ -18,10 +18,11 @@ const BookSchema = z.object({
 });
 
 const SubjectSchema = z.object({
+  name: z.string().min(1),
   books: z.array(BookSchema),
 });
 
-const ClassDataSchema = z.record(SubjectSchema); // Represents { maths: Subject, science: Subject, ... }
+const ClassDataSchema = z.record(z.string(), SubjectSchema); // Represents { maths: Subject, science: Subject, ... }
 
 type CollectionType = 'notes' | 'importantQuestions';
 
@@ -81,11 +82,12 @@ export async function deleteClass(collectionType: CollectionType, classId: strin
 // ==================================
 
 /**
- * Updates a specific subject within a class document.
- * @param collectionType - 'notes' or 'importantQuestions'
- * @param classId - e.g., 'class-5'
- * @param subjectKey - e.g., 'maths'
- * @param subjectData - The new data for the subject.
+ * Adds or updates a subject within a class document.
+ * @param collectionType 
+ * @param classId 
+ * @param subjectKey 
+ * @param subjectData 
+ * @returns 
  */
 export async function updateSubject(collectionType: CollectionType, classId: string, subjectKey: string, subjectData: z.infer<typeof SubjectSchema>) {
     const validation = SubjectSchema.safeParse(subjectData);
@@ -95,7 +97,7 @@ export async function updateSubject(collectionType: CollectionType, classId: str
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        await setDoc(docRef, { [subjectKey]: validation.data }, { merge: true });
+        await updateDoc(docRef, { [subjectKey]: validation.data });
         return { success: true, message: `Subject '${subjectKey}' in '${classId}' updated successfully.` };
     } catch (error) {
         console.error(`Error updating subject ${subjectKey}:`, error);
@@ -103,15 +105,41 @@ export async function updateSubject(collectionType: CollectionType, classId: str
     }
 }
 
+/**
+ * Adds a new book to a subject's 'books' array.
+ * @param collectionType 
+ * @param classId 
+ * @param subjectKey 
+ * @param bookData 
+ * @returns 
+ */
+export async function addBook(collectionType: CollectionType, classId: string, subjectKey: string, bookData: z.infer<typeof BookSchema>) {
+    const validation = BookSchema.safeParse(bookData);
+    if (!validation.success) {
+        return { success: false, message: "Invalid book data." };
+    }
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        await updateDoc(docRef, {
+            [`${subjectKey}.books`]: arrayUnion(validation.data)
+        });
+        return { success: true, message: "Book added successfully." };
+    } catch (error) {
+        console.error("Error adding book:", error);
+        return { success: false, message: "Failed to add book." };
+    }
+}
+
 
 /**
  * Updates a specific book within a subject.
- * Note: This replaces all chapters within that book.
- * @param collectionType - 'notes' or 'importantQuestions'
- * @param classId - e.g., 'class-5'
- * @param subjectKey - e.g., 'maths'
- * @param bookIndex - The index of the book in the 'books' array.
- * @param bookData - The new data for the book.
+ * Note: This requires reading the document first to replace the element.
+ * @param collectionType 
+ * @param classId 
+ * @param subjectKey 
+ * @param bookIndex 
+ * @param bookData 
+ * @returns 
  */
 export async function updateBook(collectionType: CollectionType, classId: string, subjectKey: string, bookIndex: number, bookData: z.infer<typeof BookSchema>) {
     const validation = BookSchema.safeParse(bookData);
@@ -121,9 +149,18 @@ export async function updateBook(collectionType: CollectionType, classId: string
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        // Using dot notation to update a specific element in an array
-        await updateDoc(docRef, { [`${subjectKey}.books.${bookIndex}`]: validation.data });
-        return { success: true, message: `Book at index ${bookIndex} for subject '${subjectKey}' updated.` };
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+            return { success: false, message: "Class document not found." };
+        }
+        const classData = docSnap.data();
+        const subject = classData[subjectKey];
+        if (subject && Array.isArray(subject.books) && subject.books[bookIndex]) {
+            subject.books[bookIndex] = validation.data;
+            await updateDoc(docRef, { [subjectKey]: subject });
+            return { success: true, message: `Book at index ${bookIndex} for subject '${subjectKey}' updated.` };
+        }
+        return { success: false, message: "Book or subject not found." };
     } catch (error) {
         console.error(`Error updating book for ${subjectKey}:`, error);
         return { success: false, message: "Failed to update book." };
@@ -132,13 +169,54 @@ export async function updateBook(collectionType: CollectionType, classId: string
 
 
 /**
+ * Adds a new chapter to a book's 'chapters' array.
+ * @param collectionType 
+ * @param classId 
+ * @param subjectKey 
+ * @param bookIndex 
+ * @param chapterData 
+ * @returns 
+ */
+export async function addChapter(collectionType: CollectionType, classId: string, subjectKey: string, bookIndex: number, chapterData: z.infer<typeof ChapterSchema>) {
+    const validation = ChapterSchema.safeParse(chapterData);
+    if (!validation.success) {
+        return { success: false, message: "Invalid chapter data." };
+    }
+    
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+            return { success: false, message: "Class document not found." };
+        }
+
+        const classData = docSnap.data();
+        const subject = classData[subjectKey];
+        
+        if (subject && Array.isArray(subject.books) && subject.books[bookIndex]) {
+            subject.books[bookIndex].chapters.push(validation.data);
+            await updateDoc(docRef, { [subjectKey]: subject });
+            return { success: true, message: "Chapter added successfully." };
+        }
+        
+        return { success: false, message: "Subject or book not found." };
+    } catch (error) {
+        console.error(`Error adding chapter:`, error);
+        return { success: false, message: "Failed to add chapter." };
+    }
+}
+
+
+/**
  * Updates a specific chapter within a book.
- * @param collectionType - 'notes' or 'importantQuestions'
- * @param classId - e.g., 'class-5'
- * @param subjectKey - e.g., 'maths'
- * @param bookIndex - The index of the book.
- * @param chapterIndex - The index of the chapter to update.
- * @param chapterData - The new data for the chapter.
+ * @param collectionType 
+ * @param classId 
+ * @param subjectKey 
+ * @param bookIndex 
+ * @param chapterIndex 
+ * @param chapterData 
+ * @returns 
  */
 export async function updateChapter(collectionType: CollectionType, classId: string, subjectKey: string, bookIndex: number, chapterIndex: number, chapterData: z.infer<typeof ChapterSchema>) {
     const validation = ChapterSchema.safeParse(chapterData);
@@ -148,14 +226,20 @@ export async function updateChapter(collectionType: CollectionType, classId: str
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        await updateDoc(docRef, { [`${subjectKey}.books.${bookIndex}.chapters.${chapterIndex}`]: validation.data });
-        return { success: true, message: `Chapter at index ${chapterIndex} updated successfully.` };
+        const docSnap = await getDoc(docRef);
+         if (!docSnap.exists()) {
+            return { success: false, message: "Class document not found." };
+        }
+        const classData = docSnap.data();
+        const subject = classData[subjectKey];
+        if (subject && subject.books[bookIndex] && subject.books[bookIndex].chapters[chapterIndex]) {
+            subject.books[bookIndex].chapters[chapterIndex] = validation.data;
+            await updateDoc(docRef, { [subjectKey]: subject });
+            return { success: true, message: `Chapter updated successfully.` };
+        }
+        return { success: false, message: "Chapter not found." };
     } catch (error) {
         console.error(`Error updating chapter:`, error);
         return { success: false, message: "Failed to update chapter." };
     }
 }
-
-// Note: Firestore does not support directly deleting an element from an array by index/value in server actions easily.
-// A robust solution requires reading the document, modifying the array in code, and overwriting the field.
-// This is a more advanced operation and would be implemented in the UI logic that calls these actions.
