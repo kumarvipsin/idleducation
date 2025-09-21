@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass, editChapter, editTopic } from '@/app/actions';
+import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass, editChapter, editTopic, editClass } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -88,13 +88,17 @@ export default function AdminImportantQuestionsPage() {
     
     try {
         if (type === 'class' && action === 'add') {
-             result = await setClassData('importantQuestions', formData.get('id') as string, {});
+             const newClassId = formData.get('id') as string;
+             result = await setClassData('importantQuestions', newClassId, { "part-1": { name: 'Part 1', chapters: [] }});
+        } else if (type === 'class' && action === 'edit' && classId) {
+            const newClassId = formData.get('id') as string;
+            result = await editClass('importantQuestions', classId, newClassId);
         } else if (type === 'part' && classId) {
             const partName = formData.get('name') as string;
             const newPartKey = generateSlug(partName);
             if (action === 'add') {
                  const partData = { name: partName, chapters: [] };
-                 result = await updateDoc('importantQuestions', classId, { [newPartKey]: partData });
+                 result = await updatePart('importantQuestions', classId, newPartKey, formData);
             } else if (action === 'edit' && partKey) {
                 result = await updatePart('importantQuestions', classId, partKey, formData);
             }
@@ -167,6 +171,9 @@ export default function AdminImportantQuestionsPage() {
                       <DialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
                       </DialogTrigger>
+                       <DialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); setEditState({type: 'class', action: 'edit', data: {id: classDoc.id}, classId: classDoc.id }); }}><Edit className="h-4 w-4" /></Button>
+                        </DialogTrigger>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id})}><Trash2 className="h-4 w-4" /></Button>
                       </AlertDialogTrigger>

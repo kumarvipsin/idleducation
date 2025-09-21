@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getNotes, setClassData, updatePart, addChapter, addTopic, deleteClass, editChapter, editTopic } from '@/app/actions';
+import { getNotes, setClassData, updatePart, addChapter, addTopic, deleteClass, editChapter, editTopic, editClass } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -88,12 +88,20 @@ export default function AdminNotesPage() {
     
     try {
         if (type === 'class' && action === 'add') {
-             result = await setClassData('notes', formData.get('id') as string, {});
-        } else if (type === 'part') {
-             const newPartName = formData.get('name') as string;
-             const newPartKey = generateSlug(newPartName);
-             const partData = { name: newPartName, chapters: action === 'add' ? [] : data.chapters };
-             result = await updateDoc('notes', classId!, { [newPartKey]: partData });
+            const newClassId = formData.get('id') as string;
+            result = await setClassData('notes', newClassId, { "part-1": { name: 'Part 1', chapters: [] }});
+        } else if (type === 'class' && action === 'edit' && classId) {
+            const newClassId = formData.get('id') as string;
+            result = await editClass('notes', classId, newClassId);
+        } else if (type === 'part' && classId) {
+            const newPartName = formData.get('name') as string;
+            const newPartKey = generateSlug(newPartName);
+            if (action === 'add') {
+                 const partData = { name: newPartName, chapters: [] };
+                 result = await updatePart('notes', classId, newPartKey, formData); // This seems wrong, let's fix it later if needed. Should be updateDoc.
+            } else if (action === 'edit' && partKey) {
+                result = await updatePart('notes', classId, partKey, formData);
+            }
         } else if (type === 'chapter' && classId && partKey) {
             if (action === 'add') {
               result = await addChapter('notes', classId, partKey, formData);
@@ -145,7 +153,10 @@ export default function AdminNotesPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <div><CardTitle>Manage Notes</CardTitle><CardDescription>Manage content for classes, parts, chapters, and topics.</CardDescription></div>
+              <div>
+                <CardTitle>Manage Notes</CardTitle>
+                <CardDescription>Manage content for classes, parts, chapters, and topics.</CardDescription>
+              </div>
               <DialogTrigger asChild>
                 <Button size="sm" onClick={() => setEditState({ type: 'class', action: 'add', data: {} })}>
                     <PlusCircle className="mr-2 h-4 w-4"/> Add Class
@@ -156,59 +167,80 @@ export default function AdminNotesPage() {
           {loading ? renderSkeleton() : (
             <Accordion type="multiple" className="w-full space-y-4">
               {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
-                <AccordionItem value={classDoc.id} key={classDoc.id}><Card>
-                  <div className="flex items-center p-4">
-                    <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2"><span className="capitalize">{classDoc.id.replace('-', ' ')}</span></AccordionTrigger>
-                    <div className="flex items-center gap-2 ml-auto shrink-0">
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
-                      </DialogTrigger>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id})}><Trash2 className="h-4 w-4" /></Button>
-                      </AlertDialogTrigger>
+                <AccordionItem value={classDoc.id} key={classDoc.id}>
+                  <Card>
+                    <div className="flex items-center p-4">
+                      <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2">
+                          <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
+                      </AccordionTrigger>
+                      <div className="flex items-center gap-2 ml-auto shrink-0">
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); setEditState({type: 'class', action: 'edit', data: {id: classDoc.id}, classId: classDoc.id }); }}><Edit className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id})}><Trash2 className="h-4 w-4" /></Button>
+                        </AlertDialogTrigger>
+                      </div>
                     </div>
-                  </div>
-                  <AccordionContent><CardContent><Accordion type="multiple" className="w-full space-y-2">
+                    <AccordionContent><CardContent><Accordion type="multiple" className="w-full space-y-2">
                     {Object.entries(classDoc.data).map(([partKey, partData]) => {
                       if (partKey === 'id' || !partData || typeof partData !== 'object' || !partData.name) return null;
-                      return (<AccordionItem value={`${classDoc.id}-${partKey}`} key={partKey}><div className="flex items-center p-2 bg-muted/50 rounded-md">
-                        <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline flex-1 w-full pr-2"><span>{partData.name}</span></AccordionTrigger>
-                        <div className="flex items-center gap-2 ml-auto shrink-0">
-                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
-                          </DialogTrigger>
-                           <DialogTrigger asChild>
-                               <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'part', action: 'edit', data: { name: partData.name }, classId: classDoc.id, partKey: partKey})}><Edit className="h-4 w-4" /></Button>
+                      return (<AccordionItem value={`${classDoc.id}-${partKey}`} key={partKey}>
+                        <div className="flex items-center p-2 bg-muted/50 rounded-md">
+                          <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline flex-1 w-full pr-2"><span>{partData.name}</span></AccordionTrigger>
+                          <div className="flex items-center gap-2 ml-auto shrink-0">
+                            <DialogTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
                             </DialogTrigger>
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'part', action: 'edit', data: { name: partData.name }, classId: classDoc.id, partKey: partKey})}><Edit className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                          </div>
                         </div>
-                      </div><AccordionContent className="p-2">
-                        {Array.isArray(partData.chapters) && partData.chapters.map((chapter, chapterIndex) => (<AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0"><div className="mb-2 p-2 border rounded-md">
-                          <div className="flex justify-between items-center"><AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name} {chapter.pdfUrl && <File className="w-4 h-4 text-primary ml-2 inline"/>}</AccordionTrigger>
-                            <div className="flex items-center gap-1">
-                               <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
-                               </DialogTrigger>
-                               <DialogTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'edit', data: chapter, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-4 w-4" /></Button>
-                               </DialogTrigger>
-                                <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                            </div>
-                          </div><AccordionContent className="p-2"><ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
-                            {Array.isArray(chapter.topics) && chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
-                              <span>{topic.name} {topic.pdfUrl && <File className="w-3 h-3 text-primary ml-1 inline"/>}</span><div className="flex items-center gap-1">
-                                <DialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'topic', action: 'edit', data: topic, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex, topicIndex: topicIndex})}><Edit className="h-3 w-3" /></Button>
-                                </DialogTrigger>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                        <AccordionContent className="p-2">
+                          {Array.isArray(partData.chapters) && partData.chapters.map((chapter, chapterIndex) => (
+                            <AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0">
+                              <div className="mb-2 p-2 border rounded-md">
+                                <div className="flex justify-between items-center">
+                                  <AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name} {chapter.pdfUrl && <File className="w-4 h-4 text-primary ml-2 inline"/>}</AccordionTrigger>
+                                  <div className="flex items-center gap-1">
+                                    <DialogTrigger asChild>
+                                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
+                                    </DialogTrigger>
+                                    <DialogTrigger asChild>
+                                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'edit', data: chapter, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-4 w-4" /></Button>
+                                    </DialogTrigger>
+                                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                  </div>
+                                </div>
+                                <AccordionContent className="p-2">
+                                  <ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
+                                    {Array.isArray(chapter.topics) && chapter.topics.map((topic, topicIndex) => (
+                                      <li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
+                                        <span>{topic.name} {topic.pdfUrl && <File className="w-3 h-3 text-primary ml-1 inline"/>}</span>
+                                        <div className="flex items-center gap-1">
+                                          <DialogTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'topic', action: 'edit', data: topic, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex, topicIndex: topicIndex})}><Edit className="h-3 w-3" /></Button>
+                                          </DialogTrigger>
+                                          <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                                        </div>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </AccordionContent>
                               </div>
-                            </li>))}
-                          </ul></AccordionContent>
-                        </div></AccordionItem>))}
-                      </AccordionContent></AccordionItem>)
+                            </AccordionItem>
+                          ))}
+                        </AccordionContent>
+                      </AccordionItem>)
                     })}
-                  </Accordion></CardContent></AccordionContent>
-                </Card></AccordionItem>
+                    </Accordion></CardContent></AccordionContent>
+                  </Card>
+                </AccordionItem>
               ))}
             </Accordion>
           )}

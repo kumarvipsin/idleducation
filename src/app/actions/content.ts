@@ -1,7 +1,8 @@
+
 'use server';
 
 import { db } from "@/lib/firebase";
-import { doc, setDoc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove, writeBatch } from "firebase/firestore";
 import { z } from "zod";
 import { uploadFileToGCS } from "@/lib/gcs";
 
@@ -55,6 +56,43 @@ export async function setClassData(collectionType: CollectionType, classId: stri
     } catch (error) {
         console.error(`Error setting class data for ${classId}:`, error);
         return { success: false, message: "Failed to set class data." };
+    }
+}
+
+export async function editClass(collectionType: CollectionType, oldClassId: string, newClassId: string) {
+    if (!oldClassId || !newClassId) {
+        return { success: false, message: "Both old and new class IDs are required." };
+    }
+    if (oldClassId === newClassId) {
+        return { success: true, message: "Class ID is the same, no changes made."};
+    }
+
+    try {
+        const oldDocRef = getContentDocRef(collectionType, oldClassId);
+        const oldDocSnap = await getDoc(oldDocRef);
+
+        if (!oldDocSnap.exists()) {
+            return { success: false, message: `Class '${oldClassId}' not found.` };
+        }
+        
+        const data = oldDocSnap.data();
+
+        const newDocRef = getContentDocRef(collectionType, newClassId);
+        const newDocSnap = await getDoc(newDocRef);
+
+        if (newDocSnap.exists()) {
+            return { success: false, message: `Class '${newClassId}' already exists.` };
+        }
+
+        const batch = writeBatch(db);
+        batch.set(newDocRef, data);
+        batch.delete(oldDocRef);
+        await batch.commit();
+
+        return { success: true, message: `Class '${oldClassId}' successfully renamed to '${newClassId}'.` };
+    } catch (error) {
+        console.error(`Error renaming class from ${oldClassId} to ${newClassId}:`, error);
+        return { success: false, message: "Failed to rename class." };
     }
 }
 
