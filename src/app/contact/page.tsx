@@ -80,6 +80,7 @@ export default function ContactPage() {
     { icon: Phone, label: "For Admission Enquiry", value: "+91 7011117585", href: "tel:+917011117585" },
     { icon: Headset, label: "For Enrolled Students", value: "011 45035713", href: "tel:01145035713" },
     { icon: Mail, label: "Email Address", value: "info@idleducation.in", href: "mailto:info@idleducation.in" },
+    { icon: MapPin, label: "Our Address", value: "E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086", href: "#" },
   ];
 
   return (
