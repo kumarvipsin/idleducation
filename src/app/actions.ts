@@ -481,6 +481,18 @@ export async function getContactSubmissions() {
   }
 }
 
+export async function getSupportTickets() {
+  try {
+    const ticketsQuery = query(collection(db, "supportTickets"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(ticketsQuery);
+    const tickets = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: tickets };
+  } catch (error) {
+    console.error("Error fetching support tickets:", error);
+    return { success: false, message: "Failed to fetch support tickets." };
+  }
+}
+
 export async function getScholarshipRegistrations() {
   try {
     const registrationsQuery = query(collection(db, "scholarshipRegistrations"), orderBy("createdAt", "desc"));
