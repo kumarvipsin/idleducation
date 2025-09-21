@@ -348,25 +348,210 @@ const importantQuestionsData: { [key: string]: any } = {
   'class-7': {
     maths: {
       books: [
-        { name: "Mathematics Textbook for Class VII", lang: "en", chapters: [{ name: "Integers" }] },
-        { name: "गणित, कक्षा VII", lang: "hi", chapters: [{ name: "पूर्णांक" }] }
-      ]
+        {
+          name: "Mathematics Textbook for Class VII",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Integers" },
+            { name: "Chapter 2: Fractions and Decimals" },
+            { name: "Chapter 3: Data Handling" },
+            { name: "Chapter 4: Simple Equations" },
+            { name: "Chapter 5: Lines and Angles" },
+            { name: "Chapter 6: The Triangle and its Properties" },
+            { name: "Chapter 7: Congruence of Triangles" },
+            { name: "Chapter 8: Comparing Quantities" },
+            { name: "Chapter 9: Rational Numbers" },
+            { name: "Chapter 10: Practical Geometry" },
+            { name: "Chapter 11: Perimeter and Area" },
+            { name: "Chapter 12: Algebraic Expressions" },
+            { name: "Chapter 13: Exponents and Powers" },
+            { name: "Chapter 14: Symmetry" },
+            { name: "Chapter 15: Visualising Solid Shapes" },
+          ],
+        },
+        {
+          name: "गणित, कक्षा VII",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: पूर्णांक" },
+            { name: "अध्याय 2: भिन्न एवं दशमलव" },
+            { name: "अध्याय 3: आँकड़ो का प्रबंधन" },
+            { name: "अध्याय 4: सरल समीकरण" },
+            { name: "अध्याय 5: रेखा एवं कोण" },
+            { name: "अध्याय 6: त्रिभुज और उसके गुण" },
+            { name: "अध्याय 7: त्रिभुजों की सर्वांगसमता" },
+            { name: "अध्याय 8: राशियों की तुलना" },
+            { name: "अध्याय 9: परिमेय संख्याएँ" },
+            { name: "अध्याय 10: प्रायोगिक ज्यामिति" },
+            { name: "अध्याय 11: परिमाप और क्षेत्रफल" },
+            { name: "अध्याय 12: बीजीय व्यंजक" },
+            { name: "अध्याय 13: घातांक और घात" },
+            { name: "अध्याय 14: सममिति" },
+            { name: "अध्याय 15: ठोस आकारों का चित्रण" },
+          ],
+        },
+      ],
     },
     science: {
       books: [
-        { name: "Science Textbook for Class VII", lang: "en", chapters: [{ name: "Nutrition in Plants" }] },
-        { name: "विज्ञान, कक्षा VII", lang: "hi", chapters: [{ name: "पादपों में पोषण" }] }
-      ]
+        {
+          name: "Science Textbook for Class VII",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Nutrition in Plants" },
+            { name: "Chapter 2: Nutrition in Animals" },
+            { name: "Chapter 3: Fibre to Fabric" },
+            { name: "Chapter 4: Heat" },
+            { name: "Chapter 5: Acids, Bases and Salts" },
+            { name: "Chapter 6: Physical and Chemical Changes" },
+            { name: "Chapter 7: Weather, Climate and Adaptations of Animals to Climate" },
+            { name: "Chapter 8: Winds, Storms and Cyclones" },
+            { name: "Chapter 9: Soil" },
+            { name: "Chapter 10: Respiration in Organisms" },
+            { name: "Chapter 11: Transportation in Animals and Plants" },
+            { name: "Chapter 12: Reproduction in Plants" },
+            { name: "Chapter 13: Motion and Time" },
+            { name: "Chapter 14: Electric Current and its Effects" },
+            { name: "Chapter 15: Light" },
+            { name: "Chapter 16: Water: A Precious Resource" },
+            { name: "Chapter 17: Forests: Our Lifeline" },
+            { name: "Chapter 18: Wastewater Story" },
+          ],
+        },
+        {
+          name: "विज्ञान, कक्षा VII",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: पादपों में पोषण" },
+            { name: "अध्याय 2: प्राणियों में पोषण" },
+            { name: "अध्याय 3: रेशों से वस्त्र तक" },
+            { name: "अध्याय 4: ऊष्मा" },
+            { name: "अध्याय 5: अम्ल, क्षारक और लवण" },
+            { name: "अध्याय 6: भौतिक एवं रासायनिक परिवर्तन" },
+            { name: "अध्याय 7: मौसम, जलवायु तथा जलवायु के अनुरूप जंतुओं द्वारा अनुकूलन" },
+            { name: "अध्याय 8: पवन, तूफ़ान और चक्रवात" },
+            { name: "अध्याय 9: मृदा" },
+            { name: "अध्याय 10: जीवों में श्वसन" },
+            { name: "अध्याय 11: जंतुओं और पादप में परिवहन" },
+            { name: "अध्याय 12: पादप में जनन" },
+            { name: "अध्याय 13: गति एवं समय" },
+            { name: "अध्याय 14: विद्युत धारा और इसके प्रभाव" },
+            { name: "अध्याय 15: प्रकाश" },
+            { name: "अध्याय 16: जल: एक बहुमूल्य संसाधन" },
+            { name: "अध्याय 17: वन: हमारी जीवन रेखा" },
+            { name: "अध्याय 18: अपशिष्ट जल की कहानी" },
+          ],
+        },
+      ],
     },
     social: {
       books: [
-        { name: "Our Pasts - II", lang: "en", chapters: [{ name: "Tracing Changes Through A Thousand Years" }] },
-        { name: "हमारे अतीत - II", lang: "hi", chapters: [{ name: "हज़ार वर्षों के दौरान हुए परिवर्तनों की पड़ताल" }] }
-      ]
+        {
+          name: "Our Pasts - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Tracing Changes Through A Thousand Years" },
+            { name: "Chapter 2: New Kings And Kingdoms" },
+            { name: "Chapter 3: The Delhi Sultans" },
+            { name: "Chapter 4: The Mughal Empire" },
+            { name: "Chapter 5: Rulers And Buildings" },
+            { name: "Chapter 6: Towns, Traders And Craftspersons" },
+            { name: "Chapter 7: Tribes, Nomads And Settled Communities" },
+            { name: "Chapter 8: Devotional Paths To The Divine" },
+          ],
+        },
+        {
+          name: "Our Environment",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Environment" },
+            { name: "Chapter 2: Inside Our Earth" },
+            { name: "Chapter 3: Our Changing Earth" },
+            { name: "Chapter 4: Air" },
+            { name: "Chapter 5: Water" },
+            { name: "Chapter 6: Human Environment–Interaction: The Tropical and the Subtropical Region" },
+            { name: "Chapter 7: Life in the Deserts" },
+          ],
+        },
+        {
+          name: "Social and Political Life - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: On Equality" },
+            { name: "Chapter 2: Role of the Government in Health" },
+            { name: "Chapter 3: How the State Government Works" },
+            { name: "Chapter 4: Growing Up as Boys and Girls" },
+            { name: "Chapter 5: Women Change the World" },
+            { name: "Chapter 6: Understanding Media" },
+            { name: "Chapter 7: Markets Around Us" },
+            { name: "Chapter 8: A Shirt in the Market" },
+          ],
+        },
+        {
+          name: "हमारे अतीत - II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: हज़ार वर्षों के दौरान हुए परिवर्तनों की पड़ताल" },
+            { name: "अध्याय 2: नये राजा और उनके राज्य" },
+            { name: "अध्याय 3: दिल्ली के सुलतान" },
+            { name: "अध्याय 4: मुग़ल साम्राज्य" },
+            { name: "अध्याय 5: शासक और इमारतें" },
+            { name: "अध्याय 6: नगर, व्यापारी और शिल्पीजन" },
+            { name: "अध्याय 7: जनजातियाँ, खानाबदोश और एक जगह बसे हुए समुदाय" },
+            { name: "अध्याय 8: ईश्वर से अनुराग" },
+          ],
+        },
+        {
+          name: "हमारा पर्यावरण",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: पर्यावरण" },
+            { name: "अध्याय 2: हमारी पृथ्वी के अंदर" },
+            { name: "अध्याय 3: हमारी बदलती पृथ्वी" },
+            { name: "अध्याय 4: वायु" },
+            { name: "अध्याय 5: जल" },
+            { name: "अध्याय 6: मानव-पर्यावरण अन्योन्यक्रिया: उष्णकटिबंधीय एवं उपोष्ण प्रदेश" },
+            { name: "अध्याय 7: रेगिस्तान में जीवन" },
+          ],
+        },
+        {
+          name: "सामाजिक एवं राजनीतिक जीवन - II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: समानता" },
+            { name: "अध्याय 2: स्वास्थ्य में सरकार की भूमिका" },
+            { name: "अध्याय 3: राज्य शासन कैसे काम करता है" },
+            { name: "अध्याय 4: लड़के और लड़कियों के रूप में बड़ा होना" },
+            { name: "अध्याय 5: औरतों ने बदली दुनिया" },
+            { name: "अध्याय 6: संचार माध्यमों को समझना" },
+            { name: "अध्याय 7: हमारे आस-पास के बाज़ार" },
+            { name: "अध्याय 8: बाज़ार में एक कमीज़" },
+          ],
+        },
+      ],
     },
     english: {
        books: [
-        { name: "Honeycomb", lang: "en", chapters: [{ name: "Three Questions" }] }
+        {
+          name: "Honeycomb",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Three Questions" },
+            { name: "Chapter 2: A Gift of Chappals" },
+            { name: "Chapter 3: Gopal and the Hilsa Fish" },
+            { name: "Chapter 4: The Ashes That Made Trees Bloom" },
+            { name: "Chapter 5: Quality" },
+          ],
+        },
+        {
+          name: "An Alien Hand",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Tiny Teacher" },
+            { name: "Chapter 2: Bringing Up Kari" },
+            { name: "Chapter 3: The Desert" },
+          ],
+        },
       ]
     },
   },
@@ -423,26 +608,124 @@ const importantQuestionsData: { [key: string]: any } = {
   'class-10': {
     maths: {
       books: [
-        { name: "Mathematics Textbook for Class X", lang: "en", chapters: [{ name: "Real Numbers" }] },
-        { name: "गणित, कक्षा X", lang: "hi", chapters: [{ name: "वास्तविक संख्याएँ" }] }
-      ]
+        {
+          name: "Mathematics Textbook for Class X",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Real Numbers" },
+            { name: "Chapter 2: Polynomials" },
+            { name: "Chapter 3: Pair of Linear Equations in Two Variables" },
+            { name: "Chapter 4: Quadratic Equations" },
+            { name: "Chapter 5: Arithmetic Progressions" },
+            { name: "Chapter 6: Triangles" },
+            { name: "Chapter 7: Coordinate Geometry" },
+            { name: "Chapter 8: Introduction to Trigonometry" },
+            { name: "Chapter 9: Some Applications of Trigonometry" },
+            { name: "Chapter 10: Circles" },
+            { name: "Chapter 11: Areas Related to Circles" },
+            { name: "Chapter 12: Surface Areas and Volumes" },
+            { name: "Chapter 13: Statistics" },
+            { name: "Chapter 14: Probability" },
+          ],
+        },
+        {
+          name: "गणित, कक्षा X",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: वास्तविक संख्याएँ" },
+            { name: "अध्याय 2: बहुपद" },
+            { name: "अध्याय 3: दो चर वाले रैखिक समीकरण युग्म" },
+            { name: "अध्याय 4: द्विघात समीकरण" },
+            { name: "अध्याय 5: समांतर श्रेढ़ियाँ" },
+            { name: "अध्याय 6: त्रिभुज" },
+            { name: "अध्याय 7: निर्देशांक ज्यामिति" },
+            { name: "अध्याय 8: त्रिकोणमिति का परिचय" },
+            { name: "अध्याय 9: त्रिकोणमिति के कुछ अनुप्रयोग" },
+            { name: "अध्याय 10: वृत्त" },
+            { name: "अध्याय 11: वृत्तों से संबंधित क्षेत्रफल" },
+            { name: "अध्याय 12: पृष्ठीय क्षेत्रफल और आयतन" },
+            { name: "अध्याय 13: सांख्यिकी" },
+            { name: "अध्याय 14: प्रायिकता" },
+          ],
+        },
+      ],
     },
     science: {
       books: [
-        { name: "Science Class X (2025 Syllabus)", lang: "en", chapters: [{ name: "Chemical Reactions and Equations" }] },
-        { name: "विज्ञान (2025 Syllabus)", lang: "hi", chapters: [{ name: "रासायनिक अभिक्रियाएँ एवं समीकरण" }] }
-      ]
+        {
+          name: "Science Class X (2025 Syllabus)",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Chemical Reactions and Equations" },
+            { name: "Chapter 2: Acids, Bases and Salts" },
+            { name: "Chapter 3: Metals and Non-metals" },
+            { name: "Chapter 4: Carbon and its Compounds" },
+            { name: "Chapter 5: Life Processes" },
+            { name: "Chapter 6: Control and Coordination" },
+            { name: "Chapter 7: How do Organisms Reproduce?" },
+            { name: "Chapter 8: Heredity" },
+            { name: "Chapter 9: Light – Reflection and Refraction" },
+            { name: "Chapter 10: The Human Eye and the Colourful World" },
+            { name: "Chapter 11: Electricity" },
+            { name: "Chapter 12: Magnetic Effects of Electric Current" },
+            { name: "Chapter 13: Our Environment" },
+          ],
+        },
+        {
+          name: "विज्ञान (2025 Syllabus)",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: रासायनिक अभिक्रियाएँ एवं समीकरण" },
+            { name: "अध्याय 2: अम्ल, क्षारक एवं लवण" },
+            { name: "अध्याय 3: धातु एवं अधातु" },
+            { name: "अध्याय 4: कार्बन एवं उसके यौगिक" },
+            { name: "अध्याय 5: जैव प्रक्रम" },
+            { name: "अध्याय 6: नियंत्रण एवं समन्वय" },
+            { name: "अध्याय 7: जीव जनन कैसे करते हैं?" },
+            { name: "अध्याय 8: आनुवंशिकता" },
+            { name: "अध्याय 9: प्रकाश – परावर्तन तथा अपवर्तन" },
+            { name: "अध्याय 10: मानव नेत्र तथा रंगबिरंगा संसार" },
+            { name: "अध्याय 11: विद्युत" },
+            { name: "अध्याय 12: विद्युत धारा के चुंबकीय प्रभाव" },
+            { name: "अध्याय 13: हमारा पर्यावरण" },
+          ],
+        },
+      ],
     },
     social: {
       books: [
-        { name: "India and the Contemporary World - II", lang: "en", chapters: [{ name: "The Rise of Nationalism in Europe" }] },
-        { name: "भारत और समकालीन विश्व - II", lang: "hi", chapters: [{ name: "यूरोप में राष्ट्रवाद का उदय" }] }
-      ]
+        {
+          name: "India and the Contemporary World - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Rise of Nationalism in Europe" },
+            { name: "Chapter 2: Nationalism in India" },
+            { name: "Chapter 3: The Making of a Global World" },
+            { name: "Chapter 4: The Age of Industrialisation" },
+            { name: "Chapter 5: Print Culture and the Modern World" },
+          ],
+        },
+        {
+          name: "भारत और समकालीन विश्व - II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: यूरोप में राष्ट्रवाद का उदय" },
+            { name: "अध्याय 2: भारत में राष्ट्रवाद" },
+            { name: "अध्याय 3: भूमंडलीकृत विश्व का बनना" },
+            { name: "अध्याय 4: औद्योगिकीकरण का युग" },
+            { name: "अध्याय 5: मुद्रण संस्कृति और आधुनिक दुनिया" },
+          ],
+        },
+      ],
     },
     english: {
       books: [
-        { name: "First Flight", lang: "en", chapters: [{ name: "A Letter to God" }] }
-      ]
+        {
+          name: "First Flight",
+          lang: "en",
+          chapters: [{ name: "A Letter to God" }],
+        },
+      ],
     },
   },
   'class-11': {
