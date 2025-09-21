@@ -1,7 +1,7 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getNotes, setClassData, addSubject, addBook, addChapter } from '@/app/actions';
+import { getNotes, setClassData, updateSubject, addBook, addChapter } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -47,7 +47,7 @@ type EditState = {
 export default function AdminNotesPage() {
   const [notes, setNotes] = useState<NoteDoc[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dialogState, setDialogState] = useState<EditState>(null);
+  const [editState, setEditState] = useState<EditState>(null);
   const [deleteState, setDeleteState] = useState<EditState>(null);
   const { toast } = useToast();
 
@@ -69,19 +69,18 @@ export default function AdminNotesPage() {
   }, []);
 
   const handleFormSubmit = async (formData: any) => {
-    if (!dialogState) return;
+    if (!editState) return;
     
     let result;
-    const { type, action, classId, subjectKey, bookIndex, chapterIndex } = dialogState;
+    const { type, action, classId, subjectKey, bookIndex, chapterIndex } = editState;
 
     try {
-        if (type === 'class') {
-            const classData = classId ? { ...dialogState.data, ...formData } : {};
-            result = await setClassData('notes', formData.id, classData);
+        if (type === 'class' && action === 'add') {
+            result = await setClassData('notes', formData.id, {});
         } else if (type === 'subject' && classId) {
             if (action === 'add') {
                 const subjectData = { name: formData.name, books: [] };
-                result = await addSubject('notes', classId, formData.key, subjectData);
+                result = await updateSubject('notes', classId, formData.key, subjectData);
             }
         } else if (type === 'book' && classId && subjectKey) {
             if (action === 'add') {
@@ -104,7 +103,7 @@ export default function AdminNotesPage() {
     } catch (error: any) {
         toast({ variant: "destructive", title: "Error", description: error.message });
     } finally {
-        setDialogState(null);
+        setEditState(null);
     }
   };
 
@@ -143,9 +142,11 @@ export default function AdminNotesPage() {
                 View and manage the seeded NCERT solutions data (from the 'notes' collection).
               </CardDescription>
             </div>
-            <Button size="sm" onClick={() => setDialogState({ type: 'class', action: 'add', data: {} })}>
-              <PlusCircle className="mr-2 h-4 w-4"/> Add Class
-            </Button>
+            <DialogTrigger asChild>
+                <Button size="sm" onClick={() => setEditState({ type: 'class', action: 'add', data: {} })}>
+                    <PlusCircle className="mr-2 h-4 w-4"/> Add Class
+                </Button>
+            </DialogTrigger>
           </CardHeader>
         </Card>
         {loading ? renderSkeleton() : (
@@ -158,12 +159,16 @@ export default function AdminNotesPage() {
                         <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
                      </AccordionTrigger>
                      <div className="flex items-center gap-2 ml-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setDialogState({type: 'subject', action: 'add', data: {}, classId: classDoc.id })}>
-                            <PlusCircle className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setDialogState({type: 'class', action: 'edit', data: {id: classDoc.id}, classId: classDoc.id }); }}>
-                            <Edit className="h-4 w-4" />
-                        </Button>
+                        <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); setEditState({type: 'subject', action: 'add', data: {}, classId: classDoc.id }); }}>
+                                <PlusCircle className="h-4 w-4" />
+                            </Button>
+                        </DialogTrigger>
+                        <DialogTrigger asChild>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); setEditState({type: 'class', action: 'edit', data: {id: classDoc.id}, classId: classDoc.id }); }}>
+                                <Edit className="h-4 w-4" />
+                           </Button>
+                        </DialogTrigger>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                     </div>
                   </div>
@@ -179,7 +184,9 @@ export default function AdminNotesPage() {
                                         <span>{key}</span>
                                     </AccordionTrigger>
                                      <div className="flex items-center gap-2 ml-2">
-                                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setDialogState({type: 'book', action: 'add', data: {}, classId: classDoc.id, subjectKey: key})}><PlusCircle className="h-4 w-4" /></Button>
+                                        <DialogTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); setEditState({type: 'book', action: 'add', data: {}, classId: classDoc.id, subjectKey: key})}}><PlusCircle className="h-4 w-4" /></Button>
+                                        </DialogTrigger>
                                         <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
                                         <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                                     </div>
@@ -190,7 +197,9 @@ export default function AdminNotesPage() {
                                               <div className="flex justify-between items-center">
                                                   <p className="font-semibold text-sm italic p-2">{book.name} ({book.lang})</p>
                                                   <div className="flex items-center gap-1">
-                                                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setDialogState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, subjectKey: key, bookIndex: bookIndex})}><PlusCircle className="h-4 w-4" /></Button>
+                                                      <DialogTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={(e) => { e.stopPropagation(); setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, subjectKey: key, bookIndex: bookIndex})}}><PlusCircle className="h-4 w-4" /></Button>
+                                                      </DialogTrigger>
                                                       <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
                                                       <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                                                   </div>
@@ -221,55 +230,55 @@ export default function AdminNotesPage() {
           </Accordion>
         )}
       </div>
-      <Dialog open={!!dialogState} onOpenChange={(isOpen) => !isOpen && setDialogState(null)}>
-        {dialogState && (
+      <Dialog open={!!editState} onOpenChange={(isOpen) => !isOpen && setEditState(null)}>
+        {editState && (
           <DialogContent>
               <DialogHeader>
-                  <DialogTitle>{dialogState.action === 'add' ? 'Add New' : 'Edit'} {dialogState.type}</DialogTitle>
+                  <DialogTitle>{editState.action === 'add' ? 'Add New' : 'Edit'} {editState.type}</DialogTitle>
               </DialogHeader>
               <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(Object.fromEntries(new FormData(e.currentTarget).entries())); }}>
                   <div className="grid gap-4 py-4">
-                      {dialogState.type === 'class' && (
+                      {editState.type === 'class' && editState.action === 'add' && (
                            <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="id" className="text-right">Class ID</Label>
-                              <Input id="id" name="id" defaultValue={dialogState.data.id} className="col-span-3" placeholder="e.g., class-5" readOnly={dialogState.action === 'edit'}/>
+                              <Input id="id" name="id" defaultValue={editState.data.id} className="col-span-3" placeholder="e.g., class-5"/>
                           </div>
                       )}
-                      {dialogState.type === 'subject' && (
+                      {editState.type === 'subject' && (
                            <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="key" className="text-right">Subject Key</Label>
-                              <Input id="key" name="key" defaultValue={dialogState.subjectKey} className="col-span-3" placeholder="e.g., maths" readOnly={dialogState.action === 'edit'}/>
+                              <Input id="key" name="key" defaultValue={editState.subjectKey} className="col-span-3" placeholder="e.g., maths" readOnly={editState.action === 'edit'}/>
                               <Label htmlFor="name" className="text-right">Subject Name</Label>
-                              <Input id="name" name="name" defaultValue={dialogState.data.name} className="col-span-3" placeholder="e.g., Mathematics"/>
+                              <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" placeholder="e.g., Mathematics"/>
                           </div>
                       )}
-                      {dialogState.type === 'book' && (
+                      {editState.type === 'book' && (
                         <>
                           <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="name" className="text-right">Book Name</Label>
-                              <Input id="name" name="name" defaultValue={dialogState.data.name} className="col-span-3" />
+                              <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
                           </div>
                            <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="lang" className="text-right">Language</Label>
-                              <Input id="lang" name="lang" defaultValue={dialogState.data.lang} className="col-span-3" placeholder="en / hi"/>
+                              <Input id="lang" name="lang" defaultValue={editState.data.lang} className="col-span-3" placeholder="en / hi"/>
                           </div>
                         </>
                       )}
-                      {dialogState.type === 'chapter' && (
+                      {editState.type === 'chapter' && (
                         <>
                           <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="name" className="text-right">Name</Label>
-                              <Input id="name" name="name" defaultValue={dialogState.data.name} className="col-span-3" />
+                              <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
                           </div>
                           <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="slug" className="text-right">Slug</Label>
-                              <Input id="slug" name="slug" defaultValue={dialogState.data.slug} className="col-span-3" />
+                              <Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" />
                           </div>
                         </>
                       )}
                   </div>
                   <DialogFooter>
-                      <Button type="button" variant="outline" onClick={() => setDialogState(null)}>Cancel</Button>
+                      <Button type="button" variant="outline" onClick={() => setEditState(null)}>Cancel</Button>
                       <Button type="submit">Save Changes</Button>
                   </DialogFooter>
               </form>
