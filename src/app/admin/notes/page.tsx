@@ -1,17 +1,18 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getNotes, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic } from '@/app/actions';
+import { getNotes, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Edit, Trash2, Book, Library, Folder, File as FileIcon, Dot } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Book, Library, Folder, File as FileIcon, Dot, Eye } from 'lucide-react';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import Link from 'next/link';
 
 // Data Structures
 interface SubTopic { name: string; pdfUrl?: string; }
@@ -38,6 +39,25 @@ type DeleteState =
     | { type: 'topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; }; name: string; }
     | { type: 'sub-topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; subTopicIndex: number; }; name: string; }
     | null;
+
+const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
+    const { toast } = useToast();
+    const handleViewPdf = async () => {
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
+    };
+
+    return (
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleViewPdf}>
+            <Eye className="h-4 w-4" />
+        </Button>
+    );
+};
+
 
 export default function AdminNotesPage() {
   const [notes, setNotes] = useState<NoteDoc[]>([]);
@@ -194,17 +214,8 @@ export default function AdminNotesPage() {
                                   <AccordionContent className="pl-4 border-l ml-4">
                                       {partData.chapters?.map((chapter, chapIdx) => (
                                           <Accordion key={`part-chap-${chapIdx}`} type="multiple"><AccordionItem value={`${partKey}-chap-${chapIdx}`}>
-                                            <div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div>
-                                            <AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (
-                                                <Accordion key={`part-chap-topic-${topicIdx}`} type="multiple"><AccordionItem value={`${partKey}-chap-topic-${topicIdx}`}>
-                                                    <div className="flex items-center"><AccordionTrigger><FileIcon className="w-4 h-4 mr-2"/>{topic.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'topic', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx, topicIndex: topicIdx }, data: topic })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'topic', path: {classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx, topicIndex: topicIdx}, name: topic.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'sub-topic', action: 'add', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx, topicIndex: topicIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Sub-Topic</Button></div>
-                                                    <AccordionContent className="pl-6">
-                                                    {topic.subTopics?.map((subTopic, subTopicIdx) => (
-                                                        <div key={`part-chap-subtopic-${subTopicIdx}`} className="flex items-center py-2"><Dot className="w-4 h-4 mr-2"/>{subTopic.name}<div className="ml-auto"><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'sub-topic', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx, topicIndex: topicIdx, subTopicIndex: subTopicIdx }, data: subTopic })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'sub-topic', path: {classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx, topicIndex: topicIdx, subTopicIndex: subTopicIdx}, name: subTopic.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger></div></div>
-                                                    ))}
-                                                    </AccordionContent>
-                                                </AccordionItem></Accordion>
-                                            ))}</AccordionContent>
+                                            <div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger>{chapter.pdfUrl && <ViewPdfButton pdfUrl={chapter.pdfUrl} />}<Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div>
+                                            <AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent>
                                           </AccordionItem></Accordion>
                                     ))}
                                   </AccordionContent>
@@ -212,19 +223,7 @@ export default function AdminNotesPage() {
                             ))}
                             {/* Render Chapters directly under subject */}
                             {subjectData.chapters?.map((chapter, chapIdx) => (
-                                <Accordion key={`chap-${chapIdx}`} type="multiple"><AccordionItem value={`${subjectKey}-chap-${chapIdx}`}>
-                                    <div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey, chapterIndex: chapIdx}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div>
-                                    <AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (
-                                         <Accordion key={`chap-topic-${topicIdx}`} type="multiple"><AccordionItem value={`chap-topic-${topicIdx}`}>
-                                            <div className="flex items-center"><AccordionTrigger><FileIcon className="w-4 h-4 mr-2"/>{topic.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'topic', action: 'edit', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx, topicIndex: topicIdx }, data: topic })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'topic', path: {classId: classDoc.id, subjectKey, chapterIndex: chapIdx, topicIndex: topicIdx}, name: topic.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'sub-topic', action: 'add', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx, topicIndex: topicIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Sub-Topic</Button></div>
-                                            <AccordionContent className="pl-6">
-                                            {topic.subTopics?.map((subTopic, subTopicIdx) => (
-                                                <div key={`chap-subtopic-${subTopicIdx}`} className="flex items-center py-2"><Dot className="w-4 h-4 mr-2"/>{subTopic.name}<div className="ml-auto"><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'sub-topic', action: 'edit', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx, topicIndex: topicIdx, subTopicIndex: subTopicIdx }, data: subTopic })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'sub-topic', path: {classId: classDoc.id, subjectKey, chapterIndex: chapIdx, topicIndex: topicIdx, subTopicIndex: subTopicIdx}, name: subTopic.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger></div></div>
-                                            ))}
-                                            </AccordionContent>
-                                        </AccordionItem></Accordion>
-                                    ))}</AccordionContent>
-                                </AccordionItem></Accordion>
+                                <Accordion key={`chap-${chapIdx}`} type="multiple"><AccordionItem value={`${subjectKey}-chap-${chapIdx}`}><div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger>{chapter.pdfUrl && <ViewPdfButton pdfUrl={chapter.pdfUrl} />}<Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey, chapterIndex: chapIdx}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div><AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent></AccordionItem></Accordion>
                             ))}
                           </AccordionContent>
                         </AccordionItem></Accordion>
@@ -251,5 +250,3 @@ export default function AdminNotesPage() {
     </Dialog>
   );
 }
-
-    

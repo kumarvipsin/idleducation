@@ -1,10 +1,11 @@
 
+
 'use server';
 
 import { db } from "@/lib/firebase";
 import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, getDocs, collection, serverTimestamp, deleteField } from "firebase/firestore";
 import { z } from "zod";
-import { uploadFileToGCS } from '@/lib/gcs';
+import { uploadFileToGCS, getSignedUrl } from '@/lib/gcs';
 import { revalidatePath } from "next/cache";
 import { serializeFirestoreData, TClass, TSubject, TPart, TChapter, TTopic, TSubTopic } from './types';
 
@@ -20,6 +21,24 @@ type CollectionType = 'notes' | 'importantQuestions';
 const getContentDocRef = (collectionType: CollectionType, classId: string) => {
     return doc(db, collectionType, classId);
 };
+
+// ==================================
+// View PDF Action
+// ==================================
+export async function getSignedUrlForPdf(publicUrl: string) {
+    if (!publicUrl) {
+        return { success: false, message: 'No file URL provided.' };
+    }
+    try {
+        const bucketName = 'idlcloud'; 
+        const filePath = publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1);
+        const url = await getSignedUrl(filePath);
+        return { success: true, url: url };
+    } catch (error) {
+        console.error("Error generating signed URL for PDF:", error);
+        return { success: false, message: 'Could not get viewable link for the PDF.' };
+    }
+}
 
 // ==================================
 // Class Level Operations
