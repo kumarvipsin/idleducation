@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from "@/lib/firebase";
-import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, FieldValue, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, FieldValue, getDocs, collection, serverTimestamp } from "firebase/firestore";
 import { z } from "zod";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { revalidatePath } from "next/cache";
@@ -94,7 +94,7 @@ export async function deleteClass(collectionType: CollectionType, classId: strin
     try {
         const docRef = getContentDocRef(collectionType, classId);
         await deleteDoc(docRef);
-        return { success: true, message: `${classId} deleted successfully from ${collectionType}.` };
+        return { success: true, message: `Class '${classId}' deleted successfully from ${collectionType}.` };
     } catch (error) {
         console.error(`Error deleting class ${classId}:`, error);
         return { success: false, message: "Failed to delete class." };
@@ -111,6 +111,7 @@ export async function addSubject(collectionType: CollectionType, classId: string
     const subjectKey = generateSlug(subjectName);
     const subjectData = {
         name: subjectName,
+        createdAt: serverTimestamp(),
         parts: {},
         chapters: []
     };
@@ -125,6 +126,21 @@ export async function addSubject(collectionType: CollectionType, classId: string
     }
 }
 
+
+export async function deleteSubject(collectionType: CollectionType, classId: string, subjectKey: string) {
+    if (!classId || !subjectKey) return { success: false, message: "Class ID and Subject Key are required." };
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        await updateDoc(docRef, { [`subjects.${subjectKey}`]: FieldValue.delete() });
+        return { success: true, message: "Subject deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting subject:", error);
+        return { success: false, message: "Failed to delete subject." };
+    }
+}
+
+
 // ==================================
 // Part Level Operations
 // ==================================
@@ -134,6 +150,7 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     const partKey = generateSlug(partName);
     const partData = {
         name: partName,
+        createdAt: serverTimestamp(),
         chapters: []
     };
 
@@ -144,6 +161,19 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     } catch (error) {
         console.error(`Error adding part ${partName}:`, error);
         return { success: false, message: "Failed to add part." };
+    }
+}
+
+export async function deletePart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string) {
+    if (!classId || !subjectKey || !partKey) return { success: false, message: "Class ID, Subject Key, and Part Key are required." };
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        await updateDoc(docRef, { [`subjects.${subjectKey}.parts.${partKey}`]: FieldValue.delete() });
+        return { success: true, message: "Part deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting part:", error);
+        return { success: false, message: "Failed to delete part." };
     }
 }
 
@@ -161,6 +191,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
     
     const chapterData = {
         name: chapterName,
+        createdAt: new Date().toISOString(),
         topics: [],
         pdfUrl: pdfUrl,
     };
@@ -180,6 +211,42 @@ export async function addChapter(collectionType: CollectionType, classId: string
     }
 }
 
+export async function deleteChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string) {
+     if (!classId || !subjectKey || !chapterName) return { success: false, message: "Required fields are missing."};
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+        
+        let chaptersArray;
+        let fieldPath;
+
+        if(partKey) {
+            chaptersArray = subject.parts?.[partKey]?.chapters || [];
+            fieldPath = `subjects.${subjectKey}.parts.${partKey}.chapters`;
+        } else {
+            chaptersArray = subject.chapters || [];
+            fieldPath = `subjects.${subjectKey}.chapters`;
+        }
+
+        const chapterToDelete = chaptersArray.find((chap: any) => chap.name === chapterName);
+        if(!chapterToDelete) return { success: false, message: "Chapter not found."};
+        
+        await updateDoc(docRef, { [fieldPath]: arrayRemove(chapterToDelete) });
+        
+        return { success: true, message: "Chapter deleted successfully." };
+
+    } catch (error) {
+        console.error("Error deleting chapter:", error);
+        return { success: false, message: "Failed to delete chapter." };
+    }
+}
+
 // ==================================
 // Topic Level Operations
 // ==================================
@@ -194,6 +261,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
 
     const topicData = {
         name: topicName,
+        createdAt: new Date().toISOString(),
         subTopics: [],
         pdfUrl: pdfUrl,
     };
@@ -232,6 +300,37 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     }
 }
 
+export async function deleteTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicName: string) {
+     if (!classId || !subjectKey || chapterIndex === undefined || !topicName) return { success: false, message: "Required fields are missing."};
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+        
+        const chaptersArray = partKey ? subject.parts?.[partKey]?.chapters : subject.chapters;
+        if (!chaptersArray || !chaptersArray[chapterIndex]) return { success: false, message: "Chapter not found." };
+
+        const originalTopics = chaptersArray[chapterIndex].topics || [];
+        const updatedTopics = originalTopics.filter((topic: any) => topic.name !== topicName);
+
+        chaptersArray[chapterIndex].topics = updatedTopics;
+
+        const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+        await updateDoc(docRef, { [fieldPath]: chaptersArray });
+        
+        return { success: true, message: "Topic deleted successfully." };
+
+    } catch (error) {
+        console.error("Error deleting topic:", error);
+        return { success: false, message: "Failed to delete topic." };
+    }
+}
+
 // ==================================
 // SubTopic Level Operations
 // ==================================
@@ -246,6 +345,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
     
     const subTopicData = {
         name: subTopicName,
+        createdAt: new Date().toISOString(),
         pdfUrl: pdfUrl,
     };
 
@@ -283,6 +383,39 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
     }
 }
 
+export async function deleteSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicName: string) {
+    if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !subTopicName) return { success: false, message: "Required fields are missing."};
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+
+        const chaptersArray = partKey ? subject.parts?.[partKey]?.chapters : subject.chapters;
+        if (!chaptersArray || !chaptersArray[chapterIndex] || !chaptersArray[chapterIndex].topics || !chaptersArray[chapterIndex].topics[topicIndex]) {
+            return { success: false, message: "Topic not found." };
+        }
+
+        const originalSubTopics = chaptersArray[chapterIndex].topics[topicIndex].subTopics || [];
+        const updatedSubTopics = originalSubTopics.filter((subTopic: any) => subTopic.name !== subTopicName);
+        
+        chaptersArray[chapterIndex].topics[topicIndex].subTopics = updatedSubTopics;
+
+        const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+        await updateDoc(docRef, { [fieldPath]: chaptersArray });
+
+        return { success: true, message: "Sub-topic deleted successfully." };
+
+    } catch (error) {
+        console.error("Error deleting sub-topic:", error);
+        return { success: false, message: "Failed to delete sub-topic." };
+    }
+}
+
 // Placeholder functions for edit/delete operations
 export async function editSubject(collectionType: CollectionType, classId: string, subjectKey: string, newSubjectName: string) {
     // This is complex because it involves renaming a map key. 
@@ -301,4 +434,8 @@ export async function editChapter(collectionType: CollectionType, classId: strin
 
 export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, pdfFile: File | null) {
     return { success: false, message: "Edit topic not implemented yet." };
+}
+
+export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, pdfFile: File | null) {
+    return { success: false, message: "Edit sub-topic not implemented yet." };
 }
