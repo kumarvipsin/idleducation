@@ -109,8 +109,8 @@ export default function AdminNotesPage() {
                 View and manage the seeded NCERT solutions data (from the 'notes' collection).
               </CardDescription>
             </div>
-            <DialogTrigger asChild>
-                <Button size="sm"><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
+             <DialogTrigger asChild>
+                <Button size="sm" onClick={() => setEditState({ type: 'class', data: { id: '' }})}><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
             </DialogTrigger>
           </CardHeader>
         </Card>
@@ -119,17 +119,17 @@ export default function AdminNotesPage() {
             {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
               <AccordionItem value={classDoc.id} key={classDoc.id}>
                 <Card>
-                  <CardHeader className="p-4">
-                    <div className="flex items-center justify-between">
-                      <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0 flex-1">
+                  <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-4 flex-1 w-full">
+                     <div className="flex items-center justify-between w-full">
                         <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
-                      </AccordionTrigger>
-                       <div className="flex items-center gap-2 ml-2">
-                          <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                      </div>
+                         <div className="flex items-center gap-2 mr-2">
+                            <DialogTrigger asChild>
+                               <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); setEditState({type: 'class', data: classDoc, classId: classDoc.id }); }}><Edit className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                        </div>
                     </div>
-                  </CardHeader>
+                  </AccordionTrigger>
                   <AccordionContent>
                     <CardContent>
                       <Accordion type="multiple" className="w-full space-y-2">
@@ -137,15 +137,15 @@ export default function AdminNotesPage() {
                           if (key === 'id') return null;
                            return (
                               <AccordionItem value={`${classDoc.id}-${key}`} key={key}>
-                                <div className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
-                                    <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline p-0 flex-1">
+                                <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline p-2 bg-muted/50 rounded-md flex-1 w-full">
+                                    <div className="flex items-center justify-between w-full">
                                         <span>{key}</span>
-                                    </AccordionTrigger>
-                                     <div className="flex items-center gap-2 ml-2">
-                                        <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
-                                        <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                         <div className="flex items-center gap-2 mr-2">
+                                            <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                        </div>
                                     </div>
-                                </div>
+                                </AccordionTrigger>
                                 <AccordionContent className="p-2">
                                        {(value as Subject).books.map((book, bookIndex) => (
                                           <div key={bookIndex} className="mb-2 p-2 border rounded-md">
@@ -189,19 +189,27 @@ export default function AdminNotesPage() {
       {editState && (
           <DialogContent>
               <DialogHeader>
-                  <DialogTitle>Edit {editState.type}</DialogTitle>
+                  <DialogTitle>{editState.type === 'class' && !editState.data.id ? 'Add New Class' : `Edit ${editState.type}`}</DialogTitle>
               </DialogHeader>
               <form onSubmit={(e) => { e.preventDefault(); handleEdit(Object.fromEntries(new FormData(e.currentTarget).entries())); }}>
                   <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="name" className="text-right">Name</Label>
-                          <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
-                      </div>
+                      {editState.type === 'class' && (
+                           <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="id" className="text-right">Class ID</Label>
+                              <Input id="id" name="id" defaultValue={editState.data.id} className="col-span-3" placeholder="e.g., class-5"/>
+                          </div>
+                      )}
                       {editState.type === 'chapter' && (
+                        <>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="name" className="text-right">Name</Label>
+                              <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
+                          </div>
                           <div className="grid grid-cols-4 items-center gap-4">
                               <Label htmlFor="slug" className="text-right">Slug</Label>
                               <Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" />
                           </div>
+                        </>
                       )}
                   </div>
                   <DialogFooter>
