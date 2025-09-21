@@ -116,6 +116,14 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
+                  <Link href="/admin/feedback">
+                    <FeedbackIcon />
+                    <span>Feedback</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/mail')}>
                   <Link href="/admin/mail">
@@ -129,14 +137,6 @@ function AdminLayout({
                   <Link href="/admin/messages">
                     <MessageSquare />
                     <span>Contact Us</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
-                  <Link href="/admin/feedback">
-                    <FeedbackIcon />
-                    <span>Feedback</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
