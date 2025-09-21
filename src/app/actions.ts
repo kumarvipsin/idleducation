@@ -478,6 +478,18 @@ export async function getContactSubmissions() {
   }
 }
 
+export async function getScholarshipRegistrations() {
+  try {
+    const registrationsQuery = query(collection(db, "scholarshipRegistrations"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(registrationsQuery);
+    const registrations = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: registrations };
+  } catch (error) {
+    console.error("Error fetching scholarship registrations:", error);
+    return { success: false, message: "Failed to fetch scholarship registrations." };
+  }
+}
+
 const updateSchema = z.object({
   title: z.string().min(1, { message: "Title is required." }),
   description: z.string().min(1, { message: "Description is required." }),

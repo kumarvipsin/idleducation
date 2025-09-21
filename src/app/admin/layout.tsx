@@ -100,6 +100,14 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/scholarship')}>
+                  <Link href="/admin/scholarship">
+                    <Award />
+                    <span>Scholarship</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/mail')}>
                   <Link href="/admin/mail">
                     <Mail />
