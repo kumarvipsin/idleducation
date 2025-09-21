@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { seedNcertSolutions } from '@/app/actions';
+import { seedNotesFromNcertData } from '@/app/actions';
 import { Database } from 'lucide-react';
 
 const ncertSolutionsData: { [key: string]: any } = {
@@ -1940,11 +1940,11 @@ export default function SeedDataPage() {
   const handleSeedData = async (className: string, data: any) => {
     setLoading(className);
     try {
-      const result = await seedNcertSolutions(className, data);
+      const result = await seedNotesFromNcertData(className, data);
       if (result.success) {
         toast({
           title: "Success",
-          description: `Data for ${className.replace('-', ' ')} has been seeded successfully.`,
+          description: `Notes data for ${className.replace('-', ' ')} has been seeded successfully.`,
         });
       } else {
         throw new Error(result.message);
@@ -1963,9 +1963,9 @@ export default function SeedDataPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Seed Database</CardTitle>
+        <CardTitle>Seed Notes Collection</CardTitle>
         <CardDescription>
-          Use this page to populate your Firestore database with initial data for NCERT Solutions.
+          Use this page to populate your Firestore 'notes' collection with the NCERT Solutions data.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1976,7 +1976,7 @@ export default function SeedDataPage() {
             disabled={loading === className}
           >
             <Database className="mr-2 h-4 w-4" />
-            {loading === className ? `Seeding ${className.replace('-', ' ')}...` : `Seed ${className.replace('-', ' ')} Data`}
+            {loading === className ? `Seeding ${className.replace('-', ' ')}...` : `Seed ${className.replace('-', ' ')} Notes`}
           </Button>
         ))}
       </CardContent>

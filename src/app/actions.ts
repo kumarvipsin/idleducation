@@ -1051,7 +1051,7 @@ export async function getFeedbackSubmissions() {
 // NCERT Solutions Data Fetching
 export async function getNcertSolutions(className: string, subject: string) {
   try {
-    const docRef = doc(db, "ncertSolutions", className);
+    const docRef = doc(db, "notes", className);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
@@ -1069,13 +1069,13 @@ export async function getNcertSolutions(className: string, subject: string) {
   }
 }
 
-export async function seedNcertSolutions(className: string, data: any) {
+export async function seedNotesFromNcertData(className: string, data: any) {
   try {
-    const docRef = doc(db, "ncertSolutions", className);
+    const docRef = doc(db, "notes", className);
     await setDoc(docRef, data, { merge: true });
-    return { success: true, message: "Data seeded successfully." };
+    return { success: true, message: "Notes data seeded successfully." };
   } catch (error) {
-    console.error("Error seeding NCERT solutions:", error);
+    console.error("Error seeding notes data:", error);
     return { success: false, message: "Failed to seed data." };
   }
 }
