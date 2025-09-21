@@ -100,8 +100,8 @@ export default function ContactPage() {
                             <item.icon className="w-5 h-5" />
                         </div>
                         <div>
-                            <h4 className="font-semibold text-foreground">{item.label}</h4>
-                            <a href={item.href} className="text-muted-foreground hover:text-primary hover:underline">{item.value}</a>
+                            <a href={item.href} className="font-semibold text-foreground hover:text-primary hover:underline">{item.value}</a>
+                             <h4 className="text-xs text-muted-foreground">{item.label}</h4>
                         </div>
                     </div>
                   ))}
