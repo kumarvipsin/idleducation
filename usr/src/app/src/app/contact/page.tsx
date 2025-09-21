@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -328,7 +328,7 @@ export default function ContactPage() {
     { icon: Phone, label: "For Admission Enquiry", value: "+91 7011117585", href: "tel:+917011117585" },
     { icon: Headset, label: "For Enrolled Students", value: "011 45035713", href: "tel:01145035713" },
     { icon: Mail, label: "Email Address", value: "info@idleducation.in", href: "mailto:info@idleducation.in" },
-    { icon: MapPin, label: "Our Address", value: "E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086", href: "#" },
+    { icon: MapPin, label: "Local Head Office", value: "E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086", href: "#" },
   ];
 
   return (
