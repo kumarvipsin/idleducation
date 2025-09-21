@@ -116,14 +116,14 @@ export default function AdminNotesPage() {
           {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
             <AccordionItem value={classDoc.id} key={classDoc.id}>
               <Card>
-                <CardHeader>
-                  <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline">
+                <CardHeader className="flex flex-row items-center justify-between p-4">
+                  <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0 flex-1">
                     <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
-                    <div className="flex items-center gap-2 mr-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                    </div>
                   </AccordionTrigger>
+                  <div className="flex items-center gap-2 ml-2">
+                      <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                  </div>
                 </CardHeader>
                 <AccordionContent>
                   <CardContent>
@@ -132,13 +132,15 @@ export default function AdminNotesPage() {
                         if (key === 'id') return null;
                          return (
                             <AccordionItem value={`${classDoc.id}-${key}`} key={key}>
-                                <AccordionTrigger className="font-semibold capitalize text-base p-2 bg-muted/50 rounded-md hover:no-underline">
-                                    <span>{key}</span>
-                                    <div className="flex items-center gap-2 mr-2">
+                                <div className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
+                                    <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline p-0 flex-1">
+                                        <span>{key}</span>
+                                    </AccordionTrigger>
+                                    <div className="flex items-center gap-2 ml-2">
                                         <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
                                         <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                                     </div>
-                                </AccordionTrigger>
+                                </div>
                                 <AccordionContent className="p-2">
                                      {(value as Subject).books.map((book, bookIndex) => (
                                         <div key={bookIndex} className="mb-2 p-2 border rounded-md">
