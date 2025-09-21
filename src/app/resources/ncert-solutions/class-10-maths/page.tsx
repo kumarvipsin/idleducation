@@ -1,33 +1,20 @@
 
-'use client';
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Download, ShoppingCart, Languages } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { NcertChapterList } from "@/components/ncert-chapter-list";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { BookOpen } from "lucide-react";
 import { getNcertSolutions } from "@/app/actions";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Class10MathsContent } from "./content";
 
-async function NcertSolutionsContent() {
+export default async function Class10MathsPage() {
   const result = await getNcertSolutions('class-10', 'maths');
-
+  
   if (!result.success || !result.data) {
     return <p>Could not load resources. Please try again later.</p>;
   }
 
   const class10MathsResources = result.data;
-  
-  return <NcertChapterList resources={class10MathsResources} />;
-}
 
-
-export default function Class10MathsPage() {
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-green-700">
       <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4">
@@ -42,7 +29,7 @@ export default function Class10MathsPage() {
       </div>
       <CardContent className="p-4 md:p-6">
         <Suspense fallback={<Skeleton className="h-96 w-full" />}>
-            <NcertSolutionsContent />
+            <Class10MathsContent resources={class10MathsResources} />
         </Suspense>
       </CardContent>
     </Card>
