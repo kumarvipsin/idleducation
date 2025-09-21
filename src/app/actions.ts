@@ -1079,3 +1079,14 @@ export async function seedNcertSolutions(className: string, data: any) {
     return { success: false, message: "Failed to seed data." };
   }
 }
+
+export async function seedImportantQuestions(className: string, data: any) {
+  try {
+    const docRef = doc(db, "importantQuestions", className);
+    await setDoc(docRef, data, { merge: true });
+    return { success: true, message: `Important questions for ${className} seeded.` };
+  } catch (error) {
+    console.error("Error seeding important questions:", error);
+    return { success: false, message: "Failed to seed important questions." };
+  }
+}
