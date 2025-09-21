@@ -464,46 +464,43 @@ export default function BookDemoPage() {
                             )}
                             />
 
-                            <div>
-                                <div className="flex gap-2">
-                                    <FormField
-                                        control={form.control}
-                                        name="countryCode"
-                                        render={({ field }) => (
-                                        <FormItem>
-                                            <Select onValueChange={field.onChange} value={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger className="w-[120px]">
-                                                    <SelectValue placeholder="Code">
-                                                        {field.value ? field.value.split('-')[0] : "Code"}
-                                                    </SelectValue>
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {countryCodes.map((country) => (
-                                                <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
-                                                    {country.code} ({country.country})
-                                                </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                            </Select>
-                                            <FormMessage className="text-destructive" />
-                                        </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="mobile"
-                                        render={({ field }) => (
-                                        <FormItem className="flex-1">
-                                            <FormControl>
+                            <div className="flex items-start gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="countryCode"
+                                    render={({ field }) => (
+                                    <FormItem>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger className="w-[80px]">
+                                                <SelectValue placeholder="Code">
+                                                    {field.value ? field.value.split('-')[0] : "Code"}
+                                                </SelectValue>
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {countryCodes.map((country) => (
+                                            <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
+                                                {country.code} ({country.country})
+                                            </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                        </Select>
+                                        <FormMessage className="text-destructive" />
+                                    </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="mobile"
+                                    render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormControl>
                                             <div className="relative">
-                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                 <Input 
                                                 type="tel" 
                                                 placeholder={t('bookFreeSession.mobilePlaceholder')} 
                                                 {...field}
-                                                className="pl-9"
                                                 onChange={(e) => {
                                                     const value = e.target.value.replace(/\D/g, '');
                                                     field.onChange(value);
@@ -511,12 +508,11 @@ export default function BookDemoPage() {
                                                 maxLength={maxLength}
                                                 />
                                             </div>
-                                            </FormControl>
-                                            <FormMessage className="text-destructive" />
-                                        </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                        </FormControl>
+                                        <FormMessage className="text-destructive" />
+                                    </FormItem>
+                                    )}
+                                />
                             </div>
 
                             <FormField
