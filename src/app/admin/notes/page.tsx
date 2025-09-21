@@ -1,7 +1,7 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getNotes, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic } from '@/app/actions';
+import { getNotes, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -27,10 +27,17 @@ type ModalState = {
   type: 'class' | 'subject' | 'part' | 'chapter' | 'topic' | 'sub-topic';
   action: 'add' | 'edit';
   data?: any;
-  path: { classId?: string; subjectKey?: string; partKey?: string; chapterIndex?: number; topicIndex?: number; };
+  path: { classId?: string; subjectKey?: string; partKey?: string; chapterIndex?: number; topicIndex?: number; subTopicIndex?: number; };
 } | null;
 
-type DeleteState = { type: 'class'; classId: string; } | null;
+type DeleteState = 
+    | { type: 'class'; classId: string; name: string; }
+    | { type: 'subject'; path: { classId: string; subjectKey: string; }; name: string; }
+    | { type: 'part'; path: { classId: string; subjectKey: string; partKey: string; }; name: string; }
+    | { type: 'chapter'; path: { classId: string; subjectKey: string; partKey?: string; }; name: string; }
+    | { type: 'topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; }; name: string; }
+    | { type: 'sub-topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; }; name: string; }
+    | null;
 
 export default function AdminNotesPage() {
   const [notes, setNotes] = useState<NoteDoc[]>([]);
@@ -62,21 +69,31 @@ export default function AdminNotesPage() {
     const { type, action, path } = modalState;
     
     try {
-        if (type === 'class') {
-            result = action === 'add' 
-                ? await addClass('notes', name)
-                : await editClass('notes', path.classId!, name);
-        } else if (type === 'subject') {
-            result = await addSubject('notes', path.classId!, name);
-        } else if (type === 'part') {
-            result = await addPart('notes', path.classId!, path.subjectKey!, name);
-        } else if (type === 'chapter') {
-            result = await addChapter('notes', path.classId!, path.subjectKey!, path.partKey, name, pdfFile);
-        } else if (type === 'topic') {
-            result = await addTopic('notes', path.classId!, path.subjectKey!, path.chapterIndex!, path.partKey, name, pdfFile);
-        } else if (type === 'sub-topic') {
-            result = await addSubTopic('notes', path.classId!, path.subjectKey!, path.chapterIndex!, path.topicIndex!, path.partKey, name, pdfFile);
-        }
+      if (type === 'class') {
+        result = action === 'add' 
+            ? await addClass('notes', name)
+            : await editClass('notes', path.classId!, name);
+      } else if (type === 'subject') {
+          result = action === 'add' 
+            ? await addSubject('notes', path.classId!, name)
+            : await editSubject('notes', path.classId!, path.subjectKey!, name);
+      } else if (type === 'part') {
+          result = action === 'add'
+            ? await addPart('notes', path.classId!, path.subjectKey!, name)
+            : await editPart('notes', path.classId!, path.subjectKey!, path.partKey!, name);
+      } else if (type === 'chapter') {
+          result = action === 'add'
+            ? await addChapter('notes', path.classId!, path.subjectKey!, path.partKey, name, pdfFile)
+            : await editChapter('notes', path.classId!, path.subjectKey!, path.partKey, path.chapterIndex!, name, pdfFile);
+      } else if (type === 'topic') {
+          result = action === 'add'
+            ? await addTopic('notes', path.classId!, path.subjectKey!, path.chapterIndex!, path.partKey, name, pdfFile)
+            : await editTopic('notes', path.classId!, path.subjectKey!, path.partKey, path.chapterIndex!, path.topicIndex!, name, pdfFile);
+      } else if (type === 'sub-topic') {
+          result = action === 'add'
+            ? await addSubTopic('notes', path.classId!, path.subjectKey!, path.chapterIndex!, path.topicIndex!, path.partKey, name, pdfFile)
+            : await editSubTopic('notes', path.classId!, path.subjectKey!, path.partKey, path.chapterIndex!, path.topicIndex!, path.subTopicIndex!, name, pdfFile);
+      }
         
         if (result && result.success) {
             toast({ title: "Success", description: result.message });
@@ -92,15 +109,41 @@ export default function AdminNotesPage() {
   };
   
   const handleDelete = async () => {
-    if(!deleteState || deleteState.type !== 'class') return;
-    const result = await deleteClass('notes', deleteState.classId);
-    if(result.success) {
-        toast({ title: "Success", description: result.message });
-        fetchNotes();
-    } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
+    if(!deleteState) return;
+    let result;
+    try {
+        switch(deleteState.type) {
+            case 'class':
+                result = await deleteClass('notes', deleteState.classId);
+                break;
+            case 'subject':
+                result = await deleteSubject('notes', deleteState.path.classId, deleteState.path.subjectKey);
+                break;
+            case 'part':
+                result = await deletePart('notes', deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey);
+                break;
+            case 'chapter':
+                result = await deleteChapter('notes', deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.name);
+                break;
+            case 'topic':
+                result = await deleteTopic('notes', deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.path.chapterIndex, deleteState.name);
+                break;
+            case 'sub-topic':
+                result = await deleteSubTopic('notes', deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.path.chapterIndex, deleteState.path.topicIndex, deleteState.name);
+                break;
+        }
+
+        if (result && result.success) {
+            toast({ title: "Success", description: result.message });
+            fetchNotes();
+        } else {
+            throw new Error(result?.message || 'Failed to delete.');
+        }
+    } catch (error: any) {
+        toast({ variant: "destructive", title: "Error", description: error.message });
+    } finally {
+        setDeleteState(null);
     }
-    setDeleteState(null);
   };
   
   const renderSkeleton = () => (
@@ -116,11 +159,9 @@ export default function AdminNotesPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div><CardTitle>Manage Notes</CardTitle><CardDescription>Manage content for classes, subjects, parts, chapters, topics and sub-topics.</CardDescription></div>
-                <DialogTrigger asChild>
-                    <Button size="sm" onClick={() => setModalState({ type: 'class', action: 'add', path: {} })}>
-                        <PlusCircle className="mr-2 h-4 w-4" /> Add Class
-                    </Button>
-                </DialogTrigger>
+                <Button size="sm" onClick={() => setModalState({ type: 'class', action: 'add', path: {} })}>
+                    <PlusCircle className="mr-2 h-4 w-4" /> Add Class
+                </Button>
             </CardHeader>
           </Card>
           {loading ? renderSkeleton() : (
@@ -130,9 +171,9 @@ export default function AdminNotesPage() {
                     <div className="flex items-center p-4">
                         <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2 capitalize">{classDoc.data.name || classDoc.id.replace('-', ' ')}</AccordionTrigger>
                         <div className="flex items-center gap-2 mr-2">
-                           <DialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({type: 'class', action: 'edit', data: classDoc.data, path: {classId: classDoc.id} })}><Edit className="h-4 w-4" /></Button></DialogTrigger>
-                           <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
-                           <DialogTrigger asChild><Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'subject', action: 'add', path: { classId: classDoc.id }})}><PlusCircle className="h-4 w-4 mr-2"/>Subject</Button></DialogTrigger>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({type: 'class', action: 'edit', data: classDoc.data, path: {classId: classDoc.id} })}><Edit className="h-4 w-4" /></Button>
+                           <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id, name: classDoc.data.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                           <Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'subject', action: 'add', path: { classId: classDoc.id }})}><PlusCircle className="h-4 w-4 mr-2"/>Subject</Button>
                         </div>
                     </div>
                   <AccordionContent><CardContent className="space-y-2">
@@ -140,22 +181,23 @@ export default function AdminNotesPage() {
                         <Accordion key={subjectKey} type="multiple" className="w-full"><AccordionItem value={`${classDoc.id}-${subjectKey}`}>
                           <div className="flex items-center p-2 bg-muted/50 rounded-md">
                             <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline flex-1 w-full pr-2"><Library className="w-4 h-4 mr-2" />{subjectData.name}</AccordionTrigger>
-                            <DialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4"/></Button></DialogTrigger>
-                            <DialogTrigger asChild><Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'part', action: 'add', path: { classId: classDoc.id, subjectKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Part</Button></DialogTrigger>
-                            <DialogTrigger asChild><Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'chapter', action: 'add', path: { classId: classDoc.id, subjectKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Chapter</Button></DialogTrigger>
+                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'subject', action: 'edit', path: { classId: classDoc.id, subjectKey }, data: subjectData })}><Edit className="h-4 w-4"/></Button>
+                            <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'subject', path: {classId: classDoc.id, subjectKey}, name: subjectData.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                            <Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'part', action: 'add', path: { classId: classDoc.id, subjectKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Part</Button>
+                            <Button variant="ghost" size="sm" className="h-8" onClick={() => setModalState({ type: 'chapter', action: 'add', path: { classId: classDoc.id, subjectKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Chapter</Button>
                           </div>
                           <AccordionContent className="p-2 pl-6">
                             {/* Render Chapters directly under subject */}
                             {subjectData.chapters?.map((chapter, chapIdx) => (
-                                <Accordion key={chapIdx} type="multiple"><AccordionItem value={`${subjectKey}-chap-${chapIdx}`}><div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><DialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4"/></Button></DialogTrigger><DialogTrigger asChild><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></DialogTrigger></div><AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent></AccordionItem></Accordion>
+                                <Accordion key={chapIdx} type="multiple"><AccordionItem value={`${subjectKey}-chap-${chapIdx}`}><div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div><AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent></AccordionItem></Accordion>
                             ))}
                             {/* Render Parts */}
                             {subjectData.parts && Object.entries(subjectData.parts).map(([partKey, partData]) => (
                                 <Accordion key={partKey} type="multiple"><AccordionItem value={`${subjectKey}-${partKey}`}>
-                                  <div className="flex items-center p-2 my-2 bg-muted/30 rounded-md"><AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full pr-2"><Folder className="w-4 h-4 mr-2" />{partData.name}</AccordionTrigger><DialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4"/></Button></DialogTrigger><DialogTrigger asChild><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'chapter', action: 'add', path: { classId: classDoc.id, subjectKey, partKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Chapter</Button></DialogTrigger></div>
+                                  <div className="flex items-center p-2 my-2 bg-muted/30 rounded-md"><AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full pr-2"><Folder className="w-4 h-4 mr-2" />{partData.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'part', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey }, data: partData })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'part', path: {classId: classDoc.id, subjectKey, partKey}, name: partData.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'chapter', action: 'add', path: { classId: classDoc.id, subjectKey, partKey }})}><PlusCircle className="h-4 w-4 mr-2"/>Chapter</Button></div>
                                   <AccordionContent className="pl-4 border-l ml-4">
                                       {partData.chapters?.map((chapter, chapIdx) => (
-                                          <Accordion key={chapIdx} type="multiple"><AccordionItem value={`${partKey}-chap-${chapIdx}`}><div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><DialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4"/></Button></DialogTrigger><DialogTrigger asChild><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></DialogTrigger></div><AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent></AccordionItem></Accordion>
+                                          <Accordion key={chapIdx} type="multiple"><AccordionItem value={`${partKey}-chap-${chapIdx}`}><div className="flex items-center"><AccordionTrigger><Book className="w-4 h-4 mr-2"/>{chapter.name}</AccordionTrigger><Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setModalState({ type: 'chapter', action: 'edit', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }, data: chapter })}><Edit className="h-4 w-4"/></Button><AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'chapter', path: {classId: classDoc.id, subjectKey, partKey}, name: chapter.name})}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger><Button variant="ghost" size="sm" onClick={() => setModalState({ type: 'topic', action: 'add', path: { classId: classDoc.id, subjectKey, partKey, chapterIndex: chapIdx }})}><PlusCircle className="h-4 w-4 mr-2"/>Topic</Button></div><AccordionContent className="pl-6">{chapter.topics?.map((topic, topicIdx) => (<p key={topicIdx}>{topic.name}</p>))}</AccordionContent></AccordionItem></Accordion>
                                       ))}
                                   </AccordionContent>
                                 </AccordionItem></Accordion>
@@ -180,7 +222,7 @@ export default function AdminNotesPage() {
           </form>
         </DialogContent>)}
         
-        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This action cannot be undone. This will permanently delete the class <span className="font-semibold capitalize">{deleteState?.classId.replace('-', ' ')}</span> and all its contents.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
+        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This action cannot be undone. This will permanently delete the {deleteState?.type.replace('-', ' ')} <span className="font-semibold capitalize">{deleteState?.name}</span> and all its contents.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
       </AlertDialog>
     </Dialog>
   );
