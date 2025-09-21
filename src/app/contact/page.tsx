@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
-  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   message: z.string().optional(),
 });
 
@@ -256,24 +256,6 @@ export default function ContactPage() {
                   </form>
                 </Form>
               </div>
-              <Card className="overflow-hidden shadow-md">
-                <div className="overflow-hidden rounded-lg">
-                    <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3497.882582885942!2d77.1165038751513!3d28.75283997782654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0134a3541629%3A0x4694f425b441f17a!2sIDL%20EDUCATION!5e0!3m2!1sen!2sin!4v1700669145952!5m2!1sen!2sin"
-                    width="100%"
-                    height="300"
-                    style={{ border: 0 }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="IDL EDUCATION Location"
-                    ></iframe>
-                </div>
-                <div className="p-4 bg-card">
-                    <h4 className="font-semibold text-foreground">Local Head Office</h4>
-                    <p className="text-muted-foreground">E-18 Krishan Vihar, Main Kanjhawala Road, Delhi-110086</p>
-                </div>
-              </Card>
             </div>
           </Card>
         </div>
