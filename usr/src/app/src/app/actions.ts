@@ -1047,3 +1047,77 @@ export async function getFeedbackSubmissions() {
         return { success: false, message: "Failed to fetch feedback submissions." };
     }
 }
+
+// NCERT Solutions Data Fetching
+const ncertSolutionsData: { [key: string]: any } = {
+  'class-10': {
+    maths: {
+      books: [
+        {
+          name: "Mathematics Textbook for Class X",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Real Numbers", slug: "real-numbers" },
+            { name: "Chapter 2: Polynomials", slug: "polynomials-10" },
+            { name: "Chapter 3: Pair of Linear Equations in Two Variables", slug: "pair-of-linear-equations-in-two-variables" },
+            { name: "Chapter 4: Quadratic Equations", slug: "quadratic-equations" },
+            { name: "Chapter 5: Arithmetic Progressions", slug: "arithmetic-progressions" },
+            { name: "Chapter 6: Triangles", slug: "triangles" },
+            { name: "Chapter 7: Coordinate Geometry", slug: "coordinate-geometry-10" },
+            { name: "Chapter 8: Introduction to Trigonometry", slug: "introduction-to-trigonometry" },
+            { name: "Chapter 9: Some Applications of Trigonometry", slug: "some-applications-of-trigonometry" },
+            { name: "Chapter 10: Circles", slug: "circles" },
+            { name: "Chapter 11: Areas Related to Circles", slug: "areas-related-to-circles" },
+            { name: "Chapter 12: Surface Areas and Volumes", slug: "surface-areas-and-volumes" },
+            { name: "Chapter 13: Statistics", slug: "statistics" },
+            { name: "Chapter 14: Probability", slug: "probability" },
+          ],
+        },
+        {
+          name: "विषय सूचि",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: वास्तविक संख्याएँ", slug: "real-numbers" },
+            { name: "अध्याय 2: बहुपद", slug: "polynomials-10" },
+            { name: "अध्याय 3: दो चर वाले रैखिक समीकरण युग्म", slug: "pair-of-linear-equations-in-two-variables" },
+            { name: "अध्याय 4: द्विघात समीकरण", slug: "quadratic-equations" },
+            { name: "अध्याय 5: समांतर श्रेढ़ियाँ", slug: "arithmetic-progressions" },
+            { name: "अध्याय 6: त्रिभुज", slug: "triangles" },
+            { name: "अध्याय 7: निर्देशांक ज्यामिति", slug: "coordinate-geometry-10" },
+            { name: "अध्याय 8: त्रिकोणमिति का परिचय", slug: "introduction-to-trigonometry" },
+            { name: "अध्याय 9: त्रिकोणमिति के कुछ अनुप्रयोग", slug: "some-applications-of-trigonometry" },
+            { name: "अध्याय 10: वृत्त", slug: "circles" },
+            { name: "अध्याय 11: वृत्तों से संबंधित क्षेत्रफल", slug: "areas-related-to-circles" },
+            { name: "अध्याय 12: पृष्ठीय क्षेत्रफल और आयतन", slug: "surface-areas-and-volumes" },
+            { name: "अध्याय 13: सांख्यिकी", slug: "statistics" },
+            { name: "अध्याय 14: प्रायिकता", slug: "probability" },
+          ],
+        },
+      ],
+    }
+  }
+};
+
+export async function getNcertSolutions(className: string, subject: string) {
+  try {
+    // In a real app, this would fetch from Firestore:
+    // const docRef = doc(db, "ncertSolutions", className);
+    // const docSnap = await getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   const data = docSnap.data();
+    //   return { success: true, data: data[subject] };
+    // }
+    
+    // For now, return mock data
+    const classData = ncertSolutionsData[className];
+    if (classData && classData[subject]) {
+      return { success: true, data: classData[subject] };
+    }
+    
+    return { success: false, message: "No data found for this class and subject." };
+
+  } catch (error) {
+    console.error("Error fetching NCERT solutions:", error);
+    return { success: false, message: "Failed to fetch NCERT solutions." };
+  }
+}
