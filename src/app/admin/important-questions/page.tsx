@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { getImportantQuestions } from '@/app/actions';
@@ -6,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 interface Chapter {
   name: string;
@@ -69,7 +71,14 @@ export default function AdminImportantQuestionsPage() {
                     View and manage the seeded important questions data for all classes.
                 </CardDescription>
             </div>
-            <Button size="sm"><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button size="sm"><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
+                </DialogTrigger>
+                <DialogContent>
+                    {/* Add Class Form Here */}
+                </DialogContent>
+            </Dialog>
         </CardHeader>
       </Card>
       {loading ? renderSkeleton() : (
@@ -77,14 +86,16 @@ export default function AdminImportantQuestionsPage() {
           {questions.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
             <AccordionItem value={classDoc.id} key={classDoc.id}>
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between p-4">
-                  <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0">
-                    <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
-                  </AccordionTrigger>
-                   <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                  </div>
+                 <CardHeader className="p-4">
+                    <div className="flex items-center justify-between">
+                      <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0 flex-1">
+                        <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
+                      </AccordionTrigger>
+                       <div className="flex items-center gap-2 ml-2">
+                          <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                      </div>
+                    </div>
                 </CardHeader>
                 <AccordionContent>
                   <CardContent>

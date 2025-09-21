@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { getNotes, setClassData, deleteClass, updateSubject, updateBook, updateChapter } from '@/app/actions';
@@ -98,114 +99,118 @@ export default function AdminNotesPage() {
   );
 
   return (
-    <Dialog>
-    <div className="space-y-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Manage NCERT Solutions</CardTitle>
-            <CardDescription>
-              View and manage the seeded NCERT solutions data (from the 'notes' collection).
-            </CardDescription>
-          </div>
-          <Button size="sm"><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
-        </CardHeader>
-      </Card>
-      {loading ? renderSkeleton() : (
-        <Accordion type="multiple" className="w-full space-y-4">
-          {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
-            <AccordionItem value={classDoc.id} key={classDoc.id}>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between p-4">
-                  <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0 flex-1">
-                    <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
-                  </AccordionTrigger>
-                  <div className="flex items-center gap-2 ml-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                  </div>
-                </CardHeader>
-                <AccordionContent>
-                  <CardContent>
-                    <Accordion type="multiple" className="w-full space-y-2">
-                       {Object.entries(classDoc.data).map(([key, value]) => {
-                        if (key === 'id') return null;
-                         return (
-                            <AccordionItem value={`${classDoc.id}-${key}`} key={key}>
+    <Dialog open={!!editState} onOpenChange={(isOpen) => !isOpen && setEditState(null)}>
+      <div className="space-y-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Manage NCERT Solutions</CardTitle>
+              <CardDescription>
+                View and manage the seeded NCERT solutions data (from the 'notes' collection).
+              </CardDescription>
+            </div>
+            <DialogTrigger asChild>
+                <Button size="sm"><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
+            </DialogTrigger>
+          </CardHeader>
+        </Card>
+        {loading ? renderSkeleton() : (
+          <Accordion type="multiple" className="w-full space-y-4">
+            {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
+              <AccordionItem value={classDoc.id} key={classDoc.id}>
+                <Card>
+                  <CardHeader className="p-4">
+                    <div className="flex items-center justify-between">
+                      <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline p-0 flex-1">
+                        <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
+                      </AccordionTrigger>
+                       <div className="flex items-center gap-2 ml-2">
+                          <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <AccordionContent>
+                    <CardContent>
+                      <Accordion type="multiple" className="w-full space-y-2">
+                         {Object.entries(classDoc.data).map(([key, value]) => {
+                          if (key === 'id') return null;
+                           return (
+                              <AccordionItem value={`${classDoc.id}-${key}`} key={key}>
                                 <div className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
                                     <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline p-0 flex-1">
                                         <span>{key}</span>
                                     </AccordionTrigger>
-                                    <div className="flex items-center gap-2 ml-2">
+                                     <div className="flex items-center gap-2 ml-2">
                                         <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
                                         <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                                     </div>
                                 </div>
                                 <AccordionContent className="p-2">
-                                     {(value as Subject).books.map((book, bookIndex) => (
-                                        <div key={bookIndex} className="mb-2 p-2 border rounded-md">
-                                            <div className="flex justify-between items-center">
-                                                <p className="font-semibold text-sm italic p-2">{book.name} ({book.lang})</p>
-                                                <div className="flex items-center gap-1">
-                                                    <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
-                                                    <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
-                                                </div>
-                                            </div>
-                                            <ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
-                                                {book.chapters.map((chapter, chapterIndex) => (
-                                                    <li key={chapterIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
-                                                        <span>{chapter.name}</span>
-                                                         <div className="flex items-center gap-1">
-                                                            <DialogTrigger asChild>
-                                                                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'chapter', data: chapter, classId: classDoc.id, subjectKey: key, bookIndex, chapterIndex })}>
-                                                                    <Edit className="h-3 w-3" />
-                                                                </Button>
-                                                            </DialogTrigger>
-                                                            <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    ))}
+                                       {(value as Subject).books.map((book, bookIndex) => (
+                                          <div key={bookIndex} className="mb-2 p-2 border rounded-md">
+                                              <div className="flex justify-between items-center">
+                                                  <p className="font-semibold text-sm italic p-2">{book.name} ({book.lang})</p>
+                                                  <div className="flex items-center gap-1">
+                                                      <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
+                                                      <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                                  </div>
+                                              </div>
+                                              <ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
+                                                  {book.chapters.map((chapter, chapterIndex) => (
+                                                      <li key={chapterIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
+                                                          <span>{chapter.name}</span>
+                                                           <div className="flex items-center gap-1">
+                                                              <DialogTrigger asChild>
+                                                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'chapter', data: chapter, classId: classDoc.id, subjectKey: key, bookIndex, chapterIndex })}>
+                                                                      <Edit className="h-3 w-3" />
+                                                                  </Button>
+                                                              </DialogTrigger>
+                                                              <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
+                                                          </div>
+                                                      </li>
+                                                  ))}
+                                              </ul>
+                                          </div>
+                                      ))}
                                 </AccordionContent>
-                            </AccordionItem>
-                         )
-                       })}
-                    </Accordion>
-                  </CardContent>
-                </AccordionContent>
-              </Card>
-            </AccordionItem>
-          ))}
-        </Accordion>
+                              </AccordionItem>
+                           )
+                         })}
+                      </Accordion>
+                    </CardContent>
+                  </AccordionContent>
+                </Card>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+      </div>
+      {editState && (
+          <DialogContent>
+              <DialogHeader>
+                  <DialogTitle>Edit {editState.type}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={(e) => { e.preventDefault(); handleEdit(Object.fromEntries(new FormData(e.currentTarget).entries())); }}>
+                  <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="name" className="text-right">Name</Label>
+                          <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
+                      </div>
+                      {editState.type === 'chapter' && (
+                          <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="slug" className="text-right">Slug</Label>
+                              <Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" />
+                          </div>
+                      )}
+                  </div>
+                  <DialogFooter>
+                      <Button type="button" variant="outline" onClick={() => setEditState(null)}>Cancel</Button>
+                      <Button type="submit">Save Changes</Button>
+                  </DialogFooter>
+              </form>
+          </DialogContent>
       )}
-    </div>
-     {editState && (
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle>Edit {editState.type}</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={(e) => { e.preventDefault(); handleEdit(Object.fromEntries(new FormData(e.currentTarget).entries())); }}>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">Name</Label>
-                        <Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" />
-                    </div>
-                    {editState.type === 'chapter' && (
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="slug" className="text-right">Slug</Label>
-                            <Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" />
-                        </div>
-                    )}
-                </div>
-                <DialogFooter>
-                    <Button type="button" variant="outline" onClick={() => setEditState(null)}>Cancel</Button>
-                    <Button type="submit">Save Changes</Button>
-                </DialogFooter>
-            </form>
-        </DialogContent>
-     )}
     </Dialog>
   );
 }
