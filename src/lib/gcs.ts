@@ -1,45 +1,27 @@
 'use server';
+
 import 'dotenv/config';
 import { Storage } from '@google-cloud/storage';
-import * as fs from 'fs';
-import * as path from 'path';
 
 const bucketName = 'idlcloud';
-
-/**
- * Parses the .env file to find the GCS_CREDENTIALS.
- */
-function getGcsCredentials(): any {
-  try {
-    const envPath = path.resolve(process.cwd(), '.env');
-    if (!fs.existsSync(envPath)) {
-      throw new Error('.env file not found.');
-    }
-
-    const envFileContent = fs.readFileSync(envPath, { encoding: 'utf-8' });
-    const match = envFileContent.match(/^GCS_CREDENTIALS='?({[^']*)'?$/m);
-
-    if (match && match[1]) {
-      return JSON.parse(match[1]);
-    }
-
-    throw new Error('GCS_CREDENTIALS not found or improperly formatted in .env file.');
-  } catch (error) {
-    console.error('Failed to read or parse GCS credentials from .env file:', error);
-    throw new Error('Could not load GCS credentials.');
-  }
-}
-
 
 /**
  * Initializes and returns a Google Cloud Storage client.
  */
 function getStorageClient(): Storage {
-  const credentials = getGcsCredentials();
-  
-  return new Storage({
-    credentials,
-  });
+  const credentialsEnv = process.env.GCS_CREDENTIALS;
+
+  if (!credentialsEnv) {
+    throw new Error("GCS_CREDENTIALS environment variable is not set.");
+  }
+
+  try {
+    const credentials = JSON.parse(credentialsEnv);
+    return new Storage({ credentials });
+  } catch (error) {
+    console.error("Failed to parse GCS credentials:", error);
+    throw new Error("Invalid GCS_CREDENTIALS format. Ensure it's valid JSON.");
+  }
 }
 
 /**
@@ -55,8 +37,9 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
     await blob.save(buffer, {
       contentType: file.type,
     });
-
-    await blob.makePublic();
+    
+    // The makePublic() call is removed here to comply with uniform bucket-level access.
+    // Ensure your GCS bucket is configured to serve files publicly via IAM policies.
     return blob.publicUrl();
   } catch (err) {
     console.error("Error uploading to GCS:", err);
