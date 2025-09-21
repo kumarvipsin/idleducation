@@ -32,6 +32,26 @@ const ncertSolutionsData: { [key: string]: any } = {
             { name: "Chapter 14: How Big, How Heavy?", slug: "how-big-how-heavy" },
           ],
         },
+        {
+          name: "गणित का जादू, कक्षा V",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: मछली उछली", slug: "the-fish-tale" },
+            { name: "अध्याय 2: आकृतियाँ और कोण", slug: "shapes-and-angles" },
+            { name: "अध्याय 3: कितने वर्ग?", slug: "how-many-squares" },
+            { name: "अध्याय 4: हिस्से और पूरे", slug: "parts-and-wholes" },
+            { name: "अध्याय 5: क्या यह एक जैसा दिखता है?", slug: "does-it-look-the-same" },
+            { name: "अध्याय 6: मैं तेरा गुणनखंड, गुणज तू मेरा", slug: "be-my-multiple-ill-be-your-factor" },
+            { name: "अध्याय 7: क्या तुम्हें पैटर्न दिखा?", slug: "can-you-see-the-pattern" },
+            { name: "अध्याय 8: नक्शा", slug: "mapping-your-way" },
+            { name: "अध्याय 9: डिब्बे और स्कैच", slug: "boxes-and-sketches" },
+            { name: "अध्याय 10: दसवाँ और सौवाँ भाग", slug: "tenths-and-hundredths" },
+            { name: "अध्याय 11: क्षेत्रफल और घेरा", slug: "area-and-its-boundary" },
+            { name: "अध्याय 12: स्मार्ट चार्ट", slug: "smart-charts" },
+            { name: "अध्याय 13: गुणा और भाग के तरीके", slug: "ways-to-multiply-and-divide" },
+            { name: "अध्याय 14: कितना बड़ा, कितना भारी?", slug: "how-big-how-heavy" },
+          ]
+        }
       ],
     },
     science: {
@@ -52,6 +72,22 @@ const ncertSolutionsData: { [key: string]: any } = {
             { name: "Chapter 10: Walls Tell Stories", slug: "walls-tell-stories" },
           ],
         },
+        {
+          name: "आस-पास, कक्षा V",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: कैसे पहचाना चींटी ने दोस्त को?", slug: "super-senses" },
+            { name: "अध्याय 2: कहानी सँपेरों की", slug: "a-snake-charmers-story" },
+            { name: "अध्याय 3: चखने से पचने तक", slug: "from-tasting-to-digesting" },
+            { name: "अध्याय 4: खाएँ आम बारहों महीने", slug: "mangoes-round-the-year" },
+            { name: "अध्याय 5: बीज, बीज, बीज", slug: "seeds-and-seeds" },
+            { name: "अध्याय 6: बूँद-बूँद, दरिया-दरिया", slug: "every-drop-counts" },
+            { name: "अध्याय 7: पानी के प्रयोग", slug: "experiments-with-water" },
+            { name: "अध्याय 8: मच्छरों की दावत?", slug: "a-treat-for-mosquitoes" },
+            { name: "अध्याय 9: डायरी: कमर सीधी, ऊपर चढ़ो!", slug: "up-you-go" },
+            { name: "अध्याय 10: बोलती इमारतें", slug: "walls-tell-stories" },
+          ]
+        }
       ],
     },
     social: {
@@ -67,6 +103,17 @@ const ncertSolutionsData: { [key: string]: any } = {
             { name: "Chapter 5: Our Rich Heritage", slug: "our-rich-heritage" },
           ],
         },
+        {
+          name: "सामाजिक अध्ययन, कक्षा V",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: ग्लोब और मानचित्र", slug: "globes-and-maps" },
+            { name: "अध्याय 2: पृथ्वी की गतियाँ", slug: "the-earths-movements" },
+            { name: "अध्याय 3: मौसम और जलवायु", slug: "weather-and-climate" },
+            { name: "अध्याय 4: प्रमुख स्थलाकृतियाँ", slug: "major-landforms" },
+            { name: "अध्याय 5: हमारी समृद्ध विरासत", slug: "our-rich-heritage" },
+          ]
+        }
       ],
     },
     english: {
@@ -111,6 +158,24 @@ const ncertSolutionsData: { [key: string]: any } = {
             { name: "Chapter 12: Ratio and Proportion", slug: "ratio-and-proportion" },
           ],
         },
+        {
+          name: "गणित, कक्षा VI",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: अपनी संख्याओं की जानकारी", slug: "knowing-our-numbers" },
+            { name: "अध्याय 2: पूर्ण संख्याएँ", slug: "whole-numbers" },
+            { name: "अध्याय 3: संख्याओं के साथ खेलना", slug: "playing-with-numbers" },
+            { name: "अध्याय 4: आधारभूत ज्यामितीय अवधारणाएँ", slug: "basic-geometrical-ideas" },
+            { name: "अध्याय 5: प्रारंभिक आकारों को समझना", slug: "understanding-elementary-shapes" },
+            { name: "अध्याय 6: पूर्णांक", slug: "integers" },
+            { name: "अध्याय 7: भिन्न", slug: "fractions" },
+            { name: "अध्याय 8: दशमलव", slug: "decimals" },
+            { name: "अध्याय 9: आँकड़ों का प्रबंधन", slug: "data-handling" },
+            { name: "अध्याय 10: क्षेत्रमिति", slug: "mensuration" },
+            { name: "अध्याय 11: बीजगणित", slug: "algebra" },
+            { name: "अध्याय 12: अनुपात और समानुपात", slug: "ratio-and-proportion" },
+          ]
+        }
       ],
     },
     science: {
@@ -133,20 +198,50 @@ const ncertSolutionsData: { [key: string]: any } = {
             { name: "Chapter 12: Electricity and Circuits", slug: "electricity-and-circuits" },
           ],
         },
+        {
+          name: "विज्ञान, कक्षा VI",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: भोजन: यह कहाँ से आता है?", slug: "food-where-does-it-come-from" },
+            { name: "अध्याय 2: भोजन के घटक", slug: "components-of-food" },
+            { name: "अध्याय 3: तंतु से वस्त्र तक", slug: "fibre-to-fabric" },
+            { name: "अध्याय 4: वस्तुओं के समूह बनाना", slug: "sorting-materials-into-groups" },
+            { name: "अध्याय 5: पदार्थों का पृथक्करण", slug: "separation-of-substances" },
+            { name: "अध्याय 6: हमारे चारों ओर के परिवर्तन", slug: "changes-around-us" },
+            { name: "अध्याय 7: पौधों को जानिए", slug: "getting-to-know-plants" },
+            { name: "अध्याय 8: शरीर में गति", slug: "body-movements" },
+            { name: "अध्याय 9: सजीव एवं उनका परिवेश", slug: "the-living-organisms-and-their-surroundings" },
+            { name: "अध्याय 10: गति एवं दूरियों का मापन", slug: "motion-and-measurement-of-distances" },
+            { name: "अध्याय 11: प्रकाश – छायाएँ एवं परावर्तन", slug: "light-shadows-and-reflections" },
+            { name: "अध्याय 12: विद्युत् तथा परिपथ", slug: "electricity-and-circuits" },
+          ]
+        }
       ],
     },
     social: {
       books: [
-        { name: "Our Pasts - I", chapters: [
+        { name: "Our Pasts - I", lang: "en", chapters: [
           { name: "Chapter 1: What, Where, How and When?", slug: "what-where-how-and-when" },
           { name: "Chapter 2: On The Trail of The Earliest People", slug: "from-hunting-gathering-to-growing-food" },
+          { name: "Chapter 3: In the Earliest Cities", slug: "in-the-earliest-cities" },
         ]},
-        { name: "The Earth: Our Habitat", chapters: [
+        { name: "The Earth: Our Habitat", lang: "en", chapters: [
           { name: "Chapter 1: The Earth in the Solar System", slug: "the-earth-in-the-solar-system" },
           { name: "Chapter 2: Globe: Latitudes and Longitudes", slug: "globe-latitudes-and-longitudes" },
         ]},
-        { name: "Social and Political Life - I", chapters: [
+        { name: "Social and Political Life - I", lang: "en", chapters: [
           { name: "Chapter 1: Understanding Diversity", slug: "understanding-diversity" },
+        ]},
+        { name: "हमारे अतीत - I", lang: "hi", chapters: [
+          { name: "अध्याय 1: क्या, कब, कहाँ और कैसे?", slug: "what-where-how-and-when" },
+          { name: "अध्याय 2: आखेट-खाद्य संग्रह से भोजन उत्पादन तक", slug: "from-hunting-gathering-to-growing-food" },
+        ]},
+        { name: "पृथ्वी: हमारा आवास", lang: "hi", chapters: [
+          { name: "अध्याय 1: सौरमंडल में पृथ्वी", slug: "the-earth-in-the-solar-system" },
+          { name: "अध्याय 2: ग्लोब: अक्षांश एवं देशांतर", slug: "globe-latitudes-and-longitudes" },
+        ]},
+        { name: "सामाजिक एवं राजनीतिक जीवन - I", lang: "hi", chapters: [
+           { name: "अध्याय 1: विविधता की समझ", slug: "understanding-diversity" },
         ]},
       ]
     },
@@ -154,6 +249,7 @@ const ncertSolutionsData: { [key: string]: any } = {
       books: [
         {
           name: "Honeysuckle",
+          lang: "en",
           chapters: [
             { name: "Chapter 1: Who Did Patrick’s Homework?", slug: "c6-en-h-unit1" },
             { name: "Chapter 2: How the Dog Found Himself a New Master!", slug: "c6-en-h-unit2" },
@@ -161,6 +257,7 @@ const ncertSolutionsData: { [key: string]: any } = {
         },
         {
           name: "A Pact with the Sun",
+          lang: "en",
           chapters: [
             { name: "Chapter 1: A Tale of Two Birds", slug: "c6-en-p-unit1" },
           ],
@@ -234,7 +331,7 @@ const ncertSolutionsData: { [key: string]: any } = {
           ],
         },
         {
-          name: "विषय सूचि",
+          name: "गणित, कक्षा X",
           lang: "hi",
           chapters: [
             { name: "अध्याय 1: वास्तविक संख्याएँ", slug: "real-numbers" },
@@ -336,3 +433,5 @@ export default function SeedDataPage() {
     </Card>
   );
 }
+
+    
