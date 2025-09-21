@@ -105,7 +105,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
     };
     const pdfFile = rawFormData.pdf as File;
 
-    const validation = ChapterSchema.pick({ name: true, slug: true }).safeParse(chapterData);
+    const validation = ChapterSchema.pick({ name: true, slug: true, topics: true }).safeParse(chapterData);
     if (!validation.success) {
         return { success: false, message: "Invalid chapter data." };
     }
@@ -148,7 +148,12 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     try {
         let pdfUrl = '';
         if (pdfFile && pdfFile.size > 0) {
-            const chapterSlug = (await getDoc(getContentDocRef(collectionType, classId))).data()?.[partKey].chapters[chapterIndex].slug;
+            const docSnap = await getDoc(getContentDocRef(collectionType, classId));
+            if (!docSnap.exists()) return { success: false, message: "Class document not found." };
+            const classData = docSnap.data();
+            const chapterSlug = classData[partKey]?.chapters?.[chapterIndex]?.slug;
+            if(!chapterSlug) return { success: false, message: "Chapter not found." };
+            
             const destination = `${collectionType}/${classId}/${partKey}/${chapterSlug}/${topicData.slug}-${pdfFile.name}`;
             pdfUrl = await uploadFileToGCS(pdfFile, destination);
         }
