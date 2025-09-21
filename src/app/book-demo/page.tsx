@@ -474,7 +474,9 @@ export default function BookDemoPage() {
                                             <Select onValueChange={field.onChange} value={field.value}>
                                             <FormControl>
                                                 <SelectTrigger className="w-[120px]">
-                                                    <SelectValue placeholder="Code" />
+                                                    <SelectValue placeholder="Code">
+                                                        {field.value ? field.value.split('-')[0] : "Code"}
+                                                    </SelectValue>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
