@@ -13,8 +13,46 @@ const importantQuestionsData: { [key: string]: any } = {
   'class-5': {
     maths: {
       books: [
-        { name: "Math-Magic Textbook for Class V", lang: "en", chapters: [{ name: "The Fish Tale", questions: ["Question 1...", "Question 2..."] }] },
-        { name: "गणित का जादू, कक्षा V", lang: "hi", chapters: [{ name: "मछली उछली", questions: ["प्रश्न 1...", "प्रश्न 2..."] }] }
+        { 
+          name: "Math-Magic Textbook for Class V", 
+          lang: "en", 
+          chapters: [
+            { name: "Chapter 1: The Fish Tale", questions: ["Question 1..."] },
+            { name: "Chapter 2: Shapes and Angles", questions: ["Question 1..."] },
+            { name: "Chapter 3: How Many Squares?", questions: ["Question 1..."] },
+            { name: "Chapter 4: Parts and Wholes", questions: ["Question 1..."] },
+            { name: "Chapter 5: Does it Look the Same?", questions: ["Question 1..."] },
+            { name: "Chapter 6: Be My Multiple, I'll be Your Factor", questions: ["Question 1..."] },
+            { name: "Chapter 7: Can You See the Pattern?", questions: ["Question 1..."] },
+            { name: "Chapter 8: Mapping Your Way", questions: ["Question 1..."] },
+            { name: "Chapter 9: Boxes and Sketches", questions: ["Question 1..."] },
+            { name: "Chapter 10: Tenths and Hundredths", questions: ["Question 1..."] },
+            { name: "Chapter 11: Area and its Boundary", questions: ["Question 1..."] },
+            { name: "Chapter 12: Smart Charts", questions: ["Question 1..."] },
+            { name: "Chapter 13: Ways to Multiply and Divide", questions: ["Question 1..."] },
+            { name: "Chapter 14: How Big, How Heavy?", questions: ["Question 1..."] },
+          ] 
+        },
+        { 
+          name: "गणित का जादू, कक्षा V", 
+          lang: "hi", 
+          chapters: [
+            { name: "अध्याय 1: मछली उछली", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 2: आकृतियाँ और कोण", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 3: कितने वर्ग?", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 4: हिस्से और पूरे", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 5: क्या यह एक जैसा दिखता है?", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 6: मैं तेरा गुणनखंड, गुणज तू मेरा", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 7: क्या तुम्हें पैटर्न दिखा?", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 8: नक्शा", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 9: डिब्बे और स्कैच", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 10: दसवाँ और सौवाँ भाग", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 11: क्षेत्रफल और घेरा", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 12: स्मार्ट चार्ट", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 13: गुणा और भाग के तरीके", questions: ["प्रश्न 1..."] },
+            { name: "अध्याय 14: कितना बड़ा, कितना भारी?", questions: ["प्रश्न 1..."] },
+          ] 
+        }
       ]
     },
     science: {
