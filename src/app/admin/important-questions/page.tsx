@@ -1,7 +1,7 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic } from '@/app/actions';
+import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -43,11 +43,15 @@ type EditState = {
   chapterIndex?: number;
 } | null;
 
-type DeleteState = null; // Placeholder
+type DeleteState = {
+    type: 'class';
+    classId: string;
+} | null;
 
 export default function AdminImportantQuestionsPage() {
   const [questions, setQuestions] = useState<QuestionDoc[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editState, setEditState] = useState<EditState>(null);
   const [deleteState, setDeleteState] = useState<DeleteState>(null);
   const { toast } = useToast();
@@ -99,13 +103,25 @@ export default function AdminImportantQuestionsPage() {
         toast({ variant: "destructive", title: "Error", description: error.message });
     } finally {
         setEditState(null);
+        setIsDialogOpen(false);
     }
   };
   
   const handleDelete = async () => {
-    if(!deleteState) return;
-    toast({ title: "In Progress", description: "Delete functionality is not yet implemented."})
+    if(!deleteState || deleteState.type !== 'class') return;
+    const result = await deleteClass('importantQuestions', deleteState.classId);
+    if(result.success) {
+        toast({ title: "Success", description: result.message });
+        fetchQuestions();
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+    }
     setDeleteState(null);
+  };
+
+  const openDialog = (state: EditState) => {
+    setEditState(state);
+    setIsDialogOpen(true);
   };
 
   const renderSkeleton = () => (
@@ -115,15 +131,13 @@ export default function AdminImportantQuestionsPage() {
   );
 
   return (
-    <Dialog open={!!editState} onOpenChange={(isOpen) => !isOpen && setEditState(null)}>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialog open={!!deleteState} onOpenChange={(isOpen) => !isOpen && setDeleteState(null)}>
         <div className="space-y-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div><CardTitle>Manage Important Questions</CardTitle><CardDescription>Manage content for classes, parts, chapters, and topics.</CardDescription></div>
-              <DialogTrigger asChild>
-                <Button size="sm" onClick={() => setEditState({ type: 'class', action: 'add', data: {} })}><PlusCircle className="mr-2 h-4 w-4" /> Add Class</Button>
-              </DialogTrigger>
+              <Button size="sm" onClick={() => openDialog({ type: 'class', action: 'add', data: {} })}><PlusCircle className="mr-2 h-4 w-4" /> Add Class</Button>
             </CardHeader>
           </Card>
           {loading ? renderSkeleton() : (
@@ -133,13 +147,10 @@ export default function AdminImportantQuestionsPage() {
                   <div className="flex items-center p-4">
                     <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2"><span className="capitalize">{classDoc.id.replace('-', ' ')}</span></AccordionTrigger>
                     <div className="flex items-center gap-2 ml-auto shrink-0">
-                      <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
-                      </DialogTrigger>
-                       <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'class', action: 'edit', data: classDoc, classId: classDoc.id })}><Edit className="h-4 w-4" /></Button>
-                      </DialogTrigger>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openDialog({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setDeleteState({type: 'class', classId: classDoc.id})}><Trash2 className="h-4 w-4" /></Button>
+                      </AlertDialogTrigger>
                     </div>
                   </div>
                   <AccordionContent><CardContent><Accordion type="multiple" className="w-full space-y-2">
@@ -148,32 +159,19 @@ export default function AdminImportantQuestionsPage() {
                       return (<AccordionItem value={`${classDoc.id}-${partKey}`} key={partKey}><div className="flex items-center p-2 bg-muted/50 rounded-md">
                         <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline flex-1 w-full pr-2"><span>{partData.name}</span></AccordionTrigger>
                         <div className="flex items-center gap-2 ml-auto shrink-0">
-                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
-                          </DialogTrigger>
-                           <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'part', action: 'edit', data: partData, classId: classDoc.id, partKey: partKey})}><Edit className="h-4 w-4" /></Button>
-                          </DialogTrigger>
+                          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openDialog({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                         </div>
                       </div><AccordionContent className="p-2">
                         {Array.isArray(partData.chapters) && partData.chapters.map((chapter, chapterIndex) => (<AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0"><div className="mb-2 p-2 border rounded-md">
                           <div className="flex justify-between items-center"><AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name}</AccordionTrigger>
                             <div className="flex items-center gap-1">
-                               <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
-                              </DialogTrigger>
-                               <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'edit', data: chapter, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-4 w-4" /></Button>
-                              </DialogTrigger>
-                              <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openDialog({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
+                                <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div><AccordionContent className="p-2"><ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
                             {chapter.topics && chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
                               <span>{topic.name}</span><div className="flex items-center gap-1">
-                                 <DialogTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'topic', action: 'edit', data: topic, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-3 w-3" /></Button>
-                                </DialogTrigger>
                                 <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
                               </div>
                             </li>))}
@@ -195,11 +193,11 @@ export default function AdminImportantQuestionsPage() {
               {editState.type === 'part' && (<><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="key" className="text-right">Part Key</Label><Input id="key" name="key" defaultValue={editState.partKey} className="col-span-3" placeholder="e.g., part-1-maths"/></div><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Part Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" placeholder="e.g., Mathematics"/></div></>)}
               {(editState.type === 'chapter' || editState.type === 'topic') && (<><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right">Name</Label><Input id="name" name="name" defaultValue={editState.data.name} className="col-span-3" /></div><div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="slug" className="text-right">Slug</Label><Input id="slug" name="slug" defaultValue={editState.data.slug} className="col-span-3" /></div></>)}
             </div>
-            <DialogFooter><Button type="button" variant="outline" onClick={() => setEditState(null)}>Cancel</Button><Button type="submit">Save Changes</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button><Button type="submit">Save Changes</Button></DialogFooter>
           </form>
         </DialogContent>)}
         
-        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This action cannot be undone. This will permanently delete the selected item.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
+        <AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This action cannot be undone. This will permanently delete the class <span className="font-semibold capitalize">{deleteState?.classId.replace('-', ' ')}</span> and all its contents.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction></AlertDialogFooter></AlertDialogContent>
       </AlertDialog>
     </Dialog>
   );
