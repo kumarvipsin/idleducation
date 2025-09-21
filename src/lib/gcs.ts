@@ -8,15 +8,13 @@ const bucketName = 'idlcloud';
  * Initializes and returns a Google Cloud Storage client.
  */
 function getStorageClient(): Storage {
-  const credentialsEnv = process.env.GCS_CREDENTIALS;
-  console.log(credentialsEnv)
-  if (!credentialsEnv) {
+  const credentialsPath = process.env.GCS_CREDENTIALS;
+  if (!credentialsPath) {
     throw new Error("GCS_CREDENTIALS environment variable is not set.");
   }
 
   try {
-    const credentials = JSON.parse(credentialsEnv);
-    console.log(credentials)
+    const credentials = JSON.parse(credentialsPath);
     return new Storage({ credentials });
   } catch (error) {
     console.error("Failed to parse GCS credentials:", error);

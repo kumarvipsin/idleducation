@@ -3,6 +3,7 @@
  * This barrel file allows for a single import point for all server actions in the application,
  * while keeping the action logic organized into separate, domain-specific files.
  */
+import 'dotenv/config';
 
 export * from './actions/auth';
 export * from './actions/forms';
