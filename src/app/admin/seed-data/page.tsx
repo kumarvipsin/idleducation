@@ -556,31 +556,394 @@ const ncertSolutionsData: { [key: string]: any } = {
   },
   'class-8': {
     maths: {
-      books: [{ name: "Mathematics Textbook for Class VIII", lang: "en", chapters: [{ name: "Chapter 1: Rational Numbers", slug: "rational-numbers" }] }]
+      books: [
+        {
+          name: "Mathematics Textbook for Class VIII",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Rational Numbers", slug: "rational-numbers" },
+            { name: "Chapter 2: Linear Equations in One Variable", slug: "linear-equations-in-one-variable" },
+            { name: "Chapter 3: Understanding Quadrilaterals", slug: "understanding-quadrilaterals" },
+            { name: "Chapter 4: Data Handling", slug: "data-handling-8" },
+            { name: "Chapter 5: Squares and Square Roots", slug: "squares-and-square-roots" },
+            { name: "Chapter 6: Cubes and Cube Roots", slug: "cubes-and-cube-roots" },
+            { name: "Chapter 7: Comparing Quantities", slug: "comparing-quantities" },
+            { name: "Chapter 8: Algebraic Expressions and Identities", slug: "algebraic-expressions-and-identities" },
+            { name: "Chapter 9: Mensuration", slug: "mensuration-8" },
+            { name: "Chapter 10: Exponents and Powers", slug: "exponents-and-powers" },
+            { name: "Chapter 11: Direct and Inverse Proportions", slug: "direct-and-inverse-proportions" },
+            { name: "Chapter 12: Factorisation", slug: "factorisation" },
+            { name: "Chapter 13: Introduction to Graphs", slug: "introduction-to-graphs" },
+          ],
+        },
+        {
+          name: "गणित, कक्षा VIII",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: परिमेय संख्याएँ", slug: "rational-numbers" },
+            { name: "अध्याय 2: एक चर वाले रैखिक समीकरण", slug: "linear-equations-in-one-variable" },
+            { name: "अध्याय 3: चतुर्भुजों को समझना", slug: "understanding-quadrilaterals" },
+            { name: "अध्याय 4: आँकड़ों का प्रबंधन", slug: "data-handling-8" },
+            { name: "अध्याय 5: वर्ग और वर्गमूल", slug: "squares-and-square-roots" },
+            { name: "अध्याय 6: घन और घनमूल", slug: "cubes-and-cube-roots" },
+            { name: "अध्याय 7: राशियों की तुलना", slug: "comparing-quantities" },
+            { name: "अध्याय 8: बीजीय व्यंजक एवं सर्वसमिकाएँ", slug: "algebraic-expressions-and-identities" },
+            { name: "अध्याय 9: क्षेत्रमिति", slug: "mensuration-8" },
+            { name: "अध्याय 10: घातांक और घात", slug: "exponents-and-powers" },
+            { name: "अध्याय 11: सीधा और प्रतिलोम समानुपात", slug: "direct-and-inverse-proportions" },
+            { name: "अध्याय 12: गुणनखंडन", slug: "factorisation" },
+            { name: "अध्याय 13: आलेखों से परिचय", slug: "introduction-to-graphs" },
+          ],
+        },
+      ],
     },
     science: {
-      books: [{ name: "Science Textbook for Class VIII", lang: "en", chapters: [{ name: "Chapter 1: Crop Production and Management", slug: "crop-production-and-management" }] }]
+      books: [
+        {
+          name: "Science Textbook for Class VIII",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Crop Production and Management", slug: "crop-production-and-management" },
+            { name: "Chapter 2: Microorganisms: Friend and Foe", slug: "microorganisms-friend-and-foe" },
+            { name: "Chapter 3: Coal and Petroleum", slug: "coal-and-petroleum" },
+            { name: "Chapter 4: Combustion and Flame", slug: "combustion-and-flame" },
+            { name: "Chapter 5: Conservation of Plants and Animals", slug: "conservation-of-plants-and-animals" },
+            { name: "Chapter 6: Reproduction in Animals", slug: "reproduction-in-animals" },
+            { name: "Chapter 7: Reaching the Age of Adolescence", slug: "reaching-the-age-of-adolescence" },
+            { name: "Chapter 8: Force and Pressure", slug: "force-and-pressure" },
+            { name: "Chapter 9: Friction", slug: "friction" },
+            { name: "Chapter 10: Sound", slug: "sound-8" },
+            { name: "Chapter 11: Chemical Effects of Electric Current", slug: "chemical-effects-of-electric-current" },
+            { name: "Chapter 12: Some Natural Phenomena", slug: "some-natural-phenomena" },
+            { name: "Chapter 13: Light", slug: "light" },
+          ],
+        },
+        {
+          name: "विज्ञान, कक्षा VIII",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: फसल उत्पादन एवं प्रबंध", slug: "crop-production-and-management" },
+            { name: "अध्याय 2: सूक्ष्मजीव: मित्र एवं शत्रु", slug: "microorganisms-friend-and-foe" },
+            { name: "अध्याय 3: कोयला और पेट्रोलियम", slug: "coal-and-petroleum" },
+            { name: "अध्याय 4: दहन और ज्वाला", slug: "combustion-and-flame" },
+            { name: "अध्याय 5: पौधों एवं जंतुओं का संरक्षण", slug: "conservation-of-plants-and-animals" },
+            { name: "अध्याय 6: जंतुओं में जनन", slug: "reproduction-in-animals" },
+            { name: "अध्याय 7: किशोरावस्था की ओर", slug: "reaching-the-age-of-adolescence" },
+            { name: "अध्याय 8: बल तथा दाब", slug: "force-and-pressure" },
+            { name: "अध्याय 9: घर्षण", slug: "friction" },
+            { name: "अध्याय 10: ध्वनि", slug: "sound-8" },
+            { name: "अध्याय 11: विद्युत धारा के रासायनिक प्रभाव", slug: "chemical-effects-of-electric-current" },
+            { name: "अध्याय 12: कुछ प्राकृतिक परिघटनाएँ", slug: "some-natural-phenomena" },
+            { name: "अध्याय 13: प्रकाश", slug: "light" },
+          ],
+        },
+      ],
     },
     social: {
-      books: [{ name: "Our Pasts - III", lang: "en", chapters: [{ name: "Chapter 1: How, When and Where", slug: "how-when-and-where" }] }]
+      books: [
+        {
+          name: "Our Pasts - III",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: How, When and Where", slug: "how-when-and-where" },
+            { name: "Chapter 2: From Trade to Territory", slug: "from-trade-to-territory" },
+            { name: "Chapter 3: Ruling the Countryside", slug: "ruling-the-countryside" },
+            { name: "Chapter 4: Tribals, Dikus and the Vision of a Golden Age", slug: "tribals-dikus-and-the-vision-of-a-golden-age" },
+            { name: "Chapter 5: When People Rebel", slug: "when-people-rebel" },
+            { name: "Chapter 6: Weavers, Iron Smelters and Factory Owners", slug: "weavers-iron-smelters-and-factory-owners" },
+            { name: "Chapter 7: Civilising the 'Native', Educating the Nation", slug: "civilising-the-native-educating-the-nation" },
+            { name: "Chapter 8: Women, Caste and Reform", slug: "women-caste-and-reform" },
+            { name: "Chapter 9: The Making of the National Movement: 1870s-1947", slug: "the-making-of-the-national-movement" },
+            { name: "Chapter 10: India After Independence", slug: "india-after-independence" },
+          ],
+        },
+        {
+          name: "Resources and Development",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Resources", slug: "resources" },
+            { name: "Chapter 2: Land, Soil, Water, Natural Vegetation and Wildlife Resources", slug: "land-soil-water-natural-vegetation-and-wildlife-resources" },
+            { name: "Chapter 3: Agriculture", slug: "agriculture-8" },
+            { name: "Chapter 4: Industries", slug: "industries" },
+            { name: "Chapter 5: Human Resources", slug: "human-resources" },
+          ],
+        },
+        {
+          name: "Social and Political Life - III",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Indian Constitution", slug: "the-indian-constitution" },
+            { name: "Chapter 2: Understanding Secularism", slug: "understanding-secularism" },
+            { name: "Chapter 3: Parliament and the Making of Laws", slug: "parliament-and-the-making-of-laws" },
+            { name: "Chapter 4: The Judiciary", slug: "the-judiciary" },
+            { name: "Chapter 5: Understanding Marginalisation", slug: "understanding-marginalisation" },
+            { name: "Chapter 6: Confronting Marginalisation", slug: "confronting-marginalisation" },
+            { name: "Chapter 7: Public Facilities", slug: "public-facilities" },
+            { name: "Chapter 8: Law and Social Justice", slug: "law-and-social-justice" },
+          ],
+        },
+        {
+          name: "हमारे अतीत - III",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: कैसे, कब और कहाँ", slug: "how-when-and-where" },
+            { name: "अध्याय 2: व्यापार से साम्राज्य तक", slug: "from-trade-to-territory" },
+            { name: "अध्याय 3: ग्रामीण क्षेत्र पर शासन चलाना", slug: "ruling-the-countryside" },
+            { name: "अध्याय 4: आदिवासी, दीकु और एक स्वर्ण युग की कल्पना", slug: "tribals-dikus-and-the-vision-of-a-golden-age" },
+            { name: "अध्याय 5: जब जनता बग़ावत करती है", slug: "when-people-rebel" },
+            { name: "अध्याय 6: बुनकर, लोहा बनाने वाले और फैक्ट्री मालिक", slug: "weavers-iron-smelters-and-factory-owners" },
+            { name: "अध्याय 7: 'देशी' जनता को सभ्य बनाना, राष्ट्र को शिक्षित करना", slug: "civilising-the-native-educating-the-nation" },
+            { name: "अध्याय 8: महिलाएँ, जाति एवं सुधार", slug: "women-caste-and-reform" },
+            { name: "अध्याय 9: राष्ट्रीय आंदोलन का संघटन: 1870 के दशक से 1947 तक", slug: "the-making-of-the-national-movement" },
+            { name: "अध्याय 10: स्वतंत्रता के बाद भारत", slug: "india-after-independence" },
+          ],
+        },
+        {
+          name: "संसाधन एवं विकास",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: संसाधन", slug: "resources" },
+            { name: "अध्याय 2: भूमि, मृदा, जल, प्राकृतिक वनस्पति और वन्य जीवन संसाधन", slug: "land-soil-water-natural-vegetation-and-wildlife-resources" },
+            { name: "अध्याय 3: कृषि", slug: "agriculture-8" },
+            { name: "अध्याय 4: उद्योग", slug: "industries" },
+            { name: "अध्याय 5: मानव संसाधन", slug: "human-resources" },
+          ],
+        },
+        {
+          name: "सामाजिक एवं राजनीतिक जीवन - III",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: भारतीय संविधान", slug: "the-indian-constitution" },
+            { name: "अध्याय 2: धर्मनिरपेक्षता की समझ", slug: "understanding-secularism" },
+            { name: "अध्याय 3: संसद तथा कानूनों का निर्माण", slug: "parliament-and-the-making-of-laws" },
+            { name: "अध्याय 4: न्यायपालिका", slug: "the-judiciary" },
+            { name: "अध्याय 5: हाशियाकरण की समझ", slug: "understanding-marginalisation" },
+            { name: "अध्याय 6: हाशियाकरण से निपटना", slug: "confronting-marginalisation" },
+            { name: "अध्याय 7: जनसुविधाएँ", slug: "public-facilities" },
+            { name: "अध्याय 8: कानून और सामाजिक न्याय", slug: "law-and-social-justice" },
+          ],
+        },
+      ],
     },
     english: {
-      books: [{ name: "Honeydew", lang: "en", chapters: [{ name: "Chapter 1: The Best Christmas Present in the World", slug: "c8-en-h-unit1" }] }]
-    },
+      books: [
+        {
+          name: "Honeydew",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Best Christmas Present in the World", slug: "c8-en-h-unit1" },
+            { name: "Chapter 2: The Tsunami", slug: "c8-en-h-unit2" },
+            { name: "Chapter 3: Glimpses of the Past", slug: "c8-en-h-unit3" },
+            { name: "Chapter 4: Bepin Choudhury’s Lapse of Memory", slug: "c8-en-h-unit4" },
+          ],
+        },
+        {
+          name: "It So Happened",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: How the Camel got his Hump", slug: "c8-en-i-unit1" },
+            { name: "Chapter 2: Children at Work", slug: "c8-en-i-unit2" },
+            { name: "Chapter 3: The Selfish Giant", slug: "c8-en-i-unit3" },
+          ],
+        },
+      ],
+    }
   },
   'class-9': {
     maths: {
-      books: [{ name: "Mathematics Textbook for Class IX", lang: "en", chapters: [{ name: "Chapter 1: Number Systems", slug: "number-systems" }] }]
+      books: [
+        {
+          name: "Mathematics Textbook for Class IX",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Number Systems", slug: "number-systems" },
+            { name: "Chapter 2: Polynomials", slug: "polynomials" },
+            { name: "Chapter 3: Coordinate Geometry", slug: "coordinate-geometry" },
+            { name: "Chapter 4: Linear Equations in Two Variables", slug: "linear-equations-in-two-variables" },
+            { name: "Chapter 5: Introduction to Euclid's Geometry", slug: "introduction-to-euclids-geometry" },
+            { name: "Chapter 6: Lines and Angles", slug: "lines-and-angles-9" },
+            { name: "Chapter 7: Triangles", slug: "triangles-9" },
+            { name: "Chapter 8: Quadrilaterals", slug: "quadrilaterals" },
+            { name: "Chapter 9: Circles", slug: "circles-9" },
+            { name: "Chapter 10: Heron's Formula", slug: "herons-formula" },
+            { name: "Chapter 11: Surface Areas and Volumes", slug: "surface-areas-and-volumes-9" },
+            { name: "Chapter 12: Statistics", slug: "statistics-9" },
+          ],
+        },
+        {
+          name: "गणित, कक्षा IX",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: संख्या पद्धति", slug: "number-systems" },
+            { name: "अध्याय 2: बहुपद", slug: "polynomials" },
+            { name: "अध्याय 3: निर्देशांक ज्यामिति", slug: "coordinate-geometry" },
+            { name: "अध्याय 4: दो चरों वाले रैखिक समीकरण", slug: "linear-equations-in-two-variables" },
+            { name: "अध्याय 5: यूक्लिड की ज्यामिति का परिचय", slug: "introduction-to-euclids-geometry" },
+            { name: "अध्याय 6: रेखाएँ और कोण", slug: "lines-and-angles-9" },
+            { name: "अध्याय 7: त्रिभुज", slug: "triangles-9" },
+            { name: "अध्याय 8: चतुर्भुज", slug: "quadrilaterals" },
+            { name: "अध्याय 9: वृत्त", slug: "circles-9" },
+            { name: "अध्याय 10: हीरोन का सूत्र", slug: "herons-formula" },
+            { name: "अध्याय 11: पृष्ठीय क्षेत्रफल और आयतन", slug: "surface-areas-and-volumes-9" },
+            { name: "अध्याय 12: सांख्यिकी", slug: "statistics-9" },
+          ],
+        },
+      ]
     },
     science: {
-      books: [{ name: "Science Textbook for Class IX", lang: "en", chapters: [{ name: "Chapter 1: Matter in Our Surroundings", slug: "matter-in-our-surroundings" }] }]
+      books: [
+        {
+          name: "Science Textbook for Class IX",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Matter in Our Surroundings", slug: "matter-in-our-surroundings" },
+            { name: "Chapter 2: Is Matter Around Us Pure", slug: "is-matter-around-us-pure" },
+            { name: "Chapter 3: Atoms and Molecules", slug: "atoms-and-molecules" },
+            { name: "Chapter 4: Structure of the Atom", slug: "structure-of-the-atom" },
+            { name: "Chapter 5: The Fundamental Unit of Life", slug: "the-fundamental-unit-of-life" },
+            { name: "Chapter 6: Tissues", slug: "tissues" },
+            { name: "Chapter 7: Motion", slug: "motion" },
+            { name: "Chapter 8: Force and Laws of Motion", slug: "force-and-laws-of-motion" },
+            { name: "Chapter 9: Gravitation", slug: "gravitation" },
+            { name: "Chapter 10: Work and Energy", slug: "work-and-energy" },
+            { name: "Chapter 11: Sound", slug: "sound" },
+            { name: "Chapter 12: Improvement in Food Resources", slug: "improvement-in-food-resources" },
+          ],
+        },
+        {
+          name: "विज्ञान, कक्षा IX",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: हमारे आस-पास के पदार्थ", slug: "matter-in-our-surroundings" },
+            { name: "अध्याय 2: क्या हमारे आस-पास के पदार्थ शुद्ध हैं", slug: "is-matter-around-us-pure" },
+            { name: "अध्याय 3: परमाणु एवं अणु", slug: "atoms-and-molecules" },
+            { name: "अध्याय 4: परमाणु की संरचना", slug: "structure-of-the-atom" },
+            { name: "अध्याय 5: जीवन की मौलिक इकाई", slug: "the-fundamental-unit-of-life" },
+            { name: "अध्याय 6: ऊतक", slug: "tissues" },
+            { name: "अध्याय 7: गति", slug: "motion" },
+            { name: "अध्याय 8: बल तथा गति के नियम", slug: "force-and-laws-of-motion" },
+            { name: "अध्याय 9: गुरुत्वाकर्षण", slug: "gravitation" },
+            { name: "अध्याय 10: कार्य तथा ऊर्जा", slug: "work-and-energy" },
+            { name: "अध्याय 11: ध्वनि", slug: "sound" },
+            { name: "अध्याय 12: खाद्य संसाधनों में सुधार", slug: "improvement-in-food-resources" },
+          ],
+        },
+      ]
     },
     social: {
-      books: [{ name: "India and the Contemporary World - I", lang: "en", chapters: [{ name: "Chapter 1: The French Revolution", slug: "the-french-revolution" }] }]
+      books: [
+        {
+          name: "India and the Contemporary World - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The French Revolution", slug: "the-french-revolution" },
+            { name: "Chapter 2: Socialism in Europe and the Russian Revolution", slug: "socialism-in-europe-and-the-russian-revolution" },
+            { name: "Chapter 3: Nazism and the Rise of Hitler", slug: "nazism-and-the-rise-of-hitler" },
+            { name: "Chapter 4: Forest Society and Colonialism", slug: "forest-society-and-colonialism" },
+            { name: "Chapter 5: Pastoralists in the Modern World", slug: "pastoralists-in-the-modern-world" },
+          ],
+        },
+        {
+          name: "Contemporary India - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: India - Size and Location", slug: "india-size-and-location" },
+            { name: "Chapter 2: Physical Features of India", slug: "physical-features-of-india" },
+            { name: "Chapter 3: Drainage", slug: "drainage" },
+            { name: "Chapter 4: Climate", slug: "climate" },
+            { name: "Chapter 5: Natural Vegetation and Wildlife", slug: "natural-vegetation-and-wildlife" },
+            { name: "Chapter 6: Population", slug: "population" },
+          ],
+        },
+        {
+          name: "Democratic Politics - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: What is Democracy? Why Democracy?", slug: "what-is-democracy-why-democracy" },
+            { name: "Chapter 2: Constitutional Design", slug: "constitutional-design" },
+            { name: "Chapter 3: Electoral Politics", slug: "electoral-politics" },
+            { name: "Chapter 4: Working of Institutions", slug: "working-of-institutions" },
+            { name: "Chapter 5: Democratic Rights", slug: "democratic-rights" },
+          ],
+        },
+        {
+          name: "Economics",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Story of Village Palampur", slug: "the-story-of-village-palampur" },
+            { name: "Chapter 2: People as Resource", slug: "people-as-resource" },
+            { name: "Chapter 3: Poverty as a Challenge", slug: "poverty-as-a-challenge" },
+            { name: "Chapter 4: Food Security in India", slug: "food-security-in-india" },
+          ],
+        },
+        {
+          name: "भारत और समकालीन विश्व - I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: फ्रांसीसी क्रांति", slug: "the-french-revolution" },
+            { name: "अध्याय 2: यूरोप में समाजवाद एवं रूसी क्रांति", slug: "socialism-in-europe-and-the-russian-revolution" },
+            { name: "अध्याय 3: नात्सीवाद और हिटलर का उदय", slug: "nazism-and-the-rise-of-hitler" },
+            { name: "अध्याय 4: वन्य समाज एवं उपनिवेशवाद", slug: "forest-society-and-colonialism" },
+            { name: "अध्याय 5: आधुनिक विश्व में चरवाहे", slug: "pastoralists-in-the-modern-world" },
+          ],
+        },
+        {
+          name: "समकालीन भारत - I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: भारत - आकार और स्थिति", slug: "india-size-and-location" },
+            { name: "अध्याय 2: भारत का भौतिक स्वरूप", slug: "physical-features-of-india" },
+            { name: "अध्याय 3: अपवाह", slug: "drainage" },
+            { name: "अध्याय 4: जलवायु", slug: "climate" },
+            { name: "अध्याय 5: प्राकृतिक वनस्पति तथा वन्य प्राणी", slug: "natural-vegetation-and-wildlife" },
+            { name: "अध्याय 6: जनसंख्या", slug: "population" },
+          ],
+        },
+        {
+          name: "लोकतांत्रिक राजनीति - I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: लोकतंत्र क्या? लोकतंत्र क्यों?", slug: "what-is-democracy-why-democracy" },
+            { name: "अध्याय 2: संविधान निर्माण", slug: "constitutional-design" },
+            { name: "अध्याय 3: चुनावी राजनीति", slug: "electoral-politics" },
+            { name: "अध्याय 4: संस्थाओं का कामकाज", slug: "working-of-institutions" },
+            { name: "अध्याय 5: लोकतांत्रिक अधिकार", slug: "democratic-rights" },
+          ],
+        },
+        {
+          name: "अर्थशास्त्र",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: पालमपुर गाँव की कहानी", slug: "the-story-of-village-palampur" },
+            { name: "अध्याय 2: संसाधन के रूप में लोग", slug: "people-as-resource" },
+            { name: "अध्याय 3: निर्धनता: एक चुनौती", slug: "poverty-as-a-challenge" },
+            { name: "अध्याय 4: भारत में खाद्य सुरक्षा", slug: "food-security-in-india" },
+          ],
+        },
+      ]
     },
     english: {
-      books: [{ name: "Beehive", lang: "en", chapters: [{ name: "Chapter 1: The Fun They Had", slug: "the-fun-they-had" }] }]
-    },
+      books: [
+        {
+          name: "Beehive",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Fun They Had", slug: "the-fun-they-had" },
+            { name: "Chapter 2: The Sound of Music", slug: "the-sound-of-music" },
+            { name: "Chapter 3: The Little Girl", slug: "the-little-girl" },
+          ],
+        },
+        {
+          name: "Moments",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Lost Child", slug: "the-lost-child" },
+            { name: "Chapter 2: The Adventures of Toto", slug: "the-adventures-of-toto" },
+            { name: "Chapter 3: Iswaran the Storyteller", slug: "iswaran-the-storyteller" },
+          ],
+        },
+      ],
+    }
   },
   'class-10': {
     maths: {
