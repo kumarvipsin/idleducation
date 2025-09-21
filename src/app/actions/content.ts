@@ -31,7 +31,7 @@ export async function addClass(collectionType: CollectionType, className: string
         if (docSnap.exists()) {
             return { success: false, message: `Class '${className}' already exists.` };
         }
-        await setDoc(docRef, { name: className });
+        await setDoc(docRef, { name: className, subjects: {} });
         return { success: true, message: `Successfully added class '${className}'.` };
     } catch (error) {
         console.error(`Error adding class ${className}:`, error);
@@ -154,7 +154,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
     if (!chapterName) return { success: false, message: "Chapter name is required." };
     
     let pdfUrl = '';
-    if (pdfFile) {
+    if (pdfFile && pdfFile.size > 0) {
         const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(chapterName)}.pdf`;
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
@@ -187,7 +187,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     if (!topicName) return { success: false, message: "Topic name is required." };
 
     let pdfUrl = '';
-    if (pdfFile) {
+    if (pdfFile && pdfFile.size > 0) {
         const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${generateSlug(topicName)}.pdf`;
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
@@ -204,8 +204,12 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
         if (!docSnap.exists()) return { success: false, message: "Class not found." };
 
         const data = docSnap.data();
+        if (!data || !data.subjects || !data.subjects[subjectKey]) {
+            return { success: false, message: "Subject not found." };
+        }
+        
         const subject = data.subjects[subjectKey];
-        const chaptersArray = partKey ? subject.parts[partKey].chapters : subject.chapters;
+        const chaptersArray = partKey ? (subject.parts?.[partKey]?.chapters) : subject.chapters;
 
         if (chaptersArray && chaptersArray[chapterIndex]) {
             if (!chaptersArray[chapterIndex].topics) {
@@ -235,7 +239,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
     if (!subTopicName) return { success: false, message: "Sub-topic name is required." };
 
     let pdfUrl = '';
-    if (pdfFile) {
+    if (pdfFile && pdfFile.size > 0) {
         const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${generateSlug(subTopicName)}.pdf`;
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
@@ -251,8 +255,12 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
         if (!docSnap.exists()) return { success: false, message: "Class not found." };
         
         const data = docSnap.data();
+        if (!data || !data.subjects || !data.subjects[subjectKey]) {
+            return { success: false, message: "Subject not found." };
+        }
+        
         const subject = data.subjects[subjectKey];
-        const chaptersArray = partKey ? subject.parts[partKey].chapters : subject.chapters;
+        const chaptersArray = partKey ? (subject.parts?.[partKey]?.chapters) : subject.chapters;
 
         if (chaptersArray && chaptersArray[chapterIndex] && chaptersArray[chapterIndex].topics && chaptersArray[chapterIndex].topics[topicIndex]) {
             if (!chaptersArray[chapterIndex].topics[topicIndex].subTopics) {

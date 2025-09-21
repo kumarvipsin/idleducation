@@ -169,7 +169,7 @@ export default function AdminImportantQuestionsPage() {
           )}
         </div>
         
-        {modalState && (<DialogContent><DialogHeader><DialogTitle>{modalState.action === 'add' ? 'Add New' : 'Edit'} {modalState.type}</DialogTitle></DialogHeader>
+        {modalState && (<DialogContent><DialogHeader><DialogTitle>{modalState.action === 'add' ? 'Add New' : 'Edit'} {modalState.type.replace('-', ' ')}</DialogTitle></DialogHeader>
           <form onSubmit={handleFormSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="name" className="text-right capitalize">{modalState.type.replace('-', ' ')} Name</Label><Input id="name" name="name" defaultValue={modalState.data?.name || ''} className="col-span-3"/></div>
