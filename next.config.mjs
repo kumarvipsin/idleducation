@@ -1,12 +1,9 @@
-
-import type {NextConfig} from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
   serverActions: {
     bodySizeLimit: '100mb',
   },
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },
