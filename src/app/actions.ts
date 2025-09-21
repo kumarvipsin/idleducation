@@ -45,7 +45,7 @@ export async function bookFreeSession(data: FormValues) {
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
+  guardianName: z.string().min(2, { message: "Guardian name is required." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   country: z.string().min(1, { message: "Please select a country." }),
@@ -351,7 +351,7 @@ export async function assignTeachersToStudent(studentId: string, teacherIds: str
 
 export async function getStudentProgressReports(studentId: string) {
   try {
-    const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", "studentId"));
+    const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", studentId));
     const querySnapshot = await getDocs(reportsQuery);
     const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     // Sort by date or month if needed
@@ -364,7 +364,7 @@ export async function getStudentProgressReports(studentId: string) {
 
 export async function getProgressReportsForTeacher(teacherId: string) {
   try {
-    const reportsQuery = query(collection(db, "progressReports"), where("teacherId", "==", "teacherId"));
+    const reportsQuery = query(collection(db, "progressReports"), where("teacherId", "==", teacherId));
     const querySnapshot = await getDocs(reportsQuery);
     const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: reports };
@@ -1046,4 +1046,36 @@ export async function getFeedbackSubmissions() {
         console.error("Error fetching feedback:", error);
         return { success: false, message: "Failed to fetch feedback submissions." };
     }
+}
+
+// NCERT Solutions Data Fetching
+export async function getNcertSolutions(className: string, subject: string) {
+  try {
+    const docRef = doc(db, "ncertSolutions", className);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data && data[subject]) {
+        return { success: true, data: data[subject] };
+      }
+    }
+    
+    return { success: false, message: `No data found for ${className} - ${subject}.` };
+
+  } catch (error) {
+    console.error("Error fetching NCERT solutions:", error);
+    return { success: false, message: "Failed to fetch NCERT solutions." };
+  }
+}
+
+export async function seedNcertSolutions(className: string, data: any) {
+  try {
+    const docRef = doc(db, "ncertSolutions", className);
+    await setDoc(docRef, data, { merge: true });
+    return { success: true, message: "Data seeded successfully." };
+  } catch (error) {
+    console.error("Error seeding NCERT solutions:", error);
+    return { success: false, message: "Failed to seed data." };
+  }
 }
