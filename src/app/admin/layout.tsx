@@ -188,6 +188,14 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/seed-imp-questions')}>
+                  <Link href="/admin/seed-imp-questions">
+                    <Database />
+                    <span>Seed Imp Questions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="#">
