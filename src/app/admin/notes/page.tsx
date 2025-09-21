@@ -30,7 +30,7 @@ interface ClassData {
   [partKey: string]: Part;
 }
 interface NoteDoc {
-  id: string; // This will be 'class-5', 'class-6', etc.
+  id: string;
   data: ClassData;
 }
 
@@ -121,42 +121,63 @@ export default function AdminNotesPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <div><CardTitle>Manage Notes</CardTitle><CardDescription>Manage content for classes, parts, chapters, and topics.</CardDescription></div>
-              <Button size="sm" onClick={() => setEditState({ type: 'class', action: 'add', data: {} })}><PlusCircle className="mr-2 h-4 w-4"/> Add Class</Button>
+               <DialogTrigger asChild>
+                <Button size="sm" onClick={() => setEditState({ type: 'class', action: 'add', data: {} })}>
+                    <PlusCircle className="mr-2 h-4 w-4"/> Add Class
+                </Button>
+              </DialogTrigger>
             </CardHeader>
           </Card>
           {loading ? renderSkeleton() : (
             <Accordion type="multiple" className="w-full space-y-4">
               {notes.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true })).map((classDoc) => (
                 <AccordionItem value={classDoc.id} key={classDoc.id}><Card>
-                  <div className="flex items-center p-4"><AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2"><span className="capitalize">{classDoc.id.replace('-', ' ')}</span></AccordionTrigger>
+                  <div className="flex items-center p-4">
+                    <AccordionTrigger className="text-xl font-bold text-primary hover:no-underline flex-1 w-full pr-2">
+                        <span className="capitalize">{classDoc.id.replace('-', ' ')}</span>
+                    </AccordionTrigger>
                     <div className="flex items-center gap-2 ml-auto shrink-0">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8"><Edit className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                        <DialogTrigger asChild>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({ type: 'part', action: 'add', data: {}, classId: classDoc.id })}><PlusCircle className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <DialogTrigger asChild>
+                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditState({ type: 'class', action: 'edit', data: classDoc })}><Edit className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                       <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                     </div>
                   </div>
                   <AccordionContent><CardContent><Accordion type="multiple" className="w-full space-y-2">
                     {Object.entries(classDoc.data).map(([partKey, partData]) => {
-                      if (partKey === 'id') return null;
+                      if (partKey === 'id' || !partData || typeof partData !== 'object') return null;
                       return (<AccordionItem value={`${classDoc.id}-${partKey}`} key={partKey}><div className="flex items-center p-2 bg-muted/50 rounded-md">
                         <AccordionTrigger className="font-semibold capitalize text-base hover:no-underline flex-1 w-full pr-2"><span>{partData.name}</span></AccordionTrigger>
                         <div className="flex items-center gap-2 ml-auto shrink-0">
-                          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
+                          <DialogTrigger asChild>
+                             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
+                          </DialogTrigger>
+                          <DialogTrigger asChild>
+                             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'part', action: 'edit', data: partData, classId: classDoc.id, partKey: partKey})}><Edit className="h-4 w-4" /></Button>
+                          </DialogTrigger>
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                         </div>
                       </div><AccordionContent className="p-2">
-                        {partData.chapters.map((chapter, chapterIndex) => (<AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0"><div className="mb-2 p-2 border rounded-md">
+                        {Array.isArray(partData.chapters) && partData.chapters.map((chapter, chapterIndex) => (<AccordionItem value={`${classDoc.id}-${partKey}-${chapterIndex}`} key={chapterIndex} className="border-b-0"><div className="mb-2 p-2 border rounded-md">
                           <div className="flex justify-between items-center"><AccordionTrigger className="font-semibold text-sm italic p-2 hover:no-underline flex-1 w-full pr-2">{chapter.name}</AccordionTrigger>
                             <div className="flex items-center gap-1">
-                              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
-                              <Button variant="ghost" size="icon" className="h-7 w-7"><Edit className="h-4 w-4" /></Button>
+                              <DialogTrigger asChild>
+                                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
+                              </DialogTrigger>
+                              <DialogTrigger asChild>
+                                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'edit', data: chapter, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-4 w-4" /></Button>
+                              </DialogTrigger>
                               <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div><AccordionContent className="p-2"><ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
-                            {chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
+                            {chapter.topics && chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
                               <span>{topic.name}</span><div className="flex items-center gap-1">
-                                <Button variant="ghost" size="icon" className="h-6 w-6"><Edit className="h-3 w-3" /></Button>
+                                <DialogTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'topic', action: 'edit', data: topic, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-3 w-3" /></Button>
+                                </DialogTrigger>
                                 <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
                               </div>
                             </li>))}
