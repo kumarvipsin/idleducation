@@ -416,6 +416,7 @@ const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  country: z.string().optional(),
   state: z.string().optional(),
   message: z.string().optional(),
 });
