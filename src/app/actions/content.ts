@@ -1,13 +1,14 @@
 
 
-'use server';
 
+'use server';
+import 'dotenv/config';
 import { db } from "@/lib/firebase";
 import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, getDocs, collection, serverTimestamp, deleteField } from "firebase/firestore";
 import { z } from "zod";
 import { uploadFileToGCS, getSignedUrl } from '@/lib/gcs';
 import { revalidatePath } from "next/cache";
-import { serializeFirestoreData, TClass, TSubject, TPart, TChapter, TTopic, TSubTopic } from './types';
+import { TClass, TSubject, TPart, TChapter, TTopic, TSubTopic } from './types';
 
 
 // Helper to generate a slug from a string
@@ -30,8 +31,8 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         return { success: false, message: 'No file URL provided.' };
     }
     try {
-        const bucketName = 'idlcloud'; 
-        const filePath = publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1);
+        const bucketName = process.env.GCS_BUCKET_NAME || 'idlcloud';
+        const filePath = decodeURIComponent(publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1));
         const url = await getSignedUrl(filePath);
         return { success: true, url: url };
     } catch (error) {
@@ -39,6 +40,82 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         return { success: false, message: 'Could not get viewable link for the PDF.' };
     }
 }
+
+// ==================================
+// Reordering Action
+// ==================================
+export async function reorderArrayItem(
+    collectionType: CollectionType,
+    path: { classId: string; subjectKey: string; partKey?: string; chapterIndex?: number; topicIndex?: number; },
+    itemType: 'chapter' | 'topic' | 'subTopic',
+    itemIndex: number,
+    direction: 'up' | 'down'
+) {
+    if (!path.classId || !path.subjectKey) {
+        return { success: false, message: "Invalid path provided." };
+    }
+
+    try {
+        const docRef = getContentDocRef(collectionType, path.classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+
+        const data = docSnap.data();
+        const subject = data.subjects?.[path.subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+        
+        let arrayToModify: any[] | undefined;
+        let fieldPath: string;
+
+        if (itemType === 'chapter') {
+            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
+            arrayToModify = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
+        } else if (itemType === 'topic' && path.chapterIndex !== undefined) {
+            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
+            const chapters = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
+            arrayToModify = chapters?.[path.chapterIndex]?.topics;
+        } else if (itemType === 'subTopic' && path.chapterIndex !== undefined && path.topicIndex !== undefined) {
+            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
+            const chapters = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
+            arrayToModify = chapters?.[path.chapterIndex]?.topics?.[path.topicIndex]?.subTopics;
+        } else {
+             return { success: false, message: "Invalid item type or path for reordering." };
+        }
+
+        if (!arrayToModify || itemIndex < 0 || itemIndex >= arrayToModify.length) {
+            return { success: false, message: "Item not found or index out of bounds." };
+        }
+
+        const newIndex = direction === 'up' ? itemIndex - 1 : itemIndex + 1;
+        if (newIndex < 0 || newIndex >= arrayToModify.length) {
+            return { success: false, message: "Cannot move item further." };
+        }
+        
+        // Swap elements
+        const temp = arrayToModify[itemIndex];
+        arrayToModify[itemIndex] = arrayToModify[newIndex];
+        arrayToModify[newIndex] = temp;
+
+        if (itemType === 'chapter') {
+            await updateDoc(docRef, { [fieldPath]: arrayToModify });
+        } else {
+            const chapters = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
+            if (itemType === 'topic') {
+                chapters[path.chapterIndex!].topics = arrayToModify;
+            } else if (itemType === 'subTopic') {
+                chapters[path.chapterIndex!].topics[path.topicIndex!].subTopics = arrayToModify;
+            }
+            await updateDoc(docRef, { [fieldPath]: chapters });
+        }
+
+        return { success: true, message: `${itemType} reordered successfully.` };
+
+    } catch (error) {
+        console.error("Error reordering item:", error);
+        return { success: false, message: "Failed to reorder item." };
+    }
+}
+
 
 // ==================================
 // Class Level Operations
@@ -52,7 +129,7 @@ export async function addClass(collectionType: CollectionType, className: string
         if (docSnap.exists()) {
             return { success: false, message: `Class '${className}' already exists.` };
         }
-        await setDoc(docRef, { name: className, subjects: {} });
+        await setDoc(docRef, { name: className, subjects: {}, order: 99 });
         return { success: true, message: `Successfully added class '${className}'.` };
     } catch (error) {
         console.error(`Error adding class ${className}:`, error);
@@ -60,51 +137,43 @@ export async function addClass(collectionType: CollectionType, className: string
     }
 }
 
-export async function editClass(collectionType: CollectionType, oldClassId: string, newClassName: string) {
-    if (!oldClassId || !newClassName) {
-        return { success: false, message: "Both old class ID and new class name are required." };
+export async function editClass(collectionType: CollectionType, classId: string, newClassName: string, order: number) {
+    if (!classId || !newClassName) {
+        return { success: false, message: "Class ID and new class name are required." };
     }
     
     const newClassId = generateSlug(newClassName);
-    if (oldClassId === newClassId) {
-        // Just update the name if slug is same but name might have changed casing
-        try {
-            const docRef = getContentDocRef(collectionType, oldClassId);
-            await updateDoc(docRef, { name: newClassName });
-            return { success: true, message: `Class name updated for '${oldClassId}'.` };
-        } catch (error) {
-            console.error(`Error updating class name for ${oldClassId}:`, error);
-            return { success: false, message: "Failed to update class name." };
-        }
-    }
-
+    
     try {
-        const oldDocRef = getContentDocRef(collectionType, oldClassId);
-        const oldDocSnap = await getDoc(oldDocRef);
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if(!docSnap.exists()) return { success: false, message: "Class not found." };
 
-        if (!oldDocSnap.exists()) {
-            return { success: false, message: `Class '${oldClassId}' not found.` };
+        const data = docSnap.data();
+        data.name = newClassName;
+        data.order = isNaN(order) ? 99 : order;
+
+        if (classId === newClassId) {
+            await updateDoc(docRef, { name: newClassName, order: data.order });
+            return { success: true, message: `Class '${newClassName}' updated successfully.` };
         }
-        
-        const data = oldDocSnap.data();
-        data.name = newClassName; // Update the name in the data object
 
         const newDocRef = getContentDocRef(collectionType, newClassId);
         const newDocSnap = await getDoc(newDocRef);
-
         if (newDocSnap.exists()) {
             return { success: false, message: `Class with name '${newClassName}' already exists.` };
         }
 
         const batch = writeBatch(db);
         batch.set(newDocRef, data);
-        batch.delete(oldDocRef);
+        batch.delete(docRef);
         await batch.commit();
 
-        return { success: true, message: `Class '${oldClassId}' successfully renamed to '${newClassName}'.` };
+        return { success: true, message: `Class '${classId}' successfully renamed to '${newClassName}'.` };
+
     } catch (error) {
-        console.error(`Error renaming class from ${oldClassId} to ${newClassId}:`, error);
-        return { success: false, message: "Failed to rename class." };
+        console.error(`Error processing class edit from ${classId} to ${newClassId}:`, error);
+        return { success: false, message: "Failed to process class edit." };
     }
 }
 
@@ -134,7 +203,8 @@ export async function addSubject(collectionType: CollectionType, classId: string
         name: subjectName,
         createdAt: new Date().toISOString(),
         parts: {},
-        chapters: []
+        chapters: [],
+        order: 99,
     };
 
     try {
@@ -147,7 +217,7 @@ export async function addSubject(collectionType: CollectionType, classId: string
     }
 }
 
-export async function editSubject(collectionType: CollectionType, classId: string, subjectKey: string, newSubjectName: string) {
+export async function editSubject(collectionType: CollectionType, classId: string, subjectKey: string, newSubjectName: string, order: number) {
     if (!classId || !subjectKey || !newSubjectName) return { success: false, message: "Required fields are missing."};
 
     const newSubjectKey = generateSlug(newSubjectName);
@@ -161,15 +231,19 @@ export async function editSubject(collectionType: CollectionType, classId: strin
         const subjectData = data.subjects[subjectKey];
         if(!subjectData) return { success: false, message: "Subject not found."};
 
+        subjectData.name = newSubjectName;
+        subjectData.order = isNaN(order) ? 99 : order;
+
         const batch = writeBatch(db);
 
-        // If the key changes, we need to delete the old and add the new
         if (subjectKey !== newSubjectKey) {
-            subjectData.name = newSubjectName;
             batch.update(docRef, { [`subjects.${subjectKey}`]: deleteField() });
             batch.update(docRef, { [`subjects.${newSubjectKey}`]: subjectData });
-        } else { // Just update the name
-             batch.update(docRef, { [`subjects.${subjectKey}.name`]: newSubjectName });
+        } else {
+             batch.update(docRef, { 
+                [`subjects.${subjectKey}.name`]: newSubjectName,
+                [`subjects.${subjectKey}.order`]: subjectData.order
+            });
         }
 
         await batch.commit();
@@ -206,7 +280,8 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     const partData: TPart = {
         name: partName,
         createdAt: new Date().toISOString(),
-        chapters: []
+        chapters: [],
+        order: 99
     };
 
     try {
@@ -219,7 +294,7 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     }
 }
 
-export async function editPart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string, newPartName: string) {
+export async function editPart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string, newPartName: string, order: number) {
     if (!classId || !subjectKey || !partKey || !newPartName) return { success: false, message: "Required fields are missing." };
 
     const newPartKey = generateSlug(newPartName);
@@ -233,14 +308,19 @@ export async function editPart(collectionType: CollectionType, classId: string, 
         const partData = data.subjects?.[subjectKey]?.parts?.[partKey];
         if (!partData) return { success: false, message: "Part not found." };
 
+        partData.name = newPartName;
+        partData.order = isNaN(order) ? 99 : order;
+
         const batch = writeBatch(db);
 
         if (partKey !== newPartKey) {
-            partData.name = newPartName;
             batch.update(docRef, { [`subjects.${subjectKey}.parts.${partKey}`]: deleteField() });
             batch.update(docRef, { [`subjects.${subjectKey}.parts.${newPartKey}`]: partData });
         } else {
-            batch.update(docRef, { [`subjects.${subjectKey}.parts.${partKey}.name`]: newPartName });
+            batch.update(docRef, { 
+                [`subjects.${subjectKey}.parts.${partKey}.name`]: newPartName,
+                [`subjects.${subjectKey}.parts.${partKey}.order`]: partData.order,
+            });
         }
 
         await batch.commit();
