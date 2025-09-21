@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass } from '@/app/actions';
+import { getImportantQuestions, addChapter, updatePart, setClassData, addTopic, deleteClass, editChapter, editTopic } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -42,6 +42,7 @@ type EditState = {
   classId?: string;
   partKey?: string;
   chapterIndex?: number;
+  topicIndex?: number;
 } | null;
 
 type DeleteState = {
@@ -83,20 +84,32 @@ export default function AdminImportantQuestionsPage() {
 
     const formData = new FormData(e.currentTarget);
     let result;
-    const { type, classId, partKey, chapterIndex } = editState;
+    const { type, action, classId, partKey, chapterIndex, topicIndex, data } = editState;
     
     try {
-        if (type === 'class') {
+        if (type === 'class' && action === 'add') {
              result = await setClassData('importantQuestions', formData.get('id') as string, {});
         } else if (type === 'part' && classId) {
             const partName = formData.get('name') as string;
-            const partKey = generateSlug(partName);
-            const partData = { name: partName, chapters: [] };
-            result = await updatePart('importantQuestions', classId, partKey, partData);
+            const newPartKey = generateSlug(partName);
+            if (action === 'add') {
+                 const partData = { name: partName, chapters: [] };
+                 result = await updateDoc('importantQuestions', classId, { [newPartKey]: partData });
+            } else if (action === 'edit' && partKey) {
+                result = await updatePart('importantQuestions', classId, partKey, formData);
+            }
         } else if (type === 'chapter' && classId && partKey) {
-            result = await addChapter('importantQuestions', classId, partKey, formData);
+            if (action === 'add') {
+              result = await addChapter('importantQuestions', classId, partKey, formData);
+            } else if (action === 'edit' && chapterIndex !== undefined) {
+              result = await editChapter('importantQuestions', classId, partKey, chapterIndex, formData);
+            }
         } else if (type === 'topic' && classId && partKey && chapterIndex !== undefined) {
-            result = await addTopic('importantQuestions', classId, partKey, chapterIndex, formData);
+            if (action === 'add') {
+                result = await addTopic('importantQuestions', classId, partKey, chapterIndex, formData);
+            } else if (action === 'edit' && topicIndex !== undefined) {
+                result = await editTopic('importantQuestions', classId, partKey, chapterIndex, topicIndex, formData);
+            }
         }
         
         if (result && result.success) {
@@ -168,6 +181,9 @@ export default function AdminImportantQuestionsPage() {
                            <DialogTrigger asChild>
                             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'add', data: {}, classId: classDoc.id, partKey: partKey})}><PlusCircle className="h-4 w-4" /></Button>
                           </DialogTrigger>
+                           <DialogTrigger asChild>
+                               <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'part', action: 'edit', data: { name: partData.name }, classId: classDoc.id, partKey: partKey})}><Edit className="h-4 w-4" /></Button>
+                            </DialogTrigger>
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                         </div>
                       </div><AccordionContent className="p-2">
@@ -177,11 +193,17 @@ export default function AdminImportantQuestionsPage() {
                                <DialogTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'topic', action: 'add', data: {}, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><PlusCircle className="h-4 w-4" /></Button>
                                </DialogTrigger>
+                                <DialogTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditState({type: 'chapter', action: 'edit', data: chapter, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex})}><Edit className="h-4 w-4" /></Button>
+                                </DialogTrigger>
                                 <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive hover:text-destructive"><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div><AccordionContent className="p-2"><ul className="list-disc pl-8 text-sm text-muted-foreground mt-2">
                             {Array.isArray(chapter.topics) && chapter.topics.map((topic, topicIndex) => (<li key={topicIndex} className="flex justify-between items-center hover:bg-muted/50 rounded-md p-1">
                               <span>{topic.name} {topic.pdfUrl && <File className="w-3 h-3 text-primary ml-1 inline"/>}</span><div className="flex items-center gap-1">
+                                 <DialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setEditState({type: 'topic', action: 'edit', data: topic, classId: classDoc.id, partKey: partKey, chapterIndex: chapterIndex, topicIndex: topicIndex})}><Edit className="h-3 w-3" /></Button>
+                                </DialogTrigger>
                                 <Button variant="ghost" size="icon" className="h-6 w-6 text-destructive hover:text-destructive"><Trash2 className="h-3 w-3" /></Button>
                               </div>
                             </li>))}

@@ -76,16 +76,16 @@ export async function deleteClass(collectionType: CollectionType, classId: strin
 // Field-based (Part/Chapter/Topic) Operations
 // ==================================
 
-export async function updatePart(collectionType: CollectionType, classId: string, partKey: string, partData: z.infer<typeof PartSchema>) {
-    const validation = PartSchema.safeParse(partData);
-    if (!validation.success) {
-        return { success: false, message: "Invalid part data." };
-    }
+export async function updatePart(collectionType: CollectionType, classId: string, partKey: string, formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const name = rawFormData.name as string;
+
+    if (!name) return { success: false, message: "Part name is required." };
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        await updateDoc(docRef, { [partKey]: validation.data });
-        return { success: true, message: `Part '${partKey}' in '${classId}' updated successfully.` };
+        await updateDoc(docRef, { [`${partKey}.name`]: name });
+        return { success: true, message: `Part '${name}' in '${classId}' updated successfully.` };
     } catch (error) {
         console.error(`Error updating part ${partKey}:`, error);
         return { success: false, message: "Failed to update part." };
@@ -181,5 +181,76 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     } catch (error) {
         console.error(`Error adding topic:`, error);
         return { success: false, message: "Failed to add topic." };
+    }
+}
+
+export async function editChapter(collectionType: CollectionType, classId: string, partKey: string, chapterIndex: number, formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const name = rawFormData.name as string;
+    const pdfFile = rawFormData.pdf as File;
+
+    if (!name) return { success: false, message: "Chapter name is required." };
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class document not found." };
+        
+        const classData = docSnap.data();
+        const part = classData[partKey];
+        if (!part || !part.chapters || !part.chapters[chapterIndex]) {
+            return { success: false, message: "Chapter not found." };
+        }
+        
+        const chapterToUpdate = part.chapters[chapterIndex];
+        chapterToUpdate.name = name;
+        chapterToUpdate.slug = generateSlug(name);
+
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${partKey}/${chapterToUpdate.slug}-${pdfFile.name}`;
+            chapterToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+        
+        await updateDoc(docRef, { [partKey]: part });
+        return { success: true, message: "Chapter updated successfully." };
+    } catch (error) {
+        console.error("Error updating chapter:", error);
+        return { success: false, message: "Failed to update chapter." };
+    }
+}
+
+export async function editTopic(collectionType: CollectionType, classId: string, partKey: string, chapterIndex: number, topicIndex: number, formData: FormData) {
+    const rawFormData = Object.fromEntries(formData.entries());
+    const name = rawFormData.name as string;
+    const pdfFile = rawFormData.pdf as File;
+
+    if (!name) return { success: false, message: "Topic name is required." };
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class document not found." };
+
+        const classData = docSnap.data();
+        const part = classData[partKey];
+        const chapter = part?.chapters?.[chapterIndex];
+        if (!chapter || !chapter.topics || !chapter.topics[topicIndex]) {
+            return { success: false, message: "Topic not found." };
+        }
+
+        const topicToUpdate = chapter.topics[topicIndex];
+        topicToUpdate.name = name;
+        topicToUpdate.slug = generateSlug(name);
+
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${partKey}/${chapter.slug}/${topicToUpdate.slug}-${pdfFile.name}`;
+            topicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        await updateDoc(docRef, { [partKey]: part });
+        return { success: true, message: "Topic updated successfully." };
+    } catch (error) {
+        console.error("Error updating topic:", error);
+        return { success: false, message: "Failed to update topic." };
     }
 }
