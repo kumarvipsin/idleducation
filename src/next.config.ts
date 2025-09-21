@@ -3,9 +3,11 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  serverActions: {
-    bodySizeLimit: '100mb',
-    timeout: 120, // 120 seconds
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '100mb',
+      timeout: 120, // 120 seconds
+    },
   },
   /* config options here */
   typescript: {
