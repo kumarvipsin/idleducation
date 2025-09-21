@@ -1,5 +1,5 @@
 'use server';
-
+import 'dotenv/config';
 import { Storage } from '@google-cloud/storage';
 
 const bucketName = 'idlcloud';
@@ -13,13 +13,9 @@ function getStorageClient(): Storage {
     throw new Error("GCS_CREDENTIALS environment variable is not set.");
   }
 
-  try {
-    const credentials = JSON.parse(credentialsPath);
-    return new Storage({ credentials });
-  } catch (error) {
-    console.error("Failed to parse GCS credentials:", error);
-    throw new Error("Invalid GCS_CREDENTIALS format. Ensure it's valid JSON.");
-  }
+  return new Storage({
+    keyFilename: credentialsPath,
+  });
 }
 
 /**
