@@ -1,19 +1,19 @@
 
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { getNotes } from '@/app/actions';
+import React, { useEffect, useState, Suspense } from 'react';
+import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen } from 'lucide-react';
-import type { TClass } from '@/app/actions/types';
+import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NotesChapterList } from '@/components/notes-chapter-list';
-import { useSearchParams } from 'next/navigation';
 
 function NotesDetailsContent({ slug }: { slug: string[] }) {
     const [classId, subjectKey] = slug || [];
     const [classData, setClassData] = useState<TClass | null>(null);
+    const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,22 +24,37 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
             return;
         }
 
-        const fetchNoteData = async () => {
+        const fetchData = async () => {
             setLoading(true);
-            const result = await getNotes();
-            if (result.success && result.data) {
-                const classDoc = (result.data as any[]).find(doc => doc.id === classId);
+            setError(null);
+            
+            const [notesResult, impQuestionsResult] = await Promise.all([
+                getNotes(),
+                getImportantQuestionsForSubject(classId, subjectKey)
+            ]);
+
+            if (notesResult.success && notesResult.data) {
+                const classDoc = (notesResult.data as any[]).find(doc => doc.id === classId);
                 if (classDoc && classDoc.subjects[subjectKey]) {
                     setClassData(classDoc);
                 } else {
-                    setError("Content not found.");
+                    setError("Notes content not found.");
                 }
             } else {
-                setError("Failed to fetch notes.");
+                setError(notesResult.message || "Failed to fetch notes.");
             }
+
+            if (impQuestionsResult.success && impQuestionsResult.data) {
+                setImpQuestionsData(impQuestionsResult.data as TSubject);
+            } else {
+                // Not setting an error, as important questions might not exist for all subjects
+                console.warn(impQuestionsResult.message);
+                setImpQuestionsData(null);
+            }
+
             setLoading(false);
         };
-        fetchNoteData();
+        fetchData();
     }, [classId, subjectKey]);
     
     if (loading) {
@@ -52,7 +67,7 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
         )
     }
     
-    if (error) {
+    if (error && !classData) {
          return (
             <Card>
                 <CardContent className="p-6">
@@ -99,7 +114,12 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
                     </div>
                 </div>
                 <CardContent className="p-4 md:p-6">
-                    <NotesChapterList resources={subject} classId={classId} subjectKey={subjectKey} />
+                    <NotesChapterList 
+                        notes={subject} 
+                        importantQuestions={impQuestionsData} 
+                        classId={classId} 
+                        subjectKey={subjectKey} 
+                    />
                 </CardContent>
             </Card>
         </div>
@@ -108,7 +128,10 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
 
 
 export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
-    const slug = params.slug || [];
+    // Using React.use() to unwrap the params promise as recommended by Next.js
+    const resolvedParams = React.use(params);
+    const slug = resolvedParams.slug || [];
+    
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
             <NotesDetailsContent slug={slug} />
