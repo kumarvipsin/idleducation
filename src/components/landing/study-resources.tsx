@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BookCopy, FileText, BookCheck, ClipboardEdit } from "lucide-react";
+import { ArrowRight, BookCopy, FileText, BookCheck, ClipboardEdit, HelpCircle } from "lucide-react";
 import Link from "next/link";
 
 const resources = [
@@ -34,6 +34,15 @@ const resources = [
     borderColor: "border-yellow-500",
   },
   {
+    icon: <HelpCircle className="w-8 h-8 text-indigo-500" />,
+    title: "Important Questions",
+    description: "Practice key questions curated by experts to excel in your exams.",
+    href: "/resources/important-questions",
+    gradient: "from-indigo-100 to-indigo-50",
+    shadowColor: "shadow-indigo-500/20",
+    borderColor: "border-indigo-500",
+  },
+  {
     icon: <BookCopy className="w-8 h-8 text-blue-500" />,
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
@@ -57,7 +66,7 @@ export function StudyResources() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {resources.map((resource, index) => (
              <Link href={resource.href} key={index} className="block h-full group">
                 <Card 
