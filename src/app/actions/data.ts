@@ -139,6 +139,26 @@ export async function getImportantQuestions() {
   }
 }
 
+export async function getImportantQuestionsForSubject(classId: string, subjectKey: string) {
+  try {
+    const docRef = doc(db, "importantQuestions", classId);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data.subjects && data.subjects[subjectKey]) {
+        return { success: true, data: data.subjects[subjectKey] };
+      }
+    }
+    
+    return { success: false, message: `No important questions found for ${classId} - ${subjectKey}.` };
+
+  } catch (error) {
+    console.error("Error fetching important questions for subject:", error);
+    return { success: false, message: "Failed to fetch important questions." };
+  }
+}
+
 // Count Functions
 async function getCount(q: any) {
     try {

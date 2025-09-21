@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -128,10 +128,7 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
 
 
 export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
-    // Using React.use() to unwrap the params promise as recommended by Next.js
-    const resolvedParams = React.use(params);
-    const slug = resolvedParams.slug || [];
-    
+    const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
             <NotesDetailsContent slug={slug} />
