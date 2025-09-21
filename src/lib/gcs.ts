@@ -7,21 +7,14 @@ const bucketName = 'idlcloud';
 let storage: Storage;
 
 try {
-  const credentials = JSON.parse(process.env.GCS_CREDENTIALS || '{}');
-  if (!credentials.project_id) {
-    throw new Error('GCS credentials are not set or invalid.');
-  }
-  storage = new Storage({
-    projectId: credentials.project_id,
-    credentials,
-  });
+  // Initialize the storage client without manually parsing credentials.
+  // The library will automatically look for the GCS_CREDENTIALS environment variable
+  // or other standard authentication methods. This is more robust.
+  storage = new Storage();
 } catch (error) {
   console.error("Failed to initialize Google Cloud Storage:", error);
-  // Fallback or error handling if credentials are not available
-  // For now, we'll let it throw, so it's clear configuration is needed.
   throw new Error("Could not initialize Google Cloud Storage. Please check your GCS_CREDENTIALS environment variable.");
 }
-
 
 const bucket = storage.bucket(bucketName);
 
