@@ -322,6 +322,14 @@ const ncertSolutionsData: { [key: string]: any } = {
           chapters: [
             { name: "Chapter 1: Who Did Patrick’s Homework?", slug: "c6-en-h-unit1" },
             { name: "Chapter 2: How the Dog Found Himself a New Master!", slug: "c6-en-h-unit2" },
+            { name: "Chapter 3: Taro’s Reward", slug: "c6-en-h-unit3" },
+            { name: "Chapter 4: An Indian – American Woman in Space: Kalpana Chawla", slug: "c6-en-h-unit4" },
+            { name: "Chapter 5: A Different Kind of School", slug: "c6-en-h-unit5" },
+            { name: "Chapter 6: Who I Am", slug: "c6-en-h-unit6" },
+            { name: "Chapter 7: Fair Play", slug: "c6-en-h-unit7" },
+            { name: "Chapter 8: A Game of Chance", slug: "c6-en-h-unit8" },
+            { name: "Chapter 9: Desert Animals", slug: "c6-en-h-unit9" },
+            { name: "Chapter 10: The Banyan Tree", slug: "c6-en-h-unit10" },
           ],
         },
         {
@@ -329,6 +337,8 @@ const ncertSolutionsData: { [key: string]: any } = {
           lang: "en",
           chapters: [
             { name: "Chapter 1: A Tale of Two Birds", slug: "c6-en-p-unit1" },
+            { name: "Chapter 2: The Friendly Mongoose", slug: "c6-en-p-unit2" },
+            { name: "Chapter 3: The Shepherd’s Treasure", slug: "c6-en-p-unit3" },
           ],
         },
       ],
