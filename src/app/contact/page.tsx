@@ -183,6 +183,10 @@ export default function ContactPage() {
 
             <div className="md:w-1/2 m-[2.5%] flex flex-col gap-4">
               <div className="p-8 border rounded-lg flex flex-col justify-start">
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold text-primary">Send us a Message</h3>
+                  <p className="text-muted-foreground text-sm">Fill out the form and we'll get back to you.</p>
+                </div>
                 <Form {...contactForm}>
                   <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
                     <FormField
