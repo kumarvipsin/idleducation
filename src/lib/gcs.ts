@@ -7,13 +7,14 @@ const bucketName = 'idlcloud';
 let storage: Storage;
 
 try {
-  // Initialize the storage client without manually parsing credentials.
-  // The library will automatically look for the GCS_CREDENTIALS environment variable
-  // or other standard authentication methods. This is more robust.
-  storage = new Storage();
+  // Explicitly point to the credentials file from the environment variable.
+  // This is a more robust method for ensuring the correct credentials are used.
+  storage = new Storage({
+    keyFilename: process.env.GCS_CREDENTIALS,
+  });
 } catch (error) {
   console.error("Failed to initialize Google Cloud Storage:", error);
-  throw new Error("Could not initialize Google Cloud Storage. Please check your GCS_CREDENTIALS environment variable.");
+  throw new Error("Could not initialize Google Cloud Storage. Please ensure your GCS_CREDENTIALS environment variable is set correctly.");
 }
 
 const bucket = storage.bucket(bucketName);
@@ -26,6 +27,8 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
         await blob.save(buffer, {
             contentType: file.type,
         });
+        // Make the file publicly accessible
+        await blob.makePublic();
         return blob.publicUrl();
     } catch (err) {
         console.error("Error uploading to GCS:", err);
