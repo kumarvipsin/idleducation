@@ -993,31 +993,943 @@ const ncertSolutionsData: { [key: string]: any } = {
   },
   'class-11': {
     maths: {
-      books: [{ name: "Mathematics Textbook for Class XI", lang: "en", chapters: [{ name: "Chapter 1: Sets", slug: "sets" }] }]
+      books: [
+        {
+          name: "Mathematics Textbook for Class XI",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Sets", slug: "sets" },
+            { name: "Chapter 2: Relations and Functions", slug: "relations-and-functions" },
+            { name: "Chapter 3: Trigonometric Functions", slug: "trigonometric-functions" },
+            { name: "Chapter 4: Principle of Mathematical Induction", slug: "principle-of-mathematical-induction" },
+            { name: "Chapter 5: Complex Numbers and Quadratic Equations", slug: "complex-numbers-and-quadratic-equations" },
+            { name: "Chapter 6: Linear Inequalities", slug: "linear-inequalities" },
+            { name: "Chapter 7: Permutations and Combinations", slug: "permutations-and-combinations" },
+            { name: "Chapter 8: Binomial Theorem", slug: "binomial-theorem" },
+            { name: "Chapter 9: Sequences and Series", slug: "sequences-and-series" },
+            { name: "Chapter 10: Straight Lines", slug: "straight-lines" },
+            { name: "Chapter 11: Conic Sections", slug: "conic-sections" },
+            { name: "Chapter 12: Introduction to Three Dimensional Geometry", slug: "introduction-to-three-dimensional-geometry" },
+            { name: "Chapter 13: Limits and Derivatives", slug: "limits-and-derivatives" },
+            { name: "Chapter 14: Mathematical Reasoning", slug: "mathematical-reasoning" },
+            { name: "Chapter 15: Statistics", slug: "statistics-11" },
+            { name: "Chapter 16: Probability", slug: "probability-11" },
+          ],
+        },
+        {
+          name: "गणित, कक्षा XI",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: समुच्चय", slug: "sets" },
+            { name: "अध्याय 2: संबंध एवं फलन", slug: "relations-and-functions" },
+            { name: "अध्याय 3: त्रिकोणमितीय फलन", slug: "trigonometric-functions" },
+            { name: "अध्याय 4: गणितीय आगमन का सिद्धांत", slug: "principle-of-mathematical-induction" },
+            { name: "अध्याय 5: सम्मिश्र संख्याएँ और द्विघातीय समीकरण", slug: "complex-numbers-and-quadratic-equations" },
+            { name: "अध्याय 6: रैखिक असमिकाएँ", slug: "linear-inequalities" },
+            { name: "अध्याय 7: क्रमचय और संचय", slug: "permutations-and-combinations" },
+            { name: "अध्याय 8: द्विपद प्रमेय", slug: "binomial-theorem" },
+            { name: "अध्याय 9: अनुक्रम तथा श्रेणी", slug: "sequences-and-series" },
+            { name: "अध्याय 10: सरल रेखाएँ", slug: "straight-lines" },
+            { name: "अध्याय 11: शंकु परिच्छेद", slug: "conic-sections" },
+            { name: "अध्याय 12: त्रिविमीय ज्यामिति का परिचय", slug: "introduction-to-three-dimensional-geometry" },
+            { name: "अध्याय 13: सीमा और अवकलज", slug: "limits-and-derivatives" },
+            { name: "अध्याय 14: गणितीय विवेचन", slug: "mathematical-reasoning" },
+            { name: "अध्याय 15: सांख्यिकी", slug: "statistics-11" },
+            { name: "अध्याय 16: प्रायिकता", slug: "probability-11" },
+          ],
+        },
+      ]
     },
     physics: {
-      books: [{ name: "Physics Part - I", lang: "en", chapters: [{ name: "Chapter 1: Units and Measurements", slug: "units-and-measurements" }] }]
+      books: [
+        {
+          name: "Physics Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Units and Measurements", slug: "units-and-measurements" },
+            { name: "Chapter 2: Motion in a Straight Line", slug: "motion-in-a-straight-line" },
+            { name: "Chapter 3: Motion in a Plane", slug: "motion-in-a-plane" },
+            { name: "Chapter 4: Laws of Motion", slug: "laws-of-motion" },
+            { name: "Chapter 5: Work, Energy and Power", slug: "work-energy-and-power" },
+            { name: "Chapter 6: System of Particles and Rotational Motion", slug: "system-of-particles-and-rotational-motion" },
+            { name: "Chapter 7: Gravitation", slug: "gravitation-11" },
+          ],
+        },
+        {
+          name: "Physics Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 8: Mechanical Properties of Solids", slug: "mechanical-properties-of-solids" },
+            { name: "Chapter 9: Mechanical Properties of Fluids", slug: "mechanical-properties-of-fluids" },
+            { name: "Chapter 10: Thermal Properties of Matter", slug: "thermal-properties-of-matter" },
+            { name: "Chapter 11: Thermodynamics", slug: "thermodynamics" },
+            { name: "Chapter 12: Kinetic Theory", slug: "kinetic-theory" },
+            { name: "Chapter 13: Oscillations", slug: "oscillations" },
+            { name: "Chapter 14: Waves", slug: "waves" },
+          ],
+        },
+        {
+          name: "भौतिकी भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: मात्रक और मापन", slug: "units-and-measurements" },
+            { name: "अध्याय 2: सरल रेखा में गति", slug: "motion-in-a-straight-line" },
+            { name: "अध्याय 3: समतल में गति", slug: "motion-in-a-plane" },
+            { name: "अध्याय 4: गति के नियम", slug: "laws-of-motion" },
+            { name: "अध्याय 5: कार्य, ऊर्जा और शक्ति", slug: "work-energy-and-power" },
+            { name: "अध्याय 6: कणों के निकाय तथा घूर्णी गति", slug: "system-of-particles-and-rotational-motion" },
+            { name: "अध्याय 7: गुरुत्वाकर्षण", slug: "gravitation-11" },
+          ],
+        },
+        {
+          name: "भौतिकी भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 8: ठोसों के यांत्रिक गुण", slug: "mechanical-properties-of-solids" },
+            { name: "अध्याय 9: तरलों के यांत्रिकी गुण", slug: "mechanical-properties-of-fluids" },
+            { name: "अध्याय 10: द्रव्य के तापीय गुण", slug: "thermal-properties-of-matter" },
+            { name: "अध्याय 11: ऊष्मागतिकी", slug: "thermodynamics" },
+            { name: "अध्याय 12: अणुगति सिद्धांत", slug: "kinetic-theory" },
+            { name: "अध्याय 13: दोलन", slug: "oscillations" },
+            { name: "अध्याय 14: तरंगें", slug: "waves" },
+          ],
+        },
+      ]
     },
     chemistry: {
-      books: [{ name: "Chemistry Part - I", lang: "en", chapters: [{ name: "Chapter 1: Some Basic Concepts of Chemistry", slug: "some-basic-concepts-of-chemistry" }] }]
+      books: [
+        {
+          name: "Chemistry Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Some Basic Concepts of Chemistry", slug: "some-basic-concepts-of-chemistry" },
+            { name: "Chapter 2: Structure of Atom", slug: "structure-of-atom" },
+            { name: "Chapter 3: Classification of Elements and Periodicity in Properties", slug: "classification-of-elements-and-periodicity-in-properties" },
+            { name: "Chapter 4: Chemical Bonding and Molecular Structure", slug: "chemical-bonding-and-molecular-structure" },
+            { name: "Chapter 5: Thermodynamics", slug: "thermodynamics-11" },
+            { name: "Chapter 6: Equilibrium", slug: "equilibrium" },
+          ],
+        },
+        {
+          name: "Chemistry Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 7: Redox Reactions", slug: "redox-reactions" },
+            { name: "Chapter 8: Organic Chemistry – Some Basic Principles and Techniques", slug: "organic-chemistry-some-basic-principles-and-techniques" },
+            { name: "Chapter 9: Hydrocarbons", slug: "hydrocarbons" },
+          ],
+        },
+        {
+          name: "रसायन विज्ञान भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: रसायन विज्ञान की कुछ मूल अवधारणाएँ", slug: "some-basic-concepts-of-chemistry" },
+            { name: "अध्याय 2: परमाणु की संरचना", slug: "structure-of-atom" },
+            { name: "अध्याय 3: तत्वों का वर्गीकरण एवं गुणधर्मों में आवर्तिता", slug: "classification-of-elements-and-periodicity-in-properties" },
+            { name: "अध्याय 4: रासायनिक आबंधन तथा आण्विक संरचना", slug: "chemical-bonding-and-molecular-structure" },
+            { name: "अध्याय 5: ऊष्मागतिकी", slug: "thermodynamics-11" },
+            { name: "अध्याय 6: साम्यावस्था", slug: "equilibrium" },
+          ],
+        },
+        {
+          name: "रसायन विज्ञान भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 7: अपचयोपचय अभिक्रियाएँ", slug: "redox-reactions" },
+            { name: "अध्याय 8: कार्बनिक रसायन – कुछ आधारभूत सिद्धांत तथा तकनीकें", slug: "organic-chemistry-some-basic-principles-and-techniques" },
+            { name: "अध्याय 9: हाइड्रोकार्बन", slug: "hydrocarbons" },
+          ],
+        },
+      ]
     },
     biology: {
-      books: [{ name: "Biology Textbook for Class XI", lang: "en", chapters: [{ name: "Chapter 1: The Living World", slug: "the-living-world" }] }]
+      books: [
+        {
+          name: "Biology Textbook for Class XI",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Living World", slug: "the-living-world" },
+            { name: "Chapter 2: Biological Classification", slug: "biological-classification" },
+            { name: "Chapter 3: Plant Kingdom", slug: "plant-kingdom" },
+            { name: "Chapter 4: Animal Kingdom", slug: "animal-kingdom" },
+            { name: "Chapter 5: Morphology of Flowering Plants", slug: "morphology-of-flowering-plants" },
+            { name: "Chapter 6: Anatomy of Flowering Plants", slug: "anatomy-of-flowering-plants" },
+            { name: "Chapter 7: Structural Organisation in Animals", slug: "structural-organisation-in-animals" },
+            { name: "Chapter 8: Cell: The Unit of Life", slug: "cell-the-unit-of-life" },
+            { name: "Chapter 9: Biomolecules", slug: "biomolecules" },
+            { name: "Chapter 10: Cell Cycle and Cell Division", slug: "cell-cycle-and-cell-division" },
+            { name: "Chapter 11: Photosynthesis in Higher Plants", slug: "photosynthesis-in-higher-plants" },
+            { name: "Chapter 12: Respiration in Plants", slug: "respiration-in-plants" },
+            { name: "Chapter 13: Plant Growth and Development", slug: "plant-growth-and-development" },
+            { name: "Chapter 14: Breathing and Exchange of Gases", slug: "breathing-and-exchange-of-gases" },
+            { name: "Chapter 15: Body Fluids and Circulation", slug: "body-fluids-and-circulation" },
+            { name: "Chapter 16: Excretory Products and their Elimination", slug: "excretory-products-and-their-elimination" },
+            { name: "Chapter 17: Locomotion and Movement", slug: "locomotion-and-movement" },
+            { name: "Chapter 18: Neural Control and Coordination", slug: "neural-control-and-coordination" },
+            { name: "Chapter 19: Chemical Coordination and Integration", slug: "chemical-coordination-and-integration" },
+          ],
+        },
+        {
+            name: "जीव विज्ञान, कक्षा XI",
+            lang: "hi",
+            chapters: [
+              { name: "अध्याय 1: जीव जगत", slug: "the-living-world" },
+              { name: "अध्याय 2: जीव जगत का वर्गीकरण", slug: "biological-classification" },
+              { name: "अध्याय 3: वनस्पति जगत", slug: "plant-kingdom" },
+              { name: "अध्याय 4: प्राणि जगत", slug: "animal-kingdom" },
+              { name: "अध्याय 5: पुष्पी पादपों की आकारिकी", slug: "morphology-of-flowering-plants" },
+              { name: "अध्याय 6: पुष्पी पादपों का शरीर", slug: "anatomy-of-flowering-plants" },
+              { name: "अध्याय 7: प्राणियों में संरचनात्मक संगठन", slug: "structural-organisation-in-animals" },
+              { name: "अध्याय 8: कोशिका: जीवन की इकाई", slug: "cell-the-unit-of-life" },
+              { name: "अध्याय 9: जैव अणु", slug: "biomolecules" },
+              { name: "अध्याय 10: कोशिका चक्र और कोशिका विभाजन", slug: "cell-cycle-and-cell-division" },
+              { name: "अध्याय 11: उच्च पादपों में प्रकाश संश्लेषण", slug: "photosynthesis-in-higher-plants" },
+              { name: "अध्याय 12: पादप में श्वसन", slug: "respiration-in-plants" },
+              { name: "अध्याय 13: पादप वृद्धि एवं परिवर्धन", slug: "plant-growth-and-development" },
+              { name: "अध्याय 14: श्वसन और गैसों का विनिमय", slug: "breathing-and-exchange-of-gases" },
+              { name: "अध्याय 15: शरीर द्रव तथा परिसंचरण", slug: "body-fluids-and-circulation" },
+              { name: "अध्याय 16: उत्सर्जी उत्पाद एवं उनका निष्कासन", slug: "excretory-products-and-their-elimination" },
+              { name: "अध्याय 17: गमन एवं संचलन", slug: "locomotion-and-movement" },
+              { name: "अध्याय 18: तंत्रिकीय नियंत्रण एवं समन्वय", slug: "neural-control-and-coordination" },
+              { name: "अध्याय 19: रासायनिक समन्वय तथा एकीकरण", slug: "chemical-coordination-and-integration" },
+            ],
+        }
+      ]
     },
+    history: {
+      books: [
+        {
+          name: "Themes in World History",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: From the Beginning of Time", slug: "from-the-beginning-of-time" },
+            { name: "Chapter 2: Writing and City Life", slug: "writing-and-city-life" },
+            { name: "Chapter 3: An Empire Across Three Continents", slug: "an-empire-across-three-continents" },
+            { name: "Chapter 4: The Central Islamic Lands", slug: "the-central-islamic-lands" },
+            { name: "Chapter 5: Nomadic Empires", slug: "nomadic-empires" },
+            { name: "Chapter 6: The Three Orders", slug: "the-three-orders" },
+            { name: "Chapter 7: Changing Cultural Traditions", slug: "changing-cultural-traditions" },
+            { name: "Chapter 8: Confrontation of Cultures", slug: "confrontation-of-cultures" },
+            { name: "Chapter 9: The Industrial Revolution", slug: "the-industrial-revolution" },
+            { name: "Chapter 10: Displacing Indigenous Peoples", slug: "displacing-indigenous-peoples" },
+            { name: "Chapter 11: Paths to Modernisation", slug: "paths-to-modernisation" },
+          ],
+        },
+        {
+          name: "विश्व इतिहास के कुछ विषय",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: समय की शुरुआत से", slug: "from-the-beginning-of-time" },
+            { name: "अध्याय 2: लेखन कला और शहरी जीवन", slug: "writing-and-city-life" },
+            { name: "अध्याय 3: तीन महाद्वीपों में फैला हुआ साम्राज्य", slug: "an-empire-across-three-continents" },
+            { name: "अध्याय 4: इस्लाम का उदय और विस्तार—लगभग 570-1200 ई.", slug: "the-central-islamic-lands" },
+            { name: "अध्याय 5: यायावर साम्राज्य", slug: "nomadic-empires" },
+            { name: "अध्याय 6: तीन वर्ग", slug: "the-three-orders" },
+            { name: "अध्याय 7: बदलती हुई सांस्कृतिक परंपराएँ", slug: "changing-cultural-traditions" },
+            { name: "अध्याय 8: संस्कृतियों का टकराव", slug: "confrontation-of-cultures" },
+            { name: "अध्याय 9: औद्योगिक क्रांति", slug: "the-industrial-revolution" },
+            { name: "अध्याय 10: मूल निवासियों का विस्थापन", slug: "displacing-indigenous-peoples" },
+            { name: "अध्याय 11: आधुनिकीकरण के रास्ते", slug: "paths-to-modernisation" },
+          ],
+        },
+      ]
+    },
+    geography: {
+      books: [
+        {
+          name: "Fundamentals of Physical Geography",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Geography as a Discipline", slug: "geography-as-a-discipline" },
+            { name: "Chapter 2: The Origin and Evolution of the Earth", slug: "the-origin-and-evolution-of-the-earth" },
+            { name: "Chapter 3: Interior of the Earth", slug: "interior-of-the-earth" },
+            { name: "Chapter 4: Distribution of Oceans and Continents", slug: "distribution-of-oceans-and-continents" },
+            { name: "Chapter 5: Minerals and Rocks", slug: "minerals-and-rocks" },
+            { name: "Chapter 6: Geomorphic Processes", slug: "geomorphic-processes" },
+            { name: "Chapter 7: Landforms and their Evolution", slug: "landforms-and-their-evolution" },
+            { name: "Chapter 8: Composition and Structure of Atmosphere", slug: "composition-and-structure-of-atmosphere" },
+            { name: "Chapter 9: Solar Radiation, Heat Balance and Temperature", slug: "solar-radiation-heat-balance-and-temperature" },
+            { name: "Chapter 10: Atmospheric Circulation and Weather Systems", slug: "atmospheric-circulation-and-weather-systems" },
+            { name: "Chapter 11: Water in the Atmosphere", slug: "water-in-the-atmosphere" },
+            { name: "Chapter 12: World Climate and Climate Change", slug: "world-climate-and-climate-change" },
+            { name: "Chapter 13: Water (Oceans)", slug: "water-oceans" },
+            { name: "Chapter 14: Movements of Ocean Water", slug: "movements-of-ocean-water" },
+            { name: "Chapter 15: Life on the Earth", slug: "life-on-the-earth" },
+            { name: "Chapter 16: Biodiversity and Conservation", slug: "biodiversity-and-conservation" },
+          ],
+        },
+        {
+          name: "India Physical Environment",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: India - Location", slug: "india-location" },
+            { name: "Chapter 2: Structure and Physiography", slug: "structure-and-physiography" },
+            { name: "Chapter 3: Drainage System", slug: "drainage-system" },
+            { name: "Chapter 4: Climate", slug: "climate-11" },
+            { name: "Chapter 5: Natural Vegetation", slug: "natural-vegetation" },
+            { name: "Chapter 6: Soils", slug: "soils" },
+            { name: "Chapter 7: Natural Hazards and Disasters", slug: "natural-hazards-and-disasters" },
+          ],
+        },
+        {
+          name: "भौतिक भूगोल के मूल सिद्धांत",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: भूगोल एक विषय के रूप में", slug: "geography-as-a-discipline" },
+            { name: "अध्याय 2: पृथ्वी की उत्पत्ति एवं विकास", slug: "the-origin-and-evolution-of-the-earth" },
+            { name: "अध्याय 3: पृथ्वी की आंतरिक संरचना", slug: "interior-of-the-earth" },
+            { name: "अध्याय 4: महासागरों और महाद्वीपों का वितरण", slug: "distribution-of-oceans-and-continents" },
+            { name: "अध्याय 5: खनिज एवं शैल", slug: "minerals-and-rocks" },
+            { name: "अध्याय 6: भू-आकृतिक प्रक्रियाएँ", slug: "geomorphic-processes" },
+            { name: "अध्याय 7: भू-आकृतियाँ तथा उनका विकास", slug: "landforms-and-their-evolution" },
+            { name: "अध्याय 8: वायुमंडल का संघटन तथा संरचना", slug: "composition-and-structure-of-atmosphere" },
+            { name: "अध्याय 9: सौर विकिरण, ऊष्मा संतुलन एवं तापमान", slug: "solar-radiation-heat-balance-and-temperature" },
+            { name: "अध्याय 10: वायुमंडलीय परिसंचरण तथा मौसम प्रणालियाँ", slug: "atmospheric-circulation-and-weather-systems" },
+            { name: "अध्याय 11: वायुमंडल में जल", slug: "water-in-the-atmosphere" },
+            { name: "अध्याय 12: विश्व की जलवायु एवं जलवायु परिवर्तन", slug: "world-climate-and-climate-change" },
+            { name: "अध्याय 13: महासागरीय जल", slug: "water-oceans" },
+            { name: "अध्याय 14: महासागरीय जल संचलन", slug: "movements-of-ocean-water" },
+            { name: "अध्याय 15: पृथ्वी पर जीवन", slug: "life-on-the-earth" },
+            { name: "अध्याय 16: जैव-विविधता एवं संरक्षण", slug: "biodiversity-and-conservation" },
+          ],
+        },
+        {
+          name: "भारत भौतिक पर्यावरण",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: भारत - स्थिति", slug: "india-location" },
+            { name: "अध्याय 2: संरचना तथा भू-आकृति विज्ञान", slug: "structure-and-physiography" },
+            { name: "अध्याय 3: अपवाह तंत्र", slug: "drainage-system" },
+            { name: "अध्याय 4: जलवायु", slug: "climate-11" },
+            { name: "अध्याय 5: प्राकृतिक वनस्पति", slug: "natural-vegetation" },
+            { name: "अध्याय 6: मृदा", slug: "soils" },
+            { name: "अध्याय 7: प्राकृतिक संकट तथा आपदाएँ", slug: "natural-hazards-and-disasters" },
+          ],
+        },
+      ]
+    },
+    polsci: {
+      books: [
+        {
+          name: "Indian Constitution at Work",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Constitution: Why and How?", slug: "constitution-why-and-how" },
+            { name: "Chapter 2: Rights in the Indian Constitution", slug: "rights-in-the-indian-constitution" },
+            { name: "Chapter 3: Election and Representation", slug: "election-and-representation" },
+            { name: "Chapter 4: Executive", slug: "executive" },
+            { name: "Chapter 5: Legislature", slug: "legislature" },
+            { name: "Chapter 6: Judiciary", slug: "judiciary" },
+            { name: "Chapter 7: Federalism", slug: "federalism-11" },
+            { name: "Chapter 8: Local Governments", slug: "local-governments" },
+            { name: "Chapter 9: Constitution as a Living Document", slug: "constitution-as-a-living-document" },
+            { name: "Chapter 10: The Philosophy of the Constitution", slug: "the-philosophy-of-the-constitution" },
+          ],
+        },
+        {
+          name: "Political Theory",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Political Theory: An Introduction", slug: "political-theory-an-introduction" },
+            { name: "Chapter 2: Freedom", slug: "freedom-11" },
+            { name: "Chapter 3: Equality", slug: "equality" },
+            { name: "Chapter 4: Social Justice", slug: "social-justice" },
+            { name: "Chapter 5: Rights", slug: "rights" },
+            { name: "Chapter 6: Citizenship", slug: "citizenship" },
+            { name: "Chapter 7: Nationalism", slug: "nationalism" },
+            { name: "Chapter 8: Secularism", slug: "secularism" },
+            { name: "Chapter 9: Peace", slug: "peace" },
+            { name: "Chapter 10: Development", slug: "development-11" },
+          ],
+        },
+        {
+          name: "भारत का संविधान: सिद्धांत और व्यवहार",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: संविधान: क्यों और कैसे?", slug: "constitution-why-and-how" },
+            { name: "अध्याय 2: भारतीय संविधान में अधिकार", slug: "rights-in-the-indian-constitution" },
+            { name: "अध्याय 3: चुनाव और प्रतिनिधित्व", slug: "election-and-representation" },
+            { name: "अध्याय 4: कार्यपालिका", slug: "executive" },
+            { name: "अध्याय 5: विधायिका", slug: "legislature" },
+            { name: "अध्याय 6: न्यायपालिका", slug: "judiciary" },
+            { name: "अध्याय 7: संघवाद", slug: "federalism-11" },
+            { name: "अध्याय 8: स्थानीय शासन", slug: "local-governments" },
+            { name: "अध्याय 9: संविधान: एक जीवंत दस्तावेज़", slug: "constitution-as-a-living-document" },
+            { name: "अध्याय 10: संविधान का राजनीतिक दर्शन", slug: "the-philosophy-of-the-constitution" },
+          ],
+        },
+        {
+          name: "राजनीतिक सिद्धांत",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: राजनीतिक सिद्धांत: एक परिचय", slug: "political-theory-an-introduction" },
+            { name: "अध्याय 2: स्वतंत्रता", slug: "freedom-11" },
+            { name: "अध्याय 3: समानता", slug: "equality" },
+            { name: "अध्याय 4: सामाजिक न्याय", slug: "social-justice" },
+            { name: "अध्याय 5: अधिकार", slug: "rights" },
+            { name: "अध्याय 6: नागरिकता", slug: "citizenship" },
+            { name: "अध्याय 7: राष्ट्रवाद", slug: "nationalism" },
+            { name: "अध्याय 8: धर्मनिरपेक्षता", slug: "secularism" },
+            { name: "अध्याय 9: शांति", slug: "peace" },
+            { name: "अध्याय 10: विकास", slug: "development-11" },
+          ],
+        },
+      ]
+    },
+    economics: {
+      books: [
+        {
+          name: "Indian Economic Development",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Indian Economy on the Eve of Independence", slug: "indian-economy-on-the-eve-of-independence" },
+            { name: "Chapter 2: Indian Economy 1950-1990", slug: "indian-economy-1950-1990" },
+            { name: "Chapter 3: Liberalisation, Privatisation and Globalisation: An Appraisal", slug: "liberalisation-privatisation-and-globalisation" },
+            { name: "Chapter 4: Poverty", slug: "poverty" },
+            { name: "Chapter 5: Human Capital Formation in India", slug: "human-capital-formation-in-india" },
+            { name: "Chapter 6: Rural Development", slug: "rural-development" },
+            { name: "Chapter 7: Employment: Growth, Informalisation and other Issues", slug: "employment-growth-informalisation-and-other-issues" },
+            { name: "Chapter 8: Infrastructure", slug: "infrastructure" },
+            { name: "Chapter 9: Environment and Sustainable Development", slug: "environment-and-sustainable-development" },
+            { name: "Chapter 10: Comparative Development Experiences of India and its Neighbours", slug: "comparative-development-experiences" },
+          ],
+        },
+        {
+          name: "Statistics for Economics",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Introduction", slug: "introduction-stats" },
+            { name: "Chapter 2: Collection of Data", slug: "collection-of-data" },
+            { name: "Chapter 3: Organisation of Data", slug: "organisation-of-data" },
+            { name: "Chapter 4: Presentation of Data", slug: "presentation-of-data" },
+            { name: "Chapter 5: Measures of Central Tendency", slug: "measures-of-central-tendency" },
+            { name: "Chapter 6: Measures of Dispersion", slug: "measures-of-dispersion" },
+            { name: "Chapter 7: Correlation", slug: "correlation" },
+            { name: "Chapter 8: Index Numbers", slug: "index-numbers" },
+          ],
+        },
+        {
+          name: "भारतीय आर्थिक विकास",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: स्वतंत्रता की पूर्व संध्या पर भारतीय अर्थव्यवस्था", slug: "indian-economy-on-the-eve-of-independence" },
+            { name: "अध्याय 2: भारतीय अर्थव्यवस्था 1950-1990", slug: "indian-economy-1950-1990" },
+            { name: "अध्याय 3: उदारीकरण, निजीकरण और वैश्वीकरण: एक समीक्षा", slug: "liberalisation-privatisation-and-globalisation" },
+            { name: "अध्याय 4: निर्धनता", slug: "poverty" },
+            { name: "अध्याय 5: भारत में मानव पूँजी का निर्माण", slug: "human-capital-formation-in-india" },
+            { name: "अध्याय 6: ग्रामीण विकास", slug: "rural-development" },
+            { name: "अध्याय 7: रोजगार-संवृद्धि, अनौपचारीकरण एवं अन्य मुद्दे", slug: "employment-growth-informalisation-and-other-issues" },
+            { name: "अध्याय 8: आधारिक संरचना", slug: "infrastructure" },
+            { name: "अध्याय 9: पर्यावरण और धारणीय विकास", slug: "environment-and-sustainable-development" },
+            { name: "अध्याय 10: भारत और उसके पड़ोसी देशों के तुलनात्मक विकास अनुभव", slug: "comparative-development-experiences" },
+          ],
+        },
+        {
+          name: "अर्थशास्त्र में सांख्यिकी",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: परिचय", slug: "introduction-stats" },
+            { name: "अध्याय 2: आँकड़ों का संग्रह", slug: "collection-of-data" },
+            { name: "अध्याय 3: आँकड़ों का संगठन", slug: "organisation-of-data" },
+            { name: "अध्याय 4: आँकड़ों का प्रस्तुतीकरण", slug: "presentation-of-data" },
+            { name: "अध्याय 5: केंद्रीय प्रवृत्ति की माप", slug: "measures-of-central-tendency" },
+            { name: "अध्याय 6: परिक्षेपण के माप", slug: "measures-of-dispersion" },
+            { name: "अध्याय 7: सहसंबंध", slug: "correlation" },
+            { name: "अध्याय 8: सूचकांक", slug: "index-numbers" },
+          ],
+        },
+      ]
+    },
+    english: {
+      books: [
+        {
+          name: "Hornbill",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Portrait of a Lady", slug: "the-portrait-of-a-lady" },
+            { name: "Chapter 2: We’re Not Afraid to Die... if We Can All Be Together", slug: "we-are-not-afraid-to-die" },
+            { name: "Chapter 3: Discovering Tut: the Saga Continues", slug: "discovering-tut" },
+          ],
+        },
+        {
+          name: "Snapshots",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Summer of the Beautiful White Horse", slug: "the-summer-of-the-beautiful-white-horse" },
+            { name: "Chapter 2: The Address", slug: "the-address" },
+            { name: "Chapter 3: Ranga’s Marriage", slug: "rangas-marriage" },
+          ],
+        },
+      ]
+    }
   },
   'class-12': {
     maths: {
-      books: [{ name: "Mathematics Part - I", lang: "en", chapters: [{ name: "Chapter 1: Relations and Functions", slug: "relations-and-functions-12" }] }]
+      books: [
+        {
+          name: "Mathematics Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Relations and Functions", slug: "relations-and-functions-12" },
+            { name: "Chapter 2: Inverse Trigonometric Functions", slug: "inverse-trigonometric-functions" },
+            { name: "Chapter 3: Matrices", slug: "matrices" },
+            { name: "Chapter 4: Determinants", slug: "determinants" },
+            { name: "Chapter 5: Continuity and Differentiability", slug: "continuity-and-differentiability" },
+            { name: "Chapter 6: Application of Derivatives", slug: "application-of-derivatives" },
+          ],
+        },
+        {
+          name: "Mathematics Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 7: Integrals", slug: "integrals" },
+            { name: "Chapter 8: Application of Integrals", slug: "application-of-integrals" },
+            { name: "Chapter 9: Differential Equations", slug: "differential-equations" },
+            { name: "Chapter 10: Vector Algebra", slug: "vector-algebra" },
+            { name: "Chapter 11: Three Dimensional Geometry", slug: "three-dimensional-geometry" },
+            { name: "Chapter 12: Linear Programming", slug: "linear-programming" },
+            { name: "Chapter 13: Probability", slug: "probability-12" },
+          ],
+        },
+        {
+          name: "गणित भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: संबंध एवं फलन", slug: "relations-and-functions-12" },
+            { name: "अध्याय 2: प्रतिलोम त्रिकोणमितीय फलन", slug: "inverse-trigonometric-functions" },
+            { name: "अध्याय 3: आव्यूह", slug: "matrices" },
+            { name: "अध्याय 4: सारणिक", slug: "determinants" },
+            { name: "अध्याय 5: सांतत्य तथा अवकलनीयता", slug: "continuity-and-differentiability" },
+            { name: "अध्याय 6: अवकलज के अनुप्रयोग", slug: "application-of-derivatives" },
+          ],
+        },
+        {
+          name: "गणित भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 7: समाकलन", slug: "integrals" },
+            { name: "अध्याय 8: समाकलनों के अनुप्रयोग", slug: "application-of-integrals" },
+            { name: "अध्याय 9: अवकल समीकरण", slug: "differential-equations" },
+            { name: "अध्याय 10: सदिश बीजगणित", slug: "vector-algebra" },
+            { name: "अध्याय 11: त्रिविमीय ज्यामिति", slug: "three-dimensional-geometry" },
+            { name: "अध्याय 12: रैखिक प्रोग्रामन", slug: "linear-programming" },
+            { name: "अध्याय 13: प्रायिकता", slug: "probability-12" },
+          ],
+        },
+      ]
     },
     physics: {
-      books: [{ name: "Physics Part - I", lang: "en", chapters: [{ name: "Chapter 1: Electric Charges and Fields", slug: "electric-charges-and-fields" }] }]
+      books: [
+        {
+          name: "Physics Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Electric Charges and Fields", slug: "electric-charges-and-fields" },
+            { name: "Chapter 2: Electrostatic Potential and Capacitance", slug: "electrostatic-potential-and-capacitance" },
+            { name: "Chapter 3: Current Electricity", slug: "current-electricity" },
+            { name: "Chapter 4: Moving Charges and Magnetism", slug: "moving-charges-and-magnetism" },
+            { name: "Chapter 5: Magnetism and Matter", slug: "magnetism-and-matter" },
+            { name: "Chapter 6: Electromagnetic Induction", slug: "electromagnetic-induction" },
+            { name: "Chapter 7: Alternating Current", slug: "alternating-current" },
+            { name: "Chapter 8: Electromagnetic Waves", slug: "electromagnetic-waves" },
+          ],
+        },
+        {
+          name: "Physics Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 9: Ray Optics and Optical Instruments", slug: "ray-optics-and-optical-instruments" },
+            { name: "Chapter 10: Wave Optics", slug: "wave-optics" },
+            { name: "Chapter 11: Dual Nature of Radiation and Matter", slug: "dual-nature-of-radiation-and-matter" },
+            { name: "Chapter 12: Atoms", slug: "atoms" },
+            { name: "Chapter 13: Nuclei", slug: "nuclei" },
+            { name: "Chapter 14: Semiconductor Electronics: Materials, Devices and Simple Circuits", slug: "semiconductor-electronics" },
+          ],
+        },
+        {
+          name: "भौतिकी भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: वैद्युत आवेश तथा क्षेत्र", slug: "electric-charges-and-fields" },
+            { name: "अध्याय 2: स्थिरवैद्युत विभव तथा धारिता", slug: "electrostatic-potential-and-capacitance" },
+            { name: "अध्याय 3: विद्युत धारा", slug: "current-electricity" },
+            { name: "अध्याय 4: गतिमान आवेश और चुंबकत्व", slug: "moving-charges-and-magnetism" },
+            { name: "अध्याय 5: चुंबकत्व एवं द्रव्य", slug: "magnetism-and-matter" },
+            { name: "अध्याय 6: वैद्युतचुंबकीय प्रेरण", slug: "electromagnetic-induction" },
+            { name: "अध्याय 7: प्रत्यावर्ती धारा", slug: "alternating-current" },
+            { name: "अध्याय 8: वैद्युतचुंबकीय तरंगें", slug: "electromagnetic-waves" },
+          ],
+        },
+        {
+          name: "भौतिकी भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 9: किरण प्रकाशिकी एवं प्रकाशिक यंत्र", slug: "ray-optics-and-optical-instruments" },
+            { name: "अध्याय 10: तरंग-प्रकाशिकी", slug: "wave-optics" },
+            { name: "अध्याय 11: विकिरण तथा द्रव्य की द्वैत प्रकृति", slug: "dual-nature-of-radiation-and-matter" },
+            { name: "अध्याय 12: परमाणु", slug: "atoms" },
+            { name: "अध्याय 13: नाभिक", slug: "nuclei" },
+            { name: "अध्याय 14: अर्धचालक इलेक्ट्रॉनिकी: पदार्थ, युक्तियाँ तथा सरल परिपथ", slug: "semiconductor-electronics" },
+          ],
+        },
+      ]
     },
     chemistry: {
-      books: [{ name: "Chemistry Part - I", lang: "en", chapters: [{ name: "Chapter 1: Solutions", slug: "solutions" }] }]
+      books: [
+        {
+          name: "Chemistry Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Solutions", slug: "solutions" },
+            { name: "Chapter 2: Electrochemistry", slug: "electrochemistry" },
+            { name: "Chapter 3: Chemical Kinetics", slug: "chemical-kinetics" },
+            { name: "Chapter 4: The d- and f-Block Elements", slug: "the-d-and-f-block-elements" },
+            { name: "Chapter 5: Coordination Compounds", slug: "coordination-compounds" },
+          ],
+        },
+         {
+          name: "Chemistry Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 6: Haloalkanes and Haloarenes", slug: "haloalkanes-and-haloarenes" },
+            { name: "Chapter 7: Alcohols, Phenols and Ethers", slug: "alcohols-phenols-and-ethers" },
+            { name: "Chapter 8: Aldehydes, Ketones and Carboxylic Acids", slug: "aldehydes-ketones-and-carboxylic-acids" },
+            { name: "Chapter 9: Amines", slug: "amines" },
+            { name: "Chapter 10: Biomolecules", slug: "biomolecules-12" },
+          ],
+        },
+        {
+          name: "रसायन विज्ञान भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: विलयन", slug: "solutions" },
+            { name: "अध्याय 2: वैद्युतरसायन", slug: "electrochemistry" },
+            { name: "अध्याय 3: रासायनिक बलगतिकी", slug: "chemical-kinetics" },
+            { name: "अध्याय 4: d- एवं f- ब्लॉक के तत्त्व", slug: "the-d-and-f-block-elements" },
+            { name: "अध्याय 5: उपसहसंयोजन यौगिक", slug: "coordination-compounds" },
+          ],
+        },
+        {
+          name: "रसायन विज्ञान भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 6: हैलोऐल्केन तथा हैलोऐरीन", slug: "haloalkanes-and-haloarenes" },
+            { name: "अध्याय 7: ऐल्कोहॉल, फ़िनॉल एवं ईथर", slug: "alcohols-phenols-and-ethers" },
+            { name: "अध्याय 8: ऐल्डिहाइड, कीटोन एवं कार्बोक्सिलिक अम्ल", slug: "aldehydes-ketones-and-carboxylic-acids" },
+            { name: "अध्याय 9: ऐमीन", slug: "amines" },
+            { name: "अध्याय 10: जैव-अणु", slug: "biomolecules-12" },
+          ],
+        },
+      ]
     },
     biology: {
-      books: [{ name: "Biology Textbook for Class XII", lang: "en", chapters: [{ name: "Chapter 1: Sexual Reproduction in Flowering Plants", slug: "sexual-reproduction-in-flowering-plants" }] }]
+      books: [
+        {
+          name: "Biology Textbook for Class XII",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Sexual Reproduction in Flowering Plants", slug: "sexual-reproduction-in-flowering-plants" },
+            { name: "Chapter 2: Human Reproduction", slug: "human-reproduction" },
+            { name: "Chapter 3: Reproductive Health", slug: "reproductive-health" },
+            { name: "Chapter 4: Principles of Inheritance and Variation", slug: "principles-of-inheritance-and-variation" },
+            { name: "Chapter 5: Molecular Basis of Inheritance", slug: "molecular-basis-of-inheritance" },
+            { name: "Chapter 6: Evolution", slug: "evolution" },
+            { name: "Chapter 7: Human Health and Disease", slug: "human-health-and-disease" },
+            { name: "Chapter 8: Microbes in Human Welfare", slug: "microbes-in-human-welfare" },
+            { name: "Chapter 9: Biotechnology: Principles and Processes", slug: "biotechnology-principles-and-processes" },
+            { name: "Chapter 10: Biotechnology and its Applications", slug: "biotechnology-and-its-applications" },
+            { name: "Chapter 11: Organisms and Populations", slug: "organisms-and-populations" },
+            { name: "Chapter 12: Ecosystem", slug: "ecosystem" },
+            { name: "Chapter 13: Biodiversity and Conservation", slug: "biodiversity-and-conservation" },
+          ],
+        },
+        {
+          name: "जीव विज्ञान, कक्षा XII",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: पुष्पी पादपों में लैंगिक जनन", slug: "sexual-reproduction-in-flowering-plants" },
+            { name: "अध्याय 2: मानव जनन", slug: "human-reproduction" },
+            { name: "अध्याय 3: जनन स्वास्थ्य", slug: "reproductive-health" },
+            { name: "अध्याय 4: वंशागति तथा विविधता के सिद्धांत", slug: "principles-of-inheritance-and-variation" },
+            { name: "अध्याय 5: वंशागति के आणविक आधार", slug: "molecular-basis-of-inheritance" },
+            { name: "अध्याय 6: विकास", slug: "evolution" },
+            { name: "अध्याय 7: मानव स्वास्थ्य तथा रोग", slug: "human-health-and-disease" },
+            { name: "अध्याय 8: मानव कल्याण में सूक्ष्म जीव", slug: "microbes-in-human-welfare" },
+            { name: "अध्याय 9: जैव प्रौद्योगिकी-सिद्धांत व प्रक्रम", slug: "biotechnology-principles-and-processes" },
+            { name: "अध्याय 10: जैव प्रौद्योगिकी एवं उसके उपयोग", slug: "biotechnology-and-its-applications" },
+            { name: "अध्याय 11: जीव और समष्टियाँ", slug: "organisms-and-populations" },
+            { name: "अध्याय 12: पारितंत्र", slug: "ecosystem" },
+            { name: "अध्याय 13: जैव विविधता एवं संरक्षण", slug: "biodiversity-and-conservation" },
+          ],
+        },
+      ]
     },
+    history: {
+      books: [
+        {
+          name: "Themes in Indian History Part - I",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Bricks, Beads and Bones", slug: "bricks-beads-and-bones" },
+            { name: "Chapter 2: Kings, Farmers and Towns", slug: "kings-farmers-and-towns" },
+            { name: "Chapter 3: Kinship, Caste and Class", slug: "kinship-caste-and-class" },
+            { name: "Chapter 4: Thinkers, Beliefs and Buildings", slug: "thinkers-beliefs-and-buildings" },
+          ],
+        },
+        {
+          name: "Themes in Indian History Part - II",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 5: Through the Eyes of Travellers", slug: "through-the-eyes-of-travellers" },
+            { name: "Chapter 6: Bhakti-Sufi Traditions", slug: "bhakti-sufi-traditions" },
+            { name: "Chapter 7: An Imperial Capital: Vijayanagara", slug: "an-imperial-capital-vijayanagara" },
+            { name: "Chapter 8: Peasants, Zamindars and the State", slug: "peasants-zamindars-and-the-state" },
+          ],
+        },
+         {
+          name: "Themes in Indian History Part - III",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 9: Colonialism and the Countryside", slug: "colonialism-and-the-countryside" },
+            { name: "Chapter 10: Rebels and the Raj", slug: "rebels-and-the-raj" },
+            { name: "Chapter 11: Mahatma Gandhi and the Nationalist Movement", slug: "mahatma-gandhi-and-the-nationalist-movement" },
+            { name: "Chapter 12: Framing the Constitution", slug: "framing-the-constitution" },
+          ],
+        },
+        {
+          name: "भारतीय इतिहास के कुछ विषय - भाग I",
+          lang: "hi",
+          chapters: [
+            { name: "विषय 1: ईंटें, मनके तथा अस्थियाँ", slug: "bricks-beads-and-bones" },
+            { name: "विषय 2: राजा, किसान और नगर", slug: "kings-farmers-and-towns" },
+            { name: "विषय 3: बंधुत्व, जाति तथा वर्ग", slug: "kinship-caste-and-class" },
+            { name: "विषय 4: विचारक, विश्वास और इमारतें", slug: "thinkers-beliefs-and-buildings" },
+          ],
+        },
+        {
+          name: "भारतीय इतिहास के कुछ विषय - भाग II",
+          lang: "hi",
+          chapters: [
+            { name: "विषय 5: यात्रियों के नज़रिए", slug: "through-the-eyes-of-travellers" },
+            { name: "विषय 6: भक्ति-सूफ़ी परंपराएँ", slug: "bhakti-sufi-traditions" },
+            { name: "विषय 7: एक साम्राज्य की राजधानी: विजयनगर", slug: "an-imperial-capital-vijayanagara" },
+            { name: "विषय 8: किसान, ज़मींदार और राज्य", slug: "peasants-zamindars-and-the-state" },
+          ],
+        },
+         {
+          name: "भारतीय इतिहास के कुछ विषय - भाग III",
+          lang: "hi",
+          chapters: [
+            { name: "विषय 9: उपनिवेशवाद और देहात", slug: "colonialism-and-the-countryside" },
+            { name: "विषय 10: विद्रोही और राज", slug: "rebels-and-the-raj" },
+            { name: "विषय 11: महात्मा गांधी और राष्ट्रीय आंदोलन", slug: "mahatma-gandhi-and-the-nationalist-movement" },
+            { name: "विषय 12: संविधान का निर्माण", slug: "framing-the-constitution" },
+          ],
+        },
+      ]
+    },
+    geography: {
+      books: [
+        {
+          name: "Fundamentals of Human Geography",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Human Geography: Nature and Scope", slug: "human-geography-nature-and-scope" },
+            { name: "Chapter 2: The World Population: Distribution, Density and Growth", slug: "the-world-population-distribution-density-and-growth" },
+            { name: "Chapter 3: Human Development", slug: "human-development" },
+            { name: "Chapter 4: Primary Activities", slug: "primary-activities" },
+            { name: "Chapter 5: Secondary Activities", slug: "secondary-activities" },
+            { name: "Chapter 6: Tertiary and Quaternary Activities", slug: "tertiary-and-quaternary-activities" },
+            { name: "Chapter 7: Transport and Communication", slug: "transport-and-communication" },
+            { name: "Chapter 8: International Trade", slug: "international-trade" },
+          ],
+        },
+        {
+          name: "India: People and Economy",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Population: Distribution, Density, Growth and Composition", slug: "population-distribution-density-growth-and-composition" },
+            { name: "Chapter 2: Human Settlements", slug: "human-settlements" },
+            { name: "Chapter 3: Land Resources and Agriculture", slug: "land-resources-and-agriculture" },
+            { name: "Chapter 4: Water Resources", slug: "water-resources-12" },
+            { name: "Chapter 5: Mineral and Energy Resources", slug: "mineral-and-energy-resources-12" },
+            { name: "Chapter 6: Planning and Sustainable Development in Indian Context", slug: "planning-and-sustainable-development-in-indian-context" },
+            { name: "Chapter 7: Transport and Communication", slug: "transport-and-communication-india" },
+            { name: "Chapter 8: International Trade", slug: "international-trade-india" },
+            { name: "Chapter 9: Geographical Perspective on Selected Issues and Problems", slug: "geographical-perspective-on-selected-issues-and-problems" },
+          ],
+        },
+        {
+          name: "मानव भूगोल के मूल सिद्धांत",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: मानव भूगोल – प्रकृति एवं विषय क्षेत्र", slug: "human-geography-nature-and-scope" },
+            { name: "अध्याय 2: विश्व जनसंख्या-वितरण, घनत्व और वृद्धि", slug: "the-world-population-distribution-density-and-growth" },
+            { name: "अध्याय 3: मानव विकास", slug: "human-development" },
+            { name: "अध्याय 4: प्राथमिक क्रियाएँ", slug: "primary-activities" },
+            { name: "अध्याय 5: द्वितीयक क्रियाएँ", slug: "secondary-activities" },
+            { name: "अध्याय 6: तृतीयक और चतुर्थ क्रियाकलाप", slug: "tertiary-and-quaternary-activities" },
+            { name: "अध्याय 7: परिवहन एवं संचार", slug: "transport-and-communication" },
+            { name: "अध्याय 8: अंतर्राष्ट्रीय व्यापार", slug: "international-trade" },
+          ],
+        },
+        {
+          name: "भारत - लोग और अर्थव्यवस्था",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: जनसंख्या: वितरण, घनत्व, वृद्धि और संघटन", slug: "population-distribution-density-growth-and-composition" },
+            { name: "अध्याय 2: मानव बस्तियाँ", slug: "human-settlements" },
+            { name: "अध्याय 3: भूसंसाधन तथा कृषि", slug: "land-resources-and-agriculture" },
+            { name: "अध्याय 4: जल-संसाधन", slug: "water-resources-12" },
+            { name: "अध्याय 5: खनिज तथा ऊर्जा संसाधन", slug: "mineral-and-energy-resources-12" },
+            { name: "अध्याय 6: भारत के संदर्भ में नियोजन और सततपोषणीय विकास", slug: "planning-and-sustainable-development-in-indian-context" },
+            { name: "अध्याय 7: परिवहन तथा संचार", slug: "transport-and-communication-india" },
+            { name: "अध्याय 8: अंतर्राष्ट्रीय व्यापार", slug: "international-trade-india" },
+            { name: "अध्याय 9: भौगोलिक परिप्रेक्ष्य में चयनित कुछ मुद्दे एवं समस्याएँ", slug: "geographical-perspective-on-selected-issues-and-problems" },
+          ],
+        },
+      ]
+    },
+    polsci: {
+      books: [
+        {
+          name: "Contemporary World Politics",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The End of Bipolarity", slug: "the-end-of-bipolarity" },
+            { name: "Chapter 2: Contemporary Centres of Power", slug: "contemporary-centres-of-power" },
+            { name: "Chapter 3: Contemporary South Asia", slug: "contemporary-south-asia" },
+            { name: "Chapter 4: International Organisations", slug: "international-organisations" },
+            { name: "Chapter 5: Security in the Contemporary World", slug: "security-in-the-contemporary-world" },
+            { name: "Chapter 6: Environment and Natural Resources", slug: "environment-and-natural-resources" },
+            { name: "Chapter 7: Globalisation", slug: "globalisation" },
+          ],
+        },
+        {
+          name: "Politics in India Since Independence",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Challenges of Nation Building", slug: "challenges-of-nation-building" },
+            { name: "Chapter 2: Era of One-party Dominance", slug: "era-of-one-party-dominance" },
+            { name: "Chapter 3: Politics of Planned Development", slug: "politics-of-planned-development" },
+            { name: "Chapter 4: India’s External Relations", slug: "indias-external-relations" },
+            { name: "Chapter 5: Challenges to and Restoration of the Congress System", slug: "challenges-to-and-restoration-of-the-congress-system" },
+            { name: "Chapter 6: The Crisis of Democratic Order", slug: "the-crisis-of-democratic-order" },
+            { name: "Chapter 7: Regional Aspirations", slug: "regional-aspirations" },
+            { name: "Chapter 8: Recent Developments in Indian Politics", slug: "recent-developments-in-indian-politics" },
+          ],
+        },
+        {
+          name: "समकालीन विश्व राजनीति",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: दो ध्रुवीयता का अंत", slug: "the-end-of-bipolarity" },
+            { name: "अध्याय 2: सत्ता के समकालीन केंद्र", slug: "contemporary-centres-of-power" },
+            { name: "अध्याय 3: समकालीन दक्षिण एशिया", slug: "contemporary-south-asia" },
+            { name: "अध्याय 4: अंतर्राष्ट्रीय संगठन", slug: "international-organisations" },
+            { name: "अध्याय 5: समकालीन विश्व में सुरक्षा", slug: "security-in-the-contemporary-world" },
+            { name: "अध्याय 6: पर्यावरण और प्राकृतिक संसाधन", slug: "environment-and-natural-resources" },
+            { name: "अध्याय 7: वैश्वीकरण", slug: "globalisation" },
+          ],
+        },
+        {
+          name: "स्वतंत्र भारत में राजनीति",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: राष्ट्र-निर्माण की चुनौतियाँ", slug: "challenges-of-nation-building" },
+            { name: "अध्याय 2: एक दल के प्रभुत्व का दौर", slug: "era-of-one-party-dominance" },
+            { name: "अध्याय 3: नियोजित विकास की राजनीति", slug: "politics-of-planned-development" },
+            { name: "अध्याय 4: भारत के विदेश संबंध", slug: "indias-external-relations" },
+            { name: "अध्याय 5: कांग्रेस प्रणाली: चुनौतियाँ और पुनर्स्थापना", slug: "challenges-to-and-restoration-of-the-congress-system" },
+            { name: "अध्याय 6: लोकतांत्रिक व्यवस्था का संकट", slug: "the-crisis-of-democratic-order" },
+            { name: "अध्याय 7: क्षेत्रीय आकांक्षाएँ", slug: "regional-aspirations" },
+            { name: "अध्याय 8: भारतीय राजनीति: नए बदलाव", slug: "recent-developments-in-indian-politics" },
+          ],
+        },
+      ]
+    },
+    economics: {
+      books: [
+        {
+          name: "Introductory Microeconomics",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Introduction", slug: "introduction-micro" },
+            { name: "Chapter 2: Theory of Consumer Behaviour", slug: "theory-of-consumer-behaviour" },
+            { name: "Chapter 3: Production and Costs", slug: "production-and-costs" },
+            { name: "Chapter 4: The Theory of the Firm under Perfect Competition", slug: "theory-of-firm-perfect-competition" },
+            { name: "Chapter 5: Market Equilibrium", slug: "market-equilibrium" },
+            { name: "Chapter 6: Non-Competitive Markets", slug: "non-competitive-markets" },
+          ],
+        },
+        {
+          name: "Introductory Macroeconomics",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: Introduction", slug: "introduction-macro" },
+            { name: "Chapter 2: National Income Accounting", slug: "national-income-accounting" },
+            { name: "Chapter 3: Money and Banking", slug: "money-and-banking" },
+            { name: "Chapter 4: Determination of Income and Employment", slug: "determination-of-income-and-employment" },
+            { name: "Chapter 5: Government Budget and the Economy", slug: "government-budget-and-the-economy" },
+            { name: "Chapter 6: Open Economy Macroeconomics", slug: "open-economy-macroeconomics" },
+          ],
+        },
+        {
+          name: "व्यष्टि अर्थशास्त्र: एक परिचय",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: परिचय", slug: "introduction-micro" },
+            { name: "अध्याय 2: उपभोक्ता के व्यवहार का सिद्धांत", slug: "theory-of-consumer-behaviour" },
+            { name: "अध्याय 3: उत्पादन तथा लागत", slug: "production-and-costs" },
+            { name: "अध्याय 4: पूर्ण प्रतिस्पर्धा की स्थिति में फर्म का सिद्धांत", slug: "theory-of-firm-perfect-competition" },
+            { name: "अध्याय 5: बाजार संतुलन", slug: "market-equilibrium" },
+            { name: "अध्याय 6: प्रतिस्पर्धारहित बाजार", slug: "non-competitive-markets" },
+          ],
+        },
+        {
+          name: "समष्टि अर्थशास्त्र: एक परिचय",
+          lang: "hi",
+          chapters: [
+            { name: "अध्याय 1: परिचय", slug: "introduction-macro" },
+            { name: "अध्याय 2: राष्ट्रीय आय का लेखांकन", slug: "national-income-accounting" },
+            { name: "अध्याय 3: मुद्रा और बैंकिंग", slug: "money-and-banking" },
+            { name: "अध्याय 4: आय और रोजगार के निर्धारण", slug: "determination-of-income-and-employment" },
+            { name: "अध्याय 5: सरकारी बजट एवं अर्थव्यवस्था", slug: "government-budget-and-the-economy" },
+            { name: "अध्याय 6: खुली अर्थव्यवस्था - समष्टि अर्थशास्त्र", slug: "open-economy-macroeconomics" },
+          ],
+        },
+      ]
+    },
+    english: {
+      books: [
+        {
+          name: "Flamingo",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Last Lesson", slug: "the-last-lesson" },
+            { name: "Chapter 2: Lost Spring", slug: "lost-spring" },
+            { name: "Chapter 3: Deep Water", slug: "deep-water" },
+            { name: "Chapter 4: The Rattrap", slug: "the-rattrap" },
+            { name: "Chapter 5: Indigo", slug: "indigo" },
+            { name: "Chapter 6: Poets and Pancakes", slug: "poets-and-pancakes" },
+            { name: "Chapter 7: The Interview", slug: "the-interview" },
+            { name: "Chapter 8: Going Places", slug: "going-places" },
+          ],
+        },
+        {
+          name: "Vistas",
+          lang: "en",
+          chapters: [
+            { name: "Chapter 1: The Third Level", slug: "the-third-level" },
+            { name: "Chapter 2: The Tiger King", slug: "the-tiger-king" },
+            { name: "Chapter 3: Journey to the end of the Earth", slug: "journey-to-the-end-of-the-earth" },
+            { name: "Chapter 4: The Enemy", slug: "the-enemy" },
+            { name: "Chapter 5: On the face of It", slug: "on-the-face-of-it" },
+            { name: "Chapter 6: Memories of Childhood", slug: "memories-of-childhood" },
+          ],
+        },
+      ]
+    }
   },
 };
 
