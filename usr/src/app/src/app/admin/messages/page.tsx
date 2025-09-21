@@ -70,7 +70,7 @@ export default function AdminMessagesPage() {
                 <TableRow>
                   <TableHead>Name</TableHead>
                   <TableHead>Contact</TableHead>
-                  <TableHead>Location</TableHead>
+                  <TableHead>State</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Message</TableHead>
                 </TableRow>
@@ -81,24 +81,21 @@ export default function AdminMessagesPage() {
                     <TableRow key={submission.id}>
                       <TableCell className="font-medium">{submission.name}</TableCell>
                       <TableCell>
-                        <div>{submission.email || 'N/A'}</div>
+                        <div>{submission.email}</div>
                         <div>
                           {submission.countryCode ? `${submission.countryCode.split('-')[0]} ` : ''}
                           {submission.phone}
                         </div>
                       </TableCell>
-                       <TableCell>
-                        <div>{submission.state || 'N/A'}</div>
-                        <div className="text-xs text-muted-foreground">{submission.country || ''}</div>
-                       </TableCell>
+                       <TableCell>{submission.state}</TableCell>
                       <TableCell>{submission.createdAt ? format(new Date(submission.createdAt), 'PPp') : 'N/A'}</TableCell>
                       <TableCell>
                         {submission.message ? (
-                             <Accordion type="single" collapsible className="w-full max-w-[200px]">
+                             <Accordion type="single" collapsible className="w-full">
                                 <AccordionItem value="item-1">
-                                    <AccordionTrigger className="p-0 hover:no-underline">View</AccordionTrigger>
+                                    <AccordionTrigger className="p-0">View</AccordionTrigger>
                                     <AccordionContent>
-                                        <p className="whitespace-pre-wrap">{submission.message}</p>
+                                        {submission.message}
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>

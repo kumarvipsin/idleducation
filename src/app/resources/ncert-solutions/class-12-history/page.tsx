@@ -148,7 +148,7 @@ export default function Class12HistoryPage() {
                               <Link href="#">View</Link>
                           </Button>
                           <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                              <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                           </Button>
                       </div>
                     </CardContent>
@@ -173,7 +173,7 @@ export default function Class12HistoryPage() {
             </div>
           </div>
         </div>
-        <CardContent className="p-4 md:p-6 bg-muted/20">
+        <CardContent className="p-4 md:p-6">
           {isMobile ? (
             <Tabs defaultValue="contents" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">

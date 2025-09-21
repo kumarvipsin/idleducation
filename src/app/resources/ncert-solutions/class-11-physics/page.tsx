@@ -140,7 +140,7 @@ export default function Class11PhysicsPage() {
                               <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
                           </Button>
                           <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                              <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                           </Button>
                       </div>
                     </CardContent>

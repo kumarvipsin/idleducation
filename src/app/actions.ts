@@ -10,12 +10,12 @@ import { uploadFileToGCS, getSignedUrl as getGcsSignedUrl } from '@/lib/gcs';
 import Razorpay from 'razorpay';
 
 const formSchema = z.object({
-  sessionMode: z.enum(["online", "offline"]),
+  sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  classCourse: z.string().min(1, { message: "Please enter your class or course." }),
-  countryCode: z.string().min(1, { message: "Country code is required." }),
+  classCourse: z.string().min(1, { message: "Please select a class or course." }),
+  country: z.string().min(1, { message: "Please select a country." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
+  email: z.string().email({ message: "Please enter a valid email address." }),
   state: z.string().min(1, { message: "Please select a state." }),
 });
 
@@ -48,6 +48,7 @@ const scholarshipSchema = z.object({
   guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  country: z.string().min(1, { message: "Please select a country." }),
   state: z.string().min(1, { message: "Please select a state." }),
 });
 
@@ -350,7 +351,7 @@ export async function assignTeachersToStudent(studentId: string, teacherIds: str
 
 export async function getStudentProgressReports(studentId: string) {
   try {
-    const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", studentId));
+    const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", "studentId"));
     const querySnapshot = await getDocs(reportsQuery);
     const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     // Sort by date or month if needed
@@ -363,7 +364,7 @@ export async function getStudentProgressReports(studentId: string) {
 
 export async function getProgressReportsForTeacher(teacherId: string) {
   try {
-    const reportsQuery = query(collection(db, "progressReports"), where("teacherId", "==", teacherId));
+    const reportsQuery = query(collection(db, "progressReports"), where("teacherId", "==", "teacherId"));
     const querySnapshot = await getDocs(reportsQuery);
     const reports = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: reports };
@@ -414,10 +415,10 @@ export async function markAllBookingsAsSeen() {
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  email: z.string().email({ message: "Please enter a valid email." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   country: z.string().optional(),
-  state: z.string().optional(),
+  state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
 
@@ -456,12 +457,18 @@ export async function submitSupportTicket(data: SupportTicketValues) {
     }
 
     try {
+        // Generate a unique, human-readable ticket ID
+        const timestamp = Date.now();
+        const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+        const ticketId = `IDL-${timestamp}-${randomPart}`;
+        
         await addDoc(collection(db, "supportTickets"), {
             ...validation.data,
+            ticketId: ticketId,
             status: 'new',
             createdAt: serverTimestamp(),
         });
-        return { success: true, message: "Your support ticket has been submitted successfully!" };
+        return { success: true, message: "Your support ticket has been submitted successfully!", ticketId: ticketId };
     } catch (error) {
         console.error("Error submitting support ticket:", error);
         return { success: false, message: "Failed to submit ticket. Please try again later." };

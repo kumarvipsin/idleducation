@@ -120,7 +120,7 @@ export default function Class7MathsPage() {
                         <Link href="#">View</Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                     </Button>
                 </div>
             </CardContent>
@@ -129,7 +129,7 @@ export default function Class7MathsPage() {
         </div>
     </div>
   );
-
+  
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-green-700">
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4">
@@ -154,7 +154,7 @@ export default function Class7MathsPage() {
             </Tabs>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-1">
+                <div className="lg:col-span-1">
                      <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
                         <Button 

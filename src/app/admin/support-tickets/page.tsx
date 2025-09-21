@@ -15,9 +15,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Clipboard } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface SupportTicket {
   id: string;
+  ticketId?: string;
   studentName: string;
   email: string;
   problem: string;
@@ -28,6 +32,7 @@ interface SupportTicket {
 export default function AdminSupportTicketsPage() {
   const [tickets, setTickets] = useState<SupportTicket[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -41,9 +46,18 @@ export default function AdminSupportTicketsPage() {
     fetchTickets();
   }, []);
 
+  const handleCopyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+        title: "Copied to clipboard!",
+        description: `Ticket ID: ${text}`,
+    });
+  };
+
   const renderSkeleton = () => (
     [...Array(5)].map((_, i) => (
         <TableRow key={i}>
+            <TableCell><Skeleton className="h-4 w-full" /></TableCell>
             <TableCell><Skeleton className="h-4 w-full" /></TableCell>
             <TableCell><Skeleton className="h-4 w-full" /></TableCell>
             <TableCell><Skeleton className="h-4 w-full" /></TableCell>
@@ -73,6 +87,7 @@ export default function AdminSupportTicketsPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Ticket ID</TableHead>
                 <TableHead>Student Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Status</TableHead>
@@ -84,6 +99,16 @@ export default function AdminSupportTicketsPage() {
               {loading ? renderSkeleton() : tickets.length > 0 ? (
                 tickets.map((ticket) => (
                   <TableRow key={ticket.id}>
+                    <TableCell className="font-mono text-xs">
+                        {ticket.ticketId ? (
+                             <div className="flex items-center gap-2">
+                                <span>{ticket.ticketId.split('-')[0]}-...{ticket.ticketId.slice(-4)}</span>
+                                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleCopyToClipboard(ticket.ticketId!)}>
+                                    <Clipboard className="h-3 w-3" />
+                                </Button>
+                             </div>
+                        ) : 'N/A'}
+                    </TableCell>
                     <TableCell className="font-medium">{ticket.studentName}</TableCell>
                     <TableCell>{ticket.email}</TableCell>
                     <TableCell>
@@ -110,7 +135,7 @@ export default function AdminSupportTicketsPage() {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground">
+                  <TableCell colSpan={6} className="text-center text-muted-foreground">
                     No support tickets have been submitted yet.
                   </TableCell>
                 </TableRow>

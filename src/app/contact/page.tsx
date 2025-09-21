@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit, Globe, CheckCircle, Copy } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { submitContactForm, submitSupportTicket } from "@/app/actions";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const countries = [
   "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
@@ -42,12 +43,21 @@ const countries = [
   "Zambia", "Zimbabwe"
 ];
 
+const indianStates = [
+    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
+    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
+    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
+    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+];
+
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  email: z.string().email({ message: "Please enter a valid email." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   country: z.string().optional(),
-  state: z.string().optional(),
+  state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
 
@@ -64,6 +74,7 @@ type SupportTicketValues = z.infer<typeof supportTicketSchema>;
 export default function ContactPage() {
   const { toast } = useToast();
   const [showSupportForm, setShowSupportForm] = useState(false);
+  const [submittedTicketId, setSubmittedTicketId] = useState<string | null>(null);
 
   const contactForm = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -71,7 +82,7 @@ export default function ContactPage() {
       name: '',
       email: '',
       phone: '',
-      country: '',
+      country: 'India',
       state: '',
       message: '',
     },
@@ -99,13 +110,23 @@ export default function ContactPage() {
   const onSupportSubmit: SubmitHandler<SupportTicketValues> = async (data) => {
     const result = await submitSupportTicket(data);
     if (result.success) {
-        toast({ title: "Success", description: result.message });
+        setSubmittedTicketId(result.ticketId || null);
         supportForm.reset();
         setShowSupportForm(false);
     } else {
         toast({ variant: "destructive", title: "Error", description: result.message });
     }
   }
+
+  const handleCopyToClipboard = () => {
+    if (submittedTicketId) {
+        navigator.clipboard.writeText(submittedTicketId);
+        toast({
+            title: "Copied to clipboard!",
+            description: `Ticket ID: ${submittedTicketId}`,
+        });
+    }
+  };
   
   const contactDetails = [
     { icon: Phone, label: "For Admission Enquiry", value: "+91 7011117585", href: "tel:+917011117585" },
@@ -115,6 +136,7 @@ export default function ContactPage() {
   ];
 
   return (
+    <>
     <div className="bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
       <div className="container mx-auto py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
@@ -243,7 +265,7 @@ export default function ContactPage() {
                           <FormControl>
                             <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
+                                <Input type="email" placeholder="Enter your email *" {...field} className="pl-9" />
                             </div>
                           </FormControl>
                           <FormMessage />
@@ -258,7 +280,8 @@ export default function ContactPage() {
                             <FormControl>
                                 <div className="relative">
                                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-9" />
+                                 <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                                <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -293,15 +316,24 @@ export default function ContactPage() {
                         control={contactForm.control}
                         name="state"
                         render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="relative">
-                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Enter your state" {...field} className="pl-9" />
-                                </div>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
+                            <FormItem>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <div className="relative">
+                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <SelectTrigger className="pl-9">
+                                            <SelectValue placeholder="Select your state *" />
+                                        </SelectTrigger>
+                                    </div>
+                                </FormControl>
+                                <SelectContent>
+                                    {indianStates.map(state => (
+                                        <SelectItem key={state} value={state}>{state}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
                         )}
                     />
                     <FormField
@@ -335,5 +367,37 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    
+    <Dialog open={!!submittedTicketId} onOpenChange={() => setSubmittedTicketId(null)}>
+      <DialogContent>
+        <DialogHeader>
+          <div className="flex justify-center mb-4">
+            <CheckCircle className="w-16 h-16 text-green-500" />
+          </div>
+          <DialogTitle className="text-center text-2xl">Ticket Submitted!</DialogTitle>
+          <DialogDescription className="text-center">
+            Your support ticket has been successfully submitted. Please save your ticket ID for future reference.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <div 
+            className="flex items-center justify-between p-3 border-2 border-dashed rounded-lg bg-muted cursor-pointer hover:bg-muted/80"
+            onClick={handleCopyToClipboard}
+          >
+            <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Your Ticket ID</span>
+                <span className="font-mono font-semibold text-lg">{submittedTicketId}</span>
+            </div>
+            <Copy className="w-6 h-6 text-primary" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">
+            Close
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }

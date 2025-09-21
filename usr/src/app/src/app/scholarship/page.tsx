@@ -189,7 +189,7 @@ export default function ScholarshipPage() {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Enter student's name *" {...field} className="pl-9" />
+                                                            <Input placeholder="Enter student's name" {...field} className="pl-9" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -204,7 +204,7 @@ export default function ScholarshipPage() {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Enter guardian's name *" {...field} className="pl-9" />
+                                                            <Input placeholder="Enter guardian's name" {...field} className="pl-9" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -221,7 +221,7 @@ export default function ScholarshipPage() {
                                                         <div className="relative">
                                                             <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                             <SelectTrigger className="pl-9">
-                                                                <SelectValue placeholder="Select a class *" />
+                                                                <SelectValue placeholder="Select a class" />
                                                             </SelectTrigger>
                                                         </div>
                                                         </FormControl>
@@ -244,7 +244,7 @@ export default function ScholarshipPage() {
                                                     <div className="relative">
                                                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                                                    <Input type="tel" placeholder="Enter Mobile Number *" className="pl-16" {...field}/>
+                                                    <Input type="tel" placeholder="Enter Mobile Number" className="pl-16" {...field}/>
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />
@@ -285,7 +285,7 @@ export default function ScholarshipPage() {
                                                     <div className="relative">
                                                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <SelectTrigger className="pl-9">
-                                                        <SelectValue placeholder="Select a state *" />
+                                                        <SelectValue placeholder="Select a state" />
                                                     </SelectTrigger>
                                                     </div>
                                                 </FormControl>
