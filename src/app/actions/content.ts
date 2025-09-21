@@ -2,10 +2,12 @@
 'use server';
 
 import { db } from "@/lib/firebase";
-import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, FieldValue, getDocs, collection, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, getDocs, collection, serverTimestamp, deleteField } from "firebase/firestore";
 import { z } from "zod";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { revalidatePath } from "next/cache";
+import { serializeFirestoreData, TClass, TSubject, TPart, TChapter, TTopic, TSubTopic } from './types';
+
 
 // Helper to generate a slug from a string
 const generateSlug = (name: string) => {
@@ -109,9 +111,9 @@ export async function addSubject(collectionType: CollectionType, classId: string
     if (!classId || !subjectName) return { success: false, message: "Class ID and Subject Name are required." };
     
     const subjectKey = generateSlug(subjectName);
-    const subjectData = {
+    const subjectData: TSubject = {
         name: subjectName,
-        createdAt: serverTimestamp(),
+        createdAt: new Date().toISOString(),
         parts: {},
         chapters: []
     };
@@ -126,13 +128,47 @@ export async function addSubject(collectionType: CollectionType, classId: string
     }
 }
 
+export async function editSubject(collectionType: CollectionType, classId: string, subjectKey: string, newSubjectName: string) {
+    if (!classId || !subjectKey || !newSubjectName) return { success: false, message: "Required fields are missing."};
+
+    const newSubjectKey = generateSlug(newSubjectName);
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if(!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subjectData = data.subjects[subjectKey];
+        if(!subjectData) return { success: false, message: "Subject not found."};
+
+        const batch = writeBatch(db);
+
+        // If the key changes, we need to delete the old and add the new
+        if (subjectKey !== newSubjectKey) {
+            subjectData.name = newSubjectName;
+            batch.update(docRef, { [`subjects.${subjectKey}`]: deleteField() });
+            batch.update(docRef, { [`subjects.${newSubjectKey}`]: subjectData });
+        } else { // Just update the name
+             batch.update(docRef, { [`subjects.${subjectKey}.name`]: newSubjectName });
+        }
+
+        await batch.commit();
+
+        return { success: true, message: "Subject updated successfully." };
+
+    } catch(error) {
+        console.error("Error updating subject: ", error);
+        return { success: false, message: "Failed to update subject." };
+    }
+}
 
 export async function deleteSubject(collectionType: CollectionType, classId: string, subjectKey: string) {
     if (!classId || !subjectKey) return { success: false, message: "Class ID and Subject Key are required." };
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        await updateDoc(docRef, { [`subjects.${subjectKey}`]: FieldValue.delete() });
+        await updateDoc(docRef, { [`subjects.${subjectKey}`]: deleteField() });
         return { success: true, message: "Subject deleted successfully." };
     } catch (error) {
         console.error("Error deleting subject:", error);
@@ -148,9 +184,9 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     if (!classId || !subjectKey || !partName) return { success: false, message: "Class ID, Subject Key and Part Name are required." };
     
     const partKey = generateSlug(partName);
-    const partData = {
+    const partData: TPart = {
         name: partName,
-        createdAt: serverTimestamp(),
+        createdAt: new Date().toISOString(),
         chapters: []
     };
 
@@ -164,12 +200,46 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     }
 }
 
+export async function editPart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string, newPartName: string) {
+    if (!classId || !subjectKey || !partKey || !newPartName) return { success: false, message: "Required fields are missing." };
+
+    const newPartKey = generateSlug(newPartName);
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+
+        const data = docSnap.data();
+        const partData = data.subjects?.[subjectKey]?.parts?.[partKey];
+        if (!partData) return { success: false, message: "Part not found." };
+
+        const batch = writeBatch(db);
+
+        if (partKey !== newPartKey) {
+            partData.name = newPartName;
+            batch.update(docRef, { [`subjects.${subjectKey}.parts.${partKey}`]: deleteField() });
+            batch.update(docRef, { [`subjects.${subjectKey}.parts.${newPartKey}`]: partData });
+        } else {
+            batch.update(docRef, { [`subjects.${subjectKey}.parts.${partKey}.name`]: newPartName });
+        }
+
+        await batch.commit();
+
+        return { success: true, message: "Part updated successfully." };
+
+    } catch (error) {
+        console.error("Error updating part:", error);
+        return { success: false, message: "Failed to update part." };
+    }
+}
+
 export async function deletePart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string) {
     if (!classId || !subjectKey || !partKey) return { success: false, message: "Class ID, Subject Key, and Part Key are required." };
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
-        await updateDoc(docRef, { [`subjects.${subjectKey}.parts.${partKey}`]: FieldValue.delete() });
+        await updateDoc(docRef, { [`subjects.${subjectKey}.parts.${partKey}`]: deleteField() });
         return { success: true, message: "Part deleted successfully." };
     } catch (error) {
         console.error("Error deleting part:", error);
@@ -189,7 +259,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
-    const chapterData = {
+    const chapterData: TChapter = {
         name: chapterName,
         createdAt: new Date().toISOString(),
         topics: [],
@@ -210,6 +280,45 @@ export async function addChapter(collectionType: CollectionType, classId: string
         return { success: false, message: "Failed to add chapter." };
     }
 }
+
+export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null) {
+    if (!classId || !subjectKey || chapterIndex === undefined || !newChapterName) {
+        return { success: false, message: "Required fields are missing." };
+    }
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+        
+        const chaptersArray = partKey ? subject.parts?.[partKey]?.chapters : subject.chapters;
+        if (!chaptersArray || !chaptersArray[chapterIndex]) return { success: false, message: "Chapter not found." };
+
+        const chapterToUpdate = chaptersArray[chapterIndex];
+        chapterToUpdate.name = newChapterName;
+
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(newChapterName)}.pdf`;
+            chapterToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+        
+        chaptersArray[chapterIndex] = chapterToUpdate;
+
+        const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+        await updateDoc(docRef, { [fieldPath]: chaptersArray });
+
+        return { success: true, message: "Chapter updated successfully." };
+
+    } catch (error) {
+        console.error("Error updating chapter:", error);
+        return { success: false, message: "Failed to update chapter." };
+    }
+}
+
 
 export async function deleteChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string) {
      if (!classId || !subjectKey || !chapterName) return { success: false, message: "Required fields are missing."};
@@ -259,7 +368,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
 
-    const topicData = {
+    const topicData: TTopic = {
         name: topicName,
         createdAt: new Date().toISOString(),
         subTopics: [],
@@ -299,6 +408,47 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
         return { success: false, message: "Failed to add topic." };
     }
 }
+
+export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, pdfFile: File | null) {
+    if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !newTopicName) {
+        return { success: false, message: "Required fields are missing." };
+    }
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+        
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+        
+        const chaptersArray = partKey ? subject.parts?.[partKey]?.chapters : subject.chapters;
+        if (!chaptersArray || !chaptersArray[chapterIndex] || !chaptersArray[chapterIndex].topics || !chaptersArray[chapterIndex].topics[topicIndex]) {
+            return { success: false, message: "Topic not found." };
+        }
+
+        const topicToUpdate = chaptersArray[chapterIndex].topics[topicIndex];
+        topicToUpdate.name = newTopicName;
+
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${generateSlug(newTopicName)}.pdf`;
+            topicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        chaptersArray[chapterIndex].topics[topicIndex] = topicToUpdate;
+
+        const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+        await updateDoc(docRef, { [fieldPath]: chaptersArray });
+
+        return { success: true, message: "Topic updated successfully." };
+
+    } catch (error) {
+        console.error("Error updating topic:", error);
+        return { success: false, message: "Failed to update topic." };
+    }
+}
+
 
 export async function deleteTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicName: string) {
      if (!classId || !subjectKey || chapterIndex === undefined || !topicName) return { success: false, message: "Required fields are missing."};
@@ -343,7 +493,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
         pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
-    const subTopicData = {
+    const subTopicData: TSubTopic = {
         name: subTopicName,
         createdAt: new Date().toISOString(),
         pdfUrl: pdfUrl,
@@ -383,6 +533,47 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
     }
 }
 
+
+export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, pdfFile: File | null) {
+    if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || subTopicIndex === undefined || !newSubTopicName) {
+        return { success: false, message: "Required fields are missing." };
+    }
+
+    try {
+        const docRef = getContentDocRef(collectionType, classId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return { success: false, message: "Class not found." };
+
+        const data = docSnap.data();
+        const subject = data.subjects?.[subjectKey];
+        if (!subject) return { success: false, message: "Subject not found." };
+
+        const chaptersArray = partKey ? subject.parts?.[partKey]?.chapters : subject.chapters;
+        if (!chaptersArray || !chaptersArray[chapterIndex] || !chaptersArray[chapterIndex].topics || !chaptersArray[chapterIndex].topics[topicIndex] || !chaptersArray[chapterIndex].topics[topicIndex].subTopics || !chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex]) {
+            return { success: false, message: "Sub-topic not found." };
+        }
+
+        const subTopicToUpdate = chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex];
+        subTopicToUpdate.name = newSubTopicName;
+
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${generateSlug(newSubTopicName)}.pdf`;
+            subTopicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex] = subTopicToUpdate;
+
+        const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+        await updateDoc(docRef, { [fieldPath]: chaptersArray });
+
+        return { success: true, message: "Sub-topic updated successfully." };
+
+    } catch (error) {
+        console.error("Error updating sub-topic:", error);
+        return { success: false, message: "Failed to update sub-topic." };
+    }
+}
+
 export async function deleteSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicName: string) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !subTopicName) return { success: false, message: "Required fields are missing."};
 
@@ -414,28 +605,4 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
         console.error("Error deleting sub-topic:", error);
         return { success: false, message: "Failed to delete sub-topic." };
     }
-}
-
-// Placeholder functions for edit/delete operations
-export async function editSubject(collectionType: CollectionType, classId: string, subjectKey: string, newSubjectName: string) {
-    // This is complex because it involves renaming a map key. 
-    // It's often easier to delete and re-add. A full implementation would read the subject data,
-    // delete the old key, and write the data back under a new key.
-    return { success: false, message: "Edit subject not implemented yet." };
-}
-
-export async function editPart(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string, newPartName: string) {
-    return { success: false, message: "Edit part not implemented yet." };
-}
-
-export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null) {
-    return { success: false, message: "Edit chapter not implemented yet." };
-}
-
-export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, pdfFile: File | null) {
-    return { success: false, message: "Edit topic not implemented yet." };
-}
-
-export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, pdfFile: File | null) {
-    return { success: false, message: "Edit sub-topic not implemented yet." };
 }
