@@ -91,6 +91,15 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
+                  <Link href="/admin/demo">
+                    <Presentation />
+                    <span>Free Demo</span>
+                  </Link>
+                </SidebarMenuButton>
+                {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
                   <Link href="/admin/admissions">
@@ -130,15 +139,6 @@ function AdminLayout({
                     <span>Feedback</span>
                   </Link>
                 </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
-                  <Link href="/admin/demo">
-                    <Presentation />
-                    <span>Free Demo</span>
-                  </Link>
-                </SidebarMenuButton>
-                {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
