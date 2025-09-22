@@ -14,7 +14,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -169,6 +169,14 @@ function AdminLayout({
                   <Link href="/admin/topper-testimonials">
                     <Video />
                     <span>Topper Testimonials</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
+                  <Link href="/admin/excellence-results">
+                    <Star />
+                    <span>Excellence Results</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

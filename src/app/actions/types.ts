@@ -63,3 +63,11 @@ export interface TTopperTestimonial {
   videoId: string;
   createdAt: string;
 }
+
+export interface TExcellenceResult {
+  id: string;
+  categoryName: string;
+  imageUrl: string;
+  order: number;
+  createdAt: string;
+}

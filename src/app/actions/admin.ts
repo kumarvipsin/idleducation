@@ -299,3 +299,71 @@ export async function deleteTopperTestimonial(id: string) {
         return { success: false, message: "Failed to delete topper testimonial." };
     }
 }
+
+// Excellence Results Management
+export async function addExcellenceResult(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+
+  const resultData = {
+    categoryName: rawData.categoryName as string,
+    order: parseInt(rawData.order as string, 10) || 99,
+  };
+
+  try {
+    let imageUrl = '';
+    if (imageFile && imageFile.size > 0) {
+      const destination = `excellence-results/${Date.now()}-${imageFile.name}`;
+      imageUrl = await uploadFileToGCS(imageFile, destination);
+    } else {
+      return { success: false, message: "Image is required." };
+    }
+    
+    await addDoc(collection(db, "excellenceResults"), {
+      ...resultData,
+      imageUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Excellence result added successfully." };
+  } catch (error) {
+    console.error("Error adding excellence result:", error);
+    return { success: false, message: "Failed to add excellence result." };
+  }
+}
+
+export async function editExcellenceResult(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const imageFile = rawData.image as File | null;
+
+    const resultData: any = {
+      categoryName: rawData.categoryName as string,
+      order: parseInt(rawData.order as string, 10) || 99,
+    };
+    
+    try {
+        if (imageFile && imageFile.size > 0) {
+            const destination = `excellence-results/${Date.now()}-${imageFile.name}`;
+            resultData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+
+        const docRef = doc(db, "excellenceResults", id);
+        await updateDoc(docRef, resultData);
+        
+        return { success: true, message: "Excellence result updated successfully." };
+    } catch (error) {
+        console.error("Error updating excellence result:", error);
+        return { success: false, message: "Failed to update excellence result." };
+    }
+}
+
+export async function deleteExcellenceResult(id: string) {
+    try {
+        const docRef = doc(db, "excellenceResults", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Excellence result deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting excellence result:", error);
+        return { success: false, message: "Failed to delete excellence result." };
+    }
+}

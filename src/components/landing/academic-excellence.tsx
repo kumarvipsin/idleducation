@@ -6,42 +6,55 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Card } from '../ui/card';
 import { cn } from '@/lib/utils';
-
-const categories = [
-  'CUET',
-  'CBSE 10',
-  'CBSE 12',
-  'JEE',
-  'NEET',
-  'SSC',
-  'BANK PO',
-  'DELHI POLICE',
-];
+import { getExcellenceResults } from '@/app/actions';
+import type { TExcellenceResult } from '@/app/actions/types';
+import { Skeleton } from '../ui/skeleton';
 
 export function AcademicExcellence() {
-  const [activeCategory, setActiveCategory] = useState('CUET');
+  const [results, setResults] = useState<TExcellenceResult[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [animationKey, setAnimationKey] = useState(0);
+  
+  useEffect(() => {
+    const fetchResults = async () => {
+      setLoading(true);
+      const res = await getExcellenceResults();
+      if (res.success && res.data) {
+        setResults(res.data as TExcellenceResult[]);
+        if (res.data.length > 0) {
+          setActiveCategory((res.data as TExcellenceResult[])[0].categoryName);
+        }
+      }
+      setLoading(false);
+    };
+    fetchResults();
+  }, []);
 
   const startAutoSwitch = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
+    if(results.length === 0) return;
+    
     intervalRef.current = setInterval(() => {
       setActiveCategory(prevCategory => {
-        const currentIndex = categories.indexOf(prevCategory);
-        const nextIndex = (currentIndex + 1) % categories.length;
-        return categories[nextIndex];
+        const currentIndex = results.findIndex(r => r.categoryName === prevCategory);
+        const nextIndex = (currentIndex + 1) % results.length;
+        return results[nextIndex].categoryName;
       });
-    }, 3000); // Switch every 3 seconds
+    }, 3000);
   };
 
   useEffect(() => {
-    startAutoSwitch();
+    if(!loading && results.length > 0) {
+      startAutoSwitch();
+    }
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, []);
+  }, [loading, results]);
   
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
@@ -49,9 +62,10 @@ export function AcademicExcellence() {
 
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
-    // Restart the timer when a user manually selects a category
     startAutoSwitch(); 
   };
+
+  const activeResult = results.find(r => r.categoryName === activeCategory);
 
   return (
     <section 
@@ -70,19 +84,23 @@ export function AcademicExcellence() {
         <div className="mb-4" style={{ animationDelay: '0.2s' }}>
             <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-                {categories.map((category) => (
+                {loading ? (
+                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                ) : (
+                  results.map((result) => (
                     <button
-                      key={category}
-                      onClick={() => handleCategoryClick(category)}
+                      key={result.id}
+                      onClick={() => handleCategoryClick(result.categoryName)}
                       className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md border`,
-                        activeCategory === category 
+                        activeCategory === result.categoryName
                           ? 'border-primary text-primary bg-primary/10' 
                           : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
                       )}
                     >
-                      {category}
+                      {result.categoryName}
                     </button>
-                ))}
+                  ))
+                )}
                 </div>
             </div>
         </div>
@@ -90,14 +108,18 @@ export function AcademicExcellence() {
         <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.5)]" style={{ animationDelay: '0.4s' }}>
           <div className="bg-background rounded-lg h-full overflow-hidden">
             <div className="relative w-full aspect-[16/6] md:aspect-[16/5]">
-                <Image
-                key={animationKey}
-                src="/result.jpg"
-                alt="Excellent student results"
-                data-ai-hint="student results success"
-                fill
-                className="object-cover animate-fade-in-up"
-                />
+                {loading || !activeResult ? (
+                  <Skeleton className="w-full h-full" />
+                ) : (
+                  <Image
+                    key={animationKey}
+                    src={activeResult.imageUrl}
+                    alt={`Result for ${activeResult.categoryName}`}
+                    data-ai-hint="student success results"
+                    fill
+                    className="object-cover animate-fade-in-up"
+                  />
+                )}
             </div>
           </div>
         </Card>

@@ -120,6 +120,18 @@ export async function getTopperTestimonials() {
     }
 }
 
+export async function getExcellenceResults() {
+    try {
+        const resultsQuery = query(collection(db, "excellenceResults"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(resultsQuery);
+        const results = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: results };
+    } catch (error) {
+        console.error("Error fetching excellence results:", error);
+        return { success: false, message: "Failed to fetch excellence results." };
+    }
+}
+
 
 export async function getNcertSolutions(className: string, subject: string) {
   try {
