@@ -1,3 +1,4 @@
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -68,5 +69,15 @@ export interface TExcellenceResult {
   categoryName: string;
   imageUrl: string;
   order: number;
+  createdAt: string;
+}
+
+export interface TPreviousYearQuestion {
+  id: string;
+  exam: string;
+  subject: string;
+  year: number;
+  title: string;
+  pdfUrl: string;
   createdAt: string;
 }

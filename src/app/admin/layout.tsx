@@ -220,6 +220,14 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
+                  <Link href="/admin/previous-year-questions">
+                    <FileText />
+                    <span>Prev. Year Questions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link href="#">

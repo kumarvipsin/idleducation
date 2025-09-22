@@ -155,7 +155,7 @@ export async function getNcertSolutions(className: string, subject: string) {
 
 export async function getNotes() {
   try {
-    const notesQuery = query(collection(db, "notes"));
+    const notesQuery = query(collection(db, "notes"), orderBy("order", "asc"));
     const querySnapshot = await getDocs(notesQuery);
     const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: notes };
@@ -167,7 +167,7 @@ export async function getNotes() {
 
 export async function getImportantQuestions() {
   try {
-    const questionsQuery = query(collection(db, "importantQuestions"));
+    const questionsQuery = query(collection(db, "importantQuestions"), orderBy("order", "asc"));
     const querySnapshot = await getDocs(questionsQuery);
     const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
     return { success: true, data: questions };
@@ -196,6 +196,19 @@ export async function getImportantQuestionsForSubject(classId: string, subjectKe
     return { success: false, message: "Failed to fetch important questions." };
   }
 }
+
+export async function getPreviousYearQuestions() {
+    try {
+        const questionsQuery = query(collection(db, "previousYearQuestions"), orderBy("year", "desc"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(questionsQuery);
+        const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: questions };
+    } catch (error) {
+        console.error("Error fetching previous year questions:", error);
+        return { success: false, message: "Failed to fetch previous year questions." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {
