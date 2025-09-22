@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getGalleryImages, addGalleryImage, deleteGalleryImage, getSignedUrlForPdf } from '@/app/actions';
+import { getGalleryImages, addGalleryImage, deleteGalleryImage } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -29,7 +29,13 @@ const GalleryImageForm = ({ onSuccess, existingCategories }: { onSuccess: () => 
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
-  const [categoryType, setCategoryType] = useState<'existing' | 'new'>('existing');
+  const [categoryType, setCategoryType] = useState<'existing' | 'new'>(existingCategories.length > 0 ? 'existing' : 'new');
+
+  useEffect(() => {
+    // If categories become available or unavailable, adjust the default selection
+    setCategoryType(existingCategories.length > 0 ? 'existing' : 'new');
+  }, [existingCategories]);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -69,7 +75,7 @@ const GalleryImageForm = ({ onSuccess, existingCategories }: { onSuccess: () => 
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="category" className="text-right">Category</Label>
           <div className='col-span-3 flex gap-2'>
-            <Button type="button" variant={categoryType === 'existing' ? 'default' : 'outline'} onClick={() => setCategoryType('existing')}>Existing</Button>
+            <Button type="button" variant={categoryType === 'existing' ? 'default' : 'outline'} onClick={() => setCategoryType('existing')} disabled={existingCategories.length === 0}>Existing</Button>
             <Button type="button" variant={categoryType === 'new' ? 'default' : 'outline'} onClick={() => setCategoryType('new')}>New</Button>
           </div>
         </div>
