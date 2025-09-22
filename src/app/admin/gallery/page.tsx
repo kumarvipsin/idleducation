@@ -104,7 +104,7 @@ const GalleryImageForm = ({ onSuccess, existingCategories }: { onSuccess: () => 
                     <SelectValue placeholder="Select layout size" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="">Default</SelectItem>
+                    <SelectItem value="default">Default</SelectItem>
                     <SelectItem value="col-span-2">Wide</SelectItem>
                     <SelectItem value="row-span-2">Tall</SelectItem>
                     <SelectItem value="col-span-2 row-span-2">Large</SelectItem>
@@ -179,7 +179,7 @@ export default function AdminGalleryPage() {
               <CardDescription>Add or delete images from the public gallery.</CardDescription>
             </div>
             <DialogTrigger asChild>
-              <Button>
+              <Button onClick={() => setIsDialogOpen(true)}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Add Image
               </Button>
             </DialogTrigger>

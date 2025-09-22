@@ -373,12 +373,13 @@ export async function deleteExcellenceResult(id: string) {
 export async function addGalleryImage(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
+  const layout = rawData.layout as string;
 
   const galleryData = {
     title: rawData.title as string,
     category: rawData.category as string,
     alt: (rawData.alt as string) || (rawData.title as string),
-    className: rawData.layout as string || ''
+    className: layout === 'default' ? '' : layout,
   };
 
   if (!imageFile || imageFile.size === 0) {
