@@ -3,6 +3,8 @@
 
 
 
+
+
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -18,7 +20,7 @@ const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 };
 
-type CollectionType = 'notes' | 'importantQuestions' | 'previousYearQuestions';
+type CollectionType = 'notes' | 'importantQuestions';
 
 // Helper function to get a document reference
 const getContentDocRef = (collectionType: CollectionType, classId: string) => {
@@ -714,7 +716,7 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
 export async function addPreviousYearQuestion(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const pdfFile = rawData.pdf as File | null;
-  
+
   const questionData = {
     exam: rawData.exam as string,
     subject: rawData.subject as string,
@@ -722,25 +724,24 @@ export async function addPreviousYearQuestion(formData: FormData) {
     title: rawData.title as string,
   };
 
+  if (!pdfFile || pdfFile.size === 0) {
+    return { success: false, message: 'PDF file is required.' };
+  }
+
   try {
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
-      pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    } else {
-        return { success: false, message: "PDF file is required." };
-    }
-    
-    await addDoc(collection(db, "previousYearQuestions"), {
+    const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+    const pdfUrl = await uploadFileToGCS(pdfFile, destination);
+
+    await addDoc(collection(db, 'previousYearQuestions'), {
       ...questionData,
       pdfUrl,
       createdAt: serverTimestamp(),
     });
-    
-    return { success: true, message: "Question paper added successfully." };
+
+    return { success: true, message: 'Question paper added successfully.' };
   } catch (error) {
-    console.error("Error adding question paper:", error);
-    return { success: false, message: "Failed to add question paper." };
+    console.error('Error adding question paper:', error);
+    return { success: false, message: 'Failed to add question paper.' };
   }
 }
 

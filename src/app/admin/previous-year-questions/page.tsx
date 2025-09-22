@@ -30,7 +30,6 @@ const questionSchema = z.object({
   subject: z.string().min(1, "Subject is required."),
   year: z.coerce.number().min(2000, "Year must be 2000 or later."),
   title: z.string().min(1, "Title is required."),
-  pdf: z.any().optional(),
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
@@ -50,26 +49,19 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
-      pdf: undefined,
     },
   });
 
-  const onSubmit: SubmitHandler<QuestionFormValues> = async (data) => {
+  const onSubmit = async (data: QuestionFormValues) => {
     const formData = new FormData();
-    
-    // Append all form data except the file
     Object.entries(data).forEach(([key, value]) => {
-      if (key !== 'pdf' && value) {
         formData.append(key, String(value));
-      }
     });
 
-    // Manually get the file from the form and append it
     const pdfFile = (document.getElementById('pdf-upload') as HTMLInputElement)?.files?.[0];
     if (pdfFile) {
         formData.append('pdf', pdfFile);
     } else if (!question) {
-        // If it's a new entry and no file is selected
         toast({ variant: 'destructive', title: 'Error', description: 'PDF file is required for new entries.' });
         return;
     }
@@ -108,6 +100,7 @@ const QuestionForm = ({
             <FormControl>
               <Input
                 id="pdf-upload"
+                name="pdf"
                 type="file"
                 accept=".pdf"
               />
@@ -251,4 +244,3 @@ export default function AdminPreviousYearQuestionsPage() {
     </Dialog>
   );
 }
-
