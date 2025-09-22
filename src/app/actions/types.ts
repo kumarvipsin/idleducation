@@ -43,3 +43,13 @@ export interface TClass {
   subjects: { [key: string]: TSubject };
   order: number;
 }
+
+export interface TTestimonial {
+  id: string;
+  name: string;
+  achievement: string;
+  testimonial: string;
+  testimonial_hi?: string;
+  avatarUrl?: string;
+  createdAt: string;
+}

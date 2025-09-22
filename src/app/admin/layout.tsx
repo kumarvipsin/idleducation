@@ -156,6 +156,14 @@ function AdminLayout({
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
+                  <Link href="/admin/testimonials">
+                    <MessageSquare />
+                    <span>Testimonials</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                   <Link href="/admin/users">

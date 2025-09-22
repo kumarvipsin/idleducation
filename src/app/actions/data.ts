@@ -95,6 +95,19 @@ export async function getAdmissions() {
   }
 }
 
+export async function getTestimonials() {
+    try {
+        const testimonialsQuery = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(testimonialsQuery);
+        const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: testimonials };
+    } catch (error) {
+        console.error("Error fetching testimonials:", error);
+        return { success: false, message: "Failed to fetch testimonials." };
+    }
+}
+
+
 export async function getNcertSolutions(className: string, subject: string) {
   try {
     const docRef = doc(db, "notes", className);

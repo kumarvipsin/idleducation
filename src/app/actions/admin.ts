@@ -4,7 +4,7 @@
 import { z } from "zod";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
-
+import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 
 // User Management
@@ -176,26 +176,72 @@ export async function markAllBookingsAsSeen() {
   }
 }
 
+// Testimonial Management
+export async function addTestimonial(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const avatarFile = rawData.avatar as File | null;
+  
+  const testimonialData = {
+    name: rawData.name as string,
+    achievement: rawData.achievement as string,
+    testimonial: rawData.testimonial as string,
+    testimonial_hi: rawData.testimonial_hi as string || '',
+  };
 
-// Data Seeding
-export async function seedNotesFromNcertData(className: string, data: any) {
   try {
-    const docRef = doc(db, "notes", className);
-    await setDoc(docRef, data, { merge: true });
-    return { success: true, message: "Notes data seeded successfully." };
+    let avatarUrl = '';
+    if (avatarFile && avatarFile.size > 0) {
+      const destination = `testimonials/${Date.now()}-${avatarFile.name}`;
+      avatarUrl = await uploadFileToGCS(avatarFile, destination);
+    }
+    
+    await addDoc(collection(db, "testimonials"), {
+      ...testimonialData,
+      avatarUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Testimonial added successfully." };
   } catch (error) {
-    console.error("Error seeding notes data:", error);
-    return { success: false, message: "Failed to seed data." };
+    console.error("Error adding testimonial:", error);
+    return { success: false, message: "Failed to add testimonial." };
   }
 }
 
-export async function seedImportantQuestions(className: string, data: any) {
-  try {
-    const docRef = doc(db, "importantQuestions", className);
-    await setDoc(docRef, data, { merge: true });
-    return { success: true, message: `Important questions for ${className} seeded.` };
-  } catch (error) {
-    console.error("Error seeding important questions:", error);
-    return { success: false, message: "Failed to seed important questions." };
-  }
+export async function editTestimonial(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const avatarFile = rawData.avatar as File | null;
+
+    const testimonialData: any = {
+      name: rawData.name as string,
+      achievement: rawData.achievement as string,
+      testimonial: rawData.testimonial as string,
+      testimonial_hi: rawData.testimonial_hi as string || '',
+    };
+    
+    try {
+        if (avatarFile && avatarFile.size > 0) {
+            const destination = `testimonials/${Date.now()}-${avatarFile.name}`;
+            testimonialData.avatarUrl = await uploadFileToGCS(avatarFile, destination);
+        }
+
+        const docRef = doc(db, "testimonials", id);
+        await updateDoc(docRef, testimonialData);
+        
+        return { success: true, message: "Testimonial updated successfully." };
+    } catch (error) {
+        console.error("Error updating testimonial:", error);
+        return { success: false, message: "Failed to update testimonial." };
+    }
+}
+
+export async function deleteTestimonial(id: string) {
+    try {
+        const docRef = doc(db, "testimonials", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Testimonial deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting testimonial:", error);
+        return { success: false, message: "Failed to delete testimonial." };
+    }
 }
