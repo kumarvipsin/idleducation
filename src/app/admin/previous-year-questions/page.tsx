@@ -50,6 +50,7 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
+      pdf: undefined,
     },
   });
 
