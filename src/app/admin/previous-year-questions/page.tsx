@@ -30,6 +30,7 @@ const questionSchema = z.object({
   subject: z.string().min(1, "Subject is required."),
   year: z.coerce.number().min(2000, "Year must be 2000 or later."),
   title: z.string().min(1, "Title is required."),
+  pdfUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
@@ -49,8 +50,10 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
+      pdfUrl: question?.pdfUrl || '',
     },
   });
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const onSubmit = async (data: QuestionFormValues) => {
     const formData = new FormData();
@@ -58,12 +61,9 @@ const QuestionForm = ({
         formData.append(key, String(value));
     });
 
-    const pdfFile = (document.getElementById('pdf-upload') as HTMLInputElement)?.files?.[0];
+    const pdfFile = fileInputRef.current?.files?.[0];
     if (pdfFile) {
         formData.append('pdf', pdfFile);
-    } else if (!question) {
-        toast({ variant: 'destructive', title: 'Error', description: 'PDF file is required for new entries.' });
-        return;
     }
 
     const apiCall = question
@@ -96,17 +96,21 @@ const QuestionForm = ({
           <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="e.g., Set 1" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormItem>
-            <FormLabel>PDF File</FormLabel>
+            <FormLabel>PDF File (Optional)</FormLabel>
             <FormControl>
               <Input
                 id="pdf-upload"
                 name="pdf"
                 type="file"
                 accept=".pdf"
+                ref={fileInputRef}
               />
             </FormControl>
             <FormMessage />
-          </FormItem>
+        </FormItem>
+        <FormField control={form.control} name="pdfUrl" render={({ field }) => (
+          <FormItem><FormLabel>Or PDF Link (Optional)</FormLabel><FormControl><Input placeholder="https://example.com/paper.pdf" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}

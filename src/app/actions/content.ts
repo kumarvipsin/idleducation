@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -722,19 +716,19 @@ export async function addPreviousYearQuestion(formData: FormData) {
     subject: rawData.subject as string,
     year: parseInt(rawData.year as string, 10),
     title: rawData.title as string,
+    pdfUrl: rawData.pdfUrl as string || '',
   };
 
-  if (!pdfFile || pdfFile.size === 0) {
-    return { success: false, message: 'PDF file is required.' };
-  }
-
   try {
-    const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
-    const pdfUrl = await uploadFileToGCS(pdfFile, destination);
-
+    let uploadedPdfUrl = '';
+    if (pdfFile && pdfFile.size > 0) {
+      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+      uploadedPdfUrl = await uploadFileToGCS(pdfFile, destination);
+    }
+    
     await addDoc(collection(db, 'previousYearQuestions'), {
       ...questionData,
-      pdfUrl,
+      pdfUrl: uploadedPdfUrl || questionData.pdfUrl, // Prioritize uploaded file
       createdAt: serverTimestamp(),
     });
 
@@ -754,6 +748,7 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
       subject: rawData.subject as string,
       year: parseInt(rawData.year as string, 10),
       title: rawData.title as string,
+      pdfUrl: rawData.pdfUrl as string || '',
     };
     
     try {
