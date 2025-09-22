@@ -6,7 +6,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
-import { addPreviousYearQuestion, getPreviousYearQuestions, editPreviousYearQuestion, deletePreviousYearQuestion } from '@/app/actions/content';
+import { addPreviousYearQuestion, getPreviousYearQuestions, editPreviousYearQuestion, deletePreviousYearQuestion } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -104,25 +104,25 @@ const QuestionForm = ({
 };
 
 export default function AdminPreviousYearQuestionsPage() {
-  const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingQuestion, setEditingQuestion] = useState<TPreviousYearQuestion | null>(null);
-  const [deletingQuestion, setDeletingQuestion] = useState<TPreviousYearQuestion | null>(null);
+  const [questions, setQuestions] = React.useState<TPreviousYearQuestion[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [editingQuestion, setEditingQuestion] = React.useState<TPreviousYearQuestion | null>(null);
+  const [deletingQuestion, setDeletingQuestion] = React.useState<TPreviousYearQuestion | null>(null);
   const { toast } = useToast();
 
-  const fetchQuestions = async () => {
+  const fetchQuestions = React.useCallback(async () => {
     setLoading(true);
     const result = await getPreviousYearQuestions();
     if (result.success && result.data) {
       setQuestions(result.data as TPreviousYearQuestion[]);
     }
     setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchQuestions();
   }, []);
+
+  React.useEffect(() => {
+    fetchQuestions();
+  }, [fetchQuestions]);
 
   const handleSuccess = () => {
     setIsDialogOpen(false);
