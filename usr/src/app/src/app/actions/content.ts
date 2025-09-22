@@ -3,6 +3,7 @@
 
 
 
+
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -713,7 +714,7 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
 // ==================================
 export async function addPreviousYearQuestion(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
-  const pdfFile = formData.get('pdf') as File | null;
+  const pdfFile = formData.get("pdf") as File | null;
   
   const questionData = {
     exam: rawData.exam as string,
