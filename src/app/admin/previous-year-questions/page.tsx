@@ -50,7 +50,6 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
-      pdf: undefined,
     },
   });
 
@@ -91,8 +90,19 @@ const QuestionForm = ({
         <FormField control={form.control} name="title" render={({ field }) => (
           <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="e.g., Set 1" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
-        <FormField control={form.control} name="pdf" render={({ field: { onChange, ...fieldProps } }) => (
-          <FormItem><FormLabel>PDF File</FormLabel><FormControl><Input type="file" accept=".pdf" {...fieldProps} onChange={e => onChange(e.target.files?.[0])} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="pdf" render={({ field: { onChange, value, ...rest } }) => (
+          <FormItem>
+            <FormLabel>PDF File</FormLabel>
+            <FormControl>
+              <Input
+                type="file"
+                accept=".pdf"
+                onChange={(e) => onChange(e.target.files?.[0])}
+                {...rest}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
         )} />
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
