@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { PlusCircle, Trash2, Upload } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -33,7 +33,9 @@ const GalleryImageForm = ({ onSuccess, existingCategories }: { onSuccess: () => 
 
   useEffect(() => {
     // If categories become available or unavailable, adjust the default selection
-    setCategoryType(existingCategories.length > 0 ? 'existing' : 'new');
+    if (existingCategories.length === 0) {
+      setCategoryType('new');
+    }
   }, [existingCategories]);
 
 
@@ -99,7 +101,7 @@ const GalleryImageForm = ({ onSuccess, existingCategories }: { onSuccess: () => 
         )}
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="layout" className="text-right">Layout</Label>
-          <Select name="layout">
+          <Select name="layout" defaultValue="default">
                 <SelectTrigger className="col-span-3">
                     <SelectValue placeholder="Select layout size" />
                 </SelectTrigger>
