@@ -1,3 +1,4 @@
+
 // src/app/actions/admin.ts
 'use server';
 
@@ -243,5 +244,58 @@ export async function deleteTestimonial(id: string) {
     } catch (error) {
         console.error("Error deleting testimonial:", error);
         return { success: false, message: "Failed to delete testimonial." };
+    }
+}
+
+// Topper Testimonial Management
+const topperTestimonialSchema = z.object({
+  studentName: z.string().min(1, 'Student name is required'),
+  studentClass: z.string().min(1, 'Class/Course is required'),
+  studentPlace: z.string().min(1, 'Place is required'),
+  videoId: z.string().min(1, 'YouTube Video ID is required'),
+});
+
+type TopperTestimonialValues = z.infer<typeof topperTestimonialSchema>;
+
+export async function addTopperTestimonial(data: TopperTestimonialValues) {
+    const validation = topperTestimonialSchema.safeParse(data);
+    if (!validation.success) {
+        return { success: false, message: "Invalid data provided." };
+    }
+    try {
+        await addDoc(collection(db, "topperTestimonials"), {
+            ...validation.data,
+            createdAt: serverTimestamp(),
+        });
+        return { success: true, message: "Topper testimonial added successfully." };
+    } catch (error) {
+        console.error("Error adding topper testimonial:", error);
+        return { success: false, message: "Failed to add topper testimonial." };
+    }
+}
+
+export async function editTopperTestimonial(id: string, data: TopperTestimonialValues) {
+    const validation = topperTestimonialSchema.safeParse(data);
+    if (!validation.success) {
+        return { success: false, message: "Invalid data provided." };
+    }
+    try {
+        const docRef = doc(db, "topperTestimonials", id);
+        await updateDoc(docRef, validation.data);
+        return { success: true, message: "Topper testimonial updated successfully." };
+    } catch (error) {
+        console.error("Error updating topper testimonial:", error);
+        return { success: false, message: "Failed to update topper testimonial." };
+    }
+}
+
+export async function deleteTopperTestimonial(id: string) {
+    try {
+        const docRef = doc(db, "topperTestimonials", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Topper testimonial deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting topper testimonial:", error);
+        return { success: false, message: "Failed to delete topper testimonial." };
     }
 }

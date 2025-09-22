@@ -1,3 +1,4 @@
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -51,5 +52,14 @@ export interface TTestimonial {
   testimonial: string;
   testimonial_hi?: string;
   avatarUrl?: string;
+  createdAt: string;
+}
+
+export interface TTopperTestimonial {
+  id: string;
+  studentName: string;
+  studentClass: string;
+  studentPlace: string;
+  videoId: string;
   createdAt: string;
 }

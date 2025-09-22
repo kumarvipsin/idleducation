@@ -1,3 +1,4 @@
+
 // src/app/actions/data.ts
 'use server';
 
@@ -104,6 +105,18 @@ export async function getTestimonials() {
     } catch (error) {
         console.error("Error fetching testimonials:", error);
         return { success: false, message: "Failed to fetch testimonials." };
+    }
+}
+
+export async function getTopperTestimonials() {
+    try {
+        const testimonialsQuery = query(collection(db, "topperTestimonials"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(testimonialsQuery);
+        const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: testimonials };
+    } catch (error) {
+        console.error("Error fetching topper testimonials:", error);
+        return { success: false, message: "Failed to fetch topper testimonials." };
     }
 }
 

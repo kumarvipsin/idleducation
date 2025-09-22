@@ -11,94 +11,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-
-const youtubeChannels = [
-  {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "ANJALI VERMA",
-    studentClass: "CLASS 12",
-    studentPlace: "DELHI"
-  },
-  {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "ROHAN SHARMA",
-    studentClass: "JEE ASPIRANT",
-    studentPlace: "DELHI"
-  },
-  {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "PRIYA SINGH",
-    studentClass: "NEET ASPIRANT",
-    studentPlace: "DELHI"
-  },
-   {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "VIKRAM RATHORE",
-    studentClass: "CLASS 10",
-    studentPlace: "DELHI"
-  },
-  {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "SNEHA GUPTA",
-    studentClass: "CLASS 11",
-    studentPlace: "DELHI"
-  },
-  {
-    name: "IDL EDUCATION",
-    href: "https://www.youtube.com/@idleducation",
-    videoId: "_t-tMW2-m5c",
-    gradient: "from-amber-100 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/10",
-    iconColor: "text-red-600",
-    studentName: "ARJUN MEHTA",
-    studentClass: "SSC ASPIRANT",
-    studentPlace: "DELHI"
-  },
-];
-
-const toppers1 = [
-  { img: "https://placehold.co/600x400/EAB308/FFFFFF?text=Topper", hint: "student success story" },
-  { img: "https://placehold.co/600x400/22C55E/FFFFFF?text=Topper", hint: "student achievement" },
-  { img: "https://placehold.co/600x400/3B82F6/FFFFFF?text=Topper", hint: "exam success" },
-  { img: "https://placehold.co/600x400/8B5CF6/FFFFFF?text=Topper", hint: "student journey" },
-  { img: "https://placehold.co/600x400/F43F5E/FFFFFF?text=Topper", hint: "academic excellence" },
-  { img: "https://placehold.co/600x400/14B8A6/FFFFFF?text=Topper", hint: "student testimonial" },
-  { img: "https://placehold.co/600x400/EC4899/FFFFFF?text=Topper", hint: "education success" },
-  { img: "https://placehold.co/600x400/D97706/FFFFFF?text=Topper", hint: "student interview" },
-];
-
-const toppers2 = [...toppers1].reverse();
-
-const toppers3 = [
-  { img: "https://placehold.co/600x400/0284C7/FFFFFF?text=Topper", hint: "learning environment" },
-  { img: "https://placehold.co/600x400/6D28D9/FFFFFF?text=Topper", hint: "classroom success" },
-  { img: "https://placehold.co/600x400/DC2626/FFFFFF?text=Topper", hint: "top student" },
-  { img: "https://placehold.co/600x400/4D7C0F/FFFFFF?text=Topper", hint: "study group" },
-  { img: "https://placehold.co/600x400/BE123C/FFFFFF?text=Topper", hint: "proud student" },
-  { img: "https://placehold.co/600x400/0D9488/FFFFFF?text=Topper", hint: "achiever" },
-  { img: "https://placehold.co/600x400/5B21B6/FFFFFF?text=Topper", hint: "graduation day" },
-  { img: "https://placehold.co/600x400/B45309/FFFFFF?text=Topper", hint: "exam preparation" },
-];
-
+import { getTopperTestimonials } from "@/app/actions";
+import type { TTopperTestimonial } from "@/app/actions/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const YoutubeIcon = ({ className }: { className?: string }) => (
     <svg
@@ -131,7 +46,7 @@ const shineStyle = {
 }
 
 
-const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannels)[0], onCardClick: () => void }) => (
+const ChannelCard = ({ testimonial, onCardClick }: { testimonial: TTopperTestimonial, onCardClick: () => void }) => (
     <DialogTrigger asChild>
         <button onClick={onCardClick} className="group shrink-0 focus:outline-none p-2">
             <Card className={`overflow-hidden shadow-lg w-64 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 p-0.5`} style={shineStyle}>
@@ -140,12 +55,12 @@ const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannel
                   style={textureStyle}
                 >
                     <div className="relative">
-                        <YoutubeIcon className={`w-12 h-12 ${channel.iconColor} transition-transform duration-300 group-hover:scale-110`} />
+                        <YoutubeIcon className={`w-12 h-12 text-red-600 transition-transform duration-300 group-hover:scale-110`} />
                     </div>
-                    <h3 className="font-bold text-sm">{channel.name}</h3>
+                    <h3 className="font-bold text-sm">IDL EDUCATION</h3>
                     <div className="text-xs text-muted-foreground mt-1">
-                        <p className="font-semibold text-foreground">{channel.studentName}</p>
-                        <p>{channel.studentClass} | {channel.studentPlace}</p>
+                        <p className="font-semibold text-foreground">{testimonial.studentName}</p>
+                        <p>{testimonial.studentClass} | {testimonial.studentPlace}</p>
                     </div>
                 </div>
             </Card>
@@ -156,6 +71,20 @@ const ChannelCard = ({ channel, onCardClick }: { channel: (typeof youtubeChannel
 
 export function ToppersTestimonials() {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const [testimonials, setTestimonials] = React.useState<TTopperTestimonial[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchTestimonials = async () => {
+      setLoading(true);
+      const result = await getTopperTestimonials();
+      if (result.success && result.data) {
+        setTestimonials(result.data as TTopperTestimonial[]);
+      }
+      setLoading(false);
+    };
+    fetchTestimonials();
+  }, []);
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -177,11 +106,21 @@ export function ToppersTestimonials() {
           </div>
           
           <div className="relative w-full overflow-hidden">
-            <div className="flex marquee-container">
-              {[...youtubeChannels, ...youtubeChannels].map((channel, index) => (
-                <ChannelCard key={`${channel.studentName}-${index}`} channel={channel} onCardClick={() => setSelectedVideo(channel.videoId)} />
-              ))}
-            </div>
+            {loading ? (
+                <div className="flex marquee-container">
+                    {[...Array(6)].map((_, index) => (
+                        <div key={index} className="p-2"><Skeleton className="h-40 w-64" /></div>
+                    ))}
+                </div>
+            ) : testimonials.length > 0 ? (
+                <div className="flex marquee-container">
+                {[...testimonials, ...testimonials].map((testimonial, index) => (
+                    <ChannelCard key={`${testimonial.id}-${index}`} testimonial={testimonial} onCardClick={() => setSelectedVideo(testimonial.videoId)} />
+                ))}
+                </div>
+            ) : (
+                <p className="text-center text-muted-foreground">No testimonials available yet.</p>
+            )}
           </div>
         </div>
       </section>
