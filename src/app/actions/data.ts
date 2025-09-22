@@ -209,6 +209,18 @@ export async function getPreviousYearQuestions() {
     }
 }
 
+export async function getGalleryImages() {
+    try {
+        const galleryQuery = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(galleryQuery);
+        const images = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: images };
+    } catch (error) {
+        console.error("Error fetching gallery images:", error);
+        return { success: false, message: "Failed to fetch gallery images." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {

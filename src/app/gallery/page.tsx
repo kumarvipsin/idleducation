@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Image as ImageIcon, Plus } from 'lucide-react';
@@ -9,92 +9,40 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { getGalleryImages } from '@/app/actions';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const galleryCategories = [
-  'All',
-  'Annual Function',
-  'Result Day',
-  'Sports Day',
-  'Science Fair',
-  'Events'
-];
-
-const galleryImages = [
-  {
-    id: '101',
-    src: 'https://picsum.photos/seed/g1/800/600',
-    alt: 'Annual Day 2024',
-    title: 'Annual Day 2024',
-    hint: 'students event',
-    category: 'Annual Function',
-    className: 'col-span-2 row-span-2'
-  },
-  {
-    id: '102',
-    src: 'https://picsum.photos/seed/g2/400/600',
-    alt: 'Graduation Ceremony',
-    title: 'Graduation Ceremony',
-    hint: 'students graduation',
-    category: 'Result Day',
-  },
-  {
-    id: '103',
-    src: 'https://picsum.photos/seed/g3/400/400',
-    alt: 'Science Fair',
-    title: 'Science Fair',
-    hint: 'student science',
-    category: 'Science Fair'
-  },
-  {
-    id: '104',
-    src: 'https://picsum.photos/seed/g4/800/400',
-    alt: 'Sports Day',
-    title: 'Sports Day',
-    hint: 'sports competition',
-    category: 'Sports Day',
-    className: 'col-span-2'
-  },
-  {
-    id: '105',
-    src: 'https://picsum.photos/seed/g5/400/400',
-    alt: 'Art Exhibition',
-    title: 'Art Exhibition',
-    hint: 'art exhibition',
-    category: 'Events'
-  },
-  {
-    id: '106',
-    src: 'https://picsum.photos/seed/g6/400/600',
-    alt: 'Music Fest',
-    title: 'Music Fest',
-    hint: 'music concert',
-    category: 'Events',
-  },
-   {
-    id: '107',
-    src: 'https://picsum.photos/seed/g7/800/600',
-    alt: 'Guest Lecture Series',
-    title: 'Guest Lecture Series',
-    hint: 'students classroom',
-    category: 'Events',
-    className: 'col-span-2 row-span-2'
-  },
-  {
-    id: '108',
-    src: 'https://picsum.photos/seed/g8/400/400',
-    alt: 'Inter-School Athletics',
-    title: 'Inter-School Athletics',
-    hint: 'running race',
-    category: 'Sports Day',
-  }
-];
+type GalleryImage = {
+  id: string;
+  imageUrl: string;
+  alt: string;
+  title: string;
+  category: string;
+  className?: string;
+};
 
 export default function GalleryPage() {
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null);
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoading(true);
+      const result = await getGalleryImages();
+      if (result.success && result.data) {
+        setImages(result.data as GalleryImage[]);
+      }
+      setLoading(false);
+    };
+    fetchImages();
+  }, []);
 
-  const filteredImages = galleryImages.filter(image =>
+  const galleryCategories = ['All', ...Array.from(new Set(images.map(img => img.category)))];
+
+  const filteredImages = images.filter(image =>
     (selectedCategory === 'All' || image.category === selectedCategory) &&
     (image.id.toLowerCase().includes(searchTerm.toLowerCase()) || image.title.toLowerCase().includes(searchTerm.toLowerCase()))
   );
@@ -133,7 +81,11 @@ export default function GalleryPage() {
             </div>
             
             <main>
-                {filteredImages.length > 0 ? (
+                {loading ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
+                        {[...Array(8)].map((_, i) => <Skeleton key={i} className="w-full h-full rounded-lg" />)}
+                    </div>
+                ) : filteredImages.length > 0 ? (
                      <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
                         {filteredImages.map((image, index) => (
                             <DialogTrigger asChild key={image.id}>
@@ -146,9 +98,8 @@ export default function GalleryPage() {
                                     onClick={() => setSelectedImage(image)}
                                 >
                                     <Image
-                                        src={image.src}
+                                        src={image.imageUrl}
                                         alt={image.alt}
-                                        data-ai-hint={image.hint}
                                         fill
                                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
@@ -183,7 +134,7 @@ export default function GalleryPage() {
                 </DialogHeader>
                 <div className="relative aspect-video">
                     <Image
-                        src={selectedImage.src}
+                        src={selectedImage.imageUrl}
                         alt={selectedImage.alt}
                         fill
                         className="object-contain"
@@ -191,7 +142,6 @@ export default function GalleryPage() {
                 </div>
                 <div className="p-4 bg-muted/50 rounded-b-lg">
                     <h3 className="font-bold text-lg">{selectedImage.title}</h3>
-                    <p className="text-sm text-muted-foreground font-mono">ID: {selectedImage.id}</p>
                 </div>
             </DialogContent>
         )}

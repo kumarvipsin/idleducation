@@ -81,3 +81,13 @@ export interface TPreviousYearQuestion {
   pdfUrl: string;
   createdAt: string;
 }
+
+export interface TGalleryImage {
+    id: string;
+    title: string;
+    category: string;
+    alt: string;
+    imageUrl: string;
+    className?: string;
+    createdAt: string;
+}

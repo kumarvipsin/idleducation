@@ -367,3 +367,50 @@ export async function deleteExcellenceResult(id: string) {
         return { success: false, message: "Failed to delete excellence result." };
     }
 }
+
+
+// Gallery Management
+export async function addGalleryImage(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+
+  const galleryData = {
+    title: rawData.title as string,
+    category: rawData.category as string,
+    alt: (rawData.alt as string) || (rawData.title as string),
+    className: rawData.layout as string || ''
+  };
+
+  if (!imageFile || imageFile.size === 0) {
+    return { success: false, message: "Image file is required." };
+  }
+
+  try {
+    const destination = `gallery/${Date.now()}-${imageFile.name}`;
+    const imageUrl = await uploadFileToGCS(imageFile, destination);
+    
+    await addDoc(collection(db, "gallery"), {
+      ...galleryData,
+      imageUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Image added to gallery successfully." };
+  } catch (error) {
+    console.error("Error adding gallery image:", error);
+    return { success: false, message: "Failed to add image." };
+  }
+}
+
+
+export async function deleteGalleryImage(id: string) {
+    try {
+        // Note: This does not delete the image from GCS to prevent accidental data loss.
+        // A more robust solution might involve a GCS cleanup function.
+        await deleteDoc(doc(db, "gallery", id));
+        return { success: true, message: "Image deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting gallery image:", error);
+        return { success: false, message: "Failed to delete image." };
+    }
+}
