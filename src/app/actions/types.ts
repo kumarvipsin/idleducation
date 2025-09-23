@@ -78,7 +78,7 @@ export interface TPreviousYearQuestion {
   subject: string;
   year: number;
   title: string;
-  pdfUrl: string;
+  pdfUrl?: string;
   createdAt: string;
 }
 
@@ -90,4 +90,14 @@ export interface TGalleryImage {
     imageUrl: string;
     className?: string;
     createdAt: string;
+}
+
+export interface TExamCategory {
+  id: string;
+  name: string;
+  href: string;
+  group: 'school' | 'competitive';
+  order: number;
+  imageUrl?: string;
+  createdAt: string;
 }

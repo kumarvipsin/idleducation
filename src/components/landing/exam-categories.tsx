@@ -4,7 +4,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from 'lucide-react';
 import {
@@ -16,9 +16,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from '../ui/scroll-area';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from "@/lib/utils";
-import { schoolPrograms, competitivePrograms, allPrograms } from "@/lib/courses";
+import { getExamCategories } from "@/app/actions";
+import type { TExamCategory } from "@/app/actions/types";
+import { Skeleton } from "../ui/skeleton";
 
 const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.1)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
 
@@ -28,7 +30,7 @@ const textureStyle = {
 };
 
 
-const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: typeof allPrograms, dialogTitle: string, dialogDescription: string }) => {
+const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: TExamCategory[], dialogTitle: string, dialogDescription: string }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -53,7 +55,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
@@ -65,6 +67,36 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
 }
 
 export function ExamCategories() {
+  const [categories, setCategories] = useState<TExamCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      const result = await getExamCategories();
+      if (result.success && result.data) {
+        setCategories(result.data as TExamCategory[]);
+      }
+      setLoading(false);
+    }
+    fetchCategories();
+  }, []);
+
+  const schoolPrograms = categories.filter(c => c.group === 'school');
+  const competitivePrograms = categories.filter(c => c.group === 'competitive');
+
+  const renderSkeleton = () => (
+    <div className="flex-1">
+      <CardContent className="p-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-lg" />)}
+        </div>
+        <div className="mt-8 flex justify-center">
+            <Skeleton className="h-10 w-36" />
+        </div>
+      </CardContent>
+    </div>
+  );
 
   return (
     <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background">
@@ -89,72 +121,69 @@ export function ExamCategories() {
         >
             <div className="flex flex-col lg:flex-row">
                 {/* Left Side */}
-                <div className="flex-1">
-                <CardContent className="p-6">
-                    <Carousel
-                        opts={{ align: "start" }}
-                        className="w-full"
-                    >
-                    <CarouselContent>
-                        {Array.from({ length: Math.ceil(schoolPrograms.length / 6) }).map((_, slideIndex) => (
-                        <CarouselItem key={slideIndex}>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                            {schoolPrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
-                                <Link href={program.href}>{program.name}</Link>
-                                </Button>
-                            ))}
+                {loading ? renderSkeleton() : (
+                    <div className="flex-1">
+                        <CardContent className="p-6">
+                            <Carousel opts={{ align: "start" }} className="w-full">
+                                <CarouselContent>
+                                {Array.from({ length: Math.ceil(schoolPrograms.length / 6) }).map((_, slideIndex) => (
+                                    <CarouselItem key={slideIndex}>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        {schoolPrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                                            <Link href={program.href}>{program.name}</Link>
+                                            </Button>
+                                        ))}
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                                </CarouselContent>
+                            </Carousel>
+                            <div className="mt-8 flex justify-center">
+                                <ExploreMoreDialog 
+                                    triggerText="Explore More" 
+                                    programs={schoolPrograms} 
+                                    dialogTitle="For School Exams"
+                                    dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
+                                />
                             </div>
-                        </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                    </Carousel>
-                    <div className="mt-8 flex justify-center">
-                        <ExploreMoreDialog 
-                            triggerText="Explore More" 
-                            programs={schoolPrograms} 
-                            dialogTitle="For School Exams"
-                            dialogDescription="Explore our comprehensive programs and find the perfect fit for your learning journey."
-                        />
+                        </CardContent>
                     </div>
-                </CardContent>
-                </div>
+                )}
                 
-                {/* Divider */}
                 <Separator orientation="vertical" className="h-auto hidden lg:block bg-border" />
                 <Separator orientation="horizontal" className="block lg:hidden bg-border" />
 
                 {/* Right Side */}
-                <div className="flex-1">
-                <CardContent className="p-6">
-                    <Carousel
-                        opts={{ align: "start" }}
-                        className="w-full"
-                    >
-                    <CarouselContent>
-                        {Array.from({ length: Math.ceil(competitivePrograms.length / 6) }).map((_, slideIndex) => (
-                        <CarouselItem key={slideIndex}>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                            {competitivePrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                <Button key={program.name} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
-                                <Link href={program.href}>{program.name}</Link>
-                                </Button>
-                            ))}
+                 {loading ? renderSkeleton() : (
+                    <div className="flex-1">
+                        <CardContent className="p-6">
+                            <Carousel opts={{ align: "start" }} className="w-full">
+                            <CarouselContent>
+                                {Array.from({ length: Math.ceil(competitivePrograms.length / 6) }).map((_, slideIndex) => (
+                                <CarouselItem key={slideIndex}>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    {competitivePrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
+                                        <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                                        <Link href={program.href}>{program.name}</Link>
+                                        </Button>
+                                    ))}
+                                    </div>
+                                </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            </Carousel>
+                            <div className="mt-8 flex justify-center">
+                                <ExploreMoreDialog 
+                                    triggerText="Explore More" 
+                                    programs={competitivePrograms} 
+                                    dialogTitle="For Competitive Exams"
+                                    dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
+                                />
                             </div>
-                        </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                    </Carousel>
-                    <div className="mt-8 flex justify-center">
-                    <ExploreMoreDialog 
-                            triggerText="Explore More" 
-                            programs={competitivePrograms} 
-                            dialogTitle="For Competitive Exams"
-                            dialogDescription="Find the right course to ace your competitive exams and achieve your career goals."
-                        />
+                        </CardContent>
                     </div>
-                </CardContent>
-                </div>
+                )}
             </div>
         </Card>
       </div>

@@ -1,0 +1,226 @@
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import { getExamCategories, addExamCategory, editExamCategory, deleteExamCategory } from '@/app/actions';
+import type { TExamCategory } from '@/app/actions/types';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { PlusCircle, Edit, Trash2, Upload } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+const ExamCategoryForm = ({
+  category,
+  onSuccess,
+}: {
+  category?: TExamCategory | null;
+  onSuccess: () => void;
+}) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [preview, setPreview] = useState<string | null>(category?.imageUrl || null);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(event.currentTarget);
+    const apiCall = category
+      ? editExamCategory(category.id, formData)
+      : addExamCategory(formData);
+
+    const apiResult = await apiCall;
+
+    if (apiResult.success) {
+      toast({ title: 'Success', description: apiResult.message });
+      onSuccess();
+    } else {
+      toast({ variant: 'destructive', title: 'Error', description: apiResult.message });
+    }
+    setIsSubmitting(false);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="grid gap-4 py-4">
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="name" className="text-right">Name</Label>
+          <Input id="name" name="name" defaultValue={category?.name} className="col-span-3" required/>
+        </div>
+         <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="href" className="text-right">Link (href)</Label>
+          <Input id="href" name="href" defaultValue={category?.href} className="col-span-3" placeholder="/category/jee" required/>
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="group" className="text-right">Group</Label>
+           <Select name="group" defaultValue={category?.group || 'school'}>
+              <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select a group" />
+              </SelectTrigger>
+              <SelectContent>
+                  <SelectItem value="school">School Exams</SelectItem>
+                  <SelectItem value="competitive">Competitive Exams</SelectItem>
+              </SelectContent>
+          </Select>
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="order" className="text-right">Order</Label>
+          <Input id="order" name="order" type="number" defaultValue={category?.order ?? 99} className="col-span-3" />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="image" className="text-right">Image</Label>
+          <div className="col-span-3 flex items-center gap-4">
+            {preview && <Image src={preview} alt="Image Preview" width={64} height={64} className="rounded-md object-cover" />}
+            <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
+          </div>
+        </div>
+      </div>
+      <DialogFooter>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Save changes'}
+        </Button>
+      </DialogFooter>
+    </form>
+  );
+};
+
+export default function AdminExamCategoriesPage() {
+  const [categories, setCategories] = useState<TExamCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<TExamCategory | null>(null);
+  const [deletingCategory, setDeletingCategory] = useState<TExamCategory | null>(null);
+  const { toast } = useToast();
+
+  const fetchCategories = async () => {
+    setLoading(true);
+    const result = await getExamCategories();
+    if (result.success && result.data) {
+      setCategories(result.data as TExamCategory[]);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleSuccess = () => {
+    setIsDialogOpen(false);
+    setEditingCategory(null);
+    fetchCategories();
+  };
+
+  const handleDelete = async () => {
+    if (!deletingCategory) return;
+    const result = await deleteExamCategory(deletingCategory.id);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchCategories();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    setDeletingCategory(null);
+  };
+  
+  const schoolExams = categories.filter(c => c.group === 'school').sort((a,b) => (a.order || 99) - (b.order || 99));
+  const competitiveExams = categories.filter(c => c.group === 'competitive').sort((a,b) => (a.order || 99) - (b.order || 99));
+
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+       <AlertDialog open={!!deletingCategory} onOpenChange={(isOpen) => !isOpen && setDeletingCategory(null)}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Manage Exam Categories</CardTitle>
+              <CardDescription>Add, edit, or delete categories for the homepage.</CardDescription>
+            </div>
+            <DialogTrigger asChild>
+              <Button onClick={() => setEditingCategory(null)}>
+                <PlusCircle className="mr-2 h-4 w-4" /> Add Category
+              </Button>
+            </DialogTrigger>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 className="text-lg font-semibold mb-2">School Exams</h3>
+                    <ScrollArea className="h-[calc(100vh-350px)]">
+                        <Table>
+                            <TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Order</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableBody>
+                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-12" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : schoolExams.map((cat) => (
+                                <TableRow key={cat.id}>
+                                    <TableCell>{cat.name}</TableCell><TableCell>{cat.order}</TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                    <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
+                                    <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                                    </TableCell>
+                                </TableRow>))}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </div>
+                 <div>
+                    <h3 className="text-lg font-semibold mb-2">Competitive Exams</h3>
+                    <ScrollArea className="h-[calc(100vh-350px)]">
+                        <Table>
+                            <TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Order</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableBody>
+                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-12" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : competitiveExams.map((cat) => (
+                                <TableRow key={cat.id}>
+                                    <TableCell>{cat.name}</TableCell><TableCell>{cat.order}</TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                    <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
+                                    <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                                    </TableCell>
+                                </TableRow>))}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </div>
+            </div>
+          </CardContent>
+        </Card>
+         <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingCategory ? 'Edit' : 'Add'} Category</DialogTitle>
+            <DialogDescription>
+              {editingCategory ? 'Update the details for this category.' : 'Create a new category for the homepage.'}
+            </DialogDescription>
+          </DialogHeader>
+          <ExamCategoryForm category={editingCategory} onSuccess={handleSuccess} />
+        </DialogContent>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete the category: <span className="font-semibold">{deletingCategory?.name}</span>. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </Dialog>
+  );
+}

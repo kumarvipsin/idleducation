@@ -221,6 +221,18 @@ export async function getGalleryImages() {
     }
 }
 
+export async function getExamCategories() {
+    try {
+        const categoriesQuery = query(collection(db, "examCategories"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(categoriesQuery);
+        const categories = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: categories };
+    } catch (error) {
+        console.error("Error fetching exam categories:", error);
+        return { success: false, message: "Failed to fetch exam categories." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {

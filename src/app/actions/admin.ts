@@ -368,7 +368,6 @@ export async function deleteExcellenceResult(id: string) {
     }
 }
 
-
 // Gallery Management
 export async function addGalleryImage(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
@@ -413,5 +412,75 @@ export async function deleteGalleryImage(id: string) {
     } catch (error) {
         console.error("Error deleting gallery image:", error);
         return { success: false, message: "Failed to delete image." };
+    }
+}
+
+// Exam Category Management
+export async function addExamCategory(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+
+  const categoryData = {
+    name: rawData.name as string,
+    href: rawData.href as string,
+    group: rawData.group as 'school' | 'competitive',
+    order: parseInt(rawData.order as string, 10) || 99,
+  };
+
+  try {
+    let imageUrl = '';
+    if (imageFile && imageFile.size > 0) {
+      const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
+      imageUrl = await uploadFileToGCS(imageFile, destination);
+    }
+    
+    await addDoc(collection(db, "examCategories"), {
+      ...categoryData,
+      imageUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Exam category added successfully." };
+  } catch (error) {
+    console.error("Error adding exam category:", error);
+    return { success: false, message: "Failed to add exam category." };
+  }
+}
+
+export async function editExamCategory(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const imageFile = rawData.image as File | null;
+
+    const categoryData: any = {
+      name: rawData.name as string,
+      href: rawData.href as string,
+      group: rawData.group as 'school' | 'competitive',
+      order: parseInt(rawData.order as string, 10) || 99,
+    };
+    
+    try {
+        if (imageFile && imageFile.size > 0) {
+            const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
+            categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+
+        const docRef = doc(db, "examCategories", id);
+        await updateDoc(docRef, categoryData);
+        
+        return { success: true, message: "Exam category updated successfully." };
+    } catch (error) {
+        console.error("Error updating exam category:", error);
+        return { success: false, message: "Failed to update exam category." };
+    }
+}
+
+export async function deleteExamCategory(id: string) {
+    try {
+        const docRef = doc(db, "examCategories", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Exam category deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting exam category:", error);
+        return { success: false, message: "Failed to delete exam category." };
     }
 }
