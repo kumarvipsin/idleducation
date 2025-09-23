@@ -272,7 +272,7 @@ const solutionsByClass: { [key: string]: Note[] } = {
     {
         title: "Political Science",
         gradient: "from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30",
-        buttons: [{ text: "VIEW MORE", href: "/resources/ncert-solutions/political-science-details" }],
+        buttons: [{ text: "VIEW MORE", href: "/resources/ncert-solutions/class-12-polsci" }],
         icon: <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
     },
     {
