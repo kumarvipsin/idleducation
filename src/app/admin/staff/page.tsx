@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
@@ -88,7 +89,8 @@ export default function AdminStaffPage() {
     
     // Simulating API call for user creation. 
     // The extra details would be saved in a separate firestore call.
-    const result = await signUpUser({ name: data.name, email: data.email, password: data.password, role: 'teacher' }); // Using 'teacher' role as a placeholder for staff
+    // NOTE: For now, we are using the 'teacher' role as a placeholder for staff in the signUpUser function.
+    const result = await signUpUser({ name: data.name, email: data.email, password: data.password, role: 'teacher' }); 
 
     if (result.success) {
       toast({
