@@ -233,6 +233,18 @@ export async function getExamCategories() {
     }
 }
 
+export async function getTeamMembers() {
+    try {
+        const teamQuery = query(collection(db, "teamMembers"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(teamQuery);
+        const members = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: members };
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        return { success: false, message: "Failed to fetch team members." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {

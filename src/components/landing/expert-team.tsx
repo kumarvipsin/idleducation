@@ -1,74 +1,29 @@
 
 'use client';
 
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/language-context";
-import { Facebook, Twitter, Instagram } from "lucide-react";
-import Link from "next/link";
 import { TeacherCard } from "./teacher-card";
+import { getTeamMembers } from "@/app/actions";
+import type { TTeamMember } from "@/app/actions/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ExpertTeam() {
   const { t } = useLanguage();
+  const [teamMembers, setTeamMembers] = useState<TTeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const teamMembers = [
-    {
-        name: t('team.member5.name'),
-        designation: t('team.member5.designation'),
-        experience: t('team.member5.experience'),
-        avatar: "https://picsum.photos/seed/t1/400/500",
-        avatarHint: "male professional"
-    },
-    {
-        name: t('team.member2.name'),
-        designation: t('team.member2.designation'),
-        experience: t('team.member2.experience'),
-        avatar: "https://picsum.photos/seed/t2/400/500",
-        avatarHint: "male teacher"
-    },
-    {
-        name: t('team.member4.name'),
-        designation: t('team.member4.designation'),
-        experience: t('team.member4.experience'),
-        avatar: "https://picsum.photos/seed/t3/400/500",
-        avatarHint: "female teacher"
-    },
-    {
-        name: t('team.member3.name'),
-        designation: t('team.member3.designation'),
-        experience: t('team.member3.experience'),
-        avatar: "https://picsum.photos/seed/t4/400/500",
-        avatarHint: "male professional"
-    },
-    {
-        name: t('team.member1.name'),
-        designation: t('team.member1.designation'),
-        experience: t('team.member1.experience'),
-        avatar: "https://picsum.photos/seed/t5/400/500",
-        avatarHint: "male teacher"
-    },
-    {
-        name: t('team.member6.name'),
-        designation: t('team.member6.designation'),
-        experience: t('team.member6.experience'),
-        avatar: "https://picsum.photos/seed/t6/400/500",
-        avatarHint: "male teacher"
-    },
-    {
-        name: "Nikhil Sharma",
-        designation: "Marketing Head",
-        experience: "7+ Years of Experience",
-        avatar: "https://picsum.photos/seed/t7/400/500",
-        avatarHint: "male professional"
-    },
-    {
-        name: "Nishu Sharma",
-        designation: "Operations Head",
-        experience: "6+ Years of Experience",
-        avatar: "https://picsum.photos/seed/t8/400/500",
-        avatarHint: "female professional"
-    }
-  ];
+  useEffect(() => {
+    const fetchTeam = async () => {
+      setLoading(true);
+      const result = await getTeamMembers();
+      if (result.success && result.data) {
+        setTeamMembers(result.data as TTeamMember[]);
+      }
+      setLoading(false);
+    };
+    fetchTeam();
+  }, []);
 
   return (
     <section className="w-full py-8 md:py-16">
@@ -79,11 +34,24 @@ export function ExpertTeam() {
             The power of an organisation is its team. We believe that great teams build great organisations.
           </p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {teamMembers.map((member, index) => (
-              <TeacherCard key={index} {...member} />
-            ))}
-          </div>
+        {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
+            </div>
+        ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                {teamMembers.map((member) => (
+                  <TeacherCard 
+                    key={member.id} 
+                    name={member.name}
+                    designation={member.designation}
+                    experience={member.experience}
+                    avatar={member.avatarUrl}
+                    avatarHint={`${member.name} photo`}
+                  />
+                ))}
+            </div>
+        )}
       </div>
     </section>
   );

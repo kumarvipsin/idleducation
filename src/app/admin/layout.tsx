@@ -197,6 +197,14 @@ function AdminLayout({
                 </SidebarMenuButton>
               </SidebarMenuItem>
                <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
+                  <Link href="/admin/team">
+                    <Users />
+                    <span>Team Members</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                   <Link href="/admin/users">
                     <GraduationCap />

@@ -484,3 +484,75 @@ export async function deleteExamCategory(id: string) {
         return { success: false, message: "Failed to delete exam category." };
     }
 }
+
+// Team Member Management
+export async function addTeamMember(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const avatarFile = rawData.avatar as File | null;
+  
+  const memberData = {
+    name: rawData.name as string,
+    designation: rawData.designation as string,
+    experience: rawData.experience as string,
+    order: parseInt(rawData.order as string, 10) || 99,
+  };
+
+  try {
+    let avatarUrl = '';
+    if (avatarFile && avatarFile.size > 0) {
+      const destination = `team-members/${Date.now()}-${avatarFile.name}`;
+      avatarUrl = await uploadFileToGCS(avatarFile, destination);
+    } else {
+        return { success: false, message: "Avatar image is required." };
+    }
+    
+    await addDoc(collection(db, "teamMembers"), {
+      ...memberData,
+      avatarUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Team member added successfully." };
+  } catch (error) {
+    console.error("Error adding team member:", error);
+    return { success: false, message: "Failed to add team member." };
+  }
+}
+
+export async function editTeamMember(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const avatarFile = rawData.avatar as File | null;
+
+    const memberData: any = {
+      name: rawData.name as string,
+      designation: rawData.designation as string,
+      experience: rawData.experience as string,
+      order: parseInt(rawData.order as string, 10) || 99,
+    };
+    
+    try {
+        if (avatarFile && avatarFile.size > 0) {
+            const destination = `team-members/${Date.now()}-${avatarFile.name}`;
+            memberData.avatarUrl = await uploadFileToGCS(avatarFile, destination);
+        }
+
+        const docRef = doc(db, "teamMembers", id);
+        await updateDoc(docRef, memberData);
+        
+        return { success: true, message: "Team member updated successfully." };
+    } catch (error) {
+        console.error("Error updating team member:", error);
+        return { success: false, message: "Failed to update team member." };
+    }
+}
+
+export async function deleteTeamMember(id: string) {
+    try {
+        const docRef = doc(db, "teamMembers", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Team member deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting team member:", error);
+        return { success: false, message: "Failed to delete team member." };
+    }
+}

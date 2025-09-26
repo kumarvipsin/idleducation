@@ -101,3 +101,13 @@ export interface TExamCategory {
   imageUrl?: string;
   createdAt: string;
 }
+
+export interface TTeamMember {
+  id: string;
+  name: string;
+  designation: string;
+  experience: string;
+  avatarUrl: string;
+  order: number;
+  createdAt: string;
+}
