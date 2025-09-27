@@ -596,5 +596,3 @@ export async function deleteTeamMember(id: string) {
         return { success: false, message: "Failed to delete team member." };
     }
 }
-
-    

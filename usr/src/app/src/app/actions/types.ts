@@ -112,5 +112,3 @@ export interface TTeamMember {
   order: number;
   createdAt: string;
 }
-
-    
