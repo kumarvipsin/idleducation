@@ -10,7 +10,7 @@ import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageCircle, Tag,
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useLanguage } from '@/context/language-context';
@@ -19,11 +19,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getExamCategories } from '@/app/actions/data';
+import type { TExamCategory } from '@/app/actions/types';
+import { Skeleton } from '@/components/ui/skeleton';
 
-
-const classes = [
-  'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
-];
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -472,8 +471,11 @@ const syllabusData: any = {
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const classParam = searchParams.get('class');
   const [activeClass, setActiveClass] = useState('Class 8');
+  const [classes, setClasses] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
@@ -481,6 +483,29 @@ function SchoolPageContent() {
   const autoplayPlugin = useRef(
     Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
+
+  useEffect(() => {
+    const fetchSchoolExams = async () => {
+      setLoading(true);
+      const result = await getExamCategories();
+      if (result.success && result.data) {
+        const schoolExams = (result.data as TExamCategory[])
+          .filter(cat => cat.group === 'school')
+          .sort((a, b) => (a.order || 99) - (b.order || 99))
+          .map(cat => cat.name);
+        setClasses(schoolExams);
+        if (schoolExams.length > 0) {
+          const initialClass = classParam && schoolExams.includes(classParam) 
+            ? classParam 
+            : schoolExams.find(c => c.includes('8')) || schoolExams[0];
+          setActiveClass(initialClass);
+        }
+      }
+      setLoading(false);
+    };
+    fetchSchoolExams();
+  }, [classParam]);
+
 
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
@@ -531,11 +556,10 @@ function SchoolPageContent() {
     }
   ];
 
-  useEffect(() => {
-    if (classParam && classes.includes(classParam)) {
-      setActiveClass(classParam);
-    }
-  }, [classParam]);
+  const handleClassChange = (className: string) => {
+    setActiveClass(className);
+    router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
+  };
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
@@ -556,18 +580,22 @@ function SchoolPageContent() {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-            {classes.map((className) => (
-              <button
-                key={className}
-                onClick={() => setActiveClass(className)}
-                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                  ${activeClass === className 
-                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-              >
-                {className}
-              </button>
-            ))}
+            {loading ? (
+              [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+            ) : (
+              classes.map((className) => (
+                <button
+                  key={className}
+                  onClick={() => handleClassChange(className)}
+                  className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                    ${activeClass === className 
+                      ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                >
+                  {className}
+                </button>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -1223,5 +1251,7 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
+    
 
     
