@@ -51,6 +51,7 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { GcsImage } from "@/components/gcs-image";
+import { ImageCropper } from "@/components/image-cropper";
 
 interface User {
   id: string;
@@ -84,7 +85,9 @@ type TeacherFormValues = z.infer<typeof teacherSchema>;
 const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess: () => void }) => {
   const { toast } = useToast();
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const photoInputRef = useRef<HTMLInputElement>(null);
+  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const form = useForm<TeacherFormValues>({
     resolver: zodResolver(teacherSchema),
@@ -100,6 +103,24 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
     },
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+        setIsCropperOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const onImageCropped = (croppedImageFile: File) => {
+      setCroppedPhoto(croppedImageFile);
+      setPhotoPreview(URL.createObjectURL(croppedImageFile)); // Update preview to cropped image
+  };
+
+
   const onSubmit: SubmitHandler<TeacherFormValues> = async (data) => {
     let result;
     const formData = new FormData();
@@ -110,9 +131,8 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
       }
     });
 
-    const photoFile = photoInputRef.current?.files?.[0];
-    if (photoFile) {
-      formData.append('photo', photoFile);
+    if (croppedPhoto) {
+      formData.append('photo', croppedPhoto);
     }
     
     if (teacher) { // Editing
@@ -128,7 +148,7 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
           twitter: twitter || '',
         }
       };
-      result = await signUpUser(teacherData, photoFile);
+      result = await signUpUser(teacherData, croppedPhoto);
     }
     
     if (result.success) {
@@ -147,55 +167,61 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <ScrollArea className="h-96 w-full pr-4">
-          <div className="space-y-4">
-            <FormItem>
-              <FormLabel>Profile Photo</FormLabel>
-              <div className="flex items-center gap-4">
-                <Avatar className="h-20 w-20">
-                  {photoPreview ? (
-                    <AvatarImage src={photoPreview} />
-                  ) : teacher?.photoURL ? (
-                    <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={80} height={80} className="rounded-full object-cover" />
-                  ) : null}
-                  <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
-                </Avatar>
-                <FormControl>
-                  <Input type="file" accept="image/*" ref={photoInputRef} onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if(file) setPhotoPreview(URL.createObjectURL(file));
-                    else setPhotoPreview(null);
-                  }}/>
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-            <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Jane Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="teacher@example.com" {...field} disabled={!!teacher} /></FormControl><FormMessage /></FormItem> )} />
-            {!teacher && (
-              <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            )}
-            <FormField control={form.control} name="designation" render={({ field }) => ( <FormItem><FormLabel>Designation</FormLabel><FormControl><Input placeholder="e.g., Senior Maths Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="experience" render={({ field }) => ( <FormItem><FormLabel>Experience</FormLabel><FormControl><Input placeholder="e.g., 10+ Years of Experience" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            
-            <h3 className="text-sm font-medium">Social Media Links (Optional)</h3>
-            <FormField control={form.control} name="instagram" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Instagram className="h-4 w-4"/> Instagram</FormLabel><FormControl><Input placeholder="https://instagram.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="facebook" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Facebook className="h-4 w-4"/> Facebook</FormLabel><FormControl><Input placeholder="https://facebook.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="twitter" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Twitter className="h-4 w-4"/> Twitter</FormLabel><FormControl><Input placeholder="https://twitter.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? 'Saving...' : 'Save Changes'}
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <ScrollArea className="h-96 w-full pr-4">
+            <div className="space-y-4">
+              <FormItem>
+                <FormLabel>Profile Photo</FormLabel>
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-20 w-20">
+                    {photoPreview ? (
+                      <AvatarImage src={photoPreview} />
+                    ) : teacher?.photoURL ? (
+                      <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={80} height={80} className="rounded-full object-cover" />
+                    ) : null}
+                    <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                  </Avatar>
+                  <FormControl>
+                    <Input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+              <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Jane Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="teacher@example.com" {...field} disabled={!!teacher} /></FormControl><FormMessage /></FormItem> )} />
+              {!teacher && (
+                <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              )}
+              <FormField control={form.control} name="designation" render={({ field }) => ( <FormItem><FormLabel>Designation</FormLabel><FormControl><Input placeholder="e.g., Senior Maths Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="experience" render={({ field }) => ( <FormItem><FormLabel>Experience</FormLabel><FormControl><Input placeholder="e.g., 10+ Years of Experience" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              
+              <h3 className="text-sm font-medium">Social Media Links (Optional)</h3>
+              <FormField control={form.control} name="instagram" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Instagram className="h-4 w-4"/> Instagram</FormLabel><FormControl><Input placeholder="https://instagram.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="facebook" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Facebook className="h-4 w-4"/> Facebook</FormLabel><FormControl><Input placeholder="https://facebook.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="twitter" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Twitter className="h-4 w-4"/> Twitter</FormLabel><FormControl><Input placeholder="https://twitter.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            </div>
+          </ScrollArea>
+          <DialogFooter>
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </DialogFooter>
+        </form>
+      </Form>
+      <ImageCropper 
+        isOpen={isCropperOpen} 
+        onClose={() => setIsCropperOpen(false)} 
+        imageSrc={photoPreview} 
+        onImageCropped={onImageCropped} 
+        aspectRatio={1} // Square aspect ratio for profile photos
+      />
+    </>
   )
 }
 
+// ... rest of the AdminTeachersPage component remains the same
 export default function AdminTeachersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);

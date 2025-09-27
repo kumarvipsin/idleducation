@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
+import { ImageCropper } from '@/components/image-cropper';
 
 interface User {
   id: string;
@@ -40,13 +41,16 @@ const ExamCategoryForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
-  const [preview, setPreview] = useState<string | null>(null);
+  
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
 
   useEffect(() => {
-    // This effect synchronizes the internal state with the `category` prop
     setSelectedGroup(category?.group);
     setSelectedTeacherIds(category?.teacherIds || []);
-    setPreview(category?.imageUrl || null);
+    setPhotoPreview(null);
+    setCroppedPhoto(null);
   }, [category]);
 
 
@@ -59,6 +63,10 @@ const ExamCategoryForm = ({
     selectedTeacherIds.forEach(id => {
       formData.append('teacherIds[]', id);
     });
+    
+    if (croppedPhoto) {
+        formData.append('image', croppedPhoto);
+    }
 
     const apiCall = category
       ? editExamCategory(category.id, formData)
@@ -69,10 +77,6 @@ const ExamCategoryForm = ({
     if (apiResult.success) {
       toast({ title: 'Success', description: apiResult.message });
       onSuccess();
-      formRef.current?.reset();
-      setSelectedGroup(undefined);
-      setSelectedTeacherIds([]);
-      setPreview(null);
     } else {
       toast({ variant: 'destructive', title: 'Error', description: apiResult.message });
     }
@@ -90,77 +94,98 @@ const ExamCategoryForm = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+        setIsCropperOpen(true);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
+  const onImageCropped = (croppedImageFile: File) => {
+    setCroppedPhoto(croppedImageFile);
+    setPhotoPreview(URL.createObjectURL(croppedImageFile));
+  };
+
   return (
-    <form ref={formRef} onSubmit={handleSubmit}>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">Name</Label>
-          <Input id="name" name="name" defaultValue={category?.name} className="col-span-3" required/>
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="group" className="text-right">Group</Label>
-           <Select name="group" defaultValue={category?.group} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive')}>
-              <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select a group" />
-              </SelectTrigger>
-              <SelectContent>
-                  <SelectItem value="school">School Exams</SelectItem>
-                  <SelectItem value="competitive">Competitive Exams</SelectItem>
-              </SelectContent>
-          </Select>
-        </div>
-        {selectedGroup === 'school' && (
-          <>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="teachers" className="text-right">Teachers</Label>
-              <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="col-span-3 justify-between">
-                          <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
-                          <Users className="ml-2 h-4 w-4 text-muted-foreground" />
-                      </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
-                      <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
-                      <ScrollArea className="h-48">
-                          {teachers.map(teacher => (
-                              <DropdownMenuCheckboxItem
-                                  key={teacher.id}
-                                  checked={selectedTeacherIds.includes(teacher.id)}
-                                  onCheckedChange={() => handleTeacherSelection(teacher.id)}
-                                  onSelect={(e) => e.preventDefault()}
-                              >
-                                  {teacher.name}
-                              </DropdownMenuCheckboxItem>
-                          ))}
-                      </ScrollArea>
-                  </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">Image</Label>
-              <div className="col-span-3 flex items-center gap-4">
-                {preview ? <Image src={preview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
-                <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
+    <>
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">Name</Label>
+            <Input id="name" name="name" defaultValue={category?.name} className="col-span-3" required/>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="group" className="text-right">Group</Label>
+            <Select name="group" value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive')}>
+                <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a group" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="school">School Exams</SelectItem>
+                    <SelectItem value="competitive">Competitive Exams</SelectItem>
+                </SelectContent>
+            </Select>
+          </div>
+          {selectedGroup === 'school' && (
+            <>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="teachers" className="text-right">Teachers</Label>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="col-span-3 justify-between">
+                            <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
+                            <Users className="ml-2 h-4 w-4 text-muted-foreground" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
+                        <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
+                        <ScrollArea className="h-48">
+                            {teachers.map(teacher => (
+                                <DropdownMenuCheckboxItem
+                                    key={teacher.id}
+                                    checked={selectedTeacherIds.includes(teacher.id)}
+                                    onCheckedChange={() => handleTeacherSelection(teacher.id)}
+                                    onSelect={(e) => e.preventDefault()}
+                                >
+                                    {teacher.name}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </ScrollArea>
+                    </DropdownMenuContent>
+                </DropdownMenu>
               </div>
-            </div>
-          </>
-        )}
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="order" className="text-right">Order</Label>
-          <Input id="order" name="order" type="number" defaultValue={category?.order ?? 99} className="col-span-3" />
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="image" className="text-right">Image</Label>
+                <div className="col-span-3 flex items-center gap-4">
+                    {photoPreview ? <Image src={photoPreview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> 
+                    : category?.imageUrl ? <GcsImage filePath={category.imageUrl} alt={category.name} width={64} height={36} className="rounded-md object-cover aspect-video" /> 
+                    : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+                  <Input id="image" name="imageFile" type="file" onChange={handleFileChange} className="col-span-3" />
+                </div>
+              </div>
+            </>
+          )}
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="order" className="text-right">Order</Label>
+            <Input id="order" name="order" type="number" defaultValue={category?.order ?? 99} className="col-span-3" />
+          </div>
         </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Save changes'}
-        </Button>
-      </DialogFooter>
-    </form>
+        <DialogFooter>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save changes'}
+          </Button>
+        </DialogFooter>
+      </form>
+      <ImageCropper 
+        isOpen={isCropperOpen} 
+        onClose={() => setIsCropperOpen(false)} 
+        imageSrc={photoPreview} 
+        onImageCropped={onImageCropped} 
+        aspectRatio={16/9}
+      />
+    </>
   );
 };
 
@@ -223,7 +248,10 @@ export default function AdminExamCategoriesPage() {
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+      if (!isOpen) setEditingCategory(null);
+      setIsDialogOpen(isOpen);
+    }}>
        <AlertDialog open={!!deletingCategory} onOpenChange={(isOpen) => !isOpen && setDeletingCategory(null)}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
