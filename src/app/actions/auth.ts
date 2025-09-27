@@ -5,6 +5,7 @@ import { z } from "zod";
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc } from "firebase/firestore";
+import { uploadFileToGCS } from '@/lib/gcs';
 
 import { serializeFirestoreData } from './utils';
 
@@ -109,28 +110,43 @@ const signupSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email(),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
-  role: z.enum(['student', 'teacher'])
+  role: z.enum(['student', 'teacher']),
+  designation: z.string().optional(),
+  experience: z.string().optional(),
+  socialLinks: z.object({
+    instagram: z.string().optional(),
+    facebook: z.string().optional(),
+    twitter: z.string().optional(),
+  }).optional(),
 });
 type SignupValues = z.infer<typeof signupSchema>;
 
-export async function signUpUser(data: SignupValues) {
+export async function signUpUser(data: SignupValues, photoFile?: File | null) {
   const validation = signupSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, message: "Invalid input." };
   }
 
-  const { name, email, password, role } = validation.data;
+  const { name, email, password, role, ...extraData } = validation.data;
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
+
+    let photoURL = '';
+    if (photoFile && photoFile.size > 0) {
+      const destination = `teacher_photos/${user.uid}-${photoFile.name}`;
+      photoURL = await uploadFileToGCS(photoFile, destination);
+    }
 
     const userDocData: any = {
       name: name,
       email: email,
       role: role,
       createdAt: serverTimestamp(),
-      status: 'pending', 
+      status: 'pending',
+      photoURL: photoURL,
+      ...extraData,
     };
 
     if (role === 'student') {

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,6 +48,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 interface User {
   id: string;
@@ -55,25 +57,50 @@ interface User {
   email: string;
   role: 'student' | 'teacher';
   status: 'pending' | 'approved' | 'inactive';
+  photoURL?: string;
+  designation?: string;
+  experience?: string;
 }
 
 const addTeacherSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  designation: z.string().min(2, { message: "Designation is required." }),
+  experience: z.string().min(2, { message: "Experience is required." }),
+  instagram: z.string().url().optional().or(z.literal('')),
+  facebook: z.string().url().optional().or(z.literal('')),
+  twitter: z.string().url().optional().or(z.literal('')),
 });
 type AddTeacherValues = z.infer<typeof addTeacherSchema>;
 
 
 const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { toast } = useToast();
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+  
   const form = useForm<AddTeacherValues>({
     resolver: zodResolver(addTeacherSchema),
-    defaultValues: { name: '', email: '', password: '' },
+    defaultValues: { name: '', email: '', password: '', designation: '', experience: '', instagram: '', facebook: '', twitter: '' },
   });
 
   const onSubmit: SubmitHandler<AddTeacherValues> = async (data) => {
-    const result = await signUpUser({ ...data, role: 'teacher' });
+    const { instagram, facebook, twitter, ...restOfData } = data;
+    const teacherData = {
+      ...restOfData,
+      role: 'teacher' as const,
+      socialLinks: {
+        instagram: instagram || '',
+        facebook: facebook || '',
+        twitter: twitter || '',
+      }
+    };
+    
+    const photoFile = photoInputRef.current?.files?.[0];
+
+    const result = await signUpUser(teacherData, photoFile);
+    
     if (result.success) {
       toast({
         title: "Teacher Added",
@@ -92,45 +119,37 @@ const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
+        <ScrollArea className="h-96 w-full pr-4">
+          <div className="space-y-4">
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Jane Doe" {...field} />
-              </FormControl>
+              <FormLabel>Profile Photo</FormLabel>
+              <div className="flex items-center gap-4">
+                <Avatar className="h-20 w-20">
+                  <AvatarImage src={photoPreview ?? undefined} />
+                  <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                </Avatar>
+                <FormControl>
+                  <Input type="file" accept="image/*" ref={photoInputRef} onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if(file) setPhotoPreview(URL.createObjectURL(file));
+                    else setPhotoPreview(null);
+                  }}/>
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="teacher@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Jane Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="teacher@example.com" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="designation" render={({ field }) => ( <FormItem><FormLabel>Designation</FormLabel><FormControl><Input placeholder="e.g., Senior Maths Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="experience" render={({ field }) => ( <FormItem><FormLabel>Experience</FormLabel><FormControl><Input placeholder="e.g., 10+ Years of Experience" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            
+            <h3 className="text-sm font-medium">Social Media Links (Optional)</h3>
+            <FormField control={form.control} name="instagram" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Instagram className="h-4 w-4"/> Instagram</FormLabel><FormControl><Input placeholder="https://instagram.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="facebook" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Facebook className="h-4 w-4"/> Facebook</FormLabel><FormControl><Input placeholder="https://facebook.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="twitter" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Twitter className="h-4 w-4"/> Twitter</FormLabel><FormControl><Input placeholder="https://twitter.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
+          </div>
+        </ScrollArea>
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? 'Adding...' : 'Add Teacher'}
@@ -241,7 +260,8 @@ export default function AdminTeachersPage() {
                     <TableHeader>
                     <TableRow>
                         <TableHead>Teacher Name</TableHead>
-                        <TableHead>Email</TableHead>
+                        <TableHead>Designation</TableHead>
+                        <TableHead>Experience</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -249,8 +269,18 @@ export default function AdminTeachersPage() {
                     <TableBody>
                     {teachers.map((teacher) => (
                         <TableRow key={teacher.id}>
-                        <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
-                        <TableCell>{teacher.email}</TableCell>
+                        <TableCell className="font-medium flex items-center gap-2">
+                           <Avatar>
+                             <AvatarImage src={teacher.photoURL} alt={teacher.name} />
+                             <AvatarFallback>{teacher.name.charAt(0)}</AvatarFallback>
+                           </Avatar>
+                           <div>
+                             <p>{teacher.name}</p>
+                             <p className="text-xs text-muted-foreground">{teacher.email}</p>
+                           </div>
+                        </TableCell>
+                        <TableCell>{teacher.designation || 'N/A'}</TableCell>
+                        <TableCell>{teacher.experience || 'N/A'}</TableCell>
                         <TableCell>
                             <Badge variant={getBadgeVariant(teacher.status)} className="capitalize">
                             {teacher.status}
