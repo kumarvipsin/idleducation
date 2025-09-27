@@ -10,13 +10,13 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { GcsImage } from '@/components/gcs-image';
 
 const ExcellenceResultForm = ({
   result,
@@ -27,7 +27,7 @@ const ExcellenceResultForm = ({
 }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [preview, setPreview] = useState<string | null>(result?.imageUrl || null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,7 +70,9 @@ const ExcellenceResultForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="image" className="text-right">Image</Label>
           <div className="col-span-3 flex items-center gap-4">
-            {preview && <Image src={preview} alt="Image Preview" width={64} height={64} className="rounded-md object-cover" />}
+            {preview ? <Image src={preview} alt="Image Preview" width={64} height={64} className="rounded-md object-cover" /> 
+            : result?.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={64} height={64} className="rounded-md object-cover" />
+            : <div className="w-16 h-16 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
             <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
           </div>
         </div>
@@ -163,10 +165,9 @@ export default function AdminExcellenceResultsPage() {
                     results.sort((a,b) => a.order - b.order).map((result) => (
                       <TableRow key={result.id}>
                         <TableCell>
-                          <Avatar>
-                            <AvatarImage src={result.imageUrl} alt={result.categoryName} />
-                            <AvatarFallback>{result.categoryName.charAt(0)}</AvatarFallback>
-                          </Avatar>
+                          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-muted overflow-hidden">
+                            {result.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={40} height={40} className="object-cover" /> : <ImageIcon className="w-4 h-4 text-muted-foreground"/>}
+                          </div>
                         </TableCell>
                         <TableCell>{result.categoryName}</TableCell>
                         <TableCell>{result.order}</TableCell>
