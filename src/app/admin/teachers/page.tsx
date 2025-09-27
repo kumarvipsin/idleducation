@@ -103,11 +103,18 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
     let result;
     if (teacher) { // Editing
       const formData = new FormData();
+      // Manually append all form data
       Object.entries(data).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
+        if (value) {
+            formData.append(key, value);
+        }
       });
+
       const photoFile = photoInputRef.current?.files?.[0];
-      if (photoFile) formData.append('photo', photoFile);
+      if (photoFile) {
+        formData.append('photo', photoFile);
+      }
+      
       result = await editTeacher(teacher.id, formData);
 
     } else { // Adding
