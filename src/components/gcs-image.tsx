@@ -1,9 +1,11 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import { getSignedUrlForPdf } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 interface GcsImageProps {
   filePath: string;
