@@ -23,6 +23,7 @@ import { getExamCategories } from '@/app/actions/data';
 import { getTeachers } from '@/app/actions/user';
 import type { TExamCategory } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GcsImage } from '@/components/gcs-image';
 
 
 const resourceLinks = [
@@ -344,129 +345,145 @@ const class8EnglishSyllabus = {
   ]
 };
 
+const class9MathsSyllabus = {
+    description: "The CBSE Class 9 Maths syllabus lays the groundwork for higher mathematics. It covers number systems, algebra, geometry, and statistics.",
+    chapters: [
+      { name: "Number Systems", topics: ["1.1 Introduction", "1.2 Irrational Numbers", "1.3 Real Numbers and their Decimal Expansions", "1.4 Representing Real Numbers on the Number Line", "1.5 Operations on Real Numbers", "1.6 Laws of Exponents for Real Numbers"] },
+      { name: "Polynomials", topics: ["2.1 Introduction", "2.2 Polynomials in One Variable", "2.3 Zeros of a Polynomial", "2.4 Remainder Theorem", "2.5 Factorisation of Polynomials", "2.6 Algebraic Identities"] },
+    ],
+};
+
+const class9ScienceSyllabus = {
+    description: "Class 9 Science introduces fundamental concepts in Physics, Chemistry, and Biology, building a base for future studies.",
+    chapters: [
+      { name: "Matter in Our Surroundings", topics: [] },
+      { name: "Atoms and Molecules", topics: [] },
+    ],
+};
+
+const class9SocialSyllabus = {
+    description: "The Social Science syllabus for Class 9 covers History, Geography, Political Science, and Economics.",
+    chapters: [
+      { name: "The French Revolution", topics: [] },
+      { name: "India - Size and Location", topics: [] },
+    ],
+};
+
+const class9EnglishSyllabus = {
+    description: "The English syllabus for Class 9 aims to develop strong communication skills through literature and grammar.",
+    chapters: [
+      { name: "The Fun They Had", topics: [] },
+      { name: "The Road Not Taken", topics: [] },
+    ],
+};
+
+const class10MathsSyllabus = {
+    description: "The CBSE Class 10 Maths syllabus is crucial for board examinations, focusing on algebra, geometry, trigonometry, and statistics.",
+    chapters: [
+      { name: "Real Numbers", topics: [] },
+      { name: "Polynomials", topics: [] },
+    ],
+};
+
+const class10ScienceSyllabus = {
+    description: "Class 10 Science covers key topics in Physics, Chemistry, and Biology to prepare students for their board exams.",
+    chapters: [
+      { name: "Chemical Reactions and Equations", topics: [] },
+      { name: "Life Processes", topics: [] },
+    ],
+};
+
+const class10SocialSyllabus = {
+    description: "The Social Science syllabus for Class 10 is designed to give students a comprehensive understanding of historical and contemporary India and the world.",
+    chapters: [
+      { name: "The Rise of Nationalism in Europe", topics: [] },
+      { name: "Resources and Development", topics: [] },
+    ],
+};
+
+const class10EnglishSyllabus = {
+    description: "The English syllabus for Class 10 focuses on enhancing literary comprehension and writing skills for the board exams.",
+    chapters: [
+      { name: "A Letter to God", topics: [] },
+      { name: "Dust of Snow", topics: [] },
+    ],
+};
+
+const class11MathsSyllabus = {
+    description: "The CBSE Class 11 Maths syllabus introduces advanced topics like sets, relations, functions, and calculus.",
+    chapters: [
+      { name: "Sets", topics: [] },
+      { name: "Trigonometric Functions", topics: [] },
+    ],
+};
+
+const class11ScienceSyllabus = {
+    description: "Class 11 Science is divided into Physics, Chemistry, and Biology, each with a detailed and advanced curriculum.",
+    chapters: [
+      { name: "Units and Measurements (Physics)", topics: [] },
+      { name: "Some Basic Concepts of Chemistry (Chemistry)", topics: [] },
+      { name: "The Living World (Biology)", topics: [] },
+    ],
+};
+
+const class11SocialSyllabus = {
+    description: "The Social Science stream in Class 11 includes subjects like History, Geography, Political Science, and Economics.",
+    chapters: [
+      { name: "The Central Islamic Lands (History)", topics: [] },
+      { name: "India - Location (Geography)", topics: [] },
+    ],
+};
+
+const class11EnglishSyllabus = {
+    description: "The English syllabus for Class 11 focuses on advanced literature, comprehension, and writing skills.",
+    chapters: [
+      { name: "The Portrait of a Lady", topics: [] },
+      { name: "A Photograph", topics: [] },
+    ],
+};
+
+const class12MathsSyllabus = {
+    description: "The CBSE Class 12 Maths syllabus is designed for the final board examination, covering topics like calculus, vectors, and probability.",
+    chapters: [
+      { name: "Relations and Functions", topics: [] },
+      { name: "Matrices", topics: [] },
+    ],
+};
+
+const class12ScienceSyllabus = {
+    description: "Class 12 Science includes in-depth study of Physics, Chemistry, and Biology, preparing students for competitive exams.",
+    chapters: [
+      { name: "Electric Charges and Fields (Physics)", topics: [] },
+      { name: "The Solid State (Chemistry)", topics: [] },
+      { name: "Reproduction in Organisms (Biology)", topics: [] },
+    ],
+};
+
+const class12SocialSyllabus = {
+    description: "The Social Science stream in Class 12 covers advanced topics in History, Geography, Political Science, and Economics.",
+    chapters: [
+      { name: "Bricks, Beads and Bones (History)", topics: [] },
+      { name: "Human Geography: Nature and Scope (Geography)", topics: [] },
+    ],
+};
+
+const class12EnglishSyllabus = {
+    description: "The English syllabus for Class 12 is aimed at mastering literary analysis and advanced writing skills for the board exams.",
+    chapters: [
+      { name: "The Last Lesson", topics: [] },
+      { name: "My Mother at Sixty-Six", topics: [] },
+    ],
+};
+
 const syllabusData: any = {
-    'Class 9': {
-      maths: {
-        description: "The CBSE Class 9 Maths syllabus lays the groundwork for higher mathematics. It covers number systems, algebra, geometry, and statistics.",
-        chapters: [
-          { name: "Number Systems", topics: ["1.1 Introduction", "1.2 Irrational Numbers", "1.3 Real Numbers and their Decimal Expansions", "1.4 Representing Real Numbers on the Number Line", "1.5 Operations on Real Numbers", "1.6 Laws of Exponents for Real Numbers"] },
-          { name: "Polynomials", topics: ["2.1 Introduction", "2.2 Polynomials in One Variable", "2.3 Zeros of a Polynomial", "2.4 Remainder Theorem", "2.5 Factorisation of Polynomials", "2.6 Algebraic Identities"] },
-        ],
-      },
-      science: {
-        description: "Class 9 Science introduces fundamental concepts in Physics, Chemistry, and Biology, building a base for future studies.",
-        chapters: [
-          { name: "Matter in Our Surroundings", topics: [] },
-          { name: "Atoms and Molecules", topics: [] },
-        ],
-      },
-      social: {
-        description: "The Social Science syllabus for Class 9 covers History, Geography, Political Science, and Economics.",
-        chapters: [
-          { name: "The French Revolution", topics: [] },
-          { name: "India - Size and Location", topics: [] },
-        ],
-      },
-      english: {
-        description: "The English syllabus for Class 9 aims to develop strong communication skills through literature and grammar.",
-        chapters: [
-          { name: "The Fun They Had", topics: [] },
-          { name: "The Road Not Taken", topics: [] },
-        ],
-      },
-    },
-    'Class 10': {
-       maths: {
-        description: "The CBSE Class 10 Maths syllabus is crucial for board examinations, focusing on algebra, geometry, trigonometry, and statistics.",
-        chapters: [
-          { name: "Real Numbers", topics: [] },
-          { name: "Polynomials", topics: [] },
-        ],
-      },
-      science: {
-        description: "Class 10 Science covers key topics in Physics, Chemistry, and Biology to prepare students for their board exams.",
-        chapters: [
-          { name: "Chemical Reactions and Equations", topics: [] },
-          { name: "Life Processes", topics: [] },
-        ],
-      },
-       social: {
-        description: "The Social Science syllabus for Class 10 is designed to give students a comprehensive understanding of historical and contemporary India and the world.",
-        chapters: [
-          { name: "The Rise of Nationalism in Europe", topics: [] },
-          { name: "Resources and Development", topics: [] },
-        ],
-      },
-      english: {
-        description: "The English syllabus for Class 10 focuses on enhancing literary comprehension and writing skills for the board exams.",
-        chapters: [
-          { name: "A Letter to God", topics: [] },
-          { name: "Dust of Snow", topics: [] },
-        ],
-      },
-    },
-     'Class 11': {
-       maths: {
-        description: "The CBSE Class 11 Maths syllabus introduces advanced topics like sets, relations, functions, and calculus.",
-        chapters: [
-          { name: "Sets", topics: [] },
-          { name: "Trigonometric Functions", topics: [] },
-        ],
-      },
-      science: {
-        description: "Class 11 Science is divided into Physics, Chemistry, and Biology, each with a detailed and advanced curriculum.",
-        chapters: [
-          { name: "Units and Measurements (Physics)", topics: [] },
-          { name: "Some Basic Concepts of Chemistry (Chemistry)", topics: [] },
-          { name: "The Living World (Biology)", topics: [] },
-        ],
-      },
-       social: {
-        description: "The Social Science stream in Class 11 includes subjects like History, Geography, Political Science, and Economics.",
-        chapters: [
-          { name: "The Central Islamic Lands (History)", topics: [] },
-          { name: "India - Location (Geography)", topics: [] },
-        ],
-      },
-       english: {
-        description: "The English syllabus for Class 11 focuses on advanced literature, comprehension, and writing skills.",
-        chapters: [
-          { name: "The Portrait of a Lady", topics: [] },
-          { name: "A Photograph", topics: [] },
-        ],
-      },
-    },
-     'Class 12': {
-       maths: {
-        description: "The CBSE Class 12 Maths syllabus is designed for the final board examination, covering topics like calculus, vectors, and probability.",
-        chapters: [
-          { name: "Relations and Functions", topics: [] },
-          { name: "Matrices", topics: [] },
-        ],
-      },
-      science: {
-        description: "Class 12 Science includes in-depth study of Physics, Chemistry, and Biology, preparing students for competitive exams.",
-        chapters: [
-          { name: "Electric Charges and Fields (Physics)", topics: [] },
-          { name: "The Solid State (Chemistry)", topics: [] },
-          { name: "Reproduction in Organisms (Biology)", topics: [] },
-        ],
-      },
-       social: {
-        description: "The Social Science stream in Class 12 covers advanced topics in History, Geography, Political Science, and Economics.",
-        chapters: [
-          { name: "Bricks, Beads and Bones (History)", topics: [] },
-          { name: "Human Geography: Nature and Scope (Geography)", topics: [] },
-        ],
-      },
-       english: {
-        description: "The English syllabus for Class 12 is aimed at mastering literary analysis and advanced writing skills for the board exams.",
-        chapters: [
-          { name: "The Last Lesson", topics: [] },
-          { name: "My Mother at Sixty-Six", topics: [] },
-        ],
-      },
-    }
+    'Class 5': { maths: class5MathsSyllabus, science: class5EvsSyllabus, social: {}, english: class5EnglishSyllabus },
+    'Class 6': { maths: class6MathsSyllabus, science: class6ScienceSyllabus, social: class6SocialScienceSyllabus, english: class6EnglishSyllabus },
+    'Class 7': { maths: class7MathsSyllabus, science: class7ScienceSyllabus, social: class7SocialScienceSyllabus, english: class7EnglishSyllabus },
+    'Class 8': { maths: class8MathsSyllabus, science: class8ScienceSyllabus, social: class8SocialScienceSyllabus, english: class8EnglishSyllabus },
+    'Class 9': { maths: class9MathsSyllabus, science: class9ScienceSyllabus, social: class9SocialSyllabus, english: class9EnglishSyllabus },
+    'Class 10': { maths: class10MathsSyllabus, science: class10ScienceSyllabus, social: class10SocialSyllabus, english: class10EnglishSyllabus },
+    'Class 11': { maths: class11MathsSyllabus, science: class11ScienceSyllabus, social: class11SocialSyllabus, english: class11EnglishSyllabus },
+    'Class 12': { maths: class12MathsSyllabus, science: class12ScienceSyllabus, social: class12SocialSyllabus, english: class12EnglishSyllabus },
 };
 
 interface Teacher {
@@ -543,13 +560,26 @@ function SchoolPageContent() {
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/4]">
-            <Image
-              src="https://picsum.photos/seed/toppers/1920/480"
-              alt="Our Toppers"
-              data-ai-hint="student success"
-              fill
-              className="object-cover"
-            />
+            {loading ? (
+              <Skeleton className="w-full h-full" />
+            ) : (
+                activeCategory?.imageUrl ? (
+                    <GcsImage
+                        filePath={activeCategory.imageUrl}
+                        alt={`Banner for ${activeCategory.name}`}
+                        fill
+                        className="object-cover"
+                    />
+                ) : (
+                    <Image
+                        src="https://picsum.photos/seed/school-banner/1920/480"
+                        alt="Default School Banner"
+                        data-ai-hint="classroom students"
+                        fill
+                        className="object-cover"
+                    />
+                )
+            )}
           </div>
         </Card>
       </section>
@@ -561,16 +591,17 @@ function SchoolPageContent() {
               [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
               classes.map((c) => (
-                <button
+                <Link
                   key={c.id}
-                  onClick={() => handleClassChange(c.name)}
+                  href={`/school?class=${encodeURIComponent(c.name)}`}
+                  onClick={(e) => { e.preventDefault(); handleClassChange(c.name); }}
                   className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${activeClass === c.name 
                       ? 'border-primary text-primary bg-primary/10 rounded-md' 
                       : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                 >
                   {c.name}
-                </button>
+                </Link>
               ))
             )}
           </div>
@@ -1234,5 +1265,3 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
-    
