@@ -196,8 +196,8 @@ export default function AdminGalleryPage() {
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {images.map((image) => (
-                    <Card key={image.id} className="relative group">
-                      <GcsImage filePath={image.imageUrl} alt={image.title} fill className="rounded-lg object-cover w-full aspect-square" />
+                    <Card key={image.id} className="relative group aspect-square">
+                      <GcsImage filePath={image.imageUrl} alt={image.title} fill className="rounded-lg object-cover" />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex flex-col items-center justify-center p-2 text-center text-white">
                         <p className="text-xs font-bold truncate">{image.title}</p>
                         <p className="text-xs text-muted-foreground">{image.category}</p>
