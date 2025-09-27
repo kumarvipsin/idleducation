@@ -452,6 +452,7 @@ export async function deleteGalleryImage(id: string) {
 export async function addExamCategory(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const teacherIds = formData.getAll('teacherIds[]') as string[];
+  const imageFile = rawData.image as File | null;
 
   const categoryData: any = {
     name: rawData.name as string,
@@ -464,6 +465,11 @@ export async function addExamCategory(formData: FormData) {
   }
 
   try {
+    if (categoryData.group === 'school' && imageFile && imageFile.size > 0) {
+      const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
+      categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+    }
+
     await addDoc(collection(db, "examCategories"), {
       ...categoryData,
       createdAt: serverTimestamp(),
@@ -479,6 +485,7 @@ export async function addExamCategory(formData: FormData) {
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const teacherIds = formData.getAll('teacherIds[]') as string[];
+    const imageFile = rawData.image as File | null;
 
     const categoryData: any = {
       name: rawData.name as string,
@@ -492,6 +499,18 @@ export async function editExamCategory(id: string, formData: FormData) {
     }
     
     try {
+        if (categoryData.group === 'school' && imageFile && imageFile.size > 0) {
+            const destination = `exam-categories/${id}-${imageFile.name}`;
+            categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        } else if (categoryData.group === 'competitive') {
+            // Ensure imageUrl is removed if group is changed to competitive
+            const docRef = doc(db, "examCategories", id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().imageUrl) {
+                categoryData.imageUrl = null; // or delete field
+            }
+        }
+
         const docRef = doc(db, "examCategories", id);
         await updateDoc(docRef, categoryData);
         

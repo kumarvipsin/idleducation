@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getExamCategories, addExamCategory, editExamCategory, deleteExamCategory } from '@/app/actions';
 import { getTeachers } from '@/app/actions/user';
 import type { TExamCategory } from '@/app/actions/types';
@@ -11,13 +11,15 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Users } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Users, Image as ImageIcon } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
+import Image from 'next/image';
+import { GcsImage } from '@/components/gcs-image';
 
 interface User {
   id: string;
@@ -34,9 +36,19 @@ const ExamCategoryForm = ({
   onSuccess: () => void;
 }) => {
   const { toast } = useToast();
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    // This effect synchronizes the internal state with the `category` prop
+    setSelectedGroup(category?.group);
+    setSelectedTeacherIds(category?.teacherIds || []);
+    setPreview(category?.imageUrl || null);
+  }, [category]);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,7 +56,6 @@ const ExamCategoryForm = ({
 
     const formData = new FormData(event.currentTarget);
     
-    // Append selected teacher IDs to FormData
     selectedTeacherIds.forEach(id => {
       formData.append('teacherIds[]', id);
     });
@@ -58,6 +69,10 @@ const ExamCategoryForm = ({
     if (apiResult.success) {
       toast({ title: 'Success', description: apiResult.message });
       onSuccess();
+      formRef.current?.reset();
+      setSelectedGroup(undefined);
+      setSelectedTeacherIds([]);
+      setPreview(null);
     } else {
       toast({ variant: 'destructive', title: 'Error', description: apiResult.message });
     }
@@ -72,8 +87,15 @@ const ExamCategoryForm = ({
     );
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="name" className="text-right">Name</Label>
@@ -81,7 +103,7 @@ const ExamCategoryForm = ({
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="group" className="text-right">Group</Label>
-           <Select name="group" defaultValue={category?.group || 'school'} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive')}>
+           <Select name="group" defaultValue={category?.group} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive')}>
               <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Select a group" />
               </SelectTrigger>
@@ -92,32 +114,41 @@ const ExamCategoryForm = ({
           </Select>
         </div>
         {selectedGroup === 'school' && (
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="teachers" className="text-right">Teachers</Label>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="col-span-3 justify-between">
-                        <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
-                        <Users className="ml-2 h-4 w-4 text-muted-foreground" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
-                    <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
-                    <ScrollArea className="h-48">
-                        {teachers.map(teacher => (
-                             <DropdownMenuCheckboxItem
-                                key={teacher.id}
-                                checked={selectedTeacherIds.includes(teacher.id)}
-                                onCheckedChange={() => handleTeacherSelection(teacher.id)}
-                                onSelect={(e) => e.preventDefault()}
-                            >
-                                {teacher.name}
-                            </DropdownMenuCheckboxItem>
-                        ))}
-                    </ScrollArea>
-                </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="teachers" className="text-right">Teachers</Label>
+              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="col-span-3 justify-between">
+                          <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
+                          <Users className="ml-2 h-4 w-4 text-muted-foreground" />
+                      </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
+                      <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
+                      <ScrollArea className="h-48">
+                          {teachers.map(teacher => (
+                              <DropdownMenuCheckboxItem
+                                  key={teacher.id}
+                                  checked={selectedTeacherIds.includes(teacher.id)}
+                                  onCheckedChange={() => handleTeacherSelection(teacher.id)}
+                                  onSelect={(e) => e.preventDefault()}
+                              >
+                                  {teacher.name}
+                              </DropdownMenuCheckboxItem>
+                          ))}
+                      </ScrollArea>
+                  </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="image" className="text-right">Image</Label>
+              <div className="col-span-3 flex items-center gap-4">
+                {preview ? <Image src={preview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+                <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
+              </div>
+            </div>
+          </>
         )}
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="order" className="text-right">Order</Label>
@@ -212,10 +243,13 @@ export default function AdminExamCategoriesPage() {
                     <h3 className="text-lg font-semibold mb-2">School Exams</h3>
                     <ScrollArea className="h-[calc(100vh-350px)]">
                         <Table>
-                            <TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Teachers</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead>Teachers</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                             <TableBody>
-                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-24" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : schoolExams.map((cat) => (
+                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-24" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : schoolExams.map((cat) => (
                                 <TableRow key={cat.id}>
+                                    <TableCell>
+                                      {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+                                    </TableCell>
                                     <TableCell>{cat.name}</TableCell>
                                     <TableCell className="text-xs">{getTeacherNames(cat.teacherIds)}</TableCell>
                                     <TableCell className="text-right space-x-2">
