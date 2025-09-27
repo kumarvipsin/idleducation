@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getExamCategories } from '@/app/actions/data';
+import { getTeachers } from '@/app/actions/user';
 import type { TExamCategory } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -468,42 +469,58 @@ const syllabusData: any = {
     }
 };
 
+interface Teacher {
+  id: string;
+  name: string;
+  designation: string;
+  experience: string;
+  photoURL?: string;
+}
+
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('Class 8');
-  const [classes, setClasses] = useState<string[]>([]);
+  const [activeClass, setActiveClass] = useState('');
+  const [classes, setClasses] = useState<TExamCategory[]>([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
   const { t } = useLanguage();
   const isMobile = useIsMobile();
   
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
-    const fetchSchoolExams = async () => {
+    const fetchData = async () => {
       setLoading(true);
-      const result = await getExamCategories();
-      if (result.success && result.data) {
-        const schoolExams = (result.data as TExamCategory[])
+      const [categoriesResult, teachersResult] = await Promise.all([
+        getExamCategories(),
+        getTeachers(),
+      ]);
+
+      if (categoriesResult.success && categoriesResult.data) {
+        const schoolExams = (categoriesResult.data as TExamCategory[])
           .filter(cat => cat.group === 'school')
-          .sort((a, b) => (a.order || 99) - (b.order || 99))
-          .map(cat => cat.name);
+          .sort((a, b) => (a.order || 99) - (b.order || 99));
         setClasses(schoolExams);
+
         if (schoolExams.length > 0) {
-          const initialClass = classParam && schoolExams.includes(classParam) 
+          const initialClass = classParam && schoolExams.some(c => c.name === classParam)
             ? classParam 
-            : schoolExams.find(c => c.includes('8')) || schoolExams[0];
+            : schoolExams.find(c => c.name.includes('8'))?.name || schoolExams[0].name;
           setActiveClass(initialClass);
         }
       }
+      if (teachersResult.success && teachersResult.data) {
+        setTeachers(teachersResult.data as Teacher[]);
+      }
       setLoading(false);
     };
-    fetchSchoolExams();
+    fetchData();
   }, [classParam]);
 
 
@@ -511,55 +528,15 @@ function SchoolPageContent() {
     setAnimationKey(prev => prev + 1);
   }, [activeClass]);
 
-  const teamMembers = [
-    {
-        name: t('team.member5.name'),
-        designation: t('team.member5.designation'),
-        experience: t('team.member5.experience'),
-        avatar: "https://picsum.photos/seed/prof1/400/500",
-        avatarHint: "male professional"
-    },
-    {
-        name: t('team.member2.name'),
-        designation: t('team.member2.designation'),
-        experience: t('team.member2.experience'),
-        avatar: "https://picsum.photos/seed/prof2/400/500",
-        avatarHint: "male teacher"
-    },
-    {
-        name: t('team.member4.name'),
-        designation: t('team.member4.designation'),
-        experience: t('team.member4.experience'),
-        avatar: "https://picsum.photos/seed/prof3/400/500",
-        avatarHint: "female teacher"
-    },
-    {
-        name: t('team.member3.name'),
-        designation: t('team.member3.designation'),
-        experience: t('team.member3.experience'),
-        avatar: "https://picsum.photos/seed/prof4/400/500",
-        avatarHint: "male professional"
-    },
-    {
-        name: t('team.member1.name'),
-        designation: t('team.member1.designation'),
-        experience: t('team.member1.experience'),
-        avatar: "https://picsum.photos/seed/prof5/400/500",
-        avatarHint: "male teacher"
-    },
-    {
-        name: t('team.member6.name'),
-        designation: t('team.member6.designation'),
-        experience: t('team.member6.experience'),
-        avatar: "https://picsum.photos/seed/prof6/400/500",
-        avatarHint: "male teacher"
-    }
-  ];
-
   const handleClassChange = (className: string) => {
     setActiveClass(className);
     router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
   };
+  
+  const activeCategory = classes.find(c => c.name === activeClass);
+  const activeTeachers = activeCategory?.teacherIds
+    ? teachers.filter(t => activeCategory.teacherIds?.includes(t.id))
+    : [];
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
@@ -567,7 +544,7 @@ function SchoolPageContent() {
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/4]">
             <Image
-              src="/result.jpg"
+              src="https://picsum.photos/seed/toppers/1920/480"
               alt="Our Toppers"
               data-ai-hint="student success"
               fill
@@ -583,16 +560,16 @@ function SchoolPageContent() {
             {loading ? (
               [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
-              classes.map((className) => (
+              classes.map((c) => (
                 <button
-                  key={className}
-                  onClick={() => handleClassChange(className)}
+                  key={c.id}
+                  onClick={() => handleClassChange(c.name)}
                   className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                    ${activeClass === className 
+                    ${activeClass === c.name 
                       ? 'border-primary text-primary bg-primary/10 rounded-md' 
                       : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                 >
-                  {className}
+                  {c.name}
                 </button>
               ))
             )}
@@ -600,13 +577,13 @@ function SchoolPageContent() {
         </div>
       </div>
       
-       {activeClass && (
+       {activeTeachers.length > 0 && (
         <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="px-4 md:px-[10%]">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold">
-                  <span className="text-black dark:text-white">Know Your </span>
-                  <span style={{ color: '#ced4da' }}>Teachers</span>
+                  <span className="text-primary">Know Your </span>
+                  <span style={{ color: '#adb5bd' }}>Teachers</span>
                 </h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                   Our dedicated team of educators is here to guide you on your learning journey.
@@ -615,15 +592,21 @@ function SchoolPageContent() {
               <Carousel
                 opts={{
                   align: "start",
-                  loop: true,
+                  loop: activeTeachers.length > 3,
                 }}
                 plugins={[autoplayPlugin.current]}
                 className="w-full max-w-6xl mx-auto"
               >
                 <CarouselContent className="-ml-4">
-                  {teamMembers.map((member, index) => (
-                    <CarouselItem key={index} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                      <TeacherCard {...member} />
+                  {activeTeachers.map((member) => (
+                    <CarouselItem key={member.id} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                      <TeacherCard 
+                        name={member.name}
+                        designation={member.designation || 'Teacher'}
+                        experience={member.experience || 'Experienced'}
+                        avatar={member.photoURL || ''}
+                        avatarHint={`${member.name} photo`}
+                      />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -1251,7 +1234,5 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
-    
 
     
