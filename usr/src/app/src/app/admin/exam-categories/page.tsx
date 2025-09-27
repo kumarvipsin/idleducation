@@ -65,7 +65,7 @@ const ExamCategoryForm = ({
     });
     
     if (croppedPhoto) {
-        formData.append('image', croppedPhoto);
+        formData.append('imageFile', croppedPhoto);
     }
 
     const apiCall = category
@@ -129,34 +129,34 @@ const ExamCategoryForm = ({
             </Select>
           </div>
           {selectedGroup === 'school' && (
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="teachers" className="text-right">Teachers</Label>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="col-span-3 justify-between">
-                            <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
-                            <Users className="ml-2 h-4 w-4 text-muted-foreground" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
-                        <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
-                        <ScrollArea className="h-48">
-                            {teachers.map(teacher => (
-                                <DropdownMenuCheckboxItem
-                                    key={teacher.id}
-                                    checked={selectedTeacherIds.includes(teacher.id)}
-                                    onCheckedChange={() => handleTeacherSelection(teacher.id)}
-                                    onSelect={(e) => e.preventDefault()}
-                                >
-                                    {teacher.name}
-                                </DropdownMenuCheckboxItem>
-                            ))}
-                        </ScrollArea>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="teachers" className="text-right">Teachers</Label>
+              <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="col-span-3 justify-between">
+                          <span>{selectedTeacherIds.length > 0 ? `${selectedTeacherIds.length} selected` : 'Select Teachers'}</span>
+                          <Users className="ml-2 h-4 w-4 text-muted-foreground" />
+                      </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width]">
+                      <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
+                      <ScrollArea className="h-48">
+                          {teachers.map(teacher => (
+                              <DropdownMenuCheckboxItem
+                                  key={teacher.id}
+                                  checked={selectedTeacherIds.includes(teacher.id)}
+                                  onCheckedChange={() => handleTeacherSelection(teacher.id)}
+                                  onSelect={(e) => e.preventDefault()}
+                              >
+                                  {teacher.name}
+                              </DropdownMenuCheckboxItem>
+                          ))}
+                      </ScrollArea>
+                  </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           )}
-           <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
             <div className="col-span-3 flex items-center gap-4">
                 {photoPreview ? <Image src={photoPreview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> 
@@ -336,3 +336,5 @@ export default function AdminExamCategoriesPage() {
     </Dialog>
   );
 }
+
+    

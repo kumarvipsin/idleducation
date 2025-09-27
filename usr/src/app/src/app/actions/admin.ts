@@ -452,7 +452,7 @@ export async function deleteGalleryImage(id: string) {
 export async function addExamCategory(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const teacherIds = formData.getAll('teacherIds[]') as string[];
-  const imageFile = rawData.image as File | null;
+  const imageFile = rawData.imageFile as File | null;
 
   const categoryData: any = {
     name: rawData.name as string,
@@ -485,7 +485,7 @@ export async function addExamCategory(formData: FormData) {
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const teacherIds = formData.getAll('teacherIds[]') as string[];
-    const imageFile = rawData.image as File | null;
+    const imageFile = rawData.imageFile as File | null;
 
     const categoryData: any = {
       name: rawData.name as string,
@@ -596,3 +596,5 @@ export async function deleteTeamMember(id: string) {
         return { success: false, message: "Failed to delete team member." };
     }
 }
+
+    
