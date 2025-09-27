@@ -100,6 +100,9 @@ export interface TExamCategory {
   createdAt: string;
   teacherIds?: string[];
   imageUrl?: string;
+  href: string;
+  icon?: string;
+  theme?: string;
 }
 
 export interface TTeamMember {
