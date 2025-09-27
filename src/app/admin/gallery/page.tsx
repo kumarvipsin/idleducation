@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { GcsImage } from '@/components/gcs-image';
 
 type GalleryImage = {
   id: string;
@@ -196,7 +197,7 @@ export default function AdminGalleryPage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                   {images.map((image) => (
                     <Card key={image.id} className="relative group">
-                      <Image src={image.imageUrl} alt={image.title} width={200} height={200} className="rounded-lg object-cover w-full aspect-square" />
+                      <GcsImage filePath={image.imageUrl} alt={image.title} fill className="rounded-lg object-cover w-full aspect-square" />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex flex-col items-center justify-center p-2 text-center text-white">
                         <p className="text-xs font-bold truncate">{image.title}</p>
                         <p className="text-xs text-muted-foreground">{image.category}</p>
