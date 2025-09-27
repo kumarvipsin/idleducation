@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser } from "@/app/actions";
+import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser, editTeacher } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,51 +60,75 @@ interface User {
   photoURL?: string;
   designation?: string;
   experience?: string;
+  socialLinks?: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+  };
 }
 
-const addTeacherSchema = z.object({
+const teacherSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }).optional().or(z.literal('')),
   designation: z.string().min(2, { message: "Designation is required." }),
   experience: z.string().min(2, { message: "Experience is required." }),
   instagram: z.string().url().optional().or(z.literal('')),
   facebook: z.string().url().optional().or(z.literal('')),
   twitter: z.string().url().optional().or(z.literal('')),
 });
-type AddTeacherValues = z.infer<typeof addTeacherSchema>;
+type TeacherFormValues = z.infer<typeof teacherSchema>;
 
 
-const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
+const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess: () => void }) => {
   const { toast } = useToast();
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(teacher?.photoURL || null);
   const photoInputRef = useRef<HTMLInputElement>(null);
   
-  const form = useForm<AddTeacherValues>({
-    resolver: zodResolver(addTeacherSchema),
-    defaultValues: { name: '', email: '', password: '', designation: '', experience: '', instagram: '', facebook: '', twitter: '' },
+  const form = useForm<TeacherFormValues>({
+    resolver: zodResolver(teacherSchema),
+    defaultValues: { 
+      name: teacher?.name || '', 
+      email: teacher?.email || '', 
+      password: '',
+      designation: teacher?.designation || '', 
+      experience: teacher?.experience || '', 
+      instagram: teacher?.socialLinks?.instagram || '', 
+      facebook: teacher?.socialLinks?.facebook || '', 
+      twitter: teacher?.socialLinks?.twitter || '',
+    },
   });
 
-  const onSubmit: SubmitHandler<AddTeacherValues> = async (data) => {
-    const { instagram, facebook, twitter, ...restOfData } = data;
-    const teacherData = {
-      ...restOfData,
-      role: 'teacher' as const,
-      socialLinks: {
-        instagram: instagram || '',
-        facebook: facebook || '',
-        twitter: twitter || '',
-      }
-    };
-    
-    const photoFile = photoInputRef.current?.files?.[0];
+  const onSubmit: SubmitHandler<TeacherFormValues> = async (data) => {
+    let result;
+    if (teacher) { // Editing
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
+      const photoFile = photoInputRef.current?.files?.[0];
+      if (photoFile) formData.append('photo', photoFile);
+      result = await editTeacher(teacher.id, formData);
 
-    const result = await signUpUser(teacherData, photoFile);
+    } else { // Adding
+      const { instagram, facebook, twitter, ...restOfData } = data;
+      const teacherData = {
+        ...restOfData,
+        role: 'teacher' as const,
+        socialLinks: {
+          instagram: instagram || '',
+          facebook: facebook || '',
+          twitter: twitter || '',
+        }
+      };
+      const photoFile = photoInputRef.current?.files?.[0];
+      result = await signUpUser(teacherData, photoFile);
+    }
     
     if (result.success) {
       toast({
-        title: "Teacher Added",
-        description: `${data.name} has been added. Please approve them from the dashboard.`,
+        title: teacher ? "Teacher Updated" : "Teacher Added",
+        description: result.message,
       });
       onSuccess();
     } else {
@@ -139,8 +163,10 @@ const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
               <FormMessage />
             </FormItem>
             <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Jane Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="teacher@example.com" {...field} /></FormControl><FormMessage /></FormItem> )} />
-            <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="teacher@example.com" {...field} disabled={!!teacher} /></FormControl><FormMessage /></FormItem> )} />
+            {!teacher && (
+              <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
+            )}
             <FormField control={form.control} name="designation" render={({ field }) => ( <FormItem><FormLabel>Designation</FormLabel><FormControl><Input placeholder="e.g., Senior Maths Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
             <FormField control={form.control} name="experience" render={({ field }) => ( <FormItem><FormLabel>Experience</FormLabel><FormControl><Input placeholder="e.g., 10+ Years of Experience" {...field} /></FormControl><FormMessage /></FormItem> )} />
             
@@ -152,7 +178,7 @@ const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </ScrollArea>
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? 'Adding...' : 'Add Teacher'}
+            {form.formState.isSubmitting ? 'Saving...' : 'Save Changes'}
           </Button>
         </DialogFooter>
       </form>
@@ -164,7 +190,8 @@ export default function AdminTeachersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingTeacher, setEditingTeacher] = useState<User | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -226,6 +253,12 @@ export default function AdminTeachersPage() {
     setSelectedUser(null);
     setActionType(null);
   }
+
+  const handleFormSuccess = () => {
+    setIsFormOpen(false);
+    setEditingTeacher(null);
+    fetchUsers();
+  }
   
   const getBadgeVariant = (status: User['status']) => {
     switch (status) {
@@ -239,7 +272,7 @@ export default function AdminTeachersPage() {
 
   return (
     <AlertDialog>
-       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <div className="space-y-6">
             <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -248,7 +281,7 @@ export default function AdminTeachersPage() {
                     <CardDescription>Manage all teachers on the platform.</CardDescription>
                 </div>
                  <DialogTrigger asChild>
-                    <Button>
+                    <Button onClick={() => { setEditingTeacher(null); setIsFormOpen(true); }}>
                         <UserPlus className="mr-2 h-4 w-4" />
                         Add Teacher
                     </Button>
@@ -306,6 +339,10 @@ export default function AdminTeachersPage() {
                                 <Button variant="ghost" size="sm">Actions</Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
+                                <DropdownMenuItem onSelect={() => { setEditingTeacher(teacher); setIsFormOpen(true); }}>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit
+                                </DropdownMenuItem>
                                 <AlertDialogTrigger asChild>
                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('toggleStatus'); }}>
                                     {teacher.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
@@ -353,15 +390,12 @@ export default function AdminTeachersPage() {
         </div>
         <DialogContent className="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle>Add New Teacher</DialogTitle>
+                <DialogTitle>{editingTeacher ? 'Edit Teacher' : 'Add New Teacher'}</DialogTitle>
                 <DialogDescription>
-                    Fill in the details to create a new teacher account.
+                    {editingTeacher ? "Update the details for this teacher." : "Fill in the details to create a new teacher account."}
                 </DialogDescription>
             </DialogHeader>
-            <AddTeacherForm onSuccess={() => {
-                setIsAddDialogOpen(false);
-                fetchUsers();
-            }} />
+            <TeacherForm teacher={editingTeacher} onSuccess={handleFormSuccess} />
         </DialogContent>
        </Dialog>
     </AlertDialog>

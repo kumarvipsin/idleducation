@@ -67,6 +67,39 @@ export async function setUserStatus(userId: string, status: 'approved' | 'inacti
   }
 }
 
+
+export async function editTeacher(teacherId: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+
+  const teacherData: any = {
+    name: rawData.name as string,
+    designation: rawData.designation as string,
+    experience: rawData.experience as string,
+    socialLinks: {
+      instagram: rawData.instagram as string || '',
+      facebook: rawData.facebook as string || '',
+      twitter: rawData.twitter as string || '',
+    },
+  };
+
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `teacher_photos/${teacherId}-${photoFile.name}`;
+      teacherData.photoURL = await uploadFileToGCS(photoFile, destination);
+    }
+
+    const docRef = doc(db, "users", teacherId);
+    await updateDoc(docRef, teacherData);
+    
+    return { success: true, message: "Teacher updated successfully." };
+  } catch (error) {
+    console.error("Error updating teacher:", error);
+    return { success: false, message: "Failed to update teacher." };
+  }
+}
+
+
 // Teacher-Student Assignment
 export async function assignTeachersToStudent(studentId: string, teacherIds: string[]) {
   try {
