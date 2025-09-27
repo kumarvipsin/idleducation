@@ -14,7 +14,6 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -233,7 +232,7 @@ function AdminLayout({
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
                                 <Link href="/admin/testimonials">
                                     <MessageSquare />
-                                    <span>Testimonials</span>
+                                    <span>Our Students Say</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
