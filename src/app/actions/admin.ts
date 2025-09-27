@@ -452,13 +452,18 @@ export async function deleteGalleryImage(id: string) {
 export async function addExamCategory(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
+  const teacherIds = formData.getAll('teacherIds[]') as string[];
 
-  const categoryData = {
+  const categoryData: any = {
     name: rawData.name as string,
     href: rawData.href as string,
     group: rawData.group as 'school' | 'competitive',
     order: parseInt(rawData.order as string, 10) || 99,
   };
+
+  if (categoryData.group === 'school') {
+    categoryData.teacherIds = teacherIds;
+  }
 
   try {
     let imageUrl = '';
@@ -483,13 +488,19 @@ export async function addExamCategory(formData: FormData) {
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const imageFile = rawData.image as File | null;
+    const teacherIds = formData.getAll('teacherIds[]') as string[];
 
     const categoryData: any = {
       name: rawData.name as string,
       href: rawData.href as string,
       group: rawData.group as 'school' | 'competitive',
       order: parseInt(rawData.order as string, 10) || 99,
+      teacherIds: [],
     };
+
+    if (categoryData.group === 'school') {
+        categoryData.teacherIds = teacherIds;
+    }
     
     try {
         if (imageFile && imageFile.size > 0) {

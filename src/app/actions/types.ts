@@ -100,6 +100,7 @@ export interface TExamCategory {
   order: number;
   imageUrl?: string;
   createdAt: string;
+  teacherIds?: string[];
 }
 
 export interface TTeamMember {
