@@ -3,7 +3,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { getExamCategories } from '@/app/actions/data';
@@ -12,8 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import React from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -26,6 +25,10 @@ function ExamcatPageContent() {
   const [categories, setCategories] = useState<TExamCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<TExamCategory | null>(null);
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,16 +39,24 @@ function ExamcatPageContent() {
           .filter(cat => cat.group === 'competitive')
           .sort((a, b) => (a.order || 99) - (b.order || 99));
         setCategories(competitiveExams);
+        
         if (competitiveExams.length > 0) {
-          // Find a default category, e.g., NEET or the first one
-          const defaultCat = competitiveExams.find(c => c.name === 'NEET') || competitiveExams[0];
-          setActiveCategory(defaultCat);
+          const initialCategory = 
+            competitiveExams.find(c => c.name === categoryParam) || 
+            competitiveExams.find(c => c.name === 'NEET') || 
+            competitiveExams[0];
+          setActiveCategory(initialCategory);
         }
       }
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [categoryParam]);
+
+  const handleCategoryClick = (category: TExamCategory) => {
+    setActiveCategory(category);
+    router.push(`/examcat?category=${encodeURIComponent(category.name)}`, { scroll: false });
+  };
 
   const renderSkeleton = () => (
     <div className="space-y-4">
@@ -95,7 +106,7 @@ function ExamcatPageContent() {
             {categories.map((c) => (
               <button
                 key={c.id}
-                onClick={() => setActiveCategory(c)}
+                onClick={() => handleCategoryClick(c)}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${activeCategory?.id === c.id 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
