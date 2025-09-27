@@ -221,6 +221,30 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
+                                <Link href="/admin/exam-categories">
+                                    <Tags />
+                                    <span>Exam Categories</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
+                                <Link href="/admin/testimonials">
+                                    <MessageSquare />
+                                    <span>Testimonials</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
+                                <Link href="/admin/topper-testimonials">
+                                    <Video />
+                                    <span>Topper Testimonials</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                     </SidebarMenu>
                  </SidebarGroupContent>
              </SidebarGroup>
@@ -240,34 +264,10 @@ function AdminLayout({
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                         <SidebarMenuItem>
-                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
-                                <Link href="/admin/exam-categories">
-                                    <Tags />
-                                    <span>Exam Categories</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
                                 <Link href="/admin/gallery">
                                     <ImageIcon />
                                     <span>Gallery</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
-                                <Link href="/admin/testimonials">
-                                    <MessageSquare />
-                                    <span>Testimonials</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
-                                <Link href="/admin/topper-testimonials">
-                                    <Video />
-                                    <span>Topper Testimonials</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
