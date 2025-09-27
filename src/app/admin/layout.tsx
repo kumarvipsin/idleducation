@@ -13,8 +13,14 @@ import {
   SidebarFooter,
   SidebarTrigger,
   SidebarMenuBadge,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -64,202 +70,243 @@ function AdminLayout({
               <span className="text-lg font-semibold">Admin Panel</span>
             </div>
           </SidebarHeader>
-          <SidebarContent className="mt-5">
-            <SidebarMenu>
-              <SidebarMenuItem className="my-4">
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
-                  <Link href="/admin/profile">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Admin'} />
-                      <AvatarFallback>
-                        {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
-                      <span className="font-semibold">{user?.name}</span>
-                      <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
-                    </div>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
-                  <Link href="/admin/dashboard">
-                    <SlidersHorizontal />
-                    <span>Dashboard</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
-                  <Link href="/admin/admissions">
-                    <FileText />
-                    <span>Admissions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
-                  <Link href="/admin/demo">
-                    <Presentation />
-                    <span>Free Demo</span>
-                  </Link>
-                </SidebarMenuButton>
-                {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/scholarship')}>
-                  <Link href="/admin/scholarship">
-                    <Award />
-                    <span>Scholarship</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
-                  <Link href="/admin/feedback">
-                    <FeedbackIcon />
-                    <span>Feedback</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/mail')}>
-                  <Link href="/admin/mail">
-                    <Mail />
-                    <span>Mail</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
-                  <Link href="/admin/messages">
-                    <MessageSquare />
-                    <span>Contact Us</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/support-tickets')}>
-                  <Link href="/admin/support-tickets">
-                    <LifeBuoy />
-                    <span>Support Tickets</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
-                  <Link href="/admin/updates">
-                    <Bell />
-                    <span>Recent Updates</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
-                  <Link href="/admin/exam-categories">
-                    <Tags />
-                    <span>Exam Categories</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
-                  <Link href="/admin/gallery">
-                    <ImageIcon />
-                    <span>Gallery</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
-                  <Link href="/admin/testimonials">
-                    <MessageSquare />
-                    <span>Testimonials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
-                  <Link href="/admin/topper-testimonials">
-                    <Video />
-                    <span>Topper Testimonials</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
-                  <Link href="/admin/excellence-results">
-                    <Star />
-                    <span>Excellence Results</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
-                  <Link href="/admin/team">
-                    <Users />
-                    <span>Team Members</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
-                  <Link href="/admin/users">
-                    <GraduationCap />
-                    <span>Students</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/teachers')}>
-                  <Link href="/admin/teachers">
-                    <Briefcase />
-                    <span>Teacher</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
-                  <Link href="/admin/staff">
-                    <Users />
-                    <span>Staff</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
-                  <Link href="/admin/notes">
-                    <BookOpen />
-                    <span>Manage Notes</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/important-questions')}>
-                  <Link href="/admin/important-questions">
-                    <FileText />
-                    <span>Manage Imp Questions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
-                  <Link href="/admin/previous-year-questions">
-                    <FileText />
-                    <span>Prev. Year Questions</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
-                    <CreditCard />
-                    <span>Payment</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+          <SidebarContent className="mt-2">
+             <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
+                    <Link href="/admin/profile">
+                        <Avatar className="h-10 w-10">
+                        <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Admin'} />
+                        <AvatarFallback>
+                            {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                        </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                        <span className="font-semibold">{user?.name}</span>
+                        <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                        </div>
+                    </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
+                    <Link href="/admin/dashboard">
+                        <SlidersHorizontal />
+                        <span>Dashboard</span>
+                    </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+             </SidebarMenu>
+            <SidebarGroup>
+                <SidebarGroupLabel className="flex items-center">
+                    <Users className="mr-2" />
+                    <span className="font-medium">User Management</span>
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
+                                <Link href="/admin/users">
+                                    <GraduationCap />
+                                    <span>Students</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/teachers')}>
+                                <Link href="/admin/teachers">
+                                    <Briefcase />
+                                    <span>Teachers</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
+                                <Link href="/admin/staff">
+                                    <Users />
+                                    <span>Staff</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroupContent>
+            </SidebarGroup>
+             <SidebarGroup>
+                <SidebarGroupLabel className="flex items-center">
+                    <FileText className="mr-2" />
+                    <span className="font-medium">Submissions</span>
+                </SidebarGroupLabel>
+                 <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
+                                <Link href="/admin/admissions">
+                                    <FileText />
+                                    <span>Admissions</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
+                                <Link href="/admin/demo">
+                                    <Presentation />
+                                    <span>Free Demo</span>
+                                </Link>
+                            </SidebarMenuButton>
+                             {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/scholarship')}>
+                                <Link href="/admin/scholarship">
+                                    <Award />
+                                    <span>Scholarship</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
+                                <Link href="/admin/feedback">
+                                    <FeedbackIcon />
+                                    <span>Feedback</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
+                                <Link href="/admin/messages">
+                                    <MessageSquare />
+                                    <span>Contact Us</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/support-tickets')}>
+                                <Link href="/admin/support-tickets">
+                                    <LifeBuoy />
+                                    <span>Support Tickets</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarGroupContent>
+             </SidebarGroup>
+             <SidebarGroup>
+                <SidebarGroupLabel className="flex items-center">
+                    <BookOpen className="mr-2" />
+                    <span className="font-medium">Course Content</span>
+                </SidebarGroupLabel>
+                 <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
+                                <Link href="/admin/notes">
+                                    <FileText />
+                                    <span>Manage Notes</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                         <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/important-questions')}>
+                                <Link href="/admin/important-questions">
+                                    <FileText />
+                                    <span>Manage Imp Questions</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
+                                <Link href="/admin/previous-year-questions">
+                                    <FileText />
+                                    <span>Prev. Year Questions</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                 </SidebarGroupContent>
+             </SidebarGroup>
+             <SidebarGroup>
+                <SidebarGroupLabel className="flex items-center">
+                    <Settings2 className="mr-2" />
+                    <span className="font-medium">Site Content</span>
+                </SidebarGroupLabel>
+                 <SidebarGroupContent>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
+                                <Link href="/admin/updates">
+                                    <Bell />
+                                    <span>Recent Updates</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
+                                <Link href="/admin/exam-categories">
+                                    <Tags />
+                                    <span>Exam Categories</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
+                                <Link href="/admin/gallery">
+                                    <ImageIcon />
+                                    <span>Gallery</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
+                                <Link href="/admin/testimonials">
+                                    <MessageSquare />
+                                    <span>Testimonials</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
+                                <Link href="/admin/topper-testimonials">
+                                    <Video />
+                                    <span>Topper Testimonials</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
+                                <Link href="/admin/excellence-results">
+                                    <Star />
+                                    <span>Excellence Results</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
+                                <Link href="/admin/team">
+                                    <Users />
+                                    <span>Team Members</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                 </SidebarGroupContent>
+             </SidebarGroup>
+             <SidebarMenu>
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                    <Link href="#">
+                        <Mail />
+                        <span>Mail</span>
+                    </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                    <Link href="#">
+                        <CreditCard />
+                        <span>Payment</span>
+                    </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
