@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus } from "@/app/actions";
+import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,6 +26,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -34,6 +43,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 interface User {
   id: string;
@@ -43,10 +57,95 @@ interface User {
   status: 'pending' | 'approved' | 'inactive';
 }
 
+const addTeacherSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+});
+type AddTeacherValues = z.infer<typeof addTeacherSchema>;
+
+
+const AddTeacherForm = ({ onSuccess }: { onSuccess: () => void }) => {
+  const { toast } = useToast();
+  const form = useForm<AddTeacherValues>({
+    resolver: zodResolver(addTeacherSchema),
+    defaultValues: { name: '', email: '', password: '' },
+  });
+
+  const onSubmit: SubmitHandler<AddTeacherValues> = async (data) => {
+    const result = await signUpUser({ ...data, role: 'teacher' });
+    if (result.success) {
+      toast({
+        title: "Teacher Added",
+        description: `${data.name} has been added. Please approve them from the dashboard.`,
+      });
+      onSuccess();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: result.message,
+      });
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Jane Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email Address</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="teacher@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input type="password" placeholder="••••••••" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <DialogFooter>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? 'Adding...' : 'Add Teacher'}
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
+  )
+}
+
 export default function AdminTeachersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -121,98 +220,120 @@ export default function AdminTeachersPage() {
 
   return (
     <AlertDialog>
-      <div className="space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Teacher Management</CardTitle>
-            <CardDescription>Manage all teachers on the platform.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[calc(100vh-250px)]">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Teacher Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {teachers.map((teacher) => (
-                    <TableRow key={teacher.id}>
-                      <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
-                      <TableCell>{teacher.email}</TableCell>
-                       <TableCell>
-                        <Badge variant={getBadgeVariant(teacher.status)} className="capitalize">
-                          {teacher.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right space-x-2">
-                        {teacher.status === 'pending' ? (
-                          <>
-                           <Button size="sm" onClick={() => handleApproveUser(teacher.id)}>
-                              <CheckCircle className="mr-2 h-4 w-4" />
-                              Approve
-                           </Button>
-                           <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(teacher); setActionType('deny'); }}>
-                                <XCircle className="mr-2 h-4 w-4" />
-                                Deny
-                              </Button>
-                           </AlertDialogTrigger>
-                          </>
-                        ) : (
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">Actions</Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                               <AlertDialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('toggleStatus'); }}>
-                                  {teacher.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
-                                  {teacher.status === 'approved' ? 'Deactivate' : 'Activate'}
-                                </DropdownMenuItem>
-                              </AlertDialogTrigger>
-                              <AlertDialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('resetPassword'); }}>
-                                  <KeyRound className="mr-2 h-4 w-4" />
-                                  Reset Password
-                                </DropdownMenuItem>
-                              </AlertDialogTrigger>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        )}
-                      </TableCell>
+       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+        <div className="space-y-6">
+            <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Teacher Management</CardTitle>
+                    <CardDescription>Manage all teachers on the platform.</CardDescription>
+                </div>
+                 <DialogTrigger asChild>
+                    <Button>
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        Add Teacher
+                    </Button>
+                </DialogTrigger>
+            </CardHeader>
+            <CardContent>
+                <ScrollArea className="h-[calc(100vh-250px)]">
+                <Table>
+                    <TableHeader>
+                    <TableRow>
+                        <TableHead>Teacher Name</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ScrollArea>
-          </CardContent>
-        </Card>
-        
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
-              {actionType === 'deny' && `This will deny the registration for ${selectedUser?.name} and remove their data.`}
-              {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {
-                if (actionType === 'resetPassword') handlePasswordReset();
-                else if (actionType === 'deny') handleDenyUser();
-                else if (actionType === 'toggleStatus') handleToggleStatus();
-            }}>
-                Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </div>
+                    </TableHeader>
+                    <TableBody>
+                    {teachers.map((teacher) => (
+                        <TableRow key={teacher.id}>
+                        <TableCell className="font-medium flex items-center gap-2"><Briefcase className="h-4 w-4"/> {teacher.name}</TableCell>
+                        <TableCell>{teacher.email}</TableCell>
+                        <TableCell>
+                            <Badge variant={getBadgeVariant(teacher.status)} className="capitalize">
+                            {teacher.status}
+                            </Badge>
+                        </TableCell>
+                        <TableCell className="text-right space-x-2">
+                            {teacher.status === 'pending' ? (
+                            <>
+                            <Button size="sm" onClick={() => handleApproveUser(teacher.id)}>
+                                <CheckCircle className="mr-2 h-4 w-4" />
+                                Approve
+                            </Button>
+                            <AlertDialogTrigger asChild>
+                                <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(teacher); setActionType('deny'); }}>
+                                    <XCircle className="mr-2 h-4 w-4" />
+                                    Deny
+                                </Button>
+                            </AlertDialogTrigger>
+                            </>
+                            ) : (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm">Actions</Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('toggleStatus'); }}>
+                                    {teacher.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                                    {teacher.status === 'approved' ? 'Deactivate' : 'Activate'}
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('resetPassword'); }}>
+                                    <KeyRound className="mr-2 h-4 w-4" />
+                                    Reset Password
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            )}
+                        </TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+                </ScrollArea>
+            </CardContent>
+            </Card>
+            
+            <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
+                {actionType === 'deny' && `This will deny the registration for ${selectedUser?.name} and remove their data.`}
+                {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => {
+                    if (actionType === 'resetPassword') handlePasswordReset();
+                    else if (actionType === 'deny') handleDenyUser();
+                    else if (actionType === 'toggleStatus') handleToggleStatus();
+                }}>
+                    Continue
+                </AlertDialogAction>
+            </AlertDialogFooter>
+            </AlertDialogContent>
+        </div>
+        <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Add New Teacher</DialogTitle>
+                <DialogDescription>
+                    Fill in the details to create a new teacher account.
+                </DialogDescription>
+            </DialogHeader>
+            <AddTeacherForm onSuccess={() => {
+                setIsAddDialogOpen(false);
+                fetchUsers();
+            }} />
+        </DialogContent>
+       </Dialog>
     </AlertDialog>
   );
 }
