@@ -4,7 +4,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, HelpCircle } from 'lucide-react';
+import { ArrowRight, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from 'lucide-react';
 import Link from 'next/link';
 import { getExamCategories } from '@/app/actions/data';
 import type { TExamCategory } from '@/app/actions/types';
@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -25,6 +26,10 @@ function ExamcatPageContent() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<TExamCategory | null>(null);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -34,15 +39,27 @@ function ExamcatPageContent() {
           .filter(cat => cat.group === 'competitive')
           .sort((a, b) => (a.order || 99) - (b.order || 99));
         setCategories(competitiveExams);
+        
         if (competitiveExams.length > 0) {
-          const defaultCat = competitiveExams.find(c => c.name === 'NEET') || competitiveExams[0];
-          setActiveCategory(defaultCat);
+          const categoryFromUrl = competitiveExams.find(c => c.name === categoryParam);
+          if (categoryFromUrl) {
+            setActiveCategory(categoryFromUrl);
+          } else {
+            // Fallback to NEET or the first category if the param is invalid or not present
+            const defaultCat = competitiveExams.find(c => c.name === 'NEET') || competitiveExams[0];
+            setActiveCategory(defaultCat);
+          }
         }
       }
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [categoryParam]); // Re-run when the URL parameter changes
+
+  const handleCategoryClick = (category: TExamCategory) => {
+    setActiveCategory(category);
+    router.push(`/examcat?category=${encodeURIComponent(category.name)}`, { scroll: false });
+  };
 
   const renderSkeleton = () => (
     <div className="space-y-4">
@@ -90,16 +107,17 @@ function ExamcatPageContent() {
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {categories.map((c) => (
-              <button
+              <Link
                 key={c.id}
-                onClick={() => setActiveCategory(c)}
+                href={`/examcat?category=${encodeURIComponent(c.name)}`}
+                onClick={(e) => { e.preventDefault(); handleCategoryClick(c); }}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${activeCategory?.id === c.id 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
                     : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
               >
                 {c.name}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
