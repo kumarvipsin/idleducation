@@ -50,6 +50,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
+import { GcsImage } from "@/components/gcs-image";
 
 interface User {
   id: string;
@@ -82,7 +83,7 @@ type TeacherFormValues = z.infer<typeof teacherSchema>;
 
 const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess: () => void }) => {
   const { toast } = useToast();
-  const [photoPreview, setPhotoPreview] = useState<string | null>(teacher?.photoURL || null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
   
   const form = useForm<TeacherFormValues>({
@@ -101,22 +102,21 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
 
   const onSubmit: SubmitHandler<TeacherFormValues> = async (data) => {
     let result;
-    if (teacher) { // Editing
-      const formData = new FormData();
-      // Manually append all form data
-      Object.entries(data).forEach(([key, value]) => {
-        if (value) {
-            formData.append(key, value);
-        }
-      });
-
-      const photoFile = photoInputRef.current?.files?.[0];
-      if (photoFile) {
-        formData.append('photo', photoFile);
+    const formData = new FormData();
+    // Manually append all form data
+    Object.entries(data).forEach(([key, value]) => {
+      if (value) {
+          formData.append(key, value);
       }
-      
-      result = await editTeacher(teacher.id, formData);
+    });
 
+    const photoFile = photoInputRef.current?.files?.[0];
+    if (photoFile) {
+      formData.append('photo', photoFile);
+    }
+    
+    if (teacher) { // Editing
+      result = await editTeacher(teacher.id, formData);
     } else { // Adding
       const { instagram, facebook, twitter, ...restOfData } = data;
       const teacherData = {
@@ -128,7 +128,6 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
           twitter: twitter || '',
         }
       };
-      const photoFile = photoInputRef.current?.files?.[0];
       result = await signUpUser(teacherData, photoFile);
     }
     
@@ -156,7 +155,11 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
               <FormLabel>Profile Photo</FormLabel>
               <div className="flex items-center gap-4">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src={photoPreview ?? undefined} />
+                  {photoPreview ? (
+                    <AvatarImage src={photoPreview} />
+                  ) : teacher?.photoURL ? (
+                    <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={80} height={80} className="rounded-full object-cover" />
+                  ) : null}
                   <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
                 </Avatar>
                 <FormControl>
@@ -311,8 +314,11 @@ export default function AdminTeachersPage() {
                         <TableRow key={teacher.id}>
                         <TableCell className="font-medium flex items-center gap-2">
                            <Avatar>
-                             <AvatarImage src={teacher.photoURL} alt={teacher.name} />
-                             <AvatarFallback>{teacher.name.charAt(0)}</AvatarFallback>
+                             {teacher.photoURL ? (
+                               <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={40} height={40} className="rounded-full object-cover"/>
+                             ) : (
+                               <AvatarFallback>{teacher.name.charAt(0)}</AvatarFallback>
+                             )}
                            </Avatar>
                            <div>
                              <p>{teacher.name}</p>

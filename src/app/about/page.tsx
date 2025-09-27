@@ -32,7 +32,7 @@ export default function AboutPage() {
                       <CardContent className="p-0">
                           <div className="relative w-full aspect-[4/4]">
                             <Image
-                              src="https://images.unsplash.com/photo-1757873469320-05980cf694be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZW5kb20lMjBwaG90byUyMG1hbiUyMHRlYWNoZXJ8ZW58MHx8fHwxNzU4MTE4OTc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                              src="/amod.jpg"
                               alt="Director's Photo"
                               data-ai-hint="male director"
                               fill

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GcsImage } from "@/components/gcs-image";
 
 type TeacherCardProps = {
     name: string;
@@ -17,10 +18,9 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
     return (
         <div className="relative group overflow-hidden rounded-lg bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
             <div className="relative w-full aspect-[4/5]">
-                <Image
-                    src={avatar}
+                <GcsImage
+                    filePath={avatar}
                     alt={name}
-                    data-ai-hint={avatarHint}
                     fill
                     className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />

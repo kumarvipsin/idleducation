@@ -6,6 +6,7 @@ import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Mail, GraduationCap } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
 
 export default function StudentProfilePage() {
   const { user, loading } = useAuth();
@@ -29,7 +30,7 @@ export default function StudentProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
             <div className="md:col-span-1 flex flex-col items-center justify-center text-center p-6 bg-muted/30 rounded-lg">
                 <Avatar className="w-40 h-40 border-4 border-primary shadow-lg mb-4">
-                    <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? 'Student'} />
+                    {user.photoURL && <GcsImage filePath={user.photoURL} alt={user.name || 'Student'} fill className="rounded-full object-cover" />}
                     <AvatarFallback className="text-5xl">
                         {user.name ? user.name.charAt(0).toUpperCase() : 'S'}
                     </AvatarFallback>
