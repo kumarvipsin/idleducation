@@ -451,12 +451,10 @@ export async function deleteGalleryImage(id: string) {
 // Exam Category Management
 export async function addExamCategory(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
-  const imageFile = rawData.image as File | null;
   const teacherIds = formData.getAll('teacherIds[]') as string[];
 
   const categoryData: any = {
     name: rawData.name as string,
-    href: rawData.href as string,
     group: rawData.group as 'school' | 'competitive',
     order: parseInt(rawData.order as string, 10) || 99,
   };
@@ -466,15 +464,8 @@ export async function addExamCategory(formData: FormData) {
   }
 
   try {
-    let imageUrl = '';
-    if (imageFile && imageFile.size > 0) {
-      const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
-      imageUrl = await uploadFileToGCS(imageFile, destination);
-    }
-    
     await addDoc(collection(db, "examCategories"), {
       ...categoryData,
-      imageUrl,
       createdAt: serverTimestamp(),
     });
     
@@ -487,12 +478,10 @@ export async function addExamCategory(formData: FormData) {
 
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
-    const imageFile = rawData.image as File | null;
     const teacherIds = formData.getAll('teacherIds[]') as string[];
 
     const categoryData: any = {
       name: rawData.name as string,
-      href: rawData.href as string,
       group: rawData.group as 'school' | 'competitive',
       order: parseInt(rawData.order as string, 10) || 99,
       teacherIds: [],
@@ -503,11 +492,6 @@ export async function editExamCategory(id: string, formData: FormData) {
     }
     
     try {
-        if (imageFile && imageFile.size > 0) {
-            const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
-            categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
-        }
-
         const docRef = doc(db, "examCategories", id);
         await updateDoc(docRef, categoryData);
         

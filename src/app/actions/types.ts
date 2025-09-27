@@ -95,10 +95,8 @@ export interface TGalleryImage {
 export interface TExamCategory {
   id: string;
   name: string;
-  href: string;
   group: 'school' | 'competitive';
   order: number;
-  imageUrl?: string;
   createdAt: string;
   teacherIds?: string[];
 }

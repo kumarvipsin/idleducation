@@ -11,12 +11,11 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Upload, Users } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Users } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 
@@ -36,7 +35,6 @@ const ExamCategoryForm = ({
 }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [preview, setPreview] = useState<string | null>(category?.imageUrl || null);
   const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
 
@@ -65,13 +63,6 @@ const ExamCategoryForm = ({
     }
     setIsSubmitting(false);
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
   
   const handleTeacherSelection = (teacherId: string) => {
     setSelectedTeacherIds(prev =>
@@ -87,10 +78,6 @@ const ExamCategoryForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="name" className="text-right">Name</Label>
           <Input id="name" name="name" defaultValue={category?.name} className="col-span-3" required/>
-        </div>
-         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="href" className="text-right">Link (href)</Label>
-          <Input id="href" name="href" defaultValue={category?.href} className="col-span-3" placeholder="/category/jee" required/>
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="group" className="text-right">Group</Label>
@@ -135,13 +122,6 @@ const ExamCategoryForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="order" className="text-right">Order</Label>
           <Input id="order" name="order" type="number" defaultValue={category?.order ?? 99} className="col-span-3" />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="image" className="text-right">Image</Label>
-          <div className="col-span-3 flex items-center gap-4">
-            {preview && <Image src={preview} alt="Image Preview" width={64} height={64} className="rounded-md object-cover" />}
-            <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
-          </div>
         </div>
       </div>
       <DialogFooter>
