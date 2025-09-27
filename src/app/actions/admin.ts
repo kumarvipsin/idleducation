@@ -452,12 +452,14 @@ export async function deleteGalleryImage(id: string) {
 export async function addExamCategory(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const teacherIds = formData.getAll('teacherIds[]') as string[];
-  const imageFile = rawData.image as File | null;
+  const imageFile = rawData.imageFile as File | null;
 
   const categoryData: any = {
     name: rawData.name as string,
     group: rawData.group as 'school' | 'competitive',
     order: parseInt(rawData.order as string, 10) || 99,
+    icon: rawData.icon as string,
+    theme: rawData.theme as string,
   };
 
   if (categoryData.group === 'school') {
@@ -465,7 +467,7 @@ export async function addExamCategory(formData: FormData) {
   }
 
   try {
-    if (categoryData.group === 'school' && imageFile && imageFile.size > 0) {
+    if (imageFile && imageFile.size > 0) {
       const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
       categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
     }
@@ -485,12 +487,14 @@ export async function addExamCategory(formData: FormData) {
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const teacherIds = formData.getAll('teacherIds[]') as string[];
-    const imageFile = rawData.image as File | null;
+    const imageFile = rawData.imageFile as File | null;
 
     const categoryData: any = {
       name: rawData.name as string,
       group: rawData.group as 'school' | 'competitive',
       order: parseInt(rawData.order as string, 10) || 99,
+      icon: rawData.icon as string,
+      theme: rawData.theme as string,
       teacherIds: [],
     };
 
@@ -499,16 +503,9 @@ export async function editExamCategory(id: string, formData: FormData) {
     }
     
     try {
-        if (categoryData.group === 'school' && imageFile && imageFile.size > 0) {
+        if (imageFile && imageFile.size > 0) {
             const destination = `exam-categories/${id}-${imageFile.name}`;
             categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
-        } else if (categoryData.group === 'competitive') {
-            // Ensure imageUrl is removed if group is changed to competitive
-            const docRef = doc(db, "examCategories", id);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists() && docSnap.data().imageUrl) {
-                categoryData.imageUrl = null; // or delete field
-            }
         }
 
         const docRef = doc(db, "examCategories", id);
