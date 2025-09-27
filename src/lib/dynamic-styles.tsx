@@ -38,7 +38,10 @@ export const getDynamicIcon = (iconName?: string) => {
 };
 
 export const getDynamicGradient = (theme?: string) => {
-    return theme ? gradientMap[theme] : gradientMap['default'];
+    if (theme && gradientMap[theme]) {
+        return gradientMap[theme];
+    }
+    return gradientMap['default'];
 };
 
 export const iconOptions = Object.keys(iconMap);
