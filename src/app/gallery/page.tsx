@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Image as ImageIcon, Plus } from 'lucide-react';
-import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getGalleryImages } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
+import { GcsImage } from '@/components/gcs-image';
 
 type GalleryImage = {
   id: string;
@@ -97,8 +97,8 @@ export default function GalleryPage() {
                                     style={{ animationDelay: `${index * 50}ms` }}
                                     onClick={() => setSelectedImage(image)}
                                 >
-                                    <Image
-                                        src={image.imageUrl}
+                                    <GcsImage
+                                        filePath={image.imageUrl}
                                         alt={image.alt}
                                         fill
                                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -133,8 +133,8 @@ export default function GalleryPage() {
                     <DialogTitle className="sr-only">{selectedImage.title}</DialogTitle>
                 </DialogHeader>
                 <div className="relative aspect-video">
-                    <Image
-                        src={selectedImage.imageUrl}
+                    <GcsImage
+                        filePath={selectedImage.imageUrl}
                         alt={selectedImage.alt}
                         fill
                         className="object-contain"
