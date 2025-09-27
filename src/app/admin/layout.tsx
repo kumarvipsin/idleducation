@@ -97,13 +97,14 @@ function AdminLayout({
                     </SidebarMenuButton>
                 </SidebarMenuItem>
              </SidebarMenu>
-            <SidebarGroup>
-                <SidebarGroupLabel className="flex items-center">
-                    <Users className="mr-2" />
-                    <span className="font-medium">User Management</span>
-                </SidebarGroupLabel>
-                <SidebarGroupContent>
-                    <SidebarMenu>
+            <SidebarMenu>
+                <SidebarMenuSub>
+                    <SidebarMenuSubButton>
+                        <Users className="mr-2" />
+                        <span className="font-medium">User Management</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                                 <Link href="/admin/users">
@@ -128,16 +129,15 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
-             <SidebarGroup>
-                <SidebarGroupLabel className="flex items-center">
-                    <FileText className="mr-2" />
-                    <span className="font-medium">Submissions</span>
-                </SidebarGroupLabel>
-                 <SidebarGroupContent>
-                    <SidebarMenu>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub>
+                    <SidebarMenuSubButton>
+                        <FileText className="mr-2" />
+                        <span className="font-medium">Submissions</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
                                 <Link href="/admin/admissions">
@@ -151,9 +151,9 @@ function AdminLayout({
                                 <Link href="/admin/demo">
                                     <Presentation />
                                     <span>Free Demo</span>
+                                    {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
                                 </Link>
                             </SidebarMenuButton>
-                             {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/scholarship')}>
@@ -187,16 +187,15 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarGroupContent>
-             </SidebarGroup>
-             <SidebarGroup>
-                <SidebarGroupLabel className="flex items-center">
-                    <BookOpen className="mr-2" />
-                    <span className="font-medium">Course Content</span>
-                </SidebarGroupLabel>
-                 <SidebarGroupContent>
-                    <SidebarMenu>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub>
+                    <SidebarMenuSubButton>
+                        <BookOpen className="mr-2" />
+                        <span className="font-medium">Course Content</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
                                 <Link href="/admin/notes">
@@ -221,7 +220,7 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                        <SidebarMenuItem>
+                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
                                 <Link href="/admin/exam-categories">
                                     <Tags />
@@ -245,16 +244,15 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    </SidebarMenu>
-                 </SidebarGroupContent>
-             </SidebarGroup>
-             <SidebarGroup>
-                <SidebarGroupLabel className="flex items-center">
-                    <Settings2 className="mr-2" />
-                    <span className="font-medium">Site Content</span>
-                </SidebarGroupLabel>
-                 <SidebarGroupContent>
-                    <SidebarMenu>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub>
+                    <SidebarMenuSubButton>
+                        <Settings2 className="mr-2" />
+                        <span className="font-medium">Site Content</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
                                 <Link href="/admin/updates">
@@ -287,11 +285,11 @@ function AdminLayout({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                    </SidebarMenu>
-                 </SidebarGroupContent>
-             </SidebarGroup>
-             <SidebarMenu>
-                <SidebarMenuItem>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+            </SidebarMenu>
+             <SidebarMenu className="mt-auto">
+                 <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                     <Link href="#">
                         <Mail />
@@ -324,3 +322,5 @@ function AdminLayout({
 }
 
 export default withAuth(AdminLayout, ['admin']);
+
+    
