@@ -25,7 +25,7 @@ function ExamcatPageContent() {
   const [categories, setCategories] = useState<TExamCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<TExamCategory | null>(null);
-  
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
@@ -104,16 +104,17 @@ function ExamcatPageContent() {
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {categories.map((c) => (
-              <button
+              <Link
                 key={c.id}
-                onClick={() => handleCategoryClick(c)}
+                href={`/examcat?category=${encodeURIComponent(c.name)}`}
+                onClick={(e) => { e.preventDefault(); handleCategoryClick(c); }}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${activeCategory?.id === c.id 
                     ? 'border-primary text-primary bg-primary/10 rounded-md' 
                     : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
               >
                 {c.name}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
