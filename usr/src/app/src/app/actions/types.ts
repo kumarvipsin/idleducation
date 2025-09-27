@@ -101,8 +101,6 @@ export interface TExamCategory {
   teacherIds?: string[];
   imageUrl?: string;
   href: string;
-  icon?: string;
-  theme?: string;
 }
 
 export interface TTeamMember {
