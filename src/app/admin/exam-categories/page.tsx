@@ -21,7 +21,6 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuChe
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
 import { ImageCropper } from '@/components/image-cropper';
-import { iconOptions, themeOptions, getDynamicIcon } from '@/lib/dynamic-styles';
 
 interface User {
   id: string;
@@ -165,43 +164,6 @@ const ExamCategoryForm = ({
                 : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
               <Input id="image" name="imageFile" type="file" onChange={handleFileChange} className="col-span-3" />
             </div>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="icon" className="text-right">Icon</Label>
-            <Select name="icon" defaultValue={category?.icon}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select an icon" />
-              </SelectTrigger>
-              <SelectContent>
-                <ScrollArea className="h-48">
-                  {iconOptions.map(iconName => (
-                    <SelectItem key={iconName} value={iconName}>
-                      <div className="flex items-center gap-2">
-                        {getDynamicIcon(iconName, "w-4 h-4")}
-                        <span>{iconName}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </ScrollArea>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="theme" className="text-right">Theme</Label>
-            <Select name="theme" defaultValue={category?.theme}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a theme" />
-              </SelectTrigger>
-              <SelectContent>
-                 <ScrollArea className="h-48">
-                  {themeOptions.map(themeName => (
-                    <SelectItem key={themeName} value={themeName}>
-                      <span className="capitalize">{themeName}</span>
-                    </SelectItem>
-                  ))}
-                </ScrollArea>
-              </SelectContent>
-            </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="order" className="text-right">Order</Label>

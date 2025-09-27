@@ -4,7 +4,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from 'lucide-react';
+import { ArrowRight, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { getExamCategories } from '@/app/actions/data';
 import type { TExamCategory } from '@/app/actions/types';
@@ -12,7 +12,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -36,7 +35,6 @@ function ExamcatPageContent() {
           .sort((a, b) => (a.order || 99) - (b.order || 99));
         setCategories(competitiveExams);
         if (competitiveExams.length > 0) {
-          // Find a default category, e.g., NEET or the first one
           const defaultCat = competitiveExams.find(c => c.name === 'NEET') || competitiveExams[0];
           setActiveCategory(defaultCat);
         }
@@ -48,7 +46,9 @@ function ExamcatPageContent() {
 
   const renderSkeleton = () => (
     <div className="space-y-4">
-      <Skeleton className="h-9 w-full rounded-md" />
+      <div className="flex justify-center gap-2">
+          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)}
+      </div>
       <Skeleton className="h-80 w-full rounded-lg" />
     </div>
   );
@@ -66,13 +66,22 @@ function ExamcatPageContent() {
       <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/4]">
-            <Image
-                src="https://picsum.photos/seed/exam-banner/1920/480"
-                alt="Competitive Exams Banner"
-                data-ai-hint="students studying"
-                fill
-                className="object-cover"
-            />
+             {activeCategory?.imageUrl ? (
+                <GcsImage
+                    filePath={activeCategory.imageUrl}
+                    alt={`Banner for ${activeCategory.name}`}
+                    fill
+                    className="object-cover"
+                />
+            ) : (
+                <Image
+                    src="https://picsum.photos/seed/exam-banner/1920/480"
+                    alt="Competitive Exams Banner"
+                    data-ai-hint="students studying"
+                    fill
+                    className="object-cover"
+                />
+            )}
           </div>
         </Card>
       </section>
@@ -124,7 +133,7 @@ function ExamcatPageContent() {
         </section>
       )}
 
-      <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+      <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up mt-16" style={{ animationDelay: '0.4s' }}>
           <div className="container mx-auto px-4 md:px-[10%]">
              <div className="text-center">
                 <h3 className="font-bold text-2xl mb-6 text-primary border-b-2 border-primary/20 pb-2 inline-block">Essential Resources</h3>

@@ -458,8 +458,6 @@ export async function addExamCategory(formData: FormData) {
     name: rawData.name as string,
     group: rawData.group as 'school' | 'competitive',
     order: parseInt(rawData.order as string, 10) || 99,
-    icon: rawData.icon as string,
-    theme: rawData.theme as string,
   };
 
   if (categoryData.group === 'school') {
@@ -493,8 +491,6 @@ export async function editExamCategory(id: string, formData: FormData) {
       name: rawData.name as string,
       group: rawData.group as 'school' | 'competitive',
       order: parseInt(rawData.order as string, 10) || 99,
-      icon: rawData.icon as string,
-      theme: rawData.theme as string,
       teacherIds: [],
     };
 
