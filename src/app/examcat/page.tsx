@@ -9,7 +9,10 @@ import Link from 'next/link';
 import { getExamCategories } from '@/app/actions/data';
 import type { TExamCategory } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getDynamicGradient, getDynamicIcon } from '@/lib/dynamic-styles';
+import { GcsImage } from '@/components/gcs-image';
+import { Separator } from '@/components/ui/separator';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -21,87 +24,107 @@ const resourceLinks = [
 function ExamcatPageContent() {
   const [categories, setCategories] = useState<TExamCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<TExamCategory | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const categoriesResult = await getExamCategories();
-
       if (categoriesResult.success && categoriesResult.data) {
         const competitiveExams = (categoriesResult.data as TExamCategory[])
           .filter(cat => cat.group === 'competitive')
           .sort((a, b) => (a.order || 99) - (b.order || 99));
         setCategories(competitiveExams);
+        if (competitiveExams.length > 0) {
+          // Find a default category, e.g., NEET or the first one
+          const defaultCat = competitiveExams.find(c => c.name === 'NEET') || competitiveExams[0];
+          setActiveCategory(defaultCat);
+        }
       }
       setLoading(false);
     };
     fetchData();
   }, []);
-  
+
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {[...Array(4)].map((_, i) => (
-        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
-          <CardContent className="p-6 flex flex-col flex-grow items-start">
-            <Skeleton className="h-10 w-10 rounded-full mb-4" />
-            <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-      ))}
+    <div className="space-y-4">
+      <Skeleton className="h-9 w-full rounded-md" />
+      <Skeleton className="h-80 w-full rounded-lg" />
     </div>
   );
+  
+  if (loading) {
+    return (
+      <div className="container mx-auto py-8 px-4 md:px-6">
+        {renderSkeleton()}
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto py-8 px-4 md:px-6">
-      <section className="w-full pb-12 md:pb-24 animate-fade-in-up">
-        <div className="container mx-auto px-4 md:px-[10%]">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary">
-              Competitive Exams
-            </h1>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Explore our comprehensive coaching programs for various competitive exams and take the next step towards your career goals.
-            </p>
+      <section className="mb-8">
+        <Card className="overflow-hidden shadow-lg">
+          <div className="relative w-full aspect-[16/4]">
+            <Image
+                src="https://picsum.photos/seed/exam-banner/1920/480"
+                alt="Competitive Exams Banner"
+                data-ai-hint="students studying"
+                fill
+                className="object-cover"
+            />
           </div>
-          
-           <main className="flex-1">
-            {loading ? renderSkeleton() : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
-                {categories.length > 0 ? (
-                    categories.map((category, index) => (
-                    <Card 
-                        key={category.id} 
-                        className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${getDynamicGradient(category.theme)}`}
-                        style={{ animationDelay: `${index * 0.05}s` }}
-                    >
-                        <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                            <div className="flex justify-between items-start w-full mb-4">
-                                {getDynamicIcon(category.icon)}
-                            </div>
-                            <h3 className="text-xl font-bold mb-1 flex-grow">{category.name}</h3>
-                            <Button asChild variant="default" className="mt-auto w-full">
-                                <Link href={category.href}>
-                                    VIEW MORE <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
-                        </CardContent>
-                    </Card>
-                    ))
-                ) : (
-                    <div className="col-span-full text-center py-12">
-                        <Card className="p-8 inline-block">
-                            <p className="text-muted-foreground font-semibold">No competitive exam categories found.</p>
-                        </Card>
-                    </div>
-                )}
-                </div>
-            )}
-           </main>
-        </div>
+        </Card>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+      <div className="mb-8">
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+            {categories.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setActiveCategory(c)}
+                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                  ${activeCategory?.id === c.id 
+                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+              >
+                {c.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {activeCategory && (
+        <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="container mx-auto px-4 md:px-[10%]">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                {`${activeCategory.name} Online Coaching 2025-2026`}
+              </h2>
+              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                  Everything you need to know about the curriculum, exams, and resources.
+              </p>
+            </div>
+            <Card className="shadow-lg">
+                <CardContent className="p-6 space-y-8">
+                    <div>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
+                        <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeCategory.name} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                    </div>
+                    <Separator />
+                    <div>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
+                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeCategory.name} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
+                    </div>
+                </CardContent>
+            </Card>
+            </div>
+        </section>
+      )}
+
+      <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <div className="container mx-auto px-4 md:px-[10%]">
              <div className="text-center">
                 <h3 className="font-bold text-2xl mb-6 text-primary border-b-2 border-primary/20 pb-2 inline-block">Essential Resources</h3>
