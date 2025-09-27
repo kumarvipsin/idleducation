@@ -225,7 +225,12 @@ export async function getExamCategories() {
     try {
         const categoriesQuery = query(collection(db, "examCategories"), orderBy("order", "asc"));
         const querySnapshot = await getDocs(categoriesQuery);
-        const categories = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        const categories = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            const slug = data.name.toLowerCase().replace(/\s+/g, '-');
+            const href = data.group === 'school' ? `/school?class=${encodeURIComponent(data.name)}` : `/category/${slug}`;
+            return { id: doc.id, ...serializeFirestoreData(data), href };
+        });
         return { success: true, data: categories };
     } catch (error) {
         console.error("Error fetching exam categories:", error);

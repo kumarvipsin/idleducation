@@ -99,6 +99,8 @@ export interface TExamCategory {
   order: number;
   createdAt: string;
   teacherIds?: string[];
+  imageUrl?: string;
+  href: string;
 }
 
 export interface TTeamMember {
