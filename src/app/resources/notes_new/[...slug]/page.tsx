@@ -127,7 +127,7 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
 }
 
 
-export default async function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
+export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
     const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
