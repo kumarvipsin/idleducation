@@ -4,7 +4,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight } from 'lucide-react';
 import {
@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { getExamCategories } from "@/app/actions";
 import type { TExamCategory } from "@/app/actions/types";
 import { Skeleton } from "../ui/skeleton";
+import { GcsImage } from '../gcs-image';
 
 const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.1)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
 
@@ -83,7 +84,10 @@ export function ExamCategories() {
   }, []);
 
   const schoolPrograms = categories.filter(c => c.group === 'school');
-  const competitivePrograms = categories.filter(c => c.group === 'competitive');
+  const competitivePrograms = categories.filter(c => c.group === 'competitive').map(c => ({
+      ...c,
+      href: `/examcat?category=${encodeURIComponent(c.name)}`
+  }));
 
   const renderSkeleton = () => (
     <div className="flex-1">
