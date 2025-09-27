@@ -3,12 +3,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { Card } from '../ui/card';
 import { cn } from '@/lib/utils';
 import { getExcellenceResults } from '@/app/actions';
 import type { TExcellenceResult } from '@/app/actions/types';
 import { Skeleton } from '../ui/skeleton';
+import { GcsImage } from '../gcs-image';
 
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
@@ -111,11 +111,10 @@ export function AcademicExcellence() {
                 {loading || !activeResult ? (
                   <Skeleton className="w-full h-full" />
                 ) : (
-                  <Image
+                  <GcsImage
                     key={animationKey}
-                    src={activeResult.imageUrl}
+                    filePath={activeResult.imageUrl}
                     alt={`Result for ${activeResult.categoryName}`}
-                    data-ai-hint="student success results"
                     fill
                     className="object-cover animate-fade-in-up"
                   />
