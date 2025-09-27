@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getAdmissions, getSignedUrlForAdmissionPhoto } from '@/app/actions';
+import { getAdmissions, getSignedUrlForPdf } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -62,7 +62,7 @@ function AdmissionPhoto({ filePath }: { filePath: string }) {
         return;
       }
       setLoading(true);
-      const result = await getSignedUrlForAdmissionPhoto(filePath);
+      const result = await getSignedUrlForPdf(filePath);
       if (result.success && result.url) {
         setImageUrl(result.url);
       }
