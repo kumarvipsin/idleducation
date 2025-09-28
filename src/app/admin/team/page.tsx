@@ -17,6 +17,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ImageCropper } from '@/components/image-cropper';
+import { GcsImage } from '@/components/gcs-image';
 
 const TeamMemberForm = ({
   member,
@@ -28,12 +30,27 @@ const TeamMemberForm = ({
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(member?.avatarUrl || null);
+  const [photoForCropper, setPhotoForCropper] = useState<string | null>(null);
+  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+
+  useEffect(() => {
+    // Reset state when the member prop changes
+    setPreview(member?.avatarUrl || null);
+    setPhotoForCropper(null);
+    setCroppedPhoto(null);
+  }, [member]);
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
+    if (croppedPhoto) {
+        formData.append('avatar', croppedPhoto);
+    }
+    
     const apiCall = member
       ? editTeamMember(member.id, formData)
       : addTeamMember(formData);
@@ -52,43 +69,64 @@ const TeamMemberForm = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoForCropper(reader.result as string);
+        setIsCropperOpen(true);
+      };
+      reader.readAsDataURL(file);
     }
+  };
+  
+  const onImageCropped = (croppedImageFile: File) => {
+    setCroppedPhoto(croppedImageFile);
+    setPreview(URL.createObjectURL(croppedImageFile)); 
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">Name</Label>
-          <Input id="name" name="name" defaultValue={member?.name} className="col-span-3" required/>
-        </div>
-         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="designation" className="text-right">Designation</Label>
-          <Input id="designation" name="designation" defaultValue={member?.designation} className="col-span-3" required/>
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="experience" className="text-right">Experience</Label>
-          <Input id="experience" name="experience" defaultValue={member?.experience} className="col-span-3" required/>
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="order" className="text-right">Order</Label>
-          <Input id="order" name="order" type="number" defaultValue={member?.order ?? 99} className="col-span-3" />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="avatar" className="text-right">Avatar (Optional)</Label>
-          <div className="col-span-3 flex items-center gap-4">
-            {preview && <Avatar><AvatarImage src={preview} alt="Avatar Preview" /></Avatar>}
-            <Input id="avatar" name="avatar" type="file" onChange={handleFileChange} className="col-span-3" />
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">Name</Label>
+            <Input id="name" name="name" defaultValue={member?.name} className="col-span-3" required/>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="designation" className="text-right">Designation</Label>
+            <Input id="designation" name="designation" defaultValue={member?.designation} className="col-span-3" required/>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="experience" className="text-right">Experience</Label>
+            <Input id="experience" name="experience" defaultValue={member?.experience} className="col-span-3" required/>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="order" className="text-right">Order</Label>
+            <Input id="order" name="order" type="number" defaultValue={member?.order ?? 99} className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="avatar" className="text-right">Avatar (Optional)</Label>
+            <div className="col-span-3 flex items-center gap-4">
+              <Avatar>
+                {preview ? <AvatarImage src={preview} alt="Avatar Preview" /> : member?.avatarUrl ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member?.name?.charAt(0)}</AvatarFallback> }
+              </Avatar>
+              <Input id="avatar" name="avatar-upload" type="file" onChange={handleFileChange} className="col-span-3" />
+            </div>
           </div>
         </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Saving...' : 'Save changes'}
-        </Button>
-      </DialogFooter>
-    </form>
+        <DialogFooter>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save changes'}
+          </Button>
+        </DialogFooter>
+      </form>
+      <ImageCropper 
+        isOpen={isCropperOpen} 
+        onClose={() => setIsCropperOpen(false)} 
+        imageSrc={photoForCropper} 
+        onImageCropped={onImageCropped} 
+        aspectRatio={1}
+      />
+    </>
   );
 };
 
@@ -176,8 +214,7 @@ export default function AdminTeamPage() {
                       <TableRow key={member.id}>
                         <TableCell>
                           <Avatar>
-                            <AvatarImage src={member.avatarUrl} alt={member.name} />
-                            <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                             {member.avatarUrl ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>}
                           </Avatar>
                         </TableCell>
                         <TableCell>{member.name}</TableCell>
@@ -227,3 +264,5 @@ export default function AdminTeamPage() {
     </Dialog>
   );
 }
+
+    
