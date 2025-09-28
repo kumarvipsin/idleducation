@@ -22,8 +22,7 @@ export function GcsImage({ filePath, alt, className, width, height, fill, ...pro
         setLoading(false);
         return;
       }
-      // If it's already a full URL (e.g., from a file preview), use it directly.
-      if (filePath.startsWith('blob:') || filePath.startsWith('data:')) {
+       if (filePath.startsWith('blob:') || filePath.startsWith('data:') || filePath.startsWith('https://')) {
         setImageUrl(filePath);
         setLoading(false);
         return;
