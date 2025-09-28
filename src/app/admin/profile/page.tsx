@@ -1,6 +1,6 @@
 
 'use client';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Mail, Shield, Phone, Home, Calendar, Droplets, User as UserIcon } from "lucide-react";
