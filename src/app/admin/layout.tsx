@@ -182,16 +182,10 @@ function AdminLayout({
                                 <span>Manage Notes</span>
                             </Link>
                         </SidebarMenuButton>
-                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/important-questions')}>
-                            <Link href="/admin/important-questions">
-                                <FileText />
-                                <span>Manage Imp Questions</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/ncert-solutions')}>
                            <Link href="/admin/ncert-solutions">
                                 <BookCheck />
-                                <span>NCERT Solutions</span>
+                                <span>NCERT & Imp Qs</span>
                            </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
