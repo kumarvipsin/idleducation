@@ -8,6 +8,7 @@ export interface TSubTopic {
   name: string;
   createdAt: string;
   pdfUrl?: string;
+  order: number;
 }
 
 export interface TTopic {
@@ -15,6 +16,7 @@ export interface TTopic {
   createdAt: string;
   pdfUrl?: string;
   subTopics?: TSubTopic[];
+  order: number;
 }
 
 export interface TChapter {

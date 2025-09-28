@@ -1,4 +1,5 @@
 
+
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -456,7 +457,7 @@ export async function deleteChapter(collectionType: CollectionType, classId: str
 // ==================================
 // Topic Level Operations
 // ==================================
-export async function addTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, partKey: string | undefined, topicName: string, pdfFile: File | null) {
+export async function addTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, partKey: string | undefined, topicName: string, order: number, pdfFile: File | null) {
     if (!topicName) return { success: false, message: "Topic name is required." };
 
     let pdfUrl = '';
@@ -470,6 +471,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
         createdAt: new Date().toISOString(),
         subTopics: [],
         pdfUrl: pdfUrl,
+        order: isNaN(order) ? 99 : order,
     };
 
     try {
@@ -506,7 +508,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     }
 }
 
-export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, pdfFile: File | null) {
+export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, order: number, pdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !newTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -527,6 +529,7 @@ export async function editTopic(collectionType: CollectionType, classId: string,
 
         const topicToUpdate = chaptersArray[chapterIndex].topics[topicIndex];
         topicToUpdate.name = newTopicName;
+        topicToUpdate.order = isNaN(order) ? 99 : order;
 
         if (pdfFile && pdfFile.size > 0) {
             const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${generateSlug(newTopicName)}.pdf`;
@@ -581,7 +584,7 @@ export async function deleteTopic(collectionType: CollectionType, classId: strin
 // ==================================
 // SubTopic Level Operations
 // ==================================
-export async function addSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, topicIndex: number, partKey: string | undefined, subTopicName: string, pdfFile: File | null) {
+export async function addSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, topicIndex: number, partKey: string | undefined, subTopicName: string, order: number, pdfFile: File | null) {
     if (!subTopicName) return { success: false, message: "Sub-topic name is required." };
 
     let pdfUrl = '';
@@ -594,6 +597,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
         name: subTopicName,
         createdAt: new Date().toISOString(),
         pdfUrl: pdfUrl,
+        order: isNaN(order) ? 99 : order,
     };
 
     try {
@@ -631,7 +635,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
 }
 
 
-export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, pdfFile: File | null) {
+export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, order: number, pdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || subTopicIndex === undefined || !newSubTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -652,6 +656,7 @@ export async function editSubTopic(collectionType: CollectionType, classId: stri
 
         const subTopicToUpdate = chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex];
         subTopicToUpdate.name = newSubTopicName;
+        subTopicToUpdate.order = isNaN(order) ? 99 : order;
 
         if (pdfFile && pdfFile.size > 0) {
             const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${generateSlug(newSubTopicName)}.pdf`;
