@@ -609,6 +609,8 @@ export async function editTeamMember(id: string, formData: FormData) {
         if (avatarFile && avatarFile.size > 0) {
             const destination = `team-members/${Date.now()}-${avatarFile.name}`;
             memberData.avatarUrl = await uploadFileToGCS(avatarFile, destination);
+        } else if (rawData.removePhoto === 'true') {
+            memberData.avatarUrl = '';
         }
 
         const docRef = doc(db, "teamMembers", id);

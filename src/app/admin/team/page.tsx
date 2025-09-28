@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Upload } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -33,12 +33,14 @@ const TeamMemberForm = ({
   const [photoForCropper, setPhotoForCropper] = useState<string | null>(null);
   const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [removePhoto, setRemovePhoto] = useState(false);
 
   useEffect(() => {
     // Reset state when the member prop changes
     setPreview(member?.avatarUrl || null);
     setPhotoForCropper(null);
     setCroppedPhoto(null);
+    setRemovePhoto(false);
   }, [member]);
 
 
@@ -49,6 +51,9 @@ const TeamMemberForm = ({
     const formData = new FormData(event.currentTarget);
     if (croppedPhoto) {
         formData.append('avatar', croppedPhoto);
+    }
+    if (removePhoto) {
+        formData.append('removePhoto', 'true');
     }
     
     const apiCall = member
@@ -69,6 +74,7 @@ const TeamMemberForm = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setRemovePhoto(false);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoForCropper(reader.result as string);
@@ -82,6 +88,12 @@ const TeamMemberForm = ({
     setCroppedPhoto(croppedImageFile);
     setPreview(URL.createObjectURL(croppedImageFile)); 
   };
+  
+  const handleRemovePhoto = () => {
+    setRemovePhoto(true);
+    setPreview(null);
+    setCroppedPhoto(null);
+  }
 
   return (
     <>
@@ -104,12 +116,19 @@ const TeamMemberForm = ({
             <Input id="order" name="order" type="number" defaultValue={member?.order ?? 99} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="avatar" className="text-right">Avatar (Optional)</Label>
-            <div className="col-span-3 flex items-center gap-4">
-              <Avatar>
-                {preview ? <AvatarImage src={preview} alt="Avatar Preview" /> : member?.avatarUrl ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member?.name?.charAt(0)}</AvatarFallback> }
-              </Avatar>
-              <Input id="avatar" name="avatar-upload" type="file" onChange={handleFileChange} className="col-span-3" />
+            <Label htmlFor="avatar-upload" className="text-right">Avatar</Label>
+            <div className="col-span-3 flex flex-col gap-2">
+                <div className="flex items-center gap-4">
+                    <Avatar>
+                        {(preview && !removePhoto) ? <AvatarImage src={preview} alt="Avatar Preview" /> : (member?.avatarUrl && !removePhoto) ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member?.name?.charAt(0)}</AvatarFallback> }
+                    </Avatar>
+                     <Input id="avatar-upload" name="avatar-upload" type="file" onChange={handleFileChange} className="col-span-3" />
+                </div>
+                 {(member?.avatarUrl || preview) && (
+                    <Button type="button" variant="destructive" size="sm" onClick={handleRemovePhoto} className="w-fit">
+                        <Trash2 className="w-4 h-4 mr-2"/> Remove Photo
+                    </Button>
+                )}
             </div>
           </div>
         </div>
