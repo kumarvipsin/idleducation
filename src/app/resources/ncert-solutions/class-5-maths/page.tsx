@@ -62,7 +62,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4")}>
+        <div className="space-y-1">
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -71,8 +71,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
                     <div key={index} className="py-1">
                         <div className="flex items-center gap-2">
                            <span className={cn(
-                                "text-sm",
-                                level > 0 ? "font-normal text-foreground/80" : "font-semibold text-foreground",
+                                "text-sm font-semibold text-primary",
                             )}>
                                 {item.name}
                             </span>
@@ -118,8 +117,8 @@ export default function Class5MathsPage() {
                                     <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                                         <Link href="#"><Eye className="h-4 w-4"/></Link>
                                     </Button>
-                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                        <Link href="#"><ShoppingCart className="h-4 w-4"/></Link>
+                                    <Button asChild variant="ghost" size="sm">
+                                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                                     </Button>
                                 </div>
                             </div>
