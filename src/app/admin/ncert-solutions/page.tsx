@@ -248,9 +248,8 @@ const ContentManager = ({ collectionType, title }: { collectionType: CollectionT
 
 export default function ContentManagementPage() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-6">
         <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
-        <ContentManager collectionType="importantQuestions" title="Manage Important Questions" />
     </div>
   );
 }
