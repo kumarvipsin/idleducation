@@ -38,7 +38,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     </div>
                     
                     <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-[0.6rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest">{designation}</p>
                     
                     <div className="flex-grow"></div>
 
@@ -58,7 +58,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                 </CardContent>
             </Card>
-            <DialogContent className="sm:max-w-md bg-gradient-to-br from-primary via-blue-800 to-indigo-900 border-none rounded-2xl shadow-2xl text-white">
+            <DialogContent className="sm:max-w-md bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 border-none rounded-2xl shadow-2xl text-white">
                 <div className="p-4 pt-8">
                   <div className="relative flex flex-col items-center text-center">
                       <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
