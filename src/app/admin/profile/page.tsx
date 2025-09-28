@@ -1,15 +1,17 @@
 
 'use client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, Mail, Shield, Phone, Home, Calendar, Droplets } from "lucide-react";
+import { Mail, Shield, Phone, Home, Calendar, Droplets, User as UserIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import { ProfileEditForm } from "./profile-edit-form";
 import { GcsImage } from "@/components/gcs-image";
+import Image from "next/image";
+import placeholderData from "@/app/lib/placeholder-images.json";
 
 export default function AdminProfilePage() {
   const { user, loading, login } = useAuth();
@@ -24,41 +26,60 @@ export default function AdminProfilePage() {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            <div className="md:col-span-1 flex flex-col items-center justify-center p-6">
-                 <Skeleton className="h-40 w-40 rounded-full" />
-                 <Skeleton className="h-6 w-3/4 mt-4" />
-                 <Skeleton className="h-4 w-1/2 mt-2" />
-            </div>
-            <div className="md:col-span-2 space-y-6">
-              <Skeleton className="h-20 w-full" />
-              <Skeleton className="h-20 w-full" />
-            </div>
+        <div className="space-y-4">
+          <Skeleton className="h-48 w-full" />
+          <div className="flex items-end px-4 -mt-16">
+            <Skeleton className="h-32 w-32 rounded-full border-4" />
+          </div>
+          <div className="p-4 space-y-2">
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
         </div>
       );
     }
 
     if (user) {
       return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            <div className="md:col-span-1 flex flex-col items-center justify-center text-center p-6 bg-muted/30 rounded-lg">
-                <Avatar className="w-40 h-40 border-4 border-primary shadow-lg mb-4">
-                    {user.photoURL ? (
-                      <GcsImage filePath={user.photoURL} alt={user.name || 'Admin'} fill className="rounded-full object-cover"/>
-                    ) : (
-                      <AvatarFallback className="text-5xl">
-                          {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                      </AvatarFallback>
-                    )}
-                </Avatar>
-                <h2 className="text-2xl font-bold">{user.name}</h2>
-                <p className="text-muted-foreground capitalize">{user.role}</p>
+        <div>
+          <div className="relative h-48 w-full">
+            <Image
+              src={placeholderData.profile_banner.src}
+              alt={placeholderData.profile_banner.alt}
+              data-ai-hint={placeholderData.profile_banner.hint}
+              fill
+              className="object-cover rounded-t-lg"
+            />
+          </div>
+          <div className="px-6">
+            <div className="flex items-end -mt-16">
+              <Avatar className="w-32 h-32 border-4 border-background bg-background shadow-lg">
+                {user.photoURL ? (
+                  <GcsImage
+                    filePath={user.photoURL}
+                    alt={user.name || 'Admin'}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                ) : (
+                  <AvatarFallback className="text-5xl">
+                    {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+              <div className="ml-auto">
                  <DialogTrigger asChild>
-                    <Button variant="outline" className="mt-4">Edit Profile</Button>
+                    <Button variant="outline">Edit Profile</Button>
                 </DialogTrigger>
+              </div>
             </div>
-            <div className="md:col-span-2 space-y-4">
-                <Card>
+            <div className="mt-4">
+              <h2 className="text-2xl font-bold">{user.name}</h2>
+              <p className="text-sm text-muted-foreground">@{user.email?.split('@')[0]}</p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+               <Card>
                     <CardHeader><CardTitle>Contact Information</CardTitle></CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center gap-4"><Mail className="w-5 h-5 text-primary"/><p>{user.email}</p></div>
@@ -75,6 +96,8 @@ export default function AdminProfilePage() {
                     </CardContent>
                 </Card>
             </div>
+
+          </div>
         </div>
       );
     }
@@ -85,8 +108,8 @@ export default function AdminProfilePage() {
   return (
     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <Card>
-            <CardContent className="p-6">
-            {renderContent()}
+            <CardContent className="p-0">
+              {renderContent()}
             </CardContent>
         </Card>
         <DialogContent className="sm:max-w-2xl">

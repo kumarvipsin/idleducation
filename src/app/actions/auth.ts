@@ -1,3 +1,4 @@
+
 // src/app/actions/auth.ts
 'use server';
 
@@ -32,11 +33,10 @@ export async function loginUser(data: LoginValues) {
     console.log('[actions.ts] loginUser: Firebase sign-in successful for UID:', user.uid);
     
     let userProfile;
+    const userDocRef = doc(db, "users", user.uid);
+    let userDoc = await getDoc(userDocRef);
 
     if (user.email === adminEmail) {
-        const userDocRef = doc(db, "users", user.uid);
-        let userDoc = await getDoc(userDocRef);
-
         // If admin doc doesn't exist, create it
         if (!userDoc.exists()) {
           console.log('[actions.ts] loginUser: Admin user document not found, creating it.');
@@ -63,9 +63,6 @@ export async function loginUser(data: LoginValues) {
         console.log('[actions.ts] loginUser: Admin user profile loaded.', userProfile);
 
     } else {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-
         if (userDoc.exists()) {
             console.log('[actions.ts] loginUser: Found user document in Firestore.');
             const userData = userDoc.data();
