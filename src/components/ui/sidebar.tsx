@@ -490,18 +490,82 @@ const SidebarGroupContent = React.forwardRef<
 ))
 SidebarGroupContent.displayName = "SidebarGroupContent"
 
+type AccordionContext = {
+  value: string
+  onValueChange: (value: string) => void
+}
+
+const AccordionContext = React.createContext<AccordionContext | null>(null)
+
+function useAccordion() {
+  const context = React.useContext(AccordionContext)
+  if (!context) {
+    throw new Error("useAccordion must be used within a SidebarMenuAccordion.")
+  }
+
+  return context
+}
+
+const SidebarMenuAccordion = React.forwardRef<
+  HTMLUListElement,
+  React.ComponentProps<"ul"> & {
+    defaultValue?: string
+    value?: string
+    onValueChange?: (value: string) => void
+  }
+>(
+  (
+    {
+      defaultValue,
+      value: valueProp,
+      onValueChange: setValueProp,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const [_value, _setValue] = React.useState(defaultValue || "")
+    const value = valueProp ?? _value
+    const onValueChange = setValueProp ?? _setValue
+
+    const contextValue = React.useMemo<AccordionContext>(
+      () => ({
+        value,
+        onValueChange,
+      }),
+      [value, onValueChange]
+    )
+
+    return (
+      <AccordionContext.Provider value={contextValue}>
+        <ul
+          ref={ref}
+          data-sidebar="menu"
+          data-accordion="true"
+          className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+          {...props}
+        />
+      </AccordionContext.Provider>
+    )
+  }
+)
+SidebarMenuAccordion.displayName = "SidebarMenuAccordion"
+
+
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
-  React.ComponentProps<"ul"> & { collapsible?: boolean }
->(({ className, collapsible, ...props }, ref) => (
-  <ul
-    ref={ref}
-    data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
-    {...(collapsible && { "data-collapsible": true })}
-    {...props}
-  />
-));
+  React.ComponentProps<"ul">
+>(({ className, ...props }, ref) => {
+    return (
+      <ul
+        ref={ref}
+        data-sidebar="menu"
+        className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+        {...props}
+      />
+    )
+  }
+)
 SidebarMenu.displayName = "SidebarMenu"
 
 const SidebarMenuItem = React.forwardRef<
@@ -692,17 +756,22 @@ SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef<
   HTMLLIElement,
-  React.ComponentProps<"li">
->((props, ref) => {
-  const [open, setOpen] = React.useState(false)
+  React.ComponentProps<"li"> & {
+    value?: string
+  }
+>(({ value: valueProp, ...props }, ref) => {
+  const accordion = useAccordion()
+  const id = React.useId()
+  const value = valueProp ?? id
+
+  const open = accordion?.value === value
 
   return (
     <li
       ref={ref}
       data-sidebar="menu-sub-wrapper"
       data-state={open ? "open" : "closed"}
-      onMouseOver={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      data-value={value}
       {...props}
     />
   )
@@ -717,6 +786,9 @@ const SidebarMenuSubButton = React.forwardRef<
   }
 >(({ asChild = false, isActive = false, className, ...props }, ref) => {
   const Comp = asChild ? Slot : "button"
+  const accordion = useAccordion()
+  const sub = React.useContext(SidebarMenuSubContext)
+
   return (
     <Comp
       ref={ref}
@@ -727,23 +799,38 @@ const SidebarMenuSubButton = React.forwardRef<
         "group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-2 [&>span]:group-data-[collapsible=icon]:hidden [&>svg:last-child]:group-data-[collapsible=icon]:hidden",
         className
       )}
+      onClick={(e) => {
+        props.onClick?.(e)
+        if (accordion) {
+          accordion.onValueChange(accordion.value === sub.value ? "" : sub.value)
+        }
+      }}
       {...props}
     />
   )
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
+const SidebarMenuSubContext = React.createContext<{ value: string }>({
+  value: "",
+})
+
+
 const SidebarMenuSubItem = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
 >(({ className, ...props }, ref) => {
+  const accordion = useAccordion()
+  const sub = React.useContext(SidebarMenuSubContext)
+  const open = accordion?.value === sub.value
+
   return (
     <ul
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
         "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-1",
-        "group-data-[state=closed]/menu-sub-wrapper:hidden",
+        !open && "hidden",
         "group-data-[collapsible=icon]:hidden",
         className
       )}
@@ -765,6 +852,7 @@ export {
   SidebarInput,
   SidebarInset,
   SidebarMenu,
+  SidebarMenuAccordion,
   SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuButton,

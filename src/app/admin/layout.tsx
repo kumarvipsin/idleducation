@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarMenu,
+  SidebarMenuAccordion,
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
@@ -94,8 +95,8 @@ function AdminLayout({
                     </SidebarMenuButton>
                 </SidebarMenuItem>
              </SidebarMenu>
-            <SidebarMenu collapsible>
-                <SidebarMenuSub>
+            <SidebarMenuAccordion defaultValue="submissions">
+                <SidebarMenuSub value="user-management">
                     <SidebarMenuSubButton>
                         <Users className="mr-2" />
                         <span className="font-medium">User Management</span>
@@ -128,7 +129,7 @@ function AdminLayout({
                         </SidebarMenuItem>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
-                <SidebarMenuSub>
+                <SidebarMenuSub value="submissions">
                     <SidebarMenuSubButton>
                         <FileText className="mr-2" />
                         <span className="font-medium">Submissions</span>
@@ -186,7 +187,7 @@ function AdminLayout({
                         </SidebarMenuItem>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
-                <SidebarMenuSub>
+                <SidebarMenuSub value="course-content">
                     <SidebarMenuSubButton>
                         <BookOpen className="mr-2" />
                         <span className="font-medium">Course Content</span>
@@ -243,7 +244,7 @@ function AdminLayout({
                         </SidebarMenuItem>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
-                <SidebarMenuSub>
+                <SidebarMenuSub value="site-content">
                     <SidebarMenuSubButton>
                         <Settings2 className="mr-2" />
                         <span className="font-medium">Site Content</span>
@@ -284,7 +285,7 @@ function AdminLayout({
                         </SidebarMenuItem>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
-            </SidebarMenu>
+            </SidebarMenuAccordion>
              <SidebarMenu className="mt-auto">
                  <SidebarMenuItem>
                     <SidebarMenuButton asChild>
