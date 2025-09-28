@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages, Folder, Dot } from "lucide-react";
+import { FileText as FileIcon, BookOpen, ChevronRight, Download, Eye, Languages, ShoppingCart, Folder, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -57,7 +57,7 @@ const class5MathsResources = {
   ],
 };
 
-const renderContentTree = (items: any[], level = 0) => {
+const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => {
     if (!items || items.length === 0) return null;
 
     return (
@@ -69,7 +69,7 @@ const renderContentTree = (items: any[], level = 0) => {
                 return (
                     <div key={index}>
                       <p className={cn("font-semibold text-sm py-1", level > 0 && "text-foreground/80 font-medium")}>{item.name}</p>
-                      {hasChildren && children.length > 0 && renderContentTree(children, level + 1)}
+                      {hasChildren && children.length > 0 && <ContentTree items={children} level={level + 1} />}
                     </div>
                 );
             })}
@@ -96,24 +96,34 @@ export default function Class5MathsPage() {
             <span className="sr-only">Toggle Language</span>
         </Button>
       </div>
-        <div className="space-y-2">
-            {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
-                <Accordion type="single" collapsible className="w-full space-y-2" key={bookIndex}>
-                    {book.chapters.map((chapter, chapterIndex) => (
-                        <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                            <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="flex items-center justify-between p-3 md:p-4 group hover:no-underline">
-                                    <span className="font-medium text-sm md:text-base text-foreground/90 text-left">{chapter.name}</span>
+      <div className="space-y-2">
+        {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
+            <Accordion type="single" collapsible className="w-full space-y-2" key={bookIndex}>
+                {book.chapters.map((chapter, chapterIndex) => (
+                    <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                        <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                             <div className="flex items-center">
+                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left p-3 md:p-4 group hover:no-underline">
+                                    {chapter.name}
                                 </AccordionTrigger>
-                                <AccordionContent className="p-4 pt-0">
-                                    {renderContentTree(chapter.topics || [])}
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Card>
-                    ))}
-                </Accordion>
-            ))}
-        </div>
+                                <div className="flex items-center gap-1 pr-4">
+                                     <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                        <Link href="#"><Eye className="h-4 w-4"/></Link>
+                                    </Button>
+                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                        <Link href="#"><Download className="h-4 w-4"/></Link>
+                                    </Button>
+                                </div>
+                            </div>
+                            <AccordionContent className="p-4 pt-0">
+                                <ContentTree items={chapter.topics || []} />
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Card>
+                ))}
+            </Accordion>
+        ))}
+      </div>
     </div>
   );
 
@@ -199,3 +209,5 @@ export default function Class5MathsPage() {
     </Card>
   );
 }
+
+    
