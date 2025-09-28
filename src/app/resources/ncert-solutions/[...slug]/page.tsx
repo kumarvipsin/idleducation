@@ -2,7 +2,8 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
+import { getCollection } from '@/app/actions';
+import { getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen } from 'lucide-react';
@@ -129,7 +130,7 @@ function NcertSolutionsDetailsContent() {
 export default function NcertSolutionsDetailsPage() {
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NotesDetailsContent />
+            <NcertSolutionsDetailsContent />
         </Suspense>
     )
 }
