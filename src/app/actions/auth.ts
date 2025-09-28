@@ -4,7 +4,7 @@
 import { z } from "zod";
 import { auth, db } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 
 import { serializeFirestoreData } from './utils';
@@ -34,13 +34,34 @@ export async function loginUser(data: LoginValues) {
     let userProfile;
 
     if (user.email === adminEmail) {
-      userProfile = {
-        uid: user.uid,
-        email: user.email,
-        name: 'Admin',
-        role: 'admin',
-      };
-      console.log('[actions.ts] loginUser: Admin user detected.');
+        const userDocRef = doc(db, "users", user.uid);
+        let userDoc = await getDoc(userDocRef);
+
+        // If admin doc doesn't exist, create it
+        if (!userDoc.exists()) {
+          console.log('[actions.ts] loginUser: Admin user document not found, creating it.');
+          const adminData = {
+              uid: user.uid,
+              email: user.email,
+              name: 'Admin',
+              role: 'admin',
+              status: 'approved',
+              createdAt: serverTimestamp()
+          };
+          await setDoc(userDocRef, adminData);
+          userDoc = await getDoc(userDocRef); // Re-fetch the doc
+        }
+
+        const userData = userDoc.data();
+        userProfile = {
+            uid: user.uid,
+            email: user.email,
+            name: userData?.name || 'Admin',
+            role: 'admin',
+            ...serializeFirestoreData(userData),
+        };
+        console.log('[actions.ts] loginUser: Admin user profile loaded.', userProfile);
+
     } else {
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);

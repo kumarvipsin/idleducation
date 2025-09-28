@@ -596,3 +596,46 @@ export async function deleteTeamMember(id: string) {
         return { success: false, message: "Failed to delete team member." };
     }
 }
+
+export async function editAdminProfile(userId: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  const dataToUpdate: any = {};
+
+  // Only add fields to the update object if they have a value
+  if (rawData.name) dataToUpdate.name = rawData.name as string;
+  if (rawData.phone) dataToUpdate.phone = rawData.phone as string;
+  if (rawData.address) dataToUpdate.address = rawData.address as string;
+  if (rawData.dob) dataToUpdate.dob = rawData.dob as string;
+  if (rawData.bloodGroup) dataToUpdate.bloodGroup = rawData.bloodGroup as string;
+  
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `profile_photos/${userId}-${photoFile.name}`;
+      dataToUpdate.photoURL = await uploadFileToGCS(photoFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        dataToUpdate.photoURL = '';
+    }
+
+    if (Object.keys(dataToUpdate).length > 0) {
+        const userDocRef = doc(db, "users", userId);
+        await updateDoc(userDocRef, dataToUpdate);
+    }
+    
+    // Fetch the updated document to return it
+    const updatedDoc = await getDoc(doc(db, "users", userId));
+    if (updatedDoc.exists()) {
+        const userProfile = {
+            uid: userId,
+            email: updatedDoc.data().email,
+            ...serializeFirestoreData(updatedDoc.data())
+        }
+        return { success: true, message: "Profile updated successfully.", user: userProfile };
+    }
+    
+    return { success: true, message: "Profile updated successfully." };
+  } catch (error) {
+    console.error("Error updating admin profile:", error);
+    return { success: false, message: "Failed to update profile." };
+  }
+}
