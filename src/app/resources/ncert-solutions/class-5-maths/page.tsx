@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, Languages, ShoppingCart, Folder, Dot, File as FileIcon } from "lucide-react";
+import { File as FileIcon, BookOpen, ChevronRight, Eye, Download, Languages, ShoppingCart, Folder, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -62,7 +62,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-2 border-dashed border-primary/30")}>
+        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-4 border-dashed border-primary/30")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -111,7 +111,7 @@ export default function Class5MathsPage() {
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                            <div className="flex items-center p-3 md:p-4 group">
+                             <div className="flex items-center justify-between p-3 md:p-4 group">
                                 <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
