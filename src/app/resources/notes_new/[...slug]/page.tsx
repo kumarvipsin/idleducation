@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
+import { getCollection, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen } from 'lucide-react';
@@ -11,9 +11,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { NotesChapterList } from '@/components/notes-chapter-list';
 import { usePathname } from 'next/navigation';
 
-function NotesDetailsContent() {
-    const pathname = usePathname();
-    const slug = pathname.split('/').slice(3);
+function NotesDetailsContent({ slug }: { slug: string[] }) {
     const [classId, subjectKey] = slug || [];
     const [classData, setClassData] = useState<TClass | null>(null);
     const [notesData, setNotesData] = useState<TSubject | null>(null);
@@ -33,7 +31,7 @@ function NotesDetailsContent() {
             setError(null);
             
             const [notesResult, impQuestionsResult] = await Promise.all([
-                getNotes(),
+                getCollection('notes'),
                 getImportantQuestionsForSubject(classId, subjectKey)
             ]);
 
@@ -71,7 +69,7 @@ function NotesDetailsContent() {
         )
     }
     
-    if (error && !classData) {
+    if (error && !notesData) {
          return (
             <Card>
                 <CardContent className="p-6">
@@ -119,7 +117,7 @@ function NotesDetailsContent() {
                 <CardContent className="p-4 md:p-6">
                     <NotesChapterList 
                         notes={notesData} 
-                        importantQuestions={impQuestionsData} 
+                        importantQuestions={impQuestionsData}
                         classId={classId} 
                         subjectKey={subjectKey} 
                     />
@@ -129,10 +127,12 @@ function NotesDetailsContent() {
     );
 }
 
-export default function NotesDetailsPage() {
+
+export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
+    const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NotesDetailsContent />
+            <NotesDetailsContent slug={slug} />
         </Suspense>
     )
 }
