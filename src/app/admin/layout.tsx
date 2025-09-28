@@ -25,6 +25,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
 import { getNewSessionBookingsCount } from '@/app/actions';
 import { MobileBottomNav } from '@/components/mobile-bottom-nav';
+import { Header } from '@/components/header';
 
 function AdminLayout({
   children,
@@ -60,6 +61,8 @@ function AdminLayout({
   ];
 
   return (
+    <>
+    <Header />
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar className="hidden md:flex">
@@ -260,6 +263,7 @@ function AdminLayout({
         <MobileBottomNav links={mobileNavLinks} />
       </div>
     </SidebarProvider>
+    </>
   );
 }
 

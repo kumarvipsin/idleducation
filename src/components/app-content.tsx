@@ -18,24 +18,31 @@ export function AppContent({
   const isAdminPage = pathname.startsWith('/admin');
   const isStudentPage = pathname.startsWith('/student');
   const isTeacherPage = pathname.startsWith('/teacher');
-  const isScholarshipPage = pathname.startsWith('/scholarship');
-  const isBookDemoPage = pathname.startsWith('/book-demo');
-  const isAdmissionPage = pathname.startsWith('/admission');
-  const isFeedbackPage = pathname.startsWith('/feedback');
+  
+  const noHeaderFooterPages = [
+    '/scholarship',
+    '/book-demo',
+    '/admission',
+    '/feedback',
+    '/login',
+    '/signup'
+  ];
 
-  // If it's a dashboard-like page, just render the children.
-  // The layout for these pages will handle their own header/sidebar/footer.
-  if (isAdminPage || isStudentPage || isTeacherPage) {
-    return (
+  const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
+  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/about') && !pathname.startsWith('/contact') && !pathname.startsWith('/gallery');
+
+
+  if (isStudentPage || isTeacherPage || isAdminPage) {
+     return (
         <>
             {children}
             <Toaster />
         </>
     );
   }
-  
+
   // For special public pages that shouldn't have a header or footer
-  if (isAuthPage || isScholarshipPage || isBookDemoPage || isAdmissionPage || isFeedbackPage) {
+  if (noHeaderFooterPages.some(path => pathname.startsWith(path))) {
     return (
         <>
             <main className="flex-grow">
@@ -46,11 +53,9 @@ export function AppContent({
     );
   }
 
-  const showFooter = !pathname.startsWith('/admin') && !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
-
   return (
     <>
-      <Header />
+      {showHeader && <Header />}
       <main className="flex-grow">
         {children}
       </main>
