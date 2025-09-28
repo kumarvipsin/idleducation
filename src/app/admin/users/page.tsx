@@ -14,7 +14,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -46,6 +45,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
 
 interface User {
   id: string;
@@ -150,24 +150,13 @@ export default function AdminUsersPage() {
   };
   
   const renderSkeleton = () => (
-    [...Array(6)].map((_, i) => (
-      <Card key={i}>
-        <CardHeader className="flex flex-row items-center gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-full" />
-        </CardContent>
-        <CardFooter className="gap-2">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-10" />
-        </CardFooter>
-      </Card>
+    [...Array(5)].map((_, i) => (
+        <TableRow key={i}>
+            <TableCell><div className="flex items-center gap-3"><Skeleton className="h-10 w-10 rounded-full" /><div className="space-y-1"><Skeleton className="h-4 w-32" /><Skeleton className="h-3 w-40" /></div></div></TableCell>
+            <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+            <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+            <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+        </TableRow>
     ))
   );
 
@@ -179,101 +168,89 @@ export default function AdminUsersPage() {
             <CardTitle>Student Management</CardTitle>
             <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
           </CardHeader>
-        </Card>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? renderSkeleton() : students.map((student) => (
-            <Card key={student.id} className="flex flex-col">
-              <CardHeader className="flex flex-row items-center gap-4">
-                <Avatar className="h-12 w-12 border-2 border-primary/20">
-                  <AvatarImage src={student.photoURL} alt={student.name}/>
-                  <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <CardTitle className="text-lg">{student.name}</CardTitle>
-                  <CardDescription>{student.email}</CardDescription>
-                </div>
-                 <Badge variant={getBadgeVariant(student.status)} className="capitalize self-start">
-                    {student.status}
-                </Badge>
-              </CardHeader>
-              <CardContent className="flex-1 space-y-3">
-                 <div>
-                    <p className="text-xs font-semibold text-muted-foreground">Assigned Teachers</p>
-                    <p className="text-sm">{getTeacherNames(student.teacherIds)}</p>
-                </div>
-              </CardContent>
-              <CardFooter className="bg-muted/30 p-3 flex justify-end gap-2">
-                {student.status === 'pending' ? (
-                  <>
-                    <Button size="sm" onClick={() => handleApproveUser(student.id)}>
-                        <CheckCircle className="mr-2 h-4 w-4" />
-                        Approve
-                    </Button>
-                    <AlertDialogTrigger asChild>
-                        <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}>
-                            <XCircle className="mr-2 h-4 w-4" />
-                            Deny
-                        </Button>
-                    </AlertDialogTrigger>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" className="flex-1 justify-start">
-                          Manage Teachers <ChevronDown className="ml-auto h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56" align="end">
-                        <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {teachers.map(teacher => (
-                          <DropdownMenuCheckboxItem
-                            key={teacher.id}
-                            checked={student.teacherIds?.includes(teacher.id)}
-                            onCheckedChange={(checked) => {
-                              const currentTeacherIds = student.teacherIds || [];
-                              const newTeacherIds = checked
-                                ? [...currentTeacherIds, teacher.id]
-                                : currentTeacherIds.filter(id => id !== teacher.id);
-                              handleAssignTeachers(student.id, newTeacherIds);
-                            }}
-                          >
-                            {teacher.name}
-                          </DropdownMenuCheckboxItem>
+          <CardContent>
+            <ScrollArea className="h-[calc(100vh-280px)] w-full">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Student</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Assigned Teachers</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {loading ? renderSkeleton() : students.map((student) => (
+                            <TableRow key={student.id}>
+                                <TableCell>
+                                    <div className="flex items-center gap-3">
+                                        <Avatar>
+                                            {student.photoURL ? <GcsImage filePath={student.photoURL} alt={student.name} width={40} height={40} className="rounded-full object-cover" /> : <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>}
+                                        </Avatar>
+                                        <div>
+                                            <div className="font-medium">{student.name}</div>
+                                            <div className="text-xs text-muted-foreground">{student.email}</div>
+                                        </div>
+                                    </div>
+                                </TableCell>
+                                <TableCell><Badge variant={getBadgeVariant(student.status)} className="capitalize">{student.status}</Badge></TableCell>
+                                <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
+                                <TableCell className="text-right">
+                                    {student.status === 'pending' ? (
+                                        <div className="flex gap-2 justify-end">
+                                            <Button size="sm" onClick={() => handleApproveUser(student.id)}><CheckCircle className="mr-2 h-4 w-4" />Approve</Button>
+                                            <AlertDialogTrigger asChild>
+                                                <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}><XCircle className="mr-2 h-4 w-4" />Deny</Button>
+                                            </AlertDialogTrigger>
+                                        </div>
+                                    ) : (
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>Manage Teachers</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
+                                                <ScrollArea className="h-40">
+                                                    {teachers.map(teacher => (
+                                                    <DropdownMenuCheckboxItem
+                                                        key={teacher.id}
+                                                        checked={student.teacherIds?.includes(teacher.id)}
+                                                        onCheckedChange={(checked) => {
+                                                        const currentTeacherIds = student.teacherIds || [];
+                                                        const newTeacherIds = checked
+                                                            ? [...currentTeacherIds, teacher.id]
+                                                            : currentTeacherIds.filter(id => id !== teacher.id);
+                                                        handleAssignTeachers(student.id, newTeacherIds);
+                                                        }}
+                                                    >
+                                                        {teacher.name}
+                                                    </DropdownMenuCheckboxItem>
+                                                    ))}
+                                                </ScrollArea>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuLabel>Other Actions</DropdownMenuLabel>
+                                                <AlertDialogTrigger asChild>
+                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
+                                                        {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                                                        {student.status === 'approved' ? 'Deactivate' : 'Activate'}
+                                                    </DropdownMenuItem>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogTrigger asChild>
+                                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
+                                                        <KeyRound className="mr-2 h-4 w-4" />
+                                                        Reset Password
+                                                    </DropdownMenuItem>
+                                                </AlertDialogTrigger>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    )}
+                                </TableCell>
+                            </TableRow>
                         ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <DropdownMenu>
-                       <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="w-9 h-9">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                       </DropdownMenuTrigger>
-                       <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuSeparator />
-                          <AlertDialogTrigger asChild>
-                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
-                               {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
-                               {student.status === 'approved' ? 'Deactivate' : 'Activate'}
-                             </DropdownMenuItem>
-                           </AlertDialogTrigger>
-                           <AlertDialogTrigger asChild>
-                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
-                               <KeyRound className="mr-2 h-4 w-4" />
-                               Reset Password
-                             </DropdownMenuItem>
-                           </AlertDialogTrigger>
-                       </DropdownMenuContent>
-                    </DropdownMenu>
-                  </>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                    </TableBody>
+                </Table>
+            </ScrollArea>
+          </CardContent>
+        </Card>
         
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -295,5 +272,3 @@ export default function AdminUsersPage() {
     </AlertDialog>
   );
 }
-
-    
