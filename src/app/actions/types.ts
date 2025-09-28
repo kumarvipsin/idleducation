@@ -1,4 +1,3 @@
-
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -23,6 +22,7 @@ export interface TChapter {
   name: string;
   createdAt: string;
   pdfUrl?: string;
+  longNotePdfUrl?: string;
   topics?: TTopic[];
 }
 

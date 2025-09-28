@@ -1,5 +1,4 @@
-
-
+// src/app/actions/content.ts
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -15,7 +14,7 @@ const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 };
 
-type CollectionType = 'notes' | 'importantQuestions' | 'ncertSolutions';
+type CollectionType = 'notes' | 'ncertSolutions' | 'importantQuestions';
 
 // Helper function to get a document reference
 const getContentDocRef = (collectionType: CollectionType, classId: string) => {
@@ -348,21 +347,24 @@ export async function deletePart(collectionType: CollectionType, classId: string
 // ==================================
 // Chapter Level Operations
 // ==================================
-export async function addChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string, pdfFile: File | null) {
+export async function addChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string, pdfFile: File | null, longNotePdfFile: File | null) {
     if (!chapterName) return { success: false, message: "Chapter name is required." };
-    
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(chapterName)}.pdf`;
-        pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    }
     
     const chapterData: TChapter = {
         name: chapterName,
         createdAt: new Date().toISOString(),
         topics: [],
-        pdfUrl: pdfUrl,
     };
+
+    if (pdfFile && pdfFile.size > 0) {
+        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(chapterName)}.pdf`;
+        chapterData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+    }
+
+    if (longNotePdfFile && longNotePdfFile.size > 0) {
+        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(chapterName)}-long-note.pdf`;
+        chapterData.longNotePdfUrl = await uploadFileToGCS(longNotePdfFile, destination);
+    }
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -379,7 +381,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
     }
 }
 
-export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null) {
+export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null, longNotePdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || !newChapterName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -402,6 +404,11 @@ export async function editChapter(collectionType: CollectionType, classId: strin
         if (pdfFile && pdfFile.size > 0) {
             const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(newChapterName)}.pdf`;
             chapterToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        if (longNotePdfFile && longNotePdfFile.size > 0) {
+            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(newChapterName)}-long-note.pdf`;
+            chapterToUpdate.longNotePdfUrl = await uploadFileToGCS(longNotePdfFile, destination);
         }
         
         chaptersArray[chapterIndex] = chapterToUpdate;
