@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser } from "@/app/actions/auth";
-import { editTeacher } from "@/app/actions/admin";
+import { getTeachers } from "@/app/actions/user";
+import { resetUserPassword, signUpUser } from "@/app/actions/auth";
+import { approveUser, denyUser, setUserStatus, editTeacher } from "@/app/actions/admin";
 import { useToast } from "@/hooks/use-toast";
 import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical } from "lucide-react";
 import {
