@@ -1,4 +1,3 @@
-
 'use client';
 import Image from "next/image";
 import Link from "next/link";
@@ -32,7 +31,7 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                 </div>
                 
                 <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest">{designation}</p>
+                <p className="text-[0.6rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
                 
                 <p className="text-sm text-muted-foreground text-center mt-4 flex-grow">
                     {experience}
