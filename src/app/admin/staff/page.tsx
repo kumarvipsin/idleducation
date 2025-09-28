@@ -126,17 +126,14 @@ export default function AdminStaffPage() {
                 </DialogTrigger>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="w-full whitespace-nowrap">
+              <ScrollArea className="w-full">
                 <Table>
                 <TableHeader>
                     <TableRow>
                       <TableHead>Staff ID</TableHead>
                       <TableHead>Staff Name</TableHead>
-                      <TableHead>Father/Guardian</TableHead>
                       <TableHead>Email</TableHead>
                       <TableHead>Contact</TableHead>
-                      <TableHead>Date of Birth</TableHead>
-                      <TableHead>Address</TableHead>
                       <TableHead>Role</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -144,12 +141,15 @@ export default function AdminStaffPage() {
                     {staff.map((member) => (
                     <TableRow key={member.id} onClick={() => setPreviewStaff(member)} className="cursor-pointer">
                         <TableCell>{member.staffId}</TableCell>
-                        <TableCell className="font-medium flex items-center gap-2"><Users className="h-4 w-4"/> {member.name}</TableCell>
-                        <TableCell>{member.guardianName}</TableCell>
+                        <TableCell className="font-medium flex items-center gap-2">
+                            <Avatar className="h-8 w-8">
+                                <AvatarImage src={member.photoUrl} alt={member.name} />
+                                <AvatarFallback>{member.name?.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            {member.name}
+                        </TableCell>
                         <TableCell>{member.email}</TableCell>
                         <TableCell>{member.contact}</TableCell>
-                        <TableCell>{member.dob}</TableCell>
-                        <TableCell>{member.address}</TableCell>
                         <TableCell><Badge variant="secondary" className="capitalize">{member.role}</Badge></TableCell>
                     </TableRow>
                     ))}
