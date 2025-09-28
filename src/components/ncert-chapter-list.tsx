@@ -4,6 +4,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -39,7 +40,29 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     );
 };
 
+const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => {
+    if (!items || items.length === 0) return null;
 
+    return (
+        <div className={cn("space-y-1", level > 0 && "pl-3 border-l ml-3")}>
+            {items.map((item, index) => {
+                const hasChildren = 'topics' in item || 'subTopics' in item;
+                const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
+                
+                return (
+                    <div key={index} className="py-0.5">
+                        <div className="flex items-center gap-2">
+                           <span className="text-sm font-semibold text-foreground/80">
+                                {item.name}
+                            </span>
+                        </div>
+                        {hasChildren && children.length > 0 && <ContentTree items={children} level={level + 1} />}
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
 const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) => {
     if (!items || items.length === 0) return null;
 
@@ -68,7 +91,7 @@ const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) 
                            </div>
                             {hasChildren && (
                                 <AccordionContent className="p-4 pt-0">
-                                    {renderContentTree(children, level + 1)}
+                                    <ContentTree items={children || []} />
                                 </AccordionContent>
                             )}
                         </AccordionItem>
