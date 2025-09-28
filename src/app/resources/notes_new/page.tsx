@@ -8,7 +8,7 @@ import { BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, ArrowRig
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { getNotes } from '@/app/actions';
+import { getCollection } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Subject = {
@@ -61,7 +61,7 @@ export default function NotesNewPage() {
   useEffect(() => {
     const fetchNotesData = async () => {
       setLoading(true);
-      const result = await getNotes();
+      const result = await getCollection('notes');
       if (result.success && result.data) {
         const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
           const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -85,7 +85,6 @@ export default function NotesNewPage() {
             const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
             setSelectedClass(defaultClass);
         }
-
       }
       setLoading(false);
     };
@@ -124,7 +123,7 @@ export default function NotesNewPage() {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-            {loading ? (
+             {loading ? (
                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
                 classes.map((className) => (
