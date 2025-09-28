@@ -720,15 +720,19 @@ export async function addPreviousYearQuestion(formData: FormData) {
   };
 
   try {
-    let uploadedPdfUrl = '';
+    let uploadedPdfUrl = questionData.pdfUrl;
     if (pdfFile && pdfFile.size > 0) {
       const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
       uploadedPdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
+    if (!uploadedPdfUrl) {
+      return { success: false, message: "Either a PDF file or a PDF link is required." };
+    }
+    
     await addDoc(collection(db, 'previousYearQuestions'), {
       ...questionData,
-      pdfUrl: uploadedPdfUrl || questionData.pdfUrl, // Prioritize uploaded file
+      pdfUrl: uploadedPdfUrl,
       createdAt: serverTimestamp(),
     });
 
@@ -755,6 +759,10 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
         if (pdfFile && pdfFile.size > 0) {
             const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
             questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        if (!questionData.pdfUrl) {
+          return { success: false, message: "Either a PDF file or a PDF link is required." };
         }
 
         const docRef = doc(db, "previousYearQuestions", id);

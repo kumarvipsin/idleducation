@@ -58,12 +58,17 @@ const QuestionForm = ({
   const onSubmit = async (data: QuestionFormValues) => {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, String(value));
+        if(value) formData.append(key, String(value));
     });
 
     const pdfFile = fileInputRef.current?.files?.[0];
     if (pdfFile) {
         formData.append('pdf', pdfFile);
+    }
+
+    if (!pdfFile && !data.pdfUrl) {
+      toast({ variant: 'destructive', title: 'Error', description: "Either a PDF file or a PDF link is required." });
+      return;
     }
 
     const apiCall = question

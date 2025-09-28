@@ -228,7 +228,7 @@ export async function getExamCategories() {
         const categories = querySnapshot.docs.map(doc => {
             const data = doc.data();
             const slug = data.name.toLowerCase().replace(/\s+/g, '-');
-            const href = data.group === 'school' ? `/school?class=${encodeURIComponent(data.name)}` : `/category/${slug}`;
+            const href = data.group === 'school' ? `/school?class=${encodeURIComponent(data.name)}` : `/examcat?category=${encodeURIComponent(slug)}`;
             return { id: doc.id, ...serializeFirestoreData(data), href };
         });
         return { success: true, data: categories };
