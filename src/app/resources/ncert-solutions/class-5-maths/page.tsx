@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Download, ShoppingCart, Languages, Folder, Dot, Eye, File as FileIcon } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages, Folder, File as FileIcon, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -61,7 +61,7 @@ const renderContentTree = (items: any[], level = 0) => {
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-4")}>
+        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-2")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -70,11 +70,8 @@ const renderContentTree = (items: any[], level = 0) => {
                     return (
                         <Accordion type="single" collapsible key={index}>
                             <AccordionItem value={`item-${index}`} className="border-b-0">
-                                <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full p-2 text-left rounded-md hover:bg-muted/50">
-                                    <div className="flex items-center">
-                                        {level === 0 ? <Folder className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
-                                        {item.name}
-                                    </div>
+                                <AccordionTrigger className="text-sm font-semibold hover:no-underline py-2 px-3 rounded-md hover:bg-muted/50 data-[state=open]:bg-primary/10 data-[state=open]:text-primary">
+                                    {item.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="pt-1">
                                     {renderContentTree(children, level + 1)}
@@ -85,18 +82,14 @@ const renderContentTree = (items: any[], level = 0) => {
                 }
 
                 return (
-                    <div key={`item-${index}`} className="flex items-center p-2 rounded-md hover:bg-muted/50">
-                        <span className="font-medium text-sm text-foreground/90 flex items-center">
-                            {level === 0 ? <FileIcon className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
-                            {item.name}
-                        </span>
+                    <div key={`item-${index}`} className="flex items-center p-2 rounded-md">
+                        <span className="text-sm text-foreground/80">{item.name}</span>
                     </div>
                 );
             })}
         </div>
     );
 };
-
 
 export default function Class5MathsPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
@@ -160,11 +153,11 @@ export default function Class5MathsPage() {
             <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Eye className="w-4 h-4"/></Link>
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                        <Link href="#"><Eye className="h-4 w-4"/></Link>
                     </Button>
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4"/></Link>
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                        <Link href="#"><Download className="h-4 w-4"/></Link>
                     </Button>
                 </div>
             </CardContent>
