@@ -81,10 +81,19 @@ export default function Class5MathsPage() {
             <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                    <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                    </Link>
+                    <div className="flex items-center justify-between p-3 md:p-4 group">
+                      <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex-1">
+                        <span className="font-medium text-sm md:text-base text-foreground/90 group-hover:text-primary">{chapter.name}</span>
+                      </Link>
+                      <div className="flex items-center gap-1 md:gap-2">
+                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                              <Link href="#"><Eye className="h-4 w-4"/></Link>
+                          </Button>
+                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                              <Link href="#"><Download className="h-4 w-4"/></Link>
+                          </Button>
+                      </div>
+                    </div>
                 </Card>
                 ))}
             </div>
@@ -114,10 +123,10 @@ export default function Class5MathsPage() {
             <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="icon">
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                         <Link href="#"><Eye className="w-4 h-4"/></Link>
                     </Button>
-                    <Button asChild variant="ghost" size="icon">
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                         <Link href="#"><Download className="w-4 h-4"/></Link>
                     </Button>
                 </div>
