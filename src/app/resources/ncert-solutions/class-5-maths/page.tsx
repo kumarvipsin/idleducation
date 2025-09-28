@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { getCollection } from "@/app/actions";
+import { getCollection } from "@/app/actions/data";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotesChapterList } from "@/components/notes-chapter-list";
@@ -84,4 +84,3 @@ export default function Class5MathsPage() {
     </Card>
   );
 }
-

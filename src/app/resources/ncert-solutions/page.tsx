@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { BookCheck, ArrowRight, Sigma, TestTube2, Landmark, Atom, Dna, BookText, Globe, Scale, TrendingUp, FlaskConical, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { getCollection } from '@/app/actions';
+import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type Subject = {

@@ -2,17 +2,22 @@
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
-import { getCollection } from '@/app/actions';
+import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NotesChapterList } from '@/components/notes-chapter-list';
+import { usePathname } from 'next/navigation';
 
-function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
+function NcertSolutionsDetailsContent() {
+    const pathname = usePathname();
+    const slug = pathname.split('/').slice(3);
     const [classId, subjectKey] = slug || [];
     const [classData, setClassData] = useState<TClass | null>(null);
+    const [notesData, setNotesData] = useState<TSubject | null>(null);
+    const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -27,17 +32,28 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
             setLoading(true);
             setError(null);
             
-            const result = await getCollection('ncertSolutions');
+            const [notesResult, impQuestionsResult] = await Promise.all([
+                getCollection('ncertSolutions'),
+                getImportantQuestionsForSubject(classId, subjectKey)
+            ]);
 
-            if (result.success && result.data) {
-                const classDoc = (result.data as any[]).find(doc => doc.id === classId);
+            if (notesResult.success && notesResult.data) {
+                const classDoc = (notesResult.data as any[]).find(doc => doc.id === classId);
                 if (classDoc && classDoc.subjects[subjectKey]) {
                     setClassData(classDoc);
+                    setNotesData(classDoc.subjects[subjectKey]);
                 } else {
                     setError("NCERT Solutions content not found.");
                 }
             } else {
-                setError(result.message || "Failed to fetch NCERT Solutions.");
+                setError(notesResult.message || "Failed to fetch NCERT Solutions.");
+            }
+
+            if (impQuestionsResult.success && impQuestionsResult.data) {
+                setImpQuestionsData(impQuestionsResult.data as TSubject);
+            } else {
+                console.warn(impQuestionsResult.message);
+                setImpQuestionsData(null);
             }
 
             setLoading(false);
@@ -55,7 +71,7 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
         )
     }
     
-    if (error || !classData) {
+    if (error || !classData || !notesData) {
          return (
             <Card>
                 <CardContent className="p-6">
@@ -65,8 +81,7 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
         )
     }
 
-    const subject = classData.subjects[subjectKey];
-    const subjectName = subject.name || subjectKey.replace('-', ' ');
+    const subjectName = notesData.name || subjectKey.replace('-', ' ');
     const className = classData.name || classId.replace('-', ' ');
 
     return (
@@ -99,8 +114,8 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
                 </div>
                 <CardContent className="p-4 md:p-6">
                     <NotesChapterList 
-                        notes={subject} 
-                        importantQuestions={null} // No important questions on NCERT solutions page
+                        notes={notesData} 
+                        importantQuestions={impQuestionsData} 
                         classId={classId} 
                         subjectKey={subjectKey} 
                     />
@@ -111,10 +126,10 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
 }
 
 
-export default function NcertSolutionsDetailsPage({ params }: { params: { slug: string[] } }) {
+export default function NcertSolutionsDetailsPage() {
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NcertSolutionsDetailsContent slug={params.slug || []} />
+            <NotesDetailsContent />
         </Suspense>
     )
 }
