@@ -13,13 +13,15 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { NotesChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { usePathname } from 'next/navigation';
 
 function PrimumNotes({ subject, lang, onLangChange }: { subject: TSubject | null, lang: 'en' | 'hi', onLangChange: (lang: 'en' | 'hi') => void }) {
     if (!subject) {
         return <p className="text-muted-foreground p-4 text-center">No important questions available for this subject yet.</p>;
     }
     
-    const books = subject.parts && Object.keys(subject.parts).length > 0 
+    const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
+    const books = hasParts 
         ? Object.values(subject.parts).map(p => ({ name: p.name, chapters: p.chapters }))
         : [{ name: subject.name, chapters: subject.chapters || [] }];
 
@@ -40,7 +42,7 @@ function PrimumNotes({ subject, lang, onLangChange }: { subject: TSubject | null
             <div className="space-y-4">
               {books.map((book, bookIndex) => (
                 <div key={bookIndex}>
-                  <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+                  {hasParts && <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>}
                   <div className="space-y-2">
                     {book.chapters.map((chapter, index) => (
                       <Card key={index} className="bg-background">
