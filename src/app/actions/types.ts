@@ -7,6 +7,8 @@ export interface TSubTopic {
   name: string;
   createdAt: string;
   pdfUrl?: string;
+  shortNotePdfUrl?: string;
+  primumNotePdfUrl?: string;
   order: number;
 }
 
@@ -14,6 +16,8 @@ export interface TTopic {
   name: string;
   createdAt: string;
   pdfUrl?: string;
+  shortNotePdfUrl?: string;
+  primumNotePdfUrl?: string;
   subTopics?: TSubTopic[];
   order: number;
 }
@@ -23,6 +27,8 @@ export interface TChapter {
   createdAt: string;
   pdfUrl?: string;
   longNotePdfUrl?: string;
+  shortNotePdfUrl?: string;
+  primumNotePdfUrl?: string;
   topics?: TTopic[];
 }
 
