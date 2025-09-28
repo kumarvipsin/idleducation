@@ -24,27 +24,21 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
             <Card 
               className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
-                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800/50 rounded-t-lg"></div>
-                <CardContent className="relative flex flex-col items-center pt-12 flex-1 p-4">
-                    <div className="w-28 h-28 rounded-full bg-background border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-4">
-                        <div className="relative w-full h-full">
-                             <GcsImage
-                                filePath={avatar}
-                                alt={name}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                    </div>
-                    
-                    <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-xs text-muted-foreground uppercase tracking-widest">{designation}</p>
-                    
-                    <div className="flex-grow"></div>
-
-                     <div className="mt-4 text-center">
+                <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
+                    <GcsImage
+                        filePath={avatar}
+                        alt={name}
+                        fill
+                        className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+                </div>
+                <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
+                    <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
+                    <p className="text-xs md:text-sm text-white/90">{designation}</p>
+                    <div className="mt-4 text-center">
                         <DialogTrigger asChild>
-                           <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
+                           <button className="text-xs font-semibold text-white hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
                                 MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
                            </button>
                         </DialogTrigger>
@@ -81,13 +75,6 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                           {biography}
                         </p>
                       )}
-                      <div className="mt-6 flex justify-center">
-                           <div className="flex items-center gap-3">
-                                <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors"><Facebook className="h-4 w-4" /></Link>
-                                <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors"><Instagram className="h-4 w-4" /></Link>
-                                <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors"><Twitter className="h-4 w-4" /></Link>
-                            </div>
-                        </div>
                   </div>
                 </div>
             </DialogContent>
