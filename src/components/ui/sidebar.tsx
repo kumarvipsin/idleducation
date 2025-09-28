@@ -507,8 +507,8 @@ function useAccordion() {
 }
 
 const SidebarMenuAccordion = React.forwardRef<
-  HTMLUListElement,
-  React.ComponentProps<"ul"> & {
+  HTMLDivElement,
+  React.ComponentProps<"div"> & {
     defaultValue?: string
     value?: string
     onValueChange?: (value: string) => void
@@ -538,7 +538,7 @@ const SidebarMenuAccordion = React.forwardRef<
 
     return (
       <AccordionContext.Provider value={contextValue}>
-        <ul
+        <div
           ref={ref}
           data-sidebar="menu"
           data-accordion="true"
@@ -755,8 +755,8 @@ const SidebarMenuSkeleton = React.forwardRef<
 SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<"li"> & {
+  HTMLDivElement,
+  React.ComponentProps<"div"> & {
     value?: string
   }
 >(({ value: valueProp, ...props }, ref) => {
@@ -767,13 +767,15 @@ const SidebarMenuSub = React.forwardRef<
   const open = accordion?.value === value
 
   return (
-    <li
-      ref={ref}
-      data-sidebar="menu-sub-wrapper"
-      data-state={open ? "open" : "closed"}
-      data-value={value}
-      {...props}
-    />
+    <SidebarMenuSubContext.Provider value={{ value }}>
+        <div
+            ref={ref}
+            data-sidebar="menu-sub-wrapper"
+            data-state={open ? "open" : "closed"}
+            data-value={value}
+            {...props}
+        />
+    </SidebarMenuSubContext.Provider>
   )
 })
 SidebarMenuSub.displayName = "SidebarMenuSub"
@@ -817,15 +819,15 @@ const SidebarMenuSubContext = React.createContext<{ value: string }>({
 
 
 const SidebarMenuSubItem = React.forwardRef<
-  HTMLUListElement,
-  React.ComponentProps<"ul">
+  HTMLDivElement,
+  React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
   const accordion = useAccordion()
   const sub = React.useContext(SidebarMenuSubContext)
   const open = accordion?.value === sub.value
 
   return (
-    <ul
+    <div
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
@@ -867,3 +869,5 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
+    
