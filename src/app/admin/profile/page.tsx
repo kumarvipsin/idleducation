@@ -85,10 +85,6 @@ export default function AdminProfilePage() {
   return (
     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <Card>
-            <CardHeader>
-                <CardTitle>Admin Profile</CardTitle>
-                <CardDescription>Manage your personal information.</CardDescription>
-            </CardHeader>
             <CardContent className="p-6">
             {renderContent()}
             </CardContent>
