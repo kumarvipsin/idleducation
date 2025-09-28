@@ -98,22 +98,7 @@ function NcertSolutionsDetailsContent() {
 
     return (
         <div className="space-y-6">
-             <Breadcrumb>
-                <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink href="/resources/ncert-solutions">NCERT Solutions</BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage className="capitalize">{className}</BreadcrumbPage>
-                    </BreadcrumbItem>
-                     <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage className="capitalize">{subjectName}</BreadcrumbPage>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
-            <Card className="shadow-lg overflow-hidden border-t-8 border-primary">
+             <Card className="shadow-lg overflow-hidden border-t-8 border-primary">
                 <div className="bg-gradient-to-r from-primary to-accent text-white p-4">
                     <div className="flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
