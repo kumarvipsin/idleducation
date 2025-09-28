@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -18,6 +19,12 @@ export function GcsImage({ filePath, alt, className, width, height, fill, ...pro
   useEffect(() => {
     async function fetchSignedUrl() {
       if (!filePath) {
+        setLoading(false);
+        return;
+      }
+      // If it's already a full URL (e.g., from a file preview), use it directly.
+      if (filePath.startsWith('blob:') || filePath.startsWith('data:')) {
+        setImageUrl(filePath);
         setLoading(false);
         return;
       }
@@ -45,6 +52,10 @@ export function GcsImage({ filePath, alt, className, width, height, fill, ...pro
     return <Image src={imageUrl} alt={alt} width={width} height={height} className={className} unoptimized {...props} />;
   }
   
-  // Render a placeholder or nothing if there's no image URL
-  return <Skeleton className={cn('h-full w-full bg-destructive/20', className)} />;
+  // Render a placeholder for failed loads or empty paths
+  return (
+    <div className={cn('flex items-center justify-center bg-muted/30 text-muted-foreground', className)}>
+       <Skeleton className={cn('h-full w-full bg-destructive/20', className)} />
+    </div>
+  );
 }

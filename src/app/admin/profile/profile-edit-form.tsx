@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useState } from "react";
@@ -11,11 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ImageCropper } from "@/components/image-cropper";
-import { User, Mail, Phone, Home, Calendar, Droplets, Trash2, Upload } from "lucide-react";
+import { User, Mail, Phone, Home, Calendar as CalendarIcon, Droplets, Trash2, Upload } from "lucide-react";
 import { UserProfile } from "@/context/auth-context";
 import { GcsImage } from "@/components/gcs-image";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar as CalendarPicker } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 
@@ -117,10 +118,20 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex flex-col items-center gap-4">
             <Avatar className="w-24 h-24">
-                {photoPreview ? <AvatarImage src={photoPreview} /> : 
-                 (user.photoURL && !removePhoto) ? <GcsImage filePath={user.photoURL} alt={user.name || ''} fill className="rounded-full object-cover" /> :
-                 <AvatarFallback className="text-3xl">{user.name?.charAt(0)}</AvatarFallback>
-                }
+              {photoPreview ? (
+                <AvatarImage src={photoPreview} />
+              ) : user.photoURL && !removePhoto ? (
+                <GcsImage
+                  filePath={user.photoURL}
+                  alt={user.name || ''}
+                  fill
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <AvatarFallback className="text-3xl">
+                  {user.name?.charAt(0)}
+                </AvatarFallback>
+              )}
             </Avatar>
             <div className="flex gap-2">
                  <Button type="button" onClick={() => document.getElementById('photo-upload')?.click()} variant="outline" size="sm"><Upload className="w-4 h-4 mr-2"/>Change Photo</Button>
@@ -139,12 +150,12 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
                             <FormControl>
                                 <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
                                     {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
-                                    <Calendar className="ml-auto h-4 w-4 opacity-50" />
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
-                            <CalendarPicker mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
                         </PopoverContent>
                     </Popover>
                     <FormMessage />
