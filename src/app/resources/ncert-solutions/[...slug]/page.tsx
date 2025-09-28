@@ -10,14 +10,11 @@ import { BookOpen, Languages } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NotesChapterList } from '@/components/ncert-chapter-list';
-import { usePathname } from 'next/navigation';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 
-function NcertSolutionsDetailsContent() {
-    const pathname = usePathname();
-    const slug = pathname.split('/').slice(3);
+function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
     const [classId, subjectKey] = slug || [];
     const [classData, setClassData] = useState<TClass | null>(null);
     const [notesData, setNotesData] = useState<TSubject | null>(null);
@@ -164,7 +161,7 @@ export default function NcertSolutionsDetailsPage({ params }: { params: { slug: 
     const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NcertSolutionsDetailsContent />
+            <NcertSolutionsDetailsContent slug={slug} />
         </Suspense>
     )
 }
