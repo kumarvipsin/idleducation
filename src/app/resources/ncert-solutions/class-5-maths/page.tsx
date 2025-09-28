@@ -2,13 +2,14 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages, Folder, Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const class5MathsResources = {
   books: [
@@ -16,8 +17,8 @@ const class5MathsResources = {
       name: "Math-Magic Textbook for Class V",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: The Fish Tale", slug: "the-fish-tale" },
-        { name: "Chapter 2: Shapes and Angles", slug: "shapes-and-angles" },
+        { name: "Chapter 1: The Fish Tale", slug: "the-fish-tale", topics: [{ name: "Topic 1.1", subTopics: [{ name: "Sub-topic 1.1.1" }, { name: "Sub-topic 1.1.2" }] }, { name: "Topic 1.2" }] },
+        { name: "Chapter 2: Shapes and Angles", slug: "shapes-and-angles", topics: [{ name: "Topic 2.1" }, { name: "Topic 2.2" }] },
         { name: "Chapter 3: How Many Squares?", slug: "how-many-squares" },
         { name: "Chapter 4: Parts and Wholes", slug: "parts-and-wholes" },
         { name: "Chapter 5: Does it Look the Same?", slug: "does-it-look-the-same" },
@@ -36,8 +37,8 @@ const class5MathsResources = {
       name: "विषय सूचि",
       lang: "hi",
       chapters: [
-        { name: "अध्याय 1: मछली उछली", slug: "the-fish-tale" },
-        { name: "अध्याय 2: आकृतियाँ और कोण", slug: "shapes-and-angles" },
+        { name: "अध्याय 1: मछली उछली", slug: "the-fish-tale", topics: [{ name: "विषय 1.1", subTopics: [{ name: "उप-विषय 1.1.1" }, { name: "उप-विषय 1.1.2" }] }, { name: "विषय 1.2" }] },
+        { name: "अध्याय 2: आकृतियाँ और कोण", slug: "shapes-and-angles", topics: [{ name: "विषय 2.1" }, { name: "विषय 2.2" }] },
         { name: "अध्याय 3: कितने वर्ग?", slug: "how-many-squares" },
         { name: "अध्याय 4: हिस्से और पूरे", slug: "parts-and-wholes" },
         { name: "अध्याय 5: क्या यह एक जैसा दिखता है?", slug: "does-it-look-the-same" },
@@ -54,6 +55,49 @@ const class5MathsResources = {
     },
   ],
 };
+
+const renderContentTree = (items: any[], level = 0) => {
+    if (!items || items.length === 0) return null;
+
+    return (
+        <div className={level > 0 ? "pl-4 border-l ml-4" : ""}>
+            {items.map((item, index) => {
+                const hasChildren = 'topics' in item || 'subTopics' in item;
+                const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
+                
+                if (hasChildren && children.length > 0) {
+                    return (
+                        <Accordion type="single" collapsible key={index}>
+                            <AccordionItem value={`item-${index}`} className="border-b-0">
+                                <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full pr-2 py-2">
+                                    <div className="flex items-center">
+                                    {level === 0 ? <Folder className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
+                                    {item.name}
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pt-0">
+                                    {renderContentTree(children, level + 1)}
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    );
+                }
+
+                return (
+                     <Card key={`item-${index}`} className="transition-all duration-300 my-1">
+                        <div className="flex items-center justify-between p-3 group">
+                            <span className="font-medium text-sm text-foreground/90 flex items-center">
+                               {level === 0 ? <FileText className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
+                               {item.name}
+                            </span>
+                        </div>
+                    </Card>
+                );
+            })}
+        </div>
+    );
+};
+
 
 export default function Class5MathsPage() {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
@@ -74,31 +118,25 @@ export default function Class5MathsPage() {
                 <span className="sr-only">Toggle Language</span>
             </Button>
         </div>
-        <div className="space-y-4 md:space-y-6">
-        {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
-            <div key={bookIndex}>
-            
-            <div className="space-y-2">
-                {book.chapters.map((chapter, chapterIndex) => (
-                <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <div className="flex items-center justify-between p-3 md:p-4 group">
-                      <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex-1">
-                        <span className="font-medium text-sm md:text-base text-foreground/90 group-hover:text-primary">{chapter.name}</span>
-                      </Link>
-                      <div className="flex items-center gap-1 md:gap-2">
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                              <Link href="#"><Eye className="h-4 w-4"/></Link>
-                          </Button>
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                              <Link href="#"><Download className="h-4 w-4"/></Link>
-                          </Button>
-                      </div>
-                    </div>
-                </Card>
-                ))}
-            </div>
-            </div>
-        ))}
+        <div className="space-y-2">
+            {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
+                <div key={bookIndex}>
+                    <Accordion type="multiple" className="w-full space-y-2">
+                        {book.chapters.map((chapter, chapterIndex) => (
+                            <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                                <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                                    <AccordionTrigger className="flex items-center justify-between p-3 md:p-4 group hover:no-underline">
+                                        <span className="font-medium text-sm md:text-base text-foreground/90 text-left">{chapter.name}</span>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0">
+                                        {renderContentTree(chapter.topics || [])}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Card>
+                        ))}
+                    </Accordion>
+                </div>
+            ))}
         </div>
     </div>
   );
@@ -123,11 +161,11 @@ export default function Class5MathsPage() {
             <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                        <Link href="#"><Eye className="w-4 h-4"/></Link>
+                    <Button asChild variant="ghost" size="sm">
+                        <Link href="#">View</Link>
                     </Button>
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                        <Link href="#"><Download className="w-4 h-4"/></Link>
+                    <Button asChild variant="ghost" size="sm">
+                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                     </Button>
                 </div>
             </CardContent>
