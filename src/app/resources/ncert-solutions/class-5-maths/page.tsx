@@ -71,7 +71,8 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
                     <div key={index} className="py-1">
                         <div className="flex items-center gap-2">
                            <span className={cn(
-                                "text-sm font-semibold text-primary",
+                                "text-sm font-semibold",
+                                level === 0 ? "text-primary" : "text-foreground/80"
                             )}>
                                 {item.name}
                             </span>
@@ -114,8 +115,8 @@ export default function Class5MathsPage() {
                                     {chapter.name}
                                 </AccordionTrigger>
                                 <div className="flex items-center gap-1">
-                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                        <Link href="#"><Eye className="h-4 w-4"/></Link>
+                                    <Button asChild variant="ghost" size="sm">
+                                        <Link href="#">View</Link>
                                     </Button>
                                     <Button asChild variant="ghost" size="sm">
                                       <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
