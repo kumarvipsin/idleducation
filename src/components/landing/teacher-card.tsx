@@ -25,8 +25,8 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 text-white flex flex-col justify-end">
-                    <div className="space-y-1">
-                        <h3 className="text-base font-bold">{name}</h3>
+                    <div className="space-y-0.5">
+                        <h3 className="text-base md:text-sm font-bold">{name}</h3>
                         <p className="text-[0.5rem] text-primary-foreground/80 font-semibold uppercase inline-block bg-black/20 rounded-full px-2 py-0.5">{designation}</p>
                         <div className="h-4">
                             <div className="flex justify-start gap-3 text-primary-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
