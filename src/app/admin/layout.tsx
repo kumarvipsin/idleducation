@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -18,7 +17,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -106,6 +105,12 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
+                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admins')}>
+                            <Link href="/admin/admins">
+                                <Shield />
+                                <span>Admins</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                             <Link href="/admin/users">
                                 <GraduationCap />
@@ -122,12 +127,6 @@ function AdminLayout({
                             <Link href="/admin/staff">
                                 <Users />
                                 <span>Staff</span>
-                            </Link>
-                        </SidebarMenuButton>
-                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admins')}>
-                            <Link href="/admin/admins">
-                                <Shield />
-                                <span>Admins</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
@@ -230,6 +229,12 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/director')}>
+                            <Link href="/admin/director">
+                                <UserCircle />
+                                <span>Director Profile</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
                             <Link href="/admin/gallery">
                                 <ImageIcon />
@@ -274,3 +279,5 @@ function AdminLayout({
 }
 
 export default withAuth(AdminLayout, ['admin']);
+
+    

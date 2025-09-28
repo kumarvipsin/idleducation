@@ -1,10 +1,15 @@
-
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExpertTeam } from "@/components/landing/expert-team";
 import { Separator } from "@/components/ui/separator";
+import { useEffect, useState } from "react";
+import { getDirectorProfile } from "@/app/actions/admin";
+import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
+
 
 const combinedValues = [
     {
@@ -21,6 +26,21 @@ const combinedValues = [
 
 
 export default function AboutPage() {
+    const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchDirector = async () => {
+            setLoading(true);
+            const result = await getDirectorProfile();
+            if (result.success && result.data) {
+                setDirector(result.data as {name: string; photoUrl: string});
+            }
+            setLoading(false);
+        };
+        fetchDirector();
+    }, []);
+
   return (
     <div className="bg-white dark:bg-background">
       <div className="container mx-auto py-12 md:py-20 px-4 md:px-[10%]">
@@ -31,17 +51,37 @@ export default function AboutPage() {
                   <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
                       <CardContent className="p-0">
                           <div className="relative w-full aspect-[4/4]">
-                            <Image
-                              src="/amod.jpg"
-                              alt="Director's Photo"
-                              data-ai-hint="male director"
-                              fill
-                              className="w-full h-full object-cover"
-                            />
+                            {loading ? (
+                                <Skeleton className="w-full h-full" />
+                            ) : director?.photoUrl ? (
+                                <GcsImage
+                                    filePath={director.photoUrl}
+                                    alt="Director's Photo"
+                                    fill
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <Image
+                                  src="/amod.jpg"
+                                  alt="Director's Photo"
+                                  data-ai-hint="male director"
+                                  fill
+                                  className="w-full h-full object-cover"
+                                />
+                            )}
                           </div>
                           <div className="p-4 bg-muted/30 text-center">
-                              <h2 className="text-lg font-bold text-foreground">AMOD KUMAR SHARMA</h2>
-                              <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                            {loading ? (
+                                <>
+                                    <Skeleton className="h-6 w-3/4 mx-auto" />
+                                    <Skeleton className="h-4 w-1/2 mx-auto mt-2" />
+                                </>
+                            ): (
+                                <>
+                                    <h2 className="text-lg font-bold text-foreground">{director?.name || 'Amod Kumar Sharma'}</h2>
+                                    <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                                </>
+                            )}
                           </div>
                       </CardContent>
                   </Card>
@@ -60,7 +100,7 @@ export default function AboutPage() {
                           <UserCircle className="w-7 h-7" /> Biography
                       </h3>
                       <p className="text-foreground/80 leading-relaxed">
-                        With over two decades in educational technology, Amod Kumar Sharma is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
+                        With over two decades in educational technology, {loading ? <Skeleton className="h-5 w-48 inline-block" /> : director?.name} is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
                       </p>
                   </div>
               </div>
@@ -102,3 +142,5 @@ export default function AboutPage() {
     </div>
   );
 }
+
+    

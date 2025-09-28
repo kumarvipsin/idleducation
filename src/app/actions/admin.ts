@@ -1,4 +1,3 @@
-
 // src/app/actions/admin.ts
 'use server';
 
@@ -676,8 +675,47 @@ export async function editAdminProfile(userId: string, formData: FormData) {
   }
 }
 
+export async function getDirectorProfile() {
+  try {
+    const docRef = doc(db, "siteContent", "director");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { success: true, data: serializeFirestoreData(docSnap.data()) };
+    } else {
+      // Return a default structure if it doesn't exist
+      return { success: true, data: { name: 'Amod Kumar Sharma', photoUrl: 'amod.jpg' } };
+    }
+  } catch (error) {
+    console.error("Error fetching director profile:", error);
+    return { success: false, message: "Failed to fetch director profile." };
+  }
+}
+
+export async function editDirectorProfile(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  const name = rawData.name as string;
   
+  const dataToUpdate: any = { name };
 
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `site_assets/director_photo.jpg`;
+      dataToUpdate.photoUrl = await uploadFileToGCS(photoFile, destination);
+    }
+
+    const docRef = doc(db, "siteContent", "director");
+    await setDoc(docRef, dataToUpdate, { merge: true });
     
+    const updatedDoc = await getDoc(docRef);
+    if (updatedDoc.exists()) {
+      return { success: true, message: "Director profile updated successfully.", data: serializeFirestoreData(updatedDoc.data()) };
+    }
 
+    return { success: true, message: "Director profile updated successfully." };
+  } catch (error) {
+    console.error("Error updating director profile:", error);
+    return { success: false, message: "Failed to update director profile." };
+  }
+}
     
