@@ -1,4 +1,3 @@
-
 'use client';
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +23,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
             <Card 
               className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
-                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 rounded-t-lg"></div>
+                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-t-lg"></div>
                 <CardContent className="relative flex flex-col items-center pt-12 flex-1 p-4">
                     <div className="w-28 h-28 rounded-full bg-pink-100 border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-4">
                         <div className="relative w-full h-full">
@@ -38,7 +37,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     </div>
                     
                     <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-[0.6rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest">{designation}</p>
                     
                     <div className="flex-grow"></div>
 
