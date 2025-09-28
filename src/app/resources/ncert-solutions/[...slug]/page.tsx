@@ -112,10 +112,9 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
 
 
 export default function NcertSolutionsDetailsPage({ params }: { params: { slug: string[] } }) {
-    const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NcertSolutionsDetailsContent slug={slug} />
+            <NcertSolutionsDetailsContent slug={params.slug || []} />
         </Suspense>
     )
 }
