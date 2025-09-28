@@ -42,7 +42,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                     <div className="flex-grow"></div>
 
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-4 text-center">
                         <DialogTrigger asChild>
                             <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
                                 MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
@@ -51,10 +51,10 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     </div>
 
                     <div className="mt-4 flex justify-center">
-                        <div className="flex items-center gap-3 rounded-md border bg-background/50 px-3 py-1 text-muted-foreground">
-                            <Link href="#" className="hover:text-primary transition-colors"><Facebook className="h-4 w-4" /></Link>
-                            <Link href="#" className="hover:text-primary transition-colors"><Instagram className="h-4 w-4" /></Link>
-                            <Link href="#" className="hover:text-primary transition-colors"><Twitter className="h-4 w-4" /></Link>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Facebook className="h-4 w-4" /></Link>
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Instagram className="h-4 w-4" /></Link>
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Twitter className="h-4 w-4" /></Link>
                         </div>
                     </div>
                     
