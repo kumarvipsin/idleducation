@@ -24,7 +24,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
             <Card 
               className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
-                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-t-lg"></div>
+                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-gray-100 to-blue-100 dark:from-gray-800 dark:to-blue-900/50 rounded-t-lg"></div>
                 <CardContent className="relative flex flex-col items-center pt-12 flex-1 p-4">
                     <div className="w-28 h-28 rounded-full bg-background border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-4">
                         <div className="relative w-full h-full">
@@ -42,16 +42,16 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                     <div className="flex-grow"></div>
 
-                    <div className="mt-4 text-center">
+                     <div className="mt-4 text-center">
                         <DialogTrigger asChild>
-                            <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
+                           <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
                                 MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
-                            </button>
+                           </button>
                         </DialogTrigger>
                     </div>
 
                     <div className="mt-4 flex justify-center">
-                        <div className="flex items-center gap-2 text-muted-foreground">
+                       <div className="flex items-center gap-3">
                             <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Facebook className="h-4 w-4" /></Link>
                             <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Instagram className="h-4 w-4" /></Link>
                             <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Twitter className="h-4 w-4" /></Link>
