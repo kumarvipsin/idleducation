@@ -23,7 +23,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
             <Card 
               className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
-                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-900 dark:to-blue-950 rounded-t-lg"></div>
+                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-primary/10 to-accent/10 dark:from-primary/20 dark:to-accent/20 rounded-t-lg"></div>
                 <CardContent className="relative flex flex-col items-center pt-12 flex-1 p-4">
                     <div className="w-28 h-28 rounded-full bg-pink-100 border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-4">
                         <div className="relative w-full h-full">
@@ -57,7 +57,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                 </CardContent>
             </Card>
-            <DialogContent className="sm:max-w-md bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-900 dark:to-blue-950 border-none rounded-2xl shadow-2xl text-foreground">
+            <DialogContent className="sm:max-w-md bg-transparent border-none rounded-2xl shadow-2xl text-foreground">
                 <div className="p-4 pt-8">
                   <div className="relative flex flex-col items-center text-center">
                       <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
