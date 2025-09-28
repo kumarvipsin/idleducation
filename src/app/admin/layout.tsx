@@ -98,26 +98,26 @@ function AdminLayout({
             <SidebarMenuAccordion defaultValue="user-management">
                 <SidebarMenuSub value="user-management">
                     <SidebarMenuSubButton>
-                        <Users className="h-5 w-5" />
+                        <Users />
                         <span>User Management</span>
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/users')}>
                             <Link href="/admin/users">
-                                <GraduationCap className="h-4 w-4" />
+                                <GraduationCap />
                                 <span>Students</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/teachers')}>
                             <Link href="/admin/teachers">
-                                <Briefcase className="h-4 w-4" />
+                                <Briefcase />
                                 <span>Teachers</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
                             <Link href="/admin/staff">
-                                <Users className="h-4 w-4" />
+                                <Users />
                                 <span>Staff</span>
                             </Link>
                         </SidebarMenuButton>
@@ -125,45 +125,45 @@ function AdminLayout({
                 </SidebarMenuSub>
                 <SidebarMenuSub value="submissions">
                     <SidebarMenuSubButton>
-                        <FileText className="h-5 w-5" />
+                        <FileText />
                         <span>Submissions</span>
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
                             <Link href="/admin/admissions">
-                                <FileText className="h-4 w-4" />
+                                <FileText />
                                 <span>Admissions</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/demo')}>
                             <Link href="/admin/demo">
-                                <Presentation className="h-4 w-4" />
+                                <Presentation />
                                 <span>Free Demo</span>
                                 {bookingCount > 0 && <SidebarMenuBadge>{bookingCount}</SidebarMenuBadge>}
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/scholarship')}>
                             <Link href="/admin/scholarship">
-                                <Award className="h-4 w-4" />
+                                <Award />
                                 <span>Scholarship</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
                             <Link href="/admin/feedback">
-                                <FeedbackIcon className="h-4 w-4" />
+                                <FeedbackIcon />
                                 <span>Feedback</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
                             <Link href="/admin/messages">
-                                <MessageSquare className="h-4 w-4" />
+                                <MessageSquare />
                                 <span>Contact Us</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/support-tickets')}>
                             <Link href="/admin/support-tickets">
-                                <LifeBuoy className="h-4 w-4" />
+                                <LifeBuoy />
                                 <span>Support Tickets</span>
                             </Link>
                         </SidebarMenuButton>
@@ -171,44 +171,44 @@ function AdminLayout({
                 </SidebarMenuSub>
                 <SidebarMenuSub value="course-content">
                     <SidebarMenuSubButton>
-                        <BookOpen className="h-5 w-5" />
+                        <BookOpen />
                         <span>Course Content</span>
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
                             <Link href="/admin/notes">
-                                <FileText className="h-4 w-4" />
+                                <FileText />
                                 <span>Manage Notes</span>
                             </Link>
                         </SidebarMenuButton>
                          <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/important-questions')}>
                             <Link href="/admin/important-questions">
-                                <FileText className="h-4 w-4" />
+                                <FileText />
                                 <span>Manage Imp Questions</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
                             <Link href="/admin/previous-year-questions">
-                                <FileText className="h-4 w-4" />
+                                <FileText />
                                 <span>Prev. Year Questions</span>
                             </Link>
                         </SidebarMenuButton>
                          <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
                             <Link href="/admin/exam-categories">
-                                <Tags className="h-4 w-4" />
+                                <Tags />
                                 <span>Exam Categories</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
                             <Link href="/admin/testimonials">
-                                <MessageSquare className="h-4 w-4" />
+                                <MessageSquare />
                                 <span>Our Students Say</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
                             <Link href="/admin/topper-testimonials">
-                                <Video className="h-4 w-4" />
+                                <Video />
                                 <span>Topper Testimonials</span>
                             </Link>
                         </SidebarMenuButton>
@@ -216,56 +216,38 @@ function AdminLayout({
                 </SidebarMenuSub>
                 <SidebarMenuSub value="site-content">
                     <SidebarMenuSubButton>
-                        <Settings2 className="h-5 w-5" />
+                        <Settings2 />
                         <span>Site Content</span>
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
                             <Link href="/admin/updates">
-                                <Bell className="h-4 w-4" />
+                                <Bell />
                                 <span>Recent Updates</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
                             <Link href="/admin/gallery">
-                                <ImageIcon className="h-4 w-4" />
+                                <ImageIcon />
                                 <span>Gallery</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
                             <Link href="/admin/excellence-results">
-                                <Star className="h-4 w-4" />
+                                <Star />
                                 <span>Excellence Results</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
                             <Link href="/admin/team">
-                                <Users className="h-4 w-4" />
+                                <Users />
                                 <span>Team Members</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
             </SidebarMenuAccordion>
-             <SidebarMenu className="mt-auto">
-                 <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                    <Link href="#">
-                        <Mail />
-                        <span>Mail</span>
-                    </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                    <Link href="#">
-                        <CreditCard />
-                        <span>Payment</span>
-                    </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-            </SidebarMenu>
           </SidebarContent>
         </Sidebar>
         <main className="flex-1 pb-16 md:pb-0">

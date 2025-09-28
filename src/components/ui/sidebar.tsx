@@ -616,7 +616,7 @@ const SidebarMenuButton = React.forwardRef<
       asChild = false,
       isActive = false,
       variant = "default",
-      size = "default",
+      size = "sm",
       tooltip,
       className,
       ...props
@@ -798,7 +798,7 @@ const SidebarMenuSubButton = React.forwardRef<
       data-active={isActive}
       className={cn(
         "flex w-full min-w-0 items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-primary data-[active=true]:font-medium data-[active=true]:text-sidebar-primary-foreground",
-        "group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-1.5 [&>span]:group-data-[collapsible=icon]:hidden [&>svg:last-child]:group-data-[collapsible=icon]:hidden",
+        "group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:p-1.5 [&>span]:group-data-[collapsible=icon]:hidden [&>svg:last-child]:group-data-[collapsible=icon]:hidden [&>svg]:size-4 [&>svg]:shrink-0",
         className
       )}
       onClick={(e) => {
@@ -831,7 +831,7 @@ const SidebarMenuSubItem = React.forwardRef<
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
-        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-1",
+        "mx-2 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border pl-4 py-1",
         !open && "hidden",
         "group-data-[collapsible=icon]:hidden",
         className
