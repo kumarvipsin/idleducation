@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser, editTeacher } from "@/app/actions";
+import { getTeachers, resetUserPassword, approveUser, denyUser, setUserStatus, signUpUser } from "@/app/actions/auth";
+import { editTeacher } from "@/app/actions/admin";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,7 +50,6 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
 import { GcsImage } from "@/components/gcs-image";
 import { ImageCropper } from "@/components/image-cropper";
 
@@ -123,19 +123,13 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
 
   const onSubmit: SubmitHandler<TeacherFormValues> = async (data) => {
     let result;
-    const formData = new FormData();
-    // Manually append all form data
-    Object.entries(data).forEach(([key, value]) => {
-      if (value) {
-          formData.append(key, value);
-      }
-    });
-
-    if (croppedPhoto) {
-      formData.append('photo', croppedPhoto);
-    }
     
     if (teacher) { // Editing
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
+      if (croppedPhoto) formData.append('photo', croppedPhoto);
       result = await editTeacher(teacher.id, formData);
     } else { // Adding
       const { instagram, facebook, twitter, ...restOfData } = data;
@@ -179,9 +173,10 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
                     {photoPreview ? (
                       <AvatarImage src={photoPreview} />
                     ) : teacher?.photoURL ? (
-                      <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={80} height={80} className="rounded-full object-cover" />
-                    ) : null}
-                    <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                      <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={80} height={80} className="rounded-full object-cover" />
+                    ) : (
+                       <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                    )}
                   </Avatar>
                   <FormControl>
                     <Input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
@@ -221,7 +216,6 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   )
 }
 
-// ... rest of the AdminTeachersPage component remains the same
 export default function AdminTeachersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -341,9 +335,9 @@ export default function AdminTeachersPage() {
                         <TableCell className="font-medium flex items-center gap-2">
                            <Avatar>
                              {teacher.photoURL ? (
-                               <GcsImage filePath={teacher.photoURL} alt={teacher.name} width={40} height={40} className="rounded-full object-cover"/>
+                               <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={40} height={40} className="rounded-full object-cover"/>
                              ) : (
-                               <AvatarFallback>{teacher.name.charAt(0)}</AvatarFallback>
+                               <AvatarFallback>{teacher.name ? teacher.name.charAt(0) : 'T'}</AvatarFallback>
                              )}
                            </Avatar>
                            <div>
@@ -375,7 +369,7 @@ export default function AdminTeachersPage() {
                             ) : (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">Actions</Button>
+                                  <Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
                                 <DropdownMenuItem onSelect={() => { setEditingTeacher(teacher); setIsFormOpen(true); }}>
@@ -440,3 +434,5 @@ export default function AdminTeachersPage() {
     </AlertDialog>
   );
 }
+
+    

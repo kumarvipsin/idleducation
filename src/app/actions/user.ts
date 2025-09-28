@@ -61,3 +61,5 @@ export async function getProgressReportsForTeacher(teacherId: string) {
     return { success: false, message: "Failed to fetch progress reports." };
   }
 }
+
+  
