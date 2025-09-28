@@ -39,7 +39,7 @@ function NcertSolutionsContent() {
       }
       
       if (impQuestionsResult.success && impQuestionsResult.data) {
-          setImportantQuestions(impQuestionsResult.data);
+          setImportantQuestions(impQuestionsResult.data as TSubject);
       }
 
       setLoading(false);
@@ -48,11 +48,23 @@ function NcertSolutionsContent() {
   }, []);
 
   if (loading) {
-    return <Skeleton className="h-96 w-full" />;
+    return (
+        <Card>
+            <CardContent className="p-6">
+                <Skeleton className="h-96 w-full" />
+            </CardContent>
+        </Card>
+    );
   }
 
   if (error || !ncertSolutions) {
-    return <p className="text-center text-destructive">{error || "Could not load resources. Please try again later."}</p>;
+    return (
+        <Card>
+            <CardContent className="p-6 text-center text-destructive">
+                {error || "Could not load resources. Please try again later."}
+            </CardContent>
+        </Card>
+    );
   }
 
   return <NotesChapterList notes={ncertSolutions} importantQuestions={importantQuestions} classId="class-10" subjectKey="maths" />;
