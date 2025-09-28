@@ -23,16 +23,17 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Users, Mail, Phone, Calendar, User, Home, Key } from "lucide-react";
+import { UserPlus, Users, Mail, Phone, Calendar, User, Home, Key, Trash2 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { signUpUser } from "@/app/actions";
+import { signUpUser, deleteUser } from "@/app/actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 const staffSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -71,6 +72,7 @@ export default function AdminStaffPage() {
   const [staff, setStaff] = useState(initialStaff);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [previewStaff, setPreviewStaff] = useState<StaffMember | null>(null);
+  const [deletingStaff, setDeletingStaff] = useState<StaffMember | null>(null);
   const { toast } = useToast();
   
   const form = useForm<StaffFormValues>({
@@ -109,7 +111,28 @@ export default function AdminStaffPage() {
     }
   };
 
+  const handleDeleteStaff = async () => {
+    if (!deletingStaff) return;
+    
+    // In a real app, you would also need to delete from Firebase auth, which requires an admin SDK on the backend.
+    // For now we simulate deletion and remove from local state.
+    const result = await deleteUser(deletingStaff.id);
+    
+    if (result.success) {
+        toast({ title: "Staff Deleted", description: `${deletingStaff.name} has been removed.` });
+        setStaff(prev => prev.filter(s => s.id !== deletingStaff.id));
+    } else {
+         toast({
+            variant: "destructive",
+            title: "Error",
+            description: result.message || "Could not delete staff member.",
+        });
+    }
+    setDeletingStaff(null);
+  };
+
   return (
+    <AlertDialog>
     <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <div className="space-y-6">
             <Card>
@@ -135,13 +158,14 @@ export default function AdminStaffPage() {
                       <TableHead>Email</TableHead>
                       <TableHead>Contact</TableHead>
                       <TableHead>Role</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {staff.map((member) => (
-                    <TableRow key={member.id} onClick={() => setPreviewStaff(member)} className="cursor-pointer">
+                    <TableRow key={member.id} >
                         <TableCell>{member.staffId}</TableCell>
-                        <TableCell className="font-medium flex items-center gap-2">
+                        <TableCell onClick={() => setPreviewStaff(member)} className="cursor-pointer font-medium flex items-center gap-2">
                             <Avatar className="h-8 w-8">
                                 <AvatarImage src={member.avatarUrl} alt={member.name} />
                                 <AvatarFallback>{member.name?.charAt(0)}</AvatarFallback>
@@ -151,6 +175,13 @@ export default function AdminStaffPage() {
                         <TableCell>{member.email}</TableCell>
                         <TableCell>{member.contact}</TableCell>
                         <TableCell><Badge variant="secondary" className="capitalize">{member.role}</Badge></TableCell>
+                        <TableCell className="text-right">
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" size="icon" onClick={() => setDeletingStaff(member)}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </AlertDialogTrigger>
+                        </TableCell>
                     </TableRow>
                     ))}
                 </TableBody>
@@ -320,6 +351,19 @@ export default function AdminStaffPage() {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
+         <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                    This action will permanently delete the staff member <span className="font-semibold">{deletingStaff?.name}</span>. This action cannot be undone.
+                </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setDeletingStaff(null)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteStaff} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
     </Dialog>
+    </AlertDialog>
   );
 }

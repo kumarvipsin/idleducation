@@ -14,9 +14,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getTeachers } from "@/app/actions/user";
 import { resetUserPassword, signUpUser } from "@/app/actions/auth";
-import { approveUser, denyUser, setUserStatus, editTeacher } from "@/app/actions/admin";
+import { approveUser, denyUser, setUserStatus, editTeacher, deleteUser } from "@/app/actions/admin";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,6 +44,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -220,7 +221,7 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
 export default function AdminTeachersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
+  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | 'delete' | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState<User | null>(null);
   const { toast } = useToast();
@@ -236,14 +237,35 @@ export default function AdminTeachersPage() {
     fetchUsers();
   }, []);
 
-  const handlePasswordReset = async () => {
-    if (!selectedUser) return;
-    const result = await resetUserPassword(selectedUser.email);
+  const handleAction = async () => {
+    if (!selectedUser || !actionType) return;
+
+    let result;
+    switch (actionType) {
+      case 'resetPassword':
+        result = await resetUserPassword(selectedUser.email);
+        break;
+      case 'deny':
+        result = await denyUser(selectedUser.id);
+        break;
+      case 'toggleStatus':
+        const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
+        result = await setUserStatus(selectedUser.id, newStatus);
+        break;
+      case 'delete':
+        result = await deleteUser(selectedUser.id);
+        break;
+      default:
+        return;
+    }
+    
     if (result.success) {
       toast({ title: "Success", description: result.message });
+      fetchUsers();
     } else {
       toast({ variant: "destructive", title: "Error", description: result.message });
     }
+    
     setSelectedUser(null);
     setActionType(null);
   };
@@ -257,33 +279,6 @@ export default function AdminTeachersPage() {
       toast({ variant: "destructive", title: "Error", description: result.message });
     }
   };
-
-  const handleDenyUser = async () => {
-    if (!selectedUser) return;
-    const result = await denyUser(selectedUser.id);
-    if (result.success) {
-        toast({ title: "Success", description: result.message });
-        fetchUsers();
-    } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-    setSelectedUser(null);
-    setActionType(null);
-  }
-  
-  const handleToggleStatus = async () => {
-    if (!selectedUser) return;
-    const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
-    const result = await setUserStatus(selectedUser.id, newStatus);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-      fetchUsers();
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-    setSelectedUser(null);
-    setActionType(null);
-  }
 
   const handleFormSuccess = () => {
     setIsFormOpen(false);
@@ -389,6 +384,13 @@ export default function AdminTeachersPage() {
                                     Reset Password
                                     </DropdownMenuItem>
                                 </AlertDialogTrigger>
+                                <DropdownMenuSeparator />
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(teacher); setActionType('delete'); }}>
+                                        <Trash2 className="mr-2 h-4 w-4" />
+                                        Delete
+                                    </DropdownMenuItem>
+                                 </AlertDialogTrigger>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             )}
@@ -408,15 +410,12 @@ export default function AdminTeachersPage() {
                 {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
                 {actionType === 'deny' && `This will deny the registration for ${selectedUser?.name} and remove their data.`}
                 {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
+                {actionType === 'delete' && `This will permanently delete the teacher ${selectedUser?.name}. This action cannot be undone.`}
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => {
-                    if (actionType === 'resetPassword') handlePasswordReset();
-                    else if (actionType === 'deny') handleDenyUser();
-                    else if (actionType === 'toggleStatus') handleToggleStatus();
-                }}>
+                <AlertDialogAction onClick={handleAction}>
                     Continue
                 </AlertDialogAction>
             </AlertDialogFooter>
@@ -435,5 +434,3 @@ export default function AdminTeachersPage() {
     </AlertDialog>
   );
 }
-
-    
