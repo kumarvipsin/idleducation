@@ -14,7 +14,7 @@ const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 };
 
-type CollectionType = 'notes' | 'importantQuestions';
+type CollectionType = 'notes' | 'importantQuestions' | 'ncertSolutions';
 
 // Helper function to get a document reference
 const getContentDocRef = (collectionType: CollectionType, classId: string) => {

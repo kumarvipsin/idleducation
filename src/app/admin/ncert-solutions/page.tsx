@@ -1,7 +1,7 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getNcertSolutions, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
+import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -63,10 +63,11 @@ export default function AdminNcertSolutionsPage() {
   const [modalState, setModalState] = useState<ModalState>(null);
   const [deleteState, setDeleteState] = useState<DeleteState>(null);
   const { toast } = useToast();
+  const collectionType = 'ncertSolutions';
 
   const fetchSolutions = async () => {
     setLoading(true);
-    const result = await getNcertSolutions();
+    const result = await getCollection(collectionType);
     if (result.success && result.data) {
       const formattedData = (result.data as any[]).map(doc => ({ id: doc.id, data: doc, }));
       setSolutions(formattedData);
@@ -86,7 +87,6 @@ export default function AdminNcertSolutionsPage() {
     const pdfFile = formData.get('pdf') as File | null;
     let result;
     const { type, action, path } = modalState;
-    const collectionType = 'ncertSolutions';
     
     try {
       if (type === 'class') {
@@ -131,7 +131,6 @@ export default function AdminNcertSolutionsPage() {
   const handleDelete = async () => {
     if(!deleteState) return;
     let result;
-    const collectionType = 'ncertSolutions';
     try {
         switch(deleteState.type) {
             case 'class':
@@ -168,7 +167,7 @@ export default function AdminNcertSolutionsPage() {
   };
 
   const handleReorder = async (path: any, itemType: 'chapter' | 'topic' | 'subTopic', itemIndex: number, direction: 'up' | 'down') => {
-    const result = await reorderArrayItem('ncertSolutions', path, itemType, itemIndex, direction);
+    const result = await reorderArrayItem(collectionType, path, itemType, itemIndex, direction);
     if (result.success) {
         toast({ title: "Success", description: result.message });
         fetchSolutions();

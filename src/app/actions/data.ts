@@ -1,4 +1,3 @@
-
 // src/app/actions/data.ts
 'use server';
 
@@ -132,40 +131,15 @@ export async function getExcellenceResults() {
     }
 }
 
-
-export async function getNcertSolutions() {
+export async function getCollection(collectionName: string) {
   try {
-    const notesQuery = query(collection(db, "ncertSolutions"), orderBy("order", "asc"));
-    const querySnapshot = await getDocs(notesQuery);
-    const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: notes };
+    const docsQuery = query(collection(db, collectionName));
+    const querySnapshot = await getDocs(docsQuery);
+    const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: docs };
   } catch (error) {
-    console.error("Error fetching NCERT Solutions:", error);
-    return { success: false, message: "Failed to fetch NCERT Solutions." };
-  }
-}
-
-export async function getNotes() {
-  try {
-    const notesQuery = query(collection(db, "notes"), orderBy("order", "asc"));
-    const querySnapshot = await getDocs(notesQuery);
-    const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: notes };
-  } catch (error) {
-    console.error("Error fetching notes:", error);
-    return { success: false, message: "Failed to fetch notes." };
-  }
-}
-
-export async function getImportantQuestions() {
-  try {
-    const questionsQuery = query(collection(db, "importantQuestions"), orderBy("order", "asc"));
-    const querySnapshot = await getDocs(questionsQuery);
-    const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: questions };
-  } catch (error) {
-    console.error("Error fetching important questions:", error);
-    return { success: false, message: "Failed to fetch important questions." };
+    console.error(`Error fetching ${collectionName}:`, error);
+    return { success: false, message: `Failed to fetch ${collectionName}.` };
   }
 }
 

@@ -101,7 +101,7 @@ const QuestionForm = ({
           <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="e.g., Set 1" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormItem>
-            <FormLabel>PDF File (Optional)</FormLabel>
+            <FormLabel>PDF File</FormLabel>
             <FormControl>
               <Input
                 id="pdf-upload"
@@ -113,9 +113,6 @@ const QuestionForm = ({
             </FormControl>
             <FormMessage />
         </FormItem>
-        <FormField control={form.control} name="pdfUrl" render={({ field }) => (
-          <FormItem><FormLabel>Or PDF Link (Optional)</FormLabel><FormControl><Input placeholder="https://example.com/paper.pdf" {...field} /></FormControl><FormMessage /></FormItem>
-        )} />
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}
