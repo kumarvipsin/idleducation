@@ -46,6 +46,7 @@ export function ExpertTeam() {
                     name={member.name}
                     designation={member.designation}
                     experience={member.experience}
+                    biography={member.biography}
                     avatar={member.avatarUrl}
                     avatarHint={`${member.name} photo`}
                   />

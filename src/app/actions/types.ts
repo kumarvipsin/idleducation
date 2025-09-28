@@ -116,6 +116,7 @@ export interface TTeamMember {
   name: string;
   designation: string;
   experience: string;
+  biography?: string;
   avatarUrl: string;
   order: number;
   createdAt: string;

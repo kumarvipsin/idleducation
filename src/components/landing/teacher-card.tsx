@@ -13,11 +13,12 @@ type TeacherCardProps = {
     name: string;
     designation: string;
     experience: string;
+    biography?: string;
     avatar: string;
     avatarHint: string;
 }
 
-export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
+export function TeacherCard({ name, designation, experience, biography, avatar, avatarHint }: TeacherCardProps) {
      return (
         <Dialog>
             <Card 
@@ -37,7 +38,7 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                     </div>
                     
                     <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-[0.5rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
+                    <p className="text-[0.6rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
                     
                     <div className="flex-grow"></div>
 
@@ -80,6 +81,12 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                               {experience}
                           </p>
                       </div>
+
+                       {biography && (
+                        <p className="text-sm text-white/80 mt-4 text-center">
+                          {biography}
+                        </p>
+                      )}
                   </div>
                 </div>
             </DialogContent>

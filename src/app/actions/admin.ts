@@ -571,6 +571,7 @@ export async function addTeamMember(formData: FormData) {
     name: rawData.name as string,
     designation: rawData.designation as string,
     experience: rawData.experience as string,
+    biography: rawData.biography as string || '',
     order: parseInt(rawData.order as string, 10) || 99,
   };
 
@@ -602,6 +603,7 @@ export async function editTeamMember(id: string, formData: FormData) {
       name: rawData.name as string,
       designation: rawData.designation as string,
       experience: rawData.experience as string,
+      biography: rawData.biography as string || '',
       order: parseInt(rawData.order as string, 10) || 99,
     };
     

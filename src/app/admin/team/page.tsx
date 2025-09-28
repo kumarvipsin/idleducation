@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ImageCropper } from '@/components/image-cropper';
 import { GcsImage } from '@/components/gcs-image';
+import { Textarea } from '@/components/ui/textarea';
 
 const TeamMemberForm = ({
   member,
@@ -98,6 +99,7 @@ const TeamMemberForm = ({
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <ScrollArea className="h-96 pr-4">
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">Name</Label>
@@ -110,6 +112,10 @@ const TeamMemberForm = ({
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="experience" className="text-right">Experience</Label>
             <Input id="experience" name="experience" defaultValue={member?.experience} className="col-span-3" required/>
+          </div>
+           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="biography" className="text-right">Biography</Label>
+            <Textarea id="biography" name="biography" defaultValue={member?.biography} className="col-span-3" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="order" className="text-right">Order</Label>
@@ -132,6 +138,7 @@ const TeamMemberForm = ({
             </div>
           </div>
         </div>
+        </ScrollArea>
         <DialogFooter>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Save changes'}
@@ -283,5 +290,4 @@ export default function AdminTeamPage() {
     </Dialog>
   );
 }
-
     
