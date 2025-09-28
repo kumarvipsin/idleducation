@@ -1,9 +1,9 @@
 
 'use client';
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { getImportantQuestionsForSubject, getNcertSolutions } from "@/app/actions";
+import { getCollection } from "@/app/actions";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotesChapterList } from "@/components/notes-chapter-list";
@@ -11,10 +11,9 @@ import type { TSubject } from "@/app/actions/types";
 
 function NcertSolutionsContent() {
   const [ncertSolutions, setNcertSolutions] = useState<TSubject | null>(null);
-  const [importantQuestions, setImportantQuestions] = useState<TSubject | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -22,10 +21,7 @@ function NcertSolutionsContent() {
       const classId = 'class-10';
       const subjectKey = 'maths';
       
-      const [solutionsResult, impQuestionsResult] = await Promise.all([
-          getNcertSolutions(),
-          getImportantQuestionsForSubject(classId, subjectKey)
-      ]);
+      const solutionsResult = await getCollection('ncertSolutions');
 
       if (solutionsResult.success && solutionsResult.data) {
           const classDoc = (solutionsResult.data as any[]).find(doc => doc.id === classId);
@@ -38,10 +34,6 @@ function NcertSolutionsContent() {
           setError(solutionsResult.message || "Failed to fetch NCERT Solutions.");
       }
       
-      if (impQuestionsResult.success && impQuestionsResult.data) {
-          setImportantQuestions(impQuestionsResult.data as TSubject);
-      }
-
       setLoading(false);
     }
     fetchData();
@@ -67,7 +59,7 @@ function NcertSolutionsContent() {
     );
   }
 
-  return <NotesChapterList notes={ncertSolutions} importantQuestions={importantQuestions} classId="class-10" subjectKey="maths" />;
+  return <NotesChapterList notes={ncertSolutions} importantQuestions={null} classId="class-10" subjectKey="maths" />;
 }
 
 
@@ -92,3 +84,4 @@ export default function Class10MathsPage() {
     </Card>
   );
 }
+
