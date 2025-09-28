@@ -3,11 +3,11 @@
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { getCollection, getImportantQuestionsForSubject } from "@/app/actions";
+import { getImportantQuestionsForSubject, getNcertSolutions } from "@/app/actions";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotesChapterList } from "@/components/notes-chapter-list";
-import { TSubject } from "@/app/actions/types";
+import type { TSubject } from "@/app/actions/types";
 
 function NcertSolutionsContent() {
   const [ncertSolutions, setNcertSolutions] = useState<TSubject | null>(null);
@@ -23,7 +23,7 @@ function NcertSolutionsContent() {
       const subjectKey = 'maths';
       
       const [solutionsResult, impQuestionsResult] = await Promise.all([
-          getCollection('ncertSolutions'),
+          getNcertSolutions(),
           getImportantQuestionsForSubject(classId, subjectKey)
       ]);
 
@@ -80,4 +80,3 @@ export default function Class10MathsPage() {
     </Card>
   );
 }
-
