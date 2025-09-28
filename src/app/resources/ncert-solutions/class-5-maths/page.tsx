@@ -1,6 +1,7 @@
 
 'use client';
 
+import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, BookOpen, ChevronRight, Eye, Download, Languages, ShoppingCart, Folder, Dot, File as FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,9 +68,17 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
                 
                 return (
-                    <div key={index}>
-                      <p className={cn("font-semibold text-sm py-1", level > 0 && "text-foreground/80 font-medium")}>{item.name}</p>
-                      {hasChildren && children.length > 0 && <ContentTree items={children} level={level + 1} />}
+                    <div key={index} className="p-2 rounded-md transition-colors hover:bg-muted/50">
+                        <div className="flex items-center gap-2">
+                           <span className={cn(
+                                "font-semibold text-sm",
+                                level > 0 && "text-foreground/80 font-medium",
+                                level === 0 && "text-primary"
+                            )}>
+                                {item.name}
+                            </span>
+                        </div>
+                        {hasChildren && children.length > 0 && <ContentTree items={children} level={level + 1} />}
                     </div>
                 );
             })}
@@ -102,7 +111,7 @@ export default function Class5MathsPage() {
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                             <div className="flex items-center justify-between p-3 md:p-4 group">
+                            <div className="flex items-center p-3 md:p-4 group">
                                 <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
@@ -209,4 +218,3 @@ export default function Class5MathsPage() {
     </Card>
   );
 }
-
