@@ -70,10 +70,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
                 return (
                     <div key={index} className="py-1">
                         <div className="flex items-center gap-2">
-                           <span className={cn(
-                                "text-sm font-semibold",
-                                level === 0 ? "text-primary" : "text-foreground/80"
-                            )}>
+                           <span className="text-sm font-semibold text-foreground/80">
                                 {item.name}
                             </span>
                         </div>
@@ -110,7 +107,7 @@ export default function Class5MathsPage() {
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                            <div className="flex items-center justify-between p-3 md:p-4 group">
+                             <div className="flex items-center justify-between px-3 md:px-4 py-1.5 md:py-2 group">
                                 <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
