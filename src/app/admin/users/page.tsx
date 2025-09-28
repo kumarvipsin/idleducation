@@ -210,7 +210,6 @@ export default function AdminUsersPage() {
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>Manage Teachers</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
                                                 <ScrollArea className="h-40">
                                                     {teachers.map(teacher => (
@@ -283,6 +282,3 @@ export default function AdminUsersPage() {
     </AlertDialog>
   );
 }
-
-
-    
