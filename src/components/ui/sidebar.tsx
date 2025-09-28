@@ -492,15 +492,16 @@ SidebarGroupContent.displayName = "SidebarGroupContent"
 
 const SidebarMenu = React.forwardRef<
   HTMLUListElement,
-  React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
+  React.ComponentProps<"ul"> & { collapsible?: boolean }
+>(({ className, collapsible, ...props }, ref) => (
   <ul
     ref={ref}
     data-sidebar="menu"
     className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+    {...(collapsible && { "data-collapsible": true })}
     {...props}
   />
-))
+));
 SidebarMenu.displayName = "SidebarMenu"
 
 const SidebarMenuItem = React.forwardRef<
@@ -692,14 +693,20 @@ SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 const SidebarMenuSub = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
->((props, ref) => (
-  <li
-    ref={ref}
-    data-sidebar="menu-sub-wrapper"
-    className="group/menu-sub-wrapper"
-    {...props}
-  />
-))
+>((props, ref) => {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <li
+      ref={ref}
+      data-sidebar="menu-sub-wrapper"
+      data-state={open ? "open" : "closed"}
+      onMouseOver={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      {...props}
+    />
+  )
+})
 SidebarMenuSub.displayName = "SidebarMenuSub"
 
 const SidebarMenuSubButton = React.forwardRef<
@@ -736,6 +743,7 @@ const SidebarMenuSubItem = React.forwardRef<
       data-sidebar="menu-sub"
       className={cn(
         "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-1",
+        "group-data-[state=closed]/menu-sub-wrapper:hidden",
         "group-data-[collapsible=icon]:hidden",
         className
       )}

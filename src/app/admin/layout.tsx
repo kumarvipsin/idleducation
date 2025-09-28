@@ -94,7 +94,7 @@ function AdminLayout({
                     </SidebarMenuButton>
                 </SidebarMenuItem>
              </SidebarMenu>
-            <SidebarMenu>
+            <SidebarMenu collapsible>
                 <SidebarMenuSub>
                     <SidebarMenuSubButton>
                         <Users className="mr-2" />
