@@ -42,10 +42,10 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                     <div className="flex-grow"></div>
 
-                    <div className="mt-4 w-full">
+                    <div className="mt-4 w-full flex justify-center">
                         <DialogTrigger asChild>
-                            <button className="text-sm font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
-                                MORE <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
+                            <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
+                                MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
                             </button>
                         </DialogTrigger>
                     </div>
