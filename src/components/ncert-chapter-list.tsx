@@ -84,9 +84,14 @@ const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) 
                                 </AccordionTrigger>
                                 <div className="flex items-center gap-1">
                                 {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
+                                <>
+                                <Button asChild variant="ghost" size="sm">
+                                    <Link href="#">View</Link>
+                                </Button>
                                  <Button asChild variant="ghost" size="sm">
                                     <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                                 </Button>
+                                </>
                                 </div>
                            </div>
                             {hasChildren && (
