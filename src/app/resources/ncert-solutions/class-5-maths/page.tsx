@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart, Languages, Folder, Dot } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Download, ShoppingCart, Languages, Folder, Dot, Eye, File as FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -61,7 +61,7 @@ const renderContentTree = (items: any[], level = 0) => {
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={level > 0 ? "pl-4 border-l ml-4 border-dashed" : ""}>
+        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-4")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -70,15 +70,13 @@ const renderContentTree = (items: any[], level = 0) => {
                     return (
                         <Accordion type="single" collapsible key={index}>
                             <AccordionItem value={`item-${index}`} className="border-b-0">
-                                 <Card className="shadow-sm my-1 bg-muted/20">
-                                    <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full p-3 text-left">
-                                        <div className="flex items-center">
-                                            {level === 0 ? <Folder className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
-                                            {item.name}
-                                        </div>
-                                    </AccordionTrigger>
-                                </Card>
-                                <AccordionContent className="pt-0">
+                                <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full p-2 text-left rounded-md hover:bg-muted/50">
+                                    <div className="flex items-center">
+                                        {level === 0 ? <Folder className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
+                                        {item.name}
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="pt-1">
                                     {renderContentTree(children, level + 1)}
                                 </AccordionContent>
                             </AccordionItem>
@@ -87,14 +85,12 @@ const renderContentTree = (items: any[], level = 0) => {
                 }
 
                 return (
-                    <Card key={`item-${index}`} className="transition-all duration-300 my-1 shadow-sm bg-muted/20">
-                        <div className="flex items-center justify-between p-3 group">
-                            <span className="font-medium text-sm text-foreground/90 flex items-center">
-                               {level === 0 ? <FileText className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
-                               {item.name}
-                            </span>
-                        </div>
-                    </Card>
+                    <div key={`item-${index}`} className="flex items-center p-2 rounded-md hover:bg-muted/50">
+                        <span className="font-medium text-sm text-foreground/90 flex items-center">
+                            {level === 0 ? <FileIcon className="w-4 h-4 mr-2 text-primary" /> : <Dot className="w-4 h-4 mr-2 text-primary" />}
+                            {item.name}
+                        </span>
+                    </div>
                 );
             })}
         </div>
@@ -165,10 +161,10 @@ export default function Class5MathsPage() {
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Eye className="w-4 h-4 mr-1"/></Link>
+                        <Link href="#"><Eye className="w-4 h-4"/></Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4 mr-1"/></Link>
+                        <Link href="#"><Download className="w-4 h-4"/></Link>
                     </Button>
                 </div>
             </CardContent>
@@ -226,3 +222,4 @@ export default function Class5MathsPage() {
     </Card>
   );
 }
+
