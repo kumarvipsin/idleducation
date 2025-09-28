@@ -62,7 +62,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-2")}>
+        <div className={cn("space-y-1", level > 0 && "pl-3 border-l ml-3")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -107,7 +107,7 @@ export default function Class5MathsPage() {
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                             <div className="flex items-center justify-between px-3 md:px-4 py-1 group">
+                             <div className="flex items-center justify-between px-3 md:px-4 py-1.5 md:py-2 group">
                                 <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
@@ -149,7 +149,7 @@ export default function Class5MathsPage() {
         <div className="space-y-2">
         {(class5MathsResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
             <Card key={index} className="bg-background">
-            <CardContent className="p-3 flex items-center justify-between">
+            <CardContent className="p-1.5 md:p-2 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
                     <Button asChild variant="ghost" size="sm">
