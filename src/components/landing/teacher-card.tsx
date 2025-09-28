@@ -1,7 +1,8 @@
+
 'use client';
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, ArrowRight } from "lucide-react";
+import { Facebook, Twitter, Instagram, ArrowRight, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { GcsImage } from "@/components/gcs-image";
@@ -36,7 +37,7 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                     </div>
                     
                     <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-xs text-muted-foreground uppercase tracking-widest">{designation}</p>
+                    <p className="text-[0.5rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
                     
                     <div className="flex-grow"></div>
 
@@ -56,23 +57,30 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                     
                 </CardContent>
             </Card>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader className="items-center text-center">
-                     <div className="w-24 h-24 rounded-full bg-pink-100 border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-2">
-                        <div className="relative w-full h-full">
-                            <GcsImage
-                                filePath={avatar}
-                                alt={name}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                    </div>
-                    <DialogTitle className="text-2xl">{name}</DialogTitle>
-                    <DialogDescription className="text-xs uppercase">{designation}</DialogDescription>
-                </DialogHeader>
-                <div className="p-4 text-center">
-                    <p className="text-sm text-muted-foreground">{experience}</p>
+            <DialogContent className="sm:max-w-md bg-gradient-to-br from-primary via-blue-800 to-indigo-900 border-none rounded-2xl shadow-2xl text-white">
+                <div className="p-4 pt-8">
+                  <div className="relative flex flex-col items-center text-center">
+                      <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
+                          <div className="relative w-full h-full">
+                              <GcsImage
+                                  filePath={avatar}
+                                  alt={name}
+                                  fill
+                                  className="object-cover"
+                              />
+                          </div>
+                      </div>
+                      <DialogTitle className="text-2xl font-bold tracking-tight">{name}</DialogTitle>
+                      <DialogDescription className="text-xs uppercase tracking-widest text-white/70">
+                          {designation}
+                      </DialogDescription>
+                      
+                       <div className="mt-4 w-full flex justify-center">
+                          <p className="inline-block bg-white/20 text-white font-bold text-sm px-4 py-2 rounded-full">
+                              {experience}
+                          </p>
+                      </div>
+                  </div>
                 </div>
             </DialogContent>
         </Dialog>
