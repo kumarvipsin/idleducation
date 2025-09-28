@@ -238,7 +238,7 @@ export default function AdminExamCategoriesPage() {
   const competitiveExams = categories.filter(c => c.group === 'competitive').sort((a,b) => (a.order || 99) - (b.order || 99));
   
   const getTeacherNames = (teacherIds: string[] = []) => {
-    if (!teacherIds || teacherIds.length === 0) return 'N/A';
+    if (!Array.isArray(teacherIds) || teacherIds.length === 0) return 'N/A';
     return teacherIds
       .map(id => teachers.find(t => t.id === id)?.name)
       .filter(Boolean)

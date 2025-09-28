@@ -57,7 +57,7 @@ interface StaffMember {
     dob: string;
     guardianName: string;
     address: string;
-    photoUrl?: string;
+    avatarUrl?: string;
 }
 
 
@@ -143,7 +143,7 @@ export default function AdminStaffPage() {
                         <TableCell>{member.staffId}</TableCell>
                         <TableCell className="font-medium flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                                <AvatarImage src={member.photoUrl} alt={member.name} />
+                                <AvatarImage src={member.avatarUrl} alt={member.name} />
                                 <AvatarFallback>{member.name?.charAt(0)}</AvatarFallback>
                             </Avatar>
                             {member.name}
@@ -295,7 +295,7 @@ export default function AdminStaffPage() {
                 <div className="space-y-4">
                     <div className="flex flex-col items-center gap-4 p-4 bg-muted/30 rounded-lg">
                         <Avatar className="h-24 w-24 border-4 border-primary shadow-lg">
-                            <AvatarImage src={previewStaff.photoUrl} alt={previewStaff.name} data-ai-hint="professional headshot" />
+                            <AvatarImage src={previewStaff.avatarUrl} alt={previewStaff.name} data-ai-hint="professional headshot" />
                             <AvatarFallback className="text-3xl">
                                 {previewStaff.name?.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
