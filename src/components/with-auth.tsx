@@ -36,10 +36,7 @@ const withAuth = <P extends object>(
     }, [user, loading, router, isClient]);
 
     if (!isClient || loading || !user) {
-      return (
-        <div className="flex items-center justify-center h-screen bg-white">
-        </div>
-      );
+      return null;
     }
     
     if (user.role && !allowedRoles.includes(user.role)) {
