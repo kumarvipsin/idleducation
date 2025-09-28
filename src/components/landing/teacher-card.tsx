@@ -34,7 +34,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                 </div>
                 <CardContent className="p-4 flex-1 flex flex-col">
                     <h3 className="text-base md:text-lg font-bold uppercase tracking-wider text-foreground">{name}</h3>
-                    <p className="text-xs md:text-sm text-muted-foreground">{designation}</p>
+                    <p className="text-[10px] md:text-xs text-muted-foreground uppercase">{designation}</p>
                     <div className="mt-4 text-center flex-grow flex items-end justify-center">
                         <DialogTrigger asChild>
                            <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
