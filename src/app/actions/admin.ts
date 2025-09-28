@@ -580,8 +580,6 @@ export async function addTeamMember(formData: FormData) {
     if (avatarFile && avatarFile.size > 0) {
       const destination = `team-members/${Date.now()}-${avatarFile.name}`;
       avatarUrl = await uploadFileToGCS(avatarFile, destination);
-    } else {
-        return { success: false, message: "Avatar image is required." };
     }
     
     await addDoc(collection(db, "teamMembers"), {

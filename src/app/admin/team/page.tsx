@@ -76,7 +76,7 @@ const TeamMemberForm = ({
           <Input id="order" name="order" type="number" defaultValue={member?.order ?? 99} className="col-span-3" />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="avatar" className="text-right">Avatar</Label>
+          <Label htmlFor="avatar" className="text-right">Avatar (Optional)</Label>
           <div className="col-span-3 flex items-center gap-4">
             {preview && <Avatar><AvatarImage src={preview} alt="Avatar Preview" /></Avatar>}
             <Input id="avatar" name="avatar" type="file" onChange={handleFileChange} className="col-span-3" />
