@@ -52,15 +52,15 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
 
                     <div className="mt-4 flex justify-center">
                         <div className="flex items-center gap-2 text-muted-foreground">
-                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Facebook className="h-4 w-4" /></Link>
-                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Instagram className="h-4 w-4" /></Link>
-                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-primary/10 hover:text-primary transition-colors"><Twitter className="h-4 w-4" /></Link>
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Facebook className="h-4 w-4" /></Link>
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Instagram className="h-4 w-4" /></Link>
+                            <Link href="#" className="h-8 w-8 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors active:bg-primary active:text-primary-foreground"><Twitter className="h-4 w-4" /></Link>
                         </div>
                     </div>
                     
                 </CardContent>
             </Card>
-            <DialogContent className="sm:max-w-md bg-white dark:bg-gray-950 border-primary/20 text-foreground">
+            <DialogContent className="sm:max-w-md bg-white dark:bg-gray-950 text-foreground">
                 <div className="p-4 pt-8">
                   <div className="relative flex flex-col items-center text-center">
                       <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
