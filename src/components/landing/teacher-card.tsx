@@ -1,3 +1,4 @@
+
 'use client';
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +42,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                     <div className="flex-grow"></div>
 
-                    <div className="mt-4 w-full flex justify-center">
+                    <div className="mt-4 flex justify-center">
                         <DialogTrigger asChild>
                             <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center">
                                 MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
@@ -59,7 +60,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     
                 </CardContent>
             </Card>
-            <DialogContent className="sm:max-w-md bg-background/90 backdrop-blur-sm border-primary/20 text-foreground">
+            <DialogContent className="sm:max-w-md bg-white dark:bg-gray-950 border-primary/20 text-foreground">
                 <div className="p-4 pt-8">
                   <div className="relative flex flex-col items-center text-center">
                       <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
