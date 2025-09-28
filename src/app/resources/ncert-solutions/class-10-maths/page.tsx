@@ -3,23 +3,45 @@
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { getImportantQuestionsForSubject } from "@/app/actions";
+import { getCollection, getImportantQuestionsForSubject } from "@/app/actions";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { NotesChapterList } from "@/components/notes-chapter-list";
 import { TSubject } from "@/app/actions/types";
 
 function NcertSolutionsContent() {
-  const [resources, setResources] = useState<TSubject | null>(null);
+  const [ncertSolutions, setNcertSolutions] = useState<TSubject | null>(null);
+  const [importantQuestions, setImportantQuestions] = useState<TSubject | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const result = await getImportantQuestionsForSubject('class-10', 'maths');
-      if (result.success && result.data) {
-        setResources(result.data);
+      setError(null);
+      const classId = 'class-10';
+      const subjectKey = 'maths';
+      
+      const [solutionsResult, impQuestionsResult] = await Promise.all([
+          getCollection('ncertSolutions'),
+          getImportantQuestionsForSubject(classId, subjectKey)
+      ]);
+
+      if (solutionsResult.success && solutionsResult.data) {
+          const classDoc = (solutionsResult.data as any[]).find(doc => doc.id === classId);
+          if (classDoc && classDoc.subjects[subjectKey]) {
+              setNcertSolutions(classDoc.subjects[subjectKey]);
+          } else {
+               setError("NCERT Solutions content not found for this subject.");
+          }
+      } else {
+          setError(solutionsResult.message || "Failed to fetch NCERT Solutions.");
       }
+      
+      if (impQuestionsResult.success && impQuestionsResult.data) {
+          setImportantQuestions(impQuestionsResult.data);
+      }
+
       setLoading(false);
     }
     fetchData();
@@ -29,12 +51,13 @@ function NcertSolutionsContent() {
     return <Skeleton className="h-96 w-full" />;
   }
 
-  if (!resources) {
-    return <p>Could not load resources. Please try again later.</p>;
+  if (error || !ncertSolutions) {
+    return <p className="text-center text-destructive">{error || "Could not load resources. Please try again later."}</p>;
   }
 
-  return <NotesChapterList notes={resources} importantQuestions={null} classId="class-10" subjectKey="maths" />;
+  return <NotesChapterList notes={ncertSolutions} importantQuestions={importantQuestions} classId="class-10" subjectKey="maths" />;
 }
+
 
 export default function Class10MathsPage() {
   return (
@@ -57,3 +80,4 @@ export default function Class10MathsPage() {
     </Card>
   );
 }
+
