@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText as FileIcon, BookOpen, ChevronRight, Download, Eye, Languages, ShoppingCart, Folder, Dot } from "lucide-react";
+import { FileText, BookOpen, ChevronRight, Eye, Download, Languages, ShoppingCart, Folder, Dot, File as FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
@@ -96,18 +96,18 @@ export default function Class5MathsPage() {
             <span className="sr-only">Toggle Language</span>
         </Button>
       </div>
-      <div className="space-y-2">
+       <Accordion type="single" collapsible className="w-full space-y-2">
         {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
-            <Accordion type="single" collapsible className="w-full space-y-2" key={bookIndex}>
+            <React.Fragment key={bookIndex}>
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                             <div className="flex items-center">
-                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left p-3 md:p-4 group hover:no-underline">
+                             <div className="flex items-center justify-between p-3 md:p-4 group">
+                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
-                                <div className="flex items-center gap-1 pr-4">
-                                     <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                <div className="flex items-center gap-1">
+                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
                                         <Link href="#"><Eye className="h-4 w-4"/></Link>
                                     </Button>
                                     <Button asChild variant="ghost" size="icon" className="h-8 w-8">
@@ -121,9 +121,9 @@ export default function Class5MathsPage() {
                         </AccordionItem>
                     </Card>
                 ))}
-            </Accordion>
+            </React.Fragment>
         ))}
-      </div>
+      </Accordion>
     </div>
   );
 
@@ -210,4 +210,3 @@ export default function Class5MathsPage() {
   );
 }
 
-    
