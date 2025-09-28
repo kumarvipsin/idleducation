@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
 import { GcsImage } from "@/components/gcs-image";
 
 type TeacherCardProps = {
@@ -14,30 +15,24 @@ type TeacherCardProps = {
 }
 
 export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
-    return (
-        <div className="relative group overflow-hidden rounded-lg bg-background shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-            <div className="relative w-full aspect-[4/5]">
+     return (
+        <Card 
+          className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full"
+        >
+            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
                 <GcsImage
                     filePath={avatar}
                     alt={name}
                     fill
                     className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 text-white flex flex-col justify-end">
-                    <div className="space-y-0.5">
-                        <h3 className="text-base md:text-sm font-bold">{name}</h3>
-                        <p className="text-[0.5rem] text-primary-foreground/80 font-semibold uppercase inline-block bg-black/20 rounded-full px-2 py-0.5">{designation}</p>
-                        <div className="h-4">
-                            <div className="flex justify-start gap-3 text-primary-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <Link href="#" className="hover:text-white"><Facebook className="h-4 w-4" /></Link>
-                                <Link href="#" className="hover:text-white"><Twitter className="h-4 w-4" /></Link>
-                                <Link href="#" className="hover:text-white"><Instagram className="h-4 w-4" /></Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
             </div>
-        </div>
+            <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
+                <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
+                <p className="text-xs md:text-sm text-white/90">{designation}</p>
+                <p className="text-xs text-white/80 mt-1">{experience}</p>
+            </CardContent>
+        </Card>
     );
 }
