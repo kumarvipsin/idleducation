@@ -14,11 +14,26 @@ export function AppContent({
   const pathname = usePathname();
   
   const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup');
+  const isAdminPage = pathname.startsWith('/admin');
+  const isStudentPage = pathname.startsWith('/student');
+  const isTeacherPage = pathname.startsWith('/teacher');
   const isScholarshipPage = pathname.startsWith('/scholarship');
   const isBookDemoPage = pathname.startsWith('/book-demo');
   const isAdmissionPage = pathname.startsWith('/admission');
   const isFeedbackPage = pathname.startsWith('/feedback');
 
+  // If it's any of the dashboard-like pages, just render the children.
+  // The layout for these pages will handle their own header/sidebar/footer.
+  if (isAdminPage || isStudentPage || isTeacherPage) {
+    return (
+        <>
+            {children}
+            <Toaster />
+        </>
+    );
+  }
+  
+  // For special public pages that shouldn't have a header/footer
   if (isAuthPage || isScholarshipPage || isBookDemoPage || isAdmissionPage || isFeedbackPage) {
     return (
         <>
@@ -27,14 +42,10 @@ export function AppContent({
             </main>
             <Toaster />
         </>
-    )
+    );
   }
 
   const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
-  
-  // Don't show chatbot on admin pages
-  const showChatBot = !pathname.startsWith('/admin');
-
 
   return (
     <>
@@ -43,7 +54,7 @@ export function AppContent({
         {children}
       </main>
       {showFooter && <Footer />}
-      {showChatBot && <ChatBotWrapper />}
+      <ChatBotWrapper />
       <Toaster />
     </>
   );
