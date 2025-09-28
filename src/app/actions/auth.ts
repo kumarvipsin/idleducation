@@ -128,7 +128,7 @@ const signupSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email(),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
-  role: z.enum(['student', 'teacher']),
+  role: z.enum(['student', 'teacher', 'admin']),
   designation: z.string().optional(),
   experience: z.string().optional(),
   socialLinks: z.object({
@@ -142,7 +142,8 @@ type SignupValues = z.infer<typeof signupSchema>;
 export async function signUpUser(data: SignupValues, photoFile?: File | null) {
   const validation = signupSchema.safeParse(data);
   if (!validation.success) {
-    return { success: false, message: "Invalid input." };
+    const errorMessages = validation.error.errors.map(e => e.message).join(', ');
+    return { success: false, message: `Invalid input: ${errorMessages}` };
   }
 
   const { name, email, password, role, ...extraData } = validation.data;
@@ -162,7 +163,7 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
       email: email,
       role: role,
       createdAt: serverTimestamp(),
-      status: 'pending',
+      status: role === 'admin' ? 'approved' : 'pending',
       photoURL: photoURL,
       ...extraData,
     };
@@ -175,7 +176,11 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
     
     await signOut(auth);
 
-    return { success: true, message: "Account created successfully! Please wait for an admin to approve your account before you can log in." };
+    const message = role === 'admin' 
+        ? "Admin account created successfully!"
+        : "Account created successfully! Please wait for an admin to approve your account before you can log in.";
+
+    return { success: true, message, uid: user.uid };
   } catch (error: any) {
     let message = "An unknown error occurred.";
     switch (error.code) {

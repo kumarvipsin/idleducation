@@ -7,6 +7,7 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
+import { signUpUser } from './auth';
 
 // User Management
 export async function getPendingUsers() {
@@ -111,6 +112,29 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     console.error("Error updating teacher:", error);
     return { success: false, message: "Failed to update teacher." };
   }
+}
+
+const addAdminSchema = z.object({
+  name: z.string().min(2, { message: "Name is required" }),
+  email: z.string().email(),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
+export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
+  const validation = addAdminSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: validation.error.errors.map(e => e.message).join(', ') };
+  }
+
+  // Use the existing signUpUser function, but force the role to 'admin'
+  const result = await signUpUser({ ...validation.data, role: 'admin' });
+  
+  // The signUpUser function automatically sets status to 'pending', let's approve it right away for admins
+  if (result.success && result.uid) {
+    await approveUser(result.uid);
+  }
+
+  return result;
 }
 
 

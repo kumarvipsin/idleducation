@@ -38,6 +38,19 @@ export async function getTeachers() {
   }
 }
 
+export async function getAdmins() {
+  try {
+    const adminsQuery = query(collection(db, "users"), where("role", "==", "admin"));
+    const querySnapshot = await getDocs(adminsQuery);
+    const admins = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: admins };
+  } catch (error) {
+    console.error("Error fetching admins:", error);
+    return { success: false, message: "Failed to fetch admins." };
+  }
+}
+
+
 export async function getStudentProgressReports(studentId: string) {
   try {
     const reportsQuery = query(collection(db, "progressReports"), where("studentId", "==", studentId));
