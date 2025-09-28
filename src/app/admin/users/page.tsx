@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus, deleteUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2 } from "lucide-react";
+import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2, Users } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -197,19 +197,17 @@ export default function AdminUsersPage() {
                                     </div>
                                 </TableCell>
                                 <TableCell><Badge variant={getBadgeVariant(student.status)} className="capitalize">{student.status}</Badge></TableCell>
-                                <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
-                                <TableCell className="text-right">
-                                    {student.status === 'pending' ? (
-                                        <div className="flex gap-2 justify-end">
-                                            <Button size="sm" onClick={() => handleApproveUser(student.id)}><CheckCircle className="mr-2 h-4 w-4" />Approve</Button>
-                                            <AlertDialogTrigger asChild>
-                                                <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}><XCircle className="mr-2 h-4 w-4" />Deny</Button>
-                                            </AlertDialogTrigger>
-                                        </div>
-                                    ) : (
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        <span className="truncate max-w-xs">{getTeacherNames(student.teacherIds)}</span>
                                         <DropdownMenu>
-                                            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="outline" size="sm">
+                                                    Assign <Users className="ml-2 h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>Manage Teachers</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
                                                 <ScrollArea className="h-40">
                                                     {teachers.map(teacher => (
@@ -228,8 +226,24 @@ export default function AdminUsersPage() {
                                                     </DropdownMenuCheckboxItem>
                                                     ))}
                                                 </ScrollArea>
-                                                <DropdownMenuSeparator />
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    {student.status === 'pending' ? (
+                                        <div className="flex gap-2 justify-end">
+                                            <Button size="sm" onClick={() => handleApproveUser(student.id)}><CheckCircle className="mr-2 h-4 w-4" />Approve</Button>
+                                            <AlertDialogTrigger asChild>
+                                                <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}><XCircle className="mr-2 h-4 w-4" />Deny</Button>
+                                            </AlertDialogTrigger>
+                                        </div>
+                                    ) : (
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
                                                 <DropdownMenuLabel>Other Actions</DropdownMenuLabel>
+                                                <DropdownMenuSeparator />
                                                 <AlertDialogTrigger asChild>
                                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
                                                         {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
@@ -282,3 +296,4 @@ export default function AdminUsersPage() {
     </AlertDialog>
   );
 }
+
