@@ -1,3 +1,4 @@
+
 'use client';
 import Image from "next/image";
 import Link from "next/link";
@@ -16,22 +17,23 @@ type TeacherCardProps = {
 
 export function TeacherCard({ name, designation, experience, avatar, avatarHint }: TeacherCardProps) {
      return (
-        <Card 
-          className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full"
-        >
-            <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
-                <GcsImage
-                    filePath={avatar}
-                    alt={name}
-                    fill
-                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
-            </div>
-            <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
-                <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
-                <p className="text-xs md:text-sm text-white/90">{designation}</p>
-                <p className="text-xs text-white/80 mt-1">{experience}</p>
+        <Card className="relative overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl h-full border border-border/20">
+            <CardContent className="p-6 text-center flex flex-col items-center h-full">
+                <div className="relative w-32 h-32 mb-4 transition-transform duration-500 group-hover:scale-110">
+                     <GcsImage
+                        filePath={avatar}
+                        alt={name}
+                        fill
+                        className="rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-lg"
+                    />
+                </div>
+                <div className="flex-grow flex flex-col justify-center">
+                    <h3 className="text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">{name}</h3>
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground mt-1">{designation}</p>
+                </div>
+                <div className="mt-4 pt-4 border-t border-dashed w-full">
+                     <p className="text-xs text-muted-foreground font-medium">{experience}</p>
+                </div>
             </CardContent>
         </Card>
     );
