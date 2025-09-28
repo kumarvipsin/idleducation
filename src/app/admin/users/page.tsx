@@ -1,21 +1,27 @@
-
 'use client';
 
 import { useEffect, useState } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, Briefcase, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical } from "lucide-react";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuCheckboxItem, 
+  DropdownMenuTrigger, 
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -29,6 +35,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface User {
   id: string;
@@ -37,6 +45,7 @@ interface User {
   role: 'student' | 'teacher';
   teacherIds?: string[];
   status: 'pending' | 'approved' | 'inactive';
+  photoURL?: string;
 }
 
 export default function AdminUsersPage() {
@@ -44,22 +53,68 @@ export default function AdminUsersPage() {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
-    const studentsResult = await getStudents();
+    setLoading(true);
+    const [studentsResult, teachersResult] = await Promise.all([
+      getStudents(),
+      getTeachers(),
+    ]);
+
     if (studentsResult.success && studentsResult.data) {
       setStudents(studentsResult.data as User[]);
     }
-    const teachersResult = await getTeachers();
     if (teachersResult.success && teachersResult.data) {
       setTeachers(teachersResult.data as User[]);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleAction = async () => {
+    if (!selectedUser || !actionType) return;
+
+    let result;
+    switch (actionType) {
+      case 'resetPassword':
+        result = await resetUserPassword(selectedUser.email);
+        break;
+      case 'deny':
+        result = await denyUser(selectedUser.id);
+        break;
+      case 'toggleStatus':
+        const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
+        result = await setUserStatus(selectedUser.id, newStatus);
+        break;
+      default:
+        return;
+    }
+    
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchUsers();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    
+    setSelectedUser(null);
+    setActionType(null);
+  };
+  
+  const handleApproveUser = async (userId: string) => {
+    const result = await approveUser(userId);
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchUsers();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
 
   const handleAssignTeachers = async (studentId: string, teacherIds: string[]) => {
     const result = await assignTeachersToStudent(studentId, teacherIds);
@@ -70,55 +125,6 @@ export default function AdminUsersPage() {
       toast({ variant: "destructive", title: "Error", description: result.message });
     }
   };
-
-  const handlePasswordReset = async () => {
-    if (!selectedUser) return;
-    const result = await resetUserPassword(selectedUser.email);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-    setSelectedUser(null);
-    setActionType(null);
-  };
-
-  const handleApproveUser = async (userId: string) => {
-    const result = await approveUser(userId);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-      fetchUsers(); // Re-fetch users to update status
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-  };
-
-  const handleDenyUser = async () => {
-    if (!selectedUser) return;
-    const result = await denyUser(selectedUser.id);
-    if (result.success) {
-        toast({ title: "Success", description: result.message });
-        fetchUsers();
-    } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-    setSelectedUser(null);
-    setActionType(null);
-  }
-  
-  const handleToggleStatus = async () => {
-    if (!selectedUser) return;
-    const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
-    const result = await setUserStatus(selectedUser.id, newStatus);
-    if (result.success) {
-      toast({ title: "Success", description: result.message });
-      fetchUsers();
-    } else {
-      toast({ variant: "destructive", title: "Error", description: result.message });
-    }
-    setSelectedUser(null);
-    setActionType(null);
-  }
 
   const getTeacherNames = (teacherIds: string[] = []) => {
     if (teacherIds.length === 0) return "Not Assigned";
@@ -133,6 +139,28 @@ export default function AdminUsersPage() {
         default: return 'outline';
     }
   };
+  
+  const renderSkeleton = () => (
+    [...Array(6)].map((_, i) => (
+      <Card key={i}>
+        <CardHeader className="flex flex-row items-center gap-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+        </CardContent>
+        <CardFooter className="gap-2">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-10" />
+        </CardFooter>
+      </Card>
+    ))
+  );
 
   return (
     <AlertDialog>
@@ -140,101 +168,103 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader>
             <CardTitle>Student Management</CardTitle>
-            <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
+            <CardDescription>Manage student accounts, approve registrations, and assign teachers.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[calc(100vh-250px)]">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Student Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Assigned Teachers</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {students.map((student) => (
-                    <TableRow key={student.id}>
-                      <TableCell className="font-medium flex items-center gap-2"><GraduationCap className="h-4 w-4"/> {student.name}</TableCell>
-                      <TableCell>{student.email}</TableCell>
-                       <TableCell>
-                        <Badge variant={getBadgeVariant(student.status)} className="capitalize">
-                          {student.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{getTeacherNames(student.teacherIds)}</TableCell>
-                      <TableCell className="text-right space-x-2">
-                        {student.status === 'pending' ? (
-                          <>
-                           <Button size="sm" onClick={() => handleApproveUser(student.id)}>
-                              <CheckCircle className="mr-2 h-4 w-4" />
-                              Approve
-                           </Button>
-                           <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}>
-                                <XCircle className="mr-2 h-4 w-4" />
-                                Deny
-                              </Button>
-                           </AlertDialogTrigger>
-                          </>
-                        ) : (
-                          <>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm">
-                                  Manage Teachers <ChevronDown className="ml-2 h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-56">
-                                {teachers.map(teacher => (
-                                  <DropdownMenuCheckboxItem
-                                    key={teacher.id}
-                                    checked={student.teacherIds?.includes(teacher.id)}
-                                    onCheckedChange={(checked) => {
-                                      const currentTeacherIds = student.teacherIds || [];
-                                      const newTeacherIds = checked
-                                        ? [...currentTeacherIds, teacher.id]
-                                        : currentTeacherIds.filter(id => id !== teacher.id);
-                                      handleAssignTeachers(student.id, newTeacherIds);
-                                    }}
-                                  >
-                                    {teacher.name}
-                                  </DropdownMenuCheckboxItem>
-                                ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-
-                            <DropdownMenu>
-                               <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="sm">Actions</Button>
-                               </DropdownMenuTrigger>
-                               <DropdownMenuContent>
-                                  <AlertDialogTrigger asChild>
-                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
-                                       {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
-                                       {student.status === 'approved' ? 'Deactivate' : 'Activate'}
-                                     </DropdownMenuItem>
-                                   </AlertDialogTrigger>
-                                   <AlertDialogTrigger asChild>
-                                     <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
-                                       <KeyRound className="mr-2 h-4 w-4" />
-                                       Reset Password
-                                     </DropdownMenuItem>
-                                   </AlertDialogTrigger>
-                               </DropdownMenuContent>
-                            </DropdownMenu>
-                          </>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </ScrollArea>
-          </CardContent>
         </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {loading ? renderSkeleton() : students.map((student) => (
+            <Card key={student.id} className="flex flex-col">
+              <CardHeader className="flex flex-row items-center gap-4">
+                <Avatar className="h-12 w-12 border-2 border-primary/20">
+                  <AvatarImage src={student.photoURL} alt={student.name}/>
+                  <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <CardTitle className="text-lg">{student.name}</CardTitle>
+                  <CardDescription>{student.email}</CardDescription>
+                </div>
+                 <Badge variant={getBadgeVariant(student.status)} className="capitalize self-start">
+                    {student.status}
+                </Badge>
+              </CardHeader>
+              <CardContent className="flex-1 space-y-3">
+                 <div>
+                    <p className="text-xs font-semibold text-muted-foreground">Assigned Teachers</p>
+                    <p className="text-sm">{getTeacherNames(student.teacherIds)}</p>
+                </div>
+              </CardContent>
+              <CardFooter className="bg-muted/30 p-3 flex justify-end gap-2">
+                {student.status === 'pending' ? (
+                  <>
+                    <Button size="sm" onClick={() => handleApproveUser(student.id)}>
+                        <CheckCircle className="mr-2 h-4 w-4" />
+                        Approve
+                    </Button>
+                    <AlertDialogTrigger asChild>
+                        <Button size="sm" variant="destructive" onClick={() => { setSelectedUser(student); setActionType('deny'); }}>
+                            <XCircle className="mr-2 h-4 w-4" />
+                            Deny
+                        </Button>
+                    </AlertDialogTrigger>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="flex-1 justify-start">
+                          Manage Teachers <ChevronDown className="ml-auto h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56" align="end">
+                        <DropdownMenuLabel>Assign Teachers</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        {teachers.map(teacher => (
+                          <DropdownMenuCheckboxItem
+                            key={teacher.id}
+                            checked={student.teacherIds?.includes(teacher.id)}
+                            onCheckedChange={(checked) => {
+                              const currentTeacherIds = student.teacherIds || [];
+                              const newTeacherIds = checked
+                                ? [...currentTeacherIds, teacher.id]
+                                : currentTeacherIds.filter(id => id !== teacher.id);
+                              handleAssignTeachers(student.id, newTeacherIds);
+                            }}
+                          >
+                            {teacher.name}
+                          </DropdownMenuCheckboxItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DropdownMenu>
+                       <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="w-9 h-9">
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                       </DropdownMenuTrigger>
+                       <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <AlertDialogTrigger asChild>
+                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('toggleStatus'); }}>
+                               {student.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                               {student.status === 'approved' ? 'Deactivate' : 'Activate'}
+                             </DropdownMenuItem>
+                           </AlertDialogTrigger>
+                           <AlertDialogTrigger asChild>
+                             <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('resetPassword'); }}>
+                               <KeyRound className="mr-2 h-4 w-4" />
+                               Reset Password
+                             </DropdownMenuItem>
+                           </AlertDialogTrigger>
+                       </DropdownMenuContent>
+                    </DropdownMenu>
+                  </>
+                )}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
         
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -247,11 +277,7 @@ export default function AdminUsersPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => {
-                if (actionType === 'resetPassword') handlePasswordReset();
-                else if (actionType === 'deny') handleDenyUser();
-                else if (actionType === 'toggleStatus') handleToggleStatus();
-            }}>
+            <AlertDialogAction onClick={handleAction}>
                 Continue
             </AlertDialogAction>
           </AlertDialogFooter>
