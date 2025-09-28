@@ -50,6 +50,7 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GcsImage } from "@/components/gcs-image";
 import { ImageCropper } from "@/components/image-cropper";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface User {
   id: string;
