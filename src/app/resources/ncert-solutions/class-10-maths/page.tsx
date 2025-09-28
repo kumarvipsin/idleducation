@@ -1,20 +1,42 @@
 
+'use client';
+
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { getNcertSolutions } from "@/app/actions";
-import { Suspense } from "react";
+import { getImportantQuestionsForSubject } from "@/app/actions";
+import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Class10MathsContent } from "./content";
+import { NotesChapterList } from "@/components/notes-chapter-list";
+import { TSubject } from "@/app/actions/types";
 
-export default async function Class10MathsPage() {
-  const result = await getNcertSolutions('class-10', 'maths');
-  
-  if (!result.success || !result.data) {
+function NcertSolutionsContent() {
+  const [resources, setResources] = useState<TSubject | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      const result = await getImportantQuestionsForSubject('class-10', 'maths');
+      if (result.success && result.data) {
+        setResources(result.data);
+      }
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Skeleton className="h-96 w-full" />;
+  }
+
+  if (!resources) {
     return <p>Could not load resources. Please try again later.</p>;
   }
 
-  const class10MathsResources = result.data;
+  return <NotesChapterList notes={resources} importantQuestions={null} classId="class-10" subjectKey="maths" />;
+}
 
+export default function Class10MathsPage() {
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-green-700">
       <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4">
@@ -29,7 +51,7 @@ export default async function Class10MathsPage() {
       </div>
       <CardContent className="p-4 md:p-6">
         <Suspense fallback={<Skeleton className="h-96 w-full" />}>
-            <Class10MathsContent resources={class10MathsResources} />
+            <NcertSolutionsContent />
         </Suspense>
       </CardContent>
     </Card>

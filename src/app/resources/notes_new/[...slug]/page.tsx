@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useEffect, useState, Suspense } from 'react';
 import { getNotes, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -6,40 +9,83 @@ import { BookOpen } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NotesChapterList } from '@/components/notes-chapter-list';
-import { Suspense } from 'react';
-import { NotesDetailsClient } from './notes-details-client';
+import { usePathname } from 'next/navigation';
 
+function NotesDetailsContent() {
+    const pathname = usePathname();
+    const slug = pathname.split('/').slice(3);
+    const [classId, subjectKey] = slug || [];
+    const [classData, setClassData] = useState<TClass | null>(null);
+    const [notesData, setNotesData] = useState<TSubject | null>(null);
+    const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-export default async function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
-    const slug = params.slug || [];
-    const [classId, subjectKey] = slug;
+    useEffect(() => {
+        if (!classId || !subjectKey) {
+            setError("Invalid URL.");
+            setLoading(false);
+            return;
+        }
 
-    if (!classId || !subjectKey) {
-        return <p>Invalid URL.</p>;
-    }
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+            
+            const [notesResult, impQuestionsResult] = await Promise.all([
+                getNotes(),
+                getImportantQuestionsForSubject(classId, subjectKey)
+            ]);
+
+            if (notesResult.success && notesResult.data) {
+                const classDoc = (notesResult.data as any[]).find(doc => doc.id === classId);
+                if (classDoc && classDoc.subjects[subjectKey]) {
+                    setClassData(classDoc);
+                    setNotesData(classDoc.subjects[subjectKey]);
+                } else {
+                    setError("Notes content not found.");
+                }
+            } else {
+                setError(notesResult.message || "Failed to fetch notes.");
+            }
+
+            if (impQuestionsResult.success && impQuestionsResult.data) {
+                setImpQuestionsData(impQuestionsResult.data as TSubject);
+            } else {
+                console.warn(impQuestionsResult.message);
+                setImpQuestionsData(null);
+            }
+
+            setLoading(false);
+        };
+        fetchData();
+    }, [classId, subjectKey]);
     
-    const [notesResult, impQuestionsResult] = await Promise.all([
-        getNotes(),
-        getImportantQuestionsForSubject(classId, subjectKey)
-    ]);
-
-    const classDoc = notesResult.success ? (notesResult.data as any[]).find(doc => doc.id === classId) : null;
-    
-    if (!classDoc || !classDoc.subjects[subjectKey]) {
+    if (loading) {
         return (
-            <Card>
+             <Card>
                 <CardContent className="p-6">
-                    <p className="text-destructive text-center">Notes content not found.</p>
+                    <Skeleton className="h-96 w-full" />
                 </CardContent>
             </Card>
-        );
+        )
+    }
+    
+    if (error && !classData) {
+         return (
+            <Card>
+                <CardContent className="p-6">
+                    <p className="text-destructive text-center">{error}</p>
+                </CardContent>
+            </Card>
+        )
     }
 
-    const classData: TClass = classDoc;
-    const impQuestionsData: TSubject | null = (impQuestionsResult.success && impQuestionsResult.data) ? impQuestionsResult.data as TSubject : null;
-    
-    const subject = classData.subjects[subjectKey];
-    const subjectName = subject.name || subjectKey.replace('-', ' ');
+    if (!classData || !notesData) {
+        return null;
+    }
+
+    const subjectName = notesData.name || subjectKey.replace('-', ' ');
     const className = classData.name || classId.replace('-', ' ');
 
     return (
@@ -47,7 +93,7 @@ export default async function NotesDetailsPage({ params }: { params: { slug: str
              <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/resources/notes">Notes</BreadcrumbLink>
+                        <BreadcrumbLink href="/resources/notes_new">Notes</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -71,8 +117,8 @@ export default async function NotesDetailsPage({ params }: { params: { slug: str
                     </div>
                 </div>
                 <CardContent className="p-4 md:p-6">
-                    <NotesDetailsClient 
-                        notes={subject} 
+                    <NotesChapterList 
+                        notes={notesData} 
                         importantQuestions={impQuestionsData} 
                         classId={classId} 
                         subjectKey={subjectKey} 
@@ -83,3 +129,10 @@ export default async function NotesDetailsPage({ params }: { params: { slug: str
     );
 }
 
+export default function NotesDetailsPage() {
+    return (
+        <Suspense fallback={<Skeleton className="h-screen w-full" />}>
+            <NotesDetailsContent />
+        </Suspense>
+    )
+}
