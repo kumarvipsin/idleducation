@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Mail, Shield, Phone, Home, Calendar, Droplets, User as UserIcon, Edit } from "lucide-react";
+import { Mail, Shield, Phone, Home, Calendar as CalendarIcon, Droplets, User as UserIcon, Edit } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -12,7 +12,7 @@ import { ProfileEditForm } from "./profile-edit-form";
 import { GcsImage } from "@/components/gcs-image";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import placeholderImages from '@/lib/placeholder-images.json';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function AdminProfilePage() {
   const { user, loading, login } = useAuth();
@@ -103,7 +103,7 @@ export default function AdminProfilePage() {
                     <InfoItem icon={<Mail className="h-5 w-5"/>} label="Email Address" value={user.email} />
                     <InfoItem icon={<Phone className="h-5 w-5"/>} label="Phone Number" value={user.phone} />
                     <InfoItem icon={<Home className="h-5 w-5"/>} label="Address" value={user.address} />
-                    <InfoItem icon={<Calendar className="h-5 w-5"/>} label="Date of Birth" value={user.dob ? new Date(user.dob).toLocaleDateString() : null} />
+                    <InfoItem icon={<CalendarIcon className="h-5 w-5"/>} label="Date of Birth" value={user.dob ? new Date(user.dob).toLocaleDateString() : null} />
                     <InfoItem icon={<Droplets className="h-5 w-5"/>} label="Blood Group" value={user.bloodGroup} />
                     <InfoItem icon={<Shield className="h-5 w-5"/>} label="Role" value={user.role} />
                 </div>
