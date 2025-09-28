@@ -24,7 +24,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
             <Card 
               className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
-                <div className="absolute top-0 left-0 w-full h-24 bg-primary rounded-t-lg"></div>
+                <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-t-lg"></div>
                 <CardContent className="relative flex flex-col items-center pt-12 flex-1 p-4">
                     <div className="w-28 h-28 rounded-full bg-pink-100 border-4 border-white dark:border-card shadow-md flex items-center justify-center overflow-hidden mb-4">
                         <div className="relative w-full h-full">
