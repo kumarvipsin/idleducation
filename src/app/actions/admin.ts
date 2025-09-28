@@ -56,6 +56,20 @@ export async function denyUser(userId: string) {
   }
 }
 
+export async function deleteUser(userId: string) {
+    try {
+        const userDocRef = doc(db, "users", userId);
+        await deleteDoc(userDocRef);
+        // Note: This action does not delete the user from Firebase Authentication.
+        // That would require privileged access not available here.
+        return { success: true, message: "User data deleted from Firestore." };
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        return { success: false, message: "Failed to delete user data." };
+    }
+}
+
+
 export async function setUserStatus(userId: string, status: 'approved' | 'inactive') {
   try {
     const userDocRef = doc(db, "users", userId);
@@ -641,3 +655,5 @@ export async function editAdminProfile(userId: string, formData: FormData) {
 }
 
   
+
+    

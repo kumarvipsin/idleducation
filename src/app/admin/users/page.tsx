@@ -18,9 +18,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus } from "@/app/actions";
+import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus, deleteUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical } from "lucide-react";
+import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2 } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -61,7 +61,7 @@ export default function AdminUsersPage() {
   const [students, setStudents] = useState<User[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | null>(null);
+  const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | 'delete' | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -99,6 +99,9 @@ export default function AdminUsersPage() {
       case 'toggleStatus':
         const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
         result = await setUserStatus(selectedUser.id, newStatus);
+        break;
+      case 'delete':
+        result = await deleteUser(selectedUser.id);
         break;
       default:
         return;
@@ -240,6 +243,13 @@ export default function AdminUsersPage() {
                                                         Reset Password
                                                     </DropdownMenuItem>
                                                 </AlertDialogTrigger>
+                                                <DropdownMenuSeparator />
+                                                <AlertDialogTrigger asChild>
+                                                    <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(student); setActionType('delete'); }}>
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        Delete Student
+                                                    </DropdownMenuItem>
+                                                </AlertDialogTrigger>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     )}
@@ -259,6 +269,7 @@ export default function AdminUsersPage() {
               {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
               {actionType === 'deny' && `This will deny the registration for ${selectedUser?.name} and remove their data.`}
               {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
+              {actionType === 'delete' && `This will permanently delete the student ${selectedUser?.name} from the database. This action cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -272,3 +283,6 @@ export default function AdminUsersPage() {
     </AlertDialog>
   );
 }
+
+
+    
