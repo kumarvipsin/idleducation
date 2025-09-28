@@ -62,18 +62,17 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4 border-l ml-4 border-dashed border-primary/30")}>
+        <div className={cn(level > 0 && "pl-4 ml-4")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
                 
                 return (
-                    <div key={index} className="p-2 rounded-md transition-colors hover:bg-muted/50">
+                    <div key={index} className="py-1">
                         <div className="flex items-center gap-2">
                            <span className={cn(
-                                "font-semibold text-sm",
-                                level > 0 && "text-foreground/80 font-medium",
-                                level === 0 && "text-primary"
+                                "text-sm",
+                                level > 0 ? "text-foreground/80" : "font-semibold text-foreground",
                             )}>
                                 {item.name}
                             </span>
