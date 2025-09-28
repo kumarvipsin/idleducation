@@ -1,4 +1,3 @@
-
 'use client';
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +36,7 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                     </div>
                     
                     <h3 className="text-xl font-bold text-foreground">{name}</h3>
-                    <p className="text-[0.5rem] text-muted-foreground uppercase tracking-widest">{designation}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest">{designation}</p>
                     
                     <div className="flex-grow"></div>
 
@@ -70,13 +69,10 @@ export function TeacherCard({ name, designation, experience, avatar, avatarHint 
                         </div>
                     </div>
                     <DialogTitle className="text-2xl">{name}</DialogTitle>
-                    <DialogDescription className="uppercase">{designation}</DialogDescription>
+                    <DialogDescription className="text-xs uppercase">{designation}</DialogDescription>
                 </DialogHeader>
                 <div className="p-4 text-center">
                     <p className="text-sm text-muted-foreground">{experience}</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                        A brief bio about the teacher will appear here.
-                    </p>
                 </div>
             </DialogContent>
         </Dialog>
