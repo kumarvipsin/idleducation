@@ -33,8 +33,8 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     };
 
     return (
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleViewPdf} disabled={isLoading}>
-            <Eye className="h-4 w-4" />
+        <Button variant="ghost" size="sm" onClick={handleViewPdf} disabled={isLoading}>
+            <Eye className="w-4 h-4 mr-1"/>View
         </Button>
     );
 };
@@ -44,114 +44,70 @@ const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={level > 0 ? "pl-4 border-l ml-4" : ""}>
+        <Accordion type="single" collapsible className="w-full space-y-2">
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
                 
-                if (hasChildren && children.length > 0) {
-                    return (
-                        <Accordion type="single" collapsible key={index}>
-                            <AccordionItem value={`item-${index}`} className="border-b-0">
-                                <div className="flex items-center p-2 my-1 bg-muted/30 rounded-md">
-                                    <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full pr-2">
-                                        {level === 0 ? <Folder className="w-4 h-4 mr-2" /> : <Dot className="w-4 h-4 mr-2" />}
-                                        {item.name}
-                                    </AccordionTrigger>
-                                    {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
-                                </div>
-                                <AccordionContent className="pt-0">
-                                    {renderContentTree(children, level + 1)}
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    );
-                }
-
                 return (
                      <Card key={`item-${index}`} className="transition-all duration-300 my-1">
-                        <div className="flex items-center justify-between p-3 md:p-4 group">
-                            <span className="font-medium text-sm md:text-base text-foreground/90 flex items-center">
-                               {level === 0 ? <FileIcon className="w-4 h-4 mr-2" /> : <Dot className="w-4 h-4 mr-2" />}
-                               {item.name}
-                            </span>
-                          {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
-                        </div>
+                        <AccordionItem value={`item-${index}`} className="border-b-0">
+                           <div className="flex items-center justify-between px-1.5 md:px-2 py-0.5 md:py-1 group">
+                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-2">
+                                    <div className="flex items-center">
+                                    {hasChildren ? <Folder className="w-4 h-4 mr-2" /> : <FileIcon className="w-4 h-4 mr-2" />}
+                                    {item.name}
+                                    </div>
+                                </AccordionTrigger>
+                                <div className="flex items-center gap-1">
+                                {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
+                                 <Button asChild variant="ghost" size="sm">
+                                    <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                                </Button>
+                                </div>
+                           </div>
+                            {hasChildren && (
+                                <AccordionContent className="p-4 pt-0">
+                                    {renderContentTree(children, level + 1)}
+                                </AccordionContent>
+                            )}
+                        </AccordionItem>
                     </Card>
                 );
             })}
-        </div>
+        </Accordion>
     );
 };
 
 
-const renderSubjectContent = (subject: TSubject | null) => {
+const renderSubjectContent = (subject: TSubject | null, contentType: 'notes' | 'importantQuestions', language: 'en' | 'hi') => {
     if (!subject) {
-        return <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>;
+        return <p className="text-muted-foreground p-4 text-center">No {contentType === 'notes' ? 'content' : 'questions'} available for this subject yet.</p>;
     }
 
     const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
 
+    const books = hasParts 
+      ? Object.values(subject.parts).sort((a,b) => (a.order || 99) - (b.order || 99)).map(part => ({name: part.name, chapters: part.chapters}))
+      : [{ name: subject.name, chapters: subject.chapters || [] }];
+
     return (
          <div className="space-y-4 md:space-y-6">
-            {hasParts ? (
-                Object.entries(subject.parts)
-                    .sort(([, a], [, b]) => (a.order || 99) - (b.order || 99))
-                    .map(([partKey, partData]) => (
-                        <Accordion type="single" collapsible key={partKey} defaultValue="item-0">
-                            <AccordionItem value={`item-0`} className="border-b-0">
-                                 <AccordionTrigger className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1 capitalize hover:no-underline">
-                                    {partData.name}
-                                 </AccordionTrigger>
-                                 <AccordionContent>
-                                     {renderContentTree(partData.chapters)}
-                                 </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    ))
-            ) : subject.chapters && subject.chapters.length > 0 ? (
-                renderContentTree(subject.chapters)
-            ) : (
-                <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>
-            )}
+            {books.map((book, bookIndex) => (
+                <div key={bookIndex}>
+                    {hasParts && <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1 capitalize">{book.name}</h3>}
+                    {renderContentTree(book.chapters)}
+                </div>
+            ))}
         </div>
     );
 };
 
 
-export function NotesChapterList({ notes, importantQuestions }: { notes: TSubject, importantQuestions: TSubject | null, classId: string, subjectKey: string }) {
-  const isMobile = useIsMobile();
-  
-  const notesContent = renderSubjectContent(notes);
-  const impQuestionsContent = renderSubjectContent(importantQuestions);
-
-  return (
-    <>
-      {isMobile ? (
-        <Tabs defaultValue="contents" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-            <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-            <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
-          </TabsList>
-          <TabsContent value="contents" className="pt-4">{notesContent}</TabsContent>
-          <TabsContent value="notes" className="pt-4">{impQuestionsContent}</TabsContent>
-        </Tabs>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-          <div className="lg:col-span-1">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-            </div>
-            {notesContent}
-          </div>
-          <div className="lg:col-span-1">
-             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
-            </div>
-            {impQuestionsContent}
-          </div>
-        </div>
-      )}
-    </>
-  );
+export function NotesChapterList({ notes, importantQuestions, contentType, language }: { notes: TSubject | null, importantQuestions: TSubject | null, contentType: 'notes' | 'importantQuestions', language: 'en' | 'hi', classId: string, subjectKey: string }) {
+    if (contentType === 'notes') {
+        return renderSubjectContent(notes, 'notes', language);
+    }
+    return renderSubjectContent(importantQuestions, 'importantQuestions', language);
 }
+

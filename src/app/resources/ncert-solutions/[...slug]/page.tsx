@@ -6,11 +6,14 @@ import { getCollection } from '@/app/actions';
 import { getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Languages } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { NotesChapterList } from '@/components/notes-chapter-list';
+import { NotesChapterList } from '@/components/ncert-chapter-list';
 import { usePathname } from 'next/navigation';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 
 function NcertSolutionsDetailsContent() {
     const pathname = usePathname();
@@ -21,6 +24,10 @@ function NcertSolutionsDetailsContent() {
     const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
+    const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
+    const isMobile = useIsMobile();
+
 
     useEffect(() => {
         if (!classId || !subjectKey) {
@@ -85,6 +92,10 @@ function NcertSolutionsDetailsContent() {
     const subjectName = notesData.name || subjectKey.replace('-', ' ');
     const className = classData.name || classId.replace('-', ' ');
 
+    const notesContent = <NotesChapterList notes={notesData} contentType="notes" language={contentsLang} classId={classId} subjectKey={subjectKey} />;
+    const impQuestionsContent = <NotesChapterList notes={impQuestionsData} contentType="importantQuestions" language={notesLang} classId={classId} subjectKey={subjectKey} />;
+
+
     return (
         <div className="space-y-6">
              <Breadcrumb>
@@ -114,12 +125,49 @@ function NcertSolutionsDetailsContent() {
                     </div>
                 </div>
                 <CardContent className="p-4 md:p-6">
-                    <NotesChapterList 
-                        notes={notesData} 
-                        importantQuestions={impQuestionsData} 
-                        classId={classId} 
-                        subjectKey={subjectKey} 
-                    />
+                    {isMobile ? (
+                        <Tabs defaultValue="contents" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+                                <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
+                                <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="contents" className="pt-4">{notesContent}</TabsContent>
+                            <TabsContent value="notes" className="pt-4">{impQuestionsContent}</TabsContent>
+                        </Tabs>
+                        ) : (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+                            <div className="lg:col-span-1">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
+                                        className="rounded-full bg-background/50 border"
+                                    >
+                                        <Languages className="w-5 h-5" />
+                                        <span className="sr-only">Toggle Language</span>
+                                    </Button>
+                                </div>
+                                {notesContent}
+                            </div>
+                            <div className="lg:col-span-1">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
+                                        className="rounded-full bg-background/50 border"
+                                    >
+                                        <Languages className="w-5 h-5" />
+                                        <span className="sr-only">Toggle Language</span>
+                                    </Button>
+                                </div>
+                                {impQuestionsContent}
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         </div>
@@ -127,7 +175,8 @@ function NcertSolutionsDetailsContent() {
 }
 
 
-export default function NcertSolutionsDetailsPage() {
+export default function NcertSolutionsDetailsPage({ params }: { params: { slug: string[] } }) {
+    const slug = params.slug || [];
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
             <NcertSolutionsDetailsContent />
