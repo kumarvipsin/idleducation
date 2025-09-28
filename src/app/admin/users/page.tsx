@@ -1,11 +1,19 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -168,7 +176,7 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader>
             <CardTitle>Student Management</CardTitle>
-            <CardDescription>Manage student accounts, approve registrations, and assign teachers.</CardDescription>
+            <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
           </CardHeader>
         </Card>
 
