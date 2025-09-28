@@ -4,21 +4,32 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/language-context";
 import { TeacherCard } from "./teacher-card";
-import { getTeamMembers } from "@/app/actions";
-import type { TTeamMember } from "@/app/actions/types";
+import { getTeachers } from "@/app/actions/user";
+import type { UserProfile } from "@/context/auth-context";
 import { Skeleton } from "@/components/ui/skeleton";
+
+interface Teacher extends UserProfile {
+    designation?: string;
+    experience?: string;
+    biography?: string;
+    socialLinks?: {
+        instagram?: string;
+        facebook?: string;
+        twitter?: string;
+    };
+}
 
 export function ExpertTeam() {
   const { t } = useLanguage();
-  const [teamMembers, setTeamMembers] = useState<TTeamMember[]>([]);
+  const [teamMembers, setTeamMembers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTeam = async () => {
       setLoading(true);
-      const result = await getTeamMembers();
+      const result = await getTeachers();
       if (result.success && result.data) {
-        setTeamMembers(result.data as TTeamMember[]);
+        setTeamMembers(result.data as Teacher[]);
       }
       setLoading(false);
     };
@@ -43,12 +54,13 @@ export function ExpertTeam() {
                 {teamMembers.map((member) => (
                   <TeacherCard 
                     key={member.id} 
-                    name={member.name}
-                    designation={member.designation}
-                    experience={member.experience}
+                    name={member.name || ''}
+                    designation={member.designation || 'Teacher'}
+                    experience={member.experience || 'Experienced'}
                     biography={member.biography}
-                    avatar={member.avatarUrl}
+                    avatar={member.photoURL || ''}
                     avatarHint={`${member.name} photo`}
+                    socialLinks={member.socialLinks}
                   />
                 ))}
             </div>

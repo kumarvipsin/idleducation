@@ -16,9 +16,14 @@ type TeacherCardProps = {
     biography?: string;
     avatar: string;
     avatarHint: string;
+    socialLinks?: {
+        instagram?: string;
+        facebook?: string;
+        twitter?: string;
+    };
 }
 
-export function TeacherCard({ name, designation, experience, biography, avatar, avatarHint }: TeacherCardProps) {
+export function TeacherCard({ name, designation, experience, biography, avatar, avatarHint, socialLinks }: TeacherCardProps) {
      return (
         <Dialog>
             <Card 
@@ -73,6 +78,26 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                         <p className="text-sm text-muted-foreground mt-4 text-center">
                           {biography}
                         </p>
+                      )}
+                      
+                      {socialLinks && (
+                          <div className="flex items-center justify-center gap-2 mt-4">
+                              {socialLinks.instagram && (
+                                  <Link href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+                                      <Instagram className="h-4 w-4" />
+                                  </Link>
+                              )}
+                              {socialLinks.facebook && (
+                                  <Link href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+                                      <Facebook className="h-4 w-4" />
+                                  </Link>
+                              )}
+                              {socialLinks.twitter && (
+                                  <Link href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
+                                      <Twitter className="h-4 w-4" />
+                                  </Link>
+                              )}
+                          </div>
                       )}
                   </div>
                 </div>
