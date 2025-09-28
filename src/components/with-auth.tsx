@@ -3,7 +3,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
-import { useEffect, type ComponentType } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 import { Skeleton } from './ui/skeleton';
 
 const withAuth = <P extends object>(
@@ -13,9 +13,14 @@ const withAuth = <P extends object>(
   const AuthComponent = (props: P) => {
     const { user, loading } = useAuth();
     const router = useRouter();
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-      if (loading) return;
+      setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+      if (!isClient || loading) return;
 
       if (!user) {
         router.replace('/login');
@@ -28,9 +33,9 @@ const withAuth = <P extends object>(
             : `/${user.role}/dashboard`;
         router.replace(dashboardPath);
       }
-    }, [user, loading, router]);
+    }, [user, loading, router, isClient]);
 
-    if (loading || !user) {
+    if (!isClient || loading || !user) {
       return (
         <div className="flex items-center justify-center h-screen bg-white">
         </div>
