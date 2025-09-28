@@ -22,7 +22,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
      return (
         <Dialog>
             <Card 
-              className="relative text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
+              className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
             >
                 <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
                     <GcsImage
@@ -31,14 +31,13 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                         fill
                         className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
                 </div>
-                <CardContent className="absolute bottom-0 left-0 right-0 p-2 md:p-4 text-white">
-                    <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
-                    <p className="text-xs md:text-sm text-white/90">{designation}</p>
-                    <div className="mt-4 text-center">
+                <CardContent className="p-4 flex-1 flex flex-col">
+                    <h3 className="text-base md:text-lg font-bold uppercase tracking-wider text-foreground">{name}</h3>
+                    <p className="text-xs md:text-sm text-muted-foreground">{designation}</p>
+                    <div className="mt-4 text-center flex-grow flex items-end justify-center">
                         <DialogTrigger asChild>
-                           <button className="text-xs font-semibold text-white hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
+                           <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
                                 MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
                            </button>
                         </DialogTrigger>
