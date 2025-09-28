@@ -114,11 +114,11 @@ export default function Class5MathsPage() {
             <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
                 <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#">View</Link>
+                    <Button asChild variant="ghost" size="icon">
+                        <Link href="#"><Eye className="w-4 h-4"/></Link>
                     </Button>
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                    <Button asChild variant="ghost" size="icon">
+                        <Link href="#"><Download className="w-4 h-4"/></Link>
                     </Button>
                 </div>
             </CardContent>
