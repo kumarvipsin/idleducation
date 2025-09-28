@@ -1,7 +1,7 @@
 
 'use client';
 import { useEffect, useState } from 'react';
-import { getImportantQuestions, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
+import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -66,7 +66,7 @@ export default function AdminImportantQuestionsPage() {
 
   const fetchQuestions = async () => {
     setLoading(true);
-    const result = await getImportantQuestions();
+    const result = await getCollection('importantQuestions');
     if (result.success && result.data) {
       const formattedData = (result.data as any[]).map(doc => ({ id: doc.id, data: doc, }));
       setQuestions(formattedData);
