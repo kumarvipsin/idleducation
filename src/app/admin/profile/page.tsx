@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import { ProfileEditForm } from "./profile-edit-form";
+import { GcsImage } from "@/components/gcs-image";
 
 export default function AdminProfilePage() {
   const { user, loading, login } = useAuth();
@@ -42,10 +43,13 @@ export default function AdminProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="md:col-span-1 flex flex-col items-center justify-center text-center p-6 bg-muted/30 rounded-lg">
                 <Avatar className="w-40 h-40 border-4 border-primary shadow-lg mb-4">
-                    <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? 'Admin'} />
-                    <AvatarFallback className="text-5xl">
-                        {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                    </AvatarFallback>
+                    {user.photoURL ? (
+                      <GcsImage filePath={user.photoURL} alt={user.name || 'Admin'} fill className="rounded-full object-cover"/>
+                    ) : (
+                      <AvatarFallback className="text-5xl">
+                          {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                      </AvatarFallback>
+                    )}
                 </Avatar>
                 <h2 className="text-2xl font-bold">{user.name}</h2>
                 <p className="text-muted-foreground capitalize">{user.role}</p>
