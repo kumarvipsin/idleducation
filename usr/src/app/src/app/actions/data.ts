@@ -1,3 +1,4 @@
+
 // src/app/actions/data.ts
 'use server';
 
@@ -95,47 +96,52 @@ export async function getAdmissions() {
   }
 }
 
-export async function getNcertSolutions(className: string, subject: string) {
-  try {
-    const docRef = doc(db, "notes", className);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      if (data && data[subject]) {
-        return { success: true, data: data[subject] };
-      }
+export async function getTestimonials() {
+    try {
+        const testimonialsQuery = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(testimonialsQuery);
+        const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: testimonials };
+    } catch (error) {
+        console.error("Error fetching testimonials:", error);
+        return { success: false, message: "Failed to fetch testimonials." };
     }
-    
-    return { success: false, message: `No data found for ${className} - ${subject}.` };
-
-  } catch (error) {
-    console.error("Error fetching NCERT solutions:", error);
-    return { success: false, message: "Failed to fetch NCERT solutions." };
-  }
 }
 
-export async function getNotes() {
-  try {
-    const notesQuery = query(collection(db, "notes"));
-    const querySnapshot = await getDocs(notesQuery);
-    const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: notes };
-  } catch (error) {
-    console.error("Error fetching notes:", error);
-    return { success: false, message: "Failed to fetch notes." };
-  }
+export async function getTopperTestimonials() {
+    try {
+        const testimonialsQuery = query(collection(db, "topperTestimonials"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(testimonialsQuery);
+        const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: testimonials };
+    } catch (error) {
+        console.error("Error fetching topper testimonials:", error);
+        return { success: false, message: "Failed to fetch topper testimonials." };
+    }
 }
 
-export async function getImportantQuestions() {
+export async function getExcellenceResults() {
+    try {
+        const resultsQuery = query(collection(db, "excellenceResults"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(resultsQuery);
+        const results = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: results };
+    } catch (error) {
+        console.error("Error fetching excellence results:", error);
+        return { success: false, message: "Failed to fetch excellence results." };
+    }
+}
+
+
+export async function getCollection(collectionName: string) {
   try {
-    const questionsQuery = query(collection(db, "importantQuestions"));
-    const querySnapshot = await getDocs(questionsQuery);
-    const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: questions };
+    const docsQuery = query(collection(db, collectionName));
+    const querySnapshot = await getDocs(docsQuery);
+    const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: docs };
   } catch (error) {
-    console.error("Error fetching important questions:", error);
-    return { success: false, message: "Failed to fetch important questions." };
+    console.error(`Error fetching ${collectionName}:`, error);
+    return { success: false, message: `Failed to fetch ${collectionName}.` };
   }
 }
 
@@ -158,6 +164,60 @@ export async function getImportantQuestionsForSubject(classId: string, subjectKe
     return { success: false, message: "Failed to fetch important questions." };
   }
 }
+
+export async function getPreviousYearQuestions() {
+    try {
+        const questionsQuery = query(collection(db, "previousYearQuestions"), orderBy("year", "desc"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(questionsQuery);
+        const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: questions };
+    } catch (error) {
+        console.error("Error fetching previous year questions:", error);
+        return { success: false, message: "Failed to fetch previous year questions." };
+    }
+}
+
+export async function getGalleryImages() {
+    try {
+        const galleryQuery = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(galleryQuery);
+        const images = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: images };
+    } catch (error) {
+        console.error("Error fetching gallery images:", error);
+        return { success: false, message: "Failed to fetch gallery images." };
+    }
+}
+
+export async function getExamCategories() {
+    try {
+        const categoriesQuery = query(collection(db, "examCategories"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(categoriesQuery);
+        const categories = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            const slug = data.name.toLowerCase().replace(/\s+/g, '-');
+            const href = data.group === 'school' ? `/school?class=${encodeURIComponent(data.name)}` : `/examcat?category=${encodeURIComponent(slug)}`;
+            return { id: doc.id, ...serializeFirestoreData(data), href };
+        });
+        return { success: true, data: categories };
+    } catch (error) {
+        console.error("Error fetching exam categories:", error);
+        return { success: false, message: "Failed to fetch exam categories." };
+    }
+}
+
+export async function getTeamMembers() {
+    try {
+        const teamQuery = query(collection(db, "teamMembers"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(teamQuery);
+        const members = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: members };
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        return { success: false, message: "Failed to fetch team members." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {
