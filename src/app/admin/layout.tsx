@@ -124,6 +124,12 @@ function AdminLayout({
                                 <span>Staff</span>
                             </Link>
                         </SidebarMenuButton>
+                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admins')}>
+                            <Link href="/admin/admins">
+                                <Shield />
+                                <span>Admins</span>
+                            </Link>
+                        </SidebarMenuButton>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
                 <SidebarMenuSub value="submissions">
