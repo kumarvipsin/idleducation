@@ -90,10 +90,10 @@ export default function Class9SciencePage() {
     </div>
   );
 
-  const primumNotes = (
+  const importantQuestions = (
     <div>
       <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
           <Button 
               variant="ghost" 
               size="icon" 
@@ -114,7 +114,7 @@ export default function Class9SciencePage() {
                       <Link href="#">View</Link>
                   </Button>
                   <Button asChild variant="ghost" size="sm">
-                      <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                      <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
                   </Button>
               </div>
             </CardContent>
@@ -139,12 +139,12 @@ export default function Class9SciencePage() {
         <CardContent className="p-4 md:p-6">
           {isMobile ? (
             <Tabs defaultValue="contents" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="contents">Contents</TabsTrigger>
-                <TabsTrigger value="notes">Primum Notes</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
+                <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
+                <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
               </TabsList>
               <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-              <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
+              <TabsContent value="notes" className="pt-4">{importantQuestions}</TabsContent>
             </Tabs>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
@@ -164,7 +164,7 @@ export default function Class9SciencePage() {
                 {contents}
               </div>
               <div className="lg:col-span-1">
-                {primumNotes}
+                {importantQuestions}
               </div>
             </div>
           )}
