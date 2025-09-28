@@ -22,13 +22,15 @@ export function GcsImage({ filePath, alt, className, width, height, fill, ...pro
         setLoading(false);
         return;
       }
-       if (filePath.startsWith('blob:') || filePath.startsWith('data:') || filePath.startsWith('https://')) {
+      
+      // If the path is already a full URL (e.g., from a preview or already public), use it directly.
+      if (filePath.startsWith('http') || filePath.startsWith('blob:') || filePath.startsWith('data:')) {
         setImageUrl(filePath);
         setLoading(false);
         return;
       }
-      setLoading(true);
       
+      setLoading(true);
       const result = await getSignedUrlForPdf(filePath);
       if (result.success && result.url) {
         setImageUrl(result.url);
