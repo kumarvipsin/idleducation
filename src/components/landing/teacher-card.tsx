@@ -51,7 +51,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                     </div>
 
                     <div className="mt-4 flex justify-center">
-                        <div className="flex items-center gap-3 rounded-full border bg-background/50 px-4 py-1 text-muted-foreground">
+                        <div className="flex items-center gap-3 rounded-md border bg-background/50 px-3 py-1 text-muted-foreground">
                             <Link href="#" className="hover:text-primary transition-colors"><Facebook className="h-4 w-4" /></Link>
                             <Link href="#" className="hover:text-primary transition-colors"><Instagram className="h-4 w-4" /></Link>
                             <Link href="#" className="hover:text-primary transition-colors"><Twitter className="h-4 w-4" /></Link>
@@ -79,9 +79,10 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                       </DialogDescription>
                       
                        <div className="mt-4 w-full flex justify-center">
-                          <p className="inline-block bg-primary/10 text-primary font-bold text-sm px-4 py-2 rounded-full">
-                              {experience}
-                          </p>
+                           <div className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+                                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                {experience}
+                            </div>
                       </div>
 
                        {biography && (
