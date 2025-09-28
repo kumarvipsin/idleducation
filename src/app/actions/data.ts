@@ -133,23 +133,15 @@ export async function getExcellenceResults() {
 }
 
 
-export async function getNcertSolutions(className: string, subject: string) {
+export async function getNcertSolutions() {
   try {
-    const docRef = doc(db, "notes", className);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      if (data && data[subject]) {
-        return { success: true, data: data[subject] };
-      }
-    }
-    
-    return { success: false, message: `No data found for ${className} - ${subject}.` };
-
+    const notesQuery = query(collection(db, "ncertSolutions"), orderBy("order", "asc"));
+    const querySnapshot = await getDocs(notesQuery);
+    const notes = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: notes };
   } catch (error) {
-    console.error("Error fetching NCERT solutions:", error);
-    return { success: false, message: "Failed to fetch NCERT solutions." };
+    console.error("Error fetching NCERT Solutions:", error);
+    return { success: false, message: "Failed to fetch NCERT Solutions." };
   }
 }
 
