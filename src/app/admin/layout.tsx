@@ -221,28 +221,28 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
-                            <Link href="/admin/updates">
-                                <Bell />
-                                <span>Recent Updates</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
                             <Link href="/admin/gallery">
                                 <ImageIcon />
                                 <span>Gallery</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
-                            <Link href="/admin/excellence-results">
-                                <Star />
-                                <span>Excellence Results</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
                             <Link href="/admin/team">
                                 <Users />
                                 <span>Team Members</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
+                            <Link href="/admin/updates">
+                                <Bell />
+                                <span>Recent Updates</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/excellence-results')}>
+                            <Link href="/admin/excellence-results">
+                                <Star />
+                                <span>Excellence Results</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
