@@ -44,7 +44,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
 
                     <div className="mt-4 w-full">
                         <DialogTrigger asChild>
-                            <Button variant="outline" className="w-full rounded-full">
+                            <Button className="w-full rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md transition-all duration-300 hover:from-primary/90 hover:to-accent/90 hover:shadow-lg hover:-translate-y-px">
                                 MORE <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                         </DialogTrigger>
