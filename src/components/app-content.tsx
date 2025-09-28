@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -22,7 +23,7 @@ export function AppContent({
   const isAdmissionPage = pathname.startsWith('/admission');
   const isFeedbackPage = pathname.startsWith('/feedback');
 
-  // If it's any of the dashboard-like pages, just render the children.
+  // If it's a dashboard-like page, just render the children.
   // The layout for these pages will handle their own header/sidebar/footer.
   if (isAdminPage || isStudentPage || isTeacherPage) {
     return (
@@ -33,7 +34,7 @@ export function AppContent({
     );
   }
   
-  // For special public pages that shouldn't have a header/footer
+  // For special public pages that shouldn't have a header or footer
   if (isAuthPage || isScholarshipPage || isBookDemoPage || isAdmissionPage || isFeedbackPage) {
     return (
         <>
@@ -45,7 +46,7 @@ export function AppContent({
     );
   }
 
-  const showFooter = !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
+  const showFooter = !pathname.startsWith('/admin') && !(pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/gallery'));
 
   return (
     <>
