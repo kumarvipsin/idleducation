@@ -62,7 +62,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
     if (!items || items.length === 0) return null;
 
     return (
-        <div className={cn("space-y-1", level > 0 && "pl-4 ml-4 border-l")}>
+        <div className={cn("space-y-1", level > 0 && "pl-4")}>
             {items.map((item, index) => {
                 const hasChildren = 'topics' in item || 'subTopics' in item;
                 const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
@@ -72,7 +72,7 @@ const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => 
                         <div className="flex items-center gap-2">
                            <span className={cn(
                                 "text-sm",
-                                level > 0 ? "font-medium text-foreground/80" : "font-bold text-foreground",
+                                level > 0 ? "font-normal text-foreground/80" : "font-semibold text-foreground",
                             )}>
                                 {item.name}
                             </span>
@@ -110,7 +110,7 @@ export default function Class5MathsPage() {
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                             <div className="flex items-center justify-between p-3 md:p-4 group">
+                            <div className="flex items-center justify-between p-3 md:p-4 group">
                                 <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
                                     {chapter.name}
                                 </AccordionTrigger>
@@ -162,7 +162,7 @@ export default function Class5MathsPage() {
                         <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                     </Button>
                 </div>
-            </CardContent>
+              </CardContent>
             </Card>
         ))}
         </div>
