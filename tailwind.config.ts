@@ -101,7 +101,7 @@ export default {
         },
         'marquee-vertical': {
           '0%': { transform: 'translateY(0)' },
-          '100%': { transform: 'translateY(-50%)' },
+          '100%': { transform: 'translateY(-100%)' },
         },
         'fade-in-up': {
           '0%': {
@@ -119,7 +119,7 @@ export default {
         'collapsible-up': 'collapsible-up 0.2s ease-out',
         'marquee-slower': 'marquee-slower 60s linear infinite',
         'marquee-slower-reverse': 'marquee-slower 60s linear infinite reverse',
-        'marquee-vertical': 'marquee-vertical 40s linear infinite',
+        'marquee-vertical': 'marquee-vertical 20s linear infinite',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
       },
     },
