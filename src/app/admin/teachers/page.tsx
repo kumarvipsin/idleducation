@@ -16,7 +16,7 @@ import { getTeachers } from "@/app/actions/user";
 import { resetUserPassword, signUpUser } from "@/app/actions/auth";
 import { approveUser, denyUser, setUserStatus, editTeacher, deleteUser } from "@/app/actions/admin";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2 } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2, Upload } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -92,7 +92,7 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [removePhoto, setRemovePhoto] = useState(false);
   
   const form = useForm<TeacherFormValues>({
     resolver: zodResolver(teacherSchema),
@@ -112,6 +112,7 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setRemovePhoto(false);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
@@ -123,8 +124,14 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   
   const onImageCropped = (croppedImageFile: File) => {
       setCroppedPhoto(croppedImageFile);
-      setPhotoPreview(URL.createObjectURL(croppedImageFile)); // Update preview to cropped image
+      setPhotoPreview(URL.createObjectURL(croppedImageFile)); 
   };
+  
+  const handleRemovePhoto = () => {
+    setRemovePhoto(true);
+    setPhotoPreview(null);
+    setCroppedPhoto(null);
+  }
 
 
   const onSubmit: SubmitHandler<TeacherFormValues> = async (data) => {
@@ -136,6 +143,8 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
         if (value) formData.append(key, value);
       });
       if (croppedPhoto) formData.append('photo', croppedPhoto);
+      if (removePhoto) formData.append('removePhoto', 'true');
+      
       result = await editTeacher(teacher.id, formData);
     } else { // Adding
       const { instagram, facebook, twitter, ...restOfData } = data;
@@ -169,24 +178,26 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <ScrollArea className="h-96 w-full pr-4">
             <div className="space-y-4">
               <FormItem>
                 <FormLabel>Profile Photo</FormLabel>
                 <div className="flex items-center gap-4">
-                  <Avatar className="h-20 w-20">
-                    {photoPreview ? (
-                      <AvatarImage src={photoPreview} />
-                    ) : teacher?.photoURL ? (
-                      <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={80} height={80} className="rounded-full object-cover" />
-                    ) : (
-                       <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
-                    )}
-                  </Avatar>
-                  <FormControl>
-                    <Input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
-                  </FormControl>
+                   <Avatar className="h-20 w-20">
+                     {photoPreview && !removePhoto ? (
+                       <AvatarImage src={photoPreview} />
+                     ) : teacher?.photoURL && !removePhoto ? (
+                       <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={80} height={80} className="rounded-full object-cover" />
+                     ) : (
+                        <AvatarFallback><ImageIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                     )}
+                   </Avatar>
+                   <div className="flex flex-col gap-2">
+                       <Button type="button" onClick={() => document.getElementById('photo-upload')?.click()} variant="outline" size="sm"><Upload className="w-4 h-4 mr-2"/>Change Photo</Button>
+                       <Input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                       {(teacher?.photoURL || photoPreview) && !removePhoto && <Button type="button" onClick={handleRemovePhoto} variant="destructive" size="sm"><Trash2 className="w-4 h-4 mr-2"/>Remove</Button>}
+                   </div>
                 </div>
                 <FormMessage />
               </FormItem>
@@ -439,4 +450,5 @@ export default function AdminTeachersPage() {
     </AlertDialog>
   );
 }
+
 

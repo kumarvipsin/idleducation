@@ -103,6 +103,8 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     if (photoFile && photoFile.size > 0) {
       const destination = `teacher_photos/${teacherId}-${photoFile.name}`;
       teacherData.photoURL = await uploadFileToGCS(photoFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        teacherData.photoURL = '';
     }
 
     const docRef = doc(db, "users", teacherId);
