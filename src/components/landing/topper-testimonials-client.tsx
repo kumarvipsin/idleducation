@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -5,11 +6,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const TestimonialCard = ({ testimonial, onSelect }: { testimonial: TTopperTestimonial, onSelect: () => void }) => {
+const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
   return (
-    <button onClick={onSelect} className="w-full text-left rounded-lg transition-all duration-300 hover:bg-muted">
-      <Card className="overflow-hidden border bg-card">
+    <button onClick={onSelect} className="w-full text-left rounded-lg transition-all duration-300">
+      <Card className={cn("overflow-hidden border bg-card transition-all", isActive ? "border-primary shadow-lg" : "hover:bg-muted")}>
         <CardContent className="p-3 flex items-center gap-4">
             <div className="relative aspect-video w-24 shrink-0">
               <Image
@@ -88,7 +90,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                                 src={`https://img.youtube.com/vi/${activeTestimonial.videoId}/hqdefault.jpg`}
                                 alt={`Testimonial from ${activeTestimonial.studentName}`}
                                 fill
-                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                className="object-cover transition-transform duration-300"
                               />
                               <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
                               <div className="absolute inset-0 flex items-center justify-center">
@@ -105,15 +107,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             </Card>
         </div>
 
-        <div className="mt-8">
+        <div className="w-full mt-8">
             <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
-            <div className="relative w-full overflow-hidden">
+            <div className="relative overflow-hidden">
                 <div className="marquee-container flex gap-3">
                     {[...testimonials, ...testimonials].map((testimonial, index) => (
                        <div key={index} className="flex-shrink-0 w-[300px]">
                          <TestimonialCard 
                             testimonial={testimonial}
                             onSelect={() => handleSelectTestimonial(testimonial)}
+                            isActive={activeTestimonial?.id === testimonial.id}
                         />
                        </div>
                     ))}
