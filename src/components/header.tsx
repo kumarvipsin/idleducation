@@ -486,17 +486,16 @@ export function Header() {
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className="border-t bg-background">
+              <div className="border-t bg-white">
                 <div className="p-2">
                   <nav className="grid gap-1 text-base font-medium">
-                  {navLinks.map(({ href, label, icon }) => (
+                  {navLinks.map(({ href, label }) => (
                       <Link
                       key={href}
                       href={href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                       >
-                      {icon}
                       <span className="text-sm">{label}</span>
                       </Link>
                   ))}
