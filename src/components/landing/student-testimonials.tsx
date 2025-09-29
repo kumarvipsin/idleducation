@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState } from "react";
@@ -59,7 +60,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             )}
           </div>
           <h3 className="font-bold text-lg">{testimonial.name}</h3>
-          <p className="text-sm text-primary font-semibold mb-2">{testimonial.achievement}</p>
+          <p className="text-xs text-primary font-semibold mb-2">{testimonial.achievement}</p>
           <ScrollArea className="h-24 w-full">
             <blockquote className="text-xs text-muted-foreground italic">
               “{fullText}”
