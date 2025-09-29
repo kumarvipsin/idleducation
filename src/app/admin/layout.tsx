@@ -230,16 +230,16 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/director')}>
-                            <Link href="/admin/director">
-                                <UserCircle />
-                                <span>Director Profile</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>
                             <Link href="/admin/gallery">
                                 <ImageIcon />
                                 <span>Gallery</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/director')}>
+                            <Link href="/admin/director">
+                                <UserCircle />
+                                <span>Director Profile</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
