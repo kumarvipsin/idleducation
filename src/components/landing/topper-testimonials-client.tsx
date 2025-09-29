@@ -1,16 +1,16 @@
+
 'use client';
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
-import { PlayCircle } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { Button } from "../ui/button";
 
 const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
   return (
-    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? 'bg-primary/10' : 'hover:bg-muted'}`}>
+    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? '' : 'hover:bg-muted'}`}>
       <Card className={`overflow-hidden border-0 ${isActive ? 'bg-transparent' : 'bg-card'}`}>
         <CardContent className="p-3 flex items-center gap-4">
             <div className="relative aspect-video w-24 shrink-0">
@@ -63,10 +63,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           <div className="w-full lg:w-4/5 mx-auto">
             <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
-                    <div className="relative aspect-video w-full">
+                    <div className="relative w-full" style={{ paddingBottom: '45%' /* 16:9 aspect ratio, 20% height reduction -> 9 * 0.8 / 16 = 0.45 */ }}>
                         {activeTestimonial ? (
                             <iframe
-                            className="w-full h-full"
+                            className="absolute top-0 left-0 w-full h-full"
                             src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
                             title={`YouTube video player for ${activeTestimonial.studentName}'s testimonial`}
                             frameBorder="0"
@@ -74,7 +74,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                             allowFullScreen
                             ></iframe>
                         ) : (
-                            <div className="w-full h-full bg-muted flex items-center justify-center">
+                            <div className="absolute top-0 left-0 w-full h-full bg-muted flex items-center justify-center">
                                 <p className="text-muted-foreground">Select a testimonial to watch.</p>
                             </div>
                         )}
