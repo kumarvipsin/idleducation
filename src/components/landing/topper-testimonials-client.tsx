@@ -7,7 +7,6 @@ import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(null);
@@ -21,7 +20,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   
   const handleThumbnailClick = (testimonial: TTopperTestimonial) => {
     setActiveTestimonial(testimonial);
-    setIsPlaying(false);
+    setIsPlaying(false); // Stop playing when switching videos
   };
 
   const handlePlayClick = () => {
@@ -80,9 +79,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-10 h-10 text-white/80 opacity-80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110" />
+                          <PlayCircle className="w-16 h-16 text-white/80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110" />
                         </div>
-                        <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm p-3 rounded-lg">
+                        <div className="absolute bottom-0 left-0 p-6">
                           <h3 className="font-bold text-white text-lg">{activeTestimonial.studentName}</h3>
                           <p className="text-sm text-white/90">{activeTestimonial.studentClass} | {activeTestimonial.studentPlace}</p>
                         </div>
