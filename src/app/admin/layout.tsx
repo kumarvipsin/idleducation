@@ -261,8 +261,7 @@ function AdminLayout({
         </Sidebar>
         <div className="flex flex-col flex-1">
           <header className="p-4 border-b flex items-center md:hidden">
-            <SidebarTrigger />
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-2">
                  {user && (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -292,6 +291,7 @@ function AdminLayout({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   )}
+                  <SidebarTrigger />
             </div>
           </header>
           <main className="flex-1 p-4 md:p-6 bg-muted/20">
