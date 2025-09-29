@@ -90,39 +90,42 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             </div>
 
             <div className="lg:col-span-1">
-              <h3 className="text-lg font-semibold mb-4 text-primary">More Toppers</h3>
-              <div className="h-[400px] overflow-hidden relative">
-                 <div className="space-y-3 animate-marquee-vertical hover:[animation-play-state:paused]">
-                    {[...testimonials, ...testimonials].map((testimonial, index) => (
-                        <button
-                        key={`${testimonial.id}-${index}`}
-                        onClick={() => handleThumbnailClick(testimonial)}
-                        className={cn(
-                            "w-full text-left p-2 rounded-lg transition-all duration-200 flex items-center gap-4 border",
-                            activeTestimonial?.id === testimonial.id
-                            ? "bg-primary/10 border-primary"
-                            : "bg-muted/50 border-transparent hover:bg-muted"
-                        )}
-                        >
-                        <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
-                            <Image
-                                src={`https://img.youtube.com/vi/${testimonial.videoId}/mqdefault.jpg`}
-                                alt={testimonial.studentName}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <p className="font-semibold text-sm text-foreground truncate">{testimonial.studentName}</p>
-                            <p className="text-xs text-muted-foreground">{testimonial.studentClass}</p>
-                        </div>
-                        </button>
-                    ))}
-                </div>
-              </div>
+              <Card className="p-4 bg-background border-border shadow-sm rounded-xl">
+                  <h3 className="text-lg font-semibold mb-4 text-primary px-2">More Toppers</h3>
+                  <div className="h-[400px] overflow-hidden relative">
+                    <div className="space-y-3 animate-marquee-vertical hover:[animation-play-state:paused]">
+                        {[...testimonials, ...testimonials].map((testimonial, index) => (
+                            <button
+                            key={`${testimonial.id}-${index}`}
+                            onClick={() => handleThumbnailClick(testimonial)}
+                            className={cn(
+                                "w-full text-left p-2 rounded-lg transition-all duration-200 flex items-center gap-4 border",
+                                activeTestimonial?.id === testimonial.id
+                                ? "bg-primary/10 border-primary"
+                                : "bg-muted/50 border-transparent hover:bg-muted"
+                            )}
+                            >
+                            <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
+                                <Image
+                                    src={`https://img.youtube.com/vi/${testimonial.videoId}/mqdefault.jpg`}
+                                    alt={testimonial.studentName}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <p className="font-semibold text-sm text-foreground truncate">{testimonial.studentName}</p>
+                                <p className="text-xs text-muted-foreground">{testimonial.studentClass}</p>
+                            </div>
+                            </button>
+                        ))}
+                    </div>
+                  </div>
+              </Card>
             </div>
           </div>
         </div>
       </section>
   );
 }
+
