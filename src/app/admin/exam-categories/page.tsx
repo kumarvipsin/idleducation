@@ -128,7 +128,7 @@ const ExamCategoryForm = ({
                 </SelectContent>
             </Select>
           </div>
-          {selectedGroup === 'school' && (
+          {selectedGroup && (
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="teachers" className="text-right">Teachers</Label>
               <DropdownMenu>
@@ -291,14 +291,15 @@ export default function AdminExamCategoriesPage() {
                     <h3 className="text-lg font-semibold mb-2">Competitive Exams</h3>
                     <ScrollArea className="h-[calc(100vh-350px)]">
                         <Table>
-                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead>Order</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead>Teachers</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                             <TableBody>
                                 {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-12" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : competitiveExams.map((cat) => (
                                 <TableRow key={cat.id}>
                                     <TableCell>
                                       {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
                                     </TableCell>
-                                    <TableCell>{cat.name}</TableCell><TableCell>{cat.order}</TableCell>
+                                    <TableCell>{cat.name}</TableCell>
+                                    <TableCell className="text-xs">{getTeacherNames(cat.teacherIds)}</TableCell>
                                     <TableCell className="text-right space-x-2">
                                     <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
                                     <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>

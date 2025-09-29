@@ -1,3 +1,4 @@
+
 // src/app/actions/admin.ts
 'use server';
 
@@ -497,7 +498,7 @@ export async function addExamCategory(formData: FormData) {
     order: parseInt(rawData.order as string, 10) || 99,
   };
 
-  if (categoryData.group === 'school') {
+  if (categoryData.group === 'school' || categoryData.group === 'competitive') {
     categoryData.teacherIds = teacherIds;
   }
 
@@ -531,7 +532,7 @@ export async function editExamCategory(id: string, formData: FormData) {
       teacherIds: [],
     };
 
-    if (categoryData.group === 'school') {
+    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
         categoryData.teacherIds = teacherIds;
     }
     
