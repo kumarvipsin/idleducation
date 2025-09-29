@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useRef } from "react";
@@ -13,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAdmins, deleteUser, addAdmin, editAdminProfile, setUserStatus, resetUserPassword } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck } from "lucide-react";
+import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck, User as UserIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -184,7 +185,7 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
                      ) : admin?.photoURL && !removePhoto ? (
                        <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={80} height={80} className="rounded-full object-cover" />
                      ) : (
-                        <AvatarFallback><User className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                        <AvatarFallback><UserIcon className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
                      )}
                    </Avatar>
                    <div className="flex flex-col gap-2">
