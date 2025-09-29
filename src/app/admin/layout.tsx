@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -184,6 +185,12 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
+                            <Link href="/admin/exam-categories">
+                                <Tags />
+                                <span>Exam Categories</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
                             <Link href="/admin/notes">
                                 <FileText />
@@ -200,12 +207,6 @@ function AdminLayout({
                             <Link href="/admin/previous-year-questions">
                                 <FileText />
                                 <span>Prev. Year Questions</span>
-                            </Link>
-                        </SidebarMenuButton>
-                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
-                            <Link href="/admin/exam-categories">
-                                <Tags />
-                                <span>Exam Categories</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
@@ -279,5 +280,3 @@ function AdminLayout({
 }
 
 export default withAuth(AdminLayout, ['admin']);
-
-    
