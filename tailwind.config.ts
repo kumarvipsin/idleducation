@@ -1,4 +1,3 @@
-
 import type {Config} from 'tailwindcss';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
@@ -103,7 +102,17 @@ export default {
         'marquee-vertical': {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-50%)' },
-        }
+        },
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        },
       },
       animation: {
         'collapsible-down': 'collapsible-down 0.2s ease-out',
@@ -111,6 +120,7 @@ export default {
         'marquee-slower': 'marquee-slower 60s linear infinite',
         'marquee-slower-reverse': 'marquee-slower 60s linear infinite reverse',
         'marquee-vertical': 'marquee-vertical 40s linear infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
       },
     },
   },
