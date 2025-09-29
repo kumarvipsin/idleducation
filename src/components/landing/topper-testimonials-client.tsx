@@ -60,42 +60,33 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-                <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
-                    <CardContent className="p-0 flex flex-col h-full">
-                        <div className="relative aspect-video w-full">
-                            {activeTestimonial ? (
-                                <iframe
-                                className="w-full h-full"
-                                src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
-                                title={`YouTube video player for ${activeTestimonial.studentName}'s testimonial`}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowFullScreen
-                                ></iframe>
-                            ) : (
-                                <div className="w-full h-full bg-muted flex items-center justify-center">
-                                    <p className="text-muted-foreground">Select a testimonial to watch.</p>
-                                </div>
-                            )}
-                        </div>
-                         {activeTestimonial && (
-                            <div className="p-4 bg-muted/50">
-                                <p className="font-bold text-lg text-foreground truncate">{activeTestimonial.studentName}</p>
-                                <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
-                                    <span>{activeTestimonial.studentClass}</span>
-                                    <span>{activeTestimonial.studentPlace}</span>
-                                </div>
+        
+        <div className="max-w-4xl mx-auto">
+            <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
+                <CardContent className="p-0 flex flex-col h-full">
+                    <div className="relative aspect-video w-full">
+                        {activeTestimonial ? (
+                            <iframe
+                            className="w-full h-full"
+                            src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
+                            title={`YouTube video player for ${activeTestimonial.studentName}'s testimonial`}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <div className="w-full h-full bg-muted flex items-center justify-center">
+                                <p className="text-muted-foreground">Select a testimonial to watch.</p>
                             </div>
                         )}
-                    </CardContent>
-                </Card>
-            </div>
-            <div className="lg:col-span-1">
-                <h3 className="text-xl font-bold mb-4">More Toppers</h3>
-                <ScrollArea className="h-96 pr-4">
-                    <div className="space-y-3">
+                    </div>
+                </CardContent>
+            </Card>
+
+            <div className="mt-8">
+                <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
+                <ScrollArea className="h-48 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pr-4">
                     {testimonials.map((testimonial) => (
                         <TestimonialCard 
                             key={testimonial.id} 
@@ -108,8 +99,8 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 </ScrollArea>
             </div>
         </div>
+
       </div>
     </section>
   );
 }
-
