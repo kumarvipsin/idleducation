@@ -20,7 +20,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   
   const handleThumbnailClick = (testimonial: TTopperTestimonial) => {
     setActiveTestimonial(testimonial);
-    setIsPlaying(false); // Stop playing when switching videos
+    setIsPlaying(false);
   };
 
   const handlePlayClick = () => {
@@ -52,7 +52,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          {/* Main Video Player */}
           <div className="lg:col-span-2">
               <div className="relative aspect-[21/9] w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300">
                 {activeTestimonial && (
@@ -77,9 +76,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                           fill
                           className="object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/60 to-transparent" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-16 h-16 text-white/80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110" />
+                          <PlayCircle className="w-12 h-12 text-white/80 transition-all duration-300 group-hover:text-white group-hover:scale-110" />
                         </div>
                         <div className="absolute bottom-0 left-0 p-6">
                           <h3 className="font-bold text-white text-lg">{activeTestimonial.studentName}</h3>
@@ -92,7 +91,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
               </div>
           </div>
 
-          {/* Playlist */}
           <div className="lg:col-span-1">
             <h3 className="text-lg font-semibold mb-4 text-primary">More Toppers</h3>
             <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
