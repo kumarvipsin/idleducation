@@ -491,7 +491,13 @@ interface Teacher {
   name: string;
   designation: string;
   experience: string;
+  biography?: string;
   photoURL?: string;
+  socialLinks?: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+  };
 }
 
 
@@ -635,8 +641,10 @@ function SchoolPageContent() {
                         name={member.name}
                         designation={member.designation || 'Teacher'}
                         experience={member.experience || 'Experienced'}
+                        biography={member.biography}
                         avatar={member.photoURL || ''}
                         avatarHint={`${member.name} photo`}
+                        socialLinks={member.socialLinks}
                       />
                     </CarouselItem>
                   ))}
