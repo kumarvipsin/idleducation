@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -49,8 +50,8 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900 px-4 md:px-[10%]">
-        <div className="text-center mb-12">
+    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+        <div className="text-center mb-12 px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
           </h2>
@@ -59,7 +60,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
             <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
                     <div className="relative aspect-video w-full">
@@ -80,25 +81,24 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     </div>
                 </CardContent>
             </Card>
+        </div>
 
-            <div className="mt-8">
-                <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
-                <div className="relative w-full overflow-hidden">
-                    <div className="marquee-container flex gap-3">
-                        {[...testimonials, ...testimonials].map((testimonial, index) => (
-                           <div key={index} className="flex-shrink-0 w-[300px]">
-                             <TestimonialCard 
-                                testimonial={testimonial}
-                                onSelect={() => setActiveTestimonial(testimonial)}
-                                isActive={activeTestimonial?.id === testimonial.id}
-                            />
-                           </div>
-                        ))}
-                    </div>
+        <div className="mt-8">
+            <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
+            <div className="relative w-full overflow-hidden">
+                <div className="marquee-container flex gap-3">
+                    {[...testimonials, ...testimonials].map((testimonial, index) => (
+                       <div key={index} className="flex-shrink-0 w-[300px]">
+                         <TestimonialCard 
+                            testimonial={testimonial}
+                            onSelect={() => setActiveTestimonial(testimonial)}
+                            isActive={activeTestimonial?.id === testimonial.id}
+                        />
+                       </div>
+                    ))}
                 </div>
             </div>
         </div>
-
     </section>
   );
 }
