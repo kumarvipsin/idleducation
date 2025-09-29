@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -35,12 +36,18 @@ const TestimonialCard = ({ testimonial, onSelect }: { testimonial: TTopperTestim
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(testimonials?.[0] || null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const [animationKey, setAnimationKey] = React.useState(0);
 
   const handleSelectTestimonial = (testimonial: TTopperTestimonial) => {
     setActiveTestimonial(testimonial);
+    setIsPlaying(false); // Reset playing state when a new video is selected
     setAnimationKey(prev => prev + 1);
   };
+  
+  const handlePlayClick = () => {
+    setIsPlaying(true);
+  }
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -63,12 +70,11 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="container mx-auto px-4 md:px-[10%]">
-          <div className="w-full lg:w-4/5 mx-auto">
-            <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
+        <div className="w-full lg:w-4/5 mx-auto">
+          <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
                     <div key={animationKey} className="relative w-full animate-fade-in-up" style={{ paddingBottom: '45%' /* 16:9 aspect ratio, 20% height reduction -> 9 * 0.8 / 16 = 0.45 */ }}>
-                        {activeTestimonial ? (
+                        {activeTestimonial && isPlaying ? (
                             <iframe
                             className="absolute top-0 left-0 w-full h-full"
                             src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
@@ -77,6 +83,19 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
                             ></iframe>
+                        ) : activeTestimonial ? (
+                           <button onClick={handlePlayClick} className="w-full h-full group absolute inset-0 focus:outline-none">
+                              <Image
+                                src={`https://img.youtube.com/vi/${activeTestimonial.videoId}/hqdefault.jpg`}
+                                alt={`Testimonial from ${activeTestimonial.studentName}`}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              />
+                              <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                              </div>
+                            </button>
                         ) : (
                             <div className="absolute top-0 left-0 w-full h-full bg-muted flex items-center justify-center">
                                 <p className="text-muted-foreground">Select a testimonial to watch.</p>
@@ -85,7 +104,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     </div>
                 </CardContent>
             </Card>
-          </div>
         </div>
 
         <div className="mt-8">
