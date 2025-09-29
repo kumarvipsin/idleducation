@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getAdmins, deleteUser, addAdmin, editAdminProfile } from "@/app/actions";
+import { getAdmins, deleteUser, addAdmin, editAdminProfile, setUserStatus, resetUserPassword } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
+import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,6 +39,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -54,12 +55,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 interface User {
   id: string;
   name: string;
   email: string;
   role: 'admin';
+  status: 'pending' | 'approved' | 'inactive';
   photoURL?: string;
   phone?: string;
   address?: string;
@@ -243,7 +246,7 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
 export default function AdminManagementPage() {
   const [admins, setAdmins] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [actionType, setActionType] = useState<'delete' | null>(null);
+  const [actionType, setActionType] = useState<'delete' | 'toggleStatus' | 'resetPassword' | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -261,25 +264,52 @@ export default function AdminManagementPage() {
   useEffect(() => {
     fetchUsers();
   }, []);
+  
+  const handleAction = async () => {
+    if (!selectedUser || !actionType) return;
 
-  const handleDeleteUser = async () => {
-    if (!selectedUser) return;
-    const result = await deleteUser(selectedUser.id);
-     if (result.success) {
-        toast({ title: "Success", description: "Admin deleted successfully." });
-        fetchUsers();
-    } else {
-        toast({ variant: "destructive", title: "Error", description: result.message || "Could not delete admin." });
+    let result;
+    switch (actionType) {
+      case 'delete':
+        result = await deleteUser(selectedUser.id);
+        break;
+      case 'toggleStatus':
+        const newStatus = selectedUser.status === 'approved' ? 'inactive' : 'approved';
+        result = await setUserStatus(selectedUser.id, newStatus);
+        break;
+      case 'resetPassword':
+        result = await resetUserPassword(selectedUser.email);
+        break;
+      default:
+        return;
     }
+    
+    if (result.success) {
+      toast({ title: "Success", description: result.message });
+      fetchUsers();
+    } else {
+      toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+    
     setSelectedUser(null);
     setActionType(null);
-  }
+  };
+
 
   const handleFormSuccess = () => {
     setIsFormOpen(false);
     setEditingAdmin(null);
     fetchUsers();
   }
+  
+  const getBadgeVariant = (status: User['status']) => {
+    switch (status) {
+        case 'approved': return 'default';
+        case 'pending': return 'secondary';
+        case 'inactive': return 'destructive';
+        default: return 'outline';
+    }
+  };
 
   return (
     <AlertDialog>
@@ -308,6 +338,7 @@ export default function AdminManagementPage() {
                     <TableRow>
                         <TableHead>Admin Name</TableHead>
                         <TableHead>Email</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                     </TableHeader>
@@ -317,6 +348,7 @@ export default function AdminManagementPage() {
                         <TableRow key={i}>
                           <TableCell><Skeleton className="h-10 w-48" /></TableCell>
                           <TableCell><Skeleton className="h-4 w-full" /></TableCell>
+                          <TableCell><Skeleton className="h-6 w-20" /></TableCell>
                           <TableCell className="text-right"><Skeleton className="h-8 w-8" /></TableCell>
                         </TableRow>
                       ))
@@ -333,6 +365,9 @@ export default function AdminManagementPage() {
                            <p>{admin.name}</p>
                         </TableCell>
                         <TableCell>{admin.email}</TableCell>
+                        <TableCell>
+                            <Badge variant={getBadgeVariant(admin.status)} className="capitalize">{admin.status}</Badge>
+                        </TableCell>
                         <TableCell className="text-right space-x-2">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -343,6 +378,19 @@ export default function AdminManagementPage() {
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit
                                 </DropdownMenuItem>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('toggleStatus'); }}>
+                                        {admin.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                                        {admin.status === 'approved' ? 'Deactivate' : 'Activate'}
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('resetPassword'); }}>
+                                    <KeyRound className="mr-2 h-4 w-4" />
+                                    Reset Password
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                <DropdownMenuSeparator />
                                 <AlertDialogTrigger asChild>
                                     <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('delete'); }}>
                                         <Trash2 className="mr-2 h-4 w-4" />
@@ -363,13 +411,15 @@ export default function AdminManagementPage() {
             <AlertDialogContent>
               <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                      This will permanently delete the admin <span className="font-semibold">{selectedUser?.name}</span>. This action cannot be undone.
-                  </AlertDialogDescription>
+                   <AlertDialogDescription>
+                    {actionType === 'delete' && `This will permanently delete the admin ${selectedUser?.name}. This action cannot be undone.`}
+                    {actionType === 'toggleStatus' && `This will ${selectedUser?.status === 'approved' ? 'deactivate' : 'activate'} the account for ${selectedUser?.name}.`}
+                    {actionType === 'resetPassword' && `This will send a password reset link to ${selectedUser?.email}.`}
+                   </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                   <AlertDialogCancel onClick={() => { setSelectedUser(null); setActionType(null); }}>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteUser}>
+                  <AlertDialogAction onClick={handleAction}>
                       Continue
                   </AlertDialogAction>
               </AlertDialogFooter>
