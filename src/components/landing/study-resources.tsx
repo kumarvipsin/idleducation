@@ -1,42 +1,50 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BookCopy, FileText, BookCheck, ClipboardEdit, HelpCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const resources = [
   {
-    icon: <FileText className="w-8 h-8 text-rose-500" />,
+    category: "EXAM PREP",
     title: "Previous Year Questions",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
+    imageUrl: "https://picsum.photos/seed/questions/600/400",
+    imageHint: "exam papers",
   },
   {
-    icon: <BookCheck className="w-8 h-8 text-green-500" />,
+    category: "TEXTBOOK HELP",
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
+    imageUrl: "https://picsum.photos/seed/ncert/600/400",
+    imageHint: "textbooks pile",
   },
   {
-    icon: <ClipboardEdit className="w-8 h-8 text-yellow-500" />,
+    category: "REVISION",
     title: "Notes",
     description: "Find concise and well-structured notes designed for quick revision.",
     href: "/resources/notes",
+    imageUrl: "https://picsum.photos/seed/notes/600/400",
+    imageHint: "notebook pen",
   },
   {
-    icon: <BookCopy className="w-8 h-8 text-blue-500" />,
+    category: "FURTHER READING",
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
+    imageUrl: "https://picsum.photos/seed/books/600/400",
+    imageHint: "library books",
   },
-]
+];
 
 export function StudyResources() {
   return (
-    <section className="w-full py-8 md:py-16 bg-[#F5F5F7]">
-      <div className="px-4 md:px-[10%]">
-        <div className="text-center mb-10">
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
+      <div className="container mx-auto px-4 md:px-[10%] mb-12">
+        <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-primary">Study</span> <span style={{ color: '#adb5bd' }}>Resources</span>
           </h2>
@@ -44,25 +52,31 @@ export function StudyResources() {
             A diverse array of learning materials to enhance your educational journey.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {resources.map((resource, index) => (
-             <Link href={resource.href} key={index} className="block h-full group">
-                <Card 
-                  className="overflow-hidden h-full transition-all duration-300 bg-card p-0 flex flex-col shadow-lg hover:shadow-xl rounded-lg hover:-translate-y-1"
-                >
-                    <CardContent className="p-6 flex flex-col flex-grow items-start text-left">
-                        <div>
-                          <h3 className="text-lg font-bold mb-2 text-foreground">{resource.title}</h3>
-                          <p className="text-sm mb-4 flex-grow text-muted-foreground">{resource.description}</p>
-                        </div>
-                        <div className="mt-auto w-full flex justify-end">
-                            {resource.icon}
-                        </div>
-                    </CardContent>
+      </div>
+      <div className="relative">
+        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-6 px-4 md:px-[10%]">
+            {resources.map((resource, index) => (
+              <Link href={resource.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                  <CardContent className="p-8 flex-grow flex flex-col">
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{resource.category}</p>
+                    <h3 className="text-2xl font-bold text-foreground mt-2">{resource.title}</h3>
+                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{resource.description}</p>
+                  </CardContent>
+                  <div className="relative aspect-[4/3] w-full mt-auto">
+                    <Image
+                      src={resource.imageUrl}
+                      alt={resource.title}
+                      data-ai-hint={resource.imageHint}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </Card>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
