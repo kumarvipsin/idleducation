@@ -245,11 +245,11 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
 }
 
 const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
-    <div className="flex items-start gap-4 p-3 rounded-lg bg-muted/50">
-        <div className="text-primary mt-1">{icon}</div>
-        <div>
+    <div className="flex items-center gap-3">
+        <div className="text-muted-foreground">{icon}</div>
+        <div className="flex-1">
             <p className="text-xs text-muted-foreground">{label}</p>
-            <p className="font-medium">{value || 'Not provided'}</p>
+            <p className="font-medium text-sm">{value || 'Not provided'}</p>
         </div>
     </div>
 );
@@ -382,7 +382,6 @@ export default function AdminManagementPage() {
                     ) : admins.map((admin) => (
                         <TableRow key={admin.id}>
                         <TableCell>
-                          <DialogTrigger asChild>
                             <button onClick={() => setViewingAdmin(admin)} className="font-medium flex items-center gap-2 cursor-pointer hover:underline">
                               <Avatar>
                                 {admin.photoURL ? (
@@ -393,7 +392,6 @@ export default function AdminManagementPage() {
                               </Avatar>
                               <p>{admin.name}</p>
                             </button>
-                          </DialogTrigger>
                         </TableCell>
                         <TableCell>{admin.email}</TableCell>
                         <TableCell>
@@ -473,16 +471,16 @@ export default function AdminManagementPage() {
                     <DialogTitle>Admin Details</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
-                     <div className="flex flex-col items-center gap-4 p-4 bg-muted/30 rounded-lg">
-                        <Avatar className="h-24 w-24 border-4 border-primary shadow-lg">
-                            {viewingAdmin.photoURL ? <GcsImage filePath={viewingAdmin.photoURL} alt={viewingAdmin.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-3xl">{viewingAdmin.name.charAt(0)}</AvatarFallback>}
+                     <div className="flex flex-col items-center gap-2">
+                        <Avatar className="h-20 w-20 border-4 border-primary/20 shadow-md">
+                            {viewingAdmin.photoURL ? <GcsImage filePath={viewingAdmin.photoURL} alt={viewingAdmin.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-2xl">{viewingAdmin.name.charAt(0)}</AvatarFallback>}
                         </Avatar>
                         <div>
-                            <h3 className="text-xl font-bold text-center">{viewingAdmin.name}</h3>
-                            <p className="text-sm text-muted-foreground text-center capitalize">{viewingAdmin.role}</p>
+                            <h3 className="text-lg font-bold text-center">{viewingAdmin.name}</h3>
+                            <p className="text-xs text-muted-foreground text-center capitalize">{viewingAdmin.role}</p>
                         </div>
                     </div>
-                     <div className="grid grid-cols-1 gap-3 text-sm">
+                     <div className="grid grid-cols-2 gap-3 text-sm pt-4 border-t">
                         <DetailItem icon={<Shield size={16}/>} label="Status" value={viewingAdmin.status} />
                         <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingAdmin.email} />
                         <DetailItem icon={<Phone size={16}/>} label="Phone" value={viewingAdmin.phone} />
@@ -511,3 +509,5 @@ export default function AdminManagementPage() {
     </AlertDialog>
   );
 }
+
+    
