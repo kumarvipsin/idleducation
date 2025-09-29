@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
@@ -68,7 +68,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-20 h-20 text-white/80 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+                          <PlayCircle className="w-16 h-16 text-white/80 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
                         </div>
                         <div className="absolute bottom-0 left-0 p-6">
                           <h3 className="font-bold text-white text-2xl">{activeTestimonial.studentName}</h3>
