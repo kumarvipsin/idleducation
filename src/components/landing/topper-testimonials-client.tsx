@@ -80,7 +80,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         />
                         <div className="absolute inset-0 bg-black/30" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                          <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
                         </div>
                       </button>
                     )}
@@ -92,18 +92,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <div className="lg:col-span-1">
               <h3 className="text-lg font-semibold mb-4 text-primary">More Toppers</h3>
               <div className="h-[400px] overflow-hidden relative">
-                <div className="absolute top-0 w-full h-8 bg-gradient-to-b from-white to-transparent dark:from-gray-900 z-10"></div>
-                <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-white to-transparent dark:from-gray-900 z-10"></div>
                 <div className="animate-marquee-vertical space-y-3 hover:[animation-play-state:paused]">
                     {[...testimonials, ...testimonials].map((testimonial, index) => (
                         <button
                         key={`${testimonial.id}-${index}`}
                         onClick={() => handleThumbnailClick(testimonial)}
                         className={cn(
-                            "w-full text-left p-2 rounded-lg transition-all duration-200 flex items-center gap-4 border-2",
+                            "w-full text-left p-2 rounded-lg transition-all duration-200 flex items-center gap-4",
                             activeTestimonial?.id === testimonial.id
-                            ? "bg-primary/10 border-primary"
-                            : "bg-muted/50 border-transparent hover:bg-muted"
+                            ? "bg-primary/10 border border-primary"
+                            : "bg-muted/50 border border-transparent hover:bg-muted"
                         )}
                         >
                         <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
