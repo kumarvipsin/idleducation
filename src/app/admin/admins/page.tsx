@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAdmins, deleteUser, addAdmin, editAdminProfile, setUserStatus, resetUserPassword } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck, User as UserIcon } from "lucide-react";
+import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck, User as UserIcon, View, Mail } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -244,12 +244,23 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
   )
 }
 
+const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
+    <div className="flex items-start gap-4 p-3 rounded-lg bg-muted/50">
+        <div className="text-primary mt-1">{icon}</div>
+        <div>
+            <p className="text-xs text-muted-foreground">{label}</p>
+            <p className="font-medium">{value || 'Not provided'}</p>
+        </div>
+    </div>
+);
+
 export default function AdminManagementPage() {
   const [admins, setAdmins] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionType, setActionType] = useState<'delete' | 'toggleStatus' | 'resetPassword' | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState<User | null>(null);
+  const [viewingAdmin, setViewingAdmin] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -311,12 +322,27 @@ export default function AdminManagementPage() {
         default: return 'outline';
     }
   };
+  
+   const formatDateForDisplay = (dateString: string | undefined | null) => {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'N/A';
+        return format(date, "PPP");
+    } catch (error) {
+        return 'N/A';
+    }
+  };
+
 
   return (
     <AlertDialog>
-       <Dialog open={isFormOpen} onOpenChange={(isOpen) => {
-        if (!isOpen) setEditingAdmin(null);
-        setIsFormOpen(isOpen);
+       <Dialog open={isFormOpen || !!viewingAdmin} onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          setEditingAdmin(null);
+          setIsFormOpen(false);
+          setViewingAdmin(null);
+        }
        }}>
         <div className="space-y-6">
             <Card>
@@ -375,6 +401,10 @@ export default function AdminManagementPage() {
                                   <Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
+                                 <DropdownMenuItem onSelect={() => setViewingAdmin(admin)}>
+                                    <View className="mr-2 h-4 w-4" />
+                                    View
+                                </DropdownMenuItem>
                                 <DropdownMenuItem onSelect={() => { setEditingAdmin(admin); setIsFormOpen(true); }}>
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit
@@ -426,15 +456,57 @@ export default function AdminManagementPage() {
               </AlertDialogFooter>
             </AlertDialogContent>
         </div>
-        <DialogContent className="sm:max-w-md">
+        {editingAdmin && (
+          <DialogContent className="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle>{editingAdmin ? 'Edit Admin' : 'Add New Admin'}</DialogTitle>
+                <DialogTitle>Edit Admin</DialogTitle>
                 <DialogDescription>
-                    {editingAdmin ? "Update the details for this admin." : "Fill in the details to create a new admin account."}
+                    Update the details for this admin.
                 </DialogDescription>
             </DialogHeader>
             <AdminForm admin={editingAdmin} onSuccess={handleFormSuccess} />
-        </DialogContent>
+          </DialogContent>
+        )}
+        {!editingAdmin && viewingAdmin && (
+           <DialogContent className="sm:max-w-md">
+               <DialogHeader>
+                    <DialogTitle>Admin Details</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 pt-4">
+                     <div className="flex flex-col items-center gap-4 p-4 bg-muted/30 rounded-lg">
+                        <Avatar className="h-24 w-24 border-4 border-primary shadow-lg">
+                            {viewingAdmin.photoURL ? <GcsImage filePath={viewingAdmin.photoURL} alt={viewingAdmin.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-3xl">{viewingAdmin.name.charAt(0)}</AvatarFallback>}
+                        </Avatar>
+                        <div>
+                            <h3 className="text-xl font-bold text-center">{viewingAdmin.name}</h3>
+                            <p className="text-sm text-muted-foreground text-center capitalize">{viewingAdmin.role}</p>
+                        </div>
+                    </div>
+                     <div className="grid grid-cols-1 gap-3 text-sm">
+                        <DetailItem icon={<Shield size={16}/>} label="Status" value={viewingAdmin.status} />
+                        <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingAdmin.email} />
+                        <DetailItem icon={<Phone size={16}/>} label="Phone" value={viewingAdmin.phone} />
+                        <DetailItem icon={<CalendarIcon size={16}/>} label="Date of Birth" value={formatDateForDisplay(viewingAdmin.dob)} />
+                        <DetailItem icon={<Droplets size={16}/>} label="Blood Group" value={viewingAdmin.bloodGroup} />
+                        <DetailItem icon={<Home size={16}/>} label="Address" value={viewingAdmin.address} />
+                     </div>
+                </div>
+                 <DialogFooter>
+                    <Button variant="outline" onClick={() => setViewingAdmin(null)}>Close</Button>
+                </DialogFooter>
+           </DialogContent>
+        )}
+         {!editingAdmin && !viewingAdmin && isFormOpen && (
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Add New Admin</DialogTitle>
+                <DialogDescription>
+                    Fill in the details to create a new admin account.
+                </DialogDescription>
+            </DialogHeader>
+            <AdminForm admin={null} onSuccess={handleFormSuccess} />
+          </DialogContent>
+        )}
        </Dialog>
     </AlertDialog>
   );
