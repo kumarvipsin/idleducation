@@ -51,6 +51,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GcsImage } from "@/components/gcs-image";
 import { ImageCropper } from "@/components/image-cropper";
@@ -64,6 +65,7 @@ interface User {
   photoURL?: string;
   designation?: string;
   experience?: string;
+  biography?: string;
   socialLinks?: {
     instagram?: string;
     facebook?: string;
@@ -77,6 +79,7 @@ const teacherSchema = z.object({
   password: z.string().min(6, { message: "Password must be at least 6 characters." }).optional().or(z.literal('')),
   designation: z.string().min(2, { message: "Designation is required." }),
   experience: z.string().min(2, { message: "Experience is required." }),
+  biography: z.string().optional(),
   instagram: z.string().url().optional().or(z.literal('')),
   facebook: z.string().url().optional().or(z.literal('')),
   twitter: z.string().url().optional().or(z.literal('')),
@@ -98,7 +101,8 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
       email: teacher?.email || '', 
       password: '',
       designation: teacher?.designation || '', 
-      experience: teacher?.experience || '', 
+      experience: teacher?.experience || '',
+      biography: teacher?.biography || '',
       instagram: teacher?.socialLinks?.instagram || '', 
       facebook: teacher?.socialLinks?.facebook || '', 
       twitter: teacher?.socialLinks?.twitter || '',
@@ -193,7 +197,8 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
               )}
               <FormField control={form.control} name="designation" render={({ field }) => ( <FormItem><FormLabel>Designation</FormLabel><FormControl><Input placeholder="e.g., Senior Maths Teacher" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="experience" render={({ field }) => ( <FormItem><FormLabel>Experience</FormLabel><FormControl><Input placeholder="e.g., 10+ Years of Experience" {...field} /></FormControl><FormMessage /></FormItem> )} />
-              
+              <FormField control={form.control} name="biography" render={({ field }) => ( <FormItem><FormLabel>Biography</FormLabel><FormControl><Textarea placeholder="A short bio about the teacher..." {...field} /></FormControl><FormMessage /></FormItem> )} />
+
               <h3 className="text-sm font-medium">Social Media Links (Optional)</h3>
               <FormField control={form.control} name="instagram" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Instagram className="h-4 w-4"/> Instagram</FormLabel><FormControl><Input placeholder="https://instagram.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="facebook" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Facebook className="h-4 w-4"/> Facebook</FormLabel><FormControl><Input placeholder="https://facebook.com/username" {...field} /></FormControl><FormMessage /></FormItem> )} />
@@ -434,3 +439,4 @@ export default function AdminTeachersPage() {
     </AlertDialog>
   );
 }
+

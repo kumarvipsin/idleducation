@@ -131,6 +131,7 @@ const signupSchema = z.object({
   role: z.enum(['student', 'teacher', 'admin']),
   designation: z.string().optional(),
   experience: z.string().optional(),
+  biography: z.string().optional(),
   socialLinks: z.object({
     instagram: z.string().optional(),
     facebook: z.string().optional(),

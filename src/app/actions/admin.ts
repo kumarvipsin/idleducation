@@ -91,6 +91,7 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     name: rawData.name as string,
     designation: rawData.designation as string,
     experience: rawData.experience as string,
+    biography: rawData.biography as string || '',
     socialLinks: {
       instagram: rawData.instagram as string || '',
       facebook: rawData.facebook as string || '',
