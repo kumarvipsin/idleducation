@@ -219,10 +219,10 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/', label: t('home'), icon: <HomeIcon className="h-4 w-4" /> },
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
+    { href: '/', label: t('home') },
+    { href: '/about', label: t('about') },
+    { href: '/contact', label: t('contact') },
+    { href: '/gallery', label: t('gallery') },
   ];
 
   const loggedInNavLinks = [
@@ -232,51 +232,39 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-      return (
-        <div className="flex items-center gap-3 p-2 border-t">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <div className="w-full space-y-1.5">
-            <Skeleton className="h-3 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-          </div>
-        </div>
-      );
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
     }
     if (user) {
       return (
-        <div className="border-t">
-            <div className="flex items-center gap-3 p-3">
-              <Avatar className="h-12 w-12 border-2 border-primary">
-                <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
-                <AvatarFallback>
-                  {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <p className="font-semibold text-sm truncate">{user.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
-              </div>
-            </div>
-             <div className="grid grid-cols-3 divide-x border-y bg-muted/50">
-              {loggedInNavLinks.map(({ href, label, icon }) => (
+        <div className="p-2 border-t">
+          <div className="mt-2 grid grid-cols-3 divide-x border rounded-lg overflow-hidden">
+            {loggedInNavLinks.map(({ href, label, icon }) => (
                 <Link
                   key={href}
                   href={href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex flex-col items-center gap-1 p-2 text-xs hover:bg-muted ${pathname === href ? 'text-primary' : 'text-muted-foreground'}`}
+                  className={`flex flex-col items-center gap-1 p-2 text-xs hover:bg-muted ${pathname === href ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`}
                 >
                   {icon}
                   {label}
                 </Link>
-              ))}
-                <button
-                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                    className="flex flex-col items-center gap-1 p-2 text-xs text-muted-foreground hover:bg-muted"
-                >
-                    <LogOut className="h-4 w-4" />
-                    Logout
-                </button>
-            </div>
+            ))}
+            <button
+                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                className="flex flex-col items-center gap-1 p-2 text-xs text-muted-foreground hover:bg-muted"
+            >
+                <LogOut className="h-4 w-4" />
+                Logout
+            </button>
+          </div>
         </div>
       );
     }
@@ -509,3 +497,5 @@ export function Header() {
     </Collapsible>
   );
 }
+
+    
