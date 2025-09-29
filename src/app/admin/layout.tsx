@@ -24,7 +24,6 @@ import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
 import { getNewSessionBookingsCount } from '@/app/actions';
-import { MobileBottomNav } from '@/components/mobile-bottom-nav';
 import { Header } from '@/components/header';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
@@ -54,13 +53,6 @@ function AdminLayout({
     await logout();
     router.push('/');
   };
-
-  const mobileNavLinks = [
-    { href: '/admin/dashboard', label: 'Dashboard', icon: <SlidersHorizontal /> },
-    { href: '/admin/admissions', label: 'Admissions', icon: <FileText /> },
-    { href: '/admin/users', label: 'Students', icon: <GraduationCap /> },
-    { href: '/admin/teachers', label: 'Teachers', icon: <Briefcase /> },
-  ];
 
   return (
     <>
@@ -272,7 +264,6 @@ function AdminLayout({
             {children}
           </main>
         </div>
-        <MobileBottomNav links={mobileNavLinks} />
       </div>
     </SidebarProvider>
     </>
