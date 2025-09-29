@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -41,7 +40,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
   const handleSelectTestimonial = (testimonial: TTopperTestimonial) => {
     setActiveTestimonial(testimonial);
-    setIsPlaying(false); // Reset playing state when a new video is selected
+    setIsPlaying(false);
     setAnimationKey(prev => prev + 1);
   };
   
@@ -70,10 +69,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full lg:w-4/5 mx-auto">
+        <div className="w-full lg:w-4/5 mx-auto px-4 md:px-0">
           <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
-                    <div key={animationKey} className="relative w-full animate-fade-in-up" style={{ paddingBottom: '45%' /* 16:9 aspect ratio, 20% height reduction -> 9 * 0.8 / 16 = 0.45 */ }}>
+                    <div key={animationKey} className="relative w-full animate-fade-in-up" style={{ paddingBottom: '45%' }}>
                         {activeTestimonial && isPlaying ? (
                             <iframe
                             className="absolute top-0 left-0 w-full h-full"
@@ -93,7 +92,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                               />
                               <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300" />
                               </div>
                             </button>
                         ) : (
