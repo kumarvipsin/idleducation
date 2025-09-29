@@ -245,8 +245,8 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
 }
 
 const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
-    <div className="flex items-center gap-3">
-        <div className="text-muted-foreground">{icon}</div>
+    <div className="flex items-start gap-3">
+        <div className="text-muted-foreground pt-1">{icon}</div>
         <div className="flex-1">
             <p className="text-xs text-muted-foreground">{label}</p>
             <p className="font-medium text-sm">{value || 'Not provided'}</p>
@@ -359,80 +359,89 @@ export default function AdminManagementPage() {
                 </DialogTrigger>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="h-[calc(100vh-250px)]">
-                <Table>
-                    <TableHeader>
-                    <TableRow>
-                        <TableHead>Admin Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                    {loading ? (
-                      [...Array(3)].map((_, i) => (
-                        <TableRow key={i}>
-                          <TableCell><Skeleton className="h-10 w-48" /></TableCell>
-                          <TableCell><Skeleton className="h-4 w-full" /></TableCell>
-                          <TableCell><Skeleton className="h-6 w-20" /></TableCell>
-                          <TableCell className="text-right"><Skeleton className="h-8 w-8" /></TableCell>
+                <ScrollArea className="w-full whitespace-nowrap">
+                  <div className="h-[calc(100vh-280px)]">
+                    <Table>
+                        <TableHeader>
+                        <TableRow>
+                            <TableHead>Admin Name</TableHead>
+                            <TableHead className="hidden sm:table-cell">Email</TableHead>
+                            <TableHead className="hidden md:table-cell">Status</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
-                      ))
-                    ) : admins.map((admin) => (
-                        <TableRow key={admin.id}>
-                        <TableCell>
-                            <button onClick={() => setViewingAdmin(admin)} className="font-medium flex items-center gap-2 cursor-pointer hover:underline">
-                              <Avatar>
-                                {admin.photoURL ? (
-                                  <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={40} height={40} className="rounded-full object-cover"/>
-                                ) : (
-                                  <AvatarFallback>{admin.name ? admin.name.charAt(0) : 'A'}</AvatarFallback>
-                                )}
-                              </Avatar>
-                              <p>{admin.name}</p>
-                            </button>
-                        </TableCell>
-                        <TableCell>{admin.email}</TableCell>
-                        <TableCell>
-                            <Badge variant={getBadgeVariant(admin.status)} className="capitalize">{admin.status}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right space-x-2">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                <DropdownMenuItem onSelect={() => { setEditingAdmin(admin); setIsFormOpen(true); }}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit
-                                </DropdownMenuItem>
-                                <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('toggleStatus'); }}>
-                                        {admin.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
-                                        {admin.status === 'approved' ? 'Deactivate' : 'Activate'}
+                        </TableHeader>
+                        <TableBody>
+                        {loading ? (
+                          [...Array(3)].map((_, i) => (
+                            <TableRow key={i}>
+                              <TableCell><div className="flex items-center gap-2"><Skeleton className="h-10 w-10 rounded-full" /><Skeleton className="h-4 w-32" /></div></TableCell>
+                              <TableCell className="hidden sm:table-cell"><Skeleton className="h-4 w-full" /></TableCell>
+                              <TableCell className="hidden md:table-cell"><Skeleton className="h-6 w-20" /></TableCell>
+                              <TableCell className="text-right"><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
+                            </TableRow>
+                          ))
+                        ) : admins.map((admin) => (
+                            <TableRow key={admin.id}>
+                            <TableCell>
+                                <button onClick={() => setViewingAdmin(admin)} className="font-medium flex items-center gap-3 text-left cursor-pointer hover:underline">
+                                  <Avatar>
+                                    {admin.photoURL ? (
+                                      <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={40} height={40} className="rounded-full object-cover"/>
+                                    ) : (
+                                      <AvatarFallback>{admin.name ? admin.name.charAt(0) : 'A'}</AvatarFallback>
+                                    )}
+                                  </Avatar>
+                                  <div>
+                                    <p className="font-semibold">{admin.name}</p>
+                                    <p className="text-xs text-muted-foreground sm:hidden">{admin.email}</p>
+                                  </div>
+                                </button>
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">{admin.email}</TableCell>
+                            <TableCell className="hidden md:table-cell">
+                                <Badge variant={getBadgeVariant(admin.status)} className="capitalize">{admin.status}</Badge>
+                            </TableCell>
+                            <TableCell className="text-right space-x-2">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                    <DropdownMenuItem onSelect={() => { setViewingAdmin(admin); }}>
+                                        <View className="mr-2 h-4 w-4" />
+                                        View
                                     </DropdownMenuItem>
-                                </AlertDialogTrigger>
-                                <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('resetPassword'); }}>
-                                    <KeyRound className="mr-2 h-4 w-4" />
-                                    Reset Password
+                                    <DropdownMenuItem onSelect={() => { setEditingAdmin(admin); setIsFormOpen(true); }}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit
                                     </DropdownMenuItem>
-                                </AlertDialogTrigger>
-                                <DropdownMenuSeparator />
-                                <AlertDialogTrigger asChild>
-                                    <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('delete'); }}>
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete
-                                    </DropdownMenuItem>
-                                 </AlertDialogTrigger>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
+                                    <AlertDialogTrigger asChild>
+                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('toggleStatus'); }}>
+                                            {admin.status === 'approved' ? <UserX className="mr-2 h-4 w-4" /> : <UserCheck className="mr-2 h-4 w-4" />}
+                                            {admin.status === 'approved' ? 'Deactivate' : 'Activate'}
+                                        </DropdownMenuItem>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogTrigger asChild>
+                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('resetPassword'); }}>
+                                        <KeyRound className="mr-2 h-4 w-4" />
+                                        Reset Password
+                                        </DropdownMenuItem>
+                                    </AlertDialogTrigger>
+                                    <DropdownMenuSeparator />
+                                    <AlertDialogTrigger asChild>
+                                        <DropdownMenuItem className="text-destructive" onSelect={(e) => e.preventDefault()} onClick={() => { setSelectedUser(admin); setActionType('delete'); }}>
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Delete
+                                        </DropdownMenuItem>
+                                     </AlertDialogTrigger>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                  </div>
                 </ScrollArea>
             </CardContent>
             </Card>
@@ -467,20 +476,15 @@ export default function AdminManagementPage() {
         )}
         {!editingAdmin && viewingAdmin && (
            <DialogContent className="sm:max-w-md">
-               <DialogHeader>
-                    <DialogTitle>Admin Details</DialogTitle>
+                <DialogHeader className="text-center items-center pt-4">
+                     <Avatar className="h-24 w-24 border-4 border-primary/20 shadow-md">
+                        {viewingAdmin.photoURL ? <GcsImage filePath={viewingAdmin.photoURL} alt={viewingAdmin.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-3xl">{viewingAdmin.name.charAt(0)}</AvatarFallback>}
+                    </Avatar>
+                    <DialogTitle className="text-2xl">{viewingAdmin.name}</DialogTitle>
+                    <DialogDescription className="capitalize">{viewingAdmin.role}</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
-                     <div className="flex flex-col items-center gap-2">
-                        <Avatar className="h-20 w-20 border-4 border-primary/20 shadow-md">
-                            {viewingAdmin.photoURL ? <GcsImage filePath={viewingAdmin.photoURL} alt={viewingAdmin.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-2xl">{viewingAdmin.name.charAt(0)}</AvatarFallback>}
-                        </Avatar>
-                        <div>
-                            <h3 className="text-lg font-bold text-center">{viewingAdmin.name}</h3>
-                            <p className="text-xs text-muted-foreground text-center capitalize">{viewingAdmin.role}</p>
-                        </div>
-                    </div>
-                     <div className="grid grid-cols-2 gap-3 text-sm pt-4 border-t">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-4 border-t">
                         <DetailItem icon={<Shield size={16}/>} label="Status" value={viewingAdmin.status} />
                         <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingAdmin.email} />
                         <DetailItem icon={<Phone size={16}/>} label="Phone" value={viewingAdmin.phone} />
@@ -509,5 +513,3 @@ export default function AdminManagementPage() {
     </AlertDialog>
   );
 }
-
-    

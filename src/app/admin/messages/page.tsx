@@ -44,16 +44,15 @@ export default function AdminMessagesPage() {
   }, []);
 
   const renderSkeleton = () => (
-    <div className="space-y-2">
-      {[...Array(5)].map((_, i) => (
-        <div key={i} className="flex items-center space-x-4 p-2">
-          <Skeleton className="h-4 w-1/4" />
-          <Skeleton className="h-4 w-1/4" />
-          <Skeleton className="h-4 w-1/4" />
-          <Skeleton className="h-4 w-1/4" />
-        </div>
-      ))}
-    </div>
+     [...Array(5)].map((_, i) => (
+        <TableRow key={i}>
+            <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+            <TableCell className="hidden sm:table-cell"><Skeleton className="h-4 w-40" /></TableCell>
+            <TableCell className="hidden md:table-cell"><Skeleton className="h-4 w-20" /></TableCell>
+            <TableCell className="hidden lg:table-cell"><Skeleton className="h-4 w-24" /></TableCell>
+            <TableCell><Skeleton className="h-8 w-16" /></TableCell>
+        </TableRow>
+    ))
   );
 
   return (
@@ -63,35 +62,35 @@ export default function AdminMessagesPage() {
         <CardDescription>Recent messages from the contact us page.</CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[calc(100vh-220px)] w-full">
-          {loading ? renderSkeleton() : (
+        <ScrollArea className="w-full whitespace-nowrap">
+          <div className="h-[calc(100vh-220px)]">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead className="hidden sm:table-cell">Contact</TableHead>
+                  <TableHead className="hidden md:table-cell">Location</TableHead>
+                  <TableHead className="hidden lg:table-cell">Date</TableHead>
                   <TableHead>Message</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {submissions.length > 0 ? (
+                {loading ? renderSkeleton() : submissions.length > 0 ? (
                   submissions.map((submission) => (
                     <TableRow key={submission.id}>
                       <TableCell className="font-medium">{submission.name}</TableCell>
-                      <TableCell>
-                        <div>{submission.email || 'N/A'}</div>
-                        <div>
+                      <TableCell className="hidden sm:table-cell">
+                        <div className="text-xs">{submission.email || 'N/A'}</div>
+                        <div className="text-xs">
                           {submission.countryCode ? `${submission.countryCode.split('-')[0]} ` : ''}
                           {submission.phone}
                         </div>
                       </TableCell>
-                       <TableCell>
-                        <div>{submission.state || 'N/A'}</div>
+                       <TableCell className="hidden md:table-cell">
+                        <div className="text-xs">{submission.state || 'N/A'}</div>
                         <div className="text-xs text-muted-foreground">{submission.country || ''}</div>
                        </TableCell>
-                      <TableCell>{submission.createdAt ? format(new Date(submission.createdAt), 'PPp') : 'N/A'}</TableCell>
+                      <TableCell className="hidden lg:table-cell">{submission.createdAt ? format(new Date(submission.createdAt), 'PPp') : 'N/A'}</TableCell>
                       <TableCell>
                         {submission.message ? (
                              <Accordion type="single" collapsible className="w-full max-w-[200px]">
@@ -108,14 +107,14 @@ export default function AdminMessagesPage() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                    <TableCell colSpan={5} className="text-center text-muted-foreground h-48">
                       No contact form submissions yet.
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
-          )}
+          </div>
         </ScrollArea>
       </CardContent>
     </Card>
