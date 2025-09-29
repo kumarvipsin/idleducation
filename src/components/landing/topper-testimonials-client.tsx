@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [animationKey, setAnimationKey] = React.useState(0);
 
   React.useEffect(() => {
     if (testimonials && testimonials.length > 0 && !activeTestimonial) {
@@ -21,6 +22,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   const handleThumbnailClick = (testimonial: TTopperTestimonial) => {
     setActiveTestimonial(testimonial);
     setIsPlaying(false);
+    setAnimationKey(prev => prev + 1); // Trigger animation
   };
 
   const handlePlayClick = () => {
@@ -54,7 +56,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
               {activeTestimonial && (
-                <div className="relative w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300">
+                <div key={animationKey} className="relative w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300 animate-fade-in-up">
                   <div className="aspect-[16/9]">
                     {isPlaying ? (
                       <iframe
