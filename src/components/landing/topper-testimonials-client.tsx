@@ -3,25 +3,30 @@
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(null);
-  const [selectedForDialog, setSelectedForDialog] = React.useState<TTopperTestimonial | null>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
   React.useEffect(() => {
-    if (testimonials && testimonials.length > 0) {
+    if (testimonials && testimonials.length > 0 && !activeTestimonial) {
       setActiveTestimonial(testimonials[0]);
     }
-  }, [testimonials]);
+  }, [testimonials, activeTestimonial]);
+  
+  const handleThumbnailClick = (testimonial: TTopperTestimonial) => {
+    setActiveTestimonial(testimonial);
+    setIsPlaying(false); // Reset playing state when a new video is selected
+  };
 
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
-      setSelectedForDialog(null);
+  const handlePlayClick = () => {
+    if (activeTestimonial) {
+      setIsPlaying(true);
     }
   };
 
@@ -36,7 +41,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
 
   return (
-    <Dialog onOpenChange={handleOpenChange}>
       <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
@@ -48,37 +52,45 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Main Video Player */}
             <div className="lg:col-span-2">
-              <DialogTrigger asChild>
-                <button
-                  onClick={() => setSelectedForDialog(activeTestimonial)}
-                  className="w-full text-left group focus:outline-none"
-                  disabled={!activeTestimonial}
-                >
-                  <Card className="relative aspect-video w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
-                    {activeTestimonial && (
-                      <>
-                        <Image
-                          src={`https://img.youtube.com/vi/${activeTestimonial.videoId}/hqdefault.jpg`}
-                          alt={`Testimonial from ${activeTestimonial.studentName}`}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-16 h-16 text-white/80 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
-                        </div>
-                        <div className="absolute bottom-0 left-0 p-6">
-                          <h3 className="font-bold text-white text-2xl">{activeTestimonial.studentName}</h3>
-                          <p className="text-md text-white/90">{activeTestimonial.studentClass} | {activeTestimonial.studentPlace}</p>
-                        </div>
-                      </>
-                    )}
-                  </Card>
-                </button>
-              </DialogTrigger>
+                <div className="relative aspect-video w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300">
+                  {activeTestimonial && (
+                    <>
+                      {isPlaying ? (
+                        <iframe
+                          className="w-full h-full"
+                          src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
+                          title={`YouTube video player for ${activeTestimonial.studentName}'s testimonial`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        ></iframe>
+                      ) : (
+                        <button
+                          onClick={handlePlayClick}
+                          className="w-full h-full group focus:outline-none"
+                        >
+                          <Image
+                            src={`https://img.youtube.com/vi/${activeTestimonial.videoId}/hqdefault.jpg`}
+                            alt={`Testimonial from ${activeTestimonial.studentName}`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <PlayCircle className="w-16 h-16 text-white/80 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+                          </div>
+                          <div className="absolute bottom-0 left-0 p-6">
+                            <h3 className="font-bold text-white text-2xl">{activeTestimonial.studentName}</h3>
+                            <p className="text-md text-white/90">{activeTestimonial.studentClass} | {activeTestimonial.studentPlace}</p>
+                          </div>
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
             </div>
 
             {/* Playlist */}
@@ -88,7 +100,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 {testimonials.map((testimonial) => (
                   <button
                     key={testimonial.id}
-                    onClick={() => setActiveTestimonial(testimonial)}
+                    onClick={() => handleThumbnailClick(testimonial)}
                     className={cn(
                       "w-full text-left p-2 rounded-lg transition-all duration-200 flex items-center gap-4 border-2",
                       activeTestimonial?.id === testimonial.id
@@ -115,25 +127,5 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </div>
         </div>
       </section>
-
-      {selectedForDialog && (
-        <DialogContent className="max-w-4xl w-[90vw] p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black aspect-video">
-           <DialogHeader className="sr-only">
-             <DialogTitle>Video: {selectedForDialog.studentName}'s Testimonial</DialogTitle>
-             <DialogDescription>
-                A video testimonial from {selectedForDialog.studentName}, a topper from {selectedForDialog.studentPlace}.
-             </DialogDescription>
-           </DialogHeader>
-           <iframe
-               className="w-full h-full"
-               src={`https://www.youtube.com/embed/${selectedForDialog.videoId}?autoplay=1&rel=0`}
-               title={`YouTube video player for ${selectedForDialog.studentName}'s testimonial`}
-               frameBorder="0"
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-               allowFullScreen
-           ></iframe>
-        </DialogContent>
-      )}
-    </Dialog>
   );
 }
