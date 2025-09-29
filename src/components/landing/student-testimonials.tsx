@@ -61,13 +61,15 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           </div>
           <h3 className="font-bold text-lg">{testimonial.name}</h3>
           <p className="text-xs text-primary font-semibold mb-2">{testimonial.achievement}</p>
-          <ScrollArea className="h-24 w-full">
-            <blockquote className="text-xs text-muted-foreground italic relative px-4">
-              <span className="absolute -top-2 left-0 text-6xl text-primary/10 font-serif">“</span>
-              <span className="relative z-10">{fullText}</span>
-              <span className="absolute -bottom-4 right-0 text-6xl text-primary/10 font-serif">”</span>
-            </blockquote>
-          </ScrollArea>
+          <div className="relative h-24">
+            <span className="absolute -top-2 left-0 text-6xl text-primary/10 font-serif">“</span>
+            <ScrollArea className="h-full w-full px-6">
+              <blockquote className="text-xs text-muted-foreground italic">
+                {fullText}
+              </blockquote>
+            </ScrollArea>
+            <span className="absolute -bottom-4 right-0 text-6xl text-primary/10 font-serif">”</span>
+          </div>
         </CardContent>
       </Card>
     </div>
