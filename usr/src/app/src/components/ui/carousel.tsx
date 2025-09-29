@@ -137,7 +137,7 @@ const Carousel = React.forwardRef<
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
-          className={cn("relative", className)}
+          className={cn("relative group", className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
@@ -206,9 +206,9 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute h-12 w-12 rounded-full bg-gray-200/50 hover:bg-gray-200/80 shadow-md",
+        "absolute h-12 w-12 rounded-full bg-gray-200/50 hover:bg-gray-200/80 shadow-md opacity-0 group-hover:opacity-100 transition-opacity",
         orientation === "horizontal"
-          ? "left-4 top-1/2 -translate-y-1/2"
+          ? "-left-16 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -216,7 +216,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ChevronLeft className="h-6 w-6" />
+      <ArrowLeft className="h-6 w-6" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -229,26 +229,7 @@ const CarouselNext = React.forwardRef<
 >(({ className, variant = "outline", size = "icon", ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
-  return (
-    <Button
-      ref={ref}
-      variant={variant}
-      size={size}
-      className={cn(
-        "absolute h-12 w-12 rounded-full bg-gray-200/50 hover:bg-gray-200/80 shadow-md",
-        orientation === "horizontal"
-          ? "right-4 top-1/2 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className
-      )}
-      disabled={!canScrollNext}
-      onClick={scrollNext}
-      {...props}
-    >
-      <ChevronRight className="h-6 w-6" />
-      <span className="sr-only">Next slide</span>
-    </Button>
-  )
+  return null;
 })
 CarouselNext.displayName = "CarouselNext"
 
