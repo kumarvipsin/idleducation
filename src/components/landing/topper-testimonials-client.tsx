@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 
 const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
   return (
-    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? 'bg-primary/10 ring-2 ring-primary' : 'hover:bg-muted'}`}>
+    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? 'bg-primary/10' : 'hover:bg-muted'}`}>
       <Card className={`overflow-hidden border-0 ${isActive ? 'bg-transparent' : 'bg-card'}`}>
         <CardContent className="p-3 flex items-center gap-4">
             <div className="relative aspect-video w-24 shrink-0">
@@ -60,7 +60,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="max-w-4xl mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6">
             <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
                     <div className="relative aspect-video w-full">
