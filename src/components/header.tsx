@@ -245,24 +245,36 @@ export function Header() {
     if (user) {
       return (
         <div className="p-2 border-t">
-          <div className="mt-2 grid grid-cols-3 divide-x border rounded-lg overflow-hidden">
+          <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
+            <Avatar className="h-10 w-10 border-2 border-primary">
+              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+              <AvatarFallback>
+                {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold text-sm">{user.name}</p>
+              <p className="text-xs text-muted-foreground">{user.email}</p>
+            </div>
+          </div>
+          <div className="grid gap-1">
             {loggedInNavLinks.map(({ href, label, icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex flex-col items-center gap-1 p-2 text-xs hover:bg-muted ${pathname === href ? 'text-primary bg-primary/10' : 'text-muted-foreground'}`}
-                >
-                  {icon}
-                  {label}
-                </Link>
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
+              >
+                {icon}
+                {label}
+              </Link>
             ))}
             <button
-                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                className="flex flex-col items-center gap-1 p-2 text-xs text-muted-foreground hover:bg-muted"
+              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
             >
-                <LogOut className="h-4 w-4" />
-                Logout
+              <LogOut className="h-4 w-4" />
+              Logout
             </button>
           </div>
         </div>
@@ -451,10 +463,7 @@ export function Header() {
                     <Link
                       key={href}
                       href={href}
-                      className={cn(
-                        "text-sm font-medium hover:underline underline-offset-4",
-                        pathname === href ? 'text-primary' : 'text-foreground',
-                      )}
+                      className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
                     >
                       {label}
                     </Link>
@@ -477,13 +486,14 @@ export function Header() {
               <div className="border-t bg-white">
                 <div className="p-2">
                   <nav className="grid gap-1 text-base font-medium">
-                  {navLinks.map(({ href, label }) => (
+                  {navLinks.map(({ href, label, icon }) => (
                       <Link
                       key={href}
                       href={href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
                       >
+                      {icon}
                       <span className="text-sm">{label}</span>
                       </Link>
                   ))}
@@ -497,5 +507,3 @@ export function Header() {
     </Collapsible>
   );
 }
-
-    
