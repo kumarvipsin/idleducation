@@ -232,51 +232,51 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+      return (
+        <div className="flex items-center gap-3 p-2 border-t">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="w-full space-y-1.5">
+            <Skeleton className="h-3 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+          </div>
+        </div>
+      );
     }
     if (user) {
       return (
-        <div className="p-2 border-t">
-          <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
-            <Avatar className="h-10 w-10 border-2 border-primary">
-              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
-              <AvatarFallback>
-                {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold text-sm">{user.name}</p>
-              <p className="text-xs text-muted-foreground">{user.email}</p>
+        <div className="border-t">
+            <div className="flex items-center gap-3 p-3">
+              <Avatar className="h-12 w-12 border-2 border-primary">
+                <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                <AvatarFallback>
+                  {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <p className="font-semibold text-sm truncate">{user.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+              </div>
             </div>
-          </div>
-          <div className="grid gap-1">
-            {loggedInNavLinks.map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-              >
-                {icon}
-                {label}
-              </Link>
-            ))}
-            <button
-              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </button>
-          </div>
+             <div className="grid grid-cols-3 divide-x border-y bg-muted/50">
+              {loggedInNavLinks.map(({ href, label, icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex flex-col items-center gap-1 p-2 text-xs hover:bg-muted ${pathname === href ? 'text-primary' : 'text-muted-foreground'}`}
+                >
+                  {icon}
+                  {label}
+                </Link>
+              ))}
+                <button
+                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                    className="flex flex-col items-center gap-1 p-2 text-xs text-muted-foreground hover:bg-muted"
+                >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                </button>
+            </div>
         </div>
       );
     }
