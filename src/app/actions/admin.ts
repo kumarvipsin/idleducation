@@ -736,4 +736,40 @@ export async function editDirectorProfile(formData: FormData) {
     return { success: false, message: "Failed to update director profile." };
   }
 }
+
+export async function editStudentProfile(studentId: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  
+  const studentData: any = {
+    name: rawData.name as string,
+    biography: rawData.biography as string || '',
+    dob: rawData.dob ? rawData.dob as string : null,
+    bloodGroup: rawData.bloodGroup as string || '',
+    phone: rawData.phone as string || '',
+    address: rawData.address as string || '',
+    socialLinks: {
+      instagram: rawData.instagram as string || '',
+      facebook: rawData.facebook as string || '',
+      twitter: rawData.twitter as string || '',
+    },
+  };
+
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `profile_photos/${studentId}-${photoFile.name}`;
+      studentData.photoURL = await uploadFileToGCS(photoFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        studentData.photoURL = '';
+    }
+
+    const docRef = doc(db, "users", studentId);
+    await updateDoc(docRef, studentData);
+    
+    return { success: true, message: "Student profile updated successfully." };
+  } catch (error) {
+    console.error("Error updating student profile:", error);
+    return { success: false, message: "Failed to update student profile." };
+  }
+}
     
