@@ -142,7 +142,7 @@ const TeamMemberForm = ({
                     </Avatar>
                      <Input id="avatar-upload" name="avatar" type="file" onChange={handleFileChange} className="col-span-3" />
                 </div>
-                 {(member?.avatarUrl || preview) && (
+                 {(member?.avatarUrl || preview) && !removePhoto && (
                     <Button type="button" variant="destructive" size="sm" onClick={handleRemovePhoto} className="w-fit">
                         <Trash2 className="w-4 h-4 mr-2"/> Remove Photo
                     </Button>

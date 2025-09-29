@@ -16,7 +16,7 @@ import { getTeachers } from "@/app/actions/user";
 import { resetUserPassword, signUpUser } from "@/app/actions/auth";
 import { approveUser, denyUser, setUserStatus, editTeacher, deleteUser } from "@/app/actions/admin";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2, Upload } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2, Upload, View, Mail, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -240,6 +240,7 @@ export default function AdminTeachersPage() {
   const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | 'delete' | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState<User | null>(null);
+  const [viewingTeacher, setViewingTeacher] = useState<User | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -311,10 +312,26 @@ export default function AdminTeachersPage() {
     }
   };
 
+  const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
+    <div className="flex items-center gap-3">
+        <div className="text-muted-foreground">{icon}</div>
+        <div className="flex-1">
+            <p className="text-xs text-muted-foreground">{label}</p>
+            <p className="font-medium text-sm">{value || 'Not provided'}</p>
+        </div>
+    </div>
+);
+
 
   return (
     <AlertDialog>
-       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+       <Dialog open={isFormOpen || !!viewingTeacher} onOpenChange={(isOpen) => {
+            if (!isOpen) {
+                setIsFormOpen(false);
+                setEditingTeacher(null);
+                setViewingTeacher(null);
+            }
+       }}>
         <div className="space-y-6">
             <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -344,18 +361,20 @@ export default function AdminTeachersPage() {
                     <TableBody>
                     {teachers.map((teacher) => (
                         <TableRow key={teacher.id}>
-                        <TableCell className="font-medium flex items-center gap-2">
-                           <Avatar>
-                             {teacher.photoURL ? (
-                               <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={40} height={40} className="rounded-full object-cover"/>
-                             ) : (
-                               <AvatarFallback>{teacher.name ? teacher.name.charAt(0) : 'T'}</AvatarFallback>
-                             )}
-                           </Avatar>
-                           <div>
-                             <p>{teacher.name}</p>
-                             <p className="text-xs text-muted-foreground">{teacher.email}</p>
-                           </div>
+                        <TableCell>
+                           <button onClick={() => setViewingTeacher(teacher)} className="font-medium flex items-center gap-2 cursor-pointer hover:underline">
+                               <Avatar>
+                                 {teacher.photoURL ? (
+                                   <GcsImage filePath={teacher.photoURL} alt={teacher.name || ''} width={40} height={40} className="rounded-full object-cover"/>
+                                 ) : (
+                                   <AvatarFallback>{teacher.name ? teacher.name.charAt(0) : 'T'}</AvatarFallback>
+                                 )}
+                               </Avatar>
+                               <div>
+                                 <p>{teacher.name}</p>
+                                 <p className="text-xs text-muted-foreground">{teacher.email}</p>
+                               </div>
+                           </button>
                         </TableCell>
                         <TableCell>{teacher.designation || 'N/A'}</TableCell>
                         <TableCell>{teacher.experience || 'N/A'}</TableCell>
@@ -437,18 +456,58 @@ export default function AdminTeachersPage() {
             </AlertDialogFooter>
             </AlertDialogContent>
         </div>
-        <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle>{editingTeacher ? 'Edit Teacher' : 'Add New Teacher'}</DialogTitle>
-                <DialogDescription>
-                    {editingTeacher ? "Update the details for this teacher." : "Fill in the details to create a new teacher account."}
-                </DialogDescription>
-            </DialogHeader>
-            <TeacherForm teacher={editingTeacher} onSuccess={handleFormSuccess} />
-        </DialogContent>
+        {editingTeacher && (
+             <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Edit Teacher</DialogTitle>
+                    <DialogDescription>
+                       Update the details for this teacher.
+                    </DialogDescription>
+                </DialogHeader>
+                <TeacherForm teacher={editingTeacher} onSuccess={handleFormSuccess} />
+            </DialogContent>
+        )}
+        {!editingTeacher && viewingTeacher && (
+           <DialogContent className="sm:max-w-md">
+               <DialogHeader>
+                    <DialogTitle>Teacher Details</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 pt-4">
+                     <div className="flex flex-col items-center gap-2">
+                        <Avatar className="h-20 w-20 border-4 border-primary/20 shadow-md">
+                            {viewingTeacher.photoURL ? <GcsImage filePath={viewingTeacher.photoURL} alt={viewingTeacher.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-2xl">{viewingTeacher.name.charAt(0)}</AvatarFallback>}
+                        </Avatar>
+                        <div>
+                            <h3 className="text-lg font-bold text-center">{viewingTeacher.name}</h3>
+                            <p className="text-xs text-muted-foreground text-center capitalize">{viewingTeacher.role}</p>
+                        </div>
+                    </div>
+                     <div className="grid grid-cols-2 gap-3 text-sm pt-4 border-t">
+                        <DetailItem icon={<Badge />} label="Designation" value={viewingTeacher.designation} />
+                        <DetailItem icon={<Briefcase />} label="Experience" value={viewingTeacher.experience} />
+                        <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingTeacher.email} />
+                     </div>
+                </div>
+                 <DialogFooter>
+                    <Button variant="outline" onClick={() => setViewingTeacher(null)}>Close</Button>
+                </DialogFooter>
+           </DialogContent>
+        )}
+         {!editingTeacher && !viewingTeacher && isFormOpen && (
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Add New Teacher</DialogTitle>
+                    <DialogDescription>
+                        Fill in the details to create a new teacher account.
+                    </DialogDescription>
+                </DialogHeader>
+                <TeacherForm teacher={null} onSuccess={handleFormSuccess} />
+            </DialogContent>
+        )}
        </Dialog>
     </AlertDialog>
   );
 }
+
 
 

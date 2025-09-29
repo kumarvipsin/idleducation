@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { UserPlus, Users, Mail, Phone, Calendar, User, Home, Key, Trash2 } from "lucide-react";
+import { UserPlus, Users, Mail, Phone, Calendar, User as UserIcon, Home, KeyRound, Trash2 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -34,6 +34,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { GcsImage } from "@/components/gcs-image";
 
 const staffSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -58,7 +59,7 @@ interface StaffMember {
     dob: string;
     guardianName: string;
     address: string;
-    avatarUrl?: string;
+    photoURL?: string;
 }
 
 
@@ -68,10 +69,20 @@ const initialStaff: StaffMember[] = [
     { id: '2', name: 'Bob Williams', email: 'bob.w@example.com', role: 'staff', staffId: 'S002', contact: '8765432109', dob: '1988-11-22', guardianName: 'David Williams', address: '456 IT Hub, Pune' },
 ];
 
+const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
+    <div className="flex items-center gap-3">
+        <div className="text-muted-foreground">{icon}</div>
+        <div className="flex-1">
+            <p className="text-xs text-muted-foreground">{label}</p>
+            <p className="font-medium text-sm">{value || 'Not provided'}</p>
+        </div>
+    </div>
+);
+
 export default function AdminStaffPage() {
   const [staff, setStaff] = useState(initialStaff);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [previewStaff, setPreviewStaff] = useState<StaffMember | null>(null);
+  const [viewingStaff, setViewingStaff] = useState<StaffMember | null>(null);
   const [deletingStaff, setDeletingStaff] = useState<StaffMember | null>(null);
   const { toast } = useToast();
   
@@ -90,7 +101,6 @@ export default function AdminStaffPage() {
     };
     
     // Simulating API call for user creation. 
-    // The extra details would be saved in a separate firestore call.
     // NOTE: For now, we are using the 'teacher' role as a placeholder for staff in the signUpUser function.
     const result = await signUpUser({ name: data.name, email: data.email, password: data.password, role: 'teacher' }); 
 
@@ -133,7 +143,12 @@ export default function AdminStaffPage() {
 
   return (
     <AlertDialog>
-    <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+    <Dialog open={isAddDialogOpen || !!viewingStaff} onOpenChange={(isOpen) => {
+        if (!isOpen) {
+            setIsAddDialogOpen(false);
+            setViewingStaff(null);
+        }
+    }}>
         <div className="space-y-6">
             <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -142,7 +157,7 @@ export default function AdminStaffPage() {
                     <CardDescription>Add, view, and manage your staff members.</CardDescription>
                 </div>
                  <DialogTrigger asChild>
-                    <Button>
+                    <Button onClick={() => setIsAddDialogOpen(true)}>
                         <UserPlus className="mr-2 h-4 w-4" />
                         Add Staff
                     </Button>
@@ -165,9 +180,9 @@ export default function AdminStaffPage() {
                     {staff.map((member) => (
                     <TableRow key={member.id} >
                         <TableCell>{member.staffId}</TableCell>
-                        <TableCell onClick={() => setPreviewStaff(member)} className="cursor-pointer font-medium flex items-center gap-2">
+                        <TableCell onClick={() => setViewingStaff(member)} className="cursor-pointer font-medium flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                                <AvatarImage src={member.avatarUrl} alt={member.name} />
+                                <GcsImage filePath={member.photoURL ?? ''} alt={member.name} width={32} height={32} />
                                 <AvatarFallback>{member.name?.charAt(0)}</AvatarFallback>
                             </Avatar>
                             {member.name}
@@ -190,7 +205,36 @@ export default function AdminStaffPage() {
             </CardContent>
             </Card>
         </div>
-
+        {!isAddDialogOpen && viewingStaff && (
+          <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                  <DialogTitle>Staff Details</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4">
+                    <div className="flex flex-col items-center gap-2">
+                      <Avatar className="h-20 w-20 border-4 border-primary/20 shadow-md">
+                          {viewingStaff.photoURL ? <GcsImage filePath={viewingStaff.photoURL} alt={viewingStaff.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-2xl">{viewingStaff.name.charAt(0)}</AvatarFallback>}
+                      </Avatar>
+                      <div>
+                          <h3 className="text-lg font-bold text-center">{viewingStaff.name}</h3>
+                          <p className="text-xs text-muted-foreground text-center capitalize">{viewingStaff.role}</p>
+                      </div>
+                  </div>
+                    <div className="grid grid-cols-1 gap-3 text-sm pt-4 border-t">
+                      <DetailItem icon={<KeyRound size={16}/>} label="Staff ID" value={viewingStaff.staffId} />
+                      <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingStaff.email} />
+                      <DetailItem icon={<Phone size={16}/>} label="Contact" value={viewingStaff.contact} />
+                      <DetailItem icon={<Calendar size={16}/>} label="Date of Birth" value={viewingStaff.dob} />
+                      <DetailItem icon={<UserIcon size={16}/>} label="Guardian Name" value={viewingStaff.guardianName} />
+                      <DetailItem icon={<Home size={16}/>} label="Address" value={viewingStaff.address} />
+                    </div>
+              </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setViewingStaff(null)}>Close</Button>
+              </DialogFooter>
+          </DialogContent>
+        )}
+        {isAddDialogOpen && !viewingStaff && (
         <DialogContent className="sm:max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Add New Staff Member</DialogTitle>
@@ -316,41 +360,7 @@ export default function AdminStaffPage() {
                 </form>
             </Form>
         </DialogContent>
-
-        <Dialog open={!!previewStaff} onOpenChange={(isOpen) => !isOpen && setPreviewStaff(null)}>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Staff Details</DialogTitle>
-                </DialogHeader>
-                {previewStaff && (
-                <div className="space-y-4">
-                    <div className="flex flex-col items-center gap-4 p-4 bg-muted/30 rounded-lg">
-                        <Avatar className="h-24 w-24 border-4 border-primary shadow-lg">
-                            <AvatarImage src={previewStaff.avatarUrl} alt={previewStaff.name} data-ai-hint="professional headshot" />
-                            <AvatarFallback className="text-3xl">
-                                {previewStaff.name?.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <h3 className="text-xl font-bold text-center">{previewStaff.name}</h3>
-                            <p className="text-sm text-muted-foreground text-center capitalize">{previewStaff.role}</p>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-3 text-sm">
-                        <div className="flex items-center gap-2"><Key className="h-4 w-4 text-muted-foreground" /> <strong>Staff ID:</strong> {previewStaff.staffId}</div>
-                        <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground" /> <strong>Email:</strong> {previewStaff.email}</div>
-                        <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground" /> <strong>Contact:</strong> {previewStaff.contact}</div>
-                        <div className="flex items-center gap-2"><Calendar className="h-4 w-4 text-muted-foreground" /> <strong>D.O.B:</strong> {previewStaff.dob}</div>
-                        <div className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground" /> <strong>Guardian:</strong> {previewStaff.guardianName}</div>
-                        <div className="flex items-start gap-2"><Home className="h-4 w-4 text-muted-foreground mt-1" /> <strong>Address:</strong> <span className="flex-1">{previewStaff.address}</span></div>
-                    </div>
-                </div>
-                )}
-                <DialogFooter>
-                    <Button variant="outline" onClick={() => setPreviewStaff(null)}>Close</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+        )}
          <AlertDialogContent>
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

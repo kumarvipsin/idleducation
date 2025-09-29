@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus, deleteUser, editStudentProfile } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2, Users, Edit, Instagram, Facebook, Twitter, Image as ImageIcon, Upload } from "lucide-react";
+import { User as UserIcon, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2, Users, Edit, Instagram, Facebook, Twitter, Image as ImageIcon, Upload, Mail, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -224,6 +224,7 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
+  const [viewingStudent, setViewingStudent] = useState<User | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -330,9 +331,25 @@ export default function AdminUsersPage() {
     ))
   );
 
+  const DetailItem = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | undefined | null }) => (
+    <div className="flex items-center gap-3">
+        <div className="text-muted-foreground">{icon}</div>
+        <div className="flex-1">
+            <p className="text-xs text-muted-foreground">{label}</p>
+            <p className="font-medium text-sm">{value || 'Not provided'}</p>
+        </div>
+    </div>
+);
+
   return (
     <AlertDialog>
-      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+      <Dialog open={isFormOpen || !!viewingStudent} onOpenChange={(isOpen) => {
+        if (!isOpen) {
+            setIsFormOpen(false);
+            setEditingStudent(null);
+            setViewingStudent(null);
+        }
+      }}>
         <div className="space-y-6">
           <Card>
             <CardHeader>
@@ -354,7 +371,7 @@ export default function AdminUsersPage() {
                           {loading ? renderSkeleton() : students.map((student) => (
                               <TableRow key={student.id}>
                                   <TableCell>
-                                      <div className="flex items-center gap-3">
+                                      <button onClick={() => setViewingStudent(student)} className="flex items-center gap-3 cursor-pointer hover:underline">
                                           <Avatar>
                                               {student.photoURL ? <GcsImage filePath={student.photoURL} alt={student.name} width={40} height={40} className="rounded-full object-cover" /> : <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>}
                                           </Avatar>
@@ -362,7 +379,7 @@ export default function AdminUsersPage() {
                                               <div className="font-medium">{student.name}</div>
                                               <div className="text-xs text-muted-foreground">{student.email}</div>
                                           </div>
-                                      </div>
+                                      </button>
                                   </TableCell>
                                   <TableCell><Badge variant={getBadgeVariant(student.status)} className="capitalize">{student.status}</Badge></TableCell>
                                   <TableCell>
@@ -462,15 +479,46 @@ export default function AdminUsersPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </div>
-        <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle>Edit Student</DialogTitle>
-                <DialogDescription>
-                    Update the details for this student.
-                </DialogDescription>
-            </DialogHeader>
-            <StudentEditForm student={editingStudent} onSuccess={handleFormSuccess} />
-        </DialogContent>
+        {editingStudent && (
+             <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Edit Student</DialogTitle>
+                    <DialogDescription>
+                        Update the details for this student.
+                    </DialogDescription>
+                </DialogHeader>
+                <StudentEditForm student={editingStudent} onSuccess={handleFormSuccess} />
+            </DialogContent>
+        )}
+        {!editingStudent && viewingStudent && (
+             <DialogContent className="sm:max-w-md">
+               <DialogHeader>
+                    <DialogTitle>Student Details</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 pt-4">
+                     <div className="flex flex-col items-center gap-2">
+                        <Avatar className="h-20 w-20 border-4 border-primary/20 shadow-md">
+                            {viewingStudent.photoURL ? <GcsImage filePath={viewingStudent.photoURL} alt={viewingStudent.name} fill className="rounded-full object-cover"/> : <AvatarFallback className="text-2xl">{viewingStudent.name.charAt(0)}</AvatarFallback>}
+                        </Avatar>
+                        <div>
+                            <h3 className="text-lg font-bold text-center">{viewingStudent.name}</h3>
+                            <p className="text-xs text-muted-foreground text-center capitalize">{viewingStudent.role}</p>
+                        </div>
+                    </div>
+                     <div className="grid grid-cols-2 gap-3 text-sm pt-4 border-t">
+                        <DetailItem icon={<Badge />} label="Status" value={viewingStudent.status} />
+                        <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingStudent.email} />
+                        <DetailItem icon={<Phone size={16}/>} label="Phone" value={viewingStudent.phone} />
+                        <DetailItem icon={<CalendarIcon size={16}/>} label="Date of Birth" value={viewingStudent.dob} />
+                        <DetailItem icon={<Droplets size={16}/>} label="Blood Group" value={viewingStudent.bloodGroup} />
+                        <DetailItem icon={<Home size={16}/>} label="Address" value={viewingStudent.address} />
+                     </div>
+                </div>
+                 <DialogFooter>
+                    <Button variant="outline" onClick={() => setViewingStudent(null)}>Close</Button>
+                </DialogFooter>
+           </DialogContent>
+        )}
       </Dialog>
     </AlertDialog>
   );
