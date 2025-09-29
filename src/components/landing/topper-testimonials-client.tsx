@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
   return (
     <button onClick={onSelect} className="w-full text-left rounded-lg transition-all duration-300">
-      <Card className={cn("overflow-hidden border bg-card transition-all", isActive ? "border-primary shadow-lg" : "hover:bg-muted")}>
+      <Card className={cn("overflow-hidden border bg-card transition-all", isActive ? "" : "hover:bg-muted")}>
         <CardContent className="p-3 flex items-center gap-4">
             <div className="relative aspect-video w-24 shrink-0">
               <Image
@@ -71,7 +71,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full lg:w-4/5 mx-auto px-4 md:px-0">
+        <div className="lg:w-4/5 mx-auto px-4 md:px-0">
           <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
                     <div key={animationKey} className="relative w-full animate-fade-in-up" style={{ paddingBottom: '45%' }}>
