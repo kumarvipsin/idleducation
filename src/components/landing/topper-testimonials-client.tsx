@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -52,7 +53,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+      <section className="w-full bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">
@@ -74,7 +75,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-4 px-4 md:px-6">
                     {testimonials.map((testimonial, index) => (
-                        <CarouselItem key={index} className="pl-4 md:pl-6 basis-11/12 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                        <CarouselItem key={index} className="pl-4 md:pl-6 basis-11/12 sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
                              <TopperCard testimonial={testimonial} onCardClick={() => handleCardClick(testimonial)} />
                         </CarouselItem>
                     ))}
@@ -87,7 +88,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
       {selectedVideo && selectedTestimonial && (
         <DialogContent className="max-w-5xl w-[90vw] p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black aspect-video">
-            <DialogHeader className="sr-only">
+             <DialogHeader className="sr-only">
               <DialogTitle>Video: {selectedTestimonial.studentName}'s Testimonial</DialogTitle>
             </DialogHeader>
             <iframe
