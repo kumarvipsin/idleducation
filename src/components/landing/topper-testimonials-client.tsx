@@ -6,58 +6,38 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { ScrollArea } from "../ui/scroll-area";
+import { Button } from "../ui/button";
 
-const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) => {
-
+const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full cursor-pointer hover:shadow-primary/20 hover:border-primary/30 border">
-          <CardContent className="p-0 flex flex-col h-full">
-            <div className="relative aspect-video w-full">
+    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? 'bg-primary/10 ring-2 ring-primary' : 'hover:bg-muted'}`}>
+      <Card className={`overflow-hidden border-0 ${isActive ? 'bg-transparent' : 'bg-card'}`}>
+        <CardContent className="p-3 flex items-center gap-4">
+            <div className="relative aspect-video w-24 shrink-0">
               <Image
                 src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
                 alt={`Testimonial from ${testimonial.studentName}`}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover rounded-md"
               />
-              <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-              </div>
             </div>
-            <div className="p-4 flex-grow flex flex-col">
-              <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
-              <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+            <div className="flex-1">
+              <p className="font-bold text-sm text-foreground truncate">{testimonial.studentName}</p>
+              <div className="flex flex-col text-xs text-muted-foreground mt-1">
                 <span>{testimonial.studentClass}</span>
                 <span>{testimonial.studentPlace}</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent className="max-w-3xl p-0 border-0">
-          <div className="aspect-video">
-             <iframe
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
-                title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-          </div>
-      </DialogContent>
-    </Dialog>
+        </CardContent>
+      </Card>
+    </button>
   );
 };
 
+
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
+  const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(testimonials?.[0] || null);
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -68,7 +48,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
       </section>
     );
   }
-
+  
   return (
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
@@ -80,12 +60,56 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial) => (
-                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+                <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
+                    <CardContent className="p-0 flex flex-col h-full">
+                        <div className="relative aspect-video w-full">
+                            {activeTestimonial ? (
+                                <iframe
+                                className="w-full h-full"
+                                src={`https://www.youtube.com/embed/${activeTestimonial.videoId}?autoplay=1&rel=0`}
+                                title={`YouTube video player for ${activeTestimonial.studentName}'s testimonial`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                                ></iframe>
+                            ) : (
+                                <div className="w-full h-full bg-muted flex items-center justify-center">
+                                    <p className="text-muted-foreground">Select a testimonial to watch.</p>
+                                </div>
+                            )}
+                        </div>
+                         {activeTestimonial && (
+                            <div className="p-4 bg-muted/50">
+                                <p className="font-bold text-lg text-foreground truncate">{activeTestimonial.studentName}</p>
+                                <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+                                    <span>{activeTestimonial.studentClass}</span>
+                                    <span>{activeTestimonial.studentPlace}</span>
+                                </div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </div>
+            <div className="lg:col-span-1">
+                <h3 className="text-xl font-bold mb-4">More Toppers</h3>
+                <ScrollArea className="h-96 pr-4">
+                    <div className="space-y-3">
+                    {testimonials.map((testimonial) => (
+                        <TestimonialCard 
+                            key={testimonial.id} 
+                            testimonial={testimonial}
+                            onSelect={() => setActiveTestimonial(testimonial)}
+                            isActive={activeTestimonial?.id === testimonial.id}
+                        />
+                    ))}
+                    </div>
+                </ScrollArea>
+            </div>
         </div>
       </div>
     </section>
   );
 }
+
