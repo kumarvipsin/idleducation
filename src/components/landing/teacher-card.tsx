@@ -80,7 +80,7 @@ export function TeacherCard({ name, designation, experience, biography, avatar, 
                         </p>
                       )}
                       
-                      {socialLinks && (
+                      {socialLinks && (Object.values(socialLinks).some(link => link)) && (
                           <div className="flex items-center justify-center gap-2 mt-4">
                               {socialLinks.instagram && (
                                   <Link href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
