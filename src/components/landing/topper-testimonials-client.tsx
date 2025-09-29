@@ -5,13 +5,12 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
-import { ScrollArea } from "../ui/scroll-area";
-import { Button } from "../ui/button";
+import { PlayCircle } from "lucide-react";
 
-const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTopperTestimonial, onSelect: () => void, isActive: boolean }) => {
+const TestimonialCard = ({ testimonial, onSelect }: { testimonial: TTopperTestimonial, onSelect: () => void }) => {
   return (
-    <button onClick={onSelect} className={`w-full text-left rounded-lg transition-all duration-300 ${isActive ? '' : 'hover:bg-muted'}`}>
-      <Card className={`overflow-hidden border-0 ${isActive ? 'bg-transparent' : 'bg-card'}`}>
+    <button onClick={onSelect} className="w-full text-left rounded-lg transition-all duration-300 hover:bg-muted">
+      <Card className="overflow-hidden border bg-card">
         <CardContent className="p-3 flex items-center gap-4">
             <div className="relative aspect-video w-24 shrink-0">
               <Image
@@ -37,6 +36,12 @@ const TestimonialCard = ({ testimonial, onSelect, isActive }: { testimonial: TTo
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [activeTestimonial, setActiveTestimonial] = React.useState<TTopperTestimonial | null>(testimonials?.[0] || null);
+  const [animationKey, setAnimationKey] = React.useState(0);
+
+  const handleSelectTestimonial = (testimonial: TTopperTestimonial) => {
+    setActiveTestimonial(testimonial);
+    setAnimationKey(prev => prev + 1);
+  };
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -59,11 +64,11 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-[10%]">
           <div className="w-full lg:w-4/5 mx-auto">
             <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
-                    <div className="relative w-full" style={{ paddingBottom: '45%' /* 16:9 aspect ratio, 20% height reduction -> 9 * 0.8 / 16 = 0.45 */ }}>
+                    <div key={animationKey} className="relative w-full animate-fade-in-up" style={{ paddingBottom: '45%' /* 16:9 aspect ratio, 20% height reduction -> 9 * 0.8 / 16 = 0.45 */ }}>
                         {activeTestimonial ? (
                             <iframe
                             className="absolute top-0 left-0 w-full h-full"
@@ -84,7 +89,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="max-w-4xl mx-auto mt-8">
             <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
             <div className="relative w-full overflow-hidden">
                 <div className="marquee-container flex gap-3">
@@ -92,8 +97,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                        <div key={index} className="flex-shrink-0 w-[300px]">
                          <TestimonialCard 
                             testimonial={testimonial}
-                            onSelect={() => setActiveTestimonial(testimonial)}
-                            isActive={activeTestimonial?.id === testimonial.id}
+                            onSelect={() => handleSelectTestimonial(testimonial)}
                         />
                        </div>
                     ))}
