@@ -219,10 +219,10 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/', label: t('home') },
-    { href: '/about', label: t('about') },
-    { href: '/contact', label: t('contact') },
-    { href: '/gallery', label: t('gallery') },
+    { href: '/', label: t('home'), icon: <HomeIcon className="h-4 w-4" /> },
+    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -257,24 +257,18 @@ export function Header() {
               <p className="text-xs text-muted-foreground">{user.email}</p>
             </div>
           </div>
-          <div className="grid gap-1">
-            {loggedInNavLinks.map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-              >
-                {icon}
-                {label}
-              </Link>
-            ))}
-            <button
-              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
+          <div className="grid grid-cols-3 divide-x border rounded-lg overflow-hidden">
+            <Link href={getDashboardPath(user)} onClick={() => setIsMobileMenuOpen(false)} className="flex flex-col items-center justify-center p-2 text-xs font-medium text-muted-foreground hover:bg-muted">
+                <LayoutDashboard className="h-5 w-5 mb-1"/>
+                Dashboard
+            </Link>
+            <Link href={getProfilePath(user)} onClick={() => setIsMobileMenuOpen(false)} className="flex flex-col items-center justify-center p-2 text-xs font-medium text-muted-foreground hover:bg-muted">
+                <User className="h-5 w-5 mb-1"/>
+                Profile
+            </Link>
+             <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="flex flex-col items-center justify-center p-2 text-xs font-medium text-muted-foreground hover:bg-muted">
+                <LogOut className="h-5 w-5 mb-1"/>
+                Logout
             </button>
           </div>
         </div>
@@ -295,7 +289,7 @@ export function Header() {
   const cartDropdown = (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <ShoppingCart className="h-3 w-3 mr-1" />
                 <span className="sm:inline">CART</span>
                 {cartItems.length > 0 && (
@@ -357,7 +351,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -394,8 +388,8 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
-            <div className="bg-[#e9ecef] h-8"></div>
+        <header className="sticky top-0 z-50 bg-[#F5F5F7] border-b">
+            <div className="bg-[#F5F5F7] h-8"></div>
             <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
                 <Skeleton className="h-8 w-48" />
                 <div className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
@@ -414,26 +408,26 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-       <header className="sticky top-0 z-50 bg-white border-b">
-          <div className="bg-[#ED1C24] text-white text-xs">
+      <header className="sticky top-0 z-50 bg-[#F5F5F7] border-b">
+          <div className="bg-[#F5F5F7] text-black text-xs">
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
-                      <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                           <Link href="/scholarship" className="flex items-center">
                               <GraduationCap className="h-4 w-4 mr-1"/>
                               <span className="sm:inline">Apply Scholarship</span>
                           </Link>
                       </Button>
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
-                      <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
+                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                         <Link href="/feedback" className="flex items-center">
                             <MessageSquare className="h-4 w-4 mr-1"/>
                             <span className="sm:inline">Feedback</span>
                         </Link>
                       </Button>
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
                       {cartDropdown}
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                      <Separator orientation="vertical" className="h-4 bg-black/20" />
                       {notificationDropdown}
                   </div>
               </div>
@@ -507,3 +501,5 @@ export function Header() {
     </Collapsible>
   );
 }
+
+    
