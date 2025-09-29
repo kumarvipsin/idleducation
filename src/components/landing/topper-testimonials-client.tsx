@@ -35,12 +35,20 @@ const TopperCard = ({ testimonial, onCardClick }: { testimonial: TTopperTestimon
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const [selectedTestimonial, setSelectedTestimonial] = React.useState<TTopperTestimonial | null>(null);
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
       setSelectedVideo(null);
+      setSelectedTestimonial(null);
     }
   };
+
+  const handleCardClick = (testimonial: TTopperTestimonial) => {
+    setSelectedVideo(testimonial.videoId);
+    setSelectedTestimonial(testimonial);
+  };
+
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
@@ -67,7 +75,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 <CarouselContent className="-ml-4 px-4 md:px-6">
                     {testimonials.map((testimonial, index) => (
                         <CarouselItem key={index} className="pl-4 md:pl-6 basis-11/12 sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                             <TopperCard testimonial={testimonial} onCardClick={() => setSelectedVideo(testimonial.videoId)} />
+                             <TopperCard testimonial={testimonial} onCardClick={() => handleCardClick(testimonial)} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
@@ -77,12 +85,15 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         )}
       </section>
 
-      {selectedVideo && (
-        <DialogContent className="max-w-4xl w-[90vw] h-auto aspect-video p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black">
+      {selectedVideo && selectedTestimonial && (
+        <DialogContent className="max-w-5xl w-[90vw] p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black aspect-video">
+            <DialogHeader className="sr-only">
+              <DialogTitle>Video: {selectedTestimonial.studentName}'s Testimonial</DialogTitle>
+            </DialogHeader>
             <iframe
                 className="w-full h-full"
                 src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`}
-                title="YouTube video player"
+                title={`YouTube video player for ${selectedTestimonial.studentName}'s testimonial`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
