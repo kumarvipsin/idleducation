@@ -49,8 +49,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900 px-4 md:px-[10%]">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
@@ -100,7 +99,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             </div>
         </div>
 
-      </div>
     </section>
   );
 }
