@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -61,6 +60,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         </div>
         
         <div className="container mx-auto px-4 md:px-6">
+          <div className="w-full lg:w-4/5 mx-auto">
             <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
                 <CardContent className="p-0 flex flex-col h-full">
                     <div className="relative aspect-video w-full">
@@ -81,6 +81,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     </div>
                 </CardContent>
             </Card>
+          </div>
         </div>
 
         <div className="mt-8">
