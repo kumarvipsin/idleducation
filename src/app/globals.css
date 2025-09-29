@@ -161,8 +161,7 @@
   }
 
   .marquee-container {
-    display: flex;
-    animation: marquee-scroll 10s linear infinite;
+    animation: marquee-scroll 40s linear infinite;
   }
   .marquee-container:hover {
     animation-play-state: paused;
@@ -173,7 +172,7 @@
       transform: translateX(0);
     }
     to {
-      transform: translateX(-50%);
+      transform: translateX(-100%);
     }
   }
   

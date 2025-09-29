@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -85,18 +84,19 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
             <div className="mt-8">
                 <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
-                <ScrollArea className="h-48 w-full">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pr-4">
-                    {testimonials.map((testimonial) => (
-                        <TestimonialCard 
-                            key={testimonial.id} 
-                            testimonial={testimonial}
-                            onSelect={() => setActiveTestimonial(testimonial)}
-                            isActive={activeTestimonial?.id === testimonial.id}
-                        />
-                    ))}
+                <div className="relative w-full overflow-hidden">
+                    <div className="marquee-container flex gap-3">
+                        {[...testimonials, ...testimonials].map((testimonial, index) => (
+                           <div key={index} className="flex-shrink-0 w-[300px]">
+                             <TestimonialCard 
+                                testimonial={testimonial}
+                                onSelect={() => setActiveTestimonial(testimonial)}
+                                isActive={activeTestimonial?.id === testimonial.id}
+                            />
+                           </div>
+                        ))}
                     </div>
-                </ScrollArea>
+                </div>
             </div>
         </div>
 
