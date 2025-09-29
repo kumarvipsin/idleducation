@@ -44,11 +44,11 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
-      <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-800">
+      <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="text-primary">Topper's </span> <span style={{ color: '#ced4da' }}>Testimonials</span>
+                <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
               </h2>
               <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Discover how our top students achieved their goals. Watch their success stories and get inspired.
@@ -78,12 +78,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
       </section>
 
       {selectedVideo && (
-        <DialogContent className="sm:max-w-3xl h-[60vh] bg-background/80 backdrop-blur-lg border-primary/20 text-white rounded-2xl p-2">
-            <DialogHeader>
-              <DialogTitle className="sr-only">Topper Testimonial Video</DialogTitle>
-            </DialogHeader>
+        <DialogContent className="max-w-4xl w-[90vw] h-auto aspect-video p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black">
             <iframe
-                className="w-full h-full rounded-lg"
+                className="w-full h-full"
                 src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`}
                 title="YouTube video player"
                 frameBorder="0"
