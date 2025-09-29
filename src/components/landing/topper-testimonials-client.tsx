@@ -40,7 +40,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
   const [selectedTestimonial, setSelectedTestimonial] = React.useState<TTopperTestimonial | null>(null);
   const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: false, stopOnLastSnap: false })
   );
 
   const handleOpenChange = (isOpen: boolean) => {
@@ -76,8 +76,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     }}
                     plugins={[autoplayPlugin.current]}
                     className="w-full"
-                    onMouseEnter={() => autoplayPlugin.current.stop()}
-                    onMouseLeave={() => autoplayPlugin.current.play()}
                 >
                     <CarouselContent className="-ml-4">
                         {testimonials.map((testimonial, index) => (
