@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -5,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -15,52 +18,54 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
   };
 
   return (
-    <div className="w-[300px] sm:w-[350px] flex-shrink-0">
-        <Card className="h-full rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl group bg-card">
-            <CardContent className="p-0">
-                <div className="relative aspect-video w-full">
-                {isPlaying ? (
-                    <iframe
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
-                        title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
-                ) : (
-                    <button
-                        onClick={handlePlayClick}
-                        className="w-full h-full group focus:outline-none"
-                    >
-                        <Image
-                            src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
-                            alt={`Testimonial from ${testimonial.studentName}`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-                        </div>
-                    </button>
-                )}
+    <div className="p-1">
+      <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
+        <CardContent className="p-0 flex flex-col h-full">
+          <div className="relative aspect-video w-full">
+            {isPlaying ? (
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+                title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            ) : (
+              <button
+                onClick={handlePlayClick}
+                className="w-full h-full group focus:outline-none"
+              >
+                <Image
+                  src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
+                  alt={`Testimonial from ${testimonial.studentName}`}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
                 </div>
-                <div className="p-4">
-                    <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
-                    <div className="flex justify-between items-center text-sm text-muted-foreground">
-                        <span>{testimonial.studentClass}</span>
-                        <span>{testimonial.studentPlace}</span>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
+              </button>
+            )}
+          </div>
+          <div className="p-4 flex-grow flex flex-col">
+            <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
+            <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+              <span>{testimonial.studentClass}</span>
+              <span>{testimonial.studentPlace}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
 
-
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -73,27 +78,38 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
 
   return (
-      <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold">
-              <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
-            </h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              Discover how our top students achieved their goals. Watch their success stories and get inspired.
-            </p>
-          </div>
+    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
+          </h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Discover how our top students achieved their goals. Watch their success stories and get inspired.
+          </p>
         </div>
+      </div>
 
-        <div className="relative">
-            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex gap-6 px-4 md:px-[10%]">
-                    {testimonials.map((testimonial, index) => (
-                        <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-                    ))}
-                </div>
-            </div>
-        </div>
-      </section>
+      <div className="relative">
+        <Carousel
+          opts={{
+            align: "center",
+            loop: true,
+          }}
+          plugins={[autoplayPlugin.current]}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {testimonials.map((testimonial, index) => (
+              <CarouselItem key={testimonial.id} className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 pl-2 md:pl-4">
+                <TestimonialCard testimonial={testimonial} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden sm:flex" />
+          <CarouselNext className="hidden sm:flex" />
+        </Carousel>
+      </div>
+    </section>
   );
 }
