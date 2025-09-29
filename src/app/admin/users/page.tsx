@@ -138,9 +138,9 @@ export default function AdminUsersPage() {
     }
   };
 
-  const getTeacherNames = (teacherIds: string[] = []) => {
+  const getTeacherCountText = (teacherIds: string[] = []) => {
     if (teacherIds.length === 0) return "Not Assigned";
-    return teacherIds.map(id => teachers.find(t => t.id === id)?.name).filter(Boolean).join(', ');
+    return `${teacherIds.length} ${teacherIds.length > 1 ? 'teachers' : 'teacher'}`;
   };
   
   const getBadgeVariant = (status: User['status']) => {
@@ -199,7 +199,7 @@ export default function AdminUsersPage() {
                                 <TableCell><Badge variant={getBadgeVariant(student.status)} className="capitalize">{student.status}</Badge></TableCell>
                                 <TableCell>
                                     <div className="flex items-center gap-2">
-                                        <span className="truncate max-w-xs">{getTeacherNames(student.teacherIds)}</span>
+                                        <span className="truncate max-w-xs">{getTeacherCountText(student.teacherIds)}</span>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button variant="outline" size="sm">
@@ -294,4 +294,5 @@ export default function AdminUsersPage() {
     </AlertDialog>
   );
 }
+
 
