@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from "react";
@@ -14,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAdmins, deleteUser, addAdmin, editAdminProfile } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, UserPlus, Edit, Trash2, MoreVertical } from "lucide-react";
+import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,6 +50,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GcsImage } from "@/components/gcs-image";
 import { ImageCropper } from "@/components/image-cropper";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 interface User {
   id: string;
@@ -58,12 +61,16 @@ interface User {
   email: string;
   role: 'admin';
   photoURL?: string;
+  phone?: string;
+  address?: string;
+  dob?: string;
+  bloodGroup?: string;
 }
 
 const adminSchema = z.object({
   name: z.string().min(2, "Name is required."),
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters."),
+  password: z.string().min(6, "Password must be at least 6 characters.").optional().or(z.literal('')),
   phone: z.string().optional(),
   address: z.string().optional(),
   dob: z.date().optional(),
@@ -75,29 +82,72 @@ type AdminFormValues = z.infer<typeof adminSchema>;
 const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () => void }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
+  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [removePhoto, setRemovePhoto] = useState(false);
+
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(adminSchema),
     defaultValues: { 
       name: admin?.name || '', 
       email: admin?.email || '', 
       password: '',
+      phone: admin?.phone || '',
+      address: admin?.address || '',
+      dob: admin?.dob ? new Date(admin.dob) : undefined,
+      bloodGroup: admin?.bloodGroup || '',
     },
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setRemovePhoto(false);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+        setIsCropperOpen(true);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const onImageCropped = (croppedImageFile: File) => {
+      setCroppedPhoto(croppedImageFile);
+      setPhotoPreview(URL.createObjectURL(croppedImageFile)); 
+  };
+  
+  const handleRemovePhoto = () => {
+    setRemovePhoto(true);
+    setPhotoPreview(null);
+    setCroppedPhoto(null);
+  }
 
   const onSubmit: SubmitHandler<AdminFormValues> = async (data) => {
     setIsSubmitting(true);
     let result;
-    if (admin) { // Editing
-      const formData = new FormData();
+    const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
         if(key !== 'password' && key !== 'email' && value) {
-            formData.append(key, value instanceof Date ? value.toISOString() : value);
+            if (value instanceof Date) {
+                formData.append(key, value.toISOString());
+            } else {
+                 formData.append(key, value as string);
+            }
         }
       });
+      if (croppedPhoto) formData.append('photo', croppedPhoto);
+      if (removePhoto) formData.append('removePhoto', 'true');
+      
+    if (admin) { // Editing
       result = await editAdminProfile(admin.id, formData);
     } else { // Adding
-      result = await addAdmin(data);
+       if (data.password) {
+        formData.append('password', data.password);
+      }
+      formData.append('email', data.email);
+      result = await addAdmin(data as z.infer<typeof adminSchema> & { password: string });
     }
     
     if (result.success) {
@@ -117,15 +167,59 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
   };
 
   return (
+    <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <ScrollArea className="h-96 w-full pr-4">
             <div className="space-y-4">
+               <FormItem>
+                <FormLabel>Profile Photo</FormLabel>
+                <div className="flex items-center gap-4">
+                   <Avatar className="h-20 w-20">
+                     {photoPreview && !removePhoto ? (
+                       <AvatarImage src={photoPreview} />
+                     ) : admin?.photoURL && !removePhoto ? (
+                       <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={80} height={80} className="rounded-full object-cover" />
+                     ) : (
+                        <AvatarFallback><User className="h-8 w-8 text-muted-foreground"/></AvatarFallback>
+                     )}
+                   </Avatar>
+                   <div className="flex flex-col gap-2">
+                       <Button type="button" onClick={() => document.getElementById('photo-upload')?.click()} variant="outline" size="sm"><Upload className="w-4 h-4 mr-2"/>Change Photo</Button>
+                       <Input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                       {(admin?.photoURL || photoPreview) && !removePhoto && <Button type="button" onClick={handleRemovePhoto} variant="destructive" size="sm"><Trash2 className="w-4 h-4 mr-2"/>Remove</Button>}
+                   </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+
               <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="John Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="admin@example.com" {...field} disabled={!!admin} /></FormControl><FormMessage /></FormItem> )} />
               {!admin && (
                 <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
               )}
+               <FormField control={form.control} name="phone" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Phone className="h-4 w-4"/> Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="dob" render={({ field }) => (
+                <FormItem className="flex flex-col">
+                    <FormLabel className="flex items-center gap-2"><CalendarIcon className="h-4 w-4"/>Date of Birth</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
+                                    {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus />
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="bloodGroup" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Droplets className="h-4 w-4"/>Blood Group</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="address" render={({ field }) => ( <FormItem><FormLabel className="flex items-center gap-2"><Home className="h-4 w-4"/>Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />
             </div>
           </ScrollArea>
           <DialogFooter>
@@ -135,6 +229,14 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
           </DialogFooter>
         </form>
       </Form>
+      <ImageCropper
+          isOpen={isCropperOpen}
+          onClose={() => setIsCropperOpen(false)}
+          imageSrc={photoPreview}
+          onImageCropped={onImageCropped}
+          aspectRatio={1}
+      />
+    </>
   )
 }
 
@@ -181,7 +283,10 @@ export default function AdminManagementPage() {
 
   return (
     <AlertDialog>
-       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+       <Dialog open={isFormOpen} onOpenChange={(isOpen) => {
+        if (!isOpen) setEditingAdmin(null);
+        setIsFormOpen(isOpen);
+       }}>
         <div className="space-y-6">
             <Card>
             <CardHeader className="flex flex-row items-center justify-between">

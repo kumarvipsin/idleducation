@@ -1,4 +1,3 @@
-
 // src/app/actions/auth.ts
 'use server';
 
@@ -230,4 +229,27 @@ export async function logoutUser() {
   }
 }
 
+const addAdminSchema = z.object({
+  name: z.string().min(2, { message: "Name is required" }),
+  email: z.string().email(),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
+export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
+  const validation = addAdminSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: validation.error.errors.map(e => e.message).join(', ') };
+  }
+
+  // Use the existing signUpUser function, but force the role to 'admin'
+  const result = await signUpUser({ ...validation.data, role: 'admin' });
+  
+  // The signUpUser function automatically sets status to 'pending', let's approve it right away for admins
+  if (result.success && result.uid) {
+    const userDocRef = doc(db, "users", result.uid);
+    await updateDoc(userDocRef, { status: 'approved' });
+  }
+
+  return result;
+}
   
