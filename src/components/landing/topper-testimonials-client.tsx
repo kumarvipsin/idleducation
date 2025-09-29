@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -78,7 +79,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-12 h-12 text-white/80 transition-all duration-300 group-hover:text-white group-hover:scale-105" />
+                          <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
                         </div>
                       </button>
                     )}
@@ -86,12 +87,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 )}
               </div>
             </div>
-            {activeTestimonial && (
-                 <div className="text-center mt-4">
-                    <h3 className="font-bold text-foreground text-lg">{activeTestimonial.studentName}</h3>
-                    <p className="text-sm text-muted-foreground">{activeTestimonial.studentClass} | {activeTestimonial.studentPlace}</p>
-                </div>
-            )}
           </div>
 
           <div className="lg:col-span-1">
