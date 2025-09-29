@@ -80,7 +80,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         />
                         <div className="absolute inset-0 bg-black/30" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                          <PlayCircle className="w-10 h-10 text-white/80 transition-transform duration-300 group-hover:scale-110" />
                         </div>
                       </button>
                     )}
@@ -92,7 +92,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <div className="lg:col-span-1">
               <h3 className="text-lg font-semibold mb-4 text-primary">More Toppers</h3>
               <div className="h-[400px] overflow-hidden relative">
-                <div className="animate-marquee-vertical space-y-3 hover:[animation-play-state:paused]">
+                 <div className="space-y-3 animate-marquee-vertical hover:[animation-play-state:paused]">
                     {[...testimonials, ...testimonials].map((testimonial, index) => (
                         <button
                         key={`${testimonial.id}-${index}`}
