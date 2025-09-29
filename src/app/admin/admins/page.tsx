@@ -381,15 +381,19 @@ export default function AdminManagementPage() {
                       ))
                     ) : admins.map((admin) => (
                         <TableRow key={admin.id}>
-                        <TableCell className="font-medium flex items-center gap-2">
-                           <Avatar>
-                             {admin.photoURL ? (
-                               <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={40} height={40} className="rounded-full object-cover"/>
-                             ) : (
-                               <AvatarFallback>{admin.name ? admin.name.charAt(0) : 'A'}</AvatarFallback>
-                             )}
-                           </Avatar>
-                           <p>{admin.name}</p>
+                        <TableCell>
+                          <DialogTrigger asChild>
+                            <button onClick={() => setViewingAdmin(admin)} className="font-medium flex items-center gap-2 cursor-pointer hover:underline">
+                              <Avatar>
+                                {admin.photoURL ? (
+                                  <GcsImage filePath={admin.photoURL} alt={admin.name || ''} width={40} height={40} className="rounded-full object-cover"/>
+                                ) : (
+                                  <AvatarFallback>{admin.name ? admin.name.charAt(0) : 'A'}</AvatarFallback>
+                                )}
+                              </Avatar>
+                              <p>{admin.name}</p>
+                            </button>
+                          </DialogTrigger>
                         </TableCell>
                         <TableCell>{admin.email}</TableCell>
                         <TableCell>
@@ -401,10 +405,6 @@ export default function AdminManagementPage() {
                                   <Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="h-4 w-4" /></Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
-                                 <DropdownMenuItem onSelect={() => setViewingAdmin(admin)}>
-                                    <View className="mr-2 h-4 w-4" />
-                                    View
-                                </DropdownMenuItem>
                                 <DropdownMenuItem onSelect={() => { setEditingAdmin(admin); setIsFormOpen(true); }}>
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit
