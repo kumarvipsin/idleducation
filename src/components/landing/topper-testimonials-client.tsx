@@ -54,7 +54,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Main Video Player */}
             <div className="lg:col-span-2">
-                <div className="relative aspect-video w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300">
+                <div className="relative aspect-[21/9] w-full overflow-hidden rounded-xl shadow-2xl transition-all duration-300">
                   {activeTestimonial && (
                     <>
                       {isPlaying ? (
@@ -79,7 +79,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <PlayCircle className="w-12 h-12 text-white/80 opacity-80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110" />
+                            <PlayCircle className="w-16 h-16 text-white/80 opacity-80 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110" />
                           </div>
                           <div className="absolute bottom-0 left-0 p-6">
                             <h3 className="font-bold text-white text-2xl">{activeTestimonial.studentName}</h3>
