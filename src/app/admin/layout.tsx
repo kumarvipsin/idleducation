@@ -26,6 +26,8 @@ import React from 'react';
 import { getNewSessionBookingsCount } from '@/app/actions';
 import { MobileBottomNav } from '@/components/mobile-bottom-nav';
 import { Header } from '@/components/header';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 
 function AdminLayout({
   children,
@@ -62,6 +64,7 @@ function AdminLayout({
 
   return (
     <>
+    <Header />
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar className="hidden md:flex">
@@ -265,41 +268,6 @@ function AdminLayout({
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-col flex-1">
-          <header className="p-4 border-b flex items-center h-14 sticky top-0 bg-background z-30">
-            <SidebarTrigger className="md:hidden"/>
-            <h1 className="text-xl md:text-2xl font-semibold ml-4">Admin Dashboard</h1>
-            <div className="ml-auto">
-                 {user && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? 'Admin'} />
-                            <AvatarFallback>
-                              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                            </AvatarFallback>
-                          </Avatar>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56" align="end" forceMount>
-                        <DropdownMenuLabel className="font-normal">
-                          <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{user.name}</p>
-                            <p className="text-xs leading-none text-muted-foreground">
-                              {user.email}
-                            </p>
-                          </div>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
-                          <LogOut className="mr-2 h-4 w-4" />
-                          <span>Log out</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                 )}
-            </div>
-          </header>
           <main className="flex-1 p-4 md:p-6 bg-muted/20">
             {children}
           </main>
