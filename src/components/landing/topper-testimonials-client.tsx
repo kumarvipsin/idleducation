@@ -9,6 +9,7 @@ import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PlayCircle } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 
 const TopperCard = ({ testimonial, onCardClick }: { testimonial: TTopperTestimonial, onCardClick: () => void }) => (
     <DialogTrigger asChild>
@@ -38,6 +39,9 @@ const TopperCard = ({ testimonial, onCardClick }: { testimonial: TTopperTestimon
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
   const [selectedTestimonial, setSelectedTestimonial] = React.useState<TTopperTestimonial | null>(null);
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
 
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
@@ -50,7 +54,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     setSelectedVideo(testimonial.videoId);
     setSelectedTestimonial(testimonial);
   };
-
 
   return (
     <Dialog onOpenChange={handleOpenChange}>
@@ -65,34 +68,34 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
               </p>
             </div>
         
-
-        {testimonials.length > 0 ? (
-             <Carousel
-                opts={{
-                    align: "start",
-                    loop: testimonials.length > 3,
-                }}
-                className="w-full"
-            >
-                <CarouselContent className="-ml-4">
-                    {testimonials.map((testimonial, index) => (
-                        <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                             <TopperCard testimonial={testimonial} onCardClick={() => handleCardClick(testimonial)} />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex" />
-                <CarouselNext className="hidden sm:flex" />
-            </Carousel>
-        ) : (
-            <p className="text-center text-muted-foreground">No testimonials available yet.</p>
-        )}
+            {testimonials.length > 0 ? (
+                 <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    plugins={[autoplayPlugin.current]}
+                    className="w-full"
+                    onMouseEnter={() => autoplayPlugin.current.stop()}
+                    onMouseLeave={() => autoplayPlugin.current.play()}
+                >
+                    <CarouselContent className="-ml-4">
+                        {testimonials.map((testimonial, index) => (
+                            <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                                 <TopperCard testimonial={testimonial} onCardClick={() => handleCardClick(testimonial)} />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
+            ) : (
+                <p className="text-center text-muted-foreground">No testimonials available yet.</p>
+            )}
         </div>
       </section>
 
       {selectedVideo && selectedTestimonial && (
         <DialogContent className="max-w-4xl w-[90vw] p-0 border-0 rounded-xl overflow-hidden shadow-2xl bg-black aspect-video">
-             <DialogHeader className="sr-only">
+            <DialogHeader className="sr-only">
               <DialogTitle>Video: {selectedTestimonial.studentName}'s Testimonial</DialogTitle>
             </DialogHeader>
             <iframe
