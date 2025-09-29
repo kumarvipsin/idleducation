@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Upload } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Upload, Instagram, Facebook, Twitter } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -117,6 +117,18 @@ const TeamMemberForm = ({
             <Label htmlFor="biography" className="text-right">Biography</Label>
             <Textarea id="biography" name="biography" defaultValue={member?.biography} className="col-span-3" />
           </div>
+           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="instagram" className="text-right">Instagram</Label>
+            <Input id="instagram" name="instagram" defaultValue={member?.socialLinks?.instagram} className="col-span-3" placeholder="https://instagram.com/username"/>
+          </div>
+           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="facebook" className="text-right">Facebook</Label>
+            <Input id="facebook" name="facebook" defaultValue={member?.socialLinks?.facebook} className="col-span-3" placeholder="https://facebook.com/username"/>
+          </div>
+           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="twitter" className="text-right">Twitter</Label>
+            <Input id="twitter" name="twitter" defaultValue={member?.socialLinks?.twitter} className="col-span-3" placeholder="https://twitter.com/username"/>
+          </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="order" className="text-right">Order</Label>
             <Input id="order" name="order" type="number" defaultValue={member?.order ?? 99} className="col-span-3" />
@@ -126,9 +138,9 @@ const TeamMemberForm = ({
             <div className="col-span-3 flex flex-col gap-2">
                 <div className="flex items-center gap-4">
                     <Avatar>
-                        {(preview && !removePhoto) ? <AvatarImage src={preview} alt="Avatar Preview" /> : (member?.avatarUrl && !removePhoto) ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member?.name?.charAt(0)}</AvatarFallback> }
+                        {(preview && !removePhoto) ? <AvatarImage src={preview} alt="Avatar Preview" /> : (member?.avatarUrl && !removePhoto) ? <GcsImage filePath={member.avatarUrl} alt={member.name} width={40} height={40} className="rounded-full" /> : <AvatarFallback>{member?.name?.charAt(0)}</AvatarFallback>}
                     </Avatar>
-                     <Input id="avatar-upload" name="avatar-upload" type="file" onChange={handleFileChange} className="col-span-3" />
+                     <Input id="avatar-upload" name="avatar" type="file" onChange={handleFileChange} className="col-span-3" />
                 </div>
                  {(member?.avatarUrl || preview) && (
                     <Button type="button" variant="destructive" size="sm" onClick={handleRemovePhoto} className="w-fit">
@@ -290,4 +302,3 @@ export default function AdminTeamPage() {
     </Dialog>
   );
 }
-    

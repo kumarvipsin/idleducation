@@ -66,6 +66,7 @@ const TeamMembers = () => {
                         biography={member.biography}
                         avatar={member.avatarUrl}
                         avatarHint={`${member.name} photo`}
+                        socialLinks={member.socialLinks}
                     />
                     ))}
                 </div>

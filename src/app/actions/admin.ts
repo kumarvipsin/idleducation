@@ -574,6 +574,11 @@ export async function addTeamMember(formData: FormData) {
     experience: rawData.experience as string,
     biography: rawData.biography as string || '',
     order: parseInt(rawData.order as string, 10) || 99,
+    socialLinks: {
+      instagram: rawData.instagram as string || '',
+      facebook: rawData.facebook as string || '',
+      twitter: rawData.twitter as string || '',
+    },
   };
 
   try {
@@ -606,6 +611,11 @@ export async function editTeamMember(id: string, formData: FormData) {
       experience: rawData.experience as string,
       biography: rawData.biography as string || '',
       order: parseInt(rawData.order as string, 10) || 99,
+      socialLinks: {
+        instagram: rawData.instagram as string || '',
+        facebook: rawData.facebook as string || '',
+        twitter: rawData.twitter as string || '',
+      },
     };
     
     try {

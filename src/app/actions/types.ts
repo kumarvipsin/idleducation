@@ -1,3 +1,4 @@
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -120,4 +121,9 @@ export interface TTeamMember {
   avatarUrl: string;
   order: number;
   createdAt: string;
+  socialLinks?: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+  };
 }
