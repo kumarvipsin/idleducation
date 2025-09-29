@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -89,7 +88,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto mt-8">
+        <div className="mt-8">
             <h3 className="text-lg font-bold mb-4 text-center">Watch More Toppers</h3>
             <div className="relative w-full overflow-hidden">
                 <div className="marquee-container flex gap-3">
