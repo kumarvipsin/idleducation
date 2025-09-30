@@ -38,39 +38,39 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     <Card
       className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
     >
-      <div className="relative w-full aspect-video">
-         {loadingAvatar ? (
-            <Skeleton className="w-full h-full" />
-          ) : avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt={testimonial.name}
-              fill
-              className="object-cover"
-            />
-          ) : (
-             <Image
-              src="https://picsum.photos/seed/5/400/400"
-              alt="Placeholder for testimonial author"
-              data-ai-hint="person student"
-              fill
-              className="object-cover"
-            />
-          )}
-      </div>
-      <CardContent className="p-6 flex-1 flex flex-col text-center">
-        <h3 className="font-bold text-lg">{testimonial.name}</h3>
-        <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-        <div className="relative h-36">
-           <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
-           <ScrollArea className="h-full w-full px-6">
-            <blockquote className="text-sm text-muted-foreground italic">
-              {fullText}
-            </blockquote>
-          </ScrollArea>
-           <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
-        </div>
-      </CardContent>
+        <CardContent className="p-4 flex flex-col text-center items-center">
+            <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+                {loadingAvatar ? (
+                    <Skeleton className="w-full h-full" />
+                ) : avatarUrl ? (
+                    <Image
+                    src={avatarUrl}
+                    alt={testimonial.name}
+                    fill
+                    className="object-cover"
+                    />
+                ) : (
+                    <Image
+                    src="https://picsum.photos/seed/5/400/400"
+                    alt="Placeholder for testimonial author"
+                    data-ai-hint="person student"
+                    fill
+                    className="object-cover"
+                    />
+                )}
+            </div>
+            <h3 className="font-bold text-lg">{testimonial.name}</h3>
+            <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
+            <div className="relative h-36">
+                <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
+                <ScrollArea className="h-full w-full px-2">
+                    <blockquote className="text-sm text-muted-foreground italic">
+                    {fullText}
+                    </blockquote>
+                </ScrollArea>
+                <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
+            </div>
+        </CardContent>
     </Card>
   );
 };
@@ -83,7 +83,7 @@ export function StudentTestimonials() {
   const [current, setCurrent] = useState(0);
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
