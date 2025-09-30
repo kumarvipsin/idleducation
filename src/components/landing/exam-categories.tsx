@@ -56,7 +56,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-full bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
@@ -90,7 +90,7 @@ export function ExamCategories() {
     <div className="flex-1">
       <CardContent className="p-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-full" />)}
+          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-lg" />)}
         </div>
         <div className="mt-8 flex justify-center">
             <Skeleton className="h-10 w-36" />
@@ -100,13 +100,13 @@ export function ExamCategories() {
   );
 
   return (
-    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-black">
+    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-12">
-           <h2 className="text-3xl md:text-4xl font-bold text-white">
+           <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
             Exam Categories
           </h2>
-          <p className="text-gray-300 mt-2 max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
             We offer comprehensive coaching for a wide range of exams. Find your path to success by exploring our categories below.
           </p>
         </div>
