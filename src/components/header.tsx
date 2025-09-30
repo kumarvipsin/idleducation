@@ -380,7 +380,7 @@ export function Header() {
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className="border-t bg-white">
+              <div className="border-t bg-background">
                 <div className="p-2">
                   <nav className="grid grid-cols-3 gap-1 text-base font-medium">
                   <DropdownMenu>
