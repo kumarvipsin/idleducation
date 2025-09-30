@@ -102,7 +102,7 @@ export default function AboutPage() {
               <span className="sr-only">Home</span>
           </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-0">
+      <div className="relative z-10 container mx-auto py-12">
           <div className="md:max-w-4xl md:mx-auto">
             <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
