@@ -8,7 +8,6 @@ import Image from "next/image";
 
 const features = [
   {
-    category: "EDUCATION",
     title: "100% Quality Education",
     description: "Interactive classes designed to provide the best learning experience.",
     href: "#",
@@ -16,7 +15,6 @@ const features = [
     imageHint: "teacher student",
   },
   {
-    category: "CURRICULUM",
     title: "100% Complete Syllabus",
     description: "Thorough coverage of all subjects and topics as per the latest syllabus.",
     href: "#",
@@ -24,7 +22,6 @@ const features = [
     imageHint: "books pencils",
   },
   {
-    category: "RESOURCES",
     title: "1000+ Resources",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "#",
@@ -32,12 +29,25 @@ const features = [
     imageHint: "online library",
   },
   {
-    category: "FACULTY",
     title: "100+ Expert Teachers",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/teachers/600/400",
     imageHint: "teacher classroom",
+  },
+  {
+    title: "Regular Assessments",
+    description: "High-quality mock tests with multi-layer testing and detailed evaluation.",
+    href: "#",
+    imageUrl: "https://picsum.photos/seed/assessments/600/400",
+    imageHint: "student test",
+  },
+  {
+    title: "Unique Two-Teacher Model",
+    description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
+    href: "#",
+    imageUrl: "https://picsum.photos/seed/two-teachers/600/400",
+    imageHint: "teachers collaborating",
   },
 ];
 
