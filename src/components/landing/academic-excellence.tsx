@@ -54,8 +54,8 @@ export function AcademicExcellence() {
     <section 
       className="w-full py-8 md:py-16 bg-[#F5F5F7] dark:bg-background"
     >
-      <div className="container mx-auto px-4 md:px-[10%]">
-        <div className="text-center mb-6">
+      <div className="w-full">
+        <div className="text-center mb-6 px-4">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="text-primary">Excellence </span> <span style={{ color: '#ced4da' }}>Results</span>
           </h2>
@@ -66,7 +66,7 @@ export function AcademicExcellence() {
 
         <div className="mb-4" style={{ animationDelay: '0.2s' }}>
             <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                <div className="flex justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {loading ? (
                   [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
                 ) : (
