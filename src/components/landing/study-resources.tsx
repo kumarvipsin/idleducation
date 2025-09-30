@@ -61,7 +61,7 @@ export function StudyResources() {
               <Link href={resource.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                   <CardContent className="p-8 flex-grow flex flex-col">
-                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{resource.category}</p>
+                    
                     <h3 className="text-2xl font-bold text-foreground mt-2">{resource.title}</h3>
                     <p className="text-sm mt-2 text-muted-foreground flex-grow">{resource.description}</p>
                   </CardContent>
