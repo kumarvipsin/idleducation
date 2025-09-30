@@ -289,8 +289,8 @@ export function Header() {
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                <span className="sm:inline">CART</span>
+                <ShoppingCart className="h-3 w-3 mr-1" />
+                <span className="hidden sm:inline">CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -351,7 +351,7 @@ export function Header() {
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                <Bell className="h-4 w-4" />
+                <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -388,7 +388,7 @@ export function Header() {
   if (!isClient) {
     return (
         <header className="sticky top-0 z-50 bg-red-500 border-b">
-            <div className="h-10"></div>
+            <div className="h-8"></div>
         </header>
     );
   }
@@ -396,23 +396,23 @@ export function Header() {
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-red-500 border-b">
-          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-10">
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
-                <div className="ml-2 flex flex-col leading-tight">
-                    <span className="text-xs font-semibold text-white">
+                <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-4 w-auto" />
+                <div className="ml-1.5 flex flex-col leading-tight">
+                    <span className="text-[0.6rem] font-semibold text-white">
                         {brandName}
                     </span>
-                    <span className="text-[0.4rem] text-white/80 tracking-tighter -mt-1">
+                    <span className="text-[0.35rem] text-white/80 tracking-tighter -mt-1">
                       Institute of Distance Learning Pvt. Ltd.
                     </span>
                 </div>
               </Link>
-              <div className={cn("items-center hidden md:flex gap-x-2 md:gap-x-3 text-white")}>
+              <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                <Menu className="h-4 w-4 mr-1" />
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Menu className="h-3 w-3 mr-1" />
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -424,12 +424,12 @@ export function Header() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <GraduationCap className="h-4 w-4 mr-1" />
-                            <span className="sm:inline">APPLY FOR</span>
+                        <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <GraduationCap className="h-3 w-3 mr-1" />
+                            <span className="hidden sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -450,25 +450,25 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Separator orientation="vertical" className="h-4 bg-white/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                  <Separator orientation="vertical" className="h-3 bg-white/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
-                          <LogIn className="h-4 w-4 mr-1" />
-                          <span className="sm:inline">{t('login')}</span>
+                          <LogIn className="h-3 w-3 mr-1" />
+                          <span className="hidden sm:inline">{t('login')}</span>
                        </Link>
                      </Button>
-                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {cartDropdown}
-                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {notificationDropdown}
-                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
                   {cartDropdown}
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
-                      {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white h-7 w-7">
+                      {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
                   </CollapsibleTrigger>
