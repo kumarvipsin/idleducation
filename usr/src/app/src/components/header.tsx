@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -65,7 +65,7 @@ export function Header() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
-
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -96,7 +96,7 @@ export function Header() {
   };
   
   const onScholarshipSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
-    const result = await registerForScholarship(data);
+    const result = await registerForScholarship(data as any);
     if (result.success) {
       toast({
         title: "Registration Successful",
@@ -208,14 +208,7 @@ export function Header() {
       );
     }
 
-    return (
-       <Button asChild variant="outline" className="h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
-    );
+    return null;
   };
   
   const navLinks = [
@@ -295,8 +288,8 @@ export function Header() {
   const cartDropdown = (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <ShoppingCart className="h-3 w-3 mr-1" />
+            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                <ShoppingCart className="h-4 w-4 mr-1" />
                 <span className="sm:inline">CART</span>
                 {cartItems.length > 0 && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -357,8 +350,8 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                <Bell className="h-3 w-3" />
+            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                         {updates.length}
@@ -394,96 +387,97 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
-            <div className="bg-[#e9ecef] h-8"></div>
-            <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-                <Skeleton className="h-8 w-48" />
-                <div className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-10 w-24" />
-                </div>
-                <div className="ml-auto md:hidden">
-                    <Skeleton className="h-8 w-8" />
-                </div>
-            </div>
+        <header className="sticky top-0 z-50 bg-white border-b">
+            <div className="bg-red-500 h-14"></div>
         </header>
     );
   }
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-[#f8f9fa] border-b">
-          <div className="bg-[#e9ecef] text-black text-xs">
-              <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
-                  <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
-                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                          <Link href="/scholarship" className="flex items-center">
-                              <GraduationCap className="h-4 w-4 mr-1"/>
-                              <span className="sm:inline">Apply Scholarship</span>
-                          </Link>
-                      </Button>
-                      <Separator orientation="vertical" className="h-4 bg-black/20" />
-                      <Button asChild variant="link" className="h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
-                        <Link href="/feedback" className="flex items-center">
-                            <MessageSquare className="h-4 w-4 mr-1"/>
-                            <span className="sm:inline">Feedback</span>
-                        </Link>
-                      </Button>
-                      <Separator orientation="vertical" className="h-4 bg-black/20" />
+      <header className="sticky top-0 z-50 bg-white border-b">
+          <div className="bg-red-500 text-white text-xs">
+              <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
+                  <Link href={logoHref} className="flex items-center justify-center">
+                    <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                    <div className="ml-2 flex flex-col leading-tight">
+                        <span className="text-base font-semibold text-white">
+                            {brandName}
+                        </span>
+                        <span className="text-[0.6rem] text-white/80 tracking-tighter -mt-1">
+                          Institute of Distance Learning Pvt. Ltd.
+                        </span>
+                    </div>
+                  </Link>
+                  <div className={cn("items-center hidden md:flex gap-x-2 md:gap-x-4")}>
+                      <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    <Menu className="h-4 w-4 mr-1" />
+                                    Menu
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                {navLinks.map(({ href, label }) => (
+                                    <DropdownMenuItem asChild key={href}>
+                                        <Link href={href}>{label}</Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <GraduationCap className="h-4 w-4 mr-1" />
+                                <span className="sm:inline">APPLY FOR</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem asChild>
+                                <Link href="/scholarship">Apply Scholarship</Link>
+                            </DropdownMenuItem>
+                             <DropdownMenuItem asChild>
+                                <Link href="/admission">Admission Form</Link>
+                            </DropdownMenuItem>
+                             <DropdownMenuItem asChild>
+                                <Link href="/book-demo">Book Free Demo</Link>
+                            </DropdownMenuItem>
+                             <DropdownMenuItem asChild>
+                                <Link href="/feedback">Feedback</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/student-enquiry">Student Enquiry</Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                       <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           <Link href="/login">
+                              <LogIn className="h-4 w-4 mr-1" />
+                              <span className="sm:inline">{t('login')}</span>
+                           </Link>
+                         </Button>
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
                       {cartDropdown}
-                      <Separator orientation="vertical" className="h-4 bg-black/20" />
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
                       {notificationDropdown}
                   </div>
-              </div>
-          </div>
-          <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-              <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto" />
-                <div className="ml-2 flex flex-col leading-tight">
-                    <span className="text-lg font-semibold">
-                        {brandName.split('').map((char, index) => (
-                        <span
-                            key={index}
-                            className="animate-fade-in-up"
-                            style={{ animationDelay: `${index * 0.05}s` }}
-                        >
-                            {char}
-                        </span>
-                        ))}
-                    </span>
-                    <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
-                      Institute of Distance Learning Pvt. Ltd.
-                    </span>
-                </div>
-              </Link>
-              <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                  {navLinks.map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-              {renderAuthSection()}
-              </nav>
-              <div className="ml-auto md:hidden flex items-center gap-2">
-                <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                    <span className="sr-only">Toggle navigation menu</span>
-                  </Button>
-                </CollapsibleTrigger>
+                   <div className="ml-auto md:hidden flex items-center gap-2">
+                      <CollapsibleTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
+                          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                          <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                      </CollapsibleTrigger>
+                    </div>
               </div>
           </div>
           <CollapsibleContent asChild>
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className="border-t bg-background">
+              <div className="border-t bg-white">
                 <div className="p-2">
                   <nav className="grid gap-1 text-base font-medium">
                   {navLinks.map(({ href, label, icon }) => (
