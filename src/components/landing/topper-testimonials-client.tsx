@@ -94,7 +94,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                               />
                               <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300" />
+                                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300" />
                               </div>
                             </button>
                         ) : (
