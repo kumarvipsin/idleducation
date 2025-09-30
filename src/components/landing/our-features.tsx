@@ -75,7 +75,7 @@ export function OurFeatures() {
                     <h3 className="text-2xl font-bold text-foreground mt-2">{feature.title}</h3>
                     <p className="text-sm mt-2 text-muted-foreground flex-grow">{feature.description}</p>
                   </CardContent>
-                  <div className="relative aspect-[4/3] w-full mt-auto p-4">
+                  <div className="relative aspect-[4/3] w-full mt-auto p-[5%]">
                     <Image
                       src={feature.imageUrl}
                       alt={feature.title}
