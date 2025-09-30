@@ -14,7 +14,6 @@ export function AppContent({
 }) {
   const pathname = usePathname();
   
-  const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup');
   const isAdminPage = pathname.startsWith('/admin');
   const isStudentPage = pathname.startsWith('/student');
   const isTeacherPage = pathname.startsWith('/teacher');

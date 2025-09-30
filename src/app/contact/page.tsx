@@ -147,7 +147,7 @@ export default function ContactPage() {
         </Link>
         <div className="relative z-10 container mx-auto py-12 px-4 md:px-0">
           <div className="max-w-6xl mx-auto">
-              <Card className="shadow-lg overflow-hidden flex flex-col md:flex-row border-t-8 border-primary rounded-t-lg bg-background/80 backdrop-blur-sm rounded-2xl">
+              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up flex flex-col md:flex-row">
                   <div className="p-8 md:w-1/2 m-[2.5%] border rounded-lg flex flex-col justify-start">
                   <div className="space-y-2">
                       <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
