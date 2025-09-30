@@ -11,7 +11,7 @@ export function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
                 <div>
-                    <h3 className="text-lg font-extrabold mb-4 text-black dark:text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
+                    <h3 className="text-lg font-extrabold mb-4 text-gray-500 dark:text-gray-400 pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
