@@ -1,9 +1,10 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Briefcase, Mail, Lock, Home } from "lucide-react";
+import { GraduationCap, Briefcase, Mail, Lock, Home, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,10 +14,12 @@ import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/app/actions";
 import Link from "next/link";
 import { useAuth, type UserProfile } from "@/context/auth-context";
+import { useEffect, useState } from "react";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z.string().min(1, { message: "Password is required." }),
+  captcha: z.string().min(6, { message: "Captcha is required." }),
 });
 
 type LoginValues = z.infer<typeof loginSchema>;
@@ -25,18 +28,53 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { login } = useAuth();
+  const [captcha, setCaptcha] = useState('');
+
+  const generateCaptcha = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let captchaText = '';
+    for (let i = 0; i < 6; i++) {
+        captchaText += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return captchaText;
+  };
+
+  useEffect(() => {
+    setCaptcha(generateCaptcha());
+  }, []);
+
+  const refreshCaptcha = () => {
+    setCaptcha(generateCaptcha());
+  };
 
   const studentForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '', captcha: '' },
   });
 
   const teacherForm = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '', captcha: '' },
   });
 
   const handleLogin = async (data: LoginValues) => {
+    if (data.captcha.toUpperCase() !== captcha.toUpperCase()) {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: "Invalid captcha. Please try again.",
+      });
+      // Clear captcha field for retry
+      if (studentForm.getValues().email === data.email) {
+        studentForm.setValue('captcha', '');
+      }
+      if (teacherForm.getValues().email === data.email) {
+        teacherForm.setValue('captcha', '');
+      }
+      refreshCaptcha();
+      return;
+    }
+    
     const result = await loginUser(data);
 
     if (result.success && result.user) {
@@ -60,6 +98,7 @@ export default function LoginPage() {
         title: "Login Failed",
         description: result.message,
       });
+      refreshCaptcha();
     }
   };
 
@@ -126,6 +165,26 @@ export default function LoginPage() {
                                 </FormItem>
                               )}
                             />
+                             <div className="flex items-center gap-2">
+                                <div className="flex-1 bg-muted rounded-md p-2 text-center font-bold text-lg tracking-widest select-none bg-cover" style={{backgroundImage: "url('https://www.publicdomainpictures.net/pictures/20000/nahled/plain-white-background.jpg')"}}>
+                                    {captcha}
+                                </div>
+                                <Button type="button" variant="ghost" size="icon" onClick={refreshCaptcha}>
+                                    <RefreshCw className="h-5 w-5" />
+                                </Button>
+                            </div>
+                             <FormField
+                              control={studentForm.control}
+                              name="captcha"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                      <Input placeholder="Enter Captcha" {...field} className="text-center tracking-widest" />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           </CardContent>
                           <CardFooter className="flex-col gap-4">
                             <Button type="submit" className="w-full" disabled={studentForm.formState.isSubmitting}>
@@ -176,6 +235,26 @@ export default function LoginPage() {
                                           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                           <Input type="password" placeholder="Password" {...field} className="pl-9" />
                                       </div>
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                             <div className="flex items-center gap-2">
+                                <div className="flex-1 bg-muted rounded-md p-2 text-center font-bold text-lg tracking-widest select-none bg-cover" style={{backgroundImage: "url('https://www.publicdomainpictures.net/pictures/20000/nahled/plain-white-background.jpg')"}}>
+                                    {captcha}
+                                </div>
+                                <Button type="button" variant="ghost" size="icon" onClick={refreshCaptcha}>
+                                    <RefreshCw className="h-5 w-5" />
+                                </Button>
+                            </div>
+                             <FormField
+                              control={teacherForm.control}
+                              name="captcha"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                      <Input placeholder="Enter Captcha" {...field} className="text-center tracking-widest" />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
