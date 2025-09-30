@@ -252,16 +252,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-       <div className="border-t p-2">
-        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -341,7 +332,7 @@ export function Header() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="link" className="h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <span className="sm:inline">APPLY FOR</span>
+                            APPLY FOR
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -365,7 +356,7 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-gray-800/20 dark:bg-gray-300/20" />
                    <Button asChild variant="link" className="h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
-                          <span className="sm:inline">{t('login')}</span>
+                          {t('login')}
                        </Link>
                      </Button>
                   <Separator orientation="vertical" className="h-3 bg-gray-800/20 dark:bg-gray-300/20" />
@@ -426,11 +417,6 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                   <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          {t('login')}
-                       </Link>
-                     </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
