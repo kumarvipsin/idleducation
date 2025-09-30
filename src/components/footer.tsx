@@ -41,7 +41,7 @@ export function Footer() {
 
                 {/* Column 2: Connect With Us */}
                 <div className="relative">
-                    <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
+                    <h3 className="text-lg font-extrabold mb-4 text-black dark:text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
                     <div className="mt-4">
                         <ul className="space-y-3 text-sm">
                              <li className="flex items-center justify-start gap-3">
@@ -62,7 +62,7 @@ export function Footer() {
 
                 {/* Column 3: Social Media */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-4 text-primary pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
+                    <h3 className="text-lg font-extrabold mb-4 text-black dark:text-white pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
                     <div className="flex items-center justify-start gap-3 mt-4">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
