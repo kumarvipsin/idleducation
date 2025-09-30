@@ -57,155 +57,163 @@ export default function SignupPage() {
   const onTeacherSubmit: SubmitHandler<SignupValues> = (data) => handleSignup(data, 'teacher');
 
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-4">
-      <Tabs defaultValue="student" className="w-full max-w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="student">
-            <GraduationCap className="mr-2 h-4 w-4" /> Student Signup
-          </TabsTrigger>
-          <TabsTrigger value="teacher">
-            <Briefcase className="mr-2 h-4 w-4" /> Teacher Signup
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="student">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create Student Account</CardTitle>
-              <CardDescription>
-                Join our platform to start your learning journey.
-              </CardDescription>
-            </CardHeader>
-            <Form {...studentForm}>
-              <form onSubmit={studentForm.handleSubmit(onStudentSubmit)}>
-                <CardContent className="space-y-4">
-                  <FormField
-                    control={studentForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Full Name" {...field} className="pl-9" />
+    <div className="relative min-h-full w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+             <div className="w-full max-w-lg mx-auto animate-fade-in-up">
+                <Tabs defaultValue="student" >
+                  <TabsList className="grid w-full grid-cols-2 bg-transparent p-0">
+                    <TabsTrigger value="student" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=inactive]:bg-background/80 backdrop-blur-sm rounded-t-lg rounded-b-none border-b-0 py-3">
+                      <GraduationCap className="mr-2 h-4 w-4" /> Student Signup
+                    </TabsTrigger>
+                    <TabsTrigger value="teacher" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=inactive]:bg-background/80 backdrop-blur-sm rounded-t-lg rounded-b-none border-b-0 py-3">
+                      <Briefcase className="mr-2 h-4 w-4" /> Teacher Signup
+                    </TabsTrigger>
+                  </TabsList>
+                   <Card className="shadow-2xl rounded-t-none border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+                    <TabsContent value="student" className="m-0">
+                        <CardHeader className="text-center">
+                          <CardTitle>Create Student Account</CardTitle>
+                          <CardDescription>
+                            Join our platform to start your learning journey.
+                          </CardDescription>
+                        </CardHeader>
+                        <Form {...studentForm}>
+                          <form onSubmit={studentForm.handleSubmit(onStudentSubmit)}>
+                            <CardContent className="space-y-4">
+                              <FormField
+                                control={studentForm.control}
+                                name="name"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Full Name" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={studentForm.control}
+                                name="email"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="student@example.com" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={studentForm.control}
+                                name="password"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input type="password" placeholder="Password" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </CardContent>
+                            <CardFooter className="flex-col gap-4">
+                              <Button type="submit" className="w-full" disabled={studentForm.formState.isSubmitting}>
+                                {studentForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
+                              </Button>
+                               <div className="text-center text-sm">
+                                Already have an account?{" "}
+                                <Link href="/login" className="underline text-primary">
+                                Login
+                                </Link>
                             </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={studentForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                             <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="student@example.com" {...field} className="pl-9" />
+                            </CardFooter>
+                          </form>
+                        </Form>
+                    </TabsContent>
+                    <TabsContent value="teacher" className="m-0">
+                        <CardHeader className="text-center">
+                          <CardTitle>Create Teacher Account</CardTitle>
+                          <CardDescription>
+                            Join our platform to manage your classes.
+                          </CardDescription>
+                        </CardHeader>
+                        <Form {...teacherForm}>
+                          <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)}>
+                            <CardContent className="space-y-4">
+                                <FormField
+                                control={teacherForm.control}
+                                name="name"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <div className="relative">
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Jane Smith" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={teacherForm.control}
+                                name="email"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <div className="relative">
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="teacher@example.com" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={teacherForm.control}
+                                name="password"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormControl>
+                                      <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input type="password" placeholder="Password" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </CardContent>
+                             <CardFooter className="flex-col gap-4">
+                              <Button type="submit" className="w-full" disabled={teacherForm.formState.isSubmitting}>
+                                {teacherForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
+                              </Button>
+                               <div className="text-center text-sm">
+                                Already have an account?{" "}
+                                <Link href="/login" className="underline text-primary">
+                                Login
+                                </Link>
                             </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={studentForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="password" placeholder="Password" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </CardContent>
-                <CardFooter>
-                  <Button type="submit" className="w-full" disabled={studentForm.formState.isSubmitting}>
-                    {studentForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
-                  </Button>
-                </CardFooter>
-              </form>
-            </Form>
-          </Card>
-        </TabsContent>
-        <TabsContent value="teacher">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create Teacher Account</CardTitle>
-              <CardDescription>
-                Join our platform to manage your classes.
-              </CardDescription>
-            </CardHeader>
-            <Form {...teacherForm}>
-              <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)}>
-                <CardContent className="space-y-4">
-                     <FormField
-                    control={teacherForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                           <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Jane Smith" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={teacherForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                           <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="teacher@example.com" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={teacherForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                           <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input type="password" placeholder="Password" {...field} className="pl-9" />
-                            </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </CardContent>
-                <CardFooter>
-                  <Button type="submit" className="w-full" disabled={teacherForm.formState.isSubmitting}>
-                    {teacherForm.formState.isSubmitting ? 'Signing up...' : 'Sign Up'}
-                  </Button>
-                </CardFooter>
-              </form>
-            </Form>
-          </Card>
-        </TabsContent>
-      </Tabs>
-      <div className="mt-4 text-center text-sm">
-        Already have an account?{" "}
-        <Link href="/login" className="underline">
-          Login
-        </Link>
-      </div>
+                            </CardFooter>
+                          </form>
+                        </Form>
+                    </TabsContent>
+                   </Card>
+                </Tabs>
+            </div>
+        </div>
     </div>
   );
 }
