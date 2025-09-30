@@ -409,7 +409,15 @@ export function Header() {
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-white border-b">
           <div className="bg-red-500 text-white text-xs">
-              <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
+              <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
+                  <Link href={logoHref} className="flex items-center justify-center">
+                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
+                    <div className="ml-2 flex flex-col leading-tight">
+                        <span className="text-sm font-semibold text-white">
+                            {brandName}
+                        </span>
+                    </div>
+                  </Link>
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -468,25 +476,6 @@ export function Header() {
               </div>
           </div>
           <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-              <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-8 w-auto" />
-                <div className="ml-2 flex flex-col leading-tight">
-                    <span className="text-lg font-semibold">
-                        {brandName.split('').map((char, index) => (
-                        <span
-                            key={index}
-                            className="animate-fade-in-up"
-                            style={{ animationDelay: `${index * 0.05}s` }}
-                        >
-                            {char}
-                        </span>
-                        ))}
-                    </span>
-                    <span className="text-[0.6rem] text-muted-foreground tracking-tighter -mt-1">
-                      Institute of Distance Learning Pvt. Ltd.
-                    </span>
-                </div>
-              </Link>
               <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
               {renderAuthSection()}
               </nav>
