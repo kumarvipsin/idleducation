@@ -18,6 +18,19 @@ export async function getSessionBookings() {
   }
 }
 
+export async function getStudentEnquiries() {
+  try {
+    const enquiriesQuery = query(collection(db, "studentEnquiries"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(enquiriesQuery);
+    const enquiries = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: enquiries };
+  } catch (error) {
+    console.error("Error fetching student enquiries:", error);
+    return { success: false, message: "Failed to fetch student enquiries." };
+  }
+}
+
+
 export async function getContactSubmissions() {
   try {
     const submissionsQuery = query(collection(db, "contactSubmissions"), orderBy("createdAt", "desc"));

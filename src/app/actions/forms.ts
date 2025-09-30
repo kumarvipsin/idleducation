@@ -152,6 +152,37 @@ export async function submitFeedback(data: FeedbackFormValues) {
   }
 }
 
+const enquirySchema = z.object({
+  studentName: z.string().min(2),
+  guardianName: z.string().min(2),
+  classCourse: z.string().min(1),
+  mobile: z.string().regex(/^\d{10}$/),
+  email: z.string().email(),
+  state: z.string().min(1),
+  message: z.string().min(10),
+});
+
+type EnquiryFormValues = z.infer<typeof enquirySchema>;
+
+export async function submitStudentEnquiry(data: EnquiryFormValues) {
+  const validation = enquirySchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check all fields." };
+  }
+
+  try {
+    await addDoc(collection(db, "studentEnquiries"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Your enquiry has been submitted successfully!" };
+  } catch (error) {
+    console.error("Error submitting student enquiry:", error);
+    return { success: false, message: "Failed to submit your enquiry. Please try again later." };
+  }
+}
+
+
 export async function submitAdmissionForm(formData: FormData) {
     const rawFormData = Object.fromEntries(formData.entries());
     const studentPhoto = rawFormData.studentPhoto as File;
@@ -164,22 +195,22 @@ export async function submitAdmissionForm(formData: FormData) {
         motherName: rawFormData.motherName as string,
         motherOccupation: rawFormData.motherOccupation as string || '',
         dob: rawFormData.dob as string,
-        gender: rawFormData.gender as string,
-        bloodGroup: rawFormData.bloodGroup as string || '',
-        aadharNumber: rawFormData.aadharNumber as string || '',
-        apaarId: rawFormData.apaarId as string || '',
-        email: rawFormData.email as string,
-        studentPhone: rawFormData.studentPhone as string || '',
-        fatherPhone: rawFormData.fatherPhone as string,
-        motherPhone: rawFormData.motherPhone as string,
-        address: rawFormData.address as string,
-        pincode: rawFormData.pincode as string,
-        state: rawFormData.state as string,
-        classApplied: rawFormData.classApplied as string,
-        previousSchool: rawFormData.previousSchool as string || '',
-        additionalInfo: rawFormData.additionalInfo as string || '',
-        branch: rawFormData.branch as string,
-        transactionId: rawFormData.transactionId as string,
+        gender: rawData.gender as string,
+        bloodGroup: rawData.bloodGroup as string || '',
+        aadharNumber: rawData.aadharNumber as string || '',
+        apaarId: rawData.apaarId as string || '',
+        email: rawData.email as string,
+        studentPhone: rawData.studentPhone as string || '',
+        fatherPhone: rawData.fatherPhone as string,
+        motherPhone: rawData.motherPhone as string,
+        address: rawData.address as string,
+        pincode: rawData.pincode as string,
+        state: rawData.state as string,
+        classApplied: rawData.classApplied as string,
+        previousSchool: rawData.previousSchool as string || '',
+        additionalInfo: rawData.additionalInfo as string || '',
+        branch: rawData.branch as string,
+        transactionId: rawData.transactionId as string,
     };
     
     try {

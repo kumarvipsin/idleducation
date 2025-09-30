@@ -429,14 +429,17 @@ export function Header() {
                             <DropdownMenuItem asChild>
                                 <Link href="/scholarship">Apply Scholarship</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
+                             <DropdownMenuItem asChild>
                                 <Link href="/admission">Admission Form</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
+                             <DropdownMenuItem asChild>
                                 <Link href="/book-demo">Book Free Demo</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
+                             <DropdownMenuItem asChild>
                                 <Link href="/feedback">Feedback</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/student-enquiry">Student Enquiry</Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
