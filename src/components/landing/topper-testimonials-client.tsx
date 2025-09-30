@@ -102,7 +102,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="relative w-full">
+        <div className="relative w-full pr-[10%]">
             <Carousel
                 setApi={setApi}
                 opts={{
