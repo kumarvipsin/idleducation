@@ -13,7 +13,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { NotesChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 
 function PrimumNotes({ subject, lang, onLangChange }: { subject: TSubject | null, lang: 'en' | 'hi', onLangChange: (lang: 'en' | 'hi') => void }) {
     if (!subject) {
@@ -67,8 +67,10 @@ function PrimumNotes({ subject, lang, onLangChange }: { subject: TSubject | null
     );
 }
 
-function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
-    const [classId, subjectKey] = slug || [];
+function NcertSolutionsDetailsContent() {
+    const params = useParams();
+    const slug = params.slug as string[] || [];
+    const [classId, subjectKey] = slug;
     const [classData, setClassData] = useState<TClass | null>(null);
     const [notesData, setNotesData] = useState<TSubject | null>(null);
     const [loading, setLoading] = useState(true);
@@ -182,11 +184,10 @@ function NcertSolutionsDetailsContent({ slug }: { slug: string[] }) {
 }
 
 
-export default function NcertSolutionsDetailsPage({ params }: { params: { slug: string[] } }) {
-    const slug = params.slug || [];
+export default function NcertSolutionsDetailsPage() {
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NcertSolutionsDetailsContent slug={slug} />
+            <NcertSolutionsDetailsContent />
         </Suspense>
     )
 }
