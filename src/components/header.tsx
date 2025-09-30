@@ -414,6 +414,7 @@ export function Header() {
                       <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    <Menu className="h-4 w-4 mr-1" />
                                     Menu
                                     <ChevronDown className="h-4 w-4 ml-1"/>
                                 </Button>
