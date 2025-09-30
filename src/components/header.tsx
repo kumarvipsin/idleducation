@@ -257,16 +257,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-       <div className="border-t p-2">
-        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -309,7 +300,7 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-10">
+        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-12">
             
         </header>
     );
@@ -317,13 +308,16 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-10">
+      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-12">
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-full">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
+                <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
                     <span className="text-sm font-bold text-primary">
                         {brandName}
+                    </span>
+                    <span className="text-[0.5rem] text-primary/80 tracking-tighter -mt-1">
+                      (Institute of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
               </Link>
@@ -427,7 +421,7 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                   <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                           <span className="sm:inline">{t('login')}</span>
                        </Link>
