@@ -1,70 +1,54 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { Card } from '../ui/card';
 import { cn } from '@/lib/utils';
 import { getExcellenceResults } from '@/app/actions';
 import type { TExcellenceResult } from '@/app/actions/types';
 import { Skeleton } from '../ui/skeleton';
 import { GcsImage } from '../gcs-image';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('');
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [animationKey, setAnimationKey] = useState(0);
-  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center' }, [Autoplay({ delay: 3000, stopOnInteraction: false })]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
       const res = await getExcellenceResults();
       if (res.success && res.data) {
         setResults(res.data as TExcellenceResult[]);
-        if (res.data.length > 0) {
-          setActiveCategory((res.data as TExcellenceResult[])[0].categoryName);
-        }
       }
       setLoading(false);
     };
     fetchResults();
   }, []);
 
-  const startAutoSwitch = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    if(results.length === 0) return;
-    
-    intervalRef.current = setInterval(() => {
-      setActiveCategory(prevCategory => {
-        const currentIndex = results.findIndex(r => r.categoryName === prevCategory);
-        const nextIndex = (currentIndex + 1) % results.length;
-        return results[nextIndex].categoryName;
-      });
-    }, 3000);
-  };
-
   useEffect(() => {
-    if(!loading && results.length > 0) {
-      startAutoSwitch();
-    }
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setActiveIndex(emblaApi.selectedScrollSnap());
     };
-  }, [loading, results]);
-  
-  useEffect(() => {
-    setAnimationKey(prev => prev + 1);
-  }, [activeCategory]);
 
-  const handleCategoryClick = (category: string) => {
-    setActiveCategory(category);
-    startAutoSwitch(); 
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi]);
+
+  const handleCategoryClick = (index: number) => {
+    emblaApi?.scrollTo(index);
   };
-
-  const activeResult = results.find(r => r.categoryName === activeCategory);
+  
+  const activeCategoryName = results[activeIndex]?.categoryName;
 
   return (
     <section 
@@ -86,12 +70,12 @@ export function AcademicExcellence() {
                 {loading ? (
                   [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
                 ) : (
-                  results.map((result) => (
+                  results.map((result, index) => (
                     <button
                       key={result.id}
-                      onClick={() => handleCategoryClick(result.categoryName)}
+                      onClick={() => handleCategoryClick(index)}
                       className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md border`,
-                        activeCategory === result.categoryName
+                        activeCategoryName === result.categoryName
                           ? 'border-primary text-primary bg-primary/10' 
                           : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
                       )}
@@ -103,24 +87,38 @@ export function AcademicExcellence() {
                 </div>
             </div>
         </div>
-
-        <Card className="h-full transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.5)]" style={{ animationDelay: '0.4s' }}>
-          <div className="bg-background rounded-lg h-full overflow-hidden">
-            <div className="relative w-full aspect-[16/6] md:aspect-[16/5]">
-                {loading || !activeResult ? (
-                  <Skeleton className="w-full h-full" />
+        
+        <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
+                {loading ? (
+                    <Skeleton className="w-full h-80 rounded-lg flex-shrink-0" />
                 ) : (
-                  <GcsImage
-                    key={animationKey}
-                    filePath={activeResult.imageUrl}
-                    alt={`Result for ${activeResult.categoryName}`}
-                    fill
-                    className="object-cover animate-fade-in-up"
-                  />
+                    results.map((result, index) => (
+                        <div 
+                            key={result.id} 
+                            className="flex-shrink-0 flex-grow-0 basis-full min-w-0 md:basis-4/5 lg:basis-3/4 pl-4"
+                        >
+                            <Card 
+                                className={cn(
+                                  "h-full rounded-lg overflow-hidden transition-all duration-500",
+                                  index === activeIndex ? "transform scale-100 opacity-100" : "transform scale-90 opacity-40"
+                                )}
+                            >
+                                <div className="relative w-full aspect-[16/6] md:aspect-[16/5]">
+                                    <GcsImage
+                                        filePath={result.imageUrl}
+                                        alt={`Result for ${result.categoryName}`}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                            </Card>
+                        </div>
+                    ))
                 )}
             </div>
-          </div>
-        </Card>
+        </div>
+
       </div>
     </section>
   );
