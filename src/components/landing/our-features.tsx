@@ -4,29 +4,28 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, BookUp, FileStack, Users } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 
 const features = [
   {
-    icon: <GraduationCap className="w-8 h-8 text-red-500" />,
+    icon: <GraduationCap className="w-8 h-8 text-primary" />,
     title: "100% Quality Education",
     subtitle: "Interactive classes",
     href: "#",
   },
   {
-    icon: <BookUp className="w-8 h-8 text-blue-500" />,
+    icon: <BookUp className="w-8 h-8 text-primary" />,
     title: "100% Complete Syllabus",
     subtitle: "Thorough coverage",
     href: "#",
   },
   {
-    icon: <FileStack className="w-8 h-8 text-purple-500" />,
+    icon: <FileStack className="w-8 h-8 text-primary" />,
     title: "1000+",
     subtitle: "Tests, sample papers & notes",
     href: "#",
   },
   {
-    icon: <Users className="w-8 h-8 text-yellow-500" />,
+    icon: <Users className="w-8 h-8 text-primary" />,
     title: "100+",
     subtitle: "Expert Teachers",
     href: "#",
@@ -36,31 +35,26 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative pb-12 md:pb-16 bg-[#F5F5F7] dark:bg-muted/20"
+      className="w-full relative py-12 md:py-24 bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background"
     >
-      <div className="container mx-auto px-4 md:px-[10%] -mt-16">
-        <Card className="shadow-lg rounded-xl mx-auto" style={{ paddingBlock: '0.5rem' }}>
-            <CardContent className="p-4 md:p-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {features.map((feature, index) => (
-                        <Link href={feature.href} key={index} className="relative group">
-                            <div className="flex flex-col items-center text-center p-4 gap-2">
-                                <div className="p-4 bg-background/60 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 shadow-inner">
-                                    {feature.icon}
-                                </div>
-                                <h3 className="text-lg font-bold text-foreground">
-                                    {feature.title}
-                                </h3>
-                                <p className="text-sm text-muted-foreground">{feature.subtitle}</p>
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {features.map((feature, index) => (
+                <Link href={feature.href} key={index} className="group">
+                     <Card className="bg-background/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up h-full border-t-4 border-primary overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                        <CardContent className="p-4 md:p-6 text-center flex flex-col items-center justify-center h-full">
+                           <div className="p-4 bg-primary/10 text-primary rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                                {feature.icon}
                             </div>
-                            {index < features.length - 1 && (
-                                <Separator orientation="vertical" className="absolute right-0 top-1/4 h-1/2 hidden md:block" />
-                            )}
-                        </Link>
-                    ))}
-                </div>
-            </CardContent>
-        </Card>
+                            <h3 className="text-lg md:text-xl font-bold text-foreground">
+                                {feature.title}
+                            </h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mt-1">{feature.subtitle}</p>
+                        </CardContent>
+                    </Card>
+                </Link>
+            ))}
+        </div>
       </div>
     </section>
   );
