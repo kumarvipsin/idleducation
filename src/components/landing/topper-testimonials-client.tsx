@@ -13,7 +13,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
 
   return (
     <Dialog>
-      <DialogTrigger as="div">
+      <DialogTrigger asChild>
         <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full cursor-pointer">
           <CardContent className="p-0 flex flex-col h-full">
             <div className="relative aspect-[9/16] w-full">
@@ -64,7 +64,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
         <div className="text-center mb-12 px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: "linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 57%, rgba(237, 221, 83, 1) 100%)" }}>
+          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
             Topper's Testimonials
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
