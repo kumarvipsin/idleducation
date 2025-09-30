@@ -56,7 +56,7 @@ const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescripti
                 <ScrollArea className="h-72 w-full">
                     <div className="grid grid-cols-2 gap-3 p-4">
                         {programs.map((program) => (
-                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-full bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                 <Link href={program.href}>{program.name}</Link>
                             </Button>
                         ))}
@@ -90,7 +90,7 @@ export function ExamCategories() {
     <div className="flex-1">
       <CardContent className="p-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-lg" />)}
+          {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-full" />)}
         </div>
         <div className="mt-8 flex justify-center">
             <Skeleton className="h-10 w-36" />
@@ -131,7 +131,7 @@ export function ExamCategories() {
                                     <CarouselItem key={slideIndex}>
                                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                         {schoolPrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-full bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                             <Link href={program.href}>{program.name}</Link>
                                             </Button>
                                         ))}
@@ -165,7 +165,7 @@ export function ExamCategories() {
                                 <CarouselItem key={slideIndex}>
                                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                     {competitivePrograms.slice(slideIndex * 6, slideIndex * 6 + 6).map((program) => (
-                                        <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                                        <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-full bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
                                         <Link href={program.href}>{program.name}</Link>
                                         </Button>
                                     ))}
