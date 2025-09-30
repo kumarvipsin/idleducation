@@ -11,12 +11,11 @@ import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) => {
-  const [isPlaying, setIsPlaying] = React.useState(false);
+const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial: TTopperTestimonial, isPlaying: boolean, onPlayClick: () => void }) => {
 
   const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsPlaying(true);
+    onPlayClick();
   };
 
   return (
@@ -65,6 +64,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
+    const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
     const autoplayPlugin = React.useRef(
         Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -86,6 +86,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         },
         [api]
     );
+
+    const handlePlay = (videoId: string) => {
+        setPlayingVideoId(videoId);
+    };
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -121,7 +125,11 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 <CarouselContent className="-ml-4">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                        <TestimonialCard testimonial={testimonial} />
+                        <TestimonialCard 
+                            testimonial={testimonial} 
+                            isPlaying={playingVideoId === testimonial.id}
+                            onPlayClick={() => handlePlay(testimonial.id)}
+                        />
                     </CarouselItem>
                 ))}
                 </CarouselContent>
