@@ -427,11 +427,6 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          <span className="sm:inline">{t('login')}</span>
-                       </Link>
-                     </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
