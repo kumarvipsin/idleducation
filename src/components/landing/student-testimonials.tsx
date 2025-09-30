@@ -83,7 +83,7 @@ export function StudentTestimonials() {
   const [current, setCurrent] = useState(0);
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
