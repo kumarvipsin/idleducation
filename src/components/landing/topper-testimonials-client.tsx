@@ -52,7 +52,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
   if (!testimonials || testimonials.length === 0) {
     return (
-      <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+      <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-950">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <p className="text-muted-foreground">No testimonials available yet.</p>
         </div>
@@ -61,10 +61,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-950">
         <div className="text-center mb-12 px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
+            Topper's Testimonials
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
