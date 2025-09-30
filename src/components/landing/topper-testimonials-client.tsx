@@ -49,9 +49,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
             </button>
           )}
         </div>
-        <div className="p-4 flex-grow flex flex-col">
-          <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
-          <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+        <div className="p-2 flex-grow flex flex-col">
+          <p className="font-bold text-base text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
             <span>{testimonial.studentPlace}</span>
           </div>
@@ -66,7 +66,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
 
     const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
     
     React.useEffect(() => {
@@ -119,7 +119,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-4">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3">
+                    <CarouselItem key={testimonial.id} className="pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                         <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
