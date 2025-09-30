@@ -8,12 +8,12 @@ import Image from "next/image";
 
 const resources = [
   {
-    category: "EXAM PREP",
-    title: "Previous Year Questions",
-    description: "Sharpen your skills and get exam-ready by practicing with past papers.",
-    href: "/resources/previous-year-questions",
-    imageUrl: "https://images.unsplash.com/photo-1724080924541-a9bbb5953229?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMXx8ZXhhbXxlbnwwfHx8fDE3NTkxNzQ2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    imageHint: "exam papers",
+    category: "REVISION",
+    title: "Notes",
+    description: "Find concise and well-structured notes designed for quick revision.",
+    href: "/resources/notes",
+    imageUrl: "https://picsum.photos/seed/notes/600/400",
+    imageHint: "notebook pen",
   },
   {
     category: "TEXTBOOK HELP",
@@ -24,12 +24,12 @@ const resources = [
     imageHint: "textbooks pile",
   },
   {
-    category: "REVISION",
-    title: "Notes",
-    description: "Find concise and well-structured notes designed for quick revision.",
-    href: "/resources/notes",
-    imageUrl: "https://picsum.photos/seed/notes/600/400",
-    imageHint: "notebook pen",
+    category: "EXAM PREP",
+    title: "Previous Year Questions",
+    description: "Sharpen your skills and get exam-ready by practicing with past papers.",
+    href: "/resources/previous-year-questions",
+    imageUrl: "https://images.unsplash.com/photo-1724080924541-a9bbb5953229?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMXx8ZXhhbXxlbnwwfHx8fDE3NTkxNzQ2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    imageHint: "exam papers",
   },
   {
     category: "FURTHER READING",
