@@ -324,7 +324,7 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14">
+        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14 rounded-t-2xl">
             
         </header>
     );
