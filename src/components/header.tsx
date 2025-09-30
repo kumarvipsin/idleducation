@@ -259,12 +259,6 @@ export function Header() {
     }
     return (
        <div className="border-t p-2">
-        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
       </div>
     );
   };
