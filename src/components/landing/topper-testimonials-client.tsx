@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -32,6 +32,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
         </Card>
       </DialogTrigger>
       <DialogContent className="p-0 border-0 max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="sr-only">{`Testimonial from ${testimonial.studentName}`}</DialogTitle>
+        </DialogHeader>
         <div className="aspect-video">
           <iframe
             className="w-full h-full"
