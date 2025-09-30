@@ -252,22 +252,13 @@ export function Header() {
         </div>
       );
     }
-    return (
-       <div className="border-t p-2">
-        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
-                
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                 <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -373,6 +364,9 @@ export function Header() {
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
+                  <div className="text-white">
+                    {notificationDropdown}
+                  </div>
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
@@ -390,7 +384,7 @@ export function Header() {
                   <nav className="grid grid-cols-3 gap-1 text-base font-medium">
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -404,7 +398,7 @@ export function Header() {
                     </DropdownMenu>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
                             APPLY FOR
                         </Button>
                     </DropdownMenuTrigger>
@@ -426,11 +420,11 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                        {t('login')}
-                    </Link>
-                  </Button>
+                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                          <span className="sm:inline">{t('login')}</span>
+                       </Link>
+                     </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
