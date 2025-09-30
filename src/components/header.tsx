@@ -139,15 +139,15 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Button variant="ghost">Loading...</Button>;
+      return <Skeleton className="h-7 w-7 rounded-full" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              <Avatar className="h-10 w-10">
+            <Button variant="ghost" className="relative h-7 w-7 rounded-full">
+              <Avatar className="h-7 w-7">
                  <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
@@ -187,7 +187,13 @@ export function Header() {
       );
     }
 
-    return null;
+    return (
+        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+           <Link href="/login">
+              <span className="sm:inline">{t('login')}</span>
+           </Link>
+         </Button>
+    );
   };
   
   const navLinks = [
@@ -253,6 +259,12 @@ export function Header() {
     }
     return (
        <div className="border-t p-2">
+        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="font-bold uppercase text-xs">{t('login')}</span>
+            </Link>
+        </Button>
       </div>
     );
   };
@@ -356,13 +368,8 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                       <Link href="/login">
-                          <span className="sm:inline">{t('login')}</span>
-                       </Link>
-                     </Button>
-                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
