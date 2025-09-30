@@ -58,7 +58,7 @@ export function OurFeatures() {
     >
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">Why Choose Us?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-400 via-green-500 to-yellow-500 bg-clip-text text-transparent">Why Choose Us?</h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Discover the advantages that make our platform the best choice for your learning journey.
             </p>
