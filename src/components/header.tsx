@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -473,15 +473,21 @@ export function Header() {
                 </div>
               </Link>
               <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                  {navLinks.map(({ href, label }) => (
-                    <Link
-                      key={href}
-                      href={href}
-                      className={`text-sm font-medium hover:underline underline-offset-4 ${pathname === href ? 'text-primary' : ''}`}
-                    >
-                      {label}
-                    </Link>
-                  ))}
+                   <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-auto p-0 text-sm font-medium hover:underline underline-offset-4 focus-visible:ring-0 focus-visible:ring-offset-0">
+                                Menu
+                                <ChevronDown className="h-4 w-4 ml-1"/>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {navLinks.map(({ href, label }) => (
+                                <DropdownMenuItem asChild key={href}>
+                                    <Link href={href}>{label}</Link>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
               {renderAuthSection()}
               </nav>
               <div className="ml-auto md:hidden flex items-center gap-2">
