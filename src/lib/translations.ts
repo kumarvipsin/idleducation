@@ -1,9 +1,9 @@
 const translations = {
   en: {
-    home: 'HOME',
-    about: 'ABOUT',
-    contact: 'CONTACT',
-    gallery: 'GALLERY',
+    home: 'Home',
+    about: 'About Us',
+    contact: 'Contact',
+    gallery: 'Gallery',
     admissionForm: 'Admission Form',
     login: 'LOGIN',
     readMore: 'Read more',
