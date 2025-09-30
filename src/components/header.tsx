@@ -60,7 +60,6 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -74,26 +73,6 @@ export function Header() {
     resolver: zodResolver(scholarshipSchema),
     defaultValues: { studentName: '', class: '', mobile: '' },
   });
-
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const gst = subtotal * 0.18;
-  const total = subtotal + gst;
-
-  const handleUpdateQuantity = (itemId: number, newQuantity: number) => {
-    if (newQuantity < 1) {
-        handleRemoveItem(itemId);
-    } else {
-        setCartItems(currentItems =>
-            currentItems.map(item =>
-                item.id === itemId ? { ...item, quantity: newQuantity } : item
-            )
-        );
-    }
-  };
-
-  const handleRemoveItem = (itemId: number) => {
-    setCartItems(currentItems => currentItems.filter(item => item.id !== itemId));
-  };
   
   const onScholarshipSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
     const result = await registerForScholarship(data as any);
@@ -284,68 +263,6 @@ export function Header() {
       </div>
     );
   };
-
-  const cartDropdown = (
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                <ShoppingCart className="h-3 w-3 mr-1" />
-                <span className="hidden sm:inline">CART</span>
-                {cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                        {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-                    </span>
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>My Cart</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {cartItems.length > 0 ? (
-                <>
-                    <div className="max-h-64 overflow-y-auto pr-2">
-                        {cartItems.map(item => (
-                            <div key={item.id} className="flex items-center gap-2 p-2 rounded-md hover:bg-muted">
-                                <Image src={item.image} alt={item.name} width={40} height={40} className="rounded-md" />
-                                <div className="flex-1">
-                                    <p className="font-medium text-xs truncate">{item.name}</p>
-                                    <div className="flex items-center gap-1 mt-1">
-                                        <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}><Minus className="h-3 w-3" /></Button>
-                                        <span className="text-xs w-4 text-center">{item.quantity}</span>
-                                        <Button variant="outline" size="icon" className="h-5 w-5" onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}><Plus className="h-3 w-3" /></Button>
-                                    </div>
-                                </div>
-                                <p className="font-semibold text-xs">₹{(item.price * item.quantity).toFixed(2)}</p>
-                                <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive" onClick={() => handleRemoveItem(item.id)}><XCircle className="h-4 w-4" /></Button>
-                            </div>
-                        ))}
-                    </div>
-                     <DropdownMenuSeparator />
-                     <div className="p-2 space-y-1 text-xs">
-                        <div className="flex justify-between">
-                            <span>Subtotal</span>
-                            <span>₹{subtotal.toFixed(2)}</span>
-                        </div>
-                         <div className="flex justify-between">
-                            <span>GST (18%)</span>
-                            <span>₹{gst.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between font-bold text-sm">
-                            <span>Total</span>
-                            <span>₹{total.toFixed(2)}</span>
-                        </div>
-                     </div>
-                     <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                          <Button className="w-full">Proceed to Checkout</Button>
-                      </DropdownMenuItem>
-                </>
-            ) : (
-                 <div className="text-center text-sm text-muted-foreground p-4">Your cart is empty.</div>
-            )}
-        </DropdownMenuContent>
-    </DropdownMenu>
-  );
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
@@ -400,7 +317,7 @@ export function Header() {
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-base font-semibold text-white">
                         {brandName}
                     </span>
                 </div>
@@ -452,14 +369,11 @@ export function Header() {
                        </Link>
                      </Button>
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
-                  {cartDropdown}
-                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {notificationDropdown}
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {cartDropdown}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
