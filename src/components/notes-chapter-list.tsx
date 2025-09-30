@@ -121,8 +121,10 @@ const renderSubjectContent = (subject: TSubject | null) => {
 };
 
 
-export function NotesChapterList({ notes, importantQuestions, contentType, language }: { notes: TSubject | null, importantQuestions: TSubject | null, contentType: 'notes' | 'importantQuestions', language: 'en' | 'hi', classId: string, subjectKey: string }) {
+export function NotesChapterList({ notes, importantQuestions, classId, subjectKey }: { notes: TSubject | null, importantQuestions: TSubject | null, classId: string, subjectKey: string }) {
   const isMobile = useIsMobile();
+  const [contentType, setContentType] = useState<'notes' | 'importantQuestions'>('notes');
+  const [language, setLanguage] = useState<'en' | 'hi'>('en');
   
   const notesContent = renderSubjectContent(notes);
   const impQuestionsContent = renderSubjectContent(importantQuestions);
