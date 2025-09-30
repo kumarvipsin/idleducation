@@ -53,10 +53,12 @@ const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) 
                     return (
                         <Accordion type="single" collapsible key={index}>
                             <AccordionItem value={`item-${index}`} className="border-b-0">
-                                <div className="flex items-center p-2 my-1 bg-muted/30 rounded-md">
-                                    <AccordionTrigger className="font-medium capitalize text-sm hover:no-underline flex-1 w-full pr-2">
-                                        {level === 0 ? <Folder className="w-4 h-4 mr-2" /> : <Dot className="w-4 h-4 mr-2" />}
-                                        {item.name}
+                                <div className="flex items-center p-1 my-1 bg-muted/30 rounded-md">
+                                    <AccordionTrigger className="font-medium text-xs hover:no-underline flex-1 w-full pr-2">
+                                        <div className="flex items-center">
+                                            {level > 0 && <Dot className="w-4 h-4 mr-1" />}
+                                            {item.name}
+                                        </div>
                                     </AccordionTrigger>
                                     {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
                                 </div>
@@ -70,9 +72,9 @@ const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) 
 
                 return (
                      <Card key={`item-${index}`} className="transition-all duration-300 my-1">
-                        <div className="flex items-center justify-between p-3 md:p-4 group">
-                            <span className="font-medium text-sm md:text-base text-foreground/90 flex items-center">
-                               {level === 0 ? <FileIcon className="w-4 h-4 mr-2" /> : <Dot className="w-4 h-4 mr-2" />}
+                        <div className="flex items-center justify-between p-2 md:p-3 group">
+                            <span className="font-medium text-xs md:text-sm text-foreground/90 flex items-center">
+                               <FileIcon className="w-3 h-3 mr-2" />
                                {item.name}
                             </span>
                           {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
@@ -119,7 +121,7 @@ const renderSubjectContent = (subject: TSubject | null) => {
 };
 
 
-export function NotesChapterList({ notes, importantQuestions }: { notes: TSubject, importantQuestions: TSubject | null, classId: string, subjectKey: string }) {
+export function NotesChapterList({ notes, importantQuestions, contentType, language }: { notes: TSubject | null, importantQuestions: TSubject | null, contentType: 'notes' | 'importantQuestions', language: 'en' | 'hi', classId: string, subjectKey: string }) {
   const isMobile = useIsMobile();
   
   const notesContent = renderSubjectContent(notes);
