@@ -11,7 +11,7 @@ const features = [
     title: "100% Quality Education",
     description: "Interactive classes designed to provide the best learning experience.",
     href: "#",
-    imageUrl: "https://picsum.photos/seed/quality/600/400",
+    imageUrl: "https://www.jirs.ac.in/uploads/blog/7a76ecbb7e5d2a599c5e90471d0d7790.jpg",
     imageHint: "teacher student",
   },
   {
