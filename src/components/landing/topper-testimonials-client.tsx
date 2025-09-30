@@ -15,7 +15,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
   const [isPlaying, setIsPlaying] = React.useState(false);
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setIsPlaying}>
       <DialogTrigger asChild>
         <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full cursor-pointer">
           <CardContent className="p-0 flex flex-col h-full">
@@ -114,7 +114,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-6">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-full sm:basis-1/2 md:basis-1/3">
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
                         <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
