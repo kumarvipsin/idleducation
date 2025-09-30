@@ -1,12 +1,12 @@
 
 import type { Metadata, Viewport } from 'next';
-import { Josefin_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const josefin_sans = Josefin_Sans({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-josefin-sans',
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.png" sizes="any" />
       </head>
-      <body className={`${josefin_sans.variable} font-sans antialiased flex flex-col min-h-screen`}>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen`}>
         <Providers>
           {children}
         </Providers>
