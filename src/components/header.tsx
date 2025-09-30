@@ -60,6 +60,7 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -376,7 +377,7 @@ export function Header() {
                   </CollapsibleTrigger>
                 </div>
           </div>
-           <div style={{height: '2px', background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'}} />
+           <div className="h-[2px] bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 animate-gradient-x"></div>
           <CollapsibleContent asChild>
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
