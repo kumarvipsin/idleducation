@@ -123,7 +123,7 @@ export default function NcertSolutionsPage() {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-            {loading ? (
+             {loading ? (
                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
                 classes.map((className) => (
@@ -132,8 +132,8 @@ export default function NcertSolutionsPage() {
                     onClick={() => handleClassChange(className)}
                     className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                        ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                 >
                     {className}
                 </button>

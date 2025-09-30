@@ -106,8 +106,8 @@ export default function ImportantQuestionsPage() {
                 onClick={() => handleClassChange(className)}
                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                   ${selectedClass === className 
-                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
               >
                 {className}
               </button>

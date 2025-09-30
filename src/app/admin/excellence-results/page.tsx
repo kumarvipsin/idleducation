@@ -70,9 +70,9 @@ const ExcellenceResultForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="image" className="text-right">Image</Label>
           <div className="col-span-3 flex items-center gap-4">
-            {preview ? <Image src={preview} alt="Image Preview" width={64} height={64} className="rounded-md object-cover" /> 
-            : result?.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={64} height={64} className="rounded-md object-cover" />
-            : <div className="w-16 h-16 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+            {preview ? <Image src={preview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> 
+            : result?.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={64} height={36} className="rounded-md object-cover aspect-video" />
+            : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
             <Input id="image" name="image" type="file" onChange={handleFileChange} className="col-span-3" />
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function AdminExcellenceResultsPage() {
                   {loading ? (
                     [...Array(5)].map((_, i) => (
                       <TableRow key={i}>
-                        <TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell>
+                        <TableCell><Skeleton className="h-16 w-32 rounded-md" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-12" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
@@ -165,8 +165,8 @@ export default function AdminExcellenceResultsPage() {
                     results.sort((a,b) => a.order - b.order).map((result) => (
                       <TableRow key={result.id}>
                         <TableCell>
-                          <div className="w-10 h-10 rounded-md flex items-center justify-center bg-muted overflow-hidden">
-                            {result.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={40} height={40} className="object-cover" /> : <ImageIcon className="w-4 h-4 text-muted-foreground"/>}
+                          <div className="w-32 h-16 rounded-md flex items-center justify-center bg-muted overflow-hidden">
+                            {result.imageUrl ? <GcsImage filePath={result.imageUrl} alt={result.categoryName} width={128} height={64} className="object-cover" /> : <ImageIcon className="w-4 h-4 text-muted-foreground"/>}
                           </div>
                         </TableCell>
                         <TableCell>{result.categoryName}</TableCell>

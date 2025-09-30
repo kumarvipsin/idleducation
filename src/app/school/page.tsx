@@ -597,17 +597,16 @@ function SchoolPageContent() {
               [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
               classes.map((c) => (
-                <Link
+                <button
                   key={c.id}
-                  href={`/school?class=${encodeURIComponent(c.name)}`}
-                  onClick={(e) => { e.preventDefault(); handleClassChange(c.name); }}
+                  onClick={() => handleClassChange(c.name)}
                   className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${activeClass === c.name 
-                      ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                      ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                 >
                   {c.name}
-                </Link>
+                </button>
               ))
             )}
           </div>
