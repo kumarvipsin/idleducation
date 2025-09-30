@@ -267,7 +267,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                 <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -320,7 +320,6 @@ export function Header() {
                     <span className="text-[0.8rem] font-semibold text-gray-800 dark:text-gray-300">
                         {brandName}
                     </span>
-                    
                 </div>
               </Link>
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
@@ -376,7 +375,7 @@ export function Header() {
                <div className="ml-auto md:hidden flex items-center gap-2">
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-gray-800 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/20 hover:text-gray-800 dark:hover:text-gray-300 h-7 w-7">
-                      {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                      {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
                   </CollapsibleTrigger>
@@ -388,18 +387,50 @@ export function Header() {
             )}>
               <div className="border-t bg-white">
                 <div className="p-2">
-                  <nav className="grid gap-1 text-base font-medium">
-                  {navLinks.map(({ href, label, icon }) => (
-                      <Link
-                      key={href}
-                      href={href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-                      >
-                      {icon}
-                      <span className="text-sm">{label}</span>
-                      </Link>
-                  ))}
+                <nav className="grid grid-cols-3 gap-1 text-base font-medium">
+                  <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                Menu
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {navLinks.map(({ href, label }) => (
+                                <DropdownMenuItem asChild key={href}>
+                                    <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                            APPLY FOR
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                   <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                          {t('login')}
+                       </Link>
+                     </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
