@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -87,7 +86,7 @@ export function HeroSection() {
                                 <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
                                    {slide.title}
                                 </h1>
-                                <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
+                                <p className="max-w-2xl mx-auto text-base md:text-xl text-white/90">
                                     {slide.description}
                                 </p>
                             </div>
