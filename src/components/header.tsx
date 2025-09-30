@@ -252,7 +252,16 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+       <div className="border-t p-2">
+        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="font-bold uppercase text-xs">{t('login')}</span>
+            </Link>
+        </Button>
+      </div>
+    );
   };
   
   const notificationDropdown = (
@@ -308,7 +317,7 @@ export function Header() {
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-[0.6rem] font-semibold text-foreground">
+                    <span className="text-sm font-bold text-primary">
                         {brandName}
                     </span>
                 </div>
