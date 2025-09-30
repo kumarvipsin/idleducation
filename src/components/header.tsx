@@ -191,7 +191,6 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/', label: t('home'), icon: <HomeIcon className="h-4 w-4" /> },
     { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
