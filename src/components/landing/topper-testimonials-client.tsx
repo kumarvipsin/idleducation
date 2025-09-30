@@ -61,7 +61,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
 
     const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
     
     React.useEffect(() => {
@@ -114,7 +114,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-6">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-full sm:basis-1/2 md:basis-1/3">
                         <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
