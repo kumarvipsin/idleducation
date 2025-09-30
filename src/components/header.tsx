@@ -222,38 +222,36 @@ export function Header() {
     if (user) {
       return (
         <div className="p-2 border-t">
-          <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
-            <Avatar className="h-10 w-10 border-2 border-primary">
-              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
-              <AvatarFallback>
-                {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold text-sm">{user.name}</p>
-              <p className="text-xs text-muted-foreground">{user.email}</p>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 border-2 border-primary">
+                      <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                      <AvatarFallback>
+                        {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold text-sm">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-1">
+                    {loggedInNavLinks.map(({ href, label, icon }) => (
+                      <Button key={href} asChild variant="ghost" size="icon" className="h-9 w-9">
+                        <Link
+                          href={href}
+                          title={label}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {icon}
+                        </Link>
+                      </Button>
+                    ))}
+                    <Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} title="Logout">
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                </div>
             </div>
-          </div>
-          <div className="grid gap-1">
-            {loggedInNavLinks.map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-              >
-                {icon}
-                {label}
-              </Link>
-            ))}
-            <button
-              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </button>
-          </div>
         </div>
       );
     }
