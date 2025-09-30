@@ -69,13 +69,13 @@ export function AcademicExcellence() {
             <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {loading ? (
-                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
                 ) : (
                   results.map((result, index) => (
                     <button
                       key={result.id}
                       onClick={() => handleCategoryClick(index)}
-                      className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-md border`,
+                      className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors rounded-full border`,
                         activeCategoryName === result.categoryName
                           ? 'border-primary text-primary bg-primary/10' 
                           : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
