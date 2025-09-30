@@ -306,7 +306,7 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b">
+      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b">
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
@@ -374,6 +374,7 @@ export function Header() {
                   </CollapsibleTrigger>
                 </div>
           </div>
+           <div style={{height: '2px', background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'}} />
           <CollapsibleContent asChild>
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
@@ -430,7 +431,7 @@ export function Header() {
               </div>
             </div>
           </CollapsibleContent>
-      </div>
+      </header>
     </Collapsible>
   );
 }
