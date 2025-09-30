@@ -21,46 +21,43 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
 
   return (
     <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
-      <Dialog>
-        <DialogTrigger asChild>
-          <CardContent className="p-0 flex flex-col h-full">
-            <div className="relative aspect-video w-full">
-                <Image
-                  src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
-                  alt={`Testimonial from ${testimonial.studentName}`}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-                </div>
-            </div>
-             <div className="p-2 flex-grow flex flex-col">
-              <p className="font-bold text-base text-foreground truncate">{testimonial.studentName}</p>
-              <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
-                <span>{testimonial.studentClass}</span>
-                <span>{testimonial.studentPlace}</span>
+      <CardContent className="p-0 flex flex-col h-full">
+        <div className="relative aspect-video w-full">
+          {isPlaying ? (
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+              title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          ) : (
+            <button
+              onClick={handlePlayClick}
+              className="w-full h-full group focus:outline-none"
+            >
+              <Image
+                src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
+                alt={`Testimonial from ${testimonial.studentName}`}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
               </div>
-            </div>
-          </CardContent>
-        </DialogTrigger>
-        <DialogContent className="p-0 border-0 max-w-2xl">
-            <DialogHeader className="sr-only">
-              <DialogTitle>Video: {testimonial.studentName}</DialogTitle>
-            </DialogHeader>
-            <div className="aspect-video">
-                <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
-                    title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                ></iframe>
-            </div>
-        </DialogContent>
-      </Dialog>
+            </button>
+          )}
+        </div>
+        <div className="p-4 flex-grow flex flex-col">
+          <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+            <span>{testimonial.studentClass}</span>
+            <span>{testimonial.studentPlace}</span>
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 };
