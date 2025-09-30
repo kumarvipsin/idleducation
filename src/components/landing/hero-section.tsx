@@ -20,17 +20,6 @@ export function HeroSection() {
                 <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
                     Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
                 </p>
-                <div className="flex justify-center items-center">
-                    <div className="flex items-center rounded-full border-2 border-white overflow-hidden">
-                        <Button asChild className="rounded-none border-0 transition-all duration-300 ease-in-out bg-transparent text-white hover:bg-white hover:text-primary h-9 px-4">
-                            <Link href="/admission">Admission</Link>
-                        </Button>
-                        <Separator orientation="vertical" className="h-5 bg-white/50" />
-                        <Button asChild className="rounded-none border-0 transition-all duration-300 ease-in-out bg-transparent text-white hover:bg-white hover:text-primary h-9 px-4">
-                           <Link href="/book-demo">Book Free Demo</Link>
-                        </Button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

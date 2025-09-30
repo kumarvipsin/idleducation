@@ -421,7 +421,7 @@ export function Header() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                <GraduationCap className="h-4 w-4 mr-1" />
+                                <FileType className="h-4 w-4 mr-1" />
                                 <span className="sm:inline">APPLY FOR</span>
                             </Button>
                         </DropdownMenuTrigger>
@@ -429,8 +429,11 @@ export function Header() {
                             <DropdownMenuItem asChild>
                                 <Link href="/scholarship">Apply Scholarship</Link>
                             </DropdownMenuItem>
-                             <DropdownMenuItem asChild>
+                            <DropdownMenuItem asChild>
                                 <Link href="/admission">Admission Form</Link>
+                            </DropdownMenuItem>
+                             <DropdownMenuItem asChild>
+                                <Link href="/book-demo">Book Free Demo</Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
