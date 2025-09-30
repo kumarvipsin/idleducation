@@ -317,9 +317,10 @@ export function Header() {
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-base font-semibold text-white">
+                    <span className="text-[0.8rem] font-semibold text-white">
                         {brandName}
                     </span>
+                    
                 </div>
               </Link>
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
@@ -341,7 +342,7 @@ export function Header() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            APPLY FOR
+                            <span className="sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -365,12 +366,11 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
                    <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
-                          {t('login')}
+                          <span className="sm:inline">{t('login')}</span>
                        </Link>
                      </Button>
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {notificationDropdown}
-                  <Separator orientation="vertical" className="h-3 bg-white/20" />
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
