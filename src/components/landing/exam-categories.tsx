@@ -1,8 +1,8 @@
 
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
@@ -100,7 +100,7 @@ export function ExamCategories() {
   );
 
   return (
-    <section className="w-full pt-6 md:pt-12 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full pt-16 md:pt-20 pb-16 md:pb-20 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-12">
            <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
