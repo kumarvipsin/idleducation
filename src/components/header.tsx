@@ -387,106 +387,92 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-white border-b">
-            <div className="bg-red-500 h-8"></div>
-            <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-                <Skeleton className="h-8 w-48" />
-                <div className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-10 w-24" />
-                </div>
-                <div className="ml-auto md:hidden">
-                    <Skeleton className="h-8 w-8" />
-                </div>
-            </div>
+        <header className="sticky top-0 z-50 bg-red-500 border-b">
+            <div className="h-14"></div>
         </header>
     );
   }
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-white border-b">
-          <div className="bg-red-500 text-white text-xs">
-              <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-8">
-                  <Link href={logoHref} className="flex items-center justify-center">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
-                    <div className="ml-2 flex flex-col leading-tight">
-                        <span className="text-sm font-semibold text-white">
-                            {brandName}
-                        </span>
-                    </div>
-                  </Link>
-                  <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
-                      <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                    <Menu className="h-4 w-4 mr-1" />
-                                    Menu
-                                    <ChevronDown className="h-4 w-4 ml-1"/>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                {navLinks.map(({ href, label }) => (
-                                    <DropdownMenuItem asChild key={href}>
-                                        <Link href={href}>{label}</Link>
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
-                      <DropdownMenu>
+      <header className="sticky top-0 z-50 bg-red-500 border-b">
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
+              <Link href={logoHref} className="flex items-center justify-center">
+                <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                <div className="ml-2 flex flex-col leading-tight">
+                    <span className="text-base font-semibold text-white">
+                        {brandName}
+                    </span>
+                    <span className="text-[0.6rem] text-white/80 tracking-tighter -mt-1">
+                      Institute of Distance Learning Pvt. Ltd.
+                    </span>
+                </div>
+              </Link>
+              <div className={cn("items-center hidden md:flex gap-x-2 md:gap-x-4 text-white")}>
+                  <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                <GraduationCap className="h-4 w-4 mr-1" />
-                                <span className="sm:inline">APPLY FOR</span>
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Menu className="h-4 w-4 mr-1" />
+                                Menu
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem asChild>
-                                <Link href="/scholarship">Apply Scholarship</Link>
-                            </DropdownMenuItem>
-                             <DropdownMenuItem asChild>
-                                <Link href="/admission">Admission Form</Link>
-                            </DropdownMenuItem>
-                             <DropdownMenuItem asChild>
-                                <Link href="/book-demo">Book Free Demo</Link>
-                            </DropdownMenuItem>
-                             <DropdownMenuItem asChild>
-                                <Link href="/feedback">Feedback</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/student-enquiry">Student Enquiry</Link>
-                            </DropdownMenuItem>
+                            {navLinks.map(({ href, label }) => (
+                                <DropdownMenuItem asChild key={href}>
+                                    <Link href={href}>{label}</Link>
+                                </DropdownMenuItem>
+                            ))}
                         </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
-                       <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           <Link href="/login">
-                              <LogIn className="h-4 w-4 mr-1" />
-                              <span className="sm:inline">{t('login')}</span>
-                           </Link>
-                         </Button>
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
-                      {cartDropdown}
-                      <Separator orientation="vertical" className="h-4 bg-white/20" />
-                      {notificationDropdown}
-                  </div>
+                    </DropdownMenu>
+                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <GraduationCap className="h-4 w-4 mr-1" />
+                            <span className="sm:inline">APPLY FOR</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <Link href="/scholarship">Apply Scholarship</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/admission">Admission Form</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/book-demo">Book Free Demo</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/feedback">Feedback</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/student-enquiry">Student Enquiry</Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                       <Link href="/login">
+                          <LogIn className="h-4 w-4 mr-1" />
+                          <span className="sm:inline">{t('login')}</span>
+                       </Link>
+                     </Button>
+                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  {cartDropdown}
+                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  {notificationDropdown}
+                  <Separator orientation="vertical" className="h-4 bg-white/20" />
+                  {renderAuthSection()}
               </div>
-          </div>
-          <div className="container mx-auto px-4 md:px-[10%] h-14 flex items-center">
-              <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-              {renderAuthSection()}
-              </nav>
-              <div className="ml-auto md:hidden flex items-center gap-2">
-                <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-                    <span className="sr-only">Toggle navigation menu</span>
-                  </Button>
-                </CollapsibleTrigger>
-              </div>
+               <div className="ml-auto md:hidden flex items-center gap-2">
+                  {cartDropdown}
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
+                      {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                      <span className="sr-only">Toggle navigation menu</span>
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
           </div>
           <CollapsibleContent asChild>
             <div className={cn(
