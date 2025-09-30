@@ -388,7 +388,7 @@ export function Header() {
   if (!isClient) {
     return (
         <header className="sticky top-0 z-50 bg-red-500 border-b">
-            <div className="h-14"></div>
+            <div className="h-12"></div>
         </header>
     );
   }
@@ -396,22 +396,22 @@ export function Header() {
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-red-500 border-b">
-          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                <Image src="/logo.png" alt="IDL Education Logo" width={28} height={28} className="h-7 w-auto" />
                 <div className="ml-2 flex flex-col leading-tight">
-                    <span className="text-base font-semibold text-white">
+                    <span className="text-sm font-semibold text-white">
                         {brandName}
                     </span>
-                    <span className="text-[0.6rem] text-white/80 tracking-tighter -mt-1">
+                    <span className="text-[0.5rem] text-white/80 tracking-tighter -mt-1">
                       Institute of Distance Learning Pvt. Ltd.
                     </span>
                 </div>
               </Link>
-              <div className={cn("items-center hidden md:flex gap-x-2 md:gap-x-4 text-white")}>
+              <div className={cn("items-center hidden md:flex gap-x-2 md:gap-x-3 text-white")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 <Menu className="h-4 w-4 mr-1" />
                                 Menu
                             </Button>
@@ -427,7 +427,7 @@ export function Header() {
                   <Separator orientation="vertical" className="h-4 bg-white/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Button variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <GraduationCap className="h-4 w-4 mr-1" />
                             <span className="sm:inline">APPLY FOR</span>
                         </Button>
@@ -451,7 +451,7 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-4 bg-white/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
                           <LogIn className="h-4 w-4 mr-1" />
                           <span className="sm:inline">{t('login')}</span>
