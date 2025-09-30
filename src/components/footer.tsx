@@ -16,7 +16,7 @@ export function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start justify-start gap-3">
                                 <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span><strong className="font-semibold text-gray-900 dark:text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
+                                <span><strong className="font-semibold text-gray-800 dark:text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
                             <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
                              <li className="flex items-start justify-start gap-3">
@@ -84,7 +84,7 @@ export function Footer() {
                         </Link>
                     </div>
                     <div className="mt-6">
-                        <h4 className="text-md font-semibold mb-2 text-gray-900 dark:text-white">IDL Learning App - Learn Smart</h4>
+                        <h4 className="text-md font-semibold mb-2 text-gray-800 dark:text-white">IDL Learning App - Learn Smart</h4>
                         <div className="flex items-center gap-2">
                             <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                                 <Image 
