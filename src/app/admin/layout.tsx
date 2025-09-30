@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -61,9 +60,6 @@ function AdminLayout({
       <div className="flex min-h-screen">
         <Sidebar>
           <SidebarHeader>
-            <div className="flex items-center gap-2 p-4">
-              <span className="text-lg font-semibold">Admin Panel</span>
-            </div>
           </SidebarHeader>
           <SidebarContent className="mt-2">
             <SidebarMenu>
