@@ -308,15 +308,15 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14">
-          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-full">
+      <div className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b">
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
                     <span className="text-sm font-bold text-primary">
                         {brandName}
                     </span>
-                    <span className="text-[0.4rem] text-primary/80 tracking-normal -mt-1">
+                    <span className="text-[0.4rem] text-primary/80 tracking-tighter -mt-1">
                       (Institute of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
@@ -432,7 +432,7 @@ export function Header() {
               </div>
             </div>
           </CollapsibleContent>
-      </header>
+      </div>
     </Collapsible>
   );
 }
