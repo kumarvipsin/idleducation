@@ -41,7 +41,7 @@ export function OurFeatures() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
-                     <Card className="bg-background/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up h-full border-t-4 border-primary overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                     <Card className="bg-background rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 h-full overflow-hidden" style={{ animation: `float 6s ease-in-out infinite`, animationDelay: `${index * 0.5}s` }}>
                         <CardContent className="p-4 md:p-6 text-center flex flex-col items-center justify-center h-full">
                            <div className="p-4 bg-primary/10 text-primary rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
                                 {feature.icon}
