@@ -65,10 +65,33 @@ export function Header() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   
   useEffect(() => {
     setIsClient(true);
   }, []);
+  
+  const controlNavbar = () => {
+    if (typeof window !== 'undefined') { 
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
+        setShow(false); 
+      } else { // if scroll up show the navbar
+        setShow(true);  
+      }
+      setLastScrollY(window.scrollY); 
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -309,7 +332,7 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b">
+      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b transition-transform duration-300", show ? 'translate-y-0' : '-translate-y-full')}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
@@ -434,7 +457,7 @@ export function Header() {
               </div>
             </div>
           </CollapsibleContent>
-      </header>
+      </div>
     </Collapsible>
   );
 }
