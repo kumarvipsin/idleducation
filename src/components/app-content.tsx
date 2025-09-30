@@ -25,7 +25,8 @@ export function AppContent({
     '/admission',
     '/feedback',
     '/login',
-    '/signup'
+    '/signup',
+    '/about',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
