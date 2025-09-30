@@ -2,7 +2,7 @@ const translations = {
   en: {
     home: 'Home',
     about: 'About Us',
-    contact: 'Contact',
+    contact: 'Contact Us',
     gallery: 'Gallery',
     admissionForm: 'Admission Form',
     login: 'LOGIN',
