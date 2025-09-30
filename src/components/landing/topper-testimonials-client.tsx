@@ -19,7 +19,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial }) =
       <DialogTrigger asChild>
         <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full cursor-pointer">
           <CardContent className="p-0 flex flex-col h-full">
-            <div className="relative aspect-[9/16] w-full">
+            <div className="relative aspect-[16/9] w-full">
               <Image
                 src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
                 alt={`Testimonial from ${testimonial.studentName}`}
@@ -61,7 +61,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
 
     const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
     
     React.useEffect(() => {
@@ -106,15 +106,15 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <Carousel
                 setApi={setApi}
                 opts={{
-                align: "start",
-                loop: true,
+                  align: "start",
+                  loop: true,
                 }}
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
                 <CarouselContent className="-ml-6">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-full sm:basis-1/2 md:basis-1/3">
                         <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
