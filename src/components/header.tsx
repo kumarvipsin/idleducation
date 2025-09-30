@@ -135,7 +135,7 @@ export function Header() {
     return `/${user.role}/profile`;
   }
 
-  const logoHref = getDashboardPath(user);
+  const logoHref = '/';
 
   const renderAuthSection = () => {
     if (loading) {
