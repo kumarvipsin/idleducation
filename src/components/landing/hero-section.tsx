@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -42,7 +43,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
+    <section className="relative w-full h-[60vh] md:h-[40vh] overflow-hidden">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
