@@ -252,10 +252,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-       <div className="border-t p-2">
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -382,10 +379,10 @@ export function Header() {
             )}>
               <div className="border-t bg-white">
                 <div className="p-2">
-                  <nav className="grid grid-cols-2 gap-1 text-base font-medium">
+                  <nav className="grid grid-cols-3 gap-1 text-base font-medium">
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -399,7 +396,7 @@ export function Header() {
                     </DropdownMenu>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
                             APPLY FOR
                         </Button>
                     </DropdownMenuTrigger>
@@ -421,6 +418,11 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                          <span className="sm:inline">{t('login')}</span>
+                       </Link>
+                     </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
