@@ -4,13 +4,14 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, Plus } from 'lucide-react';
+import { Search, Image as ImageIcon, Plus, Home } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getGalleryImages } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
+import Link from 'next/link';
 
 type GalleryImage = {
   id: string;
@@ -49,7 +50,14 @@ export default function GalleryPage() {
   
   return (
     <Dialog>
-        <div className="container mx-auto py-8 px-4 md:px-[10%]">
+      <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
+        <div className="relative z-10 container mx-auto py-8">
             <div className="mb-8 space-y-4">
                  <div className="relative mx-auto max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -125,6 +133,7 @@ export default function GalleryPage() {
                     </div>
                 )}
             </main>
+        </div>
         </div>
 
         {selectedImage && (
