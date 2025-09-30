@@ -35,7 +35,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-24 bg-gradient-to-b from-white via-blue-50 to-white dark:from-background dark:via-blue-900/10 dark:to-background"
+      className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
