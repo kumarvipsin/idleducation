@@ -27,6 +27,7 @@ export function AppContent({
     '/login',
     '/signup',
     '/about',
+    '/contact',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
