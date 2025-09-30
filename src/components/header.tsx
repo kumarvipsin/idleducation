@@ -368,9 +368,9 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                  {notificationDropdown}
-                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
                   {notificationDropdown}
