@@ -400,7 +400,7 @@ export function Header() {
                   </CollapsibleTrigger>
                 </div>
           </div>
-           <div className={cn("h-[2px] bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 animate-gradient-x transition-transform duration-300", show ? 'scale-x-100' : 'scale-x-0')} style={{transformOrigin: 'left'}}></div>
+           <div className={cn("h-[2px] bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 animate-gradient-x transition-transform duration-300", show ? 'scale-x-100' : 'scale-x-0')} style={{transformOrigin: 'left'}}></div>
           <CollapsibleContent asChild>
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
