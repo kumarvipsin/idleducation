@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import type { TExamCategory } from "@/app/actions/types";
 
 const resourceLinks = [
   { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
@@ -24,20 +26,7 @@ const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
-const competitiveExams = [
-    { name: "JEE", href: "/category/iit-jee" },
-    { name: "NEET", href: "/category/neet" },
-    { name: "GATE", href: "/category/gate" },
-    { name: "CUET", href: "/category/cuet" },
-    { name: "CBSE", href: "/school" },
-    { name: "NIOS", href: "/school" },
-    { name: "CLAT", href: "/category/cuet" },
-    { name: "SSC", href: "/category/ssc" },
-    { name: "DELHI POLICE", href: "/category/delhi-police" },
-    { name: "Govt. Job Exams", href: "/category/govt-job-exams" },
-];
-
-export function CategoryContent({ data, slug, subCategories }: { data: any, slug: string, subCategories: string[] }) {
+export function CategoryContent({ data, slug, subCategories, competitiveExams }: { data: any, slug: string, subCategories: string[], competitiveExams: TExamCategory[] }) {
   const { t } = useLanguage();
   const [activeSubCategory, setActiveSubCategory] = useState(subCategories && subCategories.length > 0 ? subCategories[0] : '');
   const [animationKey, setAnimationKey] = useState(0);
@@ -97,7 +86,7 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
     }
   ];
 
-  const competitiveExamSlugs = competitiveExams.map(e => e.href.split('/')[2]);
+  const competitiveExamSlugs = competitiveExams.map(e => e.href.split('/').pop());
   const isCompetitiveExamPage = competitiveExamSlugs.includes(slug);
 
   return (
@@ -124,14 +113,14 @@ export function CategoryContent({ data, slug, subCategories }: { data: any, slug
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {competitiveExams.map((exam) => {
-                  const currentSlug = exam.href.split('/')[2];
+                  const currentSlug = exam.href.split('/').pop();
                   return (
                     <Link href={exam.href} key={exam.name}>
                       <button
                         className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                           ${slug === currentSlug
-                            ? 'border-primary text-primary bg-primary/10 rounded-md'
-                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                            ? 'border-primary text-primary bg-primary/10 rounded-full'
+                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                       >
                         {exam.name}
                       </button>
