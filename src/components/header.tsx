@@ -252,13 +252,22 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+       <div className="border-t p-2">
+        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="font-bold uppercase text-xs">{t('login')}</span>
+            </Link>
+        </Button>
+      </div>
+    );
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+            <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                 <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -316,7 +325,7 @@ export function Header() {
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Button variant="link" className="h-auto p-0 text-foreground text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -331,7 +340,7 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Button variant="link" className="h-auto p-0 text-foreground text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <span className="sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
@@ -354,7 +363,7 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
                           <span className="sm:inline">{t('login')}</span>
                        </Link>
@@ -364,9 +373,7 @@ export function Header() {
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  <div className="text-white">
-                    {notificationDropdown}
-                  </div>
+                  {notificationDropdown}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
