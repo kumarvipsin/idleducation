@@ -38,10 +38,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     <Card
       className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
     >
-      <CardContent className="p-6 flex-1 flex flex-col text-center">
-        <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary/10">
-          {loadingAvatar ? (
-            <Skeleton className="w-full h-full rounded-full" />
+      <div className="relative w-full aspect-video">
+         {loadingAvatar ? (
+            <Skeleton className="w-full h-full" />
           ) : avatarUrl ? (
             <Image
               src={avatarUrl}
@@ -55,18 +54,21 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               alt="Placeholder for testimonial author"
               data-ai-hint="person student"
               fill
-              className="object-cover rounded-full"
+              className="object-cover"
             />
           )}
-        </div>
+      </div>
+      <CardContent className="p-6 flex-1 flex flex-col text-center">
         <h3 className="font-bold text-lg">{testimonial.name}</h3>
-        <p className="text-xs text-primary font-semibold mb-2">{testimonial.achievement}</p>
-        <div className="relative h-24 mt-2">
-           <ScrollArea className="h-full w-full px-2">
-            <blockquote className="text-xs text-muted-foreground italic">
+        <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
+        <div className="relative h-36">
+           <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
+           <ScrollArea className="h-full w-full px-6">
+            <blockquote className="text-sm text-muted-foreground italic">
               {fullText}
             </blockquote>
           </ScrollArea>
+           <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
         </div>
       </CardContent>
     </Card>
@@ -115,16 +117,14 @@ export function StudentTestimonials() {
 
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="text-primary">What Our </span>
-            <span className="text-gray-400">Students Say</span>
-          </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            {t('testimonials.subtitle')}
-          </p>
-        </div>
+      <div className="text-center mb-12 px-4 md:px-6">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          <span className="text-primary">What Our </span>
+          <span className="text-gray-400">Students Say</span>
+        </h2>
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          {t('testimonials.subtitle')}
+        </p>
       </div>
       <div className="relative w-full">
           {loading ? (
