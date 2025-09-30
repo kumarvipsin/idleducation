@@ -57,7 +57,7 @@ export function AcademicExcellence() {
     >
       <div className="w-full">
         <div className="text-center mb-6 px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
             Excellence Results
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
