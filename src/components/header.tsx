@@ -303,12 +303,12 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-8">
+      <header className="sticky top-0 z-50 bg-background border-b h-8">
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-full">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-[0.8rem] font-semibold text-gray-800 dark:text-gray-300">
+                    <span className="text-[0.8rem] font-semibold text-foreground">
                         {brandName}
                     </span>
                 </div>
@@ -316,7 +316,7 @@ export function Header() {
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Button variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -328,11 +328,11 @@ export function Header() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                  <Separator orientation="vertical" className="h-3 bg-gray-800/20 dark:bg-gray-300/20" />
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            APPLY FOR
+                        <Button variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <span className="sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -353,19 +353,19 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Separator orientation="vertical" className="h-3 bg-gray-800/20 dark:bg-gray-300/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
-                          {t('login')}
+                          <span className="sm:inline">{t('login')}</span>
                        </Link>
                      </Button>
-                  <Separator orientation="vertical" className="h-3 bg-gray-800/20 dark:bg-gray-300/20" />
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
                   {renderAuthSection()}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-gray-800 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/20 hover:text-gray-800 dark:hover:text-gray-300 h-7 w-7">
+                    <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
@@ -378,7 +378,7 @@ export function Header() {
             )}>
               <div className="border-t bg-white">
                 <div className="p-2">
-                <nav className="grid grid-cols-3 gap-1 text-base font-medium">
+                  <nav className="grid grid-cols-3 gap-1 text-base font-medium">
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
@@ -417,6 +417,11 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                  <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                        {t('login')}
+                    </Link>
+                  </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}
