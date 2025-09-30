@@ -412,6 +412,22 @@ export function Header() {
               <div className="container mx-auto px-4 md:px-[10%] flex justify-end items-center h-8">
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    Menu
+                                    <ChevronDown className="h-4 w-4 ml-1"/>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                {navLinks.map(({ href, label }) => (
+                                    <DropdownMenuItem asChild key={href}>
+                                        <Link href={href}>{label}</Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                      <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 <GraduationCap className="h-4 w-4 mr-1" />
@@ -437,7 +453,7 @@ export function Header() {
                         </DropdownMenuContent>
                       </DropdownMenu>
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
-                        <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                       <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            <Link href="/login">
                               <LogIn className="h-4 w-4 mr-1" />
                               <span className="sm:inline">{t('login')}</span>
@@ -471,21 +487,6 @@ export function Header() {
                 </div>
               </Link>
               <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-                   <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-0 text-sm font-medium hover:underline underline-offset-4 focus-visible:ring-0 focus-visible:ring-offset-0">
-                                Menu
-                                <ChevronDown className="h-4 w-4 ml-1"/>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {navLinks.map(({ href, label }) => (
-                                <DropdownMenuItem asChild key={href}>
-                                    <Link href={href}>{label}</Link>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
               {renderAuthSection()}
               </nav>
               <div className="ml-auto md:hidden flex items-center gap-2">
