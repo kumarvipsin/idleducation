@@ -437,14 +437,12 @@ export function Header() {
                         </DropdownMenuContent>
                       </DropdownMenu>
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
-                      {!user && (
-                         <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            <Link href="/login">
                               <LogIn className="h-4 w-4 mr-1" />
                               <span className="sm:inline">{t('login')}</span>
                            </Link>
                          </Button>
-                      )}
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
                       {cartDropdown}
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
