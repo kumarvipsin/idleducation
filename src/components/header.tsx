@@ -252,7 +252,16 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+       <div className="border-t p-2">
+        <Button asChild variant="outline" className="w-full h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                
+                <span className="font-bold uppercase text-xs">{t('login')}</span>
+            </Link>
+        </Button>
+      </div>
+    );
   };
   
   const notificationDropdown = (
@@ -316,7 +325,7 @@ export function Header() {
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -331,7 +340,7 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <span className="sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
@@ -354,7 +363,7 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
                           <span className="sm:inline">{t('login')}</span>
                        </Link>
