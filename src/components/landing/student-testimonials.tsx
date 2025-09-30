@@ -118,9 +118,8 @@ export function StudentTestimonials() {
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
-        <h2 className="text-3xl md:text-4xl font-bold">
-          <span className="text-primary">What Our </span>
-          <span className="text-gray-400">Students Say</span>
+        <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
+          What Our Students Say
         </h2>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           {t('testimonials.subtitle')}
