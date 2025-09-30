@@ -103,7 +103,7 @@ export function ExamCategories() {
     <section className="w-full pt-16 md:pt-20 pb-16 md:pb-20 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="text-center mb-12">
-           <h2 className="text-3xl md:text-4xl font-bold text-black dark:text-white">
+           <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
             Exam Categories
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto" style={{ animationDelay: '0.2s' }}>
