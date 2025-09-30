@@ -295,7 +295,7 @@ export function Header() {
   const cartDropdown = (
     <DropdownMenu>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <ShoppingCart className="h-3 w-3 mr-1" />
                 <span className="sm:inline">CART</span>
                 {cartItems.length > 0 && (
@@ -357,7 +357,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+            <Button variant="link" className="relative h-auto p-0 text-black font-bold text-[0.6rem] uppercase hover:no-underline">
                 <Bell className="h-3 w-3" />
                 {hasNewUpdates && (
                     <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
@@ -420,9 +420,9 @@ export function Header() {
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline">
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <GraduationCap className="h-4 w-4 mr-1" />
                                 <span className="sm:inline">APPLY FOR</span>
-                                <GraduationCap className="h-4 w-4 ml-1"/>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
