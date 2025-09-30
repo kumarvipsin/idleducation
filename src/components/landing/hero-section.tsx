@@ -1,28 +1,66 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Smartphone } from "lucide-react";
 import Link from 'next/link';
 import { Separator } from "../ui/separator";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import Image from "next/image";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
+
+const heroImages = [
+  { src: "https://picsum.photos/seed/hero1/1920/1080", alt: "Students learning in a modern classroom", hint: "students classroom" },
+  { src: "https://picsum.photos/seed/hero2/1920/1080", alt: "A student focused on a difficult problem", hint: "student studying" },
+  { src: "https://picsum.photos/seed/hero3/1920/1080", alt: "A group of happy students celebrating success", hint: "students success" },
+]
 
 export function HeroSection() {
+  const autoplayPlugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+  );
   
   return (
-    <section className="relative w-full bg-cover bg-center bg-no-repeat pb-10" style={{backgroundImage: "url('https://picsum.photos/seed/student-bg/1920/1080')"}} data-ai-hint="student smiling">
-    <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
-    <div className="container mx-auto px-4 md:px-6 relative z-10 py-16 md:py-24">
-        <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
-            <div className="space-y-4 text-white">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
-                   Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span>
-                </h1>
-                <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
-                    Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
-                </p>
+    <section className="relative w-full h-[60vh] md:h-[80vh] overflow-hidden">
+      <Carousel 
+        opts={{ loop: true }}
+        plugins={[autoplayPlugin.current]} 
+        className="w-full h-full"
+      >
+        <CarouselContent className="h-full">
+          {heroImages.map((image, index) => (
+            <CarouselItem key={index} className="h-full">
+              <div className="relative w-full h-full">
+                <Image 
+                  src={image.src} 
+                  alt={image.alt} 
+                  data-ai-hint={image.hint}
+                  fill
+                  className="object-cover"
+                />
+                 <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white bg-white/20 hover:bg-white/40 border-none" />
+        <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white bg-white/20 hover:bg-white/40 border-none" />
+      </Carousel>
+
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
+                <div className="space-y-4 text-white">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
+                       Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span>
+                    </h1>
+                    <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
+                        Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+      </div>
     </section>
   );
 }
