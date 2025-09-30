@@ -400,10 +400,10 @@ export function Header() {
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-[0.8rem] font-semibold text-white">
+                    <span className="text-[0.6rem] font-semibold text-white">
                         {brandName}
                     </span>
-                    <span className="text-[0.5rem] text-white/80 tracking-tighter -mt-1">
+                    <span className="text-[0.5rem] text-white/80 tracking-tighter -mt-0.5">
                       Institute of Distance Learning Pvt. Ltd.
                     </span>
                 </div>
@@ -411,8 +411,7 @@ export function Header() {
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                   <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                <Menu className="h-3 w-3 mr-1" />
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
@@ -427,9 +426,8 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <GraduationCap className="h-3 w-3 mr-1" />
-                            <span className="hidden sm:inline">APPLY FOR</span>
+                        <Button variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <span className="sm:inline">APPLY FOR</span>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -451,10 +449,9 @@ export function Header() {
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                   <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-sm uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                        <Link href="/login">
-                          <LogIn className="h-3 w-3 mr-1" />
-                          <span className="hidden sm:inline">{t('login')}</span>
+                          <span className="sm:inline">{t('login')}</span>
                        </Link>
                      </Button>
                   <Separator orientation="vertical" className="h-3 bg-white/20" />
