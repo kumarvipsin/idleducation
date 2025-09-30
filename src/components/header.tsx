@@ -388,7 +388,7 @@ export function Header() {
   if (!isClient) {
     return (
         <header className="sticky top-0 z-50 bg-red-500 border-b">
-            <div className="h-12"></div>
+            <div className="h-10"></div>
         </header>
     );
   }
@@ -396,14 +396,14 @@ export function Header() {
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className="sticky top-0 z-50 bg-red-500 border-b">
-          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-10">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={28} height={28} className="h-7 w-auto" />
+                <Image src="/logo.png" alt="IDL Education Logo" width={20} height={20} className="h-5 w-auto" />
                 <div className="ml-2 flex flex-col leading-tight">
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-xs font-semibold text-white">
                         {brandName}
                     </span>
-                    <span className="text-[0.5rem] text-white/80 tracking-tighter -mt-1">
+                    <span className="text-[0.4rem] text-white/80 tracking-tighter -mt-1">
                       Institute of Distance Learning Pvt. Ltd.
                     </span>
                 </div>
