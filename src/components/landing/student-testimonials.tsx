@@ -126,7 +126,7 @@ export function StudentTestimonials() {
           {t('testimonials.subtitle')}
         </p>
       </div>
-      <div className="relative w-full">
+      <div className="relative w-full pr-[10%]">
           {loading ? (
              <div className="flex justify-center gap-6 px-4 md:px-[10%]">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
