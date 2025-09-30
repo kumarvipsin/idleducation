@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-[#F5F5F7] text-gray-800 dark:bg-gray-900 dark:text-gray-300">
+    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
@@ -109,7 +109,7 @@ export function Footer() {
                 </div>
             </div>
         </div>
-        <div className="bg-[#F5F5F7] dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
             <div className="container mx-auto px-4 md:px-6 py-2">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
                     <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
