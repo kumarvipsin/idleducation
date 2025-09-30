@@ -208,14 +208,7 @@ export function Header() {
       );
     }
 
-    return (
-       <Button asChild variant="outline" className="h-9 rounded-md border text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 ease-in-out group">
-            <Link href="/login" className="flex items-center">
-                <LogIn className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                <span className="font-bold uppercase text-xs">{t('login')}</span>
-            </Link>
-        </Button>
-    );
+    return null;
   };
   
   const navLinks = [
@@ -420,7 +413,7 @@ export function Header() {
                   <div className={cn("items-center flex gap-x-2 md:gap-x-4")}>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="link" className="flex items-center h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Button variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                 <GraduationCap className="h-4 w-4 mr-1" />
                                 <span className="sm:inline">APPLY FOR</span>
                             </Button>
@@ -443,6 +436,15 @@ export function Header() {
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
+                      <Separator orientation="vertical" className="h-4 bg-white/20" />
+                      {!user && (
+                         <Button asChild variant="link" className="h-auto p-0 text-white font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           <Link href="/login">
+                              <LogIn className="h-4 w-4 mr-1" />
+                              <span className="sm:inline">{t('login')}</span>
+                           </Link>
+                         </Button>
+                      )}
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
                       {cartDropdown}
                       <Separator orientation="vertical" className="h-4 bg-white/20" />
