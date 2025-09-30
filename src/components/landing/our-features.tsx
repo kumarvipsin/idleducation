@@ -38,6 +38,12 @@ export function OurFeatures() {
       className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Why Choose IDL EDUCATION?</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                Discover the advantages that make our platform the best choice for your learning journey.
+            </p>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {features.map((feature, index) => (
                 <Link href={feature.href} key={index} className="group">
