@@ -94,10 +94,13 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
 
      React.useEffect(() => {
       if (!api || !autoplayPlugin.current) return;
+
       if (playingVideoId) {
         autoplayPlugin.current.stop();
       } else {
-        autoplayPlugin.current.play();
+        if(api.plugins().autoplay) {
+            api.plugins().autoplay.play();
+        }
       }
     }, [playingVideoId, api]);
 
@@ -129,7 +132,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full pr-[10%]">
+        <div className="w-full pl-[10%]">
             <Carousel
                 setApi={setApi}
                 opts={{
