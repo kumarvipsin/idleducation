@@ -25,14 +25,6 @@ import type { TExamCategory } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 
-
-const resourceLinks = [
-  { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
-  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
-  { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
-  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
-];
-
 const class5MathsSyllabus = {
   description: "The CBSE class 5 Maths syllabus will cover numbers, measurements, geometry, arithmetic operations, and data handling. Students will learn to solve real-life problems with logical reasoning skills. They will learn to use the BODMAS rule, solve fractions, understand various geometric shapes, and be introduced to mensuration and data handling. The CBSE class 5 syllabus for Maths is as follows:",
   chapters: [
@@ -1062,7 +1054,7 @@ function SchoolPageContent() {
                                                     <TableRow key={item.chapter}>
                                                         <TableCell className="font-medium">{item.chapter}</TableCell>
                                                         <TableCell>{item.name}</TableCell>
-                                                        <TableCell>
+                                                         <TableCell>
                                                             <ul className="list-disc pl-5">
                                                                 {item.topics.map(topic => <li key={topic}>{topic}</li>)}
                                                             </ul>
@@ -1181,7 +1173,7 @@ function SchoolPageContent() {
                                         </TabsContent>
                                         <TabsContent value="science" className="pt-4">
                                             <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
-                                            <Table>
+                                             <Table>
                                                 <TableHeader>
                                                     <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
                                                 </TableHeader>
@@ -1203,7 +1195,7 @@ function SchoolPageContent() {
                                         </TabsContent>
                                         <TabsContent value="social" className="pt-4">
                                             <p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p>
-                                            <Table>
+                                             <Table>
                                                 <TableHeader>
                                                     <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
                                                 </TableHeader>
@@ -1223,9 +1215,9 @@ function SchoolPageContent() {
                                                 </TableBody>
                                             </Table>
                                         </TabsContent>
-                                        <TabsContent value="english" className="pt-4">
+                                         <TabsContent value="english" className="pt-4">
                                             <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
-                                            <Table>
+                                             <Table>
                                                 <TableHeader>
                                                     <TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow>
                                                 </TableHeader>
@@ -1247,21 +1239,6 @@ function SchoolPageContent() {
                                         </TabsContent>
                                     </Tabs>
                                 )}
-                            </div>
-                            
-                            <Separator />
-                            <div>
-                                <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    {resourceLinks.map(link => (
-                                        <Button asChild variant="outline" key={link.href} className="justify-start">
-                                            <Link href={link.href}>
-                                                {link.icon}
-                                                <span className="ml-2">{link.label}</span>
-                                            </Link>
-                                        </Button>
-                                    ))}
-                                </div>
                             </div>
                         </CardContent>
                     </Card>

@@ -54,7 +54,7 @@ function ExamcatPageContent() {
       setLoading(false);
     };
     fetchData();
-  }, [categoryParam]); // Re-run when the URL parameter changes
+  }, [categoryParam]);
 
   const handleCategoryClick = (category: TExamCategory) => {
     setActiveCategory(category);
@@ -134,12 +134,12 @@ function ExamcatPageContent() {
                 <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                     <div className="container mx-auto px-4 md:px-[10%]">
                     <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                      <h2 className="text-3xl md:text-4xl font-bold text-primary">
                         {`${activeCategory.name} Online Coaching 2025-2026`}
-                    </h2>
-                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                        Everything you need to know about the curriculum, exams, and resources.
-                    </p>
+                      </h2>
+                      <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                          Everything you need to know about the curriculum, exams, and resources.
+                      </p>
                     </div>
                     <Card className="shadow-lg">
                         <CardContent className="p-6 space-y-8">
@@ -157,24 +157,6 @@ function ExamcatPageContent() {
                     </div>
                 </section>
             )}
-
-            <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up mt-16" style={{ animationDelay: '0.4s' }}>
-                <div className="container mx-auto px-4 md:px-[10%]">
-                    <div className="text-center">
-                        <h3 className="font-bold text-2xl mb-6 text-primary border-b-2 border-primary/20 pb-2 inline-block">Essential Resources</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-base">
-                                    <Link href={link.href}>
-                                        {link.icon}
-                                        <span className="ml-2">{link.label}</span>
-                                    </Link>
-                                </Button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     </div>
   );
