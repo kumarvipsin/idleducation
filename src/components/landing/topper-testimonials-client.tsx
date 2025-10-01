@@ -5,11 +5,9 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
-import { PlayCircle } from "lucide-react";
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "../ui/carousel";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
 import Autoplay from "embla-carousel-autoplay";
-import { cn } from "@/lib/utils";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -38,12 +36,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
             </button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
                 <DialogHeader className="p-4">
-                    <DialogTitle>{testimonial.studentName} - Topper Testimonial</DialogTitle>
+                  <DialogTitle>{testimonial.studentName} - Topper Testimonial</DialogTitle>
                 </DialogHeader>
                 <div className="aspect-video">
                   <iframe
@@ -70,43 +67,27 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
 };
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
-    const [api, setApi] = React.useState<CarouselApi>()
-    const [current, setCurrent] = React.useState(0)
-    const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
+  const [api, setApi] = React.useState<CarouselApi>()
+  const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
-    
-    const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 3000, stopOnInteraction: true, stopOnMouseEnter: true })
-    );
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+  );
 
-    React.useEffect(() => {
-        if (!api) {
-        return
-        }
-        setCurrent(api.selectedScrollSnap())
-        api.on("select", () => {
-        setCurrent(api.selectedScrollSnap())
-        })
-    }, [api])
-
-     React.useEffect(() => {
-      if (!api || !api.plugins || !api.plugins().autoplay) return;
-
-      if (playingVideoId) {
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+    if (playingVideoId) {
+      if (api.plugins().autoplay) {
         api.plugins().autoplay.stop();
-      } else {
-        if(api.plugins().autoplay) {
-            api.plugins().autoplay.play();
-        }
       }
-    }, [playingVideoId, api]);
-
-    const scrollTo = React.useCallback(
-        (index: number) => {
-          api?.scrollTo(index);
-        },
-        [api]
-    );
+    } else {
+       if (api.plugins().autoplay) {
+          api.plugins().autoplay.play();
+       }
+    }
+  }, [playingVideoId, api]);
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -129,36 +110,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full">
-            <Carousel
-                setApi={setApi}
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                plugins={[autoplayPlugin.current]}
-                className="w-full"
-            >
-                <CarouselContent className="-ml-6 px-4 md:px-[10%]">
-                {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
-                       <TestimonialCard testimonial={testimonial} />
-                    </CarouselItem>
-                ))}
-                </CarouselContent>
-            </Carousel>
-             <div className="flex justify-center gap-2 mt-8">
-                {testimonials.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => scrollTo(i)}
-                      className={cn(
-                          "h-2 w-2 rounded-full transition-all",
-                          current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
-                      )}
-                    />
-                ))}
+        <div className="relative">
+          <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-6 px-4 md:pl-[10%]">
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                    <TestimonialCard testimonial={testimonial} />
+                </div>
+              ))}
             </div>
+          </div>
         </div>
     </section>
   );
