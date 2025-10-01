@@ -4,10 +4,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, ArrowRight, TrendingUp, FlaskConical, HelpCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, BookText, TestTube2, Scale, Globe, Landmark, Atom, Sigma, Dna, TrendingUp, FlaskConical, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { getCollection } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
@@ -15,25 +15,8 @@ import Image from 'next/image';
 type Subject = {
   name: string;
   href: string;
-  icon: React.ReactNode;
-  gradient: string;
   imageUrl: string;
   imageHint: string;
-};
-
-const subjectIconMap: { [key: string]: React.ReactNode } = {
-  maths: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
-  science: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
-  social: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
-  english: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
-  physics: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
-  chemistry: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
-  biology: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
-  history: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
-  geography: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
-  'political-science': <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
-  economics: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
-  default: <BookText className="w-8 h-8 text-gray-600 dark:text-gray-400" />,
 };
 
 const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
@@ -51,7 +34,6 @@ const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
   default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
 };
 
-const getIcon = (key: string) => subjectIconMap[key.toLowerCase()] || subjectIconMap.default;
 const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
 
 export default function NotesPage() {
@@ -71,7 +53,6 @@ export default function NotesPage() {
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
             href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
-            icon: getIcon(subjectKey),
             imageUrl: getImage(subjectKey).url,
             imageHint: getImage(subjectKey).hint,
           }));
@@ -155,7 +136,6 @@ export default function NotesPage() {
                           <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                               <CardContent className="p-8 flex-grow flex flex-col">
-                                {subject.icon}
                                 <h3 className="text-2xl font-bold mt-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
                                 <p className="text-sm mt-2 text-muted-foreground flex-grow">In-depth notes for {subject.name}.</p>
                               </CardContent>

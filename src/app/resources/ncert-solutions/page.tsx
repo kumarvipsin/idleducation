@@ -14,25 +14,25 @@ import { Skeleton } from '@/components/ui/skeleton';
 type Subject = {
   name: string;
   href: string;
-  icon: React.ReactNode;
+  gradient: string;
 };
 
-const subjectIconMap: { [key: string]: React.ReactNode } = {
-  maths: <Sigma className="w-6 h-6 text-green-600" />,
-  science: <TestTube2 className="w-6 h-6 text-blue-600" />,
-  social: <Landmark className="w-6 h-6 text-amber-600" />,
-  english: <BookText className="w-6 h-6 text-purple-600" />,
-  physics: <Atom className="w-6 h-6 text-sky-600" />,
-  chemistry: <FlaskConical className="w-6 h-6 text-purple-600" />,
-  biology: <Dna className="w-6 h-6 text-lime-600" />,
-  history: <Landmark className="w-6 h-6 text-red-600" />,
-  geography: <Globe className="w-6 h-6 text-orange-600" />,
-  'political-science': <Scale className="w-6 h-6 text-indigo-600" />,
-  economics: <TrendingUp className="w-6 h-6 text-pink-600" />,
-  default: <BookText className="w-6 h-6 text-gray-600" />,
+const subjectGradientMap: { [key: string]: string } = {
+  maths: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30',
+  science: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30',
+  social: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30',
+  english: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30',
+  physics: 'from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30',
+  chemistry: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30',
+  biology: 'from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30',
+  history: 'from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30',
+  geography: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30',
+  'political-science': 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30',
+  economics: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30',
+  default: 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-800/30',
 };
 
-const getIcon = (key: string) => subjectIconMap[key.toLowerCase()] || subjectIconMap.default;
+const getGradient = (key: string) => subjectGradientMap[key.toLowerCase()] || subjectGradientMap.default;
 
 export default function NcertSolutionsPage() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
@@ -50,8 +50,8 @@ export default function NcertSolutionsPage() {
           const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
-            href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
-            icon: getIcon(subjectKey),
+            href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
+            gradient: getGradient(subjectKey),
           }));
           return acc;
         }, {});
@@ -114,8 +114,8 @@ export default function NcertSolutionsPage() {
                     onClick={() => handleClassChange(className)}
                     className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                 >
                     {className}
                 </button>
@@ -130,22 +130,23 @@ export default function NcertSolutionsPage() {
             <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
             {subjects && subjects.length > 0 ? (
                 subjects.map((subject: Subject, index: number) => (
-                <Link href={subject.href} key={index} className="group">
-                  <Card 
-                      className={`flex flex-col rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full bg-card`}
-                      style={{ animationDelay: `${index * 0.05}s` }}
-                  >
-                      <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                          <div className="mb-4">
-                              {subject.icon}
-                          </div>
-                          <h3 className="text-lg font-semibold mb-1 flex-grow text-left">{subject.name}</h3>
-                          <div className="w-full flex justify-end">
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                          </div>
-                      </CardContent>
-                  </Card>
-                </Link>
+                <Card 
+                    key={index} 
+                    className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${subject.gradient}`}
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                    <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
+                        <div className="flex justify-between items-start w-full mb-4">
+                            <Badge variant="secondary">{selectedClass}</Badge>
+                        </div>
+                        <h3 className="text-xl font-bold mb-1 flex-grow">{subject.name}</h3>
+                        <Button asChild variant="default" className="mt-auto w-full">
+                            <Link href={subject.href}>
+                                VIEW MORE <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardContent>
+                </Card>
                 ))
             ) : (
                 <div className="col-span-full text-center py-12">
