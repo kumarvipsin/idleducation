@@ -36,13 +36,6 @@ const features = [
     imageHint: "teacher classroom",
   },
   {
-    title: "Live Doubt Solving",
-    description: "High-quality mock tests with multi-layer testing and detailed evaluation.",
-    href: "#",
-    imageUrl: "https://picsum.photos/seed/assessments/600/400",
-    imageHint: "student test",
-  },
-  {
     title: "Unique Two-Teacher Model",
     description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
     href: "#",
