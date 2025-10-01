@@ -21,7 +21,7 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
   return (
     <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
       <CardContent className="p-0 flex flex-col h-full">
-        <div className="relative aspect-[9/16] w-full">
+        <div className="relative aspect-video w-full">
           {isPlaying ? (
             <iframe
               className="w-full h-full"
@@ -50,7 +50,7 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
           )}
         </div>
         <div className="p-3 flex-grow flex flex-col">
-          <p className="font-bold text-base text-foreground truncate">{testimonial.studentName}</p>
+          <p className="font-bold text-sm text-foreground truncate">{testimonial.studentName}</p>
           <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
           </div>
@@ -65,10 +65,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
     const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
-    const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
-    );
-
     React.useEffect(() => {
         if (!api) {
         return
@@ -78,16 +74,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         setCurrent(api.selectedScrollSnap())
         })
     }, [api])
-
-    React.useEffect(() => {
-        if (!api || !autoplayPlugin.current) return;
-        if (playingVideoId) {
-            autoplayPlugin.current.stop();
-        } else {
-            if(autoplayPlugin.current.play) autoplayPlugin.current.play();
-        }
-    }, [playingVideoId, api]);
-
 
     const scrollTo = React.useCallback(
         (index: number) => {
@@ -121,17 +107,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full pr-[10%]">
+        <div className="w-full">
             <Carousel
                 setApi={setApi}
                 opts={{
                   align: "start",
                   loop: testimonials.length > 3,
                 }}
-                plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6">
+                <CarouselContent className="-ml-6 pl-4 md:pl-[10%]">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                         <TestimonialCard 
