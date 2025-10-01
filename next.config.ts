@@ -70,6 +70,12 @@ const nextConfig: NextConfig = {
         hostname: 'img.freepik.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ezeenotes.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

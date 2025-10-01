@@ -12,7 +12,7 @@ const resources = [
     title: "Notes",
     description: "Find concise and well-structured notes designed for quick revision.",
     href: "/resources/notes",
-    imageUrl: "https://picsum.photos/seed/notes/600/400",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "notebook pen",
   },
   {
