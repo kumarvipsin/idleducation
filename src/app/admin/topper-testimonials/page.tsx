@@ -34,7 +34,6 @@ const TopperTestimonialForm = ({
     const data = {
         studentName: formData.get('studentName') as string,
         studentClass: formData.get('studentClass') as string,
-        studentPlace: formData.get('studentPlace') as string,
         videoId: formData.get('videoId') as string,
     };
 
@@ -61,10 +60,6 @@ const TopperTestimonialForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="studentClass" className="text-right">Class/Course</Label>
           <Input id="studentClass" name="studentClass" defaultValue={testimonial?.studentClass} className="col-span-3" />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="studentPlace" className="text-right">Place</Label>
-          <Input id="studentPlace" name="studentPlace" defaultValue={testimonial?.studentPlace} className="col-span-3" />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="videoId" className="text-right">YouTube Video ID</Label>
@@ -141,7 +136,6 @@ export default function AdminTopperTestimonialsPage() {
                   <TableRow>
                     <TableHead>Student Name</TableHead>
                     <TableHead>Class/Course</TableHead>
-                    <TableHead>Place</TableHead>
                     <TableHead>Video</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -153,7 +147,6 @@ export default function AdminTopperTestimonialsPage() {
                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-8 w-20" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
                       </TableRow>
                     ))
@@ -162,7 +155,6 @@ export default function AdminTopperTestimonialsPage() {
                       <TableRow key={testimonial.id}>
                         <TableCell>{testimonial.studentName}</TableCell>
                         <TableCell>{testimonial.studentClass}</TableCell>
-                        <TableCell>{testimonial.studentPlace}</TableCell>
                         <TableCell>
                            <a href={`https://www.youtube.com/watch?v=${testimonial.videoId}`} target="_blank" rel="noopener noreferrer">
                                 <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600"><Youtube className="mr-2"/>View</Button>
@@ -211,3 +203,5 @@ export default function AdminTopperTestimonialsPage() {
     </Dialog>
   );
 }
+
+    

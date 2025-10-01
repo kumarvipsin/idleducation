@@ -68,7 +68,6 @@ export interface TTopperTestimonial {
   id: string;
   studentName: string;
   studentClass: string;
-  studentPlace: string;
   videoId: string;
   createdAt: string;
 }
@@ -127,3 +126,5 @@ export interface TTeamMember {
     twitter?: string;
   };
 }
+
+    

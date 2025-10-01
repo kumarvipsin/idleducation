@@ -325,7 +325,6 @@ export async function deleteTestimonial(id: string) {
 const topperTestimonialSchema = z.object({
   studentName: z.string().min(1, 'Student name is required'),
   studentClass: z.string().min(1, 'Class/Course is required'),
-  studentPlace: z.string().min(1, 'Place is required'),
   videoId: z.string().min(1, 'YouTube Video ID is required'),
 });
 
@@ -774,3 +773,4 @@ export async function editStudentProfile(studentId: string, formData: FormData) 
 }
     
 
+    

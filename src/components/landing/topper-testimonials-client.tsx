@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -52,7 +53,6 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
           <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
           <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
-            <span>{testimonial.studentPlace}</span>
           </div>
         </div>
       </CardContent>
@@ -65,6 +65,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
     const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
+    const autoplayPlugin = React.useRef(
+      Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+    );
+
     React.useEffect(() => {
         if (!api) {
         return
@@ -74,6 +78,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         setCurrent(api.selectedScrollSnap())
         })
     }, [api])
+
+    React.useEffect(() => {
+      if (!api || !autoplayPlugin.current) return;
+      if (playingVideoId) {
+        autoplayPlugin.current.stop();
+      } else {
+        autoplayPlugin.current.play();
+      }
+    }, [playingVideoId, api]);
+
 
     const scrollTo = React.useCallback(
         (index: number) => {
@@ -112,8 +126,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 setApi={setApi}
                 opts={{
                   align: "start",
-                  loop: true,
+                  loop: testimonials.length > 3,
                 }}
+                plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
                 <CarouselContent className="-ml-6">
@@ -144,3 +159,5 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     </section>
   );
 }
+
+    
