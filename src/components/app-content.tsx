@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -29,6 +28,8 @@ export function AppContent({
     '/contact',
     '/gallery',
     '/feature',
+    '/school',
+    '/examcat',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
