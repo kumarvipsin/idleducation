@@ -5,9 +5,9 @@ import Image from "next/image";
 import { allPrograms } from "@/lib/courses";
 
 const quickLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About Us" },
   { href: "/achievements", label: "Achievements" },
 ];
 
