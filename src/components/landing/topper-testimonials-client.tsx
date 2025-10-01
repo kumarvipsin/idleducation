@@ -45,9 +45,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
-                <DialogHeader className="sr-only">
-                    <DialogTitle>Video Testimonial: {testimonial.studentName}</DialogTitle>
-                    <DialogDescription>A video testimonial from one of our successful students.</DialogDescription>
+                <DialogHeader className="p-4">
+                    <DialogTitle>{testimonial.studentName} - Topper Testimonial</DialogTitle>
                 </DialogHeader>
                 <div className="aspect-video">
                   <iframe
@@ -76,9 +75,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
+    const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
+
     
     const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+        Autoplay({ delay: 3000, stopOnInteraction: true, stopOnMouseEnter: true })
     );
 
     React.useEffect(() => {
@@ -90,6 +91,15 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         setCurrent(api.selectedScrollSnap())
         })
     }, [api])
+
+     React.useEffect(() => {
+      if (!api || !autoplayPlugin.current) return;
+      if (playingVideoId) {
+        autoplayPlugin.current.stop();
+      } else {
+        autoplayPlugin.current.play();
+      }
+    }, [playingVideoId, api]);
 
     const scrollTo = React.useCallback(
         (index: number) => {
@@ -119,7 +129,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full">
+        <div className="w-full pr-[10%]">
             <Carousel
                 setApi={setApi}
                 opts={{
@@ -129,7 +139,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6 px-4 md:px-0">
+                <CarouselContent className="-ml-6 px-4">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/4">
                        <TestimonialCard testimonial={testimonial} />
