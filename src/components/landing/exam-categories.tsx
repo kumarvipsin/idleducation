@@ -31,6 +31,43 @@ const textureStyle = {
   backgroundSize: '500px 500px',
 };
 
+
+const ExploreMoreDialog = ({ triggerText, programs, dialogTitle, dialogDescription }: { triggerText: string, programs: TExamCategory[], dialogTitle: string, dialogDescription: string }) => {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="link" className="text-blue-800 font-bold">
+                    {triggerText}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent
+              className={cn("w-full h-full max-h-screen sm:max-w-lg sm:h-auto border-0 rounded-none sm:rounded-2xl shadow-lg")}
+              style={{ 
+                backgroundColor: 'white', 
+                ...textureStyle, 
+              }}
+            >
+                <DialogHeader className="text-center">
+                    <DialogTitle className="text-2xl font-bold text-primary">{dialogTitle}</DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
+                        {dialogDescription}
+                    </DialogDescription>
+                </DialogHeader>
+                <ScrollArea className="h-72 w-full">
+                    <div className="grid grid-cols-2 gap-3 p-4">
+                        {programs.map((program) => (
+                            <Button key={program.id} asChild variant="outline" className="h-12 font-semibold shadow-sm text-xs sm:text-sm rounded-lg bg-white/50 border-primary/20 text-blue-900 hover:bg-primary/10 hover:text-primary transition-colors">
+                                <Link href={program.href}>{program.name}</Link>
+                            </Button>
+                        ))}
+                    </div>
+                </ScrollArea>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 export function ExamCategories() {
   const [categories, setCategories] = useState<TExamCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +77,6 @@ export function ExamCategories() {
   const [schoolCurrent, setSchoolCurrent] = useState(0)
   const [competitiveCurrent, setCompetitiveCurrent] = useState(0)
 
-  const schoolAutoplay = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
   const competitiveAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: true }));
 
   useEffect(() => {
@@ -78,8 +114,8 @@ export function ExamCategories() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-12 w-full rounded-lg" />)}
         </div>
-        <div className="mt-8 flex justify-center">
-            <Skeleton className="h-10 w-36" />
+        <div className="mt-8 flex justify-center gap-2">
+           {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-2 w-2 rounded-full" />)}
         </div>
       </CardContent>
     </div>
@@ -111,7 +147,7 @@ export function ExamCategories() {
                 {loading ? renderSkeleton() : (
                     <div className="flex-1">
                         <CardContent className="p-6">
-                            <Carousel setApi={setSchoolApi} plugins={[schoolAutoplay.current]} opts={{ align: "start", loop: true }} className="w-full">
+                            <Carousel setApi={setSchoolApi} opts={{ align: "start", loop: true }} className="w-full">
                                 <CarouselContent>
                                 {Array.from({ length: schoolSlidesCount }).map((_, slideIndex) => (
                                     <CarouselItem key={slideIndex}>
