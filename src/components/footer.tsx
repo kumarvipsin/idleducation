@@ -3,122 +3,120 @@ import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
+import { allPrograms } from "@/lib/courses";
+
+const quickLinks = [
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/achievements", label: "Achievements" },
+];
+
+const resourceLinks = [
+  { href: "/resources/notes", label: "Notes" },
+  { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
+  { href: "/resources/previous-year-questions", label: "Previous Year Papers" },
+  { href: "/resources/reference-books", label: "Reference Books" },
+];
 
 export function Footer() {
   return (
-    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300 pt-12">
-        <div className="container mx-auto px-[10%]">
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-12"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-                {/* Column 1: Our Branch */}
-                <div>
-                    <h3 className="text-lg font-extrabold mb-4 text-gray-500 dark:text-gray-400 pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Our Branch</h3>
-                    <div className="mt-4">
-                        <ul className="space-y-3 text-sm">
-                            <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span><strong className="font-semibold text-gray-800 dark:text-white">Local Head Office :</strong> E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
-                            </li>
-                            <div className="my-3 h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
-                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span>Mukherjee Nagar, Delhi-110009</span>
-                            </li>
-                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span>Mangol Puri, Delhi-110083</span>
-                            </li>
-                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span>Budh Vihar, Delhi-110086</span>
-                            </li>
-                             <li className="flex items-start justify-start gap-3">
-                                <MapPin className="h-4 w-4 shrink-0 mt-1 text-primary" />
-                                <span>Burari, Delhi-110084</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+        <div className="container mx-auto px-4 md:px-6 py-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-                {/* Column 2: Connect With Us */}
-                <div className="relative">
-                    <h3 className="text-lg font-extrabold mb-4 text-gray-500 dark:text-gray-400 pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Connect With Us</h3>
-                    <div className="mt-4">
-                        <ul className="space-y-3 text-sm">
-                             <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-primary" />
-                                <a href="tel:01145035713" className="hover:underline hover:text-primary">011 45035713</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Phone className="h-4 w-4 shrink-0 text-primary" />
-                                <a href="tel:+917011117585" className="hover:underline hover:text-primary">+91 7011117585</a>
-                            </li>
-                            <li className="flex items-center justify-start gap-3">
-                                <Mail className="h-4 w-4 shrink-0 text-primary" />
-                                <a href="mailto:info@idleducation.in" className="hover:underline hover:text-primary">info@idleducation.in</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Column 3: Social Media */}
-                <div>
-                    <h3 className="text-lg font-extrabold mb-4 text-gray-500 dark:text-gray-400 pb-2 inline-block bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom" style={{ backgroundSize: '100% 2px' }}>Social Media</h3>
-                    <div className="flex items-center justify-start gap-3 mt-4">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+                {/* Column 1: Brand and Socials */}
+                <div className="flex flex-col gap-4">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
+                        <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
+                    </Link>
+                    <p className="text-sm text-muted-foreground">
+                      Your partner in achieving academic excellence. Learn from the best, anytime, anywhere.
+                    </p>
+                    <div className="flex items-center gap-2">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
                           <Linkedin className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                        <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Telegram">
+                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-800 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
-                    <div className="mt-6">
-                        <h4 className="text-md font-semibold mb-2 text-gray-800 dark:text-white">IDL Learning App - Learn Smart</h4>
-                        <div className="flex items-center gap-2">
-                            <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
-                                <Image 
-                                    src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
-                                    alt="Get it on Google Play"
-                                    width={135}
-                                    height={40}
-                                    className="h-auto"
-                                />
-                            </Link>
-                            <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
-                                <Image 
-                                    src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
-                                    alt="Download on the App Store"
-                                    width={120}
-                                    height={40}
-                                    className="h-auto"
-                                />
-                            </Link>
-                        </div>
+                </div>
+
+                {/* Column 2: Quick Links */}
+                <div>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Quick Links</h3>
+                    <ul className="space-y-2 text-sm">
+                        {quickLinks.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                
+                {/* Column 3: Resources */}
+                <div>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Resources</h3>
+                    <ul className="space-y-2 text-sm">
+                        {resourceLinks.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Column 4: Get our App */}
+                <div>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Get Our App</h3>
+                    <p className="text-sm text-muted-foreground mb-4">Download our mobile app for a better learning experience.</p>
+                    <div className="flex flex-col items-start gap-2">
+                        <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
+                            <Image 
+                                src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
+                                alt="Get it on Google Play"
+                                width={135}
+                                height={40}
+                                className="h-auto"
+                            />
+                        </Link>
+                        <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
+                            <Image 
+                                src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
+                                alt="Download on the App Store"
+                                width={120}
+                                height={40}
+                                className="h-auto"
+                            />
+                        </Link>
                     </div>
                 </div>
+
             </div>
         </div>
-        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700 mt-12">
-            <div className="container mx-auto px-4 md:px-6 py-2">
+        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
+            <div className="container mx-auto px-4 md:px-6 py-4">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
-                    <p>&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
+                    <p className="text-muted-foreground">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                     <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
-                        <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
+                        <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                         Terms of Service
                         </Link>
-                        <Link href="#" className="hover:text-primary hover:underline underline-offset-4">
+                        <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                         Privacy
                         </Link>
                     </nav>
