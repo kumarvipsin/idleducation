@@ -94,10 +94,11 @@ export default function ReferenceBooksPage() {
         return ['All', ...Array.from(new Set(classSubjects))];
     }, [selectedClass]);
 
-    // When the class changes, if the current subject is not in the new list, reset to 'All'
-    if (!subjects.includes(selectedSubject)) {
-        setSelectedSubject('All');
-    }
+    useEffect(() => {
+        if (!subjects.includes(selectedSubject)) {
+            setSelectedSubject('All');
+        }
+    }, [subjects, selectedSubject]);
 
     const filteredBooks = books.filter(book => 
         (selectedClass === 'All' || book.class === selectedClass) &&
@@ -128,8 +129,8 @@ export default function ReferenceBooksPage() {
                                 onClick={() => setSelectedClass(c)}
                                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                                 ${selectedClass === c
-                                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                             >
                                 {c}
                             </button>
@@ -142,8 +143,8 @@ export default function ReferenceBooksPage() {
                                 onClick={() => setSelectedSubject(s)}
                                 className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                                 ${selectedSubject === s 
-                                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
                             >
                                 {s}
                             </button>
