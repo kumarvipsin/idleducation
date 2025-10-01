@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart, Star } from "lucide-react";
@@ -36,20 +36,15 @@ export default function ReferenceBooksPage() {
         fetchBooks();
     }, []);
 
-    const classes = useMemo(() => Array.from(new Set(books.map(book => book.class))).sort(), [books]);
-
-    const subjects = useMemo(() => {
-        const classSubjects = books
-            .filter(book => book.class === selectedClass)
-            .map(book => book.subject);
-        return ['All', ...Array.from(new Set(classSubjects))];
-    }, [selectedClass, books]);
+    const classes = Array.from(new Set(books.map(book => book.class))).sort();
+    
+    const subjects = ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))];
 
     useEffect(() => {
         if (!subjects.includes(selectedSubject)) {
             setSelectedSubject('All');
         }
-    }, [subjects, selectedSubject]);
+    }, [selectedClass, subjects, selectedSubject]);
 
     const filteredBooks = books.filter(book => 
         (book.class === selectedClass) &&
