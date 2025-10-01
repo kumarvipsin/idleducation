@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageCircle, Tag, Tv, Zap, UserCheck, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, Home } from 'lucide-react';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -666,6 +666,7 @@ function SchoolPageContent() {
                         <CardContent className="p-6 space-y-8">
                             <div>
                                 <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
+                                <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                                 {activeClass === 'Class 5' && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
@@ -842,7 +843,7 @@ function SchoolPageContent() {
                                                 </TableBody>
                                             </Table>
                                         </div>
-                                        <Separator />
+                                         <Separator />
                                         <div className="space-y-4">
                                             <h4 id="english-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Syllabus 2025-26</h4>
                                             <p className="text-muted-foreground">{class6EnglishSyllabus.description}</p>
@@ -979,21 +980,21 @@ function SchoolPageContent() {
                                         <div className="space-y-4">
                                             <h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4>
                                             <p className="text-muted-foreground">{class7EnglishSyllabus.description}</p>
-                                            <Table>
-                                            <TableHeader>
+                                             <Table>
+                                              <TableHeader>
                                                 <TableRow>
-                                                <TableHead>Unit</TableHead>
-                                                <TableHead>Lesson Name</TableHead>
+                                                  <TableHead>Unit</TableHead>
+                                                  <TableHead>Lesson Name</TableHead>
                                                 </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
+                                              </TableHeader>
+                                              <TableBody>
                                                 {class7EnglishSyllabus.chapters.map((item, index) => (
-                                                <TableRow key={index}>
+                                                  <TableRow key={index}>
                                                     <TableCell className="font-medium">{item.unit}</TableCell>
                                                     <TableCell>{item.lessonName}</TableCell>
-                                                </TableRow>
+                                                  </TableRow>
                                                 ))}
-                                            </TableBody>
+                                              </TableBody>
                                             </Table>
                                         </div>
                                     </div>
