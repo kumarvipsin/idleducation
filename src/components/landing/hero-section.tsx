@@ -13,15 +13,15 @@ import { cn } from "@/lib/utils";
 
 const heroSlides = [
   { 
-    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span></>,
+    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
+    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
-    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Education.</span></>,
+    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
 ]
@@ -52,7 +52,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[32vh] md:h-[40vh] overflow-hidden bg-white dark:bg-background">
+    <section className="relative w-full h-[28.8vh] md:h-[32vh] overflow-hidden bg-white dark:bg-background">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
