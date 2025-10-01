@@ -36,7 +36,7 @@ const features = [
     imageHint: "teacher classroom",
   },
   {
-    title: "Live Interactive Classes",
+    title: "Live Doubt Solving",
     description: "High-quality mock tests with multi-layer testing and detailed evaluation.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/assessments/600/400",
