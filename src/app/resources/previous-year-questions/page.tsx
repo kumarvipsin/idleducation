@@ -11,7 +11,6 @@ import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Separator } from '@/components/ui/separator';
 
 export default function PreviousYearQuestionsPage() {
   const [papers, setPapers] = useState<TPreviousYearQuestion[]>([]);
@@ -29,7 +28,7 @@ export default function PreviousYearQuestionsPage() {
         setPapers(data);
         const classes = Array.from(new Set(data.map(p => p.exam.includes('Class 12') ? 'Class 12' : 'Class 10'))).sort();
          if(classes.length > 0) {
-           setSelectedClass(classes[0]);
+           setSelectedClass(classes.find(c => c.includes('10')) || classes[0]);
          }
       }
       setLoading(false);
@@ -128,45 +127,45 @@ export default function PreviousYearQuestionsPage() {
         </div>
 
         <div className="relative">
-            {loading ? (
-                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {[...Array(3)].map((_, i) => (
-                            <Skeleton key={i} className="h-48 w-[300px] sm:w-[350px] rounded-lg" />
-                        ))}
-                    </div>
-                </div>
-            ) : filteredPapers.length > 0 ? (
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {filteredPapers.map((paper, index) => (
-                            <div key={paper.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
-                                    <CardContent className="p-6 flex-grow flex flex-col">
-                                        <div className="flex justify-between items-start">
-                                            <FileText className="w-8 h-8 text-primary" />
-                                            <Badge variant="secondary">{paper.year}</Badge>
-                                        </div>
-                                        <h3 className="text-lg font-bold mt-4 flex-grow text-foreground">{paper.subject}</h3>
-                                        <p className="text-sm text-muted-foreground mt-1 mb-4">{paper.title}</p>
-                                        <Button className="w-full mt-auto" onClick={() => handleDownload(paper.pdfUrl)}>
-                                            Download PDF <Download className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </CardContent>
-                                </Card>
+            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                 <div className="flex gap-6 px-4 md:px-[10%]">
+                     {loading ? (
+                        [...Array(4)].map((_, index) => (
+                            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+                                <Skeleton className="h-48 w-full rounded-lg" />
                             </div>
-                        ))}
-                    </div>
+                        ))
+                     ) : filteredPapers.length > 0 ? (
+                        filteredPapers.map((paper, index) => (
+                            <div key={paper.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
+                                <CardContent className="p-6 flex-grow flex flex-col">
+                                    <div className="flex justify-between items-start">
+                                        <FileText className="w-8 h-8 text-primary" />
+                                        <Badge variant="secondary">{paper.year}</Badge>
+                                    </div>
+                                    <h3 className="text-lg font-bold mt-4 flex-grow text-foreground">{paper.subject}</h3>
+                                    <p className="text-sm text-muted-foreground mt-1 mb-4">{paper.title}</p>
+                                    <Button className="w-full mt-auto" onClick={() => handleDownload(paper.pdfUrl)}>
+                                        Download PDF <Download className="ml-2 h-4 w-4" />
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                            </div>
+                        ))
+                     ) : (
+                        <div className="w-full text-center py-16">
+                            <Card className="p-8 inline-block">
+                                <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
+                                <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    Question papers for the selected filters will be available soon.
+                                </p>
+                            </Card>
+                        </div>
+                     )}
                 </div>
-            ) : (
-                <div className="text-center py-16">
-                    <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        Question papers for the selected filters will be available soon.
-                    </p>
-                </div>
-            )}
+            </div>
         </div>
       </div>
     </div>
