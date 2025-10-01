@@ -66,7 +66,6 @@ export function Header() {
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   
   useEffect(() => {
     setIsClient(true);
@@ -74,12 +73,11 @@ export function Header() {
   
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down and past the initial viewport
+      if (window.scrollY > 80) {
         setShow(false); 
-      } else { // if scroll up or at the top
+      } else {
         setShow(true);  
       }
-      setLastScrollY(window.scrollY); 
     }
   };
 
@@ -91,7 +89,7 @@ export function Header() {
         window.removeEventListener('scroll', controlNavbar);
       };
     }
-  }, [lastScrollY]);
+  }, []);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
