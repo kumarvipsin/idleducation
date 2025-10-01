@@ -38,7 +38,7 @@ export function Footer() {
                         </div>
                     </Link>
                     <p className="text-sm text-muted-foreground">
-                      Your partner in achieving academic excellence. Learn from the best, anytime, anywhere.
+                      We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
                     </p>
                     <div className="flex items-center gap-2">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
