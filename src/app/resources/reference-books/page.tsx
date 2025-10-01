@@ -44,6 +44,39 @@ const books = [
         subject: "Social Studies"
     },
     {
+        title: "All in One Science CBSE Class 10",
+        author: "by Arihant Experts",
+        price: 550,
+        originalPrice: 625,
+        discount: 12,
+        imageUrl: "https://picsum.photos/seed/science-10/400/500",
+        imageHint: "science textbook",
+        class: "Class 10",
+        subject: "Science"
+    },
+    {
+        title: "All in One English Language & Literature CBSE Class 10",
+        author: "by Arihant Experts",
+        price: 450,
+        originalPrice: 510,
+        discount: 12,
+        imageUrl: "https://picsum.photos/seed/english-10/400/500",
+        imageHint: "english textbook",
+        class: "Class 10",
+        subject: "English"
+    },
+    {
+        title: "Mathematics for Class 12",
+        author: "by R.D. Sharma",
+        price: 1100,
+        originalPrice: 1250,
+        discount: 12,
+        imageUrl: "https://picsum.photos/seed/maths-12/400/500",
+        imageHint: "math textbook",
+        class: "Class 12",
+        subject: "Maths"
+    },
+    {
         title: "Concepts of Physics",
         author: "by H.C. Verma",
         price: 750,
@@ -52,7 +85,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/physics-book/400/500",
         imageHint: "physics textbook",
         class: "Class 12",
-        subject: "Science"
+        subject: "Physics"
     },
     {
         title: "Objective Chemistry",
@@ -63,7 +96,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/chem-book/400/500",
         imageHint: "chemistry textbook",
         class: "Class 12",
-        subject: "Science"
+        subject: "Chemistry"
     },
     {
         title: "Trueman's Elementary Biology",
@@ -74,8 +107,41 @@ const books = [
         imageUrl: "https://picsum.photos/seed/bio-book/400/500",
         imageHint: "biology textbook",
         class: "Class 12",
-        subject: "Science"
+        subject: "Biology"
     },
+    {
+        title: "Indian Polity",
+        author: "by M. Laxmikanth",
+        price: 800,
+        originalPrice: 900,
+        discount: 11,
+        imageUrl: "https://picsum.photos/seed/polity-book/400/500",
+        imageHint: "polity textbook",
+        class: "Class 12",
+        subject: "Political Science"
+    },
+    {
+        title: "History of Modern India",
+        author: "by Bipan Chandra",
+        price: 450,
+        originalPrice: 500,
+        discount: 10,
+        imageUrl: "https://picsum.photos/seed/history-book/400/500",
+        imageHint: "history textbook",
+        class: "Class 12",
+        subject: "History"
+    },
+    {
+        title: "Indian Economy",
+        author: "by Ramesh Singh",
+        price: 650,
+        originalPrice: 750,
+        discount: 13,
+        imageUrl: "https://picsum.photos/seed/economy-book/400/500",
+        imageHint: "economy textbook",
+        class: "Class 12",
+        subject: "Economics"
+    }
 ];
 
 const classes = ["Class 10", "Class 12"];
