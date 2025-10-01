@@ -8,6 +8,13 @@ import Image from "next/image";
 
 const features = [
   {
+    title: "Expert Faculty",
+    description: "Learn from the best and most experienced educators in the industry.",
+    href: "#",
+    imageUrl: "https://picsum.photos/seed/teachers/600/400",
+    imageHint: "teacher classroom",
+  },
+  {
     title: "100% Quality Education",
     description: "Interactive classes designed to provide the best learning experience.",
     href: "#",
@@ -27,13 +34,6 @@ const features = [
     href: "#",
     imageUrl: "https://picsum.photos/seed/resources/600/400",
     imageHint: "online library",
-  },
-  {
-    title: "Expert Faculty",
-    description: "Learn from the best and most experienced educators in the industry.",
-    href: "#",
-    imageUrl: "https://picsum.photos/seed/teachers/600/400",
-    imageHint: "teacher classroom",
   },
   {
     title: "Unique Two-Teacher Model",
