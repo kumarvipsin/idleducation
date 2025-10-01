@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const books = [
@@ -127,10 +127,10 @@ export default function ReferenceBooksPage() {
                             <button
                                 key={c}
                                 onClick={() => setSelectedClass(c)}
-                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
                                 ${selectedClass === c
-                                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                                    ? 'border-primary text-primary bg-primary/10' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
                             >
                                 {c}
                             </button>
@@ -141,10 +141,10 @@ export default function ReferenceBooksPage() {
                              <button
                                 key={s}
                                 onClick={() => setSelectedSubject(s)}
-                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
                                 ${selectedSubject === s 
-                                    ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                                    ? 'border-primary text-primary bg-primary/10' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
                             >
                                 {s}
                             </button>
