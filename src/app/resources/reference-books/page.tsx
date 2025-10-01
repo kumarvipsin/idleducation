@@ -186,7 +186,7 @@ export default function ReferenceBooksPage() {
 
                 <div className="flex flex-col items-center space-y-4 mb-8">
                     <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
-                        <div className="flex justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                        <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
                             {classes.map(c => (
                                 <button
                                     key={c}
@@ -203,7 +203,7 @@ export default function ReferenceBooksPage() {
                         </div>
                     </div>
                     <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
-                        <div className="flex justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                        <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
                             {subjects.map(s => (
                                 <button
                                     key={s}
