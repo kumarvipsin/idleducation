@@ -7,7 +7,7 @@ import { allPrograms } from "@/lib/courses";
 
 const quickLinks = [
   { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Contact Us" },
   { href: "/about", label: "About Us" },
   { href: "/achievements", label: "Achievements" },
 ];
