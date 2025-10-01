@@ -20,7 +20,7 @@ const resources = [
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
-    imageUrl: "https://picsum.photos/seed/ncert/600/400",
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
     imageHint: "textbooks pile",
   },
   {
@@ -28,7 +28,7 @@ const resources = [
     title: "Previous Year Paper",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
-    imageUrl: "https://images.unsplash.com/photo-1724080924541-a9bbb5953229?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMXx8ZXhhbXxlbnwwfHx8fDE3NTkxNzQ2OTB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
     imageHint: "exam papers",
   },
   {
@@ -36,7 +36,7 @@ const resources = [
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
-    imageUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxib29rc3xlbnwwfHx8fDE3NTkxNzQ2MDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
     imageHint: "library books",
   },
 ];
