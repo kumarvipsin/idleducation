@@ -20,7 +20,7 @@ const resources = [
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "textbooks pile",
   },
   {
@@ -28,7 +28,7 @@ const resources = [
     title: "Previous Year Paper",
     description: "Sharpen your skills and get exam-ready by practicing with past papers.",
     href: "/resources/previous-year-questions",
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "exam papers",
   },
   {
@@ -36,7 +36,7 @@ const resources = [
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/328/193/original/vector-story-book-with-open-book-illustration.jpg",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "library books",
   },
 ];
