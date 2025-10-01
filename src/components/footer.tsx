@@ -7,7 +7,7 @@ import Image from "next/image";
 export function Footer() {
   return (
     <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300 pt-12">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-[10%]">
             <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-12"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                 {/* Column 1: Our Branch */}
