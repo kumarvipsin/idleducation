@@ -70,7 +70,7 @@ export default function PreviousYearQuestionsPage() {
   );
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto p-4">
       <Link href="/" className="absolute top-4 right-4 z-20">
         <Button variant="ghost" size="icon">
           <Home className="h-6 w-6 text-primary" />
@@ -87,7 +87,7 @@ export default function PreviousYearQuestionsPage() {
             </div>
             
             <div className="flex flex-col items-center space-y-4 mb-8">
-                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
                     <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
                         {classes.map(c => (
                             <button
@@ -126,46 +126,42 @@ export default function PreviousYearQuestionsPage() {
             </div>
         </div>
 
-        <div className="relative">
-            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                 <div className="flex gap-6 px-4 md:px-[10%]">
-                     {loading ? (
-                        [...Array(4)].map((_, index) => (
-                            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                                <Skeleton className="h-48 w-full rounded-lg" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+             {loading ? (
+                [...Array(4)].map((_, index) => (
+                    <div key={index} className="block flex-shrink-0">
+                        <Skeleton className="h-48 w-full rounded-lg" />
+                    </div>
+                ))
+             ) : filteredPapers.length > 0 ? (
+                filteredPapers.map((paper, index) => (
+                    <div key={paper.id} className="block group">
+                    <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
+                        <CardContent className="p-6 flex-grow flex flex-col">
+                            <div className="flex justify-between items-start">
+                                <FileText className="w-8 h-8 text-primary" />
+                                <Badge variant="secondary">{paper.year}</Badge>
                             </div>
-                        ))
-                     ) : filteredPapers.length > 0 ? (
-                        filteredPapers.map((paper, index) => (
-                            <div key={paper.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
-                                <CardContent className="p-6 flex-grow flex flex-col">
-                                    <div className="flex justify-between items-start">
-                                        <FileText className="w-8 h-8 text-primary" />
-                                        <Badge variant="secondary">{paper.year}</Badge>
-                                    </div>
-                                    <h3 className="text-lg font-bold mt-4 flex-grow text-foreground">{paper.subject}</h3>
-                                    <p className="text-sm text-muted-foreground mt-1 mb-4">{paper.title}</p>
-                                    <Button className="w-full mt-auto" onClick={() => handleDownload(paper.pdfUrl)}>
-                                        Download PDF <Download className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                            </div>
-                        ))
-                     ) : (
-                        <div className="w-full text-center py-16">
-                            <Card className="p-8 inline-block">
-                                <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
-                                <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">
-                                    Question papers for the selected filters will be available soon.
-                                </p>
-                            </Card>
-                        </div>
-                     )}
+                            <h3 className="text-lg font-bold mt-4 flex-grow text-foreground">{paper.subject}</h3>
+                            <p className="text-sm text-muted-foreground mt-1 mb-4">{paper.title}</p>
+                            <Button className="w-full mt-auto" onClick={() => handleDownload(paper.pdfUrl)}>
+                                Download PDF <Download className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardContent>
+                    </Card>
+                    </div>
+                ))
+             ) : (
+                <div className="col-span-full text-center py-16">
+                    <Card className="p-8 inline-block">
+                        <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Question papers for the selected filters will be available soon.
+                        </p>
+                    </Card>
                 </div>
-            </div>
+             )}
         </div>
       </div>
     </div>
