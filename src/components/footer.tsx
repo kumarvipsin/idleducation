@@ -89,7 +89,7 @@ export function Footer() {
                 {/* Column 4: Get our App */}
                 <div>
                     <h3 className="text-md font-semibold mb-4 text-foreground">Get Our App</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Download our mobile app for a better learning experience.</p>
+                    <p className="text-sm text-muted-foreground mb-4">IDL Learning App - Learn Smart</p>
                     <div className="flex flex-col items-start gap-2">
                         <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                             <Image 
