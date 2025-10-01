@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -256,49 +257,55 @@ export default function ReferenceBooksPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {filteredBooks.map((book, index) => (
-                        <Card key={index} className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col" style={{ animationDelay: `${index * 50}ms` }}>
-                            <CardContent className="p-4 flex flex-col flex-1">
-                                <div className="relative aspect-[4/5] w-full mb-4">
-                                    <Image
-                                        src={book.imageUrl}
-                                        alt={book.title}
-                                        data-ai-hint={book.imageHint}
-                                        fill
-                                        className="object-cover rounded-md"
-                                    />
+                <div className="relative">
+                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <div className="flex gap-6 px-4 md:px-[10%]">
+                            {filteredBooks.map((book, index) => (
+                                <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                    <CardContent className="p-4 flex flex-col flex-1">
+                                        <div className="relative aspect-[4/5] w-full mb-4">
+                                            <Image
+                                                src={book.imageUrl}
+                                                alt={book.title}
+                                                data-ai-hint={book.imageHint}
+                                                fill
+                                                className="object-cover rounded-md"
+                                            />
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
+                                            <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                        </div>
+                                        <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <div className="flex items-center gap-0.5">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                ))}
+                                            </div>
+                                            <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
+                                        </div>
+                                        
+                                        <div className="flex items-baseline gap-2 mt-2">
+                                            <p className="text-xl font-bold text-foreground">₹{book.price}</p>
+                                            <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                            <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2 mt-4">
+                                            <Button variant="outline">
+                                                Add To Cart
+                                            </Button>
+                                            <Button className="bg-orange-500 hover:bg-orange-600">
+                                                Buy Now
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                                 </div>
-                                <div className="flex gap-2">
-                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
-                                </div>
-                                <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <div className="flex items-center gap-0.5">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                                        ))}
-                                    </div>
-                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
-                                </div>
-                                
-                                <div className="flex items-baseline gap-2 mt-2">
-                                    <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                    <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                    <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2 mt-4">
-                                    <Button variant="outline">
-                                        Add To Cart
-                                    </Button>
-                                    <Button className="bg-orange-500 hover:bg-orange-600">
-                                        Buy Now
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
