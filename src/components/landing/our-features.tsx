@@ -29,7 +29,7 @@ const features = [
     imageHint: "online library",
   },
   {
-    title: "100+ Expert Teachers",
+    title: "Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/teachers/600/400",
