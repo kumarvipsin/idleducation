@@ -2,13 +2,13 @@
 'use client';
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, BookText, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { getCollection } from '@/app/actions';
+import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 
@@ -20,7 +20,7 @@ type Subject = {
 };
 
 const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
-  maths: { url: "https://images.unsplash.com/photo-1509228627-8D5849852353?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYXRoJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxMzgwfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
+  maths: { url: "https://images.unsplash.com/photo-1632571401005-458e9d244591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYXRocyUyMHxlbnwwfHx8fDE3NTkzMDkwNDF8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
   science: { url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDAyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "science abstract" },
   social: { url: "https://images.unsplash.com/photo-1583426533758-3a172a6b29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBzdHVkaWVzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDIzfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "social studies" },
   english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3E5MjYxNDQyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
@@ -56,7 +56,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
   };
   
   return (
-     <div className="bg-gray-100 dark:bg-gray-800">
+     <div className="bg-gray-100 dark:bg-gray-800 py-12">
       <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Notes for {selectedClass}</h1>
         <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
@@ -156,7 +156,7 @@ export default function NotesNewPage() {
 
     if (loading) {
         return (
-             <div className="bg-gray-100 dark:bg-gray-800">
+             <div className="bg-gray-100 dark:bg-gray-800 py-12">
                 <div className="mb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
                     <Skeleton className="h-5 w-96 mx-auto" />
@@ -175,5 +175,10 @@ export default function NotesNewPage() {
         );
     }
     
-    return <NotesPageContent initialData={initialData} />;
+    return (
+        <Suspense fallback={<div className="flex justify-center items-center h-screen"><Skeleton className="h-96 w-full max-w-4xl" /></div>}>
+            <NotesPageContent initialData={initialData} />
+        </Suspense>
+    );
 }
+
