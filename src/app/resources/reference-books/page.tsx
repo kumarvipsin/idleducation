@@ -69,32 +69,39 @@ const subjectColors: { [key in Book['subject']]: string } = {
 };
 
 const BookCard = ({ book }: { book: Book }) => {
-    const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
-
-    return (
-        <Link href="#" className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-              <CardContent className="p-8 flex-grow flex flex-col">
-                <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{book.title}</h3>
-                <p className="text-sm mt-2 text-muted-foreground flex-grow">{book.description}</p>
-                <div className="flex items-baseline gap-2 mt-4">
-                  <p className="text-xl font-bold">₹{book.price.toLocaleString()}</p>
-                  <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
-                  <p className="text-xs font-semibold text-destructive">{discount}% OFF</p>
-                </div>
-              </CardContent>
-              <div className="relative aspect-[4/3] w-full mt-auto">
-                <Image
-                  src={book.imageUrl}
-                  alt={book.title}
-                  data-ai-hint={book.imageHint}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </Card>
-        </Link>
-    );
+  const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
+  
+  return (
+    <Card className="h-full flex-shrink-0 w-[280px] sm:w-[320px] rounded-2xl shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+      <CardContent className="p-0 flex flex-col h-full">
+        <div className="relative aspect-[4/3] w-full">
+          <Image
+            src={book.imageUrl}
+            alt={book.title}
+            data-ai-hint={book.imageHint}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute top-2 right-2 flex items-center gap-1 bg-yellow-400 text-black px-2 py-0.5 rounded-full text-xs font-bold">
+            <Star className="w-3 h-3 fill-current" />
+            <span>{book.rating}</span>
+          </div>
+        </div>
+        <div className="p-4 flex flex-col flex-grow">
+          <h3 className="font-bold text-base line-clamp-1 group-hover:text-primary">{book.title}</h3>
+          <p className="text-xs text-muted-foreground mt-1">by {book.author}</p>
+          <div className="flex items-baseline gap-2 mt-4">
+            <p className="text-xl font-bold">₹{book.price.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice.toLocaleString()}</p>
+            <p className="text-xs font-semibold text-destructive">{discount}% OFF</p>
+          </div>
+          <Button asChild size="sm" className="w-full mt-4">
+            <Link href="#"><ShoppingCart className="mr-2 h-4 w-4" /> Buy Now</Link>
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default function ReferenceBooksPage() {
@@ -141,9 +148,9 @@ export default function ReferenceBooksPage() {
             <div key={animationKey} className="relative animate-fade-in-up">
             {books.length > 0 ? (
                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} />)}
-                    </div>
+                  <div className="flex gap-6 px-4 md:px-[10%]">
+                    {books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} />)}
+                  </div>
                 </div>
             ) : (
                 <div className="col-span-full text-center py-16">
