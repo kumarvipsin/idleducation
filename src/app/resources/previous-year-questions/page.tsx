@@ -16,7 +16,8 @@ import { Separator } from '@/components/ui/separator';
 export default function PreviousYearQuestionsPage() {
   const [papers, setPapers] = useState<TPreviousYearQuestion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('Class 10');
+  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState('All');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -24,7 +25,12 @@ export default function PreviousYearQuestionsPage() {
       setLoading(true);
       const result = await getPreviousYearQuestions();
       if (result.success && result.data) {
-        setPapers(result.data as TPreviousYearQuestion[]);
+        const data = result.data as TPreviousYearQuestion[];
+        setPapers(data);
+        const classes = Array.from(new Set(data.map(p => p.exam.includes('Class 12') ? 'Class 12' : 'Class 10'))).sort();
+         if(classes.length > 0) {
+           setSelectedClass(classes[0]);
+         }
       }
       setLoading(false);
     };
@@ -36,15 +42,33 @@ export default function PreviousYearQuestionsPage() {
       toast({ variant: "destructive", title: "Error", description: "No PDF available for this paper." });
       return;
     }
-    const result = await getSignedUrlForPdf(pdfUrl);
-    if (result.success && result.url) {
-        window.open(result.url, '_blank');
+    // If it's a GCS URL, get a signed URL
+    if (pdfUrl.includes('storage.googleapis.com')) {
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
     } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
+        // Otherwise, open it directly
+        window.open(pdfUrl, '_blank');
     }
   };
 
-  const filteredPapers = papers.filter(p => p.exam.includes(selectedClass));
+  const classes = Array.from(new Set(papers.map(p => p.exam.includes('Class 12') ? 'Class 12' : 'Class 10'))).sort();
+  const subjects = ['All', ...Array.from(new Set(papers.filter(p => p.exam.includes(selectedClass)).map(p => p.subject)))];
+
+  useEffect(() => {
+    if (!subjects.includes(selectedSubject)) {
+        setSelectedSubject('All');
+    }
+  }, [selectedClass, subjects, selectedSubject]);
+
+  const filteredPapers = papers.filter(p => 
+    p.exam.includes(selectedClass) && 
+    (selectedSubject === 'All' || p.subject === selectedSubject)
+  );
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
@@ -63,31 +87,50 @@ export default function PreviousYearQuestionsPage() {
               </p>
             </div>
             
-            <div className="flex justify-center items-center gap-4 py-4">
-                <Button 
-                    onClick={() => setSelectedClass('Class 10')}
-                    variant={selectedClass === 'Class 10' ? 'default' : 'outline'}
-                    size="lg"
-                    className="rounded-full shadow-md"
-                >
-                    Class 10
-                </Button>
-                <Separator orientation="vertical" className="h-6" />
-                <Button 
-                    onClick={() => setSelectedClass('Class 12')}
-                    variant={selectedClass === 'Class 12' ? 'default' : 'outline'}
-                    size="lg"
-                    className="rounded-full shadow-md"
-                >
-                    Class 12
-                </Button>
+            <div className="flex flex-col items-center space-y-4 mb-8">
+                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+                    <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                        {classes.map(c => (
+                            <button
+                                key={c}
+                                onClick={() => setSelectedClass(c)}
+                                className={cn(`py-2 px-6 text-sm font-medium transition-colors border rounded-full`,
+                                    selectedClass === c
+                                    ? 'border-primary text-primary bg-primary/10 shadow'
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                )}
+                            >
+                                {c}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                {subjects.length > 1 && (
+                    <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+                        <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                            {subjects.map(s => (
+                                <button
+                                    key={s}
+                                    onClick={() => setSelectedSubject(s)}
+                                    className={cn(`py-1 px-4 text-xs font-medium transition-colors border rounded-full`,
+                                        selectedSubject === s
+                                        ? 'border-primary text-primary bg-primary/10' 
+                                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                    )}
+                                >
+                                    {s}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
 
         <div className="relative">
             {loading ? (
                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
                         {[...Array(3)].map((_, i) => (
                             <Skeleton key={i} className="h-48 w-[300px] sm:w-[350px] rounded-lg" />
                         ))}
@@ -95,7 +138,7 @@ export default function PreviousYearQuestionsPage() {
                 </div>
             ) : filteredPapers.length > 0 ? (
                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
                         {filteredPapers.map((paper, index) => (
                             <div key={paper.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
@@ -120,7 +163,7 @@ export default function PreviousYearQuestionsPage() {
                     <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                     <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        Question papers for {selectedClass} will be available soon.
+                        Question papers for the selected filters will be available soon.
                     </p>
                 </div>
             )}
