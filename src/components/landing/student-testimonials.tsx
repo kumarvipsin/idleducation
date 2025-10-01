@@ -40,7 +40,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
     >
         <CardContent className="p-4 flex flex-col text-center items-center">
-            <div className="relative w-full aspect-[4/3] mb-4 rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
                 {loadingAvatar ? (
                     <Skeleton className="w-full h-full" />
                 ) : avatarUrl ? (
@@ -144,9 +144,9 @@ export function StudentTestimonials() {
                   plugins={[autoplayPlugin.current]}
                   className="w-full"
               >
-                  <CarouselContent className="-ml-6 px-4 md:px-[10%]">
+                  <CarouselContent className="-mr-6 px-4 md:px-[10%]">
                   {testimonials.map((testimonial, index) => (
-                      <CarouselItem key={index} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
+                      <CarouselItem key={index} className="pr-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                         <TestimonialCard testimonial={testimonial} />
                       </CarouselItem>
                   ))}
