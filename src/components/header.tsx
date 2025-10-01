@@ -74,9 +74,9 @@ export function Header() {
   
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
+      if (window.scrollY > 80) {
         setShow(false); 
-      } else { // if scroll up show the navbar
+      } else {
         setShow(true);  
       }
       setLastScrollY(window.scrollY); 
