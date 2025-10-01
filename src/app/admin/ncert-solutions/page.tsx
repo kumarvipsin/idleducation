@@ -1,6 +1,7 @@
+
 'use client';
 import { useEffect, useState } from 'react';
-import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem, type CollectionType } from '@/app/actions';
+import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -11,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Data Structures
 interface SubTopic { name: string; pdfUrl?: string; order: number; }
@@ -34,7 +36,7 @@ type DeleteState =
     | { type: 'subject'; path: { classId: string; subjectKey: string; }; name: string; }
     | { type: 'part'; path: { classId: string; subjectKey: string; partKey: string; }; name: string; }
     | { type: 'chapter'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; }; name: string; }
-    | { type: 'topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; }; name: string; }
+    | { type: 'topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; }; name:string; }
     | { type: 'sub-topic'; path: { classId: string; subjectKey: string; partKey?: string; chapterIndex: number; topicIndex: number; subTopicIndex: number; }; name: string; }
     | null;
 
@@ -56,7 +58,7 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     );
 };
 
-const ContentManager = ({ collectionType, title }: { collectionType: CollectionType, title: string }) => {
+const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolutions' | 'importantQuestions', title: string }) => {
   const [content, setContent] = useState<ContentDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState<ModalState>(null);
@@ -261,8 +263,17 @@ const ContentManager = ({ collectionType, title }: { collectionType: CollectionT
 
 export default function ContentManagementPage() {
   return (
-    <div className="grid grid-cols-1 gap-6">
-        <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
-    </div>
+    <Tabs defaultValue="ncertSolutions" className="w-full">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="ncertSolutions">NCERT Solutions</TabsTrigger>
+        <TabsTrigger value="importantQuestions">Important Questions</TabsTrigger>
+      </TabsList>
+      <TabsContent value="ncertSolutions">
+          <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
+      </TabsContent>
+      <TabsContent value="importantQuestions">
+          <ContentManager collectionType="importantQuestions" title="Manage Important Questions" />
+      </TabsContent>
+    </Tabs>
   );
 }
