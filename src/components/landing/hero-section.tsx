@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -13,24 +12,15 @@ import { cn } from "@/lib/utils";
 
 const heroSlides = [
   { 
-    src: "https://picsum.photos/seed/hero1/1920/1080", 
-    alt: "Students learning in a modern classroom", 
-    hint: "students classroom",
-    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span></>,
+    title: <>Your Future, <span className="text-primary">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
-    src: "https://picsum.photos/seed/hero2/1920/1080", 
-    alt: "A student focused on a difficult problem", 
-    hint: "student studying",
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
+    title: <>Unlock Your <span className="text-primary">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
-    src: "https://picsum.photos/seed/hero3/1920/1080", 
-    alt: "A group of happy students celebrating success", 
-    hint: "students success",
-    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Education.</span></>,
+    title: <>Excellence in <span className="text-primary">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
 ]
@@ -61,7 +51,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[32vh] md:h-[40vh] overflow-hidden">
+    <section className="relative w-full h-[32vh] md:h-[40vh] overflow-hidden bg-white dark:bg-background">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -72,22 +62,14 @@ export function HeroSection() {
           {heroSlides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="relative w-full h-full">
-                <Image 
-                  src={slide.src} 
-                  alt={slide.alt} 
-                  data-ai-hint={slide.hint}
-                  fill
-                  className="object-cover"
-                />
-                 <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
-                            <div className="space-y-4 text-white">
+                            <div className="space-y-4 text-foreground">
                                 <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
                                    {slide.title}
                                 </h1>
-                                <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
+                                <p className="max-w-2xl mx-auto text-sm md:text-xl text-muted-foreground">
                                     {slide.description}
                                 </p>
                             </div>
@@ -106,7 +88,7 @@ export function HeroSection() {
             onClick={() => scrollTo(i)}
             className={cn(
                 "h-2 w-2 rounded-full transition-all",
-                current === i ? "w-6 bg-white" : "bg-white/50"
+                current === i ? "w-6 bg-primary" : "bg-primary/30"
             )}
             />
         ))}
