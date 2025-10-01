@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const features = [
   {
-    title: "Expert Faculty",
+    title: "100+ Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/teachers/600/400",
