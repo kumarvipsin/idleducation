@@ -16,21 +16,21 @@ const heroSlides = [
     src: "https://picsum.photos/seed/hero1/1920/1080", 
     alt: "Students learning in a modern classroom", 
     hint: "students classroom",
-    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Brightened.</span></>,
+    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
     src: "https://picsum.photos/seed/hero2/1920/1080", 
     alt: "A student focused on a difficult problem", 
     hint: "student studying",
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Potential.</span></>,
+    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
     src: "https://picsum.photos/seed/hero3/1920/1080", 
     alt: "A group of happy students celebrating success", 
     hint: "students success",
-    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Education.</span></>,
+    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
 ]
@@ -61,7 +61,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[28vh] md:h-[32vh] overflow-hidden">
+    <section className="relative w-full h-[28vh] md:h-[32vh] overflow-hidden bg-black">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -77,9 +77,8 @@ export function HeroSection() {
                   alt={slide.alt} 
                   data-ai-hint={slide.hint}
                   fill
-                  className="object-cover"
+                  className="object-cover opacity-30"
                 />
-                 <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
