@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
@@ -33,7 +32,7 @@ export function Footer() {
                         <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
                         <div className="flex flex-col leading-tight">
                             <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
-                            <span className="text-[0.4rem] text-primary/80 tracking-tighter -mt-1">
+                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
                         </div>

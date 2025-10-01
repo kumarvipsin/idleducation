@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify } from "lucide-react";
@@ -338,7 +337,7 @@ export function Header() {
                     <span className="text-sm font-bold text-primary">
                         {brandName}
                     </span>
-                    <span className="text-[0.4rem] text-primary/80 tracking-tighter -mt-1">
+                    <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
                       (Institute of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
