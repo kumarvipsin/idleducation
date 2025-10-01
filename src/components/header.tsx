@@ -74,9 +74,9 @@ export function Header() {
   
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > 80 && window.scrollY > lastScrollY) {
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down and past the initial viewport
         setShow(false); 
-      } else {
+      } else { // if scroll up or at the top
         setShow(true);  
       }
       setLastScrollY(window.scrollY); 
