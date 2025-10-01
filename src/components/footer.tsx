@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
@@ -15,6 +16,7 @@ const resourceLinks = [
   { href: "/resources/notes", label: "Notes" },
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
   { href: "/resources/previous-year-questions", label: "Previous Year Papers" },
+  { href: "/resources/reference-books", label: "Reference Books" },
 ];
 
 export function Footer() {
