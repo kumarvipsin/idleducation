@@ -16,7 +16,6 @@ const resourceLinks = [
   { href: "/resources/notes", label: "Notes" },
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
   { href: "/resources/previous-year-questions", label: "Previous Year Papers" },
-  { href: "/resources/reference-books", label: "Reference Books" },
 ];
 
 export function Footer() {
@@ -103,15 +102,6 @@ export function Footer() {
                                 src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                                 alt="Get it on Google Play"
                                 width={135}
-                                height={40}
-                                className="h-auto"
-                            />
-                        </Link>
-                        <Link href="https://apps.apple.com/us/app/example" target="_blank" rel="noopener noreferrer">
-                            <Image 
-                                src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
-                                alt="Download on the App Store"
-                                width={120}
                                 height={40}
                                 className="h-auto"
                             />
