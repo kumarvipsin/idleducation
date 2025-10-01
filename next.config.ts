@@ -64,6 +64,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.jirs.ac.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
