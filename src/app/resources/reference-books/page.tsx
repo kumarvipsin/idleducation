@@ -121,18 +121,32 @@ export default function ReferenceBooksPage() {
                 </div>
 
                 <div className="flex flex-col items-center space-y-4 mb-8">
-                    <div className="flex space-x-2 p-1 bg-muted rounded-full">
+                    <div className="flex flex-wrap justify-center gap-2">
                         {classes.map(c => (
-                            <Button key={c} variant={selectedClass === c ? 'default' : 'ghost'} onClick={() => setSelectedClass(c)} className="rounded-full">
+                            <button
+                                key={c}
+                                onClick={() => setSelectedClass(c)}
+                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                                ${selectedClass === c
+                                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                            >
                                 {c}
-                            </Button>
+                            </button>
                         ))}
                     </div>
-                    <div className="flex space-x-2 p-1 bg-muted rounded-full">
+                    <div className="flex flex-wrap justify-center gap-2">
                         {subjects.map(s => (
-                            <Button key={s} variant={selectedSubject === s ? 'default' : 'ghost'} onClick={() => setSelectedSubject(s)} className="rounded-full">
+                             <button
+                                key={s}
+                                onClick={() => setSelectedSubject(s)}
+                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                                ${selectedSubject === s 
+                                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                            >
                                 {s}
-                            </Button>
+                            </button>
                         ))}
                     </div>
                 </div>
