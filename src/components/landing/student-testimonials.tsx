@@ -13,6 +13,7 @@ import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
@@ -39,7 +40,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
     >
         <CardContent className="p-4 flex flex-col text-center items-center">
-            <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-[4/3] mb-4 rounded-lg overflow-hidden">
                 {loadingAvatar ? (
                     <Skeleton className="w-full h-full" />
                 ) : avatarUrl ? (
@@ -61,7 +62,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             </div>
             <h3 className="font-bold text-lg">{testimonial.name}</h3>
             <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-            <div className="relative h-36">
+            <div className="relative h-28">
                 <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
                 <ScrollArea className="h-full w-full px-2">
                     <blockquote className="text-sm text-muted-foreground italic">
@@ -125,7 +126,7 @@ export function StudentTestimonials() {
           {t('testimonials.subtitle')}
         </p>
       </div>
-      <div className="relative w-full pr-[10%]">
+      <div className="relative w-full">
           {loading ? (
              <div className="flex justify-center gap-6 px-4 md:px-[10%]">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
@@ -143,9 +144,9 @@ export function StudentTestimonials() {
                   plugins={[autoplayPlugin.current]}
                   className="w-full"
               >
-                  <CarouselContent className="-ml-6">
+                  <CarouselContent className="-ml-6 px-4 md:px-[10%]">
                   {testimonials.map((testimonial, index) => (
-                      <CarouselItem key={index} className="pl-6 basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3">
+                      <CarouselItem key={index} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                         <TestimonialCard testimonial={testimonial} />
                       </CarouselItem>
                   ))}
