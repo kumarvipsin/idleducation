@@ -66,6 +66,15 @@ const QuestionForm = ({
         formData.append('pdf', pdfFile);
     }
     
+    if (!pdfFile && !data.pdfUrl) {
+      toast({
+        variant: "destructive",
+        title: "Validation Error",
+        description: "Please provide either a PDF file or a PDF link.",
+      });
+      return;
+    }
+    
     const apiCall = question
       ? editPreviousYearQuestion(question.id, formData)
       : addPreviousYearQuestion(formData);
@@ -168,11 +177,18 @@ export default function AdminPreviousYearQuestionsPage() {
         toast({ variant: "destructive", title: "Error", description: "No PDF file or link available for this paper." });
         return;
     }
-    const result = await getSignedUrlForPdf(pdfUrl);
-    if (result.success && result.url) {
-        window.open(result.url, '_blank');
+    
+    // If it's a GCS URL, we need a signed URL
+    if (pdfUrl.includes('storage.googleapis.com')) {
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
     } else {
-        toast({ variant: "destructive", title: "Error", description: result.message });
+        // If it's a regular URL, open it directly
+        window.open(pdfUrl, '_blank');
     }
   };
 

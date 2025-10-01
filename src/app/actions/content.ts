@@ -740,27 +740,24 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
 export async function addPreviousYearQuestion(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const pdfFile = rawData.pdf as File | null;
+  const pdfUrl = rawData.pdfUrl as string || '';
 
-  const questionData = {
+  const questionData: any = {
     exam: rawData.exam as string,
     subject: rawData.subject as string,
     year: parseInt(rawData.year as string, 10),
     title: rawData.title as string,
-    pdfUrl: rawData.pdfUrl as string || '',
+    pdfUrl: pdfUrl,
+    createdAt: serverTimestamp(),
   };
 
   try {
-    let uploadedPdfUrl = questionData.pdfUrl;
     if (pdfFile && pdfFile.size > 0) {
       const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
-      uploadedPdfUrl = await uploadFileToGCS(pdfFile, destination);
+      questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
-    await addDoc(collection(db, 'previousYearQuestions'), {
-      ...questionData,
-      pdfUrl: uploadedPdfUrl,
-      createdAt: serverTimestamp(),
-    });
+    await addDoc(collection(db, 'previousYearQuestions'), questionData);
 
     return { success: true, message: 'Question paper added successfully.' };
   } catch (error) {
@@ -807,3 +804,4 @@ export async function deletePreviousYearQuestion(id: string) {
         return { success: false, message: "Failed to delete question paper." };
     }
 }
+
