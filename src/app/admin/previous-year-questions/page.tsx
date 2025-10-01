@@ -30,6 +30,7 @@ const questionSchema = z.object({
   subject: z.string().min(1, "Subject is required."),
   year: z.coerce.number().min(2000, "Year must be 2000 or later."),
   title: z.string().min(1, "Title is required."),
+  pdfUrl: z.string().url().optional().or(z.literal('')),
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
@@ -49,6 +50,7 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
+      pdfUrl: question?.pdfUrl || '',
     },
   });
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -63,9 +65,10 @@ const QuestionForm = ({
     if (pdfFile) {
         formData.append('pdf', pdfFile);
     }
-
-    if (!pdfFile && !question?.pdfUrl) {
-      toast({ variant: 'destructive', title: 'Error', description: "PDF file is required." });
+    
+    // Only one of them is needed now
+    if (!pdfFile && !data.pdfUrl && !question?.pdfUrl) {
+      toast({ variant: 'destructive', title: 'Error', description: "Either a PDF file or a PDF link is required." });
       return;
     }
 
@@ -99,7 +102,7 @@ const QuestionForm = ({
           <FormItem><FormLabel>Title</FormLabel><FormControl><Input placeholder="e.g., Set 1" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormItem>
-            <FormLabel>PDF File</FormLabel>
+            <FormLabel>PDF File (Upload)</FormLabel>
             <FormControl>
               <Input
                 id="pdf-upload"
@@ -109,9 +112,13 @@ const QuestionForm = ({
                 ref={fileInputRef}
               />
             </FormControl>
-            {question?.pdfUrl && <p className="text-xs text-muted-foreground mt-1">Current file exists. Uploading a new file will replace it.</p>}
+            {question?.pdfUrl && <p className="text-xs text-muted-foreground mt-1">A file is already linked. Uploading a new one will replace it.</p>}
             <FormMessage />
         </FormItem>
+        <div className="text-center text-sm text-muted-foreground">OR</div>
+         <FormField control={form.control} name="pdfUrl" render={({ field }) => (
+          <FormItem><FormLabel>PDF Link</FormLabel><FormControl><Input placeholder="https://example.com/paper.pdf" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
              <Upload className="mr-2 h-4 w-4" />

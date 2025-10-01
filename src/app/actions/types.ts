@@ -1,5 +1,6 @@
 
 
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
