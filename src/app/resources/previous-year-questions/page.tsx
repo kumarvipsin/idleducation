@@ -4,18 +4,20 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, BookOpen, Home, ArrowRight } from 'lucide-react';
+import { FileText, Download, BookOpen, Home } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { getPreviousYearQuestions } from '@/app/actions';
+import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PreviousYearQuestionsPage() {
   const [papers, setPapers] = useState<TPreviousYearQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedExam, setSelectedExam] = useState('');
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -34,12 +36,21 @@ export default function PreviousYearQuestionsPage() {
     };
     fetchPapers();
   }, []);
+  
+  const handleDownload = async (pdfUrl: string) => {
+    const result = await getSignedUrlForPdf(pdfUrl);
+    if (result.success && result.url) {
+        window.open(result.url, '_blank');
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
 
   const examCategories = Array.from(new Set(papers.map(p => p.exam))).sort();
   const filteredPapers = papers.filter(p => p.exam === selectedExam);
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto p-4 md:p-0">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto p-4">
       <Link href="/" className="absolute top-4 right-4 z-20">
         <Button variant="ghost" size="icon">
           <Home className="h-6 w-6 text-primary" />
@@ -47,14 +58,13 @@ export default function PreviousYearQuestionsPage() {
         </Button>
       </Link>
       <div className="relative z-10 container mx-auto py-12">
-        <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                Practice with past exam papers to familiarize yourself with the format and question types.
-            </p>
-        </div>
-
-        <div className="mb-8">
+        <div className="mb-8 space-y-4">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Practice with past exam papers to familiarize yourself with the format and question types.
+              </p>
+            </div>
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                     {loading ? (
@@ -82,7 +92,7 @@ export default function PreviousYearQuestionsPage() {
         <div className="relative">
             {loading ? (
                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
+                    <div className="flex gap-6 px-4">
                         {[...Array(3)].map((_, i) => (
                             <Skeleton key={i} className="h-48 w-[300px] sm:w-[350px] rounded-lg" />
                         ))}
@@ -90,7 +100,7 @@ export default function PreviousYearQuestionsPage() {
                 </div>
             ) : filteredPapers.length > 0 ? (
                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
+                    <div className="flex gap-6 px-4">
                         {filteredPapers.map((paper, index) => (
                             <div key={paper.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
@@ -101,10 +111,8 @@ export default function PreviousYearQuestionsPage() {
                                         </div>
                                         <h3 className="text-lg font-bold mt-4 flex-grow text-foreground">{paper.subject}</h3>
                                         <p className="text-sm text-muted-foreground mt-1 mb-4">{paper.title}</p>
-                                        <Button asChild className="w-full mt-auto">
-                                        <Link href={paper.pdfUrl || '#'} target="_blank" rel="noopener noreferrer" >
+                                        <Button className="w-full mt-auto" onClick={() => handleDownload(paper.pdfUrl)}>
                                             Download PDF <Download className="ml-2 h-4 w-4" />
-                                        </Link>
                                         </Button>
                                     </CardContent>
                                 </Card>

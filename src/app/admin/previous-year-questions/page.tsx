@@ -6,7 +6,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
-import { getPreviousYearQuestions, addPreviousYearQuestion, editPreviousYearQuestion, deletePreviousYearQuestion } from '@/app/actions';
+import { getPreviousYearQuestions, addPreviousYearQuestion, editPreviousYearQuestion, deletePreviousYearQuestion, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { PlusCircle, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Upload } from 'lucide-react';
 
 const examCategories = [
   'CBSE Class 10', 'CBSE Class 12', 'NIOS Class 10', 'NIOS Class 12',
@@ -30,7 +30,6 @@ const questionSchema = z.object({
   subject: z.string().min(1, "Subject is required."),
   year: z.coerce.number().min(2000, "Year must be 2000 or later."),
   title: z.string().min(1, "Title is required."),
-  pdfUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
@@ -50,7 +49,6 @@ const QuestionForm = ({
       subject: question?.subject || '',
       year: question?.year || new Date().getFullYear(),
       title: question?.title || '',
-      pdfUrl: question?.pdfUrl || '',
     },
   });
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -66,8 +64,8 @@ const QuestionForm = ({
         formData.append('pdf', pdfFile);
     }
 
-    if (!pdfFile && !data.pdfUrl) {
-      toast({ variant: 'destructive', title: 'Error', description: "Either a PDF file or a PDF link is required." });
+    if (!pdfFile && !question?.pdfUrl) {
+      toast({ variant: 'destructive', title: 'Error', description: "PDF file is required." });
       return;
     }
 
@@ -111,10 +109,12 @@ const QuestionForm = ({
                 ref={fileInputRef}
               />
             </FormControl>
+            {question?.pdfUrl && <p className="text-xs text-muted-foreground mt-1">Current file exists. Uploading a new file will replace it.</p>}
             <FormMessage />
         </FormItem>
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting}>
+             <Upload className="mr-2 h-4 w-4" />
             {form.formState.isSubmitting ? 'Saving...' : 'Save changes'}
           </Button>
         </DialogFooter>
@@ -161,9 +161,21 @@ export default function AdminPreviousYearQuestionsPage() {
     }
     setDeletingQuestion(null);
   };
+  
+  const handleViewPdf = async (pdfUrl: string) => {
+    const result = await getSignedUrlForPdf(pdfUrl);
+    if (result.success && result.url) {
+        window.open(result.url, '_blank');
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+    }
+  };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+      if (!isOpen) setEditingQuestion(null);
+      setIsDialogOpen(isOpen);
+    }}>
        <AlertDialog open={!!deletingQuestion} onOpenChange={(isOpen) => !isOpen && setDeletingQuestion(null)}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -208,6 +220,7 @@ export default function AdminPreviousYearQuestionsPage() {
                         <TableCell>{q.year}</TableCell>
                         <TableCell>{q.title}</TableCell>
                         <TableCell className="text-right space-x-2">
+                           <Button variant="outline" size="sm" onClick={() => handleViewPdf(q.pdfUrl)}>View PDF</Button>
                            <Button variant="outline" size="icon" onClick={() => { setEditingQuestion(q); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />
                            </Button>

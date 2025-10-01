@@ -87,7 +87,7 @@ export interface TPreviousYearQuestion {
   subject: string;
   year: number;
   title: string;
-  pdfUrl?: string;
+  pdfUrl: string;
   createdAt: string;
 }
 
