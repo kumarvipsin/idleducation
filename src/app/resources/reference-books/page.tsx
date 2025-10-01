@@ -56,8 +56,7 @@ const booksByClass: { [key: string]: Book[] } = {
 };
 
 const allCategories = [
-  'Class 9', 'Class 10', 'Class 11', 'Class 12',
-  'JEE', 'NEET', 'CUET', 'CLAT', 'GATE', 'SSC', 'DELHI POLICE'
+  'Class 10', 'Class 12'
 ];
 
 const subjectColors: { [key in Book['subject']]: string } = {
