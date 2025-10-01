@@ -1,4 +1,3 @@
-
 // src/app/actions/content.ts
 'use server';
 import 'dotenv/config';
@@ -753,8 +752,14 @@ export async function addPreviousYearQuestion(formData: FormData) {
 
   try {
     if (pdfFile && pdfFile.size > 0) {
-      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name.replace(/\s/g, '_')}`;
       questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+    }
+    
+    if(!questionData.pdfUrl) {
+      // If still no pdfUrl, it means neither file nor link was provided.
+      // Depending on requirements, you might want to handle this.
+      // For now, we allow it to be empty.
     }
     
     await addDoc(collection(db, 'previousYearQuestions'), questionData);
@@ -765,6 +770,7 @@ export async function addPreviousYearQuestion(formData: FormData) {
     return { success: false, message: 'Failed to add question paper.' };
   }
 }
+
 
 export async function editPreviousYearQuestion(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
@@ -780,7 +786,7 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
     
     try {
         if (pdfFile && pdfFile.size > 0) {
-            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name.replace(/\s/g, '_')}`;
             questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
         }
 
@@ -804,4 +810,3 @@ export async function deletePreviousYearQuestion(id: string) {
         return { success: false, message: "Failed to delete question paper." };
     }
 }
-
