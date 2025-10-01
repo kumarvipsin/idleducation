@@ -129,7 +129,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6 px-4 md:px-[10%]">
+                <CarouselContent className="-ml-6 px-4 md:px-0">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/4">
                        <TestimonialCard testimonial={testimonial} />
