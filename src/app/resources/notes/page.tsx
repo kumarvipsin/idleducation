@@ -10,31 +10,49 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getCollection } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
 
 type Subject = {
   name: string;
   href: string;
   icon: React.ReactNode;
   gradient: string;
+  imageUrl: string;
+  imageHint: string;
 };
 
 const subjectIconMap: { [key: string]: React.ReactNode } = {
-  maths: <Sigma className="w-6 h-6 text-green-600" />,
-  science: <TestTube2 className="w-6 h-6 text-blue-600" />,
-  social: <Landmark className="w-6 h-6 text-amber-600" />,
-  english: <BookText className="w-6 h-6 text-purple-600" />,
-  physics: <Atom className="w-6 h-6 text-sky-600" />,
-  chemistry: <FlaskConical className="w-6 h-6 text-purple-600" />,
-  biology: <Dna className="w-6 h-6 text-lime-600" />,
-  history: <Landmark className="w-6 h-6 text-red-600" />,
-  geography: <Globe className="w-6 h-6 text-orange-600" />,
-  'political-science': <Scale className="w-6 h-6 text-indigo-600" />,
-  economics: <TrendingUp className="w-6 h-6 text-pink-600" />,
-  default: <BookText className="w-6 h-6 text-gray-600" />,
+  maths: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
+  science: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+  social: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
+  english: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+  physics: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
+  chemistry: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+  biology: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
+  history: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
+  geography: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
+  'political-science': <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+  economics: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
+  default: <BookText className="w-8 h-8 text-gray-600 dark:text-gray-400" />,
+};
+
+const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
+  maths: { url: "https://images.unsplash.com/photo-1509228627-8D5849852353?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYXRoJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxMzgwfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
+  science: { url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDAyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "science abstract" },
+  social: { url: "https://images.unsplash.com/photo-1583426533758-3a172a6b29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBzdHVkaWVzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDIzfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "social studies" },
+  english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3E5MjYxNDQyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
+  physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
+  chemistry: { url: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGVtaXN0cnklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "chemistry abstract" },
+  biology: { url: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxib2xvZ3klMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDk3fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "biology abstract" },
+  history: { url: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoaXN0b3J5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTE1fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "history abstract" },
+  geography: { url: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnZW9ncmFwaHklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTMwfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "geography abstract" },
+  'political-science': { url: "https://images.unsplash.com/photo-1534294668382-95b2ae36b57d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb2xpdGljYWwlMjBzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTQ4fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "political science" },
+  economics: { url: "https://images.unsplash.com/photo-1579621970795-87f54f12c7a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlY29ub21pY3MlMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTY0fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "economics abstract" },
+  default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
 };
 
 const getIcon = (key: string) => subjectIconMap[key.toLowerCase()] || subjectIconMap.default;
-
+const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
 
 export default function NotesPage() {
   const [notesByClass, setNotesByClass] = useState<any>({});
@@ -54,6 +72,8 @@ export default function NotesPage() {
             name: subjectData.name,
             href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
             icon: getIcon(subjectKey),
+            imageUrl: getImage(subjectKey).url,
+            imageHint: getImage(subjectKey).hint,
           }));
           return acc;
         }, {});
@@ -84,15 +104,9 @@ export default function NotesPage() {
   };
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {[...Array(4)].map((_, i) => (
-        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
-          <CardContent className="p-6 flex flex-col flex-grow items-start">
-            <Skeleton className="h-10 w-10 rounded-full mb-4" />
-            <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
+    <div className="flex gap-6 px-4 md:px-[10%]">
+      {[...Array(3)].map((_, i) => (
+        <Skeleton key={i} className="h-96 w-[350px] rounded-2xl" />
       ))}
     </div>
   );
@@ -116,8 +130,8 @@ export default function NotesPage() {
                     onClick={() => handleClassChange(className)}
                     className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                     ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                 >
                     {className}
                 </button>
@@ -128,28 +142,38 @@ export default function NotesPage() {
       </div>
 
       <main className="flex-1">
-        {loading ? renderSkeleton() : (
-            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
-            {subjects && subjects.length > 0 ? (
-                subjects.map((subject: Subject, index: number) => (
-                <Link href={subject.href} key={index} className="group">
-                  <Card 
-                      className={`flex flex-col rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full bg-card`}
-                      style={{ animationDelay: `${index * 0.05}s` }}
-                  >
-                      <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                          <div className="mb-4">
-                              {subject.icon}
-                          </div>
-                          <h3 className="text-lg font-semibold mb-1 flex-grow text-left">{subject.name}</h3>
-                          <div className="w-full flex justify-end">
-                            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                          </div>
-                      </CardContent>
-                  </Card>
-                </Link>
-                ))
-            ) : (
+        {loading ? (
+            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {renderSkeleton()}
+            </div>
+        ) : (
+            <div key={animationKey} className="relative animate-fade-in-up">
+              {subjects && subjects.length > 0 ? (
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {subjects.map((subject: Subject, index: number) => (
+                          <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                              <CardContent className="p-8 flex-grow flex flex-col">
+                                {subject.icon}
+                                <h3 className="text-2xl font-bold mt-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
+                                <p className="text-sm mt-2 text-muted-foreground flex-grow">In-depth notes for {subject.name}.</p>
+                              </CardContent>
+                              <div className="relative aspect-[4/3] w-full mt-auto">
+                                <Image
+                                  src={subject.imageUrl}
+                                  alt={subject.name}
+                                  data-ai-hint={subject.imageHint}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
+                            </Card>
+                          </Link>
+                        ))}
+                    </div>
+                </div>
+              ) : (
                 <div className="col-span-full text-center py-12">
                     <Card className="p-8 inline-block">
                         <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
@@ -157,7 +181,7 @@ export default function NotesPage() {
                         <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
                     </Card>
                 </div>
-            )}
+              )}
             </div>
         )}
       </main>
