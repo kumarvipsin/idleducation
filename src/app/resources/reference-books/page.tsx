@@ -227,10 +227,10 @@ export default function ReferenceBooksPage() {
                                 <button
                                     key={c}
                                     onClick={() => setSelectedClass(c)}
-                                    className={cn(`py-2 px-6 text-sm font-medium transition-colors rounded-full`,
+                                    className={cn(`py-2 px-6 text-sm font-medium transition-colors border rounded-full`,
                                         selectedClass === c
-                                        ? 'bg-primary shadow text-primary-foreground'
-                                        : 'text-muted-foreground hover:text-foreground bg-muted/50'
+                                        ? 'border-primary text-primary bg-primary/10 shadow'
+                                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                     )}
                                 >
                                     {c}
