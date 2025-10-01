@@ -21,18 +21,8 @@ const resourceLinks = [
 export function Footer() {
   return (
     <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
-        <div className="relative h-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600"></div>
-            <svg
-              className="absolute bottom-0 w-full h-full text-gray-100 dark:text-gray-800"
-              preserveAspectRatio="none"
-              viewBox="0 0 1200 120"
-            >
-              <path
-                d="M0,0 C150,130 350,130 600,60 C850,-10 1050,-10 1200,60 L1200,120 L0,120 Z"
-                fill="currentColor"
-              ></path>
-            </svg>
+        <div className="container mx-auto px-4 md:px-6 pt-12">
+           <Separator />
         </div>
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
