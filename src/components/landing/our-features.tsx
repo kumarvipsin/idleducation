@@ -2,9 +2,10 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 const features = [
   {
@@ -66,7 +67,12 @@ export function OurFeatures() {
                   <CardContent className="p-8 flex-grow flex flex-col">
                     
                     <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{feature.title}</h3>
-                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{feature.description}</p>
+                    <p className="text-sm mt-2 text-muted-foreground">{feature.description}</p>
+                    <div className="mt-4">
+                        <Button variant="outline" size="sm" className="rounded-full text-xs">
+                            More <ArrowRight className="w-3 h-3 ml-1.5" />
+                        </Button>
+                    </div>
                   </CardContent>
                   <div className="relative aspect-[4/3] w-full mt-auto p-4">
                     <Image
