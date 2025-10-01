@@ -39,9 +39,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-                </div>
             </button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
@@ -93,12 +90,14 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     }, [api])
 
      React.useEffect(() => {
-      if (!api || !api.plugins().autoplay) return;
+      if (!api || !api.plugins || !api.plugins().autoplay) return;
 
       if (playingVideoId) {
         api.plugins().autoplay.stop();
       } else {
-        api.plugins().autoplay.play();
+        if(api.plugins().autoplay) {
+            api.plugins().autoplay.play();
+        }
       }
     }, [playingVideoId, api]);
 
@@ -130,7 +129,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full pr-[10%]">
+        <div className="w-full">
             <Carousel
                 setApi={setApi}
                 opts={{
@@ -140,7 +139,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6 px-4">
+                <CarouselContent className="-ml-6 px-4 md:px-[10%]">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                        <TestimonialCard testimonial={testimonial} />
