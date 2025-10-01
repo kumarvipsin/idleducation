@@ -93,14 +93,12 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     }, [api])
 
      React.useEffect(() => {
-      if (!api || !autoplayPlugin.current) return;
+      if (!api || !api.plugins().autoplay) return;
 
       if (playingVideoId) {
-        autoplayPlugin.current.stop();
+        api.plugins().autoplay.stop();
       } else {
-        if(api.plugins().autoplay) {
-            api.plugins().autoplay.play();
-        }
+        api.plugins().autoplay.play();
       }
     }, [playingVideoId, api]);
 
@@ -132,7 +130,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full pl-[10%]">
+        <div className="w-full pr-[10%]">
             <Carousel
                 setApi={setApi}
                 opts={{
@@ -144,7 +142,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-6 px-4">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/4">
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                        <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
