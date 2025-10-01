@@ -1,4 +1,5 @@
 
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -127,4 +128,19 @@ export interface TTeamMember {
   };
 }
 
+export interface TReferenceBook {
+    id: string;
+    title: string;
+    author: string;
+    price: number;
+    originalPrice: number;
+    rating: number;
+    reviews: number;
+    imageUrl: string;
+    class: string;
+    subject: string;
+    edition: string;
+    set: string;
+    createdAt: string;
+}
     

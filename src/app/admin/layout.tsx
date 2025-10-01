@@ -200,6 +200,12 @@ function AdminLayout({
                                 <span>Prev. Year Questions</span>
                             </Link>
                         </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/reference-books')}>
+                            <Link href="/admin/reference-books">
+                                <BookOpen />
+                                <span>Reference Books</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
                             <Link href="/admin/testimonials">
                                 <MessageSquare />

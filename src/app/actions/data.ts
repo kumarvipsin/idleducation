@@ -229,6 +229,18 @@ export async function getTeamMembers() {
     }
 }
 
+export async function getReferenceBooks() {
+    try {
+        const booksQuery = query(collection(db, "referenceBooks"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(booksQuery);
+        const books = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: books };
+    } catch (error) {
+        console.error("Error fetching reference books:", error);
+        return { success: false, message: "Failed to fetch reference books." };
+    }
+}
+
 
 // Count Functions
 async function getCount(q: any) {
