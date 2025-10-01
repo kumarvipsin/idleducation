@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 const books = [
@@ -62,7 +62,7 @@ const books = [
         discount: 12,
         imageUrl: "https://picsum.photos/seed/physics-book/400/500",
         imageHint: "physics textbook",
-        class: "Class 11",
+        class: "Class 12",
         subject: "Science"
     },
     {
@@ -134,11 +134,25 @@ const books = [
 ];
 
 const classes = ["All", "Class 10", "Class 12"];
-const subjects = ["All", "Maths", "Science", "English", "Social Studies"];
 
 export default function ReferenceBooksPage() {
     const [selectedClass, setSelectedClass] = useState('All');
     const [selectedSubject, setSelectedSubject] = useState('All');
+
+    const subjects = useMemo(() => {
+        if (selectedClass === 'All') {
+            return ['All', 'Maths', 'Science', 'English', 'Social Studies'];
+        }
+        const classSubjects = books
+            .filter(book => book.class === selectedClass)
+            .map(book => book.subject);
+        return ['All', ...Array.from(new Set(classSubjects))];
+    }, [selectedClass]);
+
+    // When the class changes, if the current subject is not in the new list, reset to 'All'
+    if (!subjects.includes(selectedSubject)) {
+        setSelectedSubject('All');
+    }
 
     const filteredBooks = books.filter(book => 
         (selectedClass === 'All' || book.class === selectedClass) &&
