@@ -62,12 +62,12 @@ export function OurFeatures() {
         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex gap-6 px-4 md:px-[10%]">
             {features.map((feature, index) => (
-              <Link href={feature.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+              <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                   <CardContent className="p-8 flex-grow flex flex-col">
                     
                     <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{feature.title}</h3>
-                    <p className="text-sm mt-2 text-muted-foreground">{feature.description}</p>
+                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{feature.description}</p>
                     <div className="mt-4">
                         <Button variant="outline" size="sm" className="rounded-full text-xs">
                             More <ArrowRight className="w-3 h-3 ml-1.5" />
@@ -84,7 +84,7 @@ export function OurFeatures() {
                     />
                   </div>
                 </Card>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
