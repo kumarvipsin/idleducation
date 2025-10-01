@@ -10,13 +10,13 @@ import { cn } from '@/lib/utils';
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from '@/components/ui/separator';
 
 export default function PreviousYearQuestionsPage() {
   const [papers, setPapers] = useState<TPreviousYearQuestion[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedExam, setSelectedExam] = useState('');
+  const [selectedClass, setSelectedClass] = useState('Class 10');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -24,13 +24,7 @@ export default function PreviousYearQuestionsPage() {
       setLoading(true);
       const result = await getPreviousYearQuestions();
       if (result.success && result.data) {
-        const fetchedPapers = result.data as TPreviousYearQuestion[];
-        setPapers(fetchedPapers);
-        const examCategories = Array.from(new Set(fetchedPapers.map(p => p.exam))).sort();
-        if (examCategories.length > 0) {
-          const defaultExam = examCategories.find(e => e.includes('CBSE Class 10')) || examCategories[0];
-          setSelectedExam(defaultExam);
-        }
+        setPapers(result.data as TPreviousYearQuestion[]);
       }
       setLoading(false);
     };
@@ -38,6 +32,10 @@ export default function PreviousYearQuestionsPage() {
   }, []);
   
   const handleDownload = async (pdfUrl: string) => {
+    if (!pdfUrl) {
+      toast({ variant: "destructive", title: "Error", description: "No PDF available for this paper." });
+      return;
+    }
     const result = await getSignedUrlForPdf(pdfUrl);
     if (result.success && result.url) {
         window.open(result.url, '_blank');
@@ -46,11 +44,10 @@ export default function PreviousYearQuestionsPage() {
     }
   };
 
-  const examCategories = Array.from(new Set(papers.map(p => p.exam))).sort();
-  const filteredPapers = papers.filter(p => p.exam === selectedExam);
+  const filteredPapers = papers.filter(p => p.exam.includes(selectedClass));
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto p-4">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
         <Button variant="ghost" size="icon">
           <Home className="h-6 w-6 text-primary" />
@@ -65,27 +62,25 @@ export default function PreviousYearQuestionsPage() {
                   Practice with past exam papers to familiarize yourself with the format and question types.
               </p>
             </div>
-            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-                    {loading ? (
-                        [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
-                    ) : (
-                        examCategories.map((examName) => (
-                        <button
-                            key={examName}
-                            onClick={() => setSelectedExam(examName)}
-                            className={cn(
-                            `py-2 px-6 whitespace-nowrap text-sm font-medium transition-colors border rounded-full`,
-                            selectedExam === examName
-                                ? 'border-primary text-primary bg-primary/10 shadow-md' 
-                                : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                            )}
-                        >
-                            {examName}
-                        </button>
-                        ))
-                    )}
-                </div>
+            
+            <div className="flex justify-center items-center gap-4 py-4">
+                <Button 
+                    onClick={() => setSelectedClass('Class 10')}
+                    variant={selectedClass === 'Class 10' ? 'default' : 'outline'}
+                    size="lg"
+                    className="rounded-full shadow-md"
+                >
+                    Class 10
+                </Button>
+                <Separator orientation="vertical" className="h-6" />
+                <Button 
+                    onClick={() => setSelectedClass('Class 12')}
+                    variant={selectedClass === 'Class 12' ? 'default' : 'outline'}
+                    size="lg"
+                    className="rounded-full shadow-md"
+                >
+                    Class 12
+                </Button>
             </div>
         </div>
 
@@ -125,7 +120,7 @@ export default function PreviousYearQuestionsPage() {
                     <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                     <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                        Question papers for the selected exam will be available soon.
+                        Question papers for {selectedClass} will be available soon.
                     </p>
                 </div>
             )}
