@@ -74,9 +74,9 @@ export function Header() {
   
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > lastScrollY && window.scrollY > 80) { 
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
         setShow(false); 
-      } else { 
+      } else { // if scroll up show the navbar
         setShow(true);  
       }
       setLastScrollY(window.scrollY); 
@@ -332,7 +332,7 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b rounded-t-2xl">
+      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7]/80 dark:bg-gray-900/80 border-b backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />

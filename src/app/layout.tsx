@@ -34,7 +34,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/logo.png" sizes="any" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen`}>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
