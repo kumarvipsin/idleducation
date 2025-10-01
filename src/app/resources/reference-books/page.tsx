@@ -3,82 +3,82 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, Book, Library, GraduationCap } from "lucide-react";
+import { Home, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 const books = [
     {
+        title: "Mathematics for Class 10",
+        author: "by R.D. Sharma",
+        price: 600,
+        originalPrice: 700,
+        discount: 14,
+        imageUrl: "https://picsum.photos/seed/maths-10/400/500",
+        imageHint: "math textbook"
+    },
+    {
+        title: "Secondary School Mathematics for Class 10",
+        author: "by R.S. Aggarwal",
+        price: 580,
+        originalPrice: 650,
+        discount: 11,
+        imageUrl: "https://picsum.photos/seed/maths-10-rs/400/500",
+        imageHint: "math textbook"
+    },
+    {
+        title: "Educart CBSE Class 10 Maths Sample Papers",
+        author: "by Educart",
+        price: 350,
+        originalPrice: 400,
+        discount: 13,
+        imageUrl: "https://picsum.photos/seed/maths-sample/400/500",
+        imageHint: "math sample papers"
+    },
+    {
         title: "Concepts of Physics",
         author: "by H.C. Verma",
-        subject: "Physics",
-        class: "Class: 11 & 12",
+        price: 750,
+        originalPrice: 850,
+        discount: 12,
         imageUrl: "https://picsum.photos/seed/physics-book/400/500",
         imageHint: "physics textbook"
     },
     {
         title: "Objective Chemistry",
         author: "by Dr. R.K. Gupta",
-        subject: "Chemistry",
-        class: "Class: NEET",
+        price: 700,
+        originalPrice: 799,
+        discount: 12,
         imageUrl: "https://picsum.photos/seed/chem-book/400/500",
         imageHint: "chemistry textbook"
     },
     {
         title: "Trueman's Elementary Biology",
         author: "by K.N. Bhatia & M.P. Tyagi",
-        subject: "Biology",
-        class: "Class: NEET",
+        price: 950,
+        originalPrice: 1050,
+        discount: 10,
         imageUrl: "https://picsum.photos/seed/bio-book/400/500",
         imageHint: "biology textbook"
     },
     {
-        title: "Mathematics for Class 10",
-        author: "by R.D. Sharma",
-        subject: "Mathematics",
-        class: "Class: 10",
-        imageUrl: "https://picsum.photos/seed/math-book/400/500",
-        imageHint: "math textbook"
-    },
-    {
         title: "History of Modern India",
         author: "by Bipan Chandra",
-        subject: "History",
-        class: "Class: UPSC",
+        price: 450,
+        originalPrice: 500,
+        discount: 10,
         imageUrl: "https://picsum.photos/seed/history-book/400/500",
         imageHint: "history textbook"
     },
     {
-        title: "Oxford Student Atlas for India",
-        author: "by Oxford University Press",
-        subject: "Geography",
-        class: "Class: All",
-        imageUrl: "https://picsum.photos/seed/geo-book/400/500",
-        imageHint: "atlas book"
-    },
-    {
         title: "Indian Polity",
         author: "by M. Laxmikanth",
-        subject: "Political Science",
-        class: "Class: UPSC",
+        price: 850,
+        originalPrice: 950,
+        discount: 11,
         imageUrl: "https://picsum.photos/seed/polity-book/400/500",
         imageHint: "polity textbook"
-    },
-    {
-        title: "Indian Economy",
-        author: "by Ramesh Singh",
-        subject: "Economics",
-        class: "Class: UPSC",
-        imageUrl: "https://picsum.photos/seed/econ-book/400/500",
-        imageHint: "economy textbook"
-    },
-    {
-        title: "Verbal and Non-Verbal Reasoning",
-        author: "by R.S. Aggarwal",
-        subject: "Reasoning",
-        class: "Class: Competitive Exams",
-        imageUrl: "https://picsum.photos/seed/reasoning-book/400/500",
-        imageHint: "reasoning textbook"
     },
 ];
 
@@ -98,10 +98,10 @@ export default function ReferenceBooksPage() {
                         A curated collection of books to supplement your learning.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {books.map((book, index) => (
-                        <Card key={index} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up group rounded-lg" style={{ animationDelay: `${index * 50}ms` }}>
-                            <CardContent className="p-0">
+                        <Card key={index} className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card" style={{ animationDelay: `${index * 50}ms` }}>
+                            <CardContent className="p-0 flex flex-col h-full">
                                 <div className="relative aspect-[3/4] w-full">
                                     <Image
                                         src={book.imageUrl}
@@ -110,21 +110,23 @@ export default function ReferenceBooksPage() {
                                         fill
                                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                    {book.discount && (
+                                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+                                            {book.discount}% OFF
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="p-4 bg-background">
-                                    <h3 className="font-bold text-base leading-tight truncate" title={book.title}>{book.title}</h3>
+                                <div className="p-4 flex flex-col flex-grow">
+                                    <h3 className="font-bold text-base leading-tight truncate flex-grow" title={book.title}>{book.title}</h3>
                                     <p className="text-xs text-muted-foreground mt-1">{book.author}</p>
-                                    <div className="flex items-center justify-between text-xs mt-3 text-primary">
-                                        <div className="flex items-center gap-1.5 font-semibold">
-                                            <Library className="w-3.5 h-3.5" />
-                                            <span>{book.subject}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5 font-semibold">
-                                            <GraduationCap className="w-3.5 h-3.5" />
-                                            <span>{book.class}</span>
-                                        </div>
+                                    <div className="flex items-baseline gap-2 mt-2">
+                                        <p className="text-xl font-bold text-foreground">₹{book.price}</p>
+                                        {book.originalPrice && <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>}
                                     </div>
+                                    <Button className="w-full mt-4 bg-blue-900 hover:bg-blue-800">
+                                        <ShoppingCart className="mr-2 h-4 w-4" />
+                                        Buy Now
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
