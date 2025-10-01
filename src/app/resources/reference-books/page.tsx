@@ -78,16 +78,13 @@ const books = [
     },
 ];
 
-const classes = ["All", "Class 10", "Class 12"];
+const classes = ["Class 10", "Class 12"];
 
 export default function ReferenceBooksPage() {
-    const [selectedClass, setSelectedClass] = useState('All');
+    const [selectedClass, setSelectedClass] = useState('Class 10');
     const [selectedSubject, setSelectedSubject] = useState('All');
 
     const subjects = useMemo(() => {
-        if (selectedClass === 'All') {
-            return ['All', ...Array.from(new Set(books.map(book => book.subject)))];
-        }
         const classSubjects = books
             .filter(book => book.class === selectedClass)
             .map(book => book.subject);
@@ -101,7 +98,7 @@ export default function ReferenceBooksPage() {
     }, [subjects, selectedSubject]);
 
     const filteredBooks = books.filter(book => 
-        (selectedClass === 'All' || book.class === selectedClass) &&
+        (book.class === selectedClass) &&
         (selectedSubject === 'All' || book.subject === selectedSubject)
     );
 
@@ -127,10 +124,11 @@ export default function ReferenceBooksPage() {
                             <button
                                 key={c}
                                 onClick={() => setSelectedClass(c)}
-                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
-                                ${selectedClass === c
-                                    ? 'border-primary text-primary bg-primary/10' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                                className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full`,
+                                    selectedClass === c
+                                    ? 'border-primary text-primary bg-primary/10'
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                )}
                             >
                                 {c}
                             </button>
@@ -141,10 +139,11 @@ export default function ReferenceBooksPage() {
                              <button
                                 key={s}
                                 onClick={() => setSelectedSubject(s)}
-                                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
-                                ${selectedSubject === s 
-                                    ? 'border-primary text-primary bg-primary/10' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                                className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full`,
+                                    selectedSubject === s
+                                    ? 'border-primary text-primary bg-primary/10'
+                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                )}
                             >
                                 {s}
                             </button>
