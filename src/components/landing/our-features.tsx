@@ -29,7 +29,7 @@ const features = [
     imageHint: "books pencils",
   },
   {
-    title: "Comprehensive Study Material",
+    title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/resources/600/400",
