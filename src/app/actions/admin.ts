@@ -542,6 +542,8 @@ export async function editExamCategory(id: string, formData: FormData) {
         if (imageFile && imageFile.size > 0) {
             const destination = `exam-categories/${id}-${imageFile.name}`;
             categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        } else if (rawData.removePhoto === 'true') {
+            categoryData.imageUrl = '';
         }
 
         const docRef = doc(db, "examCategories", id);

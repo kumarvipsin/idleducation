@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Users, Image as ImageIcon } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Users, Image as ImageIcon, Upload } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -45,12 +45,14 @@ const ExamCategoryForm = ({
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [removePhoto, setRemovePhoto] = useState(false);
 
   useEffect(() => {
     setSelectedGroup(category?.group);
     setSelectedTeacherIds(category?.teacherIds || []);
     setPhotoPreview(null);
     setCroppedPhoto(null);
+    setRemovePhoto(false);
   }, [category]);
 
 
@@ -66,6 +68,9 @@ const ExamCategoryForm = ({
     
     if (croppedPhoto) {
         formData.append('imageFile', croppedPhoto);
+    }
+    if (removePhoto) {
+        formData.append('removePhoto', 'true');
     }
 
     const apiCall = category
@@ -94,6 +99,7 @@ const ExamCategoryForm = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setRemovePhoto(false);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
@@ -106,6 +112,12 @@ const ExamCategoryForm = ({
   const onImageCropped = (croppedImageFile: File) => {
     setCroppedPhoto(croppedImageFile);
     setPhotoPreview(URL.createObjectURL(croppedImageFile));
+  };
+  
+  const handleRemovePhoto = () => {
+    setRemovePhoto(true);
+    setPhotoPreview(null);
+    setCroppedPhoto(null);
   };
 
   return (
@@ -159,10 +171,18 @@ const ExamCategoryForm = ({
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
             <div className="col-span-3 flex items-center gap-4">
-                {photoPreview ? <Image src={photoPreview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> 
-                : category?.imageUrl ? <GcsImage filePath={category.imageUrl} alt={category.name} width={64} height={36} className="rounded-md object-cover aspect-video" /> 
-                : <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
-              <Input id="image" name="imageFile" type="file" onChange={handleFileChange} className="col-span-3" />
+                {photoPreview && !removePhoto ? (
+                    <Image src={photoPreview} alt="Image Preview" width={64} height={36} className="rounded-md object-cover aspect-video" /> 
+                ) : (category?.imageUrl && !removePhoto) ? (
+                    <GcsImage filePath={category.imageUrl} alt={category.name} width={64} height={36} className="rounded-md object-cover aspect-video" /> 
+                ) : (
+                    <div className="w-16 h-9 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>
+                )}
+                <div className="flex flex-col gap-2">
+                    <Button type="button" size="sm" variant="outline" onClick={() => document.getElementById('image')?.click()}><Upload className="w-4 h-4 mr-2"/>Upload</Button>
+                    <Input id="image" name="imageFile" type="file" onChange={handleFileChange} className="hidden" />
+                    {(category?.imageUrl || photoPreview) && !removePhoto && <Button type="button" onClick={handleRemovePhoto} variant="destructive" size="sm"><Trash2 className="w-4 h-4 mr-2"/>Remove</Button>}
+                </div>
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
