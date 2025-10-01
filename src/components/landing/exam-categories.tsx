@@ -77,8 +77,6 @@ export function ExamCategories() {
   const [schoolCurrent, setSchoolCurrent] = useState(0)
   const [competitiveCurrent, setCompetitiveCurrent] = useState(0)
 
-  const competitiveAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: true }));
-
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
@@ -185,7 +183,7 @@ export function ExamCategories() {
                  {loading ? renderSkeleton() : (
                     <div className="flex-1">
                         <CardContent className="p-6">
-                            <Carousel setApi={setCompetitiveApi} plugins={[competitiveAutoplay.current]} opts={{ align: "start", loop: true }} className="w-full">
+                            <Carousel setApi={setCompetitiveApi} opts={{ align: "start", loop: true }} className="w-full">
                             <CarouselContent>
                                 {Array.from({ length: competitiveSlidesCount }).map((_, slideIndex) => (
                                 <CarouselItem key={slideIndex}>
