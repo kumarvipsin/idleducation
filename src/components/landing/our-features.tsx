@@ -9,37 +9,42 @@ import { Button } from "../ui/button";
 
 const features = [
   {
+    slug: "expert-faculty",
     title: "100+ Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
-    href: "#",
+    href: "/feature/expert-faculty",
     imageUrl: "https://img.freepik.com/premium-vector/happy-school-staff-portrait-diverse-group-teachers-smiling-together_1323048-59433.jpg",
     imageHint: "teacher classroom",
   },
   {
+    slug: "quality-education",
     title: "100% Quality Education",
     description: "Interactive classes designed to provide the best learning experience.",
-    href: "#",
+    href: "/feature/quality-education",
     imageUrl: "https://www.jirs.ac.in/uploads/blog/7a76ecbb7e5d2a599c5e90471d0d7790.jpg",
     imageHint: "teacher student",
   },
   {
+    slug: "complete-syllabus",
     title: "100% Complete Syllabus",
     description: "Thorough coverage of all subjects and topics as per the latest syllabus.",
-    href: "#",
+    href: "/feature/complete-syllabus",
     imageUrl: "https://picsum.photos/seed/syllabus/600/400",
     imageHint: "books pencils",
   },
   {
+    slug: "two-teacher-model",
     title: "Unique Two-Teacher Model",
     description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
-    href: "#",
+    href: "/feature/two-teacher-model",
     imageUrl: "https://images.unsplash.com/photo-1511629091441-ee46146481b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWFjaGVycyUyMGdydXAlMjBtZW58ZW58MHx8fHwxNzU5MjkzODYxfDA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "teachers collaborating",
   },
   {
+    slug: "all-in-one-learning",
     title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Access a vast library of tests, sample papers, and notes.",
-    href: "#",
+    href: "/feature/all-in-one-learning",
     imageUrl: "https://images.unsplash.com/photo-1592188657297-c6473609e988?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdHVkZW50fGVufDB8fHx8MTc1OTI3NjQ3NXww&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "student laptop",
   },
@@ -69,8 +74,10 @@ export function OurFeatures() {
                     <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{feature.title}</h3>
                     <p className="text-sm mt-2 text-muted-foreground flex-grow">{feature.description}</p>
                     <div className="mt-4">
-                        <Button variant="outline" size="sm" className="rounded-full text-xs">
-                            More <ArrowRight className="w-3 h-3 ml-1.5" />
+                        <Button asChild variant="outline" size="sm" className="rounded-full text-xs">
+                            <Link href={feature.href}>
+                                More <ArrowRight className="w-3 h-3 ml-1.5" />
+                            </Link>
                         </Button>
                     </div>
                   </CardContent>
