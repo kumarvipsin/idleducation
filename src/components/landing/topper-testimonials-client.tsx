@@ -21,7 +21,7 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
   return (
     <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
       <CardContent className="p-0 flex flex-col h-full">
-        <div className="relative aspect-video w-full">
+        <div className="relative aspect-[9/16] w-full">
           {isPlaying ? (
             <iframe
               className="w-full h-full"
@@ -124,7 +124,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-6">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/4">
                         <TestimonialCard 
                             testimonial={testimonial} 
                             isPlaying={playingVideoId === testimonial.id}
