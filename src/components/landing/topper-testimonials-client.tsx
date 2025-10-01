@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -66,10 +65,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [current, setCurrent] = React.useState(0)
     const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
-    const autoplayPlugin = React.useRef(
-        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
-    );
-    
     React.useEffect(() => {
         if (!api) {
         return
@@ -119,7 +114,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                   align: "start",
                   loop: true,
                 }}
-                plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
                 <CarouselContent className="-ml-6">
