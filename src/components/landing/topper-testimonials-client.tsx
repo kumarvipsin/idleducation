@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -48,9 +49,9 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
             </button>
           )}
         </div>
-        <div className="p-4 flex-grow flex flex-col">
-          <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
-          <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+        <div className="p-3 flex-grow flex flex-col">
+          <p className="font-bold text-base text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
           </div>
         </div>
@@ -65,7 +66,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
 
     const autoplayPlugin = React.useRef(
-      Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
+        Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
     );
 
     React.useEffect(() => {
@@ -83,7 +84,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         if (playingVideoId) {
             autoplayPlugin.current.stop();
         } else {
-            autoplayPlugin.current.play();
+            if(autoplayPlugin.current.play) autoplayPlugin.current.play();
         }
     }, [playingVideoId, api]);
 
@@ -120,7 +121,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <div className="w-full">
+        <div className="w-full pr-[10%]">
             <Carousel
                 setApi={setApi}
                 opts={{
@@ -130,7 +131,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6 px-4 md:px-[10%]">
+                <CarouselContent className="-ml-6">
                 {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                         <TestimonialCard 
