@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const books = [
     {
@@ -15,7 +16,9 @@ const books = [
         originalPrice: 700,
         discount: 14,
         imageUrl: "https://picsum.photos/seed/maths-10/400/500",
-        imageHint: "math textbook"
+        imageHint: "math textbook",
+        class: "Class 10",
+        subject: "Maths"
     },
     {
         title: "Secondary School Mathematics for Class 10",
@@ -24,7 +27,9 @@ const books = [
         originalPrice: 650,
         discount: 11,
         imageUrl: "https://picsum.photos/seed/maths-10-rs/400/500",
-        imageHint: "math textbook"
+        imageHint: "math textbook",
+        class: "Class 10",
+        subject: "Maths"
     },
     {
         title: "Educart CBSE Class 10 Maths Sample Papers",
@@ -33,7 +38,9 @@ const books = [
         originalPrice: 400,
         discount: 13,
         imageUrl: "https://picsum.photos/seed/maths-sample/400/500",
-        imageHint: "math sample papers"
+        imageHint: "math sample papers",
+        class: "Class 10",
+        subject: "Maths"
     },
     {
         title: "Arihant's All In One Social Science CBSE Class 10th",
@@ -42,7 +49,9 @@ const books = [
         originalPrice: 595,
         discount: 13,
         imageUrl: "https://picsum.photos/seed/social-science-10/400/500",
-        imageHint: "social science textbook"
+        imageHint: "social science textbook",
+        class: "Class 10",
+        subject: "Social Studies"
     },
     {
         title: "Concepts of Physics",
@@ -51,7 +60,9 @@ const books = [
         originalPrice: 850,
         discount: 12,
         imageUrl: "https://picsum.photos/seed/physics-book/400/500",
-        imageHint: "physics textbook"
+        imageHint: "physics textbook",
+        class: "Class 11",
+        subject: "Physics"
     },
     {
         title: "Objective Chemistry",
@@ -60,7 +71,9 @@ const books = [
         originalPrice: 799,
         discount: 12,
         imageUrl: "https://picsum.photos/seed/chem-book/400/500",
-        imageHint: "chemistry textbook"
+        imageHint: "chemistry textbook",
+        class: "NEET",
+        subject: "Chemistry"
     },
     {
         title: "Trueman's Elementary Biology",
@@ -69,7 +82,9 @@ const books = [
         originalPrice: 1050,
         discount: 10,
         imageUrl: "https://picsum.photos/seed/bio-book/400/500",
-        imageHint: "biology textbook"
+        imageHint: "biology textbook",
+        class: "NEET",
+        subject: "Biology"
     },
     {
         title: "History of Modern India",
@@ -78,7 +93,9 @@ const books = [
         originalPrice: 500,
         discount: 10,
         imageUrl: "https://picsum.photos/seed/history-book/400/500",
-        imageHint: "history textbook"
+        imageHint: "history textbook",
+        class: "UPSC",
+        subject: "History"
     },
     {
         title: "Indian Polity",
@@ -87,7 +104,9 @@ const books = [
         originalPrice: 950,
         discount: 11,
         imageUrl: "https://picsum.photos/seed/polity-book/400/500",
-        imageHint: "polity textbook"
+        imageHint: "polity textbook",
+        class: "UPSC",
+        subject: "Political Science"
     },
     {
         title: "Indian Economy",
@@ -96,7 +115,9 @@ const books = [
         originalPrice: 950,
         discount: 11,
         imageUrl: "https://picsum.photos/seed/economy-book/400/500",
-        imageHint: "economy textbook"
+        imageHint: "economy textbook",
+        class: "UPSC",
+        subject: "Economics"
     },
     {
         title: "Verbal and Non-Verbal Reasoning",
@@ -105,11 +126,24 @@ const books = [
         originalPrice: 750,
         discount: 13,
         imageUrl: "https://picsum.photos/seed/reasoning-book/400/500",
-        imageHint: "reasoning textbook"
+        imageHint: "reasoning textbook",
+        class: "Competitive Exams",
+        subject: "Reasoning"
     },
 ];
 
+const classes = ["All", ...Array.from(new Set(books.map(book => book.class)))];
+const subjects = ["All", ...Array.from(new Set(books.map(book => book.subject)))];
+
 export default function ReferenceBooksPage() {
+    const [selectedClass, setSelectedClass] = useState('All');
+    const [selectedSubject, setSelectedSubject] = useState('All');
+
+    const filteredBooks = books.filter(book => 
+        (selectedClass === 'All' || book.class === selectedClass) &&
+        (selectedSubject === 'All' || book.subject === selectedSubject)
+    );
+
     return (
         <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
             <Link href="/" className="absolute top-4 right-4 z-20">
@@ -125,8 +159,26 @@ export default function ReferenceBooksPage() {
                         A curated collection of books to supplement your learning.
                     </p>
                 </div>
+
+                <div className="flex flex-col items-center space-y-4 mb-8">
+                    <div className="flex space-x-2 p-1 bg-muted rounded-lg">
+                        {classes.map(c => (
+                            <Button key={c} variant={selectedClass === c ? 'default' : 'ghost'} onClick={() => setSelectedClass(c)} className="rounded-md">
+                                {c}
+                            </Button>
+                        ))}
+                    </div>
+                    <div className="flex space-x-2 p-1 bg-muted rounded-lg">
+                        {subjects.map(s => (
+                            <Button key={s} variant={selectedSubject === s ? 'default' : 'ghost'} onClick={() => setSelectedSubject(s)} className="rounded-md">
+                                {s}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {books.map((book, index) => (
+                    {filteredBooks.map((book, index) => (
                         <Card key={index} className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card" style={{ animationDelay: `${index * 50}ms` }}>
                             <CardContent className="p-0 flex flex-col h-full">
                                 <div className="relative aspect-[3/4] w-full">
