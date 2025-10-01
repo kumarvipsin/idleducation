@@ -756,10 +756,6 @@ export async function addPreviousYearQuestion(formData: FormData) {
       uploadedPdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
-    if (!uploadedPdfUrl) {
-      return { success: false, message: "Either a PDF file or a PDF link is required." };
-    }
-    
     await addDoc(collection(db, 'previousYearQuestions'), {
       ...questionData,
       pdfUrl: uploadedPdfUrl,
@@ -789,10 +785,6 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
         if (pdfFile && pdfFile.size > 0) {
             const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
             questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
-        }
-
-        if (!questionData.pdfUrl) {
-          return { success: false, message: "Either a PDF file or a PDF link is required." };
         }
 
         const docRef = doc(db, "previousYearQuestions", id);

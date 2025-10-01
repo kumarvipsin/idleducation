@@ -66,12 +66,6 @@ const QuestionForm = ({
         formData.append('pdf', pdfFile);
     }
     
-    // Only one of them is needed now
-    if (!pdfFile && !data.pdfUrl && !question?.pdfUrl) {
-      toast({ variant: 'destructive', title: 'Error', description: "Either a PDF file or a PDF link is required." });
-      return;
-    }
-
     const apiCall = question
       ? editPreviousYearQuestion(question.id, formData)
       : addPreviousYearQuestion(formData);
@@ -170,6 +164,10 @@ export default function AdminPreviousYearQuestionsPage() {
   };
   
   const handleViewPdf = async (pdfUrl: string) => {
+    if(!pdfUrl) {
+        toast({ variant: "destructive", title: "Error", description: "No PDF file or link available for this paper." });
+        return;
+    }
     const result = await getSignedUrlForPdf(pdfUrl);
     if (result.success && result.url) {
         window.open(result.url, '_blank');
