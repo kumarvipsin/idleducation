@@ -32,18 +32,7 @@ const books = [
         class: "Class 10",
         subject: "Maths"
     },
-    {
-        title: "Educart CBSE Class 10 Maths Sample Papers",
-        author: "by Educart",
-        price: 350,
-        originalPrice: 400,
-        discount: 13,
-        imageUrl: "https://picsum.photos/seed/maths-sample/400/500",
-        imageHint: "math sample papers",
-        class: "Class 10",
-        subject: "Maths"
-    },
-    {
+     {
         title: "Arihant's All In One Social Science CBSE Class 10th",
         author: "by Arihant Experts",
         price: 520,
@@ -73,7 +62,7 @@ const books = [
         discount: 12,
         imageUrl: "https://picsum.photos/seed/chem-book/400/500",
         imageHint: "chemistry textbook",
-        class: "NEET",
+        class: "Class 12",
         subject: "Science"
     },
     {
@@ -84,52 +73,8 @@ const books = [
         discount: 10,
         imageUrl: "https://picsum.photos/seed/bio-book/400/500",
         imageHint: "biology textbook",
-        class: "NEET",
+        class: "Class 12",
         subject: "Science"
-    },
-    {
-        title: "History of Modern India",
-        author: "by Bipan Chandra",
-        price: 450,
-        originalPrice: 500,
-        discount: 10,
-        imageUrl: "https://picsum.photos/seed/history-book/400/500",
-        imageHint: "history textbook",
-        class: "UPSC",
-        subject: "Social Studies"
-    },
-    {
-        title: "Indian Polity",
-        author: "by M. Laxmikanth",
-        price: 850,
-        originalPrice: 950,
-        discount: 11,
-        imageUrl: "https://picsum.photos/seed/polity-book/400/500",
-        imageHint: "polity textbook",
-        class: "UPSC",
-        subject: "Social Studies"
-    },
-    {
-        title: "Indian Economy",
-        author: "by Ramesh Singh",
-        price: 850,
-        originalPrice: 950,
-        discount: 11,
-        imageUrl: "https://picsum.photos/seed/economy-book/400/500",
-        imageHint: "economy textbook",
-        class: "UPSC",
-        subject: "Economics"
-    },
-    {
-        title: "Verbal and Non-Verbal Reasoning",
-        author: "by R.S. Aggarwal",
-        price: 650,
-        originalPrice: 750,
-        discount: 13,
-        imageUrl: "https://picsum.photos/seed/reasoning-book/400/500",
-        imageHint: "reasoning textbook",
-        class: "Competitive Exams",
-        subject: "Reasoning"
     },
 ];
 
@@ -160,7 +105,7 @@ export default function ReferenceBooksPage() {
     );
 
     return (
-        <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
             <Link href="/" className="absolute top-4 right-4 z-20">
                 <Button variant="ghost" size="icon">
                     <Home className="h-6 w-6 text-primary" />
