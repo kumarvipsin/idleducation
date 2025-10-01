@@ -11,7 +11,7 @@ const features = [
     title: "100+ Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "#",
-    imageUrl: "https://img.freepik.com/premium-photo/portrait-team-business-people-ai-generated-image_268835-6684.jpg",
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/036/497/723/non_2x/ai-generated-happy-indian-business-team-standing-arms-crossed-isolated-on-transparent-background-png.png",
     imageHint: "teacher classroom",
   },
   {
