@@ -32,15 +32,15 @@ const features = [
     title: "Unique Two-Teacher Model",
     description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
     href: "#",
-    imageUrl: "https://picsum.photos/seed/two-teachers/600/400",
+    imageUrl: "/teachers.png",
     imageHint: "teachers collaborating",
   },
   {
     title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "#",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
-    imageHint: "online library",
+    imageUrl: "https://images.unsplash.com/photo-1592188657297-c6473609e988?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdHVkZW50fGVufDB8fHx8MTc1OTI3NjQ3NXww&ixlib=rb-4.1.0&q=80&w=1080",
+    imageHint: "student laptop",
   },
 ];
 
