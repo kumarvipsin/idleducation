@@ -135,8 +135,8 @@ export default function AdminDashboard() {
         <UserApproval />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <Card className="lg:col-span-3 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             <CardHeader>
                 <CardTitle>Users Overview</CardTitle>
                 <CardDescription>Monthly statistics for user and student engagement.</CardDescription>
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
               </ScrollArea>
             </CardContent>
         </Card>
-         <Card className="lg:col-span-2 xl:col-span-1 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+         <Card className="lg:col-span-2 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <CardHeader>
                 <CardTitle>User Composition</CardTitle>
                 <CardDescription>Distribution of various user statuses.</CardDescription>
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
                 <UserCompositionChart />
             </CardContent>
         </Card>
-        <div className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+        <div className="lg:col-span-5 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
           <RecentUpdates />
         </div>
       </div>

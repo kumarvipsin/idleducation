@@ -11,47 +11,56 @@ import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial: TTopperTestimonial, isPlaying: boolean, onPlayClick: () => void }) => {
+const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
+  const [isPlaying, setIsPlaying] = React.useState(false);
 
   const handlePlayClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onPlayClick();
+    setIsPlaying(true);
   };
+  
+  const handleClose = () => {
+    setIsPlaying(false);
+  }
 
   return (
     <Card className="rounded-xl shadow-lg overflow-hidden transition-all duration-300 group bg-card h-full">
       <CardContent className="p-0 flex flex-col h-full">
-        <div className="relative aspect-video w-full">
-          {isPlaying ? (
-            <iframe
-              className="w-full h-full"
-              src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
-              title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          ) : (
+        <Dialog open={isPlaying} onOpenChange={setIsPlaying}>
+          <DialogTrigger asChild>
             <button
               onClick={handlePlayClick}
-              className="w-full h-full group focus:outline-none"
+              className="w-full h-full group focus:outline-none relative aspect-video"
             >
-              <Image
-                src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
-                alt={`Testimonial from ${testimonial.studentName}`}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-              </div>
+                <Image
+                    src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
+                    alt={`Testimonial from ${testimonial.studentName}`}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                </div>
             </button>
-          )}
-        </div>
-        <div className="p-3 flex-grow flex flex-col">
-          <p className="font-bold text-sm text-foreground truncate">{testimonial.studentName}</p>
-          <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
+                <div className="aspect-video">
+                  <iframe
+                      className="w-full h-full"
+                      src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+                      title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                  ></iframe>
+                </div>
+            </DialogContent>
+        </Dialog>
+
+        <div className="p-2 flex-grow flex flex-col">
+          <p className="font-bold text-xs text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-[10px] text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
           </div>
         </div>
@@ -63,7 +72,10 @@ const TestimonialCard = ({ testimonial, isPlaying, onPlayClick }: { testimonial:
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
     const [api, setApi] = React.useState<CarouselApi>()
     const [current, setCurrent] = React.useState(0)
-    const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
+    
+    const autoplayPlugin = React.useRef(
+        Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+    );
 
     React.useEffect(() => {
         if (!api) {
@@ -81,10 +93,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         },
         [api]
     );
-
-    const handlePlay = (videoId: string) => {
-        setPlayingVideoId(videoId);
-    };
 
   if (!testimonials || testimonials.length === 0) {
     return (
@@ -112,18 +120,15 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 setApi={setApi}
                 opts={{
                   align: "start",
-                  loop: testimonials.length > 3,
+                  loop: true,
                 }}
+                plugins={[autoplayPlugin.current]}
                 className="w-full"
             >
-                <CarouselContent className="-ml-6 pl-4 md:pl-[10%]">
+                <CarouselContent className="-ml-6 px-4 md:px-[10%]">
                 {testimonials.map((testimonial) => (
-                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
-                        <TestimonialCard 
-                            testimonial={testimonial} 
-                            isPlaying={playingVideoId === testimonial.id}
-                            onPlayClick={() => handlePlay(testimonial.id)}
-                        />
+                    <CarouselItem key={testimonial.id} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/4">
+                       <TestimonialCard testimonial={testimonial} />
                     </CarouselItem>
                 ))}
                 </CarouselContent>

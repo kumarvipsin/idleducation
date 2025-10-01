@@ -74,7 +74,7 @@ export function Header() {
   
   const controlNavbar = () => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > 80) {
+      if (window.scrollY > 80 && window.scrollY > lastScrollY) {
         setShow(false); 
       } else {
         setShow(true);  
@@ -405,54 +405,55 @@ export function Header() {
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
               <div className="border-t bg-background">
-                <div className="p-2">
-                  <nav className="grid grid-cols-3 gap-1 text-base font-medium">
-                  <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                                Menu
+                {user ? renderMobileAuthSection() : (
+                    <div className="p-2">
+                        <nav className="grid grid-cols-3 gap-1 text-base font-medium">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                        Menu
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    {navLinks.map(({ href, label }) => (
+                                        <DropdownMenuItem asChild key={href}>
+                                            <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                        APPLY FOR
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                <span className="sm:inline">{t('login')}</span>
+                            </Link>
                             </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {navLinks.map(({ href, label }) => (
-                                <DropdownMenuItem asChild key={href}>
-                                    <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                            APPLY FOR
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem asChild>
-                            <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                   <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                       <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          <span className="sm:inline">{t('login')}</span>
-                       </Link>
-                     </Button>
-                  </nav>
-                </div>
-                {renderMobileAuthSection()}
+                        </nav>
+                    </div>
+                )}
               </div>
             </div>
           </CollapsibleContent>

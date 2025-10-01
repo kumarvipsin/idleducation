@@ -14,26 +14,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { GcsImage } from "../gcs-image";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
   const fullText = language === 'hi' && testimonial.testimonial_hi ? testimonial.testimonial_hi : testimonial.testimonial;
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [loadingAvatar, setLoadingAvatar] = useState(true);
-
-  useEffect(() => {
-    const fetchAvatarUrl = async () => {
-      setLoadingAvatar(true);
-      if (testimonial.avatarUrl) {
-        const result = await getSignedUrlForPdf(testimonial.avatarUrl);
-        if (result.success && result.url) {
-          setAvatarUrl(result.url);
-        }
-      }
-      setLoadingAvatar(false);
-    };
-    fetchAvatarUrl();
-  }, [testimonial.avatarUrl]);
 
   return (
     <Card
@@ -41,24 +26,12 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     >
         <CardContent className="p-4 flex flex-col text-center items-center">
             <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                {loadingAvatar ? (
-                    <Skeleton className="w-full h-full" />
-                ) : avatarUrl ? (
-                    <Image
-                    src={avatarUrl}
+                <GcsImage
+                    filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                     alt={testimonial.name}
                     fill
                     className="object-cover"
-                    />
-                ) : (
-                    <Image
-                    src="https://picsum.photos/seed/5/400/400"
-                    alt="Placeholder for testimonial author"
-                    data-ai-hint="person student"
-                    fill
-                    className="object-cover"
-                    />
-                )}
+                />
             </div>
             <h3 className="font-bold text-lg">{testimonial.name}</h3>
             <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
@@ -126,7 +99,7 @@ export function StudentTestimonials() {
           {t('testimonials.subtitle')}
         </p>
       </div>
-      <div className="relative w-full">
+      <div className="w-full">
           {loading ? (
              <div className="flex justify-center gap-6 px-4 md:px-[10%]">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
@@ -144,9 +117,9 @@ export function StudentTestimonials() {
                   plugins={[autoplayPlugin.current]}
                   className="w-full"
               >
-                  <CarouselContent className="-mr-6 px-4 md:px-[10%]">
+                  <CarouselContent className="-ml-6 px-4 md:px-[10%]">
                   {testimonials.map((testimonial, index) => (
-                      <CarouselItem key={index} className="pr-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
+                      <CarouselItem key={index} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
                         <TestimonialCard testimonial={testimonial} />
                       </CarouselItem>
                   ))}
