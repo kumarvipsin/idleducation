@@ -31,6 +31,8 @@ export function AppContent({
     '/feature',
     '/school',
     '/examcat',
+    '/new-work',
+    '/resources/reference-books',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
