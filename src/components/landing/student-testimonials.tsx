@@ -15,6 +15,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { GcsImage } from "../gcs-image";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
@@ -53,12 +54,6 @@ export function StudentTestimonials() {
   const { t } = useLanguage();
   const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -72,23 +67,6 @@ export function StudentTestimonials() {
     fetchTestimonials();
   }, []);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
-
-  const scrollTo = useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
-
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
@@ -99,7 +77,7 @@ export function StudentTestimonials() {
           {t('testimonials.subtitle')}
         </p>
       </div>
-      <div className="w-full">
+      <div className="relative">
           {loading ? (
              <div className="flex justify-center gap-6 px-4 md:px-[10%]">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
@@ -107,37 +85,15 @@ export function StudentTestimonials() {
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden lg:block" />
              </div>
           ) : testimonials && testimonials.length > 0 ? (
-            <>
-              <Carousel
-                  setApi={setApi}
-                  opts={{
-                  align: "start",
-                  loop: true,
-                  }}
-                  plugins={[autoplayPlugin.current]}
-                  className="w-full"
-              >
-                  <CarouselContent className="-ml-6 px-4 md:px-[10%]">
-                  {testimonials.map((testimonial, index) => (
-                      <CarouselItem key={index} className="pl-6 basis-[80%] sm:basis-1/2 md:basis-[40%] lg:basis-1/3">
+            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-6 px-4 md:pl-[10%]">
+                    {testimonials.map((testimonial) => (
+                    <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <TestimonialCard testimonial={testimonial} />
-                      </CarouselItem>
-                  ))}
-                  </CarouselContent>
-              </Carousel>
-              <div className="flex justify-center gap-2 mt-8">
-                {testimonials.map((_, i) => (
-                    <button
-                    key={i}
-                    onClick={() => scrollTo(i)}
-                    className={cn(
-                        "h-2 w-2 rounded-full transition-all",
-                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
-                    )}
-                    />
-                ))}
+                    </div>
+                    ))}
+                </div>
             </div>
-          </>
           ) : (
             <p className="text-center text-muted-foreground">No testimonials available at the moment.</p>
           )}
