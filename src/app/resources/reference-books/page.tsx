@@ -141,7 +141,7 @@ export default function ReferenceBooksPage() {
 
     const subjects = useMemo(() => {
         if (selectedClass === 'All') {
-            return ['All', 'Maths', 'Science', 'English', 'Social Studies'];
+            return ['All', ...Array.from(new Set(books.map(book => book.subject)))];
         }
         const classSubjects = books
             .filter(book => book.class === selectedClass)
@@ -176,16 +176,16 @@ export default function ReferenceBooksPage() {
                 </div>
 
                 <div className="flex flex-col items-center space-y-4 mb-8">
-                    <div className="flex space-x-2 p-1 bg-muted rounded-lg">
+                    <div className="flex space-x-2 p-1 bg-muted rounded-full">
                         {classes.map(c => (
-                            <Button key={c} variant={selectedClass === c ? 'default' : 'ghost'} onClick={() => setSelectedClass(c)} className="rounded-md">
+                            <Button key={c} variant={selectedClass === c ? 'default' : 'ghost'} onClick={() => setSelectedClass(c)} className="rounded-full">
                                 {c}
                             </Button>
                         ))}
                     </div>
-                    <div className="flex space-x-2 p-1 bg-muted rounded-lg">
+                    <div className="flex space-x-2 p-1 bg-muted rounded-full">
                         {subjects.map(s => (
-                            <Button key={s} variant={selectedSubject === s ? 'default' : 'ghost'} onClick={() => setSelectedSubject(s)} className="rounded-md">
+                            <Button key={s} variant={selectedSubject === s ? 'default' : 'ghost'} onClick={() => setSelectedSubject(s)} className="rounded-full">
                                 {s}
                             </Button>
                         ))}
