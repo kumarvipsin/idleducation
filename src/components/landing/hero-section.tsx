@@ -33,6 +33,20 @@ const heroSlides = [
     title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
+  { 
+    src: "https://picsum.photos/seed/hero4/1920/1080", 
+    alt: "A teacher helping a student with a project", 
+    hint: "teacher helping student",
+    title: <>Learn from the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Best.</span></>,
+    description: "Our experienced faculty is dedicated to helping you succeed."
+  },
+  { 
+    src: "https://picsum.photos/seed/hero5/1920/1080", 
+    alt: "A student using a tablet for e-learning", 
+    hint: "student tablet",
+    title: <>Education for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Future.</span></>,
+    description: "Modern tools and a dynamic curriculum to prepare you for tomorrow's challenges."
+  },
 ]
 
 export function HeroSection() {
@@ -72,7 +86,15 @@ export function HeroSection() {
           {heroSlides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
               <div className="relative w-full h-full flex flex-col items-center justify-center">
-                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
+                 <div className="absolute inset-0 bg-black/70 z-10"></div>
+                 <Image 
+                    src={slide.src} 
+                    alt={slide.alt} 
+                    data-ai-hint={slide.hint}
+                    fill
+                    className="object-cover"
+                  />
+                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                             <div className="space-y-4 text-white">
