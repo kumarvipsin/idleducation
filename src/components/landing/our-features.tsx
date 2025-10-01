@@ -32,7 +32,7 @@ const features = [
     title: "Unique Two-Teacher Model",
     description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
     href: "#",
-    imageUrl: "/teachers.png",
+    imageUrl: "https://images.unsplash.com/photo-1511629091441-ee46146481b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWFjaGVycyUyMGdydXAlMjBtZW58ZW58MHx8fHwxNzU5MjkzODYxfDA&ixlib=rb-4.1.0&q=80&w=1080",
     imageHint: "teachers collaborating",
   },
   {
