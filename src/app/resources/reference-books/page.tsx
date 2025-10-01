@@ -36,6 +36,15 @@ const books = [
         imageHint: "math sample papers"
     },
     {
+        title: "Arihant's All In One Social Science CBSE Class 10th",
+        author: "by Arihant Experts",
+        price: 520,
+        originalPrice: 595,
+        discount: 13,
+        imageUrl: "https://picsum.photos/seed/social-science-10/400/500",
+        imageHint: "social science textbook"
+    },
+    {
         title: "Concepts of Physics",
         author: "by H.C. Verma",
         price: 750,
@@ -79,6 +88,24 @@ const books = [
         discount: 11,
         imageUrl: "https://picsum.photos/seed/polity-book/400/500",
         imageHint: "polity textbook"
+    },
+    {
+        title: "Indian Economy",
+        author: "by Ramesh Singh",
+        price: 850,
+        originalPrice: 950,
+        discount: 11,
+        imageUrl: "https://picsum.photos/seed/economy-book/400/500",
+        imageHint: "economy textbook"
+    },
+    {
+        title: "Verbal and Non-Verbal Reasoning",
+        author: "by R.S. Aggarwal",
+        price: 650,
+        originalPrice: 750,
+        discount: 13,
+        imageUrl: "https://picsum.photos/seed/reasoning-book/400/500",
+        imageHint: "reasoning textbook"
     },
 ];
 
