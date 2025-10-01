@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -62,7 +63,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/physics-book/400/500",
         imageHint: "physics textbook",
         class: "Class 11",
-        subject: "Physics"
+        subject: "Science"
     },
     {
         title: "Objective Chemistry",
@@ -73,7 +74,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/chem-book/400/500",
         imageHint: "chemistry textbook",
         class: "NEET",
-        subject: "Chemistry"
+        subject: "Science"
     },
     {
         title: "Trueman's Elementary Biology",
@@ -84,7 +85,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/bio-book/400/500",
         imageHint: "biology textbook",
         class: "NEET",
-        subject: "Biology"
+        subject: "Science"
     },
     {
         title: "History of Modern India",
@@ -95,7 +96,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/history-book/400/500",
         imageHint: "history textbook",
         class: "UPSC",
-        subject: "History"
+        subject: "Social Studies"
     },
     {
         title: "Indian Polity",
@@ -106,7 +107,7 @@ const books = [
         imageUrl: "https://picsum.photos/seed/polity-book/400/500",
         imageHint: "polity textbook",
         class: "UPSC",
-        subject: "Political Science"
+        subject: "Social Studies"
     },
     {
         title: "Indian Economy",
@@ -133,7 +134,7 @@ const books = [
 ];
 
 const classes = ["All", ...Array.from(new Set(books.map(book => book.class)))];
-const subjects = ["All", ...Array.from(new Set(books.map(book => book.subject)))];
+const subjects = ["All", "Maths", "Science", "English", "Social Studies"];
 
 export default function ReferenceBooksPage() {
     const [selectedClass, setSelectedClass] = useState('All');
