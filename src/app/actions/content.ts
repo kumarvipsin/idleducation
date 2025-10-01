@@ -1,3 +1,4 @@
+
 // src/app/actions/content.ts
 'use server';
 import 'dotenv/config';
@@ -756,10 +757,9 @@ export async function addPreviousYearQuestion(formData: FormData) {
       questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
-    if(!questionData.pdfUrl) {
-      // If still no pdfUrl, it means neither file nor link was provided.
-      // Depending on requirements, you might want to handle this.
-      // For now, we allow it to be empty.
+    if(!questionData.pdfUrl && !pdfFile) {
+      // Allow creation without a file or link
+      questionData.pdfUrl = '';
     }
     
     await addDoc(collection(db, 'previousYearQuestions'), questionData);
@@ -781,7 +781,7 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
       subject: rawData.subject as string,
       year: parseInt(rawData.year as string, 10),
       title: rawData.title as string,
-      pdfUrl: rawData.pdfUrl as string || '',
+      pdfUrl: rawData.pdfUrl as string,
     };
     
     try {
@@ -810,3 +810,4 @@ export async function deletePreviousYearQuestion(id: string) {
         return { success: false, message: "Failed to delete question paper." };
     }
 }
+

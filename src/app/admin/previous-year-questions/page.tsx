@@ -66,14 +66,7 @@ const QuestionForm = ({
         formData.append('pdf', pdfFile);
     }
     
-    if (!pdfFile && !data.pdfUrl) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Please provide either a PDF file or a PDF link.",
-      });
-      return;
-    }
+    // PDF file or URL is not mandatory anymore
     
     const apiCall = question
       ? editPreviousYearQuestion(question.id, formData)
@@ -178,7 +171,6 @@ export default function AdminPreviousYearQuestionsPage() {
         return;
     }
     
-    // If it's a GCS URL, we need a signed URL
     if (pdfUrl.includes('storage.googleapis.com')) {
         const result = await getSignedUrlForPdf(pdfUrl);
         if (result.success && result.url) {
@@ -187,10 +179,21 @@ export default function AdminPreviousYearQuestionsPage() {
             toast({ variant: "destructive", title: "Error", description: result.message });
         }
     } else {
-        // If it's a regular URL, open it directly
         window.open(pdfUrl, '_blank');
     }
   };
+  
+  const renderSkeleton = () => (
+    [...Array(5)].map((_, i) => (
+      <TableRow key={i}>
+        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-12" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+        <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
+      </TableRow>
+    ))
+  );
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
@@ -223,17 +226,7 @@ export default function AdminPreviousYearQuestionsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {loading ? (
-                    [...Array(5)].map((_, i) => (
-                      <TableRow key={i}>
-                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
+                  {loading ? renderSkeleton() : (
                     questions.map((q) => (
                       <TableRow key={q.id}>
                         <TableCell>{q.exam}</TableCell>
@@ -241,7 +234,7 @@ export default function AdminPreviousYearQuestionsPage() {
                         <TableCell>{q.year}</TableCell>
                         <TableCell>{q.title}</TableCell>
                         <TableCell className="text-right space-x-2">
-                           <Button variant="outline" size="sm" onClick={() => handleViewPdf(q.pdfUrl)}>View PDF</Button>
+                           <Button variant="outline" size="sm" onClick={() => handleViewPdf(q.pdfUrl!)}>View PDF</Button>
                            <Button variant="outline" size="icon" onClick={() => { setEditingQuestion(q); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />
                            </Button>
