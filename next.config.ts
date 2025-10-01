@@ -76,6 +76,12 @@ const nextConfig: NextConfig = {
         hostname: 'ezeenotes.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.euroschoolindia.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

@@ -13,7 +13,7 @@ const features = [
     title: "100+ Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "/feature/expert-faculty",
-    imageUrl: "https://img.freepik.com/premium-vector/happy-school-staff-portrait-diverse-group-teachers-smiling-together_1323048-59433.jpg",
+    imageUrl: "https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/07/importance-of-education.jpg",
     imageHint: "teacher classroom",
   },
   {
@@ -21,7 +21,7 @@ const features = [
     title: "100% Quality Education",
     description: "Interactive classes designed to provide the best learning experience.",
     href: "/feature/quality-education",
-    imageUrl: "https://www.jirs.ac.in/uploads/blog/7a76ecbb7e5d2a599c5e90471d0d7790.jpg",
+    imageUrl: "https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/07/importance-of-education.jpg",
     imageHint: "teacher student",
   },
   {
@@ -29,7 +29,7 @@ const features = [
     title: "100% Complete Syllabus",
     description: "Thorough coverage of all subjects and topics as per the latest syllabus.",
     href: "/feature/complete-syllabus",
-    imageUrl: "https://picsum.photos/seed/syllabus/600/400",
+    imageUrl: "https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/07/importance-of-education.jpg",
     imageHint: "books pencils",
   },
   {
@@ -37,7 +37,7 @@ const features = [
     title: "Unique Two-Teacher Model",
     description: "Ensuring your doubts are cleared instantly for a seamless learning experience.",
     href: "/feature/two-teacher-model",
-    imageUrl: "https://images.unsplash.com/photo-1511629091441-ee46146481b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZWFjaGVycyUyMGdydXAlMjBtZW58ZW58MHx8fHwxNzU5MjkzODYxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    imageUrl: "https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/07/importance-of-education.jpg",
     imageHint: "teachers collaborating",
   },
   {
@@ -45,7 +45,7 @@ const features = [
     title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "/feature/all-in-one-learning",
-    imageUrl: "https://images.unsplash.com/photo-1592188657297-c6473609e988?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzdHVkZW50fGVufDB8fHx8MTc1OTI3NjQ3NXww&ixlib=rb-4.1.0&q=80&w=1080",
+    imageUrl: "https://www.euroschoolindia.com/blogs/wp-content/uploads/2023/07/importance-of-education.jpg",
     imageHint: "student laptop",
   },
 ];
