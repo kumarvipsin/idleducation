@@ -132,47 +132,49 @@ export default function ReferenceBooksPage() {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary">Reference Books</h1>
-        <p className="text-muted-foreground mt-2">Explore a curated collection of reference books to supplement your learning.</p>
-      </div>
+    <div className="bg-gray-100 dark:bg-gray-800 py-12">
+      <div className="container mx-auto">
+        <div className="mb-6 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-primary">Reference Books</h1>
+            <p className="text-muted-foreground mt-2">Explore a curated collection of reference books to supplement your learning.</p>
+        </div>
 
-      <div className="mb-8">
-        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-              {allCategories.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => handleClassChange(c)}
-                  className={cn(
-                    'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
-                    activeClass === c
-                      ? 'border-primary text-primary bg-primary/10'
-                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
-                  )}
-                >
-                  {c}
-                </button>
-              ))}
+        <div className="mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                {allCategories.map((c) => (
+                    <button
+                    key={c}
+                    onClick={() => handleClassChange(c)}
+                    className={cn(
+                        'py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-md',
+                        activeClass === c
+                        ? 'border-primary text-primary bg-primary/10'
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                    )}
+                    >
+                    {c}
+                    </button>
+                ))}
+                </div>
             </div>
         </div>
-      </div>
 
-      <main className="flex-1">
-        <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 animate-fade-in-up">
-          {books.length > 0 ? (
-            books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} index={index} />)
-          ) : (
-            <div className="col-span-full text-center py-16">
-              <Card className="p-8 inline-block">
-                <p className="text-muted-foreground font-semibold">No books found for {activeClass}.</p>
-                <p className="text-sm text-muted-foreground">Please check back later.</p>
-              </Card>
+        <main className="flex-1">
+            <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 animate-fade-in-up">
+            {books.length > 0 ? (
+                books.map((book, index) => <BookCard key={`${activeClass}-${index}`} book={book} index={index} />)
+            ) : (
+                <div className="col-span-full text-center py-16">
+                <Card className="p-8 inline-block">
+                    <p className="text-muted-foreground font-semibold">No books found for {activeClass}.</p>
+                    <p className="text-sm text-muted-foreground">Please check back later.</p>
+                </Card>
+                </div>
+            )}
             </div>
-          )}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
