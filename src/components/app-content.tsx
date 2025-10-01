@@ -31,7 +31,6 @@ export function AppContent({
     '/feature',
     '/school',
     '/examcat',
-    '/new-work',
     '/resources/reference-books',
   ];
 
