@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { PlayCircle } from "lucide-react";
@@ -45,6 +45,10 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
+                <DialogHeader className="sr-only">
+                    <DialogTitle>Video Testimonial: {testimonial.studentName}</DialogTitle>
+                    <DialogDescription>A video testimonial from one of our successful students.</DialogDescription>
+                </DialogHeader>
                 <div className="aspect-video">
                   <iframe
                       className="w-full h-full"
