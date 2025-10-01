@@ -22,7 +22,7 @@ const features = [
     imageHint: "books pencils",
   },
   {
-    title: "Doubt Solving Sessions",
+    title: "Comprehensive Study Material",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "#",
     imageUrl: "https://picsum.photos/seed/resources/600/400",
