@@ -133,7 +133,7 @@ const books = [
     },
 ];
 
-const classes = ["All", ...Array.from(new Set(books.map(book => book.class)))];
+const classes = ["All", "Class 10", "Class 12"];
 const subjects = ["All", "Maths", "Science", "English", "Social Studies"];
 
 export default function ReferenceBooksPage() {
