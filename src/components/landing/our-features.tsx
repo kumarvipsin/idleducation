@@ -11,7 +11,7 @@ const features = [
     title: "100+ Expert Faculty",
     description: "Learn from the best and most experienced educators in the industry.",
     href: "#",
-    imageUrl: "https://www.jirs.ac.in/uploads/blog/7a76ecbb7e5d2a599c5e90471d0d7790.jpg",
+    imageUrl: "https://img.freepik.com/premium-vector/happy-school-staff-portrait-diverse-group-teachers-smiling-together_1323048-59433.jpg",
     imageHint: "teacher classroom",
   },
   {
@@ -39,7 +39,7 @@ const features = [
     title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Access a vast library of tests, sample papers, and notes.",
     href: "#",
-    imageUrl: "https://picsum.photos/seed/resources/600/400",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "online library",
   },
 ];
