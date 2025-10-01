@@ -14,7 +14,23 @@ import { Skeleton } from '@/components/ui/skeleton';
 type Subject = {
   name: string;
   href: string;
+  icon: React.ReactNode;
   gradient: string;
+};
+
+const subjectIconMap: { [key: string]: React.ReactNode } = {
+  maths: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
+  science: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
+  social: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
+  english: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+  physics: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
+  chemistry: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
+  biology: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
+  history: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
+  geography: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
+  'political-science': <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+  economics: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
+  default: <BookText className="w-8 h-8 text-gray-600 dark:text-gray-400" />,
 };
 
 const subjectGradientMap: { [key: string]: string } = {
@@ -32,6 +48,7 @@ const subjectGradientMap: { [key: string]: string } = {
   default: 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-800/30',
 };
 
+const getIcon = (key: string) => subjectIconMap[key.toLowerCase()] || subjectIconMap.default;
 const getGradient = (key: string) => subjectGradientMap[key.toLowerCase()] || subjectGradientMap.default;
 
 export default function NcertSolutionsPage() {
@@ -47,10 +64,11 @@ export default function NcertSolutionsPage() {
       const result = await getCollection('ncertSolutions');
       if (result.success && result.data) {
         const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
-          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l:string) => l.toUpperCase());
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
-            href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
+            href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
+            icon: getIcon(subjectKey),
             gradient: getGradient(subjectKey),
           }));
           return acc;
@@ -96,7 +114,7 @@ export default function NcertSolutionsPage() {
   );
 
   return (
-    <div>
+    <div className="bg-gray-100 dark:bg-gray-800">
       <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
         <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>

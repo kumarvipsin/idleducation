@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import * as React from 'react';
@@ -37,64 +36,27 @@ const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
 
 const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
 
-export default function NotesNewPage() {
-  const [notesByClass, setNotesByClass] = useState<any>({});
-  const [classes, setClasses] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+function NotesPageContent({ initialData }: { initialData: any }) {
+  const { notesByClass, classes: sortedClasses } = initialData;
   const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
-    const fetchNotesData = async () => {
-      setLoading(true);
-      const result = await getCollection('notes');
-      if (result.success && result.data) {
-        const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
-          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-          acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
-            name: subjectData.name,
-            href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
-            imageUrl: getImage(subjectKey).url,
-            imageHint: getImage(subjectKey).hint,
-          }));
-          return acc;
-        }, {});
-        
-        const sortedClasses = Object.keys(formattedData).sort((a, b) => {
-             const getOrder = (name: string) => parseInt(name.replace('Class ', ''), 10) || 99;
-             return getOrder(a) - getOrder(b);
-        });
-
-        setNotesByClass(formattedData);
-        setClasses(sortedClasses);
-        if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
-            setSelectedClass(defaultClass);
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchNotesData();
-  }, []);
+    if (sortedClasses.length > 0) {
+      const defaultClass = sortedClasses.find((c: string) => c.includes('10')) || sortedClasses[0];
+      setSelectedClass(defaultClass);
+    }
+  }, [sortedClasses]);
 
   const subjects = notesByClass[selectedClass] || [];
-  
+
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
     setAnimationKey(prev => prev + 1);
   };
-
-  const renderSkeleton = () => (
-    <div className="flex gap-6 px-4 md:px-[10%]">
-      {[...Array(3)].map((_, i) => (
-        <Skeleton key={i} className="h-96 w-[350px] rounded-2xl" />
-      ))}
-    </div>
-  );
-
+  
   return (
-    <div>
+     <div className="bg-gray-100 dark:bg-gray-800">
       <div className="mb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Notes for {selectedClass}</h1>
         <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
@@ -103,70 +65,115 @@ export default function NotesNewPage() {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-             {loading ? (
-                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
-            ) : (
-                classes.map((className) => (
-                <button
-                    key={className}
-                    onClick={() => handleClassChange(className)}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                    ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-                >
-                    {className}
-                </button>
-                ))
-            )}
+            {sortedClasses.map((className: string) => (
+            <button
+                key={className}
+                onClick={() => handleClassChange(className)}
+                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                ${selectedClass === className 
+                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+            >
+                {className}
+            </button>
+            ))}
           </div>
         </div>
       </div>
 
       <main className="flex-1">
-        {loading ? (
+        <div key={animationKey} className="relative animate-fade-in-up">
+            {subjects && subjects.length > 0 ? (
             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {renderSkeleton()}
-            </div>
-        ) : (
-            <div key={animationKey} className="relative animate-fade-in-up">
-              {subjects && subjects.length > 0 ? (
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {subjects.map((subject: Subject, index: number) => (
-                          <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                              <CardContent className="p-8 flex-grow flex flex-col">
-                                
-                                <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
-                                <p className="text-sm mt-2 text-muted-foreground flex-grow">In-depth notes for {subject.name}.</p>
-                              </CardContent>
-                              <div className="relative aspect-[4/3] w-full mt-auto">
-                                <Image
-                                  src={subject.imageUrl}
-                                  alt={subject.name}
-                                  data-ai-hint={subject.imageHint}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                            </Card>
-                          </Link>
-                        ))}
-                    </div>
+                <div className="flex gap-6 px-4 md:px-[10%]">
+                    {subjects.map((subject: Subject, index: number) => (
+                        <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                        <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                            <CardContent className="p-8 flex-grow flex flex-col">
+                            
+                            <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
+                            <p className="text-sm mt-2 text-muted-foreground flex-grow">In-depth notes for {subject.name}.</p>
+                            </CardContent>
+                            <div className="relative aspect-[4/3] w-full mt-auto">
+                            <Image
+                                src={subject.imageUrl}
+                                alt={subject.name}
+                                data-ai-hint={subject.imageHint}
+                                fill
+                                className="object-cover"
+                            />
+                            </div>
+                        </Card>
+                        </Link>
+                    ))}
                 </div>
-              ) : (
-                <div className="col-span-full text-center py-12">
-                    <Card className="p-8 inline-block">
-                        <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                        <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
-                        <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
-                    </Card>
-                </div>
-              )}
             </div>
-        )}
+            ) : (
+            <div className="col-span-full text-center py-12">
+                <Card className="p-8 inline-block">
+                    <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
+                </Card>
+            </div>
+            )}
+        </div>
       </main>
     </div>
   );
+}
+
+export default function NotesNewPage() {
+    const [initialData, setInitialData] = useState({ notesByClass: {}, classes: [] });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+            const result = await getCollection('notes');
+            if (result.success && result.data) {
+                const notesByClass = (result.data as any[]).reduce((acc, classDoc) => {
+                    const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
+                    acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
+                        name: subjectData.name,
+                        href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
+                        imageUrl: getImage(subjectKey).url,
+                        imageHint: getImage(subjectKey).hint,
+                    }));
+                    return acc;
+                }, {});
+                
+                const classes = Object.keys(notesByClass).sort((a, b) => {
+                    const getOrder = (name: string) => parseInt(name.replace('Class ', ''), 10) || 99;
+                    return getOrder(a) - getOrder(b);
+                });
+
+                setInitialData({ notesByClass, classes });
+            }
+            setLoading(false);
+        }
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+             <div className="bg-gray-100 dark:bg-gray-800">
+                <div className="mb-6 text-center">
+                    <Skeleton className="h-9 w-64 mx-auto mb-2" />
+                    <Skeleton className="h-5 w-96 mx-auto" />
+                </div>
+                <div className="mb-8 flex justify-center gap-2">
+                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)}
+                </div>
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {[...Array(3)].map((_, i) => (
+                            <Skeleton key={i} className="h-96 w-[350px] rounded-2xl" />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
+    return <NotesPageContent initialData={initialData} />;
 }
