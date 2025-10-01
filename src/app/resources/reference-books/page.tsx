@@ -33,7 +33,7 @@ const books = [
         subject: "Maths"
     },
      {
-        title: "Arihant's All In One Social Science CBSE Class 10th",
+        title: "All In One Social Science CBSE Class 10th",
         author: "by Arihant Experts",
         price: 520,
         originalPrice: 595,
@@ -185,15 +185,15 @@ export default function ReferenceBooksPage() {
                 </div>
 
                 <div className="flex flex-col items-center space-y-4 mb-8">
-                    <div className="flex flex-wrap justify-center gap-2">
+                    <div className="flex flex-wrap justify-center gap-2 p-1 bg-muted rounded-full">
                         {classes.map(c => (
                             <button
                                 key={c}
                                 onClick={() => setSelectedClass(c)}
-                                className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full`,
+                                className={cn(`py-2 px-6 whitespace-nowrap text-sm font-medium transition-colors rounded-full`,
                                     selectedClass === c
-                                    ? 'border-primary text-primary bg-primary/10'
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                    ? 'bg-background shadow text-primary'
+                                    : 'text-muted-foreground hover:text-foreground'
                                 )}
                             >
                                 {c}
@@ -205,10 +205,10 @@ export default function ReferenceBooksPage() {
                              <button
                                 key={s}
                                 onClick={() => setSelectedSubject(s)}
-                                className={cn(`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full`,
+                                className={cn(`py-1 px-4 whitespace-nowrap text-xs font-medium transition-colors border rounded-full`,
                                     selectedSubject === s
                                     ? 'border-primary text-primary bg-primary/10'
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                    : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted'
                                 )}
                             >
                                 {s}
