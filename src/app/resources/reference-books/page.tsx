@@ -185,35 +185,39 @@ export default function ReferenceBooksPage() {
                 </div>
 
                 <div className="flex flex-col items-center space-y-4 mb-8">
-                     <div className="flex flex-wrap justify-center gap-2">
-                        {classes.map(c => (
-                            <button
-                                key={c}
-                                onClick={() => setSelectedClass(c)}
-                                className={cn(`py-2 px-6 text-sm font-medium transition-colors rounded-full`,
-                                    selectedClass === c
-                                    ? 'bg-primary shadow text-primary-foreground'
-                                    : 'text-muted-foreground hover:text-foreground bg-muted/50'
-                                )}
-                            >
-                                {c}
-                            </button>
-                        ))}
+                    <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+                        <div className="flex justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                            {classes.map(c => (
+                                <button
+                                    key={c}
+                                    onClick={() => setSelectedClass(c)}
+                                    className={cn(`py-2 px-6 text-sm font-medium transition-colors rounded-full`,
+                                        selectedClass === c
+                                        ? 'bg-primary shadow text-primary-foreground'
+                                        : 'text-muted-foreground hover:text-foreground bg-muted/50'
+                                    )}
+                                >
+                                    {c}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {subjects.map(s => (
-                            <button
-                                key={s}
-                                onClick={() => setSelectedSubject(s)}
-                                className={cn(`py-1 px-4 text-xs font-medium transition-colors border rounded-full`,
-                                    selectedSubject === s
-                                    ? 'border-primary text-primary bg-primary/10' 
-                                    : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted'
-                                )}
-                            >
-                                {s}
-                            </button>
-                        ))}
+                    <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+                        <div className="flex justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                            {subjects.map(s => (
+                                <button
+                                    key={s}
+                                    onClick={() => setSelectedSubject(s)}
+                                    className={cn(`py-1 px-4 text-xs font-medium transition-colors border rounded-full`,
+                                        selectedSubject === s
+                                        ? 'border-primary text-primary bg-primary/10' 
+                                        : 'border-transparent text-muted-foreground hover:text-foreground hover:bg-muted'
+                                    )}
+                                >
+                                    {s}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
