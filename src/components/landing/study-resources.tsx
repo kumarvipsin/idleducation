@@ -47,14 +47,6 @@ const resources = [
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "library books",
   },
-  {
-    category: "EXPLORE",
-    title: "New Work",
-    description: "Check out the latest additions to our resource library.",
-    href: "/new-work",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
-    imageHint: "new content",
-  },
 ];
 
 export function StudyResources() {
