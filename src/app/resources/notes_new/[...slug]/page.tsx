@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, ReactNode } from 'react';
 import { getCollection, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,10 +10,12 @@ import { BookOpen } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { NotesChapterList } from '@/components/notes-chapter-list';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 
-function NotesDetailsContent({ slug }: { slug: string[] }) {
-    const [classId, subjectKey] = slug || [];
+function NotesDetailsContent() {
+    const params = useParams();
+    const slug = params.slug as string[] || [];
+    const [classId, subjectKey] = slug;
     const [classData, setClassData] = useState<TClass | null>(null);
     const [notesData, setNotesData] = useState<TSubject | null>(null);
     const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
@@ -69,18 +72,14 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
         )
     }
     
-    if (error && !notesData) {
+    if (error || !classData || !notesData) {
          return (
             <Card>
                 <CardContent className="p-6">
-                    <p className="text-destructive text-center">{error}</p>
+                    <p className="text-destructive text-center">{error || "Could not load resources."}</p>
                 </CardContent>
             </Card>
         )
-    }
-
-    if (!classData || !notesData) {
-        return null;
     }
 
     const subjectName = notesData.name || subjectKey.replace('-', ' ');
@@ -91,7 +90,7 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
              <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/resources/notes_new">Notes</BreadcrumbLink>
+                        <BreadcrumbLink href="/resources/notes">Notes</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
@@ -128,11 +127,10 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
 }
 
 
-export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
-    const slug = params.slug || [];
+export default function NotesDetailsPage() {
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NotesDetailsContent slug={slug} />
+            <NotesDetailsContent />
         </Suspense>
     )
 }

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useEffect, useState, Suspense, ReactNode } from 'react';
@@ -10,7 +11,7 @@ import { BookOpen, Languages, ShoppingCart } from 'lucide-react';
 import type { TClass, TSubject, TPart, TChapter } from '@/app/actions/types';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { NotesChapterList } from '@/components/ncert-chapter-list';
+import { NotesChapterList } from '@/components/notes-chapter-list';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { usePathname, useParams } from 'next/navigation';
