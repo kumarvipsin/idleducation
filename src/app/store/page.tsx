@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart, Star } from "lucide-react";
@@ -52,14 +52,14 @@ const StoreHeader = () => {
                 </Link>
                 <div className="flex items-center gap-4">
                     <Link href="/cart">
-                        <Button variant="ghost" size="icon" className="relative">
-                            <ShoppingCart className="h-5 w-5" />
+                        <Button variant="ghost" className="relative">
+                            <ShoppingCart className="h-5 w-5 mr-2" />
+                            <span>MY CART</span>
                             {cartCount > 0 && (
-                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
                                     {cartCount}
                                 </span>
                             )}
-                            <span className="sr-only">Shopping Cart</span>
                         </Button>
                     </Link>
                     <Link href="/" >
