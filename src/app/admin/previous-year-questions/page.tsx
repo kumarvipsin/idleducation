@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -18,7 +19,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const questionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -29,8 +29,6 @@ const questionSchema = z.object({
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
-
-const subjects = ["Maths", "Science", "English", "SST", "Hindi", "Computer Science"];
 
 const QuestionForm = ({
   question,
@@ -113,18 +111,9 @@ const QuestionForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="subject" className="text-right">Subject</Label>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {subjects.map(subject => (
-                    <SelectItem key={subject} value={subject}>{subject}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input id="subject" {...field} className="col-span-3" />
+              </FormControl>
             </FormItem>
           )}
         />
