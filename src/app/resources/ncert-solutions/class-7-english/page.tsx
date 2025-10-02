@@ -67,7 +67,7 @@ const ResourceLinks = () => (
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
-            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
       </div>
@@ -78,7 +78,7 @@ const ResourceLinks = () => (
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
-            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
       </div>
@@ -94,14 +94,14 @@ export default function Class7EnglishPage() {
             {class7EnglishResources.books.map((book, bookIndex) => (
               <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
                   <Card className="transition-all duration-300">
-                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline">{book.name}</AccordionTrigger>
+                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline text-black">{book.name}</AccordionTrigger>
                     <AccordionContent className="p-4 pt-0">
                       <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
                                   {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">

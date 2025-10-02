@@ -17,18 +17,18 @@ const class10EnglishResources = {
       name: "First Flight",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
-        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
-        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
+        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god"},
+        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom"},
+        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying"},
       ],
     },
     {
       name: "Footprints Without Feet",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
-        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
-        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
+        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery" },
+        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story" },
+        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor" },
       ],
     },
   ],
@@ -65,7 +65,7 @@ const ResourceLinks = () => (
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
-            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
       </div>
@@ -76,7 +76,7 @@ const ResourceLinks = () => (
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
-            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
       </div>
@@ -92,14 +92,14 @@ export default function Class10EnglishPage() {
             {class10EnglishResources.books.map((book, bookIndex) => (
               <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
                   <Card className="transition-all duration-300">
-                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline">{book.name}</AccordionTrigger>
+                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline text-black">{book.name}</AccordionTrigger>
                     <AccordionContent className="p-4 pt-0">
                       <div className="space-y-2">
                       {book.chapters.map((chapter, chapterIndex) => (
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
                                   {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
