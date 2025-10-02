@@ -58,7 +58,6 @@ const StoreHeader = () => {
                     </Link>
                     <Link href="/cart">
                         <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <ShoppingCart className="h-4 w-4 mr-1" />
                             <span>MY CART</span>
                             {cartCount > 0 && (
                                 <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
