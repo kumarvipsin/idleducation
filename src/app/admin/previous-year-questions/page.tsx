@@ -44,6 +44,9 @@ type QuestionFormValues = z.infer<typeof questionSchema>;
 
 
 const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjectIndex: number, paperIndex: number, control: any, removePaper: (index: number) => void }) => {
+    const { watch } = useFormContext();
+    const pdfUrl = watch(`subjects.${subjectIndex}.papers.${paperIndex}.pdfUrl`);
+
     return (
         <div className="space-y-2 p-2 border rounded-md relative ml-4">
             <div className="flex justify-between items-center">
@@ -66,10 +69,10 @@ const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjec
             <Controller
                 control={control}
                 name={`subjects.${subjectIndex}.papers.${paperIndex}.pdf`}
-                render={({ field: { onChange, ...rest } }) => (
+                render={({ field: { onChange, onBlur, name, ref } }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files?.[0])} {...rest} />
+                            <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files?.[0])} onBlur={onBlur} name={name} ref={ref} />
                         </FormControl>
                     </FormItem>
                 )}
@@ -77,7 +80,12 @@ const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjec
              <FormField
                 control={control}
                 name={`subjects.${subjectIndex}.papers.${paperIndex}.pdfUrl`}
-                render={({ field }) => ( <input type="hidden" {...field} /> )}
+                render={({ field }) => ( 
+                  <>
+                    <input type="hidden" {...field} />
+                    {field.value && <Link href={field.value} target="_blank" className="text-xs text-blue-500 hover:underline">Current file: View</Link>}
+                  </>
+                )}
             />
         </div>
     );
@@ -113,7 +121,7 @@ const SubjectField = ({ subjectIndex, control, removeSubject }: { subjectIndex: 
                 ))}
             </div>
              <div className="flex justify-end">
-                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: undefined, pdfUrl: '' })}>
+                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: null, pdfUrl: '' })}>
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Paper
                 </Button>
@@ -136,9 +144,9 @@ const QuestionForm = ({
   const form = useForm<QuestionFormValues>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
-      title: question?.title || '',
-      exam: question?.exam || '',
-      year: question?.year || new Date().getFullYear(),
+      title: question?.title ?? '',
+      exam: question?.exam ?? '',
+      year: question?.year ?? new Date().getFullYear(),
       subjects: question?.subjects?.map(s => ({
         ...s,
         papers: Array.isArray(s.papers) ? s.papers.map(p => ({...p, pdf: undefined})) : [{ title: '', pdf: undefined, pdfUrl: '' }]
@@ -208,7 +216,7 @@ const QuestionForm = ({
                     <SubjectField key={field.id} subjectIndex={index} control={form.control} removeSubject={remove} />
                 ))}
                 <div className="flex justify-end mt-2">
-                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: undefined, pdfUrl: '' }] })}>
+                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] })}>
                         <PlusCircle className="h-4 w-4 mr-2" /> Add Subject
                     </Button>
                 </div>
@@ -377,3 +385,4 @@ export default function AdminPreviousYearQuestionsPage() {
   );
 }
 
+    
