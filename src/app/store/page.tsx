@@ -21,16 +21,16 @@ const StoreHeader = () => {
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
-    const controlNavbar = () => {
+    const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
-            if (window.scrollY > 80) { 
+            if (window.scrollY > 80 && window.scrollY > lastScrollY) { 
                 setShow(false);
             } else {
                 setShow(true);
             }
             setLastScrollY(window.scrollY);
         }
-    };
+    }, [lastScrollY]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -40,7 +40,7 @@ const StoreHeader = () => {
                 window.removeEventListener('scroll', controlNavbar);
             };
         }
-    }, [lastScrollY]);
+    }, [lastScrollY, controlNavbar]);
 
 
     return (
@@ -69,9 +69,8 @@ const StoreHeader = () => {
                         </Button>
                     </Link>
                     <Link href="/" >
-                        <Button variant="ghost" size="icon">
-                            <Home className="h-5 w-5 text-primary" />
-                            <span className="sr-only">Home</span>
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            HOME
                         </Button>
                     </Link>
                 </div>
@@ -130,10 +129,10 @@ export default function StorePage() {
     };
     
     const renderSkeleton = () => (
-      <div className="flex gap-6 px-4 md:px-[10%]">
+      <div className="flex gap-6 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
             <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                <Skeleton className="h-[450px] w-full rounded-2xl" />
+                <Skeleton className="h-[450px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -188,12 +187,12 @@ export default function StorePage() {
                 </div>
                  
                 <div className="relative">
-                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                         <div className="flex gap-6 px-4 md:px-[10%]">
-                             {loading ? (
-                                renderSkeleton()
-                             ) : (
-                                filteredBooks.map((book, index) => (
+                     {loading ? (
+                        renderSkeleton()
+                     ) : (
+                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                             <div className="flex gap-6 px-4 md:px-[10%]">
+                                {filteredBooks.map((book, index) => (
                                     <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                     <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                         <CardContent className="p-4 flex flex-col flex-1">
@@ -240,8 +239,9 @@ export default function StorePage() {
                                     </div>
                                 ))
                              )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
