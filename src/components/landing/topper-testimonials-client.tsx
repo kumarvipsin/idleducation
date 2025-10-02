@@ -8,6 +8,7 @@ import type { TTopperTestimonial } from "@/app/actions/types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
 import Autoplay from "embla-carousel-autoplay";
+import { Separator } from "../ui/separator";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -102,15 +103,17 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
         <div className="text-center mb-12 px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
-            Topper's Testimonials
+          <h2 className="text-3xl md:text-4xl font-bold">
+            <span className="text-primary">Topper's </span> <span style={{ color: '#adb5bd' }}>Testimonials</span>
           </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>
         
-        <div className="relative">
+        <Separator className="w-1/2 mx-auto h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+
+        <div className="relative mt-12">
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:pl-[10%]">
               {testimonials.map((testimonial) => (
