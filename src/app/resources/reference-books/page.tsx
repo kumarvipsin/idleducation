@@ -11,6 +11,8 @@ import { getReferenceBooks } from '@/app/actions';
 import type { TReferenceBook } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
+import { useCart } from '@/context/cart-context';
+import { useToast } from '@/hooks/use-toast';
 
 
 export default function ReferenceBooksPage() {
@@ -18,6 +20,8 @@ export default function ReferenceBooksPage() {
     const [loading, setLoading] = useState(true);
     const [selectedClass, setSelectedClass] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('All');
+    const { addToCart } = useCart();
+    const { toast } = useToast();
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -49,6 +53,14 @@ export default function ReferenceBooksPage() {
         (book.class === selectedClass) &&
         (selectedSubject === 'All' || book.subject === selectedSubject)
     );
+
+    const handleAddToCart = (book: TReferenceBook) => {
+        addToCart(book);
+        toast({
+            title: "Added to Cart",
+            description: `${book.title} has been added to your cart.`,
+        });
+    };
 
     return (
         <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
@@ -139,7 +151,7 @@ export default function ReferenceBooksPage() {
                                                 <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                             </div>
                                             <div className="grid grid-cols-2 gap-2 mt-4">
-                                                <Button variant="outline">
+                                                <Button variant="outline" onClick={() => handleAddToCart(book)}>
                                                     Add To Cart
                                                 </Button>
                                                 <Button className="bg-orange-500 hover:bg-orange-600">
