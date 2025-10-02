@@ -88,30 +88,30 @@ export default function Class10EnglishPage() {
   const contents = (
     <div>
         <div className="space-y-4 md:space-y-6">
-          {class10EnglishResources.books.map((book, bookIndex) => (
-            <div key={bookIndex} className="mb-6">
-              <h3 
-                className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
-                style={{ backgroundImage: "linear-gradient(90deg, #4F46E5 0%, #E91E63 100%)" }}
-              >
-                {book.name}
-              </h3>
-              <Accordion type="single" collapsible className="w-full space-y-2">
-                {book.chapters.map((chapter, chapterIndex) => (
-                  <Card key={chapterIndex} className="transition-all duration-300">
-                      <AccordionItem value={`item-${chapterIndex}`} className="border-b-0">
-                      <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
-                          {chapter.name}
-                      </AccordionTrigger>
-                      <AccordionContent className="p-4 pt-0">
-                          <ResourceLinks />
-                      </AccordionContent>
-                      </AccordionItem>
-                  </Card>
-                ))}
-              </Accordion>
-            </div>
-          ))}
+            {class10EnglishResources.books.map((book, bookIndex) => (
+                <div key={bookIndex} className="mb-6">
+                    <h3 
+                        className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
+                        style={{ backgroundImage: "linear-gradient(90deg, #4F46E5 0%, #E91E63 100%)" }}
+                    >
+                        {book.name}
+                    </h3>
+                    <Accordion type="single" collapsible className="w-full space-y-2">
+                        {book.chapters.map((chapter, chapterIndex) => (
+                            <Card key={chapterIndex} className="transition-all duration-300">
+                                <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
+                                    {chapter.name}
+                                </AccordionTrigger>
+                                <AccordionContent className="p-4 pt-0">
+                                    <ResourceLinks />
+                                </AccordionContent>
+                                </AccordionItem>
+                            </Card>
+                        ))}
+                    </Accordion>
+                </div>
+            ))}
         </div>
     </div>
   );
