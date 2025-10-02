@@ -15,7 +15,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const QuestionForm = ({
   question,
@@ -51,6 +50,10 @@ const QuestionForm = ({
     <form onSubmit={handleSubmit}>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="title" className="text-right">Title</Label>
+          <Input id="title" name="title" defaultValue={question?.title} className="col-span-3" required />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="exam" className="text-right">Exam/Class</Label>
           <Input id="exam" name="exam" defaultValue={question?.exam} className="col-span-3" required />
         </div>
@@ -61,10 +64,6 @@ const QuestionForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="year" className="text-right">Year</Label>
           <Input id="year" name="year" type="number" defaultValue={question?.year} className="col-span-3" required />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="title" className="text-right">Title</Label>
-          <Input id="title" name="title" defaultValue={question?.title} className="col-span-3" required />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="pdf" className="text-right">PDF File</Label>
@@ -119,6 +118,18 @@ export default function AdminPreviousYearQuestionsPage() {
     setDeletingQuestion(null);
   };
 
+  const renderSkeleton = () => (
+    [...Array(5)].map((_, i) => (
+      <TableRow key={i}>
+        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+        <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
+      </TableRow>
+    ))
+  );
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialog open={!!deletingQuestion} onOpenChange={(isOpen) => !isOpen && setDeletingQuestion(null)}>
@@ -129,7 +140,7 @@ export default function AdminPreviousYearQuestionsPage() {
               <CardDescription>Add, edit, or delete question papers.</CardDescription>
             </div>
             <DialogTrigger asChild>
-              <Button onClick={() => setEditingQuestion(null)}>
+              <Button onClick={() => { setEditingQuestion(null); setIsDialogOpen(true); }}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Add Paper
               </Button>
             </DialogTrigger>
@@ -148,16 +159,8 @@ export default function AdminPreviousYearQuestionsPage() {
                 </TableHeader>
                 <TableBody>
                   {loading ? (
-                    [...Array(5)].map((_, i) => (
-                      <TableRow key={i}>
-                        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                        <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
+                    renderSkeleton()
+                  ) : questions.length > 0 ? (
                     questions.map((question) => (
                       <TableRow key={question.id}>
                         <TableCell className="font-medium">{question.title}</TableCell>
@@ -176,6 +179,10 @@ export default function AdminPreviousYearQuestionsPage() {
                         </TableCell>
                       </TableRow>
                     ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={5} className="text-center h-24">No question papers found.</TableCell>
+                    </TableRow>
                   )}
                 </TableBody>
               </Table>
@@ -200,7 +207,7 @@ export default function AdminPreviousYearQuestionsPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
