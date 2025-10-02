@@ -26,6 +26,7 @@ import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useCart } from "@/context/cart-context";
 
 interface Update {
   id: string;
@@ -33,14 +34,6 @@ interface Update {
   description: string;
   createdAt: string;
 }
-
-type CartItem = {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    image: string;
-};
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -54,13 +47,13 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
+  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, cartTotal, cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -299,10 +292,10 @@ export function Header() {
             <DropdownMenuSeparator />
             {updates.length > 0 ? (
             updates.map(update => (
-                <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
+                <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1 focus:bg-accent focus:text-accent-foreground">
                     <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end">
+                    <p className="text-xs text-muted-foreground group-focus:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-focus:text-accent-foreground">
                     {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                     </p>
                 </DropdownMenuItem>
@@ -321,11 +314,49 @@ export function Header() {
   );
 
   const cartIcon = (
-    <Button asChild variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-      <Link href="#">
-        <ShoppingCart className="h-3 w-3" />
-      </Link>
-    </Button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+          <ShoppingCart className="h-3 w-3" />
+          {cartCount > 0 && <Badge className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center text-xs" variant="destructive">{cartCount}</Badge>}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-80" align="end">
+        <DropdownMenuLabel>Shopping Cart</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {cartItems.length > 0 ? (
+          <>
+            <div className="max-h-60 overflow-y-auto px-1">
+              {cartItems.map(item => (
+                  <div key={item.id} className="flex items-center gap-2 p-2">
+                    <Image src={item.imageUrl} alt={item.title} width={40} height={50} className="rounded-sm" />
+                    <div className="flex-1">
+                      <p className="text-xs font-semibold truncate">{item.title}</p>
+                      <p className="text-xs text-muted-foreground">₹{item.price}</p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                       <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => decreaseQuantity(item.id)}><Minus className="h-3 w-3"/></Button>
+                       <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
+                       <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => increaseQuantity(item.id)}><Plus className="h-3 w-3"/></Button>
+                    </div>
+                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeFromCart(item.id)}><XCircle className="h-4 w-4 text-destructive"/></Button>
+                  </div>
+              ))}
+            </div>
+            <DropdownMenuSeparator />
+            <div className="p-2">
+              <div className="flex justify-between font-semibold">
+                <span>Total</span>
+                <span>₹{cartTotal.toFixed(2)}</span>
+              </div>
+              <Button className="w-full mt-2">Proceed to Checkout</Button>
+            </div>
+          </>
+        ) : (
+          <DropdownMenuItem disabled>Your cart is empty.</DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
   
   if (!isClient) {
