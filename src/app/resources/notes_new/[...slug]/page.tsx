@@ -7,9 +7,9 @@ import { getCollection, getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen } from 'lucide-react';
-import type { TClass, TSubject } from '@/app/actions/types';
+import type { TClass, TSubject, TPart, TChapter } from '@/app/actions/types';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { NotesChapterList } from '@/components/notes-chapter-list';
+import { NcertChapterList } from '@/components/ncert-chapter-list';
 import { usePathname, useParams } from 'next/navigation';
 
 function NotesDetailsContent() {
@@ -72,14 +72,18 @@ function NotesDetailsContent() {
         )
     }
     
-    if (error || !classData || !notesData) {
+    if (error && !classData) {
          return (
             <Card>
                 <CardContent className="p-6">
-                    <p className="text-destructive text-center">{error || "Could not load resources."}</p>
+                    <p className="text-destructive text-center">{error}</p>
                 </CardContent>
             </Card>
         )
+    }
+
+    if (!classData || !notesData) {
+        return null;
     }
 
     const subjectName = notesData.name || subjectKey.replace('-', ' ');
@@ -114,11 +118,8 @@ function NotesDetailsContent() {
                     </div>
                 </div>
                 <CardContent className="p-4 md:p-6">
-                    <NotesChapterList 
-                        notes={notesData} 
-                        importantQuestions={impQuestionsData}
-                        classId={classId} 
-                        subjectKey={subjectKey} 
+                    <NcertChapterList
+                        resources={notesData} 
                     />
                 </CardContent>
             </Card>
@@ -127,10 +128,10 @@ function NotesDetailsContent() {
 }
 
 
-export default function NotesDetailsPage() {
+export default function NotesDetailsPage({ params }: { params: { slug: string[] } }) {
     return (
         <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NotesDetailsContent />
+            <NotesDetailsContent slug={params.slug || []} />
         </Suspense>
     )
 }

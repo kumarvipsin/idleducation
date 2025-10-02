@@ -10,7 +10,7 @@ import { BookOpen, Languages, ShoppingCart } from 'lucide-react';
 import type { TClass, TSubject, TPart, TChapter } from '@/app/actions/types';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { NotesChapterList } from '@/components/notes-chapter-list';
+import { NcertChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { usePathname, useParams } from 'next/navigation';
@@ -81,7 +81,7 @@ function NcertSolutionsDetailsContent() {
     const subjectName = notesData.name || subjectKey.replace('-', ' ');
     const className = classData.name || classId.replace('-', ' ');
 
-    const contents = <NotesChapterList notes={notesData} contentType="notes" language={contentsLang} classId={classId} subjectKey={subjectKey} />;
+    const contents = <NcertChapterList resources={notesData} />;
     
 
     return (
