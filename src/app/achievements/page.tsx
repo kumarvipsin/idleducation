@@ -2,13 +2,6 @@
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, Star, Trophy, Target, Home } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -75,26 +68,21 @@ export default function AchievementsPage() {
                 </p>
             </section>
             
-            <Carousel
-                opts={{
-                align: "start",
-                loop: true,
-                }}
-                className="w-full max-w-6xl mx-auto"
-            >
-                <CarouselContent>
-                {achievements.map((achievement, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-2 h-full">
-                        <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <Image
-                            src={achievement.image.src}
-                            alt={achievement.image.alt}
-                            data-ai-hint={achievement.image.hint}
-                            width={600}
-                            height={400}
-                            className="w-full object-cover aspect-video"
-                        />
+            <div className="relative">
+              <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-6 px-4">
+                  {achievements.map((achievement, index) => (
+                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                      <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-card">
+                        <div className="relative w-full aspect-video">
+                          <Image
+                              src={achievement.image.src}
+                              alt={achievement.image.alt}
+                              data-ai-hint={achievement.image.hint}
+                              fill
+                              className="w-full object-cover"
+                          />
+                        </div>
                         <CardHeader className="flex-row items-center gap-4">
                             {achievement.icon}
                             <div className="flex-1">
@@ -107,14 +95,12 @@ export default function AchievementsPage() {
                         <div className="p-6 pt-0">
                             <p className="text-xs text-muted-foreground">{achievement.date}</p>
                         </div>
-                        </Card>
+                      </Card>
                     </div>
-                    </CarouselItem>
-                ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
+                  ))}
+                </div>
+              </div>
+            </div>
         </div>
     </div>
   );
