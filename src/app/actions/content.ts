@@ -740,7 +740,7 @@ export async function addPreviousYearQuestion(formData: FormData) {
   
   const questionData = {
     exam: rawData.exam as string,
-    subject: rawData.subject as string,
+    subjects: formData.getAll('subjects[]') as string[],
     year: parseInt(rawData.year as string, 10),
     title: rawData.title as string,
   };
@@ -748,7 +748,7 @@ export async function addPreviousYearQuestion(formData: FormData) {
   try {
     let pdfUrl = '';
     if (pdfFile && pdfFile.size > 0) {
-      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subjects.join('-')}-${pdfFile.name}`;
       pdfUrl = await uploadFileToGCS(pdfFile, destination);
     }
     
@@ -771,14 +771,14 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
     
     const questionData: any = {
       exam: rawData.exam as string,
-      subject: rawData.subject as string,
+      subjects: formData.getAll('subjects[]') as string[],
       year: parseInt(rawData.year as string, 10),
       title: rawData.title as string,
     };
     
     try {
         if (pdfFile && pdfFile.size > 0) {
-            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subjects.join('-')}-${pdfFile.name}`;
             questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
         }
 

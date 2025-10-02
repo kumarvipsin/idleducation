@@ -10,12 +10,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, FileText } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, FileText, MinusCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -23,7 +23,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 const questionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   exam: z.string().min(1, 'Exam/Class is required'),
-  subject: z.string().min(1, 'Subject is required'),
+  subjects: z.array(z.object({ value: z.string().min(1, 'Subject cannot be empty.') })).min(1, 'At least one subject is required.'),
   year: z.coerce.number().min(2000, 'Year must be 2000 or later'),
   pdf: z.any().optional(),
 });
@@ -44,10 +44,16 @@ const QuestionForm = ({
     defaultValues: {
       title: question?.title || '',
       exam: question?.exam || '',
-      subject: question?.subject || '',
+      subjects: question?.subjects ? question.subjects.map(s => ({ value: s })) : [{ value: "" }],
       year: question?.year || new Date().getFullYear(),
     },
   });
+  
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "subjects"
+  });
+
 
   const handleSubmit = async (data: QuestionFormValues) => {
     setIsSubmitting(true);
@@ -55,7 +61,7 @@ const QuestionForm = ({
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('exam', data.exam);
-    formData.append('subject', data.subject);
+    data.subjects.forEach(subject => formData.append('subjects[]', subject.value));
     formData.append('year', String(data.year));
     
     if (data.pdf && data.pdf[0]) {
@@ -105,18 +111,36 @@ const QuestionForm = ({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="subject"
-          render={({ field }) => (
-            <FormItem className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="subject" className="text-right">Subject</Label>
-              <FormControl>
-                <Input id="subject" {...field} className="col-span-3" />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+         <div>
+            {fields.map((field, index) => (
+              <FormField
+                key={field.id}
+                control={form.control}
+                name={`subjects.${index}.value`}
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4 mb-2">
+                    <Label htmlFor={`subject-${index}`} className="text-right">Subject {index + 1}</Label>
+                    <FormControl>
+                      <div className="col-span-3 flex items-center gap-2">
+                        <Input id={`subject-${index}`} {...field} />
+                        {fields.length > 1 && (
+                            <Button type="button" variant="ghost" size="icon" onClick={() => remove(index)}>
+                                <MinusCircle className="h-4 w-4 text-destructive" />
+                            </Button>
+                        )}
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            ))}
+            <div className="flex justify-end mt-2">
+                <Button type="button" variant="outline" size="sm" onClick={() => append({ value: "" })}>
+                    <PlusCircle className="h-4 w-4 mr-2" />
+                    Add Subject
+                </Button>
+            </div>
+        </div>
         <FormField
           control={form.control}
           name="year"
@@ -228,7 +252,7 @@ export default function AdminPreviousYearQuestionsPage() {
                   <TableRow>
                     <TableHead>Title</TableHead>
                     <TableHead>Exam/Class</TableHead>
-                    <TableHead>Subject</TableHead>
+                    <TableHead>Subjects</TableHead>
                     <TableHead>Year</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -241,7 +265,7 @@ export default function AdminPreviousYearQuestionsPage() {
                       <TableRow key={question.id}>
                         <TableCell className="font-medium">{question.title}</TableCell>
                         <TableCell>{question.exam}</TableCell>
-                        <TableCell>{question.subject}</TableCell>
+                        <TableCell>{Array.isArray(question.subjects) ? question.subjects.join(', ') : question.subjects}</TableCell>
                         <TableCell>{question.year}</TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingQuestion(question); setIsDialogOpen(true); }}>
