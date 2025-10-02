@@ -141,7 +141,7 @@ const QuestionForm = ({
       year: question?.year || new Date().getFullYear(),
       subjects: question?.subjects?.map(s => ({
         ...s,
-        papers: (s.papers || []).map(p => ({...p, pdf: undefined}))
+        papers: Array.isArray(s.papers) ? s.papers.map(p => ({...p, pdf: undefined})) : [{ title: '', pdf: undefined, pdfUrl: '' }]
       })) || [{ name: "", papers: [{ title: "", pdf: undefined, pdfUrl: '' }] }],
     },
   });
@@ -310,19 +310,19 @@ export default function AdminPreviousYearQuestionsPage() {
                   {loading ? (
                     renderSkeleton()
                   ) : questions.length > 0 ? (
-                    questions.map((question, qIndex) => (
+                    questions.map((question) => (
                       <TableRow key={question.id}>
                         <TableCell className="font-medium">{question.title}</TableCell>
                         <TableCell>{question.exam}</TableCell>
                         <TableCell>{question.year}</TableCell>
                         <TableCell>
                            <ul className="space-y-2">
-                            {Array.isArray(question.subjects) && question.subjects.map((s, sIndex) => (
-                              <li key={`${qIndex}-${sIndex}`}>
+                            {Array.isArray(question.subjects) && question.subjects.map((s, qIndex) => (
+                              <li key={`${question.id}-${s.name}-${qIndex}`}>
                                 <span className="font-semibold">{s.name}</span>
                                 {Array.isArray(s.papers) && s.papers.length > 0 &&
                                   <ul className="list-disc pl-5 text-sm text-muted-foreground">
-                                    {s.papers.map((p, pIndex) => <li key={`${qIndex}-${sIndex}-${pIndex}`}>{p.title}</li>)}
+                                    {s.papers.map((p, pIndex) => <li key={`${question.id}-${s.name}-${p.title}-${pIndex}`}>{p.title}</li>)}
                                   </ul>
                                 }
                               </li>
@@ -376,3 +376,4 @@ export default function AdminPreviousYearQuestionsPage() {
     </Dialog>
   );
 }
+
