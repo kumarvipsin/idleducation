@@ -43,47 +43,47 @@ const class12EnglishResources = {
 };
 
 const ResourceLinks = () => (
-    <div className="space-y-2 pt-2">
-      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-        <span className="text-sm font-medium">NCERT Solutions (English Medium)</span>
+    <div className="grid grid-cols-2 gap-2 pt-2">
+      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+        <span className="text-xs font-medium">NCERT Solutions (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-        <span className="text-sm font-medium">NCERT Solutions (Hindi Medium)</span>
+      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+        <span className="text-xs font-medium">NCERT Solutions (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-        <span className="text-sm font-medium">Important Questions (English Medium)</span>
+      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+        <span className="text-xs font-medium">Important Q's (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-        <span className="text-sm font-medium">Important Questions (Hindi Medium)</span>
+      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+        <span className="text-xs font-medium">Important Q's (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
           </Button>
         </div>
