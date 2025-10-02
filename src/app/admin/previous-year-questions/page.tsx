@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, FileText, MinusCircle, Download } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, FileText, MinusCircle, Upload } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,12 +19,13 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import Link from 'next/link';
 
 const questionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   exam: z.string().min(1, 'Exam/Class is required'),
   subjects: z.array(z.object({ 
-    value: z.string().min(1, 'Subject cannot be empty.'),
+    name: z.string().min(1, 'Subject cannot be empty.'),
     pdf: z.any().optional(),
   })).min(1, 'At least one subject is required.'),
   year: z.coerce.number().min(2000, 'Year must be 2000 or later'),
@@ -43,15 +44,15 @@ const QuestionForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const defaultSubjects = question?.subjects
-    ? question.subjects.map(s => ({ value: s.name, pdf: null, existingPdfUrl: s.pdfUrl }))
-    : [{ value: "", pdf: null }];
+    ? question.subjects.map(s => ({ name: s.name, pdf: null, existingPdfUrl: s.pdfUrl }))
+    : [{ name: "", pdf: null }];
 
   const form = useForm<QuestionFormValues>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
       title: question?.title || '',
       exam: question?.exam || '',
-      subjects: defaultSubjects,
+      subjects: defaultSubjects.map(s => ({name: s.name, pdf: s.pdf})),
       year: question?.year || new Date().getFullYear(),
     },
   });
@@ -71,13 +72,13 @@ const QuestionForm = ({
     formData.append('year', String(data.year));
     
     data.subjects.forEach((subject, index) => {
-        formData.append(`subjects[${index}][name]`, subject.value);
+        formData.append(`subjects[${index}][name]`, subject.name);
         if (subject.pdf && subject.pdf[0]) {
             formData.append(`subjects[${index}][pdf]`, subject.pdf[0]);
         }
         // For edits, include existing URL if no new file is uploaded
         if (question?.subjects[index]?.pdfUrl && !subject.pdf?.[0]) {
-           formData.append(`subjects[${index}][pdfUrl]`, question.subjects[index].pdfUrl);
+           formData.append(`subjects[${index}][pdfUrl]`, question.subjects[index].pdfUrl!);
         }
     });
     
@@ -151,7 +152,7 @@ const QuestionForm = ({
                     </div>
                      <FormField
                         control={form.control}
-                        name={`subjects.${index}.value`}
+                        name={`subjects.${index}.name`}
                         render={({ field }) => (
                         <FormItem className="col-span-4">
                             <FormControl>
@@ -168,14 +169,14 @@ const QuestionForm = ({
                             <FormControl>
                                  <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files)} {...rest} />
                             </FormControl>
-                            {(question?.subjects[index]?.pdfUrl) && <p className="text-xs text-muted-foreground mt-1">Current file: <Link href={question.subjects[index].pdfUrl || ''} target="_blank" className="underline">View</Link></p>}
+                            {(defaultSubjects[index]?.existingPdfUrl) && <p className="text-xs text-muted-foreground mt-1">Current file: <Link href={defaultSubjects[index].existingPdfUrl!} target="_blank" className="underline">View</Link></p>}
                            </FormItem>
                         )}
                     />
                 </div>
                 ))}
                 <div className="flex justify-end mt-2">
-                    <Button type="button" variant="outline" size="sm" onClick={() => append({ value: "", pdf: null })}>
+                    <Button type="button" variant="outline" size="sm" onClick={() => append({ name: "", pdf: null })}>
                         <PlusCircle className="h-4 w-4 mr-2" />
                         Add Subject
                     </Button>
@@ -284,7 +285,7 @@ export default function AdminPreviousYearQuestionsPage() {
                         <TableCell>{question.exam}</TableCell>
                         <TableCell>
                            <ul className="list-disc pl-5">
-                            {Array.isArray(question.subjects) ? question.subjects.map(s => <li key={s.name}>{s.name}</li>) : <li>{question.subjects}</li>}
+                            {Array.isArray(question.subjects) ? question.subjects.map((s, idx) => <li key={`${s.name}-${idx}`}>{s.name}</li>) : <li>{question.subjects}</li>}
                           </ul>
                         </TableCell>
                         <TableCell>{question.year}</TableCell>
