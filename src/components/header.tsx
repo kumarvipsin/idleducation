@@ -293,10 +293,10 @@ export function Header() {
             <DropdownMenuSeparator />
             {updates.length > 0 ? (
             updates.map(update => (
-                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent focus:text-accent-foreground">
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
                     <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground group-focus:text-accent-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end group-focus:text-accent-foreground">
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
                     {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                     </p>
                 </DropdownMenuItem>
@@ -323,7 +323,7 @@ export function Header() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-80" align="end">
-        <DropdownMenuLabel>Shopping Cart</DropdownMenuLabel>
+        <DropdownMenuLabel>My Cart</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {cartItems.length > 0 ? (
           <>
@@ -504,5 +504,3 @@ export function Header() {
     </Collapsible>
   );
 }
-
-    
