@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookCheck, Home } from 'lucide-react';
+import { ArrowRight, BookCheck, Home, Star } from 'lucide-react';
 import Link from 'next/link';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,16 +20,20 @@ type Subject = {
 
 const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
   maths: { url: "https://images.unsplash.com/photo-1632571401005-458e9d244591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYXRocyUyMHxlbnwwfHx8fDE3NTkzMDkwNDF8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
-  science: { url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDAyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "science abstract" },
-  social: { url: "https://images.unsplash.com/photo-1583426533758-3a172a6b29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBzdHVkaWVzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDIzfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "social studies" },
   english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3E5MjYxNDQyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
   physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
-  chemistry: { url: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGVtaXN0cnklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "chemistry abstract" },
-  biology: { url: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxib2xvZ3klMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDk3fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "biology abstract" },
   default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
 };
 
-const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
+const getImage = (key: string) => {
+    const lowerKey = key.toLowerCase();
+    for (const subjectKey in subjectImageMap) {
+        if (lowerKey.includes(subjectKey)) {
+            return subjectImageMap[subjectKey];
+        }
+    }
+    return subjectImageMap.default;
+};
 
 const mockSolutions = {
     "Class 10": [
@@ -57,12 +61,12 @@ function NcertSolutionsPageContent() {
   };
 
   const renderSkeleton = () => (
-    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <div className="flex gap-6 px-4 md:px-[10%]">
-            {[...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-96 w-[350px] rounded-2xl flex-shrink-0" />
-            ))}
-        </div>
+    <div className="flex gap-6 px-4 md:px-[10%]">
+        {[...Array(3)].map((_, index) => (
+          <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+            <Skeleton className="h-[450px] w-full rounded-lg" />
+          </div>
+        ))}
     </div>
   );
 
@@ -90,10 +94,10 @@ function NcertSolutionsPageContent() {
                   <button
                       key={className}
                       onClick={() => handleClassChange(className)}
-                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                      className={`py-2 px-6 text-sm font-medium transition-colors border rounded-full
                       ${selectedClass === className 
-                          ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                          ? 'border-primary text-primary bg-primary/10 shadow' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'}`}
                   >
                       {className}
                   </button>
@@ -110,24 +114,33 @@ function NcertSolutionsPageContent() {
                   <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                       <div className="flex gap-6 px-4 md:px-[10%]">
                           {subjects.map((subject: Subject, index: number) => (
-                          <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                  <CardContent className="p-8 flex-grow flex flex-col">
-                                  
-                                  <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
-                                  <p className="text-sm mt-2 text-muted-foreground flex-grow">Solutions for {subject.name}.</p>
-                                  </CardContent>
-                                  <div className="relative aspect-[4/3] w-full mt-auto">
-                                  <Image
-                                      src={subject.imageUrl}
-                                      alt={subject.name}
-                                      data-ai-hint={subject.imageHint}
-                                      fill
-                                      className="object-cover"
-                                  />
-                                  </div>
-                              </Card>
-                          </Link>
+                           <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                    <CardContent className="p-4 flex flex-col flex-1">
+                                        <div className="relative aspect-[4/5] w-full mb-4">
+                                            <Image
+                                                src={subject.imageUrl}
+                                                alt={subject.name}
+                                                data-ai-hint={subject.imageHint}
+                                                fill
+                                                className="object-cover rounded-md"
+                                            />
+                                        </div>
+                                        <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={subject.name}>{subject.name}</h3>
+                                        <div className="flex items-baseline gap-2 mt-2">
+                                            <p className="text-xl font-bold text-foreground">Free</p>
+                                            <p className="text-sm text-muted-foreground line-through">₹999</p>
+                                        </div>
+                                        <div className="grid grid-cols-1 gap-2 mt-4">
+                                            <Button asChild>
+                                                <Link href={subject.href}>
+                                                    Explore Solutions <ArrowRight className="ml-2 h-4 w-4" />
+                                                </Link>
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
                           ))}
                       </div>
                   </div>
