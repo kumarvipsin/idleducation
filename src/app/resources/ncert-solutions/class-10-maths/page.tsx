@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -61,7 +62,7 @@ function NcertSolutionsContent() {
     );
   }
 
-  return <NotesChapterList resources={ncertSolutions} />;
+  return <NcertChapterList resources={ncertSolutions} />;
 }
 
 

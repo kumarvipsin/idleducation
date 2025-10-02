@@ -34,25 +34,62 @@ const class9EnglishResources = {
 };
 
 export default function Class9EnglishPage() {
+  const isMobile = useIsMobile();
 
+  const allChapters = class9EnglishResources.books.flatMap(book => book.chapters);
+  
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <div className="space-y-4 md:space-y-6">
-          {class9EnglishResources.books.map((book, bookIndex) => (
+            {class9EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
-              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
-              <div className="space-y-2">
+                <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
+                <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
-                  <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                      <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                      <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                    </Link>
-                  </Card>
+                    <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                      <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
+                        <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
+                        <div className="flex items-center gap-2 w-full md:w-auto">
+                          <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
+                            <Link href="#">View and Download NCERT Solutions</Link>
+                          </Button>
+                          <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
+                            <Link href="#">
+                              <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
                 ))}
-              </div>
+                </div>
             </div>
+            ))}
+        </div>
+    </div>
+  );
+
+  const primumNotes = (
+    <div>
+        <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
+        </div>
+        <div className="space-y-2">
+          {allChapters.map((chapter, index) => (
+            <Card key={index} className="bg-background">
+              <CardContent className="p-3 flex items-center justify-between">
+                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+                <div className="flex items-center gap-1 md:gap-2">
+                    <Button asChild variant="ghost" size="sm">
+                        <Link href="#">View</Link>
+                    </Button>
+                    <Button asChild variant="ghost" size="sm">
+                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
+                    </Button>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
     </div>
@@ -71,7 +108,26 @@ export default function Class9EnglishPage() {
           </div>
         </div>
         <CardContent className="p-4 md:p-6">
-            {contents}
+          {isMobile ? (
+            <Tabs defaultValue="contents" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="contents">Contents</TabsTrigger>
+                <TabsTrigger value="notes">Important Questions</TabsTrigger>
+              </TabsList>
+              <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
+              <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
+            </Tabs>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+              <div className="lg:col-span-1">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+                {contents}
+              </div>
+              <div className="lg:col-span-1">
+                {primumNotes}
+              </div>
+            </div>
+          )}
         </CardContent>
     </Card>
   );
