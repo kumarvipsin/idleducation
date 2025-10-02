@@ -19,22 +19,30 @@ type Subject = {
   imageHint: string;
 };
 
-const subjectImageMap: { [key: string]: { url: string, hint: string } } = {
-  maths: { url: "https://images.unsplash.com/photo-1632571401005-458e9d244591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYXRocyUyMHxlbnwwfHx8fDE3NTkzMDkwNDF8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
-  science: { url: "https://images.unsplash.com/photo-1576086213369-97a306d36557?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDAyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "science abstract" },
-  social: { url: "https://images.unsplash.com/photo-1583426533758-3a172a6b29cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBzdHVkaWVzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDIzfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "social studies" },
-  english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3E5MjYxNDQyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
-  physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
-  chemistry: { url: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGVtaXN0cnklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "chemistry abstract" },
-  biology: { url: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxib2xvZ3klMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDk3fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "biology abstract" },
-  history: { url: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoaXN0b3J5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTE1fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "history abstract" },
-  geography: { url: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnZW9ncmFwaHklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTMwfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "geography abstract" },
-  'political-science': { url: "https://images.unsplash.com/photo-1534294668382-95b2ae36b57d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb2xpdGljYWwlMjBzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTQ4fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "political science" },
-  economics: { url: "https://images.unsplash.com/photo-1579621970795-87f54f12c7a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlY29ub21pY3MlMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTY0fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "economics abstract" },
-  default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
+const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
+  maths: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "math abstract" },
+  science: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "science abstract" },
+  social: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "social studies" },
+  english: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "english literature" },
+  physics: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "physics abstract" },
+  chemistry: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "chemistry abstract" },
+  biology: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "biology abstract" },
+  history: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "history abstract" },
+  geography: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "geography abstract" },
+  'political-science': { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "political science" },
+  economics: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "economics abstract" },
+  default: { url: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png", hint: "books stack" },
 };
 
-const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
+const getImage = (key: string) => {
+    const lowerKey = key.toLowerCase();
+    for (const subjectKey in subjectImageMap) {
+        if (lowerKey.includes(subjectKey)) {
+            return subjectImageMap[subjectKey];
+        }
+    }
+    return subjectImageMap.default;
+};
 
 function NotesPageContent({ initialData }: { initialData: any }) {
   const { notesByClass, classes: sortedClasses } = initialData;
@@ -56,8 +64,8 @@ function NotesPageContent({ initialData }: { initialData: any }) {
   };
   
   return (
-     <div className="bg-gray-100 dark:bg-gray-800 py-12">
-      <div className="mb-6 text-center">
+     <div className="bg-gray-100 dark:bg-gray-800">
+      <div className="container mx-auto px-4 md:px-6 pt-12 pb-6 text-center">
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Notes for {selectedClass}</h1>
         <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
       </div>
@@ -69,10 +77,10 @@ function NotesPageContent({ initialData }: { initialData: any }) {
             <button
                 key={className}
                 onClick={() => handleClassChange(className)}
-                className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                className={`py-2 px-6 text-sm font-medium transition-colors border rounded-full
                 ${selectedClass === className 
-                    ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                    ? 'border-primary text-primary bg-primary/10 shadow' 
+                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'}`}
             >
                 {className}
             </button>
@@ -81,7 +89,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
         </div>
       </div>
 
-      <main className="flex-1">
+      <main className="flex-1 pb-12">
         <div key={animationKey} className="relative animate-fade-in-up">
             {subjects && subjects.length > 0 ? (
             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -100,7 +108,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
                                 alt={subject.name}
                                 data-ai-hint={subject.imageHint}
                                 fill
-                                className="object-cover"
+                                className="object-cover rounded-b-xl"
                             />
                             </div>
                         </Card>
@@ -156,8 +164,8 @@ export default function NotesNewPage() {
 
     if (loading) {
         return (
-             <div className="bg-gray-100 dark:bg-gray-800 py-12">
-                <div className="mb-6 text-center">
+             <div className="bg-gray-100 dark:bg-gray-800">
+                <div className="container mx-auto px-4 md:px-6 pt-12 pb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
                     <Skeleton className="h-5 w-96 mx-auto" />
                 </div>
@@ -181,4 +189,3 @@ export default function NotesNewPage() {
         </Suspense>
     );
 }
-
