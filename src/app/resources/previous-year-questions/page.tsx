@@ -56,6 +56,7 @@ export default function PreviousYearQuestionsPage() {
   };
 
   const classes = Array.from(new Set(papers.map(p => p.exam.includes('Class 12') ? 'Class 12' : 'Class 10'))).sort();
+  
   const subjects = ['All', ...Array.from(new Set(papers.filter(p => p.exam.includes(selectedClass)).map(p => p.subject)))];
 
   useEffect(() => {
@@ -104,25 +105,6 @@ export default function PreviousYearQuestionsPage() {
                         ))}
                     </div>
                 </div>
-                {subjects.length > 1 && (
-                    <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
-                        <div className="flex justify-start md:justify-center gap-2 whitespace-nowrap px-4 sm:px-0">
-                            {subjects.map(s => (
-                                <button
-                                    key={s}
-                                    onClick={() => setSelectedSubject(s)}
-                                    className={cn(`py-1 px-4 text-xs font-medium transition-colors border rounded-full`,
-                                        selectedSubject === s
-                                        ? 'border-primary text-primary bg-primary/10' 
-                                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
-                                    )}
-                                >
-                                    {s}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
 
@@ -133,7 +115,7 @@ export default function PreviousYearQuestionsPage() {
                         <Skeleton className="h-48 w-full rounded-lg" />
                     </div>
                 ))
-             ) : filteredPapers.length > 0 ? (
+             ) : (
                 filteredPapers.map((paper, index) => (
                     <div key={paper.id} className="block group">
                     <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card bg-gradient-to-br from-purple-50 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30">
@@ -151,16 +133,6 @@ export default function PreviousYearQuestionsPage() {
                     </Card>
                     </div>
                 ))
-             ) : (
-                <div className="col-span-full text-center py-16">
-                    <Card className="p-8 inline-block">
-                        <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Question papers for the selected filters will be available soon.
-                        </p>
-                    </Card>
-                </div>
              )}
         </div>
       </div>
