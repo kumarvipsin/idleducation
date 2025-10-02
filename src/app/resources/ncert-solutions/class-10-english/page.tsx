@@ -99,7 +99,7 @@ export default function Class10EnglishPage() {
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-gray-500 text-left hover:no-underline">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
                                   {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
@@ -127,7 +127,7 @@ export default function Class10EnglishPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">CBSE Class 10 | English</CardTitle>
+              <CardTitle className="text-2xl font-bold">CBSE | Class 10 | English</CardTitle>
             </div>
           </div>
         </div>
