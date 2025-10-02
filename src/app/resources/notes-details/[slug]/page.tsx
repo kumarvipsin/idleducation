@@ -1,9 +1,10 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from "react";
+import { Suspense, ReactNode, use } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
 import { BookOpen } from "lucide-react";
 
@@ -573,8 +574,10 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 };
 
 
-function NotesContent({ slug }: { slug: string }) {
-  const searchParams = useSearchParams();
+function NotesContent() {
+  const params = use(useParams());
+  const searchParams = use(useSearchParams());
+  const slug = params.slug as string;
   const lang = searchParams.get('lang') === 'hi' ? 'hi' : 'en';
   
   const chapterNotes = notesData[slug] || notesData['default'];
@@ -605,11 +608,10 @@ function NotesContent({ slug }: { slug: string }) {
   )
 }
 
-export default function NotesDetailsPage({ params }: { params: { slug: string } }) {
-    const slug = params.slug;
+export default function NotesDetailsPage() {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <NotesContent slug={slug} />
+            <NotesContent />
         </Suspense>
     )
 }
