@@ -38,7 +38,6 @@ const getImage = (key: string) => {
 
 const mockSolutions = {
     "Class 10": [
-        { name: "Maths", href: "/resources/ncert-solutions/class-10-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
         { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
     ],
     "Class 12": [
@@ -147,7 +146,7 @@ function NcertSolutionsPageContent() {
                       ))
                   ) : (
                   <div className="col-span-full text-center py-12 w-full">
-                      <Card className="p-8 inline-block">
+                      <Card className="p-8 inline-block bg-background/50">
                           <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                           <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
                           <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
