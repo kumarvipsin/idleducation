@@ -111,8 +111,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           </p>
         </div>
         
-        <Separator className="w-1/2 mx-auto h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-
         <div className="relative mt-12">
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:pl-[10%]">
