@@ -15,30 +15,64 @@ import { GcsImage } from '@/components/gcs-image';
 import { useCart } from '@/context/cart-context';
 import { useToast } from '@/hooks/use-toast';
 
-const StoreHeader = () => (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
-        <div className="container flex h-8 items-center justify-between">
-            <Link href="/" className="flex items-center gap-2">
-                <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
-                <span className="text-lg font-bold text-primary">IDL Store</span>
-            </Link>
-            <div className="flex items-center gap-4">
-                 <Link href="/cart">
-                    <Button variant="ghost" size="icon">
-                        <ShoppingCart className="h-5 w-5" />
-                        <span className="sr-only">Shopping Cart</span>
-                    </Button>
+
+const StoreHeader = () => {
+    const { cartCount } = useCart();
+    const [show, setShow] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const controlNavbar = () => {
+        if (typeof window !== 'undefined') {
+            if (window.scrollY > lastScrollY && window.scrollY > 80) { 
+                setShow(false);
+            } else {
+                setShow(true);
+            }
+            setLastScrollY(window.scrollY);
+        }
+    };
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', controlNavbar);
+
+            return () => {
+                window.removeEventListener('scroll', controlNavbar);
+            };
+        }
+    }, [lastScrollY]);
+
+
+    return (
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-8 items-center justify-between">
+                <Link href="/" className="flex items-center gap-2">
+                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                    <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
-                 <Link href="/" >
-                    <Button variant="ghost" size="icon">
-                        <Home className="h-5 w-5 text-primary" />
-                        <span className="sr-only">Home</span>
-                    </Button>
-                </Link>
+                <div className="flex items-center gap-4">
+                    <Link href="/cart">
+                        <Button variant="ghost" size="icon" className="relative">
+                            <ShoppingCart className="h-5 w-5" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                    {cartCount}
+                                </span>
+                            )}
+                            <span className="sr-only">Shopping Cart</span>
+                        </Button>
+                    </Link>
+                    <Link href="/" >
+                        <Button variant="ghost" size="icon">
+                            <Home className="h-5 w-5 text-primary" />
+                            <span className="sr-only">Home</span>
+                        </Button>
+                    </Link>
+                </div>
             </div>
-        </div>
-    </header>
-);
+        </header>
+    );
+};
 
 
 export default function StorePage() {
@@ -183,7 +217,12 @@ export default function StorePage() {
                                         <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                     </div>
                                     <div className="mt-4 flex gap-2">
-                                        <Button className="w-full" onClick={() => handleAddToCart(book)}>
+                                       <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                            <Button className="w-full" disabled={!book.buyLink}>
+                                                Buy Now
+                                            </Button>
+                                        </a>
+                                        <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
                                             <ShoppingCart className="mr-2 h-4 w-4" />
                                             Add To Cart
                                         </Button>
