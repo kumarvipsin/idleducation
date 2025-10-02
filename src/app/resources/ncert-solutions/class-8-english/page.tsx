@@ -38,45 +38,45 @@ const class8EnglishResources = {
 const ResourceLinks = () => (
     <div className="grid grid-cols-2 gap-2 pt-2">
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">NCERT Solutions (EN)</span>
+        <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">NCERT Solutions (HI)</span>
+        <span className="text-xs font-medium text-gray-500">NCERT Solutions (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">Important Q's (EN)</span>
+        <span className="text-xs font-medium text-gray-500">Important Q's (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">Important Q's (HI)</span>
+        <span className="text-xs font-medium text-gray-500">Important Q's (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>

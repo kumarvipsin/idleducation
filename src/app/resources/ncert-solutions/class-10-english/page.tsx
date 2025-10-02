@@ -39,10 +39,10 @@ const ResourceLinks = () => (
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
         <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
@@ -50,10 +50,10 @@ const ResourceLinks = () => (
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
         <span className="text-xs font-medium text-gray-500">NCERT Solutions (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Download className="h-4 w-4" /></Link>
           </Button>
         </div>
@@ -61,10 +61,10 @@ const ResourceLinks = () => (
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
         <span className="text-xs font-medium text-gray-500">Important Q's (EN)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
@@ -72,10 +72,10 @@ const ResourceLinks = () => (
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
         <span className="text-xs font-medium text-gray-500">Important Q's (HI)</span>
         <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7">
+          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
             <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
           </Button>
         </div>
@@ -88,15 +88,16 @@ export default function Class10EnglishPage() {
   const contents = (
     <div>
         <div className="space-y-4 md:space-y-6">
-          <div className="space-y-2">
-              <h3 
-                  className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
-                  style={{ backgroundImage: "linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 57%, rgba(237, 221, 83, 1) 100%)" }}
-              >
-                  First Flight
-              </h3>
-              <Accordion type="single" collapsible className="w-full space-y-2">
-                {class10EnglishResources.books.find(b => b.name === 'First Flight')?.chapters.map((chapter, chapterIndex) => (
+            {class10EnglishResources.books.map((book, bookIndex) => (
+            <div key={bookIndex} className="mb-6">
+                <h3 
+                    className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
+                    style={{ backgroundImage: "linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 57%, rgba(237, 221, 83, 1) 100%)" }}
+                >
+                    {book.name}
+                </h3>
+                <Accordion type="single" collapsible className="w-full space-y-2">
+                {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300">
                         <AccordionItem value={`chapter-ff-${chapterIndex}`} className="border-b-0">
                         <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
@@ -108,50 +109,29 @@ export default function Class10EnglishPage() {
                         </AccordionItem>
                     </Card>
                 ))}
-              </Accordion>
-          </div>
-          <div className="space-y-2">
-              <h3 
-                  className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
-                  style={{ backgroundImage: "linear-gradient(90deg, rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 57%, rgba(237, 221, 83, 1) 100%)" }}
-              >
-                  Footprints Without Feet
-              </h3>
-              <Accordion type="single" collapsible className="w-full space-y-2">
-                {class10EnglishResources.books.find(b => b.name === 'Footprints Without Feet')?.chapters.map((chapter, chapterIndex) => (
-                    <Card key={chapterIndex} className="transition-all duration-300">
-                        <AccordionItem value={`chapter-fwf-${chapterIndex}`} className="border-b-0">
-                        <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
-                            {chapter.name}
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                            <ResourceLinks />
-                        </AccordionContent>
-                        </AccordionItem>
-                    </Card>
-                ))}
-              </Accordion>
-          </div>
+                </Accordion>
+            </div>
+            ))}
         </div>
     </div>
   );
 
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
-        <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/20 p-3 rounded-full">
-              <BookOpen className="w-6 h-6" />
-            </div>
-            <div>
-              <CardTitle className="text-2xl font-bold">CBSE | Class 10 | English</CardTitle>
-            </div>
+      <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
+        <div className="flex items-center gap-4">
+          <div className="bg-white/20 p-3 rounded-full">
+            <BookOpen className="w-6 h-6" />
+          </div>
+          <div>
+            <CardTitle className="text-2xl font-bold">CBSE | Class 10 | English</CardTitle>
           </div>
         </div>
-        <CardContent className="p-4 md:p-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-          {contents}
-        </CardContent>
+      </div>
+      <CardContent className="p-4 md:p-6">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+        {contents}
+      </CardContent>
     </Card>
   );
 }
