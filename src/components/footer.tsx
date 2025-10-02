@@ -10,6 +10,7 @@ const quickLinks = [
   { href: "/contact", label: "Contact Us" },
   { href: "/gallery", label: "Gallery" },
   { href: "/achievements", label: "Achievements" },
+  { href: "/idl-foundation", label: "IDL Foundation" },
 ];
 
 const resourceLinks = [
