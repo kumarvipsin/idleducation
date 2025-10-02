@@ -10,118 +10,74 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionTrigger, AccordionContent, AccordionItem } from "@/components/ui/accordion";
+import { NotesChapterList } from "@/components/notes-chapter-list";
+import { Suspense, useEffect } from "react";
+import { getImportantQuestionsForSubject, getCollection } from "@/app/actions";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { TSubject } from "@/app/actions/types";
 
-const class6EnglishResources = {
-  books: [
-    {
-      name: "Honeysuckle",
-      lang: "en",
-      chapters: [
-        { name: "Chapter 1: Who Did Patrick’s Homework?", slug: "c6-en-h-unit1" },
-        { name: "Chapter 2: How the Dog Found Himself a New Master!", slug: "c6-en-h-unit2" },
-        { name: "Chapter 3: Taro’s Reward", slug: "c6-en-h-unit3" },
-        { name: "Chapter 4: An Indian – American Woman in Space: Kalpana Chawla", slug: "c6-en-h-unit4" },
-        { name: "Chapter 5: A Different Kind of School", slug: "c6-en-h-unit5" },
-        { name: "Chapter 6: Who I Am", slug: "c6-en-h-unit6" },
-        { name: "Chapter 7: Fair Play", slug: "c6-en-h-unit7" },
-        { name: "Chapter 8: A Game of Chance", slug: "c6-en-h-unit8" },
-        { name: "Chapter 9: Desert Animals", slug: "c6-en-h-unit9" },
-        { name: "Chapter 10: The Banyan Tree", slug: "c6-en-h-unit10" },
-      ],
-    },
-    {
-      name: "A Pact with the Sun",
-      lang: "en",
-      chapters: [
-        { name: "Chapter 1: A Tale of Two Birds", slug: "c6-en-p-unit1" },
-        { name: "Chapter 2: The Friendly Mongoose", slug: "c6-en-p-unit2" },
-        { name: "Chapter 3: The Shepherd’s Treasure", slug: "c6-en-p-unit3" },
-      ],
-    },
-  ],
-};
+function NcertSolutionsContent() {
+  const [notesData, setNotesData] = useState<TSubject | null>(null);
+  const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setError(null);
+      const classId = 'class-6';
+      const subjectKey = 'english';
+      
+      const [notesResult, impQuestionsResult] = await Promise.all([
+          getCollection('ncertSolutions'),
+          getImportantQuestionsForSubject(classId, subjectKey)
+      ]);
 
-const ResourceLinks = () => (
-    <div className="grid grid-cols-2 gap-2 pt-2">
-      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
-        <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Eye className="h-4 w-4" /></Link>
-          </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Download className="h-4 w-4" /></Link>
-          </Button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium text-gray-500">NCERT Solutions (HI)</span>
-        <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Eye className="h-4 w-4" /></Link>
-          </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Download className="h-4 w-4" /></Link>
-          </Button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium text-gray-500">Important Q's (EN)</span>
-        <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Eye className="h-4 w-4" /></Link>
-          </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
-          </Button>
-        </div>
-      </div>
-      <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium text-gray-500">Important Q's (HI)</span>
-        <div className="flex items-center">
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><Eye className="h-4 w-4" /></Link>
-          </Button>
-          <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-gray-500">
-            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
-          </Button>
-        </div>
-      </div>
-    </div>
-);
+      if (notesResult.success && notesResult.data) {
+          const classDoc = (notesResult.data as any[]).find(doc => doc.id === classId);
+          if (classDoc && classDoc.subjects[subjectKey]) {
+              setNotesData(classDoc.subjects[subjectKey]);
+          } else {
+               setError("NCERT Solutions content not found for this subject.");
+          }
+      } else {
+          setError(notesResult.message || "Failed to fetch NCERT Solutions.");
+      }
+
+      if (impQuestionsResult.success && impQuestionsResult.data) {
+          setImpQuestionsData(impQuestionsResult.data as TSubject);
+      }
+      
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+        <Card>
+            <CardContent className="p-6">
+                <Skeleton className="h-96 w-full" />
+            </CardContent>
+        </Card>
+    );
+  }
+
+  if (error) {
+    return (
+        <Card>
+            <CardContent className="p-6 text-center text-destructive">
+                {error}
+            </CardContent>
+        </Card>
+    );
+  }
+
+  return <NotesChapterList notes={notesData} importantQuestions={impQuestionsData} contentType="notes" language="en" classId="class-6" subjectKey="english" />;
+}
 
 export default function Class6EnglishPage() {
-
-  const contents = (
-    <div>
-        <div className="space-y-4 md:space-y-6">
-            {class6EnglishResources.books.map((book, bookIndex) => (
-                <div key={bookIndex} className="mb-6">
-                    <h3 
-                        className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
-                        style={{ backgroundImage: "linear-gradient(90deg, #4F46E5 0%, #E91E63 100%)" }}
-                    >
-                        {book.name}
-                    </h3>
-                    <Accordion type="single" collapsible className="w-full space-y-2">
-                        {book.chapters.map((chapter, chapterIndex) => (
-                            <Card key={chapterIndex} className="transition-all duration-300">
-                                <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
-                                    {chapter.name}
-                                </AccordionTrigger>
-                                <AccordionContent className="p-4 pt-0">
-                                    <ResourceLinks />
-                                </AccordionContent>
-                                </AccordionItem>
-                            </Card>
-                        ))}
-                    </Accordion>
-                </div>
-            ))}
-        </div>
-    </div>
-  );
 
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
@@ -136,9 +92,11 @@ export default function Class6EnglishPage() {
           </div>
         </div>
         <CardContent className="p-4 md:p-6">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-          {contents}
+          <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+            <NcertSolutionsContent />
+          </Suspense>
         </CardContent>
     </Card>
   );
 }
+
