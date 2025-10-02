@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { addPreviousYearQuestion, editPreviousYearQuestion, deletePreviousYearQuestion, getPreviousYearQuestions } from '@/app/actions';
-import type { TPreviousYearQuestion } from '@/app/actions/types';
+import type { TPreviousYearQuestion, SubjectWithPapers } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -72,7 +72,7 @@ const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjec
                 render={({ field: { onChange, onBlur, name, ref } }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files?.[0])} onBlur={onBlur} name={name} ref={ref} />
+                            <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files?.[0] || null)} onBlur={onBlur} name={name} ref={ref} />
                         </FormControl>
                     </FormItem>
                 )}
@@ -82,7 +82,7 @@ const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjec
                 name={`subjects.${subjectIndex}.papers.${paperIndex}.pdfUrl`}
                 render={({ field }) => ( 
                   <>
-                    <input type="hidden" {...field} />
+                    <input type="hidden" {...field} value={field.value || ''}/>
                     {field.value && <Link href={field.value} target="_blank" className="text-xs text-blue-500 hover:underline">Current file: View</Link>}
                   </>
                 )}
