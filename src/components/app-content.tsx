@@ -31,9 +31,7 @@ export function AppContent({
     '/feature',
     '/school',
     '/examcat',
-    '/resources/reference-books',
-    '/resources/previous-year-questions',
-    '/resources/ncert-solutions',
+    '/resources',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
