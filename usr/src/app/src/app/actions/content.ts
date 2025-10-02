@@ -1,9 +1,4 @@
-
-
-
-
-
-
+// src/app/actions/content.ts
 'use server';
 import 'dotenv/config';
 import { db } from "@/lib/firebase";
@@ -19,7 +14,7 @@ const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 };
 
-type CollectionType = 'notes' | 'importantQuestions' | 'previousYearQuestions';
+type CollectionType = 'notes' | 'ncertSolutions' | 'importantQuestions';
 
 // Helper function to get a document reference
 const getContentDocRef = (collectionType: CollectionType, classId: string) => {
@@ -352,21 +347,30 @@ export async function deletePart(collectionType: CollectionType, classId: string
 // ==================================
 // Chapter Level Operations
 // ==================================
-export async function addChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string, pdfFile: File | null) {
+export async function addChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterName: string, pdfFile: File | null, longNotePdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!chapterName) return { success: false, message: "Chapter name is required." };
-    
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(chapterName)}.pdf`;
-        pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    }
     
     const chapterData: TChapter = {
         name: chapterName,
         createdAt: new Date().toISOString(),
         topics: [],
-        pdfUrl: pdfUrl,
     };
+
+    const slug = generateSlug(chapterName);
+    const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${slug}`;
+
+    if (pdfFile?.size) {
+        chapterData.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+    }
+    if (longNotePdfFile?.size) {
+        chapterData.longNotePdfUrl = await uploadFileToGCS(longNotePdfFile, `${baseDestination}-long-note.pdf`);
+    }
+    if (shortNotePdfFile?.size) {
+        chapterData.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+    }
+    if (primumNotePdfFile?.size) {
+        chapterData.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
+    }
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -383,7 +387,7 @@ export async function addChapter(collectionType: CollectionType, classId: string
     }
 }
 
-export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null) {
+export async function editChapter(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, newChapterName: string, pdfFile: File | null, longNotePdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || !newChapterName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -402,10 +406,21 @@ export async function editChapter(collectionType: CollectionType, classId: strin
 
         const chapterToUpdate = chaptersArray[chapterIndex];
         chapterToUpdate.name = newChapterName;
+        
+        const slug = generateSlug(newChapterName);
+        const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${slug}`;
 
-        if (pdfFile && pdfFile.size > 0) {
-            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/${generateSlug(newChapterName)}.pdf`;
-            chapterToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        if (pdfFile?.size) {
+            chapterToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+        }
+        if (longNotePdfFile?.size) {
+            chapterToUpdate.longNotePdfUrl = await uploadFileToGCS(longNotePdfFile, `${baseDestination}-long-note.pdf`);
+        }
+        if (shortNotePdfFile?.size) {
+            chapterToUpdate.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+        }
+        if (primumNotePdfFile?.size) {
+            chapterToUpdate.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
         }
         
         chaptersArray[chapterIndex] = chapterToUpdate;
@@ -461,21 +476,22 @@ export async function deleteChapter(collectionType: CollectionType, classId: str
 // ==================================
 // Topic Level Operations
 // ==================================
-export async function addTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, partKey: string | undefined, topicName: string, pdfFile: File | null) {
+export async function addTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, partKey: string | undefined, topicName: string, order: number, pdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!topicName) return { success: false, message: "Topic name is required." };
-
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${generateSlug(topicName)}.pdf`;
-        pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    }
+    
+    const slug = generateSlug(topicName);
+    const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
     const topicData: TTopic = {
         name: topicName,
         createdAt: new Date().toISOString(),
         subTopics: [],
-        pdfUrl: pdfUrl,
+        order: isNaN(order) ? 99 : order,
     };
+    
+    if (pdfFile?.size) topicData.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+    if (shortNotePdfFile?.size) topicData.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+    if (primumNotePdfFile?.size) topicData.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -511,7 +527,7 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     }
 }
 
-export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, pdfFile: File | null) {
+export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, order: number, pdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !newTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -532,11 +548,14 @@ export async function editTopic(collectionType: CollectionType, classId: string,
 
         const topicToUpdate = chaptersArray[chapterIndex].topics[topicIndex];
         topicToUpdate.name = newTopicName;
+        topicToUpdate.order = isNaN(order) ? 99 : order;
 
-        if (pdfFile && pdfFile.size > 0) {
-            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${generateSlug(newTopicName)}.pdf`;
-            topicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
-        }
+        const slug = generateSlug(newTopicName);
+        const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
+
+        if (pdfFile?.size) topicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+        if (shortNotePdfFile?.size) topicToUpdate.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+        if (primumNotePdfFile?.size) topicToUpdate.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
 
         chaptersArray[chapterIndex].topics[topicIndex] = topicToUpdate;
 
@@ -586,20 +605,22 @@ export async function deleteTopic(collectionType: CollectionType, classId: strin
 // ==================================
 // SubTopic Level Operations
 // ==================================
-export async function addSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, topicIndex: number, partKey: string | undefined, subTopicName: string, pdfFile: File | null) {
+export async function addSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, topicIndex: number, partKey: string | undefined, subTopicName: string, order: number, pdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!subTopicName) return { success: false, message: "Sub-topic name is required." };
-
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-        const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${generateSlug(subTopicName)}.pdf`;
-        pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    }
+    
+    const slug = generateSlug(subTopicName);
+    const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${slug}`;
     
     const subTopicData: TSubTopic = {
         name: subTopicName,
         createdAt: new Date().toISOString(),
-        pdfUrl: pdfUrl,
+        order: isNaN(order) ? 99 : order,
     };
+    
+    if (pdfFile?.size) subTopicData.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+    if (shortNotePdfFile?.size) subTopicData.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+    if (primumNotePdfFile?.size) subTopicData.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
+
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -636,7 +657,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
 }
 
 
-export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, pdfFile: File | null) {
+export async function editSubTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, subTopicIndex: number, newSubTopicName: string, order: number, pdfFile: File | null, shortNotePdfFile: File | null, primumNotePdfFile: File | null) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || subTopicIndex === undefined || !newSubTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -657,11 +678,14 @@ export async function editSubTopic(collectionType: CollectionType, classId: stri
 
         const subTopicToUpdate = chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex];
         subTopicToUpdate.name = newSubTopicName;
+        subTopicToUpdate.order = isNaN(order) ? 99 : order;
 
-        if (pdfFile && pdfFile.size > 0) {
-            const destination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${generateSlug(newSubTopicName)}.pdf`;
-            subTopicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, destination);
-        }
+        const slug = generateSlug(newSubTopicName);
+        const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${slug}`;
+        
+        if (pdfFile?.size) subTopicToUpdate.pdfUrl = await uploadFileToGCS(pdfFile, `${baseDestination}.pdf`);
+        if (shortNotePdfFile?.size) subTopicToUpdate.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
+        if (primumNotePdfFile?.size) subTopicToUpdate.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
 
         chaptersArray[chapterIndex].topics[topicIndex].subTopics[subTopicIndex] = subTopicToUpdate;
 
@@ -709,34 +733,62 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
     }
 }
 
-// ==================================
-// Previous Year Questions Operations
-// ==================================
 export async function addPreviousYearQuestion(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
-  const pdfFile = formData.get("pdf") as File | null;
   
-  const questionData = {
+  const questionData: any = {
     exam: rawData.exam as string,
-    subject: rawData.subject as string,
     year: parseInt(rawData.year as string, 10),
-    title: rawData.title as string,
+    subjects: [],
+    createdAt: serverTimestamp(),
   };
 
+  const subjectEntries: { [key: number]: { name?: string; papers: { [key: number]: { title?: string; pdf?: File } } } } = {};
+
+  for (const [key, value] of formData.entries()) {
+    const subjectMatch = key.match(/^subjects\[(\d+)\]\[name\]$/);
+    if (subjectMatch) {
+      const index = parseInt(subjectMatch[1], 10);
+      if (!subjectEntries[index]) subjectEntries[index] = { papers: {} };
+      subjectEntries[index].name = value as string;
+    }
+
+    const paperMatch = key.match(/^subjects\[(\d+)\]\[papers\]\[(\d+)\]\[(title|pdf)\]$/);
+    if (paperMatch) {
+      const subjectIndex = parseInt(paperMatch[1], 10);
+      const paperIndex = parseInt(paperMatch[2], 10);
+      const field = paperMatch[3];
+      if (!subjectEntries[subjectIndex]) subjectEntries[subjectIndex] = { papers: {} };
+      if (!subjectEntries[subjectIndex].papers[paperIndex]) subjectEntries[subjectIndex].papers[paperIndex] = {};
+      subjectEntries[subjectIndex].papers[paperIndex][field as 'title' | 'pdf'] = value as any;
+    }
+  }
+
   try {
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
-      pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    } else {
-        return { success: false, message: "PDF file is required." };
+    for (const subjectIndex in subjectEntries) {
+      const subjectEntry = subjectEntries[subjectIndex];
+      const subjectName = subjectEntry.name;
+      if (!subjectName) continue;
+
+      const papers = [];
+      for (const paperIndex in subjectEntry.papers) {
+        const paperEntry = subjectEntry.papers[paperIndex];
+        let pdfUrl = '';
+        if (paperEntry.pdf && paperEntry.pdf.size > 0 && paperEntry.title) {
+          const destination = `previous-year-questions/${questionData.exam}/${questionData.year}/${generateSlug(subjectName)}/${generateSlug(paperEntry.title)}-${paperEntry.pdf.name}`;
+          pdfUrl = await uploadFileToGCS(paperEntry.pdf, destination);
+        }
+        if (paperEntry.title) {
+          papers.push({
+            title: paperEntry.title,
+            pdfUrl: pdfUrl,
+          });
+        }
+      }
+      questionData.subjects.push({ name: subjectName, papers: papers });
     }
     
-    await addDoc(collection(db, "previousYearQuestions"), {
-      ...questionData,
-      pdfUrl,
-      createdAt: serverTimestamp(),
-    });
+    await addDoc(collection(db, "previousYearQuestions"), questionData);
     
     return { success: true, message: "Question paper added successfully." };
   } catch (error) {
@@ -747,30 +799,69 @@ export async function addPreviousYearQuestion(formData: FormData) {
 
 export async function editPreviousYearQuestion(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
-    const pdfFile = rawData.pdf as File | null;
     
     const questionData: any = {
       exam: rawData.exam as string,
-      subject: rawData.subject as string,
       year: parseInt(rawData.year as string, 10),
-      title: rawData.title as string,
+      subjects: [],
     };
+
+    const subjectEntries: { [key: number]: { name?: string; papers: { [key: number]: { title?: string; pdf?: File, pdfUrl?:string } } } } = {};
+    
+    for (const [key, value] of formData.entries()) {
+      const subjectMatch = key.match(/^subjects\[(\d+)\]\[name\]$/);
+      if (subjectMatch) {
+          const index = parseInt(subjectMatch[1], 10);
+          if (!subjectEntries[index]) subjectEntries[index] = { papers: {} };
+          subjectEntries[index].name = value as string;
+      }
+      
+      const paperMatch = key.match(/^subjects\[(\d+)\]\[papers\]\[(\d+)\]\[(title|pdf|pdfUrl)\]$/);
+      if (paperMatch) {
+          const subjectIndex = parseInt(paperMatch[1], 10);
+          const paperIndex = parseInt(paperMatch[2], 10);
+          const field = paperMatch[3];
+          if (!subjectEntries[subjectIndex]) subjectEntries[subjectIndex] = { papers: {} };
+          if (!subjectEntries[subjectIndex].papers[paperIndex]) subjectEntries[subjectIndex].papers[paperIndex] = {};
+          subjectEntries[subjectIndex].papers[paperIndex][field as 'title' | 'pdf' | 'pdfUrl'] = value as any;
+      }
+    }
     
     try {
-        if (pdfFile && pdfFile.size > 0) {
-            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
-            questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
-        }
+      for (const subjectIndex in subjectEntries) {
+          const subjectEntry = subjectEntries[subjectIndex];
+          const subjectName = subjectEntry.name;
+          if (!subjectName) continue;
 
-        const docRef = doc(db, "previousYearQuestions", id);
-        await updateDoc(docRef, questionData);
+          const papers = [];
+          for (const paperIndex in subjectEntry.papers) {
+              const paperEntry = subjectEntry.papers[paperIndex];
+              let pdfUrl = paperEntry.pdfUrl || '';
+
+              if (paperEntry.pdf && paperEntry.pdf.size > 0 && paperEntry.title) {
+                  const destination = `previous-year-questions/${questionData.exam}/${questionData.year}/${generateSlug(subjectName)}/${generateSlug(paperEntry.title)}-${paperEntry.pdf.name}`;
+                  pdfUrl = await uploadFileToGCS(paperEntry.pdf, destination);
+              }
+              if (paperEntry.title) {
+                  papers.push({
+                      title: paperEntry.title,
+                      pdfUrl: pdfUrl,
+                  });
+              }
+          }
+          questionData.subjects.push({ name: subjectName, papers: papers });
+      }
+
+      const docRef = doc(db, "previousYearQuestions", id);
+      await updateDoc(docRef, questionData);
         
-        return { success: true, message: "Question paper updated successfully." };
+      return { success: true, message: "Question paper updated successfully." };
     } catch (error) {
-        console.error("Error updating question paper:", error);
-        return { success: false, message: "Failed to update question paper." };
+      console.error("Error updating question paper:", error);
+      return { success: false, message: "Failed to update question paper." };
     }
 }
+
 
 export async function deletePreviousYearQuestion(id: string) {
     try {
