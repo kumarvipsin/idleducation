@@ -17,46 +17,39 @@ const class10EnglishResources = {
       name: "First Flight",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god", topics: [{ name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" }] },
-        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom", topics: [{ name: "About the Author" }, { name: "Summary" }] },
-        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying", topics: [{ name: "His First Flight" }, { name: "Black Aeroplane" }] },
+        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god"},
+        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom"},
+        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying"},
       ],
     },
     {
       name: "Footprints Without Feet",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery", topics: [{ name: "Summary" }, { name: "Character Sketch" }] },
-        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story", topics: [{ name: "About the Author" }, { name: "Summary" }] },
-        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor", topics: [{ name: "Summary" }] },
+        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery" },
+        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story" },
+        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor" },
       ],
     },
   ],
 };
 
-const ContentTree = ({ items, level = 0 }: { items: any[], level?: number }) => {
-    if (!items || items.length === 0) return null;
-
-    return (
-        <div className={cn("space-y-1", level > 0 && "pl-3 border-l ml-3")}>
-            {items.map((item, index) => {
-                const hasChildren = 'topics' in item || 'subTopics' in item;
-                const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
-                
-                return (
-                    <div key={index} className="py-0.5">
-                        <div className="flex items-center gap-2">
-                           <span className="text-sm font-semibold text-foreground/80">
-                                {item.name}
-                            </span>
-                        </div>
-                        {hasChildren && children.length > 0 && <ContentTree items={children} level={level + 1} />}
-                    </div>
-                );
-            })}
-        </div>
-    );
-};
+const ResourceLinks = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <Button asChild variant="outline" size="sm" className="justify-start">
+            <Link href="#">NCERT Solutions (English Medium)</Link>
+        </Button>
+        <Button asChild variant="outline" size="sm" className="justify-start">
+            <Link href="#">NCERT Solutions (Hindi Medium)</Link>
+        </Button>
+        <Button asChild variant="outline" size="sm" className="justify-start">
+            <Link href="#">Important Questions (English Medium)</Link>
+        </Button>
+        <Button asChild variant="outline" size="sm" className="justify-start">
+            <Link href="#">Important Questions (Hindi Medium)</Link>
+        </Button>
+    </div>
+);
 
 export default function Class10EnglishPage() {
   
@@ -74,22 +67,11 @@ export default function Class10EnglishPage() {
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
-                                  <AccordionTrigger className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0 text-left hover:no-underline">{chapter.name}</AccordionTrigger>
-                                  <div className="flex items-center gap-2 w-full md:w-auto">
-                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                      <Link href="#"><Eye className="h-4 w-4" /></Link>
-                                    </Button>
-                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                      <Link href="#"><Download className="h-4 w-4" /></Link>
-                                    </Button>
-                                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                      <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
-                                    </Button>
-                                  </div>
-                                </div>
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline">
+                                  {chapter.name}
+                                </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
-                                  <ContentTree items={chapter.topics || []} />
+                                  <ResourceLinks />
                                 </AccordionContent>
                               </AccordionItem>
                             </Accordion>
