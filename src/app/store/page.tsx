@@ -45,7 +45,7 @@ const StoreHeader = () => {
 
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-8 items-center justify-between mx-auto px-[10%]">
+            <div className="container flex h-9 items-center justify-between mx-auto px-[10%]">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
@@ -119,15 +119,15 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${'${book.title}'} has been added to your cart.`,
+            description: `${book.title} has been added to your cart.`,
         });
     };
     
     const renderSkeleton = () => (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
-            <div key={index} className="block flex-shrink-0">
-                <Skeleton className="h-[450px] w-full rounded-lg" />
+            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+                <Skeleton className="h-[450px] w-full rounded-2xl" />
             </div>
         ))}
       </div>
@@ -181,57 +181,61 @@ export default function StorePage() {
                     </div>
                 </div>
                  
-                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                     {loading ? (
-                        renderSkeleton()
-                     ) : (
-                        filteredBooks.map((book, index) => (
-                            <div key={book.id} className="block flex-shrink-0 group">
-                            <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${'${index * 50}'}ms` }}>
-                                <CardContent className="p-4 flex flex-col flex-1">
-                                    <div className="relative aspect-[4/5] w-full mb-4">
-                                        <GcsImage
-                                            filePath={book.imageUrl}
-                                            alt={book.title}
-                                            fill
-                                            className="object-cover rounded-md"
-                                        />
+                <div className="relative">
+                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                         <div className="flex gap-6 px-4 md:px-[10%]">
+                             {loading ? (
+                                renderSkeleton()
+                             ) : (
+                                filteredBooks.map((book, index) => (
+                                    <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                    <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${'${index * 50}'}ms` }}>
+                                        <CardContent className="p-4 flex flex-col flex-1">
+                                            <div className="relative aspect-[4/5] w-full mb-4">
+                                                <GcsImage
+                                                    filePath={book.imageUrl}
+                                                    alt={book.title}
+                                                    fill
+                                                    className="object-cover rounded-md"
+                                                />
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
+                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                            </div>
+                                            <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <div className="flex items-center gap-0.5">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                    ))}
+                                                </div>
+                                                <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
+                                            </div>
+                                            
+                                            <div className="flex items-baseline gap-2 mt-2">
+                                                <p className="text-xl font-bold text-foreground">₹{book.price}</p>
+                                                <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                                <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                            </div>
+                                            <div className="mt-4 flex gap-2">
+                                               <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                                    <Button className="w-full" disabled={!book.buyLink}>
+                                                        Buy Now
+                                                    </Button>
+                                                </a>
+                                                <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
+                                                    <ShoppingCart className="mr-2 h-4 w-4" />
+                                                    Add To Cart
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                        <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
-                                    </div>
-                                    <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <div className="flex items-center gap-0.5">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className={`w-4 h-4 ${'${i < Math.round(book.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}'}`} />
-                                            ))}
-                                        </div>
-                                        <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
-                                    </div>
-                                    
-                                    <div className="flex items-baseline gap-2 mt-2">
-                                        <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                        <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
-                                    </div>
-                                    <div className="mt-4 flex gap-2">
-                                       <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                            <Button className="w-full" disabled={!book.buyLink}>
-                                                Buy Now
-                                            </Button>
-                                        </a>
-                                        <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
-                                            <ShoppingCart className="mr-2 h-4 w-4" />
-                                            Add To Cart
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                            </div>
-                        ))
-                     )}
+                                ))
+                             )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
