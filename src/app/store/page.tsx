@@ -45,7 +45,7 @@ const StoreHeader = () => {
 
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-9 items-center justify-between mx-auto px-[10%]">
+            <div className="container flex h-14 items-center justify-between mx-auto px-[10%]">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
