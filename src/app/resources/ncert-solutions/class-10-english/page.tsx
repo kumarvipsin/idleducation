@@ -37,7 +37,7 @@ const class10EnglishResources = {
 const ResourceLinks = () => (
     <div className="grid grid-cols-2 gap-2 pt-2">
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">NCERT Solutions (EN)</span>
+        <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
         <div className="flex items-center">
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
@@ -48,7 +48,7 @@ const ResourceLinks = () => (
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">NCERT Solutions (HI)</span>
+        <span className="text-xs font-medium text-gray-500">NCERT Solutions (HI)</span>
         <div className="flex items-center">
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
@@ -59,7 +59,7 @@ const ResourceLinks = () => (
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">Important Q's (EN)</span>
+        <span className="text-xs font-medium text-gray-500">Important Q's (EN)</span>
         <div className="flex items-center">
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
@@ -70,7 +70,7 @@ const ResourceLinks = () => (
         </div>
       </div>
       <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-        <span className="text-xs font-medium">Important Q's (HI)</span>
+        <span className="text-xs font-medium text-gray-500">Important Q's (HI)</span>
         <div className="flex items-center">
           <Button asChild variant="ghost" size="icon" className="h-7 w-7">
             <Link href="#"><Eye className="h-4 w-4" /></Link>
@@ -99,7 +99,7 @@ export default function Class10EnglishPage() {
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-gray-500 text-left hover:no-underline">
                                   {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
@@ -127,7 +127,7 @@ export default function Class10EnglishPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">Class 10 | English | CBSE</CardTitle>
+              <CardTitle className="text-2xl font-bold">CBSE Class 10 | English</CardTitle>
             </div>
           </div>
         </div>
