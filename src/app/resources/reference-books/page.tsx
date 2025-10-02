@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -150,11 +151,8 @@ export default function ReferenceBooksPage() {
                                                 <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                 <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-2 mt-4">
-                                                <Button variant="outline" onClick={() => handleAddToCart(book)}>
-                                                    Add To Cart
-                                                </Button>
-                                                <Button className="bg-orange-500 hover:bg-orange-600">
+                                            <div className="mt-4">
+                                                <Button className="bg-orange-500 hover:bg-orange-600 w-full">
                                                     Buy Now
                                                 </Button>
                                             </div>
