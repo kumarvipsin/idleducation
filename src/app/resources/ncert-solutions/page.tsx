@@ -35,46 +35,39 @@ const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
 
 const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectImageMap.default;
 
+const mockSolutions = {
+    "Class 10": [
+        { name: "Maths", href: "/resources/ncert-solutions/class-10-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
+        { name: "Science", href: "/resources/ncert-solutions/class-10-science", imageUrl: getImage('science').url, imageHint: getImage('science').hint },
+        { name: "Social Studies", href: "/resources/ncert-solutions/class-10-social", imageUrl: getImage('social').url, imageHint: getImage('social').hint },
+        { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
+    ],
+    "Class 9": [
+        { name: "Maths", href: "/resources/ncert-solutions/class-9-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
+        { name: "Science", href: "/resources/ncert-solutions/class-9-science", imageUrl: getImage('science').url, imageHint: getImage('science').hint },
+        { name: "Social Studies", href: "/resources/ncert-solutions/class-9-social", imageUrl: getImage('social').url, imageHint: getImage('social').hint },
+        { name: "English", href: "/resources/ncert-solutions/class-9-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
+    ],
+    "Class 11": [
+        { name: "Maths", href: "/resources/ncert-solutions/class-11-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
+        { name: "Physics", href: "/resources/ncert-solutions/class-11-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint },
+        { name: "Chemistry", href: "/resources/ncert-solutions/class-11-chemistry", imageUrl: getImage('chemistry').url, imageHint: getImage('chemistry').hint },
+        { name: "Biology", href: "/resources/ncert-solutions/class-11-biology", imageUrl: getImage('biology').url, imageHint: getImage('biology').hint }
+    ],
+    "Class 12": [
+        { name: "Maths", href: "/resources/ncert-solutions/class-12-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
+        { name: "Physics", href: "/resources/ncert-solutions/class-12-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint },
+        { name: "Chemistry", href: "/resources/ncert-solutions/class-12-chemistry", imageUrl: getImage('chemistry').url, imageHint: getImage('chemistry').hint },
+        { name: "Biology", href: "/resources/ncert-solutions/class-12-biology", imageUrl: getImage('biology').url, imageHint: getImage('biology').hint }
+    ]
+};
+
 function NcertSolutionsPageContent() {
-  const [solutionsByClass, setSolutionsByClass] = useState<any>({});
-  const [classes, setClasses] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [solutionsByClass, setSolutionsByClass] = useState<any>(mockSolutions);
+  const [classes, setClasses] = useState<string[]>(Object.keys(mockSolutions));
+  const [loading, setLoading] = useState(false);
+  const [selectedClass, setSelectedClass] = useState('Class 10');
   const [animationKey, setAnimationKey] = useState(0);
-
-  useEffect(() => {
-    const fetchSolutionsData = async () => {
-      setLoading(true);
-      const result = await getCollection('ncertSolutions');
-      if (result.success && result.data) {
-        const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
-          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l:string) => l.toUpperCase());
-          acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
-            name: subjectData.name,
-            href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
-            imageUrl: getImage(subjectKey).url,
-            imageHint: getImage(subjectKey).hint,
-          }));
-          return acc;
-        }, {});
-        
-        const sortedClasses = Object.keys(formattedData).sort((a, b) => {
-             const getOrder = (name: string) => parseInt(name.replace('Class ', ''), 10) || 99;
-             return getOrder(a) - getOrder(b);
-        });
-
-        setSolutionsByClass(formattedData);
-        setClasses(sortedClasses);
-        if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
-            setSelectedClass(defaultClass);
-        }
-      }
-      setLoading(false);
-    };
-
-    fetchSolutionsData();
-  }, []);
 
   const subjects = solutionsByClass[selectedClass] || [];
   
