@@ -24,14 +24,6 @@ const resources = [
     imageHint: "textbooks pile",
   },
   {
-    category: "EXAM PREP",
-    title: "Previous Year Paper",
-    description: "Sharpen your skills and get exam-ready by practicing with past papers.",
-    href: "/resources/previous-year-questions",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
-    imageHint: "exam papers",
-  },
-  {
     category: "FURTHER READING",
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
