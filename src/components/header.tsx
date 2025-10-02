@@ -354,6 +354,31 @@ export function Header() {
                         </DropdownMenuContent>
                     </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <span className="sm:inline">APPLY FOR</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <Link href="/scholarship">Apply Scholarship</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/admission">Admission Form</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/book-demo">Book Free Demo</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/feedback">Feedback</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/student-enquiry">Student Enquiry</Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   <Button asChild variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                     <Link href="/store">
                       <ShoppingBag className="h-3 w-3" />
