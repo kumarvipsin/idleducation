@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookCheck, Home, Star } from 'lucide-react';
+import { ArrowRight, BookCheck, Home, Star, Sigma, TestTube2, Landmark, Atom, Dna, BookText, Globe, Scale, TrendingUp, FlaskConical, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -73,12 +73,6 @@ function NcertSolutionsPageContent() {
 
   return (
     <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-       <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon">
-              <Home className="h-6 w-6 text-primary" />
-              <span className="sr-only">Home</span>
-          </Button>
-      </Link>
       <div className="relative z-10 container mx-auto py-12">
         <div className="mb-6 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
