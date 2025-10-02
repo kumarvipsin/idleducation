@@ -20,9 +20,9 @@ const enquirySchema = z.object({
   guardianName: z.string().min(2, { message: "Guardian's name is required." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email." }),
+  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
-  message: z.string().min(10, { message: "Enquiry must be at least 10 characters." }),
+  message: z.string().optional(),
 });
 
 type EnquiryFormValues = z.infer<typeof enquirySchema>;
@@ -171,7 +171,7 @@ export default function StudentEnquiryPage() {
                                                         <FormControl>
                                                             <div className="relative">
                                                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                                <Input type="email" placeholder="Email Address *" {...field} className="pl-9" />
+                                                                <Input type="email" placeholder="Email Address" {...field} className="pl-9" />
                                                             </div>
                                                         </FormControl>
                                                         <FormMessage />
@@ -212,7 +212,7 @@ export default function StudentEnquiryPage() {
                                                         <div className="relative">
                                                             <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                                             <Textarea 
-                                                                placeholder="Your Enquiry *" 
+                                                                placeholder="Your Enquiry" 
                                                                 className="min-h-[120px] pl-9"
                                                                 {...field}
                                                             />
