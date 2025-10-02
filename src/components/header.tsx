@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify } from "lucide-react";
@@ -318,6 +319,14 @@ export function Header() {
         </DropdownMenuContent>
     </DropdownMenu>
   );
+
+  const cartIcon = (
+    <Button asChild variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+      <Link href="#">
+        <ShoppingCart className="h-3 w-3" />
+      </Link>
+    </Button>
+  );
   
   if (!isClient) {
     return (
@@ -385,9 +394,12 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {cartIcon}
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
+                  {cartIcon}
                   {notificationDropdown}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
