@@ -91,7 +91,7 @@ export default function Class11BiologyPage() {
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                  <Link href={`/resources/ncert-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
                     <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                   </Link>
@@ -118,30 +118,22 @@ export default function Class11BiologyPage() {
               <span className="sr-only">Toggle Language</span>
           </Button>
       </div>
-      <div className="space-y-4">
-        {class11BiologyResources.books
-          .filter(book => book.lang === notesLang)
-          .map((book, bookIndex) => (
-            <div key={bookIndex}>
-              <div className="space-y-2">
-                {book.chapters.map((chapter, index) => (
-                  <Card key={index} className="bg-background">
-                    <CardContent className="p-3 flex items-center justify-between">
-                      <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                      <div className="flex items-center gap-1 md:gap-2">
-                          <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                          </Button>
-                          <Button asChild variant="ghost" size="sm">
-                              <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
-                          </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+      <div className="space-y-2">
+        {(class11BiologyResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
+          <Card key={index} className="bg-background">
+            <CardContent className="p-3 flex items-center justify-between">
+              <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
+              <div className="flex items-center gap-1 md:gap-2">
+                  <Button asChild variant="ghost" size="sm">
+                      <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
+                  </Button>
+                  <Button asChild variant="ghost" size="sm">
+                      <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                  </Button>
               </div>
-            </div>
-          ))}
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

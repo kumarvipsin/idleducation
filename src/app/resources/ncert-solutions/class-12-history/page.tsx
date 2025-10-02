@@ -87,7 +87,7 @@ export default function Class12HistoryPage() {
   const contents = (
     <div>
         <div className="flex justify-between items-center mb-4 lg:hidden">
-            <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
             <Button 
                 variant="ghost" 
                 size="icon" 
@@ -105,7 +105,7 @@ export default function Class12HistoryPage() {
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                  <Link href={`/resources/ncert-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
                     <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                   </Link>
@@ -176,9 +176,9 @@ export default function Class12HistoryPage() {
         <CardContent className="p-4 md:p-6">
           {isMobile ? (
             <Tabs defaultValue="contents" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-                    <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-                    <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="contents">Contents</TabsTrigger>
+                    <TabsTrigger value="notes">Important Questions</TabsTrigger>
                 </TabsList>
                 <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
                 <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>

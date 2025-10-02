@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const class10EnglishResources = {
   books: [
@@ -37,21 +39,21 @@ export default function Class10EnglishPage() {
     <div>
         <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <div className="space-y-4 md:space-y-6">
-        {class10EnglishResources.books.map((book, bookIndex) => (
+          {class10EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
-            <div className="space-y-2">
+              <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+              <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
-                <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                    <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+                  <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                    <Link href={`/resources/ncert-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                      <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                     </Link>
-                </Card>
+                  </Card>
                 ))}
+              </div>
             </div>
-            </div>
-        ))}
+          ))}
         </div>
     </div>
   );

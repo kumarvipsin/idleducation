@@ -105,11 +105,13 @@ export default function Class5MathsPage() {
         {class5MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
             <React.Fragment key={bookIndex}>
                 {book.chapters.map((chapter, chapterIndex) => (
-                    <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                    <Card key={chapterIndex} className="transition-all duration-300">
                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                             <div className="flex items-center justify-between px-3 md:px-4 py-1.5 md:py-2 group">
-                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-0">
+                           <div className="flex items-center justify-between px-1.5 md:px-2 py-0.5 md:py-1 group">
+                                <AccordionTrigger className="flex-1 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline p-2">
+                                    <div className="flex items-center">
                                     {chapter.name}
+                                    </div>
                                 </AccordionTrigger>
                                 <div className="flex items-center gap-1">
                                     <Button asChild variant="ghost" size="sm">

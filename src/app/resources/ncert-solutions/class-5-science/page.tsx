@@ -49,6 +49,8 @@ const class5ScienceResources = {
   papers: [
     { name: "Mid-Term Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
     { name: "Annual Exam 2024", type: "Question Paper", icon: <FileText className="w-5 h-5 text-blue-500" /> },
+    { name: "Unit Test 1 (Chapters 1-3)", type: "Test Paper", icon: <FileText className="w-5 h-5 text-green-500" /> },
+    { name: "Half-Yearly Revision", type: "Practice Paper", icon: <FileText className="w-5 h-5 text-yellow-500" /> },
   ],
 };
 
@@ -78,7 +80,7 @@ export default function Class5SciencePage() {
             <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                    <Link href={`/resources/ncert-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
                     <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                     </Link>
@@ -148,7 +150,7 @@ export default function Class5SciencePage() {
                 <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
             </Tabs>
           ) : (
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
                 <div className="lg:col-span-1">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
