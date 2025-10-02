@@ -113,7 +113,7 @@ const SubjectField = ({ subjectIndex, control, removeSubject }: { subjectIndex: 
                 ))}
             </div>
              <div className="flex justify-end">
-                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: null, pdfUrl: '' })}>
+                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: undefined, pdfUrl: '' })}>
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Paper
                 </Button>
@@ -139,10 +139,10 @@ const QuestionForm = ({
       title: question?.title || '',
       exam: question?.exam || '',
       year: question?.year || new Date().getFullYear(),
-      subjects: question?.subjects.map(s => ({
+      subjects: question?.subjects?.map(s => ({
         ...s,
-        papers: s.papers?.map(p => ({...p, pdf: undefined})) || []
-      })) || [{ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] }],
+        papers: (s.papers || []).map(p => ({...p, pdf: undefined}))
+      })) || [{ name: "", papers: [{ title: "", pdf: undefined, pdfUrl: '' }] }],
     },
   });
   
@@ -208,7 +208,7 @@ const QuestionForm = ({
                     <SubjectField key={field.id} subjectIndex={index} control={form.control} removeSubject={remove} />
                 ))}
                 <div className="flex justify-end mt-2">
-                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] })}>
+                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: undefined, pdfUrl: '' }] })}>
                         <PlusCircle className="h-4 w-4 mr-2" /> Add Subject
                     </Button>
                 </div>
