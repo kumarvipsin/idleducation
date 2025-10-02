@@ -131,56 +131,59 @@ export default function PreviousYearQuestionsPage() {
                       </div>
                     )}
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                 
+                <div className="relative">
                     {loading ? (
-                        [...Array(6)].map((_, index) => (
-                            <Card key={index} className="overflow-hidden">
-                                <CardContent className="p-4 space-y-3">
-                                    <Skeleton className="h-8 w-3/4" />
-                                    <Skeleton className="h-4 w-1/2" />
-                                    <Skeleton className="h-10 w-full" />
-                                    <Skeleton className="h-10 w-full" />
-                                </CardContent>
-                            </Card>
-                        ))
+                        <div className="flex gap-6 px-4 md:px-[10%]">
+                            {[...Array(3)].map((_, index) => (
+                                <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+                                    <Skeleton className="h-[400px] w-full rounded-2xl" />
+                                </div>
+                            ))}
+                        </div>
                     ) : filteredQuestions.length > 0 ? (
-                        filteredQuestions.map((question, index) => (
-                            <Card key={question.id} className="overflow-hidden shadow-sm hover:shadow-lg transition-shadow animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
-                                <CardContent className="p-4 flex flex-col h-full">
-                                    <div className="flex items-start gap-3">
-                                        <div className="p-2 bg-primary/10 text-primary rounded-md">
-                                            <FileText className="h-5 w-5" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-semibold text-base leading-tight">{question.title}</h3>
-                                            <p className="text-xs text-muted-foreground">{question.exam} - {question.year}</p>
-                                        </div>
+                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                            <div className="flex gap-6 px-4 md:px-[10%]">
+                                {filteredQuestions.map((question, index) => (
+                                    <div key={question.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                        <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+                                            <CardContent className="p-4 flex flex-col flex-1">
+                                                <div className="flex items-start gap-3">
+                                                    <div className="p-2 bg-primary/10 text-primary rounded-md">
+                                                        <FileText className="h-5 w-5" />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h3 className="font-semibold text-base leading-tight">{question.title}</h3>
+                                                        <p className="text-xs text-muted-foreground">{question.exam} - {question.year}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-4 flex-grow">
+                                                    <Accordion type="multiple" className="w-full space-y-2">
+                                                        {(Array.isArray(question.subjects) ? question.subjects : [])
+                                                            .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
+                                                            .map((subject, idx) => (
+                                                            <AccordionItem value={`subject-${idx}`} key={idx} className="border bg-background/50 rounded-md px-3">
+                                                                <AccordionTrigger className="py-2 text-sm font-semibold">{subject.name}</AccordionTrigger>
+                                                                <AccordionContent className="pb-2">
+                                                                    <div className="flex flex-col gap-2 pt-2 border-t">
+                                                                        {Array.isArray(subject.papers) && subject.papers.map((paper, pIdx) => (
+                                                                            <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
+                                                                                <span>{paper.title}</span>
+                                                                                <Download className="h-4 w-4"/>
+                                                                            </Button>
+                                                                        ))}
+                                                                    </div>
+                                                                </AccordionContent>
+                                                            </AccordionItem>
+                                                        ))}
+                                                    </Accordion>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
                                     </div>
-                                    <div className="mt-4 flex-grow">
-                                        <Accordion type="multiple" className="w-full space-y-2">
-                                            {(Array.isArray(question.subjects) ? question.subjects : [])
-                                                .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
-                                                .map((subject, idx) => (
-                                                <AccordionItem value={`subject-${idx}`} key={idx} className="border bg-background/50 rounded-md px-3">
-                                                    <AccordionTrigger className="py-2 text-sm font-semibold">{subject.name}</AccordionTrigger>
-                                                    <AccordionContent className="pb-2">
-                                                        <div className="flex flex-col gap-2 pt-2 border-t">
-                                                            {Array.isArray(subject.papers) && subject.papers.map((paper, pIdx) => (
-                                                                <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
-                                                                    <span>{paper.title}</span>
-                                                                    <Download className="h-4 w-4"/>
-                                                                </Button>
-                                                            ))}
-                                                        </div>
-                                                    </AccordionContent>
-                                                </AccordionItem>
-                                            ))}
-                                        </Accordion>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))
+                                ))}
+                            </div>
+                        </div>
                     ) : (
                         <div className="col-span-full text-center py-16">
                             <Card className="inline-block p-8 bg-background/50">
