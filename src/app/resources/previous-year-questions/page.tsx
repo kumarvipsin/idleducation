@@ -11,6 +11,7 @@ import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function PreviousYearQuestionsPage() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
@@ -59,7 +60,7 @@ export default function PreviousYearQuestionsPage() {
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => 
             q.exam === selectedClass &&
-            (selectedSubject === 'All' || q.subjects.some(s => s.name === selectedSubject))
+            (selectedSubject === 'All' || (Array.isArray(q.subjects) && q.subjects.some(s => s.name === selectedSubject)))
         );
     }, [questions, selectedClass, selectedSubject]);
 
@@ -139,6 +140,7 @@ export default function PreviousYearQuestionsPage() {
                                     <Skeleton className="h-8 w-3/4" />
                                     <Skeleton className="h-4 w-1/2" />
                                     <Skeleton className="h-10 w-full" />
+                                    <Skeleton className="h-10 w-full" />
                                 </CardContent>
                             </Card>
                         ))
@@ -155,15 +157,26 @@ export default function PreviousYearQuestionsPage() {
                                             <p className="text-xs text-muted-foreground">{question.exam} - {question.year}</p>
                                         </div>
                                     </div>
-                                    <div className="mt-4 flex-grow flex flex-col gap-2">
-                                        {(Array.isArray(question.subjects) ? question.subjects : [])
-                                            .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
-                                            .map((subject, idx) => (
-                                           <Button key={idx} className="w-full justify-between" onClick={() => handleDownload(subject.pdfUrl)} disabled={!subject.pdfUrl}>
-                                                <span>{subject.name}</span>
-                                                <Download className="h-4 w-4"/>
-                                            </Button>
-                                        ))}
+                                    <div className="mt-4 flex-grow">
+                                        <Accordion type="multiple" className="w-full space-y-2">
+                                            {(Array.isArray(question.subjects) ? question.subjects : [])
+                                                .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
+                                                .map((subject, idx) => (
+                                                <AccordionItem value={`subject-${idx}`} key={idx} className="border bg-background/50 rounded-md px-3">
+                                                    <AccordionTrigger className="py-2 text-sm font-semibold">{subject.name}</AccordionTrigger>
+                                                    <AccordionContent className="pb-2">
+                                                        <div className="flex flex-col gap-2 pt-2 border-t">
+                                                            {Array.isArray(subject.papers) && subject.papers.map((paper, pIdx) => (
+                                                                <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
+                                                                    <span>{paper.title}</span>
+                                                                    <Download className="h-4 w-4"/>
+                                                                </Button>
+                                                            ))}
+                                                        </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            ))}
+                                        </Accordion>
                                     </div>
                                 </CardContent>
                             </Card>
