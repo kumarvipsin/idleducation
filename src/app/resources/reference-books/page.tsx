@@ -63,9 +63,25 @@ export default function ReferenceBooksPage() {
             description: `${book.title} has been added to your cart.`,
         });
     };
+    
+    const renderSkeleton = () => (
+      <div className="flex gap-6 px-4 md:px-[10%]">
+        {[...Array(4)].map((_, index) => (
+            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+                <Skeleton className="h-[450px] w-full rounded-lg" />
+            </div>
+        ))}
+      </div>
+    );
 
     return (
         <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+            <Link href="/" className="absolute top-4 right-4 z-20">
+                <Button variant="ghost" size="icon">
+                    <Home className="h-6 w-6 text-primary" />
+                    <span className="sr-only">Home</span>
+                </Button>
+            </Link>
             <div className="relative z-10 container mx-auto py-12">
                 <div className="text-center mb-12 animate-fade-in-up">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Reference Books</h1>
@@ -115,11 +131,7 @@ export default function ReferenceBooksPage() {
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                          <div className="flex gap-6 px-4 md:px-[10%]">
                              {loading ? (
-                                [...Array(4)].map((_, index) => (
-                                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                                        <Skeleton className="h-[450px] w-full rounded-lg" />
-                                    </div>
-                                ))
+                                renderSkeleton()
                              ) : (
                                 filteredBooks.map((book, index) => (
                                     <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
