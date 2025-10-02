@@ -8,23 +8,9 @@ import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronRight, Download, Languages, ShoppingCart } from "lucide-react";
+import type { TSubject } from "@/app/actions/types";
 
-interface Chapter {
-    name: string;
-    slug: string;
-}
-
-interface Book {
-    name: string;
-    lang: 'en' | 'hi';
-    chapters: Chapter[];
-}
-
-interface Resources {
-    books: Book[];
-}
-
-export function NcertChapterList({ resources }: { resources: Resources }) {
+export function NcertChapterList({ resources }: { resources: TSubject | null }) {
   const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
   const isMobile = useIsMobile();
@@ -44,31 +30,24 @@ export function NcertChapterList({ resources }: { resources: Resources }) {
         </Button>
       </div>
       <div className="space-y-4 md:space-y-6">
-        {resources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
-          <div key={bookIndex}>
-            
-            <div className="space-y-2">
-              {book.chapters.map((chapter, chapterIndex) => (
-                <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
-                    <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
-                    <div className="flex items-center gap-2 w-full md:w-auto">
-                      <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
-                        <Link href="#">View and Download NCERT Solutions</Link>
-                      </Button>
-                      <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
-                        <Link href="#">
-                          <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+        {resources?.chapters?.map((chapter, chapterIndex) => (
+            <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
+                <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
+                <div className="flex items-center gap-2 w-full md:w-auto">
+                    <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
+                    <Link href="#">View and Download NCERT Solutions</Link>
+                    </Button>
+                    <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
+                    <Link href="#">
+                        <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
+                    </Link>
+                    </Button>
+                </div>
+                </div>
+            </Card>
         ))}
-      </div>
+        </div>
     </div>
   );
 
@@ -87,7 +66,7 @@ export function NcertChapterList({ resources }: { resources: Resources }) {
             </Button>
         </div>
         <div className="space-y-2">
-          {(resources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
+          {resources?.chapters?.map((chapter, index) => (
             <Card key={index} className="bg-background">
               <CardContent className="p-3 flex items-center justify-between">
                 <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
