@@ -108,10 +108,12 @@ function NcertSolutionsPageContent() {
 
   return (
     <div className="py-12">
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
-        <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
-      </div>
+        <div className="text-center mb-12 animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass}</h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                Explore our detailed, step-by-step solutions for your NCERT textbooks.
+            </p>
+        </div>
 
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
