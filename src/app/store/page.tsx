@@ -15,6 +15,31 @@ import { GcsImage } from '@/components/gcs-image';
 import { useCart } from '@/context/cart-context';
 import { useToast } from '@/hooks/use-toast';
 
+const StoreHeader = () => (
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
+        <div className="container flex h-16 items-center justify-between">
+            <Link href="/" className="flex items-center gap-2">
+                <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
+                <span className="text-xl font-bold text-primary">IDL Store</span>
+            </Link>
+            <div className="flex items-center gap-4">
+                 <Link href="/cart">
+                    <Button variant="ghost" size="icon">
+                        <ShoppingCart className="h-6 w-6" />
+                        <span className="sr-only">Shopping Cart</span>
+                    </Button>
+                </Link>
+                 <Link href="/" >
+                    <Button variant="ghost" size="icon">
+                        <Home className="h-6 w-6 text-primary" />
+                        <span className="sr-only">Home</span>
+                    </Button>
+                </Link>
+            </div>
+        </div>
+    </header>
+);
+
 
 export default function StorePage() {
     const [books, setBooks] = useState<TReferenceBook[]>([]);
@@ -65,9 +90,9 @@ export default function StorePage() {
     };
     
     const renderSkeleton = () => (
-      <div className="flex gap-6 px-4 md:px-[10%]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(4)].map((_, index) => (
-            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+            <div key={index} className="block flex-shrink-0">
                 <Skeleton className="h-[450px] w-full rounded-lg" />
             </div>
         ))}
@@ -75,14 +100,9 @@ export default function StorePage() {
     );
 
     return (
-        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-            <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon">
-                    <Home className="h-6 w-6 text-primary" />
-                    <span className="sr-only">Home</span>
-                </Button>
-            </Link>
-            <div className="relative z-10 container mx-auto py-12">
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <StoreHeader />
+            <div className="container mx-auto py-12">
                 <div className="text-center mb-12 animate-fade-in-up">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">IDL Store</h1>
                     <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -127,57 +147,52 @@ export default function StorePage() {
                     </div>
                 </div>
                  
-                <div className="relative">
-                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                         <div className="flex gap-6 px-4 md:px-[10%]">
-                             {loading ? (
-                                renderSkeleton()
-                             ) : (
-                                filteredBooks.map((book, index) => (
-                                    <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                    <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
-                                        <CardContent className="p-4 flex flex-col flex-1">
-                                            <div className="relative aspect-[4/5] w-full mb-4">
-                                                <GcsImage
-                                                    filePath={book.imageUrl}
-                                                    alt={book.title}
-                                                    fill
-                                                    className="object-cover rounded-md"
-                                                />
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
-                                            </div>
-                                            <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
-                                            <div className="flex items-center gap-2 mt-1">
-                                                <div className="flex items-center gap-0.5">
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                                                    ))}
-                                                </div>
-                                                <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
-                                            </div>
-                                            
-                                            <div className="flex items-baseline gap-2 mt-2">
-                                                <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                                <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                                <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
-                                            </div>
-                                            <div className="mt-4 flex gap-2">
-                                               <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                    <Button className="w-full" disabled={!book.buyLink}>
-                                                        Buy Now
-                                                    </Button>
-                                                </a>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                     {loading ? (
+                        renderSkeleton()
+                     ) : (
+                        filteredBooks.map((book, index) => (
+                            <div key={book.id} className="block flex-shrink-0 group">
+                            <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                <CardContent className="p-4 flex flex-col flex-1">
+                                    <div className="relative aspect-[4/5] w-full mb-4">
+                                        <GcsImage
+                                            filePath={book.imageUrl}
+                                            alt={book.title}
+                                            fill
+                                            className="object-cover rounded-md"
+                                        />
                                     </div>
-                                ))
-                             )}
-                        </div>
-                    </div>
+                                    <div className="flex gap-2">
+                                        <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
+                                        <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                    </div>
+                                    <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <div className="flex items-center gap-0.5">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                            ))}
+                                        </div>
+                                        <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
+                                    </div>
+                                    
+                                    <div className="flex items-baseline gap-2 mt-2">
+                                        <p className="text-xl font-bold text-foreground">₹{book.price}</p>
+                                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                        <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                    </div>
+                                    <div className="mt-4 flex gap-2">
+                                        <Button className="w-full" onClick={() => handleAddToCart(book)}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            Add To Cart
+                                        </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            </div>
+                        ))
+                     )}
                 </div>
             </div>
         </div>
