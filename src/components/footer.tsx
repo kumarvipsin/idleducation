@@ -1,7 +1,6 @@
 
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
-import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { allPrograms } from "@/lib/courses";
 
@@ -22,9 +21,6 @@ const resourceLinks = [
 export function Footer() {
   return (
     <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
-        <div className="container mx-auto px-4 md:px-6 pt-12">
-           <Separator />
-        </div>
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
