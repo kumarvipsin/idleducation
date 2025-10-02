@@ -34,15 +34,11 @@ const getImage = (key: string) => subjectImageMap[key.toLowerCase()] || subjectI
 const mockSolutions = {
     "Class 10": [
         { name: "Maths", href: "/resources/ncert-solutions/class-10-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
-        { name: "Science", href: "/resources/ncert-solutions/class-10-science", imageUrl: getImage('science').url, imageHint: getImage('science').hint },
-        { name: "Social Studies", href: "/resources/ncert-solutions/class-10-social", imageUrl: getImage('social').url, imageHint: getImage('social').hint },
         { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
     ],
     "Class 12": [
         { name: "Maths", href: "/resources/ncert-solutions/class-12-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
-        { name: "Physics", href: "/resources/ncert-solutions/class-12-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint },
-        { name: "Chemistry", href: "/resources/ncert-solutions/class-12-chemistry", imageUrl: getImage('chemistry').url, imageHint: getImage('chemistry').hint },
-        { name: "Biology", href: "/resources/ncert-solutions/class-12-biology", imageUrl: getImage('biology').url, imageHint: getImage('biology').hint }
+        { name: "Physics", href: "/resources/ncert-solutions/class-12-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint }
     ]
 };
 
@@ -152,7 +148,7 @@ function NcertSolutionsPageContent() {
   );
 }
 
-export default function NcertSolutionsNewPage() {
+export default function NcertSolutionsPage() {
     return (
         <Suspense fallback={<div className="flex justify-center items-center h-screen"><Skeleton className="h-96 w-full max-w-4xl" /></div>}>
             <NcertSolutionsPageContent />
