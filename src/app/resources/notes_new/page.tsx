@@ -92,8 +92,10 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-            {sortedClasses.length > 0 ? (
-                classes.map((className: string) => (
+             {sortedClasses.length === 0 ? (
+                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+            ) : (
+                sortedClasses.map((className: string) => (
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
@@ -105,8 +107,6 @@ function NotesPageContent({ initialData }: { initialData: any }) {
                     {className}
                 </button>
                 ))
-            ) : (
-                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             )}
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function NotesNewPage() {
     }
     
     return (
-        <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
             <Link href="/" className="absolute top-4 right-4 z-20">
                 <Button variant="ghost" size="icon">
                     <Home className="h-6 w-6 text-primary" />
