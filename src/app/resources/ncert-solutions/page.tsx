@@ -20,10 +20,11 @@ type Subject = {
 
 const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
   maths: { url: "https://images.unsplash.com/photo-1632571401005-458e9d244591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYXRocyUyMHxlbnwwfHx8fDE3NTkzMDkwNDF8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
-  english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3E5MjYxNDQyfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
+  english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3NTkyNjE0NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
   physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
   default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
 };
+
 
 const getImage = (key: string) => {
     const lowerKey = key.toLowerCase();
@@ -61,12 +62,17 @@ function NcertSolutionsPageContent() {
   };
 
   const renderSkeleton = () => (
-    <div className="flex gap-6 px-4 md:px-[10%]">
-        {[...Array(3)].map((_, index) => (
-          <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-            <Skeleton className="h-[450px] w-full rounded-lg" />
-          </div>
-        ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {[...Array(4)].map((_, i) => (
+        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
+          <Skeleton className="w-full aspect-[4/3] rounded-t-xl" />
+          <CardContent className="p-4 flex flex-col flex-grow items-start">
+            <Skeleton className="h-6 w-3/4 mb-2" />
+            <Skeleton className="h-4 w-full mb-4" />
+            <Skeleton className="h-10 w-full" />
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 
@@ -109,43 +115,38 @@ function NcertSolutionsPageContent() {
 
         <main className="flex-1">
           {loading ? renderSkeleton() : (
-              <div key={animationKey} className="relative animate-fade-in-up">
+              <div key={animationKey} className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <div className="flex gap-6 px-4 md:px-[10%]">
                   {subjects && subjects.length > 0 ? (
-                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                      <div className="flex gap-6 px-4 md:px-[10%]">
-                          {subjects.map((subject: Subject, index: number) => (
-                           <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
-                                    <CardContent className="p-4 flex flex-col flex-1">
-                                        <div className="relative aspect-[4/5] w-full mb-4">
-                                            <Image
-                                                src={subject.imageUrl}
-                                                alt={subject.name}
-                                                data-ai-hint={subject.imageHint}
-                                                fill
-                                                className="object-cover rounded-md"
-                                            />
-                                        </div>
-                                        <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={subject.name}>{subject.name}</h3>
-                                        <div className="flex items-baseline gap-2 mt-2">
-                                            <p className="text-xl font-bold text-foreground">Free</p>
-                                            <p className="text-sm text-muted-foreground line-through">₹999</p>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-2 mt-4">
-                                            <Button asChild>
-                                                <Link href={subject.href}>
-                                                    Explore Solutions <ArrowRight className="ml-2 h-4 w-4" />
-                                                </Link>
-                                            </Button>
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                      subjects.map((subject: Subject, index: number) => (
+                        <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                          <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
+                            <div className="relative aspect-[4/3] w-full">
+                                <Image
+                                    src={subject.imageUrl}
+                                    alt={subject.name}
+                                    data-ai-hint={subject.imageHint}
+                                    fill
+                                    className="object-cover"
+                                />
                             </div>
-                          ))}
-                      </div>
-                  </div>
+                            <CardContent className="p-4 flex flex-col flex-grow items-start">
+                                <h3 className="text-xl font-bold mb-1 flex-grow">{subject.name}</h3>
+                                <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
+                                <div className="grid grid-cols-2 gap-2 mt-auto w-full">
+                                    <Button asChild className="w-full">
+                                        <Link href={`${subject.href}?lang=en`}>English</Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href={`${subject.href}?lang=hi`}>हिन्दी</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      ))
                   ) : (
-                  <div className="col-span-full text-center py-12">
+                  <div className="col-span-full text-center py-12 w-full">
                       <Card className="p-8 inline-block">
                           <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                           <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
@@ -153,6 +154,7 @@ function NcertSolutionsPageContent() {
                       </Card>
                   </div>
                   )}
+                  </div>
               </div>
           )}
         </main>
