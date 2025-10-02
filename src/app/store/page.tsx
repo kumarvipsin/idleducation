@@ -23,7 +23,7 @@ const StoreHeader = () => {
 
     const controlNavbar = () => {
         if (typeof window !== 'undefined') {
-            if (window.scrollY > lastScrollY && window.scrollY > 80) { 
+            if (window.scrollY > 80) { 
                 setShow(false);
             } else {
                 setShow(true);
@@ -44,7 +44,7 @@ const StoreHeader = () => {
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-14 items-center justify-between mx-auto px-[10%]">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
@@ -52,8 +52,8 @@ const StoreHeader = () => {
                 </Link>
                 <div className="flex items-center gap-4">
                     <Link href="/cart">
-                        <Button variant="ghost" className="relative">
-                            <ShoppingCart className="h-5 w-5 mr-2" />
+                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <ShoppingCart className="h-4 w-4 mr-1" />
                             <span>MY CART</span>
                             {cartCount > 0 && (
                                 <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
@@ -189,7 +189,7 @@ export default function StorePage() {
                              ) : (
                                 filteredBooks.map((book, index) => (
                                     <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                    <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${'${index * 50}'}ms` }}>
+                                    <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                         <CardContent className="p-4 flex flex-col flex-1">
                                             <div className="relative aspect-[4/5] w-full mb-4">
                                                 <GcsImage
