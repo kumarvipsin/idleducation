@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const class11EnglishResources = {
   books: [
@@ -34,13 +32,10 @@ const class11EnglishResources = {
 };
 
 export default function Class11EnglishPage() {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
-  const isMobile = useIsMobile();
-
-  const allChapters = class11EnglishResources.books.flatMap(book => book.chapters);
 
   const contents = (
     <div>
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
       <div className="space-y-4 md:space-y-6">
         {class11EnglishResources.books.map((book, bookIndex) => (
           <div key={bookIndex}>
@@ -61,38 +56,6 @@ export default function Class11EnglishPage() {
     </div>
   );
 
-  const primumNotes = (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
-      </div>
-      <div className="space-y-4">
-        {class11EnglishResources.books.map((book, bookIndex) => (
-            <div key={bookIndex}>
-                <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
-                <div className="space-y-2">
-                {book.chapters.map((chapter, index) => (
-                    <Card key={index} className="bg-background">
-                    <CardContent className="p-3 flex items-center justify-between">
-                        <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                        <div className="flex items-center gap-1 md:gap-2">
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#"><Eye className="w-4 h-4 mr-1"/>View</Link>
-                            </Button>
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
-                            </Button>
-                        </div>
-                    </CardContent>
-                    </Card>
-                ))}
-                </div>
-            </div>
-          ))}
-      </div>
-    </div>
-  );
-
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-purple-700">
       <div className="bg-gradient-to-r from-purple-500 to-violet-600 text-white p-4">
@@ -106,29 +69,7 @@ export default function Class11EnglishPage() {
         </div>
       </div>
       <CardContent className="p-4 md:p-6 bg-muted/20">
-        {isMobile ? (
-          <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
-            </TabsList>
-            <TabsContent value="contents" className="pt-4">
-                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                {contents}
-            </TabsContent>
-            <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
-          </Tabs>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg-col-span-1">
-              <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-              {contents}
-            </div>
-            <div className="lg-col-span-1">
-              {primumNotes}
-            </div>
-          </div>
-        )}
+        {contents}
       </CardContent>
     </Card>
   );
