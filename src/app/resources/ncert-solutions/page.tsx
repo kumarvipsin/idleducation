@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookCheck } from 'lucide-react';
+import { ArrowRight, BookCheck, Home } from 'lucide-react';
 import Link from 'next/link';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -94,75 +94,83 @@ function NcertSolutionsPageContent() {
   );
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 py-12">
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
-        <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
-      </div>
+    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+       <Link href="/" className="absolute top-4 right-4 z-20">
+          <Button variant="ghost" size="icon">
+              <Home className="h-6 w-6 text-primary" />
+              <span className="sr-only">Home</span>
+          </Button>
+      </Link>
+      <div className="relative z-10 container mx-auto py-12">
+        <div className="mb-6 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
+          <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
+        </div>
 
-      <div className="mb-8">
-        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-             {loading ? (
-                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
-            ) : (
-                classes.map((className) => (
-                <button
-                    key={className}
-                    onClick={() => handleClassChange(className)}
-                    className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                    ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
-                >
-                    {className}
-                </button>
-                ))
-            )}
+        <div className="mb-8">
+          <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+              {loading ? (
+                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+              ) : (
+                  classes.map((className) => (
+                  <button
+                      key={className}
+                      onClick={() => handleClassChange(className)}
+                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                      ${selectedClass === className 
+                          ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                  >
+                      {className}
+                  </button>
+                  ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <main className="flex-1">
-        {loading ? renderSkeleton() : (
-            <div key={animationKey} className="relative animate-fade-in-up">
-                {subjects && subjects.length > 0 ? (
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {subjects.map((subject: Subject, index: number) => (
-                        <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <CardContent className="p-8 flex-grow flex flex-col">
-                                
-                                <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
-                                <p className="text-sm mt-2 text-muted-foreground flex-grow">Solutions for {subject.name}.</p>
-                                </CardContent>
-                                <div className="relative aspect-[4/3] w-full mt-auto">
-                                <Image
-                                    src={subject.imageUrl}
-                                    alt={subject.name}
-                                    data-ai-hint={subject.imageHint}
-                                    fill
-                                    className="object-cover"
-                                />
-                                </div>
-                            </Card>
-                        </Link>
-                        ))}
-                    </div>
-                </div>
-                ) : (
-                <div className="col-span-full text-center py-12">
-                    <Card className="p-8 inline-block">
-                        <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                        <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
-                        <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
-                    </Card>
-                </div>
-                )}
-            </div>
-        )}
-      </main>
+        <main className="flex-1">
+          {loading ? renderSkeleton() : (
+              <div key={animationKey} className="relative animate-fade-in-up">
+                  {subjects && subjects.length > 0 ? (
+                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      <div className="flex gap-6 px-4 md:px-[10%]">
+                          {subjects.map((subject: Subject, index: number) => (
+                          <Link href={subject.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                                  <CardContent className="p-8 flex-grow flex flex-col">
+                                  
+                                  <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{subject.name}</h3>
+                                  <p className="text-sm mt-2 text-muted-foreground flex-grow">Solutions for {subject.name}.</p>
+                                  </CardContent>
+                                  <div className="relative aspect-[4/3] w-full mt-auto">
+                                  <Image
+                                      src={subject.imageUrl}
+                                      alt={subject.name}
+                                      data-ai-hint={subject.imageHint}
+                                      fill
+                                      className="object-cover"
+                                  />
+                                  </div>
+                              </Card>
+                          </Link>
+                          ))}
+                      </div>
+                  </div>
+                  ) : (
+                  <div className="col-span-full text-center py-12">
+                      <Card className="p-8 inline-block">
+                          <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                          <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
+                          <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
+                      </Card>
+                  </div>
+                  )}
+              </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
@@ -174,4 +182,3 @@ export default function NcertSolutionsNewPage() {
         </Suspense>
     )
 }
-    
