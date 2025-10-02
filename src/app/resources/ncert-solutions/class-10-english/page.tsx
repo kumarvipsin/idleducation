@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Accordion, AccordionTrigger, AccordionContent, AccordionItem } from "@/components/ui/accordion";
 
 const class10EnglishResources = {
   books: [
@@ -36,31 +39,37 @@ export default function Class10EnglishPage() {
   const contents = (
     <div>
         <div className="space-y-4 md:space-y-6">
+          <Accordion type="multiple" className="w-full space-y-2">
             {class10EnglishResources.books.map((book, bookIndex) => (
-            <div key={bookIndex}>
-                <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
-                <div className="space-y-2">
-                {book.chapters.map((chapter, chapterIndex) => (
-                    <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                      <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
-                        <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
-                        <div className="flex items-center gap-2 w-full md:w-auto">
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <Link href="#"><Eye className="h-4 w-4" /></Link>
-                          </Button>
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <Link href="#"><Download className="h-4 w-4" /></Link>
-                          </Button>
-                          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <Link href="#"><ShoppingCart className="w-4 w-4" /></Link>
-                          </Button>
-                        </div>
+              <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
+                  <Card className="transition-all duration-300">
+                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline">{book.name}</AccordionTrigger>
+                    <AccordionContent className="p-4 pt-0">
+                      <div className="space-y-2">
+                        {book.chapters.map((chapter, chapterIndex) => (
+                          <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
+                              <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
+                              <div className="flex items-center gap-2 w-full md:w-auto">
+                                <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                  <Link href="#"><Eye className="h-4 w-4" /></Link>
+                                </Button>
+                                <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                  <Link href="#"><Download className="h-4 w-4" /></Link>
+                                </Button>
+                                <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                                  <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
+                                </Button>
+                              </div>
+                            </div>
+                          </Card>
+                        ))}
                       </div>
-                    </Card>
-                ))}
-                </div>
-            </div>
+                    </AccordionContent>
+                  </Card>
+              </AccordionItem>
             ))}
+          </Accordion>
         </div>
     </div>
   );
@@ -78,10 +87,8 @@ export default function Class10EnglishPage() {
           </div>
         </div>
         <CardContent className="p-4 md:p-6">
-          <div className="lg:col-span-1">
-            <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-            {contents}
-          </div>
+          <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+          {contents}
         </CardContent>
     </Card>
   );
