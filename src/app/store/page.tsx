@@ -17,21 +17,21 @@ import { useToast } from '@/hooks/use-toast';
 
 const StoreHeader = () => (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container flex h-8 items-center justify-between">
             <Link href="/" className="flex items-center gap-2">
-                <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
-                <span className="text-xl font-bold text-primary">IDL Store</span>
+                <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                <span className="text-lg font-bold text-primary">IDL Store</span>
             </Link>
             <div className="flex items-center gap-4">
                  <Link href="/cart">
                     <Button variant="ghost" size="icon">
-                        <ShoppingCart className="h-6 w-6" />
+                        <ShoppingCart className="h-5 w-5" />
                         <span className="sr-only">Shopping Cart</span>
                     </Button>
                 </Link>
                  <Link href="/" >
                     <Button variant="ghost" size="icon">
-                        <Home className="h-6 w-6 text-primary" />
+                        <Home className="h-5 w-5 text-primary" />
                         <span className="sr-only">Home</span>
                     </Button>
                 </Link>
