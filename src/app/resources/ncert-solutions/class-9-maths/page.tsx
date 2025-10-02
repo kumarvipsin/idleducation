@@ -58,7 +58,7 @@ export default function Class9MathsPage() {
   
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
+      <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
           <Button 
               variant="ghost" 
@@ -76,10 +76,19 @@ export default function Class9MathsPage() {
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                    <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                  </Link>
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
+                    <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
+                    <div className="flex items-center gap-2 w-full md:w-auto">
+                      <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
+                        <Link href="#">View and Download NCERT Solutions</Link>
+                      </Button>
+                      <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
+                        <Link href="#">
+                          <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
+                        </Link>
+                      </Button>
+                    </div>
+                  </div>
                 </Card>
               ))}
             </div>
@@ -113,7 +122,7 @@ export default function Class9MathsPage() {
                         <Link href="#">View</Link>
                     </Button>
                     <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><Download className="w-4 h-4 mr-1"/>Download</Link>
+                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
                     </Button>
                 </div>
               </CardContent>
@@ -131,7 +140,7 @@ export default function Class9MathsPage() {
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
-              <CardTitle className="text-2xl font-bold">Class 9 | Maths | CBSE</CardTitle>
+              <CardTitle className="text-2xl font-bold">CBSE | Class 9 | Maths</CardTitle>
             </div>
           </div>
         </div>
@@ -150,15 +159,6 @@ export default function Class9MathsPage() {
               <div className="lg:col-span-1">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="rounded-full bg-background/50 border"
-                    >
-                        <Languages className="w-5 h-5" />
-                        <span className="sr-only">Toggle Language</span>
-                    </Button>
                 </div>
                 {contents}
               </div>

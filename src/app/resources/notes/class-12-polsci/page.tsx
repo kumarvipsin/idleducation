@@ -74,8 +74,8 @@ export default function Class12PolSciPage() {
 
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -105,7 +105,7 @@ export default function Class12PolSciPage() {
       </div>
     </div>
   );
-
+  
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-blue-700">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
@@ -114,7 +114,7 @@ export default function Class12PolSciPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 12 | Political Science | CBSE</CardTitle>
+            <CardTitle className="text-2xl font-bold">CBSE | Class 12 | Political Science</CardTitle>
           </div>
         </div>
       </div>

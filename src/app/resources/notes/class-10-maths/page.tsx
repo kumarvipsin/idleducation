@@ -60,8 +60,8 @@ export default function Class10MathsPage() {
   
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -75,7 +75,6 @@ export default function Class10MathsPage() {
       <div className="space-y-4 md:space-y-6">
         {class10MathsResources.books.filter(b => b.lang === contentsLang).map((book, bookIndex) => (
           <div key={bookIndex}>
-            
             <div className="space-y-2">
               {book.chapters.map((chapter, chapterIndex) => (
                 <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
@@ -100,7 +99,7 @@ export default function Class10MathsPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 10 | Maths | CBSE</CardTitle>
+            <CardTitle className="text-2xl font-bold">CBSE | Class 10 | Maths</CardTitle>
           </div>
         </div>
       </div>

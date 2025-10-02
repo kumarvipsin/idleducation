@@ -54,8 +54,8 @@ export default function Class11HistoryPage() {
 
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -94,7 +94,7 @@ export default function Class11HistoryPage() {
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <CardTitle className="text-2xl font-bold">Class 11 | History | CBSE</CardTitle>
+            <CardTitle className="text-2xl font-bold">CBSE | Class 11 | History</CardTitle>
           </div>
         </div>
       </div>
