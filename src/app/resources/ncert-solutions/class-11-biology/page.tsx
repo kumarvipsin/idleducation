@@ -72,8 +72,8 @@ export default function Class11BiologyPage() {
   
   const contents = (
     <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <Button 
             variant="ghost" 
             size="icon" 
@@ -165,15 +165,6 @@ export default function Class11BiologyPage() {
             <div className="lg-col-span-1">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                 <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                    className="rounded-full bg-background/50 border"
-                >
-                    <Languages className="w-5 h-5" />
-                    <span className="sr-only">Toggle Language</span>
-                </Button>
               </div>
               {contents}
             </div>
