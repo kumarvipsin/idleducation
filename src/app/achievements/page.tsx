@@ -1,6 +1,7 @@
 
+'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, Star, Trophy, Target } from "lucide-react";
+import { Award, Star, Trophy, Target, Home } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -9,6 +10,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const achievements = [
   {
@@ -57,54 +60,62 @@ const achievements = [
 
 export default function AchievementsPage() {
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Celebrating Student Success</h1>
-        <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
-          Our students are accomplishing great things. Here are a few of their recent achievements.
-        </p>
-      </section>
-      
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        className="w-full max-w-6xl mx-auto"
-      >
-        <CarouselContent>
-          {achievements.map((achievement, index) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-              <div className="p-2 h-full">
-                <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  <Image
-                    src={achievement.image.src}
-                    alt={achievement.image.alt}
-                    data-ai-hint={achievement.image.hint}
-                    width={600}
-                    height={400}
-                    className="w-full object-cover aspect-video"
-                  />
-                  <CardHeader className="flex-row items-center gap-4">
-                    {achievement.icon}
-                    <div className="flex-1">
-                      <CardTitle className="text-xl">{achievement.title}</CardTitle>
+    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
+        <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
+            <section className="text-center mb-12">
+                <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Celebrating Student Success</h1>
+                <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
+                Our students are accomplishing great things. Here are a few of their recent achievements.
+                </p>
+            </section>
+            
+            <Carousel
+                opts={{
+                align: "start",
+                loop: true,
+                }}
+                className="w-full max-w-6xl mx-auto"
+            >
+                <CarouselContent>
+                {achievements.map((achievement, index) => (
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-2 h-full">
+                        <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <Image
+                            src={achievement.image.src}
+                            alt={achievement.image.alt}
+                            data-ai-hint={achievement.image.hint}
+                            width={600}
+                            height={400}
+                            className="w-full object-cover aspect-video"
+                        />
+                        <CardHeader className="flex-row items-center gap-4">
+                            {achievement.icon}
+                            <div className="flex-1">
+                            <CardTitle className="text-xl">{achievement.title}</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="flex-1">
+                            <p className="text-muted-foreground">{achievement.description}</p>
+                        </CardContent>
+                        <div className="p-6 pt-0">
+                            <p className="text-xs text-muted-foreground">{achievement.date}</p>
+                        </div>
+                        </Card>
                     </div>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <p className="text-muted-foreground">{achievement.description}</p>
-                  </CardContent>
-                  <div className="p-6 pt-0">
-                      <p className="text-xs text-muted-foreground">{achievement.date}</p>
-                  </div>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </Carousel>
+        </div>
     </div>
   );
 }
