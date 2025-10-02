@@ -39,10 +39,6 @@ const getImage = (key: string) => {
 const mockSolutions = {
     "Class 10": [
         { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
-    ],
-    "Class 12": [
-        { name: "Maths", href: "/resources/ncert-solutions/class-12-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
-        { name: "Physics", href: "/resources/ncert-solutions/class-12-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint }
     ]
 };
 
