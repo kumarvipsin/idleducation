@@ -27,6 +27,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collap
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
+import { GcsImage } from "./gcs-image";
 
 interface Update {
   id: string;
@@ -292,7 +293,7 @@ export function Header() {
             <DropdownMenuSeparator />
             {updates.length > 0 ? (
             updates.map(update => (
-                <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1 focus:bg-accent focus:text-accent-foreground">
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent focus:text-accent-foreground">
                     <p className="font-semibold">{update.title}</p>
                     <p className="text-xs text-muted-foreground group-focus:text-accent-foreground">{update.description}</p>
                     <p className="text-xs text-muted-foreground self-end group-focus:text-accent-foreground">
@@ -329,7 +330,9 @@ export function Header() {
             <div className="max-h-60 overflow-y-auto px-1">
               {cartItems.map(item => (
                   <div key={item.id} className="flex items-center gap-2 p-2">
-                    <Image src={item.imageUrl} alt={item.title} width={40} height={50} className="rounded-sm" />
+                    <div className="w-10 h-12 relative flex-shrink-0">
+                      <GcsImage filePath={item.imageUrl} alt={item.title} fill className="rounded-sm object-cover" />
+                    </div>
                     <div className="flex-1">
                       <p className="text-xs font-semibold truncate">{item.title}</p>
                       <p className="text-xs text-muted-foreground">₹{item.price}</p>
@@ -501,3 +504,5 @@ export function Header() {
     </Collapsible>
   );
 }
+
+    
