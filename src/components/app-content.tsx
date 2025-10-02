@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -37,6 +38,7 @@ export function AppContent({
     '/offline-centers',
     '/achievements',
     '/idl-foundation',
+    '/store',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;

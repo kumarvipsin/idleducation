@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/resources/ncert-solutions',
     '/resources/notes',
     '/resources/reference-books',
+    '/store',
   ]
 
   const staticUrls = staticRoutes.map((route) => ({
