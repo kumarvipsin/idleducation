@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -15,6 +14,20 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+
+const questionSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  exam: z.string().min(1, 'Exam/Class is required'),
+  subject: z.string().min(1, 'Subject is required'),
+  year: z.coerce.number().min(2000, 'Year must be 2000 or later'),
+  pdf: z.any().optional(),
+});
+
+type QuestionFormValues = z.infer<typeof questionSchema>;
 
 const QuestionForm = ({
   question,
@@ -25,12 +38,29 @@ const QuestionForm = ({
 }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const form = useForm<QuestionFormValues>({
+    resolver: zodResolver(questionSchema),
+    defaultValues: {
+      title: question?.title || '',
+      exam: question?.exam || '',
+      subject: question?.subject || '',
+      year: question?.year || new Date().getFullYear(),
+    },
+  });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (data: QuestionFormValues) => {
     setIsSubmitting(true);
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('exam', data.exam);
+    formData.append('subject', data.subject);
+    formData.append('year', String(data.year));
+    
+    if (data.pdf && data.pdf[0]) {
+        formData.append('pdf', data.pdf[0]);
+    }
+    
     const apiCall = question
       ? editPreviousYearQuestion(question.id, formData)
       : addPreviousYearQuestion(formData);
@@ -47,28 +77,69 @@ const QuestionForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form {...form}>
+    <form onSubmit={form.handleSubmit(handleSubmit)}>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="title" className="text-right">Title</Label>
-          <Input id="title" name="title" defaultValue={question?.title} className="col-span-3" required />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="exam" className="text-right">Exam/Class</Label>
-          <Input id="exam" name="exam" defaultValue={question?.exam} className="col-span-3" required />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="subject" className="text-right">Subject</Label>
-          <Input id="subject" name="subject" defaultValue={question?.subject} className="col-span-3" required />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="year" className="text-right">Year</Label>
-          <Input id="year" name="year" type="number" defaultValue={question?.year} className="col-span-3" required />
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="pdf" className="text-right">PDF File</Label>
-          <Input id="pdf" name="pdf" type="file" accept=".pdf" className="col-span-3" />
-        </div>
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="title" className="text-right">Title</Label>
+              <FormControl>
+                <Input id="title" {...field} className="col-span-3" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+         <FormField
+          control={form.control}
+          name="exam"
+          render={({ field }) => (
+            <FormItem className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="exam" className="text-right">Exam/Class</Label>
+              <FormControl>
+                <Input id="exam" {...field} className="col-span-3" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="subject"
+          render={({ field }) => (
+            <FormItem className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="subject" className="text-right">Subject</Label>
+              <FormControl>
+                <Input id="subject" {...field} className="col-span-3" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => (
+            <FormItem className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="year" className="text-right">Year</Label>
+              <FormControl>
+                <Input id="year" type="number" {...field} className="col-span-3" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="pdf"
+          render={({ field }) => (
+            <FormItem className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="pdf" className="text-right">PDF File</Label>
+              <FormControl>
+                <Input id="pdf" type="file" accept=".pdf" className="col-span-3" {...form.register('pdf')} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
       </div>
       <DialogFooter>
         <Button type="submit" disabled={isSubmitting}>
@@ -76,6 +147,7 @@ const QuestionForm = ({
         </Button>
       </DialogFooter>
     </form>
+    </Form>
   );
 };
 
