@@ -67,7 +67,7 @@ const QuestionForm = ({
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="pdf" className="text-right">PDF File</Label>
-          <Input id="pdf" name="pdf" type="file" accept=".pdf" className="col-span-3" required={!question} />
+          <Input id="pdf" name="pdf" type="file" accept=".pdf" className="col-span-3" />
         </div>
       </div>
       <DialogFooter>
@@ -131,7 +131,10 @@ export default function AdminPreviousYearQuestionsPage() {
   );
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+        if (!isOpen) setEditingQuestion(null);
+        setIsDialogOpen(isOpen);
+    }}>
       <AlertDialog open={!!deletingQuestion} onOpenChange={(isOpen) => !isOpen && setDeletingQuestion(null)}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -140,7 +143,7 @@ export default function AdminPreviousYearQuestionsPage() {
               <CardDescription>Add, edit, or delete question papers.</CardDescription>
             </div>
             <DialogTrigger asChild>
-              <Button onClick={() => { setEditingQuestion(null); setIsDialogOpen(true); }}>
+              <Button onClick={() => setEditingQuestion(null)}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Add Paper
               </Button>
             </DialogTrigger>

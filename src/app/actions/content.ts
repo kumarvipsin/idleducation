@@ -1,3 +1,4 @@
+
 // src/app/actions/content.ts
 'use server';
 import 'dotenv/config';
@@ -749,8 +750,6 @@ export async function addPreviousYearQuestion(formData: FormData) {
     if (pdfFile && pdfFile.size > 0) {
       const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
       pdfUrl = await uploadFileToGCS(pdfFile, destination);
-    } else {
-        return { success: false, message: "PDF file is required." };
     }
     
     await addDoc(collection(db, "previousYearQuestions"), {
