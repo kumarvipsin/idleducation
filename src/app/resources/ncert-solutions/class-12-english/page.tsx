@@ -42,21 +42,19 @@ const class12EnglishResources = {
 };
 
 export default function Class12EnglishPage() {
-  
   const contents = (
     <div>
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <div className="space-y-4 md:space-y-6">
             {class12EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
-                <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
+                <h3 className="text-base md:text-lg font-semibold mb-3 text-foreground/80">{book.name}</h3>
                 <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <Link href={`/resources/ncert-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                    <div className="flex items-center justify-between p-3 md:p-4 group">
                         <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                        <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                    </Link>
+                    </div>
                     </Card>
                 ))}
                 </div>
