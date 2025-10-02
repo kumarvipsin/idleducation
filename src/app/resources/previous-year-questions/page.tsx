@@ -48,7 +48,7 @@ export default function PreviousYearQuestionsPage() {
         if (!selectedClass) return [];
         const subjectsForClass = questions
             .filter(q => q.exam === selectedClass)
-            .flatMap(q => q.subjects);
+            .flatMap(q => Array.isArray(q.subjects) ? q.subjects.map(s => s.name) : []);
         return ['All', ...Array.from(new Set(subjectsForClass))].sort();
     }, [questions, selectedClass]);
     
@@ -59,7 +59,7 @@ export default function PreviousYearQuestionsPage() {
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => 
             q.exam === selectedClass &&
-            (selectedSubject === 'All' || q.subjects.includes(selectedSubject))
+            (selectedSubject === 'All' || q.subjects.some(s => s.name === selectedSubject))
         );
     }, [questions, selectedClass, selectedSubject]);
 
@@ -135,9 +135,9 @@ export default function PreviousYearQuestionsPage() {
                     {loading ? (
                         [...Array(6)].map((_, index) => (
                             <Card key={index} className="overflow-hidden">
-                                <CardContent className="p-4">
-                                    <Skeleton className="h-8 w-3/4 mb-2" />
-                                    <Skeleton className="h-4 w-1/2 mb-4" />
+                                <CardContent className="p-4 space-y-3">
+                                    <Skeleton className="h-8 w-3/4" />
+                                    <Skeleton className="h-4 w-1/2" />
                                     <Skeleton className="h-10 w-full" />
                                 </CardContent>
                             </Card>
@@ -152,14 +152,16 @@ export default function PreviousYearQuestionsPage() {
                                         </div>
                                         <div className="flex-1">
                                             <h3 className="font-semibold text-base leading-tight">{question.title}</h3>
-                                            <p className="text-xs text-muted-foreground">{question.exam} - {Array.isArray(question.subjects) ? question.subjects.join(', ') : question.subjects} - {question.year}</p>
+                                            <p className="text-xs text-muted-foreground">{question.exam} - {question.year}</p>
                                         </div>
                                     </div>
-                                    <div className="mt-4 flex-grow flex items-end">
-                                        <Button className="w-full" onClick={() => handleDownload(question.pdfUrl)} disabled={!question.pdfUrl}>
-                                            <Download className="mr-2 h-4 w-4"/>
-                                            Download PDF
-                                        </Button>
+                                    <div className="mt-4 flex-grow flex flex-col gap-2">
+                                        {(Array.isArray(question.subjects) ? question.subjects : []).map((subject, idx) => (
+                                           <Button key={idx} className="w-full justify-between" onClick={() => handleDownload(subject.pdfUrl)} disabled={!subject.pdfUrl}>
+                                                <span>{subject.name}</span>
+                                                <Download className="h-4 w-4"/>
+                                            </Button>
+                                        ))}
                                     </div>
                                 </CardContent>
                             </Card>

@@ -136,9 +136,8 @@ export interface TReferenceBook {
 export interface TPreviousYearQuestion {
   id: string;
   exam: string;
-  subjects: string[];
+  subjects: { name: string, pdfUrl?: string }[];
   year: number;
   title: string;
-  pdfUrl?: string;
   createdAt: string;
 }

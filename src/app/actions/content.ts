@@ -736,27 +736,46 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
 
 export async function addPreviousYearQuestion(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
-  const pdfFile = formData.get("pdf") as File | null;
   
-  const questionData = {
+  const questionData: any = {
     exam: rawData.exam as string,
-    subjects: formData.getAll('subjects[]') as string[],
     year: parseInt(rawData.year as string, 10),
     title: rawData.title as string,
+    subjects: [],
+    createdAt: serverTimestamp(),
   };
 
+  const subjectEntries: { [key: number]: { name?: string; pdf?: File, pdfUrl?: string } } = {};
+
+  for (const [key, value] of formData.entries()) {
+    const match = key.match(/^subjects\[(\d+)\]\[(name|pdf|pdfUrl)\]$/);
+    if (match) {
+      const index = parseInt(match[1], 10);
+      const field = match[2];
+      if (!subjectEntries[index]) {
+        subjectEntries[index] = {};
+      }
+      subjectEntries[index][field as 'name' | 'pdf' | 'pdfUrl'] = value as any;
+    }
+  }
+
   try {
-    let pdfUrl = '';
-    if (pdfFile && pdfFile.size > 0) {
-      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subjects.join('-')}-${pdfFile.name}`;
-      pdfUrl = await uploadFileToGCS(pdfFile, destination);
+    for (const index in subjectEntries) {
+      const entry = subjectEntries[index];
+      let pdfUrl = entry.pdfUrl || '';
+      if (entry.pdf && entry.pdf.size > 0 && entry.name) {
+        const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${generateSlug(entry.name)}-${entry.pdf.name}`;
+        pdfUrl = await uploadFileToGCS(entry.pdf, destination);
+      }
+      if(entry.name) {
+        questionData.subjects.push({
+            name: entry.name,
+            pdfUrl: pdfUrl,
+        });
+      }
     }
     
-    await addDoc(collection(db, "previousYearQuestions"), {
-      ...questionData,
-      pdfUrl,
-      createdAt: serverTimestamp(),
-    });
+    await addDoc(collection(db, "previousYearQuestions"), questionData);
     
     return { success: true, message: "Question paper added successfully." };
   } catch (error) {
@@ -765,21 +784,46 @@ export async function addPreviousYearQuestion(formData: FormData) {
   }
 }
 
+
 export async function editPreviousYearQuestion(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
-    const pdfFile = rawData.pdf as File | null;
     
     const questionData: any = {
       exam: rawData.exam as string,
-      subjects: formData.getAll('subjects[]') as string[],
       year: parseInt(rawData.year as string, 10),
       title: rawData.title as string,
+      subjects: [],
     };
+
+    const subjectEntries: { [key: number]: { name?: string; pdf?: File, pdfUrl?: string } } = {};
+
+    for (const [key, value] of formData.entries()) {
+        const match = key.match(/^subjects\[(\d+)\]\[(name|pdf|pdfUrl)\]$/);
+        if (match) {
+        const index = parseInt(match[1], 10);
+        const field = match[2];
+        if (!subjectEntries[index]) {
+            subjectEntries[index] = {};
+        }
+        subjectEntries[index][field as 'name' | 'pdf' | 'pdfUrl'] = value as any;
+        }
+    }
     
     try {
-        if (pdfFile && pdfFile.size > 0) {
-            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subjects.join('-')}-${pdfFile.name}`;
-            questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        for (const index in subjectEntries) {
+            const entry = subjectEntries[index];
+            let pdfUrl = entry.pdfUrl || '';
+            
+            if (entry.pdf && entry.pdf.size > 0 && entry.name) {
+                const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${generateSlug(entry.name)}-${entry.pdf.name}`;
+                pdfUrl = await uploadFileToGCS(entry.pdf, destination);
+            }
+            if (entry.name) {
+                questionData.subjects.push({
+                    name: entry.name,
+                    pdfUrl: pdfUrl,
+                });
+            }
         }
 
         const docRef = doc(db, "previousYearQuestions", id);
@@ -791,6 +835,7 @@ export async function editPreviousYearQuestion(id: string, formData: FormData) {
         return { success: false, message: "Failed to update question paper." };
     }
 }
+
 
 export async function deletePreviousYearQuestion(id: string) {
     try {
