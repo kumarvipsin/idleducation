@@ -84,9 +84,11 @@ function NotesPageContent({ initialData }: { initialData: any }) {
 
   return (
     <>
-      <div className="mb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Notes for {selectedClass}</h1>
-        <p className="text-muted-foreground">Find concise and comprehensive notes to help you revise and learn effectively.</p>
+      <div className="text-center mb-12 animate-fade-in-up">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Notes for {selectedClass}</h1>
+        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          Find concise and comprehensive notes to help you revise and learn effectively.
+        </p>
       </div>
 
       <div className="mb-8">
