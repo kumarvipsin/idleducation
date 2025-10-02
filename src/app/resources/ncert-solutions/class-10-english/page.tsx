@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const class10EnglishResources = {
   books: [
@@ -34,13 +32,9 @@ const class10EnglishResources = {
 };
 
 export default function Class10EnglishPage() {
-  const isMobile = useIsMobile();
-
-  const allChapters = class10EnglishResources.books.flatMap(book => book.chapters);
   
   const contents = (
     <div>
-        <h2 className="text-xl md:text-2xl font-bold text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         <div className="space-y-4 md:space-y-6">
             {class10EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
@@ -58,7 +52,7 @@ export default function Class10EnglishPage() {
                             <Link href="#"><Download className="h-4 w-4" /></Link>
                           </Button>
                           <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
+                            <Link href="#"><ShoppingCart className="w-4 w-4" /></Link>
                           </Button>
                         </div>
                       </div>
@@ -67,31 +61,6 @@ export default function Class10EnglishPage() {
                 </div>
             </div>
             ))}
-        </div>
-    </div>
-  );
-
-  const primumNotes = (
-    <div>
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
-        </div>
-        <div className="space-y-2">
-          {allChapters.map((chapter, index) => (
-            <Card key={index} className="bg-background">
-              <CardContent className="p-3 flex items-center justify-between">
-                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                        <Link href="#"><Eye className="h-4 w-4" /></Link>
-                    </Button>
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                        <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
         </div>
     </div>
   );
@@ -109,26 +78,10 @@ export default function Class10EnglishPage() {
           </div>
         </div>
         <CardContent className="p-4 md:p-6">
-          {isMobile ? (
-            <Tabs defaultValue="contents" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="contents">Contents</TabsTrigger>
-                    <TabsTrigger value="notes">Important Questions</TabsTrigger>
-                </TabsList>
-                <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-                <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
-            </Tabs>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-1">
-                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                {contents}
-              </div>
-              <div className="lg:col-span-1">
-                {primumNotes}
-              </div>
-            </div>
-          )}
+          <div className="lg:col-span-1">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+            {contents}
+          </div>
         </CardContent>
     </Card>
   );
