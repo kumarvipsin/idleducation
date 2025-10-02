@@ -82,6 +82,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.euroschoolindia.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'icon2.cleanpng.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
