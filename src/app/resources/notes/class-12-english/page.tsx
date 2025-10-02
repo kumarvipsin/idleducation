@@ -42,61 +42,26 @@ const class12EnglishResources = {
 };
 
 export default function Class12EnglishPage() {
-  const isMobile = useIsMobile();
-
-  const allChapters = class12EnglishResources.books.flatMap(book => book.chapters);
   
   const contents = (
     <div>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-      <div className="space-y-4 md:space-y-6">
-        {class12EnglishResources.books.map((book, bookIndex) => (
-          <div key={bookIndex}>
-            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
-            <div className="space-y-2">
-              {book.chapters.map((chapter, chapterIndex) => (
-                <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                  <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                    <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                  </Link>
-                </Card>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-  
-  const primumNotes = (
-    <div>
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
-        </div>
-        <div className="space-y-4">
-          {class12EnglishResources.books.map((book, bookIndex) => (
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground lg:hidden pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+        <div className="space-y-4 md:space-y-6">
+            {class12EnglishResources.books.map((book, bookIndex) => (
             <div key={bookIndex}>
                 <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
                 <div className="space-y-2">
-                {book.chapters.map((chapter, index) => (
-                    <Card key={index} className="bg-background">
-                    <CardContent className="p-3 flex items-center justify-between">
-                        <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                        <div className="flex items-center gap-1 md:gap-2">
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#">View</Link>
-                            </Button>
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                            </Button>
-                        </div>
-                    </CardContent>
+                {book.chapters.map((chapter, chapterIndex) => (
+                    <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
+                    <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
+                        <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
+                        <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+                    </Link>
                     </Card>
                 ))}
                 </div>
             </div>
-          ))}
+            ))}
         </div>
     </div>
   );
@@ -113,43 +78,8 @@ export default function Class12EnglishPage() {
             </div>
           </div>
         </div>
-        <CardContent className="p-4 md:p-6 bg-muted/20">
-          {isMobile ? (
-            <Tabs defaultValue="contents" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="contents">Contents</TabsTrigger>
-                    <TabsTrigger value="notes">Primum Notes</TabsTrigger>
-                </TabsList>
-                <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-                <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
-            </Tabs>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-1">
-                <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                <div className="space-y-4 md:space-y-6 mt-4">
-                    {class12EnglishResources.books.map((book, bookIndex) => (
-                    <div key={bookIndex}>
-                        <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{book.name}</h3>
-                        <div className="space-y-2">
-                        {book.chapters.map((chapter, chapterIndex) => (
-                            <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                            <Link href={`/resources/notes-details/${chapter.slug}?lang=${book.lang}`} className="flex items-center justify-between p-3 md:p-4 group">
-                                <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                                <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                            </Link>
-                            </Card>
-                        ))}
-                        </div>
-                    </div>
-                    ))}
-                </div>
-              </div>
-              <div className="lg:col-span-1">
-                {primumNotes}
-              </div>
-            </div>
-          )}
+        <CardContent className="p-4 md:p-6">
+            {contents}
         </CardContent>
     </Card>
   );

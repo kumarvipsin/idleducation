@@ -54,9 +54,7 @@ const scienceResources = {
 };
 
 export default function ScienceDetailsPage() {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
-  const isMobile = useIsMobile();
   
   const contents = (
     <div>
@@ -91,40 +89,6 @@ export default function ScienceDetailsPage() {
     </div>
   );
 
-  const primumNotes = (
-     <div>
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Primum Notes</h2>
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
-                className="rounded-full bg-background/50 border"
-            >
-                <Languages className="w-5 h-5" />
-                <span className="sr-only">Toggle Language</span>
-            </Button>
-        </div>
-        <div className="space-y-2">
-          {(scienceResources.books.find(b => b.lang === notesLang)?.chapters || []).map((chapter, index) => (
-            <Card key={index} className="bg-background">
-              <CardContent className="p-3 flex items-center justify-between">
-                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#">View</Link>
-                    </Button>
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-    </div>
-  );
-
   return (
     <Card className="shadow-lg overflow-hidden border-t-8 border-blue-700">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
@@ -138,37 +102,7 @@ export default function ScienceDetailsPage() {
         </div>
       </div>
       <CardContent className="p-4 md:p-6">
-         {isMobile ? (
-          <Tabs defaultValue="contents" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-              <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-              <TabsTrigger value="notes" className="rounded-md">Primum Notes</TabsTrigger>
-            </TabsList>
-            <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-            <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
-          </Tabs>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-            <div className="lg:col-span-1">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                        className="rounded-full bg-background/50 border"
-                    >
-                        <Languages className="w-5 h-5" />
-                        <span className="sr-only">Toggle Language</span>
-                    </Button>
-                </div>
-              {contents}
-            </div>
-            <div className="lg:col-span-1">
-              {primumNotes}
-            </div>
-          </div>
-        )}
+        {contents}
       </CardContent>
     </Card>
   );
