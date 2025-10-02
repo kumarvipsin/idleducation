@@ -102,6 +102,15 @@ export function Footer() {
                                 className="h-auto"
                             />
                         </Link>
+                        <Link href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
+                            <Image 
+                                src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
+                                alt="Download on the App Store"
+                                width={135}
+                                height={40}
+                                className="h-auto"
+                            />
+                        </Link>
                     </div>
                 </div>
 
