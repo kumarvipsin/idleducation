@@ -167,7 +167,7 @@ export default function Class12PolSciPage() {
           </div>
         </div>
       </div>
-      <CardContent className="p-4 md:p-6">
+      <CardContent className="p-4 md:px-[10%] md:pt-[2.5%] md:pb-[2.5%]">
         {isMobile ? (
           <Tabs defaultValue="contents" className="w-full">
             <TabsList className="grid w-full grid-cols-2 rounded-lg bg-muted/60">
