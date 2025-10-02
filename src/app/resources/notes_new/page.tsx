@@ -68,16 +68,11 @@ function NotesPageContent({ initialData }: { initialData: any }) {
   };
   
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="flex gap-6 px-4 md:px-[10%]">
       {[...Array(4)].map((_, i) => (
-        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
-          <CardContent className="p-6 flex flex-col flex-grow items-start">
-            <Skeleton className="h-8 w-1/2 mb-2" />
-            <Skeleton className="h-4 w-full mb-4" />
-            <Skeleton className="h-10 w-48 mb-4" />
-          </CardContent>
-          <Skeleton className="w-full aspect-[4/3] rounded-b-xl" />
-        </Card>
+        <div key={i} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
+            <Skeleton key={i} className="h-[450px] w-full rounded-2xl" />
+        </div>
       ))}
     </div>
   );
@@ -115,44 +110,49 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       </div>
 
       <main className="flex-1">
-        {sortedClasses.length === 0 ? renderSkeleton() : (
-            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
-            {subjects && subjects.length > 0 ? (
-                subjects.map((subject: Subject, index: number) => (
-                  <Link href={subject.href} key={index} className="block group">
-                    <Card
-                      className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
-                      style={{ animationDelay: `${index * 50}ms` }}
-                    >
-                      <CardContent className="p-6 flex-grow flex flex-col">
-                        
-                        <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
-                        <p className="text-sm text-muted-foreground mb-4">In-depth notes for {subject.name}.</p>
-                        <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
-                      </CardContent>
-                       <div className="relative aspect-[4/3] w-full mt-auto">
-                           <Image
-                                src={subject.imageUrl}
-                                alt={subject.name}
-                                data-ai-hint={subject.imageHint}
-                                fill
-                                className="object-cover rounded-b-xl"
-                            />
+        <div className="relative">
+          <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {sortedClasses.length === 0 ? renderSkeleton() : (
+                <div key={animationKey} className="flex gap-6 px-4 md:px-[10%] animate-fade-in-up">
+                {subjects && subjects.length > 0 ? (
+                    subjects.map((subject: Subject, index: number) => (
+                        <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                            <Link href={subject.href} className="block h-full">
+                                <Card
+                                className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
+                                style={{ animationDelay: `${index * 50}ms` }}
+                                >
+                                <CardContent className="p-6 flex-grow flex flex-col">
+                                    <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                                    <p className="text-sm text-muted-foreground mb-4">In-depth notes for {subject.name}.</p>
+                                    <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
+                                </CardContent>
+                                <div className="relative aspect-[4/3] w-full mt-auto">
+                                    <Image
+                                        src={subject.imageUrl}
+                                        alt={subject.name}
+                                        data-ai-hint={subject.imageHint}
+                                        fill
+                                        className="object-cover rounded-b-xl"
+                                    />
+                                </div>
+                                </Card>
+                            </Link>
                         </div>
-                    </Card>
-                  </Link>
-                ))
-            ) : (
-                <div className="col-span-full text-center py-12">
-                    <Card className="p-8 inline-block bg-background/50">
-                        <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                        <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
-                        <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
-                    </Card>
+                    ))
+                ) : (
+                    <div className="col-span-full text-center py-12 w-full">
+                        <Card className="p-8 inline-block bg-background/50">
+                            <BookText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground font-semibold">No notes found for this class.</p>
+                            <p className="text-sm text-muted-foreground">Please select another class to see available notes.</p>
+                        </Card>
+                    </div>
+                )}
                 </div>
             )}
             </div>
-        )}
+        </div>
       </main>
     </>
   );
@@ -200,8 +200,8 @@ export default function NotesNewPage() {
                 <div className="mb-8 flex justify-center gap-2">
                     {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-96 w-full rounded-2xl" />)}
+                <div className="flex gap-6 overflow-hidden">
+                    {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[450px] w-[350px] flex-shrink-0 rounded-2xl" />)}
                 </div>
               </div>
             </div>
