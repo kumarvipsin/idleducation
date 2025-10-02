@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -47,8 +48,8 @@ export default function PreviousYearQuestionsPage() {
         if (!selectedClass) return [];
         const subjectsForClass = questions
             .filter(q => q.exam === selectedClass)
-            .map(q => q.subject);
-        return ['All', ...Array.from(new Set(subjectsForClass)).sort()];
+            .flatMap(q => q.subjects);
+        return ['All', ...Array.from(new Set(subjectsForClass))].sort();
     }, [questions, selectedClass]);
     
     useEffect(() => {
@@ -58,7 +59,7 @@ export default function PreviousYearQuestionsPage() {
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => 
             q.exam === selectedClass &&
-            (selectedSubject === 'All' || q.subject === selectedSubject)
+            (selectedSubject === 'All' || q.subjects.includes(selectedSubject))
         );
     }, [questions, selectedClass, selectedSubject]);
 
@@ -151,7 +152,7 @@ export default function PreviousYearQuestionsPage() {
                                         </div>
                                         <div className="flex-1">
                                             <h3 className="font-semibold text-base leading-tight">{question.title}</h3>
-                                            <p className="text-xs text-muted-foreground">{question.exam} - {question.subject} - {question.year}</p>
+                                            <p className="text-xs text-muted-foreground">{question.exam} - {Array.isArray(question.subjects) ? question.subjects.join(', ') : question.subjects} - {question.year}</p>
                                         </div>
                                     </div>
                                     <div className="mt-4 flex-grow flex items-end">
