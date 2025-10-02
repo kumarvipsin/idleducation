@@ -32,7 +32,6 @@ export function AppContent({
     '/school',
     '/examcat',
     '/resources/reference-books',
-    '/resources/previous-year-questions',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;

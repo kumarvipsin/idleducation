@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/gallery',
     '/resources/ncert-solutions',
     '/resources/notes',
-    '/resources/previous-year-questions',
     '/resources/reference-books',
   ]
 
