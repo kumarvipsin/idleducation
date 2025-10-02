@@ -194,12 +194,6 @@ function AdminLayout({
                                 <span>NCERT & Imp Qs</span>
                            </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
-                            <Link href="/admin/previous-year-questions">
-                                <FileText />
-                                <span>Prev. Year Questions</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/reference-books')}>
                             <Link href="/admin/reference-books">
                                 <BookOpen />

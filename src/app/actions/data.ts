@@ -176,18 +176,6 @@ export async function getImportantQuestionsForSubject(classId: string, subjectKe
   }
 }
 
-export async function getPreviousYearQuestions() {
-    try {
-        const questionsQuery = query(collection(db, "previousYearQuestions"), orderBy("year", "desc"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(questionsQuery);
-        const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-        return { success: true, data: questions };
-    } catch (error) {
-        console.error("Error fetching previous year questions:", error);
-        return { success: false, message: "Failed to fetch previous year questions." };
-    }
-}
-
 export async function getGalleryImages() {
     try {
         const galleryQuery = query(collection(db, "gallery"), orderBy("createdAt", "desc"));

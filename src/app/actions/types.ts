@@ -79,16 +79,6 @@ export interface TExcellenceResult {
   createdAt: string;
 }
 
-export interface TPreviousYearQuestion {
-  id: string;
-  exam: string;
-  subject: string;
-  year: number;
-  title: string;
-  pdfUrl: string;
-  createdAt: string;
-}
-
 export interface TGalleryImage {
     id: string;
     title: string;
