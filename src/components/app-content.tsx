@@ -33,6 +33,10 @@ export function AppContent({
     '/examcat',
     '/resources',
     '/notifications',
+    '/student-enquiry',
+    '/new-work',
+    '/offline-centers',
+    '/achievements',
   ];
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
