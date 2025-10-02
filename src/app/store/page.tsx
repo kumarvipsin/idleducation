@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -60,6 +60,12 @@ const StoreHeader = () => {
                                     {cartCount}
                                 </span>
                             )}
+                        </Button>
+                    </Link>
+                    <Link href="/orders">
+                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <ShoppingBag className="h-4 w-4 mr-1" />
+                            <span>MY ORDERS</span>
                         </Button>
                     </Link>
                     <Link href="/" >
