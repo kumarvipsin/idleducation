@@ -745,24 +745,24 @@ export async function addPreviousYearQuestion(formData: FormData) {
     createdAt: serverTimestamp(),
   };
 
-  const subjectEntries: { [key: number]: { name?: string; pdf?: File, pdfUrl?: string } } = {};
+  const subjectEntries: { [key: number]: { name?: string; pdf?: File } } = {};
 
   for (const [key, value] of formData.entries()) {
-    const match = key.match(/^subjects\[(\d+)\]\[(name|pdf|pdfUrl)\]$/);
+    const match = key.match(/^subjects\[(\d+)\]\[(name|pdf)\]$/);
     if (match) {
       const index = parseInt(match[1], 10);
       const field = match[2];
       if (!subjectEntries[index]) {
         subjectEntries[index] = {};
       }
-      subjectEntries[index][field as 'name' | 'pdf' | 'pdfUrl'] = value as any;
+      subjectEntries[index][field as 'name' | 'pdf'] = value as any;
     }
   }
 
   try {
     for (const index in subjectEntries) {
       const entry = subjectEntries[index];
-      let pdfUrl = entry.pdfUrl || '';
+      let pdfUrl = '';
       if (entry.pdf && entry.pdf.size > 0 && entry.name) {
         const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${generateSlug(entry.name)}-${entry.pdf.name}`;
         pdfUrl = await uploadFileToGCS(entry.pdf, destination);

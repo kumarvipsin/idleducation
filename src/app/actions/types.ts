@@ -1,4 +1,3 @@
-
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -133,11 +132,21 @@ export interface TReferenceBook {
     createdAt: string;
 }
 
+export interface Paper {
+  title: string;
+  pdfUrl?: string;
+}
+
+export interface SubjectWithPapers {
+  name: string;
+  papers: Paper[];
+}
+
 export interface TPreviousYearQuestion {
   id: string;
   exam: string;
-  subjects: { name: string, pdfUrl?: string }[];
   year: number;
   title: string;
+  subjects: SubjectWithPapers[];
   createdAt: string;
 }

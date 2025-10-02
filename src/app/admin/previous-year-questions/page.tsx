@@ -10,28 +10,118 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, FileText, MinusCircle, Upload } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, FileText, MinusCircle, Upload, XCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import Link from 'next/link';
 
+const paperSchema = z.object({
+  title: z.string().min(1, 'Paper title is required.'),
+  pdf: z.any().optional(),
+  pdfUrl: z.string().optional(),
+});
+
+const subjectSchema = z.object({ 
+  name: z.string().min(1, 'Subject name is required.'),
+  papers: z.array(paperSchema).min(1, 'At least one paper is required per subject.'),
+});
+
 const questionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   exam: z.string().min(1, 'Exam/Class is required'),
-  subjects: z.array(z.object({ 
-    name: z.string().min(1, 'Subject cannot be empty.'),
-    pdf: z.any().optional(),
-  })).min(1, 'At least one subject is required.'),
   year: z.coerce.number().min(2000, 'Year must be 2000 or later'),
+  subjects: z.array(subjectSchema).min(1, 'At least one subject is required.'),
 });
 
+
 type QuestionFormValues = z.infer<typeof questionSchema>;
+
+
+const PaperField = ({ subjectIndex, paperIndex, control, removePaper }: { subjectIndex: number, paperIndex: number, control: any, removePaper: (index: number) => void }) => {
+    return (
+        <div className="space-y-2 p-2 border rounded-md relative ml-4">
+            <div className="flex justify-between items-center">
+                <Label className="font-medium text-sm">Paper {paperIndex + 1}</Label>
+                <Button type="button" variant="ghost" size="icon" className="h-6 w-6" onClick={() => removePaper(paperIndex)}>
+                    <XCircle className="h-4 w-4 text-muted-foreground" />
+                </Button>
+            </div>
+            <FormField
+                control={control}
+                name={`subjects.${subjectIndex}.papers.${paperIndex}.title`}
+                render={({ field }) => (
+                <FormItem>
+                    <FormControl>
+                        <Input placeholder="Paper Title (e.g., Paper 1, Set A)" {...field} />
+                    </FormControl>
+                </FormItem>
+                )}
+            />
+            <Controller
+                control={control}
+                name={`subjects.${subjectIndex}.papers.${paperIndex}.pdf`}
+                render={({ field: { onChange, ...rest } }) => (
+                    <FormItem>
+                        <FormControl>
+                            <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files?.[0])} {...rest} />
+                        </FormControl>
+                    </FormItem>
+                )}
+            />
+             <FormField
+                control={control}
+                name={`subjects.${subjectIndex}.papers.${paperIndex}.pdfUrl`}
+                render={({ field }) => ( <input type="hidden" {...field} /> )}
+            />
+        </div>
+    );
+};
+
+const SubjectField = ({ subjectIndex, control, removeSubject }: { subjectIndex: number, control: any, removeSubject: (index: number) => void }) => {
+    const { fields: paperFields, append: appendPaper, remove: removePaper } = useFieldArray({
+        control,
+        name: `subjects.${subjectIndex}.papers`
+    });
+
+    return (
+        <div className="space-y-3 p-3 border rounded-lg bg-muted/50">
+            <div className="flex justify-between items-center">
+                <FormField
+                    control={control}
+                    name={`subjects.${subjectIndex}.name`}
+                    render={({ field }) => (
+                    <FormItem className="flex-1">
+                        <FormControl>
+                            <Input placeholder="Subject Name" {...field} />
+                        </FormControl>
+                    </FormItem>
+                    )}
+                />
+                <Button type="button" variant="ghost" size="icon" onClick={() => removeSubject(subjectIndex)}>
+                    <MinusCircle className="h-4 w-4 text-destructive" />
+                </Button>
+            </div>
+            <div className="space-y-2">
+                {paperFields.map((paper, paperIndex) => (
+                    <PaperField key={paper.id} subjectIndex={subjectIndex} paperIndex={paperIndex} control={control} removePaper={removePaper} />
+                ))}
+            </div>
+             <div className="flex justify-end">
+                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: null, pdfUrl: '' })}>
+                    <PlusCircle className="h-4 w-4 mr-2" />
+                    Add Paper
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 
 const QuestionForm = ({
   question,
@@ -43,17 +133,16 @@ const QuestionForm = ({
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const defaultSubjects = question?.subjects
-    ? question.subjects.map(s => ({ name: s.name, pdf: null, existingPdfUrl: s.pdfUrl }))
-    : [{ name: "", pdf: null }];
-
   const form = useForm<QuestionFormValues>({
     resolver: zodResolver(questionSchema),
     defaultValues: {
       title: question?.title || '',
       exam: question?.exam || '',
-      subjects: defaultSubjects.map(s => ({name: s.name, pdf: s.pdf})),
       year: question?.year || new Date().getFullYear(),
+      subjects: question?.subjects.map(s => ({
+        ...s,
+        papers: s.papers.map(p => ({...p, pdf: undefined}))
+      })) || [{ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] }],
     },
   });
   
@@ -65,23 +154,24 @@ const QuestionForm = ({
 
   const handleSubmit = async (data: QuestionFormValues) => {
     setIsSubmitting(true);
-
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('exam', data.exam);
     formData.append('year', String(data.year));
-    
-    data.subjects.forEach((subject, index) => {
-        formData.append(`subjects[${index}][name]`, subject.name);
-        if (subject.pdf && subject.pdf[0]) {
-            formData.append(`subjects[${index}][pdf]`, subject.pdf[0]);
+
+    data.subjects.forEach((subject, subjectIndex) => {
+      formData.append(`subjects[${subjectIndex}][name]`, subject.name);
+      subject.papers.forEach((paper, paperIndex) => {
+        formData.append(`subjects[${subjectIndex}][papers][${paperIndex}][title]`, paper.title);
+        if (paper.pdf) {
+          formData.append(`subjects[${subjectIndex}][papers][${paperIndex}][pdf]`, paper.pdf);
         }
-        // For edits, include existing URL if no new file is uploaded
-        if (question?.subjects[index]?.pdfUrl && !subject.pdf?.[0]) {
-           formData.append(`subjects[${index}][pdfUrl]`, question.subjects[index].pdfUrl!);
+        if (paper.pdfUrl) {
+            formData.append(`subjects[${subjectIndex}][papers][${paperIndex}][pdfUrl]`, paper.pdfUrl);
         }
+      });
     });
-    
+
     const apiCall = question
       ? editPreviousYearQuestion(question.id, formData)
       : addPreviousYearQuestion(formData);
@@ -102,83 +192,24 @@ const QuestionForm = ({
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <ScrollArea className="h-96 pr-2">
         <div className="grid gap-4 py-4 pr-2">
-            <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="title" className="text-right">Title</Label>
-                <FormControl>
-                    <Input id="title" {...field} className="col-span-3" />
-                </FormControl>
-                </FormItem>
-            )}
-            />
-            <FormField
-            control={form.control}
-            name="exam"
-            render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="exam" className="text-right">Exam/Class</Label>
-                <FormControl>
-                    <Input id="exam" {...field} className="col-span-3" />
-                </FormControl>
-                </FormItem>
-            )}
-            />
-            <FormField
-            control={form.control}
-            name="year"
-            render={({ field }) => (
-                <FormItem className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="year" className="text-right">Year</Label>
-                <FormControl>
-                    <Input id="year" type="number" {...field} className="col-span-3" />
-                </FormControl>
-                </FormItem>
-            )}
-            />
+             <FormField control={form.control} name="title" render={({ field }) => (
+                <FormItem><Label>Title</Label><FormControl><Input {...field} /></FormControl></FormItem>
+            )} />
+            <FormField control={form.control} name="exam" render={({ field }) => (
+                <FormItem><Label>Exam/Class</Label><FormControl><Input {...field} /></FormControl></FormItem>
+            )} />
+            <FormField control={form.control} name="year" render={({ field }) => (
+                <FormItem><Label>Year</Label><FormControl><Input type="number" {...field} /></FormControl></FormItem>
+            )} />
 
             <div className="space-y-4 pt-4 border-t">
+                <Label className="font-semibold">Subjects & Papers</Label>
                 {fields.map((field, index) => (
-                <div key={field.id} className="grid grid-cols-4 items-start gap-4 p-2 border rounded-md">
-                    <div className="col-span-4 flex justify-between items-center">
-                        <Label htmlFor={`subject-${index}`} className="font-semibold">Subject {index + 1}</Label>
-                        {fields.length > 1 && (
-                            <Button type="button" variant="ghost" size="icon" onClick={() => remove(index)}>
-                                <MinusCircle className="h-4 w-4 text-destructive" />
-                            </Button>
-                        )}
-                    </div>
-                     <FormField
-                        control={form.control}
-                        name={`subjects.${index}.name`}
-                        render={({ field }) => (
-                        <FormItem className="col-span-4">
-                            <FormControl>
-                                <Input placeholder="Subject Name" {...field} />
-                            </FormControl>
-                        </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name={`subjects.${index}.pdf`}
-                        render={({ field: { onChange, value, ...rest} }) => (
-                           <FormItem className="col-span-4">
-                            <FormControl>
-                                 <Input type="file" accept=".pdf" onChange={(e) => onChange(e.target.files)} {...rest} />
-                            </FormControl>
-                            {(defaultSubjects[index]?.existingPdfUrl) && <p className="text-xs text-muted-foreground mt-1">Current file: <Link href={defaultSubjects[index].existingPdfUrl!} target="_blank" className="underline">View</Link></p>}
-                           </FormItem>
-                        )}
-                    />
-                </div>
+                    <SubjectField key={field.id} subjectIndex={index} control={form.control} removeSubject={remove} />
                 ))}
                 <div className="flex justify-end mt-2">
-                    <Button type="button" variant="outline" size="sm" onClick={() => append({ name: "", pdf: null })}>
-                        <PlusCircle className="h-4 w-4 mr-2" />
-                        Add Subject
+                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] })}>
+                        <PlusCircle className="h-4 w-4 mr-2" /> Add Subject
                     </Button>
                 </div>
             </div>
@@ -270,8 +301,8 @@ export default function AdminPreviousYearQuestionsPage() {
                   <TableRow>
                     <TableHead>Title</TableHead>
                     <TableHead>Exam/Class</TableHead>
-                    <TableHead>Subjects</TableHead>
                     <TableHead>Year</TableHead>
+                    <TableHead>Subjects & Papers</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -283,12 +314,21 @@ export default function AdminPreviousYearQuestionsPage() {
                       <TableRow key={question.id}>
                         <TableCell className="font-medium">{question.title}</TableCell>
                         <TableCell>{question.exam}</TableCell>
+                        <TableCell>{question.year}</TableCell>
                         <TableCell>
-                           <ul className="list-disc pl-5">
-                            {Array.isArray(question.subjects) ? question.subjects.map((s, idx) => <li key={`${s.name}-${idx}`}>{s.name}</li>) : <li>{question.subjects}</li>}
+                           <ul className="space-y-2">
+                            {Array.isArray(question.subjects) && question.subjects.map((s, idx) => (
+                              <li key={`${s.name}-${idx}`}>
+                                <span className="font-semibold">{s.name}</span>
+                                {Array.isArray(s.papers) && s.papers.length > 0 &&
+                                  <ul className="list-disc pl-5 text-sm text-muted-foreground">
+                                    {s.papers.map((p, pIdx) => <li key={pIdx}>{p.title}</li>)}
+                                  </ul>
+                                }
+                              </li>
+                            ))}
                           </ul>
                         </TableCell>
-                        <TableCell>{question.year}</TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingQuestion(question); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />
