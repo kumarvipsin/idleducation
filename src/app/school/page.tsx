@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit } from 'lucide-react';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
@@ -124,6 +124,13 @@ const syllabusData: any = {
     },
 };
 
+const resourceLinks = [
+  { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
+  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
+  { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
+];
+
 interface Teacher {
   id: string;
   name: string;
@@ -198,25 +205,15 @@ function SchoolPageContent() {
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
           <div className="relative w-full aspect-[16/4]">
-            {loading ? (
+            {loading || !activeCategory?.imageUrl ? (
               <Skeleton className="w-full h-full" />
             ) : (
-                activeCategory?.imageUrl ? (
-                    <GcsImage
-                        filePath={activeCategory.imageUrl}
-                        alt={`Banner for ${activeCategory.name}`}
-                        fill
-                        className="object-cover"
-                    />
-                ) : (
-                    <Image
-                        src="https://picsum.photos/seed/school-banner/1920/480"
-                        alt="Default School Banner"
-                        data-ai-hint="classroom students"
-                        fill
-                        className="object-cover"
-                    />
-                )
+                <GcsImage
+                    filePath={activeCategory.imageUrl}
+                    alt={`Banner for ${activeCategory.name}`}
+                    fill
+                    className="object-cover"
+                />
             )}
           </div>
         </Card>
@@ -290,14 +287,13 @@ function SchoolPageContent() {
                   {`${activeClass} Online Coaching 2025-2026`}
                 </h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                    Everything you need to know about the curriculum, exams, and resources.
+                    Dive into our detailed curriculum and resources designed for your success.
                 </p>
             </div>
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                        <p className="text-muted-foreground">Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         {activeClass === 'Class 5' && (
                           <div className="space-y-8">
                               <Card className="mb-8">
@@ -898,12 +894,19 @@ function SchoolPageContent() {
 
 export default function SchoolPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SchoolPageContent />
-    </Suspense>
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
+        <div className="relative z-10">
+            <Suspense fallback={<div>Loading...</div>}>
+              <SchoolPageContent />
+            </Suspense>
+        </div>
+    </div>
   );
 }
 
-    
-
-    
