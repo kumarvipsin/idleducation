@@ -26,10 +26,6 @@ const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
   physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
   chemistry: { url: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGVtaXN0cnklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDc5fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "chemistry abstract" },
   biology: { url: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxib2xvZ3klMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNDk3fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "biology abstract" },
-  history: { url: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoaXN0b3J5JTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTE1fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "history abstract" },
-  geography: { url: "https://images.unsplash.com/photo-1542051841857-5f90071e7989?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnZW9ncmFwaHklMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTMwfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "geography abstract" },
-  'political-science': { url: "https://images.unsplash.com/photo-1534294668382-95b2ae36b57d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwb2xpdGljYWwlMjBzY2llbmNlJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNTQ4fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "political science" },
-  economics: { url: "https://images.unsplash.com/photo-1579621970795-87f54f12c7a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlY29ub21pY3MlMjBhYnN0cmFjdHxlbnwwfHx8fDE3E5MjYxNTY0fDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "economics abstract" },
   default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
 };
 
@@ -41,18 +37,6 @@ const mockSolutions = {
         { name: "Science", href: "/resources/ncert-solutions/class-10-science", imageUrl: getImage('science').url, imageHint: getImage('science').hint },
         { name: "Social Studies", href: "/resources/ncert-solutions/class-10-social", imageUrl: getImage('social').url, imageHint: getImage('social').hint },
         { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
-    ],
-    "Class 9": [
-        { name: "Maths", href: "/resources/ncert-solutions/class-9-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
-        { name: "Science", href: "/resources/ncert-solutions/class-9-science", imageUrl: getImage('science').url, imageHint: getImage('science').hint },
-        { name: "Social Studies", href: "/resources/ncert-solutions/class-9-social", imageUrl: getImage('social').url, imageHint: getImage('social').hint },
-        { name: "English", href: "/resources/ncert-solutions/class-9-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
-    ],
-    "Class 11": [
-        { name: "Maths", href: "/resources/ncert-solutions/class-11-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
-        { name: "Physics", href: "/resources/ncert-solutions/class-11-physics", imageUrl: getImage('physics').url, imageHint: getImage('physics').hint },
-        { name: "Chemistry", href: "/resources/ncert-solutions/class-11-chemistry", imageUrl: getImage('chemistry').url, imageHint: getImage('chemistry').hint },
-        { name: "Biology", href: "/resources/ncert-solutions/class-11-biology", imageUrl: getImage('biology').url, imageHint: getImage('biology').hint }
     ],
     "Class 12": [
         { name: "Maths", href: "/resources/ncert-solutions/class-12-maths", imageUrl: getImage('maths').url, imageHint: getImage('maths').hint },
@@ -104,7 +88,7 @@ function NcertSolutionsPageContent() {
           <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
               {loading ? (
-                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                  [...Array(2)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
               ) : (
                   classes.map((className) => (
                   <button
