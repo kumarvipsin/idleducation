@@ -120,7 +120,7 @@ export default function PreviousYearQuestionsPage() {
                                   onClick={() => setSelectedSubject(subject)}
                                   className={cn(`py-1 px-4 text-xs font-medium transition-colors border rounded-full`,
                                       selectedSubject === subject
-                                      ? 'border-primary/50 text-primary bg-primary/5' 
+                                      ? 'border-primary text-primary bg-primary/5' 
                                       : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                   )}
                               >
@@ -156,7 +156,9 @@ export default function PreviousYearQuestionsPage() {
                                         </div>
                                     </div>
                                     <div className="mt-4 flex-grow flex flex-col gap-2">
-                                        {(Array.isArray(question.subjects) ? question.subjects : []).map((subject, idx) => (
+                                        {(Array.isArray(question.subjects) ? question.subjects : [])
+                                            .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
+                                            .map((subject, idx) => (
                                            <Button key={idx} className="w-full justify-between" onClick={() => handleDownload(subject.pdfUrl)} disabled={!subject.pdfUrl}>
                                                 <span>{subject.name}</span>
                                                 <Download className="h-4 w-4"/>
