@@ -114,9 +114,9 @@ export function Footer() {
 
             </div>
         </div>
-        <div className="bg-gray-100 dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700">
+        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="flex flex-col sm:flex-row justify-between items-center text-xs">
+                <div className="flex flex-col sm:flex-row justify-between items-center text-[0.6rem]">
                     <div className="flex items-center gap-2">
                         <Image 
                             src="https://icon2.cleanpng.com/20180920/zs/kisspng-iso-9-iso-9-1-international-organization-for-s-aidima-implantacin-iso-14-y-gestion-de-sist-5ba370134a6743.6791764215374377153048.jpg" 
