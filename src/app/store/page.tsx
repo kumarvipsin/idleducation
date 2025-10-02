@@ -68,7 +68,6 @@ const StoreHeader = () => {
                     </Link>
                     <Link href="/orders">
                         <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <ShoppingBag className="h-4 w-4 mr-1" />
                             <span>MY ORDERS</span>
                         </Button>
                     </Link>
