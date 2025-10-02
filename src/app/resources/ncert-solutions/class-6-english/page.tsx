@@ -106,7 +106,7 @@ export default function Class6EnglishPage() {
                           <Card key={chapterIndex} className="transition-all duration-300">
                             <Accordion type="single" collapsible>
                               <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
                                   {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
