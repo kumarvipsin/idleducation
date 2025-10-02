@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -149,6 +148,12 @@ function AdminLayout({
                                 <span>Scholarship</span>
                             </Link>
                         </SidebarMenuButton>
+                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enquiries')}>
+                            <Link href="/admin/enquiries">
+                                <MessageSquare />
+                                <span>Student Enquiries</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
                             <Link href="/admin/feedback">
                                 <FeedbackIcon />
@@ -157,7 +162,7 @@ function AdminLayout({
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
                             <Link href="/admin/messages">
-                                <MessageSquare />
+                                <Mail />
                                 <span>Contact Us</span>
                             </Link>
                         </SidebarMenuButton>
