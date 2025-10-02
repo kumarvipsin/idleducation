@@ -381,22 +381,21 @@ export function Header() {
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                  <Button asChild variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                     <Link href="/store">
-                      <ShoppingBag className="h-3 w-3" />
-                      <span className="ml-1 sm:inline">IDL Store</span>
+                      IDL Store
                     </Link>
                   </Button>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {notificationDropdown}
                   <Button asChild variant="link" className="relative h-auto p-0 text-foreground hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                     <Link href="/store">
                       <ShoppingBag className="h-4 w-4" />
                     </Link>
                   </Button>
+                  {notificationDropdown}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
