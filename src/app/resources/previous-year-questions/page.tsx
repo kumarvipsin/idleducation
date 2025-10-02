@@ -4,8 +4,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, Download, FileText } from "lucide-react";
-import Link from "next/link";
+import { Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion } from '@/app/actions/types';
@@ -88,13 +87,7 @@ export default function PreviousYearQuestionsPage() {
     );
 
     return (
-        <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-            <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon">
-                    <Home className="h-6 w-6 text-primary" />
-                    <span className="sr-only">Home</span>
-                </Button>
-            </Link>
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
             <div className="relative z-10 container mx-auto py-12">
                 <div className="text-center mb-12 animate-fade-in-up">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
