@@ -5,11 +5,13 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, HelpCircle } from 'lucide-react';
+import { BookCheck, HelpCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Subject = {
   name: string;
@@ -18,13 +20,22 @@ type Subject = {
   imageHint: string;
 };
 
-const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
-  maths: { url: "https://images.unsplash.com/photo-1632571401005-458e9d244591?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtYXRocyUyMHxlbnwwfHx8fDE3NTkzMDkwNDF8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "math abstract" },
-  english: { url: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxlbmdsaXNoJTIwbGl0ZXJhdHVyZXxlbnwwfHx8fDE3NTkyNjE0NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080", hint: "english literature" },
-  physics: { url: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaHlzaWNzJTIwYWJzdHJhY3R8ZW58MHx8fHwxNzE5MjYxNDYxfDA&ixlib=rb-4.1.0&q=80&w=1080", hint: "physics abstract" },
-  default: { url: "https://picsum.photos/seed/default-subject/600/400", hint: "books stack" },
-};
+const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
 
+const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
+  maths: { url: newImageUrl, hint: "math abstract" },
+  science: { url: newImageUrl, hint: "science abstract" },
+  social: { url: newImageUrl, hint: "social studies" },
+  english: { url: newImageUrl, hint: "english literature" },
+  physics: { url: newImageUrl, hint: "physics abstract" },
+  chemistry: { url: newImageUrl, hint: "chemistry abstract" },
+  biology: { url: newImageUrl, hint: "biology abstract" },
+  history: { url: newImageUrl, hint: "history abstract" },
+  geography: { url: newImageUrl, hint: "geography abstract" },
+  'political-science': { url: newImageUrl, hint: "political science" },
+  economics: { url: newImageUrl, hint: "economics abstract" },
+  default: { url: newImageUrl, hint: "books stack" },
+};
 
 const getImage = (key: string) => {
     const lowerKey = key.toLowerCase();
@@ -36,18 +47,46 @@ const getImage = (key: string) => {
     return subjectImageMap.default;
 };
 
-const mockSolutions = {
-    "Class 10": [
-        { name: "English", href: "/resources/ncert-solutions/class-10-english", imageUrl: getImage('english').url, imageHint: getImage('english').hint }
-    ]
-};
-
 function NcertSolutionsPageContent() {
-  const [solutionsByClass, setSolutionsByClass] = useState<any>(mockSolutions);
-  const [classes, setClasses] = useState<string[]>(Object.keys(mockSolutions));
-  const [loading, setLoading] = useState(false);
-  const [selectedClass, setSelectedClass] = useState('Class 10');
+  const [solutionsByClass, setSolutionsByClass] = useState<any>({});
+  const [classes, setClasses] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
+
+  useEffect(() => {
+    const fetchSolutionsData = async () => {
+      setLoading(true);
+      const result = await getCollection('ncertSolutions');
+      if (result.success && result.data) {
+        const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
+          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
+          acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
+            name: subjectData.name,
+            href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
+            imageUrl: getImage(subjectKey).url,
+            imageHint: getImage(subjectKey).hint,
+          }));
+          return acc;
+        }, {});
+        
+        const sortedClasses = Object.keys(formattedData).sort((a, b) => {
+             const getOrder = (name: string) => parseInt(name.replace('Class ', ''), 10) || 99;
+             return getOrder(a) - getOrder(b);
+        });
+
+        setSolutionsByClass(formattedData);
+        setClasses(sortedClasses);
+        if (sortedClasses.length > 0) {
+            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
+            setSelectedClass(defaultClass);
+        }
+      }
+      setLoading(false);
+    };
+
+    fetchSolutionsData();
+  }, []);
 
   const subjects = solutionsByClass[selectedClass] || [];
   
@@ -72,47 +111,46 @@ function NcertSolutionsPageContent() {
   );
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-      <div className="relative z-10 container mx-auto py-12">
-        <div className="mb-6 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
-          <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
-        </div>
+    <>
+      <div className="mb-6 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
+        <p className="text-muted-foreground">Explore our detailed, step-by-step solutions for your NCERT textbooks.</p>
+      </div>
 
-        <div className="mb-8">
-          <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-              {loading ? (
-                  [...Array(2)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
-              ) : (
-                  classes.map((className) => (
-                  <button
-                      key={className}
-                      onClick={() => handleClassChange(className)}
-                      className={`py-2 px-6 text-sm font-medium transition-colors border rounded-full
-                      ${selectedClass === className 
-                          ? 'border-primary text-primary bg-primary/10 shadow' 
-                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'}`}
-                  >
-                      {className}
-                  </button>
-                  ))
-              )}
-            </div>
+      <div className="mb-8">
+        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+             {loading ? (
+                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+            ) : (
+                classes.map((className) => (
+                <button
+                    key={className}
+                    onClick={() => handleClassChange(className)}
+                    className={`py-2 px-6 text-sm font-medium transition-colors border rounded-full
+                    ${selectedClass === className 
+                        ? 'border-primary text-primary bg-primary/10 shadow' 
+                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'}`}
+                >
+                    {className}
+                </button>
+                ))
+            )}
           </div>
         </div>
+      </div>
 
-        <main className="flex-1">
-          {loading ? renderSkeleton() : (
+      <main className="flex-1">
+        {loading ? renderSkeleton() : (
             <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
-              {subjects && subjects.length > 0 ? (
+            {subjects && subjects.length > 0 ? (
                 subjects.map((subject: Subject, index: number) => (
                   <Link href={subject.href} key={index} className="block group">
                     <Card
                       className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
-                      <CardContent className="p-6 flex flex-col flex-grow items-start text-left">
+                      <CardContent className="p-6 flex-grow flex flex-col">
                         <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
                         <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
                         <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
@@ -129,20 +167,19 @@ function NcertSolutionsPageContent() {
                     </Card>
                   </Link>
                 ))
-              ) : (
+            ) : (
                 <div className="col-span-full text-center py-12">
-                  <Card className="p-8 inline-block bg-background/50">
-                    <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
-                    <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
-                  </Card>
+                    <Card className="p-8 inline-block bg-background/50">
+                        <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
+                        <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
+                    </Card>
                 </div>
-              )}
+            )}
             </div>
-          )}
-        </main>
-      </div>
-    </div>
+        )}
+      </main>
+    </>
   );
 }
 
