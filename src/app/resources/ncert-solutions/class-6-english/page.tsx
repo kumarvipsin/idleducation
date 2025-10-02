@@ -5,6 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { FileText, BookOpen, ChevronRight, Eye, Download, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionTrigger, AccordionContent, AccordionItem } from "@/components/ui/accordion";
 
 const class6EnglishResources = {
@@ -92,33 +96,30 @@ export default function Class6EnglishPage() {
   const contents = (
     <div>
         <div className="space-y-4 md:space-y-6">
-          <Accordion type="multiple" className="w-full space-y-2">
             {class6EnglishResources.books.map((book, bookIndex) => (
-              <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
-                  <Card className="transition-all duration-300">
-                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline text-black">{book.name}</AccordionTrigger>
-                    <AccordionContent className="p-4 pt-0">
-                      <div className="space-y-2">
-                      {book.chapters.map((chapter, chapterIndex) => (
-                          <Card key={chapterIndex} className="transition-all duration-300">
-                            <Accordion type="single" collapsible>
-                              <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                <div key={bookIndex} className="mb-6">
+                    <h3 
+                        className="text-base md:text-lg font-semibold mb-3 bg-clip-text text-transparent"
+                        style={{ backgroundImage: "linear-gradient(90deg, #4F46E5 0%, #E91E63 100%)" }}
+                    >
+                        {book.name}
+                    </h3>
+                    <Accordion type="single" collapsible className="w-full space-y-2">
+                        {book.chapters.map((chapter, chapterIndex) => (
+                            <Card key={chapterIndex} className="transition-all duration-300">
+                                <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
                                 <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-black text-left hover:no-underline">
-                                  {chapter.name}
+                                    {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 pt-0">
-                                  <ResourceLinks />
+                                    <ResourceLinks />
                                 </AccordionContent>
-                              </AccordionItem>
-                            </Accordion>
-                          </Card>
-                      ))}
-                      </div>
-                    </AccordionContent>
-                  </Card>
-              </AccordionItem>
+                                </AccordionItem>
+                            </Card>
+                        ))}
+                    </Accordion>
+                </div>
             ))}
-          </Accordion>
         </div>
     </div>
   );
