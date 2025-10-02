@@ -15,7 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { useForm, useFieldArray, Controller, useFormContext } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -121,7 +121,7 @@ const SubjectField = ({ subjectIndex, control, removeSubject }: { subjectIndex: 
                 ))}
             </div>
              <div className="flex justify-end">
-                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: null, pdfUrl: '' })}>
+                <Button type="button" variant="outline" size="sm" onClick={() => appendPaper({ title: '', pdf: undefined, pdfUrl: '' })}>
                     <PlusCircle className="h-4 w-4 mr-2" />
                     Add Paper
                 </Button>
@@ -216,7 +216,7 @@ const QuestionForm = ({
                     <SubjectField key={field.id} subjectIndex={index} control={form.control} removeSubject={remove} />
                 ))}
                 <div className="flex justify-end mt-2">
-                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] })}>
+                    <Button type="button" variant="outline" onClick={() => append({ name: "", papers: [{ title: "", pdf: undefined, pdfUrl: '' }] })}>
                         <PlusCircle className="h-4 w-4 mr-2" /> Add Subject
                     </Button>
                 </div>
@@ -384,5 +384,6 @@ export default function AdminPreviousYearQuestionsPage() {
     </Dialog>
   );
 }
+    
 
     
