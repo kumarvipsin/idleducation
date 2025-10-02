@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -314,53 +314,6 @@ export function Header() {
     </DropdownMenu>
   );
 
-  const cartIcon = (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-          <ShoppingCart className="h-3 w-3" />
-          {cartCount > 0 && <Badge className="absolute -top-2 -right-2 h-4 w-4 p-0 flex items-center justify-center text-xs" variant="destructive">{cartCount}</Badge>}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-80" align="end">
-        <DropdownMenuLabel>My Cart</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {cartItems.length > 0 ? (
-          <>
-            <div className="max-h-60 overflow-y-auto px-1">
-              {cartItems.map(item => (
-                  <div key={item.id} className="flex items-center gap-2 p-2">
-                    <div className="w-10 h-12 relative flex-shrink-0">
-                      <GcsImage filePath={item.imageUrl} alt={item.title} fill className="rounded-sm object-cover" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-semibold truncate">{item.title}</p>
-                      <p className="text-xs text-muted-foreground">₹{item.price}</p>
-                    </div>
-                    <div className="flex items-center gap-1">
-                       <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => decreaseQuantity(item.id)}><Minus className="h-3 w-3"/></Button>
-                       <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
-                       <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => increaseQuantity(item.id)}><Plus className="h-3 w-3"/></Button>
-                    </div>
-                     <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeFromCart(item.id)}><XCircle className="h-4 w-4 text-destructive"/></Button>
-                  </div>
-              ))}
-            </div>
-            <DropdownMenuSeparator />
-            <div className="p-2">
-              <div className="flex justify-between font-semibold">
-                <span>Total</span>
-                <span>₹{cartTotal.toFixed(2)}</span>
-              </div>
-              <Button className="w-full mt-2">Proceed to Checkout</Button>
-            </div>
-          </>
-        ) : (
-          <DropdownMenuItem disabled>Your cart is empty.</DropdownMenuItem>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
   
   if (!isClient) {
     return (
@@ -401,40 +354,24 @@ export function Header() {
                         </DropdownMenuContent>
                     </DropdownMenu>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <span className="sm:inline">APPLY FOR</span>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem asChild>
-                            <Link href="/scholarship">Apply Scholarship</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/admission">Admission Form</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/book-demo">Book Free Demo</Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuItem asChild>
-                            <Link href="/feedback">Feedback</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href="/student-enquiry">Student Enquiry</Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Button asChild variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/store">
+                      <ShoppingBag className="h-3 w-3" />
+                      <span className="ml-1 sm:inline">IDL Store</span>
+                    </Link>
+                  </Button>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
-                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                  {cartIcon}
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {cartIcon}
                   {notificationDropdown}
+                  <Button asChild variant="link" className="relative h-auto p-0 text-foreground hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/store">
+                      <ShoppingBag className="h-4 w-4" />
+                    </Link>
+                  </Button>
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}

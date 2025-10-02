@@ -164,9 +164,6 @@ export default function StorePage() {
                                                         Buy Now
                                                     </Button>
                                                 </a>
-                                                <Button variant="outline" size="icon" onClick={() => handleAddToCart(book)}>
-                                                    <ShoppingCart className="h-4 w-4"/>
-                                                </Button>
                                             </div>
                                         </CardContent>
                                     </Card>
