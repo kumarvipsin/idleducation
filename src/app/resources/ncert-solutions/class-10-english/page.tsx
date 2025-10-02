@@ -34,9 +34,6 @@ const class10EnglishResources = {
 };
 
 export default function Class10EnglishPage() {
-  const isMobile = useIsMobile();
-
-  const allChapters = class10EnglishResources.books.flatMap(book => book.chapters);
   
   const contents = (
     <div>
@@ -48,9 +45,19 @@ export default function Class10EnglishPage() {
                 <div className="space-y-2">
                 {book.chapters.map((chapter, chapterIndex) => (
                     <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                    <div className="flex items-center justify-between p-3 md:p-4 group">
-                        <span className="font-medium text-sm md:text-base text-foreground/90">{chapter.name}</span>
-                    </div>
+                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
+                          <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
+                           <div className="flex items-center gap-2 w-full md:w-auto">
+                            <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
+                              <Link href="#">View and Download NCERT Solutions</Link>
+                            </Button>
+                            <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
+                              <Link href="#">
+                                <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
+                              </Link>
+                            </Button>
+                          </div>
+                        </div>
                     </Card>
                 ))}
                 </div>
