@@ -45,7 +45,7 @@ const StoreHeader = () => {
 
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-8 items-center justify-between">
+            <div className="container flex h-8 items-center justify-between mx-auto px-[10%]">
                 <Link href="/" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
@@ -119,7 +119,7 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${book.title} has been added to your cart.`,
+            description: `${'${book.title}'} has been added to your cart.`,
         });
     };
     
@@ -187,7 +187,7 @@ export default function StorePage() {
                      ) : (
                         filteredBooks.map((book, index) => (
                             <div key={book.id} className="block flex-shrink-0 group">
-                            <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                            <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${'${index * 50}'}ms` }}>
                                 <CardContent className="p-4 flex flex-col flex-1">
                                     <div className="relative aspect-[4/5] w-full mb-4">
                                         <GcsImage
@@ -205,7 +205,7 @@ export default function StorePage() {
                                     <div className="flex items-center gap-2 mt-1">
                                         <div className="flex items-center gap-0.5">
                                             {[...Array(5)].map((_, i) => (
-                                                <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                <Star key={i} className={`w-4 h-4 ${'${i < Math.round(book.rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}'}`} />
                                             ))}
                                         </div>
                                         <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
