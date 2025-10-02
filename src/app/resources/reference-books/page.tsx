@@ -152,9 +152,11 @@ export default function ReferenceBooksPage() {
                                                 <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                             </div>
                                             <div className="mt-4">
-                                                <Button className="bg-orange-500 hover:bg-orange-600 w-full">
-                                                    Buy Now
-                                                </Button>
+                                               <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none' : ''}>
+                                                    <Button className="w-full" disabled={!book.buyLink}>
+                                                        Buy Now
+                                                    </Button>
+                                                </a>
                                             </div>
                                         </CardContent>
                                     </Card>

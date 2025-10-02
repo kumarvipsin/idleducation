@@ -129,6 +129,7 @@ export interface TReferenceBook {
     subject: string;
     edition: string;
     set: string;
+    buyLink?: string;
     createdAt: string;
 }
 

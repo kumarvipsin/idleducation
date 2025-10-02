@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Upload, Star, Image as ImageIcon } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Upload, Star, Image as ImageIcon, Link2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -81,6 +81,7 @@ const BookForm = ({
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="subject" className="text-right">Subject</Label><Input id="subject" name="subject" defaultValue={book?.subject} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="edition" className="text-right">Edition</Label><Input id="edition" name="edition" defaultValue={book?.edition} className="col-span-3" /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="set" className="text-right">Set</Label><Input id="set" name="set" defaultValue={book?.set} className="col-span-3" /></div>
+          <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="buyLink" className="text-right">Buy Link</Label><Input id="buyLink" name="buyLink" defaultValue={book?.buyLink} className="col-span-3" placeholder="https://example.com/buy" /></div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
             <div className="col-span-3 flex flex-col gap-2">
@@ -167,6 +168,7 @@ export default function AdminReferenceBooksPage() {
                     <TableHead>Class</TableHead>
                     <TableHead>Subject</TableHead>
                     <TableHead>Price</TableHead>
+                    <TableHead>Buy Link</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -179,6 +181,7 @@ export default function AdminReferenceBooksPage() {
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
                       </TableRow>
                     ))
@@ -194,6 +197,13 @@ export default function AdminReferenceBooksPage() {
                         <TableCell>{book.class}</TableCell>
                         <TableCell>{book.subject}</TableCell>
                         <TableCell>₹{book.price}</TableCell>
+                        <TableCell>
+                          {book.buyLink ? (
+                            <a href={book.buyLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                              <Link2 className="h-4 w-4" />
+                            </a>
+                          ) : 'N/A'}
+                        </TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingBook(book); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />
