@@ -229,6 +229,17 @@ export async function getReferenceBooks() {
     }
 }
 
+export async function getPreviousYearQuestions() {
+    try {
+        const questionsQuery = query(collection(db, "previousYearQuestions"), orderBy("year", "desc"));
+        const querySnapshot = await getDocs(questionsQuery);
+        const questions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: questions };
+    } catch (error) {
+        console.error("Error fetching previous year questions:", error);
+        return { success: false, message: "Failed to fetch previous year questions." };
+    }
+}
 
 // Count Functions
 async function getCount(q: any) {

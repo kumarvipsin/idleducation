@@ -24,6 +24,14 @@ const resources = [
     imageHint: "textbooks pile",
   },
   {
+    category: "PRACTICE",
+    title: "Previous Year Questions",
+    description: "Practice with past exam papers to understand the pattern and types of questions.",
+    href: "/resources/previous-year-questions",
+    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
+    imageHint: "exam paper test",
+  },
+  {
     category: "FURTHER READING",
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",

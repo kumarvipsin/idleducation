@@ -732,3 +732,74 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
         return { success: false, message: "Failed to delete sub-topic." };
     }
 }
+
+export async function addPreviousYearQuestion(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const pdfFile = formData.get("pdf") as File | null;
+  
+  const questionData = {
+    exam: rawData.exam as string,
+    subject: rawData.subject as string,
+    year: parseInt(rawData.year as string, 10),
+    title: rawData.title as string,
+  };
+
+  try {
+    let pdfUrl = '';
+    if (pdfFile && pdfFile.size > 0) {
+      const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+      pdfUrl = await uploadFileToGCS(pdfFile, destination);
+    } else {
+        return { success: false, message: "PDF file is required." };
+    }
+    
+    await addDoc(collection(db, "previousYearQuestions"), {
+      ...questionData,
+      pdfUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Question paper added successfully." };
+  } catch (error) {
+    console.error("Error adding question paper:", error);
+    return { success: false, message: "Failed to add question paper." };
+  }
+}
+
+export async function editPreviousYearQuestion(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const pdfFile = rawData.pdf as File | null;
+    
+    const questionData: any = {
+      exam: rawData.exam as string,
+      subject: rawData.subject as string,
+      year: parseInt(rawData.year as string, 10),
+      title: rawData.title as string,
+    };
+    
+    try {
+        if (pdfFile && pdfFile.size > 0) {
+            const destination = `previous-year-questions/${questionData.exam}/${questionData.year}-${questionData.subject}-${pdfFile.name}`;
+            questionData.pdfUrl = await uploadFileToGCS(pdfFile, destination);
+        }
+
+        const docRef = doc(db, "previousYearQuestions", id);
+        await updateDoc(docRef, questionData);
+        
+        return { success: true, message: "Question paper updated successfully." };
+    } catch (error) {
+        console.error("Error updating question paper:", error);
+        return { success: false, message: "Failed to update question paper." };
+    }
+}
+
+export async function deletePreviousYearQuestion(id: string) {
+    try {
+        const docRef = doc(db, "previousYearQuestions", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Question paper deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting question paper:", error);
+        return { success: false, message: "Failed to delete question paper." };
+    }
+}

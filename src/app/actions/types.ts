@@ -131,4 +131,13 @@ export interface TReferenceBook {
     set: string;
     createdAt: string;
 }
-    
+
+export interface TPreviousYearQuestion {
+  id: string;
+  exam: string;
+  subject: string;
+  year: number;
+  title: string;
+  pdfUrl?: string;
+  createdAt: string;
+}
