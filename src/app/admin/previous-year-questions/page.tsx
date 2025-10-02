@@ -141,7 +141,7 @@ const QuestionForm = ({
       year: question?.year || new Date().getFullYear(),
       subjects: question?.subjects.map(s => ({
         ...s,
-        papers: s.papers.map(p => ({...p, pdf: undefined}))
+        papers: s.papers?.map(p => ({...p, pdf: undefined})) || []
       })) || [{ name: "", papers: [{ title: "", pdf: null, pdfUrl: '' }] }],
     },
   });
@@ -310,19 +310,19 @@ export default function AdminPreviousYearQuestionsPage() {
                   {loading ? (
                     renderSkeleton()
                   ) : questions.length > 0 ? (
-                    questions.map((question) => (
+                    questions.map((question, qIndex) => (
                       <TableRow key={question.id}>
                         <TableCell className="font-medium">{question.title}</TableCell>
                         <TableCell>{question.exam}</TableCell>
                         <TableCell>{question.year}</TableCell>
                         <TableCell>
                            <ul className="space-y-2">
-                            {Array.isArray(question.subjects) && question.subjects.map((s, idx) => (
-                              <li key={`${s.name}-${idx}`}>
+                            {Array.isArray(question.subjects) && question.subjects.map((s, sIndex) => (
+                              <li key={`${qIndex}-${sIndex}`}>
                                 <span className="font-semibold">{s.name}</span>
                                 {Array.isArray(s.papers) && s.papers.length > 0 &&
                                   <ul className="list-disc pl-5 text-sm text-muted-foreground">
-                                    {s.papers.map((p, pIdx) => <li key={pIdx}>{p.title}</li>)}
+                                    {s.papers.map((p, pIndex) => <li key={`${qIndex}-${sIndex}-${pIndex}`}>{p.title}</li>)}
                                   </ul>
                                 }
                               </li>
