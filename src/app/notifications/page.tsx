@@ -3,8 +3,8 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bell, FileText, Megaphone, Calendar, PlusCircle } from "lucide-react";
-import { getUpdates, addUpdate } from '@/app/actions'; // Assuming addUpdate is needed here for a potential feature
+import { Bell, FileText, Megaphone, Calendar, PlusCircle, Home } from "lucide-react";
+import { getUpdates, addUpdate } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import Link from 'next/link';
 
 
 interface Update {
@@ -104,49 +105,57 @@ export default function NotificationsPage() {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <div className="container mx-auto py-8 px-4 md:px-6">
-        <Card className="max-w-4xl mx-auto bg-card">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-                <CardTitle>Recent Updates</CardTitle>
-                <CardDescription>Here's what's new.</CardDescription>
-            </div>
-             {user?.role === 'admin' && (
-              <DialogTrigger asChild>
-                <Button size="sm">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  New Post
-                </Button>
-              </DialogTrigger>
-            )}
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              renderSkeleton()
-            ) : (
-              <div className="space-y-6">
-                {updates.length > 0 ? (
-                  updates.map((update) => (
-                    <div key={update.id} className="flex items-start gap-4 p-4 rounded-lg border bg-background hover:bg-muted transition-colors">
-                      <div className="bg-primary/10 p-3 rounded-full">
-                          {getIconForTitle(update.title)}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-lg">{update.title}</h3>
-                        <p className="text-sm text-muted-foreground">{update.description}</p>
-                      </div>
-                      <div className="text-xs text-muted-foreground whitespace-nowrap">
-                        {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-muted-foreground py-8">No recent updates.</p>
+      <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
+        <div className="relative z-10 container mx-auto py-12">
+            <Card className="max-w-4xl mx-auto bg-card/80 backdrop-blur-sm shadow-2xl border-primary/10 rounded-2xl">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                    <CardTitle>Recent Updates</CardTitle>
+                    <CardDescription>Here's what's new.</CardDescription>
+                </div>
+                 {user?.role === 'admin' && (
+                  <DialogTrigger asChild>
+                    <Button size="sm">
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      New Post
+                    </Button>
+                  </DialogTrigger>
                 )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  renderSkeleton()
+                ) : (
+                  <div className="space-y-6">
+                    {updates.length > 0 ? (
+                      updates.map((update) => (
+                        <div key={update.id} className="flex items-start gap-4 p-4 rounded-lg border bg-background hover:bg-muted transition-colors">
+                          <div className="bg-primary/10 p-3 rounded-full">
+                              {getIconForTitle(update.title)}
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-lg">{update.title}</h3>
+                            <p className="text-sm text-muted-foreground">{update.description}</p>
+                          </div>
+                          <div className="text-xs text-muted-foreground whitespace-nowrap">
+                            {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-muted-foreground py-8">No recent updates.</p>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+        </div>
       </div>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
