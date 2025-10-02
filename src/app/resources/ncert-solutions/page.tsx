@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookCheck, Home, Star, Sigma, TestTube2, Landmark, Atom, Dna, BookText, Globe, Scale, TrendingUp, FlaskConical, HelpCircle } from 'lucide-react';
+import { BookCheck, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -60,19 +60,19 @@ function NcertSolutionsPageContent() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {[...Array(4)].map((_, i) => (
         <Card key={i} className="flex flex-col rounded-xl shadow-lg">
-          <Skeleton className="w-full aspect-[4/3] rounded-t-xl" />
-          <CardContent className="p-4 flex flex-col flex-grow items-start">
-            <Skeleton className="h-6 w-3/4 mb-2" />
+          <CardContent className="p-6 flex flex-col flex-grow items-start">
+            <Skeleton className="h-8 w-1/2 mb-2" />
             <Skeleton className="h-4 w-full mb-4" />
-            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-48 mb-4" />
           </CardContent>
+          <Skeleton className="w-full aspect-[4/3] rounded-b-xl" />
         </Card>
       ))}
     </div>
   );
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
       <div className="relative z-10 container mx-auto py-12">
         <div className="mb-6 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">NCERT Solutions for {selectedClass}</h1>
@@ -104,47 +104,41 @@ function NcertSolutionsPageContent() {
 
         <main className="flex-1">
           {loading ? renderSkeleton() : (
-              <div key={animationKey} className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  <div className="flex gap-6 px-4 md:px-[10%]">
-                  {subjects && subjects.length > 0 ? (
-                      subjects.map((subject: Subject, index: number) => (
-                        <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                          <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card animate-fade-in-up" style={{ animationDelay: `${index * 50}ms` }}>
-                            <div className="relative aspect-[4/3] w-full">
-                                <Image
-                                    src={subject.imageUrl}
-                                    alt={subject.name}
-                                    data-ai-hint={subject.imageHint}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <CardContent className="p-4 flex flex-col flex-grow items-start">
-                                <h3 className="text-xl font-bold mb-1 flex-grow">{subject.name}</h3>
-                                <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
-                                <div className="grid grid-cols-2 gap-2 mt-auto w-full">
-                                    <Button asChild className="w-full">
-                                        <Link href={`${subject.href}?lang=en`}>English</Link>
-                                    </Button>
-                                    <Button asChild variant="outline" className="w-full">
-                                        <Link href={`${subject.href}?lang=hi`}>हिन्दी</Link>
-                                    </Button>
-                                </div>
-                            </CardContent>
-                          </Card>
+            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
+              {subjects && subjects.length > 0 ? (
+                subjects.map((subject: Subject, index: number) => (
+                  <Link href={subject.href} key={index} className="block group">
+                    <Card
+                      className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <CardContent className="p-6 flex flex-col flex-grow items-start text-left">
+                        <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                        <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
+                        <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
+                      </CardContent>
+                       <div className="relative aspect-[4/3] w-full mt-auto">
+                           <Image
+                                src={subject.imageUrl}
+                                alt={subject.name}
+                                data-ai-hint={subject.imageHint}
+                                fill
+                                className="object-cover rounded-b-xl"
+                            />
                         </div>
-                      ))
-                  ) : (
-                  <div className="col-span-full text-center py-12 w-full">
-                      <Card className="p-8 inline-block bg-background/50">
-                          <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                          <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
-                          <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
-                      </Card>
-                  </div>
-                  )}
-                  </div>
-              </div>
+                    </Card>
+                  </Link>
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <Card className="p-8 inline-block bg-background/50">
+                    <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
+                    <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
+                  </Card>
+                </div>
+              )}
+            </div>
           )}
         </main>
       </div>
