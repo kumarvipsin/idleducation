@@ -51,6 +51,11 @@ const StoreHeader = () => {
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-4">
+                    <Link href="/" >
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            HOME
+                        </Button>
+                    </Link>
                     <Link href="/cart">
                         <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <ShoppingCart className="h-4 w-4 mr-1" />
@@ -66,11 +71,6 @@ const StoreHeader = () => {
                         <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <ShoppingBag className="h-4 w-4 mr-1" />
                             <span>MY ORDERS</span>
-                        </Button>
-                    </Link>
-                    <Link href="/" >
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            HOME
                         </Button>
                     </Link>
                 </div>
@@ -188,11 +188,11 @@ export default function StorePage() {
                     </div>
                      
                     <div className="relative">
-                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                             {loading ? (
-                                renderSkeleton()
-                             ) : (
-                                <div className="flex gap-6 px-4 md:px-[10%]">
+                         {loading ? (
+                            renderSkeleton()
+                         ) : (
+                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                 <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                         <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
@@ -240,8 +240,8 @@ export default function StorePage() {
                                         </div>
                                     ))}
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
