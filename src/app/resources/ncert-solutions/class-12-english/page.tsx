@@ -42,43 +42,88 @@ const class12EnglishResources = {
   ],
 };
 
+const ResourceLinks = () => (
+    <div className="space-y-2 pt-2">
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">NCERT Solutions (English Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Download className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">NCERT Solutions (Hindi Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Download className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">Important Questions (English Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">Important Questions (Hindi Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+);
+
 export default function Class12EnglishPage() {
 
   const contents = (
     <div>
-      <div className="space-y-4 md:space-y-6">
-        <Accordion type="multiple" className="w-full space-y-2">
-          {class12EnglishResources.books.map((book, bookIndex) => (
-            <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
-                <Card className="transition-all duration-300">
-                  <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline">{book.name}</AccordionTrigger>
-                  <AccordionContent className="p-4 pt-0">
-                    <div className="space-y-2">
-                    {book.chapters.map((chapter, chapterIndex) => (
-                        <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                          <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
-                            <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
-                            <div className="flex items-center gap-2 w-full md:w-auto">
-                              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                <Link href="#"><Eye className="h-4 w-4" /></Link>
-                              </Button>
-                              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                <Link href="#"><Download className="h-4 w-4" /></Link>
-                              </Button>
-                              <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                                <Link href="#"><ShoppingCart className="w-4 h-4" /></Link>
-                              </Button>
-                            </div>
-                          </div>
-                        </Card>
-                    ))}
-                    </div>
-                  </AccordionContent>
-                </Card>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
+        <div className="space-y-4 md:space-y-6">
+          <Accordion type="multiple" className="w-full space-y-2">
+            {class12EnglishResources.books.map((book, bookIndex) => (
+              <AccordionItem value={`book-${bookIndex}`} key={bookIndex} className="border-b-0">
+                  <Card className="transition-all duration-300">
+                    <AccordionTrigger className="p-3 md:p-4 text-base md:text-lg font-semibold hover:no-underline">{book.name}</AccordionTrigger>
+                    <AccordionContent className="p-4 pt-0">
+                      <div className="space-y-2">
+                      {book.chapters.map((chapter, chapterIndex) => (
+                          <Card key={chapterIndex} className="transition-all duration-300">
+                            <Accordion type="single" collapsible>
+                              <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground/90 text-left hover:no-underline">
+                                  {chapter.name}
+                                </AccordionTrigger>
+                                <AccordionContent className="p-4 pt-0">
+                                  <ResourceLinks />
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
+                          </Card>
+                      ))}
+                      </div>
+                    </AccordionContent>
+                  </Card>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
     </div>
   );
 

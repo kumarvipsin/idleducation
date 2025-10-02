@@ -17,39 +17,72 @@ const class10EnglishResources = {
       name: "First Flight",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god"},
-        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom"},
-        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying"},
+        { name: "Chapter 1: A Letter to God", slug: "a-letter-to-god", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
+        { name: "Chapter 2: Nelson Mandela: Long Walk to Freedom", slug: "nelson-mandela-long-walk-to-freedom", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
+        { name: "Chapter 3: Two Stories about Flying", slug: "two-stories-about-flying", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ]},
       ],
     },
     {
       name: "Footprints Without Feet",
       lang: "en",
       chapters: [
-        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery" },
-        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story" },
-        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor" },
+        { name: "Chapter 1: A Triumph of Surgery", slug: "a-triumph-of-surgery", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
+        { name: "Chapter 2: The Thief's Story", slug: "the-thiefs-story", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
+        { name: "Chapter 3: The Midnight Visitor", slug: "the-midnight-visitor", topics: [ { name: "About the Author" }, { name: "Summary" }, { name: "Character Sketch" } ] },
       ],
     },
   ],
 };
 
 const ResourceLinks = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <Button asChild variant="outline" size="sm" className="justify-start">
-            <Link href="#">NCERT Solutions (English Medium)</Link>
-        </Button>
-        <Button asChild variant="outline" size="sm" className="justify-start">
-            <Link href="#">NCERT Solutions (Hindi Medium)</Link>
-        </Button>
-        <Button asChild variant="outline" size="sm" className="justify-start">
-            <Link href="#">Important Questions (English Medium)</Link>
-        </Button>
-        <Button asChild variant="outline" size="sm" className="justify-start">
-            <Link href="#">Important Questions (Hindi Medium)</Link>
-        </Button>
+    <div className="space-y-2 pt-2">
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">NCERT Solutions (English Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Download className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">NCERT Solutions (Hindi Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Download className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">Important Questions (English Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+        <span className="text-sm font-medium">Important Questions (Hindi Medium)</span>
+        <div className="flex items-center">
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><Eye className="h-4 w-4" /></Link>
+          </Button>
+          <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+            <Link href="#"><ShoppingCart className="h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
     </div>
 );
+
 
 export default function Class10EnglishPage() {
   
