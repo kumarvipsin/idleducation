@@ -18,6 +18,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 const BookForm = ({
   book,
@@ -81,6 +82,18 @@ const BookForm = ({
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="subject" className="text-right">Subject</Label><Input id="subject" name="subject" defaultValue={book?.subject} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="edition" className="text-right">Edition</Label><Input id="edition" name="edition" defaultValue={book?.edition} className="col-span-3" /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="set" className="text-right">Set</Label><Input id="set" name="set" defaultValue={book?.set} className="col-span-3" /></div>
+          <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="category" className="text-right">Category</Label>
+              <Select name="category" defaultValue={book?.category || "Reference Books"}>
+                  <SelectTrigger className="col-span-3">
+                      <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                      <SelectItem value="IDL Store">IDL Store</SelectItem>
+                      <SelectItem value="Reference Books">Reference Books</SelectItem>
+                  </SelectContent>
+              </Select>
+          </div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="buyLink" className="text-right">Buy Link</Label><Input id="buyLink" name="buyLink" defaultValue={book?.buyLink} className="col-span-3" placeholder="https://example.com/buy" /></div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
@@ -165,6 +178,7 @@ export default function AdminReferenceBooksPage() {
                   <TableRow>
                     <TableHead>Image</TableHead>
                     <TableHead>Title</TableHead>
+                    <TableHead>Category</TableHead>
                     <TableHead>Class</TableHead>
                     <TableHead>Subject</TableHead>
                     <TableHead>Price</TableHead>
@@ -178,10 +192,11 @@ export default function AdminReferenceBooksPage() {
                       <TableRow key={i}>
                         <TableCell><Skeleton className="h-12 w-10 rounded-md" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-10" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
                       </TableRow>
                     ))
@@ -194,6 +209,7 @@ export default function AdminReferenceBooksPage() {
                            </div>
                         </TableCell>
                         <TableCell className="font-medium">{book.title}</TableCell>
+                        <TableCell>{book.category}</TableCell>
                         <TableCell>{book.class}</TableCell>
                         <TableCell>{book.subject}</TableCell>
                         <TableCell>₹{book.price}</TableCell>

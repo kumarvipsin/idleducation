@@ -789,6 +789,7 @@ export async function addReferenceBook(formData: FormData) {
     subject: rawData.subject as string,
     edition: rawData.edition as string,
     set: rawData.set as string,
+    category: rawData.category as string,
     buyLink: rawData.buyLink as string || '',
     imageUrl: '',
     createdAt: serverTimestamp(),
@@ -823,6 +824,7 @@ export async function editReferenceBook(id: string, formData: FormData) {
     subject: rawData.subject as string,
     edition: rawData.edition as string,
     set: rawData.set as string,
+    category: rawData.category as string,
     buyLink: rawData.buyLink as string || '',
   };
 

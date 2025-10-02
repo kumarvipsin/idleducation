@@ -29,8 +29,9 @@ export default function ReferenceBooksPage() {
             setLoading(true);
             const result = await getReferenceBooks();
             if (result.success && result.data) {
-                setBooks(result.data as TReferenceBook[]);
-                const classes = Array.from(new Set((result.data as TReferenceBook[]).map(b => b.class))).sort();
+                const refBooks = (result.data as TReferenceBook[]).filter(book => book.category === 'Reference Books');
+                setBooks(refBooks);
+                const classes = Array.from(new Set(refBooks.map(b => b.class))).sort();
                 if(classes.length > 0) {
                     setSelectedClass(classes.find(c => c.includes('10')) || classes[0]);
                 }
@@ -121,7 +122,7 @@ export default function ReferenceBooksPage() {
                                 ))
                              ) : (
                                 filteredBooks.map((book, index) => (
-                                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                    <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                     <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                         <CardContent className="p-4 flex flex-col flex-1">
                                             <div className="relative aspect-[4/5] w-full mb-4">
@@ -151,8 +152,8 @@ export default function ReferenceBooksPage() {
                                                 <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                 <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                             </div>
-                                            <div className="mt-4">
-                                               <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none' : ''}>
+                                            <div className="mt-4 flex gap-2">
+                                               <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
                                                     <Button className="w-full" disabled={!book.buyLink}>
                                                         Buy Now
                                                     </Button>
