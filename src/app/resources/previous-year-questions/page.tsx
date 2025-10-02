@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, Download, FileText } from "lucide-react";
@@ -31,8 +31,21 @@ export default function PreviousYearQuestionsPage() {
         fetchQuestions();
     }, []);
 
-    const classes = ['Class 10', 'Class 12'];
-    const subjects = ['All', ...Array.from(new Set(questions.filter(q => q.exam === selectedClass).map(q => q.subject)))];
+    const classes = useMemo(() => ['Class 10', 'Class 12'], []);
+    
+    const subjects = useMemo(() => {
+        const subjectsForClass = questions
+            .filter(q => q.exam === selectedClass)
+            .map(q => q.subject);
+        return ['All', ...Array.from(new Set(subjectsForClass))];
+    }, [questions, selectedClass]);
+
+    useEffect(() => {
+        // Reset subject if it's not available for the newly selected class
+        if (!subjects.includes(selectedSubject)) {
+            setSelectedSubject('All');
+        }
+    }, [selectedClass, subjects, selectedSubject]);
 
     const filteredQuestions = questions.filter(q => 
         q.exam === selectedClass &&
@@ -73,7 +86,7 @@ export default function PreviousYearQuestionsPage() {
                         {classes.map(c => (
                             <button
                                 key={c}
-                                onClick={() => { setSelectedClass(c); setSelectedSubject('All'); }}
+                                onClick={() => setSelectedClass(c)}
                                 className={cn(`py-2 px-6 text-sm font-medium transition-colors border rounded-full`,
                                     selectedClass === c
                                     ? 'border-primary text-primary bg-primary/10 shadow'
