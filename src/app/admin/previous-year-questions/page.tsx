@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Upload, FileText } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, FileText } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const questionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -28,6 +29,8 @@ const questionSchema = z.object({
 });
 
 type QuestionFormValues = z.infer<typeof questionSchema>;
+
+const subjects = ["Maths", "Science", "English", "SST", "Hindi", "Computer Science"];
 
 const QuestionForm = ({
   question,
@@ -110,9 +113,18 @@ const QuestionForm = ({
           render={({ field }) => (
             <FormItem className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="subject" className="text-right">Subject</Label>
-              <FormControl>
-                <Input id="subject" {...field} className="col-span-3" />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select a subject" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {subjects.map(subject => (
+                    <SelectItem key={subject} value={subject}>{subject}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
