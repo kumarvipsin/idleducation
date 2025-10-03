@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -149,6 +148,12 @@ function AdminLayout({
                                 <span>Scholarship</span>
                             </Link>
                         </SidebarMenuButton>
+                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enquiries')}>
+                            <Link href="/admin/enquiries">
+                                <MessageSquare />
+                                <span>Student Enquiries</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
                             <Link href="/admin/feedback">
                                 <FeedbackIcon />
@@ -157,7 +162,7 @@ function AdminLayout({
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/messages')}>
                             <Link href="/admin/messages">
-                                <MessageSquare />
+                                <Mail />
                                 <span>Contact Us</span>
                             </Link>
                         </SidebarMenuButton>
@@ -194,10 +199,16 @@ function AdminLayout({
                                 <span>NCERT & Imp Qs</span>
                            </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
-                            <Link href="/admin/previous-year-questions">
+                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
+                           <Link href="/admin/previous-year-questions">
                                 <FileText />
                                 <span>Prev. Year Questions</span>
+                           </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/reference-books')}>
+                            <Link href="/admin/reference-books">
+                                <BookOpen />
+                                <span>Reference Books</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
@@ -249,6 +260,18 @@ function AdminLayout({
                             <Link href="/admin/excellence-results">
                                 <Star />
                                 <span>Excellence Results</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
+                            <Link href="/admin/store-customers">
+                                <Users />
+                                <span>Store Customers</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-orders')}>
+                            <Link href="/admin/store-orders">
+                                <ShoppingCart />
+                                <span>Store Orders</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
