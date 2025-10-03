@@ -62,7 +62,7 @@ export const StoreHeader = () => {
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-4">
-                     <Link href="/">
+                    <Link href="/">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            Home
                         </Button>
@@ -96,11 +96,12 @@ export const StoreHeader = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     ) : (
-                      <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                        <Link href="/store/auth">
-                           Signup/Login
-                        </Link>
-                      </Button>
+                        <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                            <Link href="/store/auth">
+                                <User className="h-5 w-5" />
+                                <span className="sr-only">Signup/Login</span>
+                            </Link>
+                        </Button>
                     )}
                 </div>
             </div>
