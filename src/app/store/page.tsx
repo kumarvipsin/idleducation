@@ -126,9 +126,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         )}
                     </div>
                      <div className="flex items-center md:hidden gap-2">
-                        <Link href="/" >
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">HOME</Button>
-                        </Link>
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Link href="/" >HOME</Link>
+                        </Button>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
