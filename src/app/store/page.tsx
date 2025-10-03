@@ -34,8 +34,8 @@ import { Separator } from '@/components/ui/separator';
 export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
     const { cartCount } = useCart();
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
-    const [show, setShow = useState(true);
-    const [lastScrollY, setLastScrollY = useState(0);
+    const [show, setShow] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
@@ -106,30 +106,57 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <Link href="/store/auth">LOGIN</Link>
                         </Button>
                     )}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-md">
-                            <DialogHeader>
-                            <DialogTitle>Search Store</DialogTitle>
-                            <DialogDescription>
-                                Find books by ID, class, or edition.
-                            </DialogDescription>
-                            </DialogHeader>
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    type="text"
-                                    placeholder="Search by ID, class, edition..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-10 w-full"
-                                />
-                            </div>
-                        </DialogContent>
-                    </Dialog>
+                    <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
+                    <div className="flex items-center md:hidden gap-2">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                <DialogTitle>Search Store</DialogTitle>
+                                <DialogDescription>
+                                    Find books by ID, class, or edition.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Search by ID, class, edition..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 w-full"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                    <div className="hidden md:flex items-center gap-2">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                <DialogTitle>Search Store</DialogTitle>
+                                <DialogDescription>
+                                    Find books by ID, class, or edition.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Search by ID, class, edition..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 w-full"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
             </div>
         </header>
@@ -138,11 +165,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
 
 export default function StorePage() {
-    const [books, setBooks = useState<TReferenceBook[]>([]);
-    const [loading, setLoading = useState(true);
-    const [selectedClass, setSelectedClass = useState('');
-    const [selectedSubject, setSelectedSubject = useState('All');
-    const [searchTerm, setSearchTerm = useState('');
+    const [books, setBooks] = useState<TReferenceBook[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedClass, setSelectedClass] = useState('');
+    const [selectedSubject, setSelectedSubject] = useState('All');
+    const [searchTerm, setSearchTerm] = useState('');
     const { addToCart } = useCart();
     const { toast } = useToast();
     const { user: storeUser } = useStoreAuth();
@@ -271,7 +298,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
@@ -328,5 +355,4 @@ export default function StorePage() {
             </div>
         </>
     );
-
-    
+}
