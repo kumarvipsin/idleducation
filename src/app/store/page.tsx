@@ -59,17 +59,17 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
     }, [controlNavbar]);
     
     const searchPopoverContent = (
-      <div className="p-2 space-y-2">
-        <p className="text-sm font-medium text-foreground">Search Store</p>
-        <p className="text-xs text-muted-foreground">Find books by ID, class, or edition.</p>
+      <div className="p-1 space-y-1">
+        <p className="text-xs font-medium text-foreground">Search Store</p>
+        <p className="text-[10px] text-muted-foreground">Find books by ID, class, or edition.</p>
         <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
             <Input
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-full h-9 text-xs"
+                className="pl-6 w-full h-8 text-[10px]"
             />
         </div>
       </div>
@@ -77,24 +77,19 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
-                     <Link href="/" className="md:hidden">
+                     <Link href="/" className="hidden md:block">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            HOME
                         </Button>
                     </Link>
-                    <Link href="/" className="hidden md:block">
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           HOME
-                        </Button>
-                    </Link>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                     {storeUser ? (
                        <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -128,23 +123,26 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <Link href="/store/auth">LOGIN</Link>
                         </Button>
                     )}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:flex" />
                      <div className="flex items-center md:hidden gap-2">
+                        <Link href="/" >
+                            <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
+                        </Link>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-64 p-0">
+                            <PopoverContent className="w-48 p-0">
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
                     </div>
                     <div className="hidden md:flex items-center gap-2">
+                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-64 p-0">
+                            <PopoverContent className="w-48 p-0">
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
