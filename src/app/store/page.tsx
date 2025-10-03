@@ -130,12 +130,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             </div>
                         </DialogContent>
                     </Dialog>
-                    <Link href="/store/cart">
-                        <Button variant="ghost" size="icon" className="relative h-8 w-8">
-                            <ShoppingCart className="h-4 w-4" />
-                            
-                        </Button>
-                    </Link>
                 </div>
             </div>
         </header>
@@ -206,7 +200,7 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${book.title} has been added to your cart.`,
+            description: `${''}${book.title} has been added to your cart.`,
         });
     };
     
@@ -277,7 +271,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
