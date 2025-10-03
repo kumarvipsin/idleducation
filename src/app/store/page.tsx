@@ -124,12 +124,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         )}
                     </div>
                      <div className="flex items-center md:hidden gap-2">
-                        <Button asChild variant="ghost" size="icon" className="relative h-7 w-7">
-                            <Link href="/store/cart">
-                                <ShoppingCart className="h-4 w-4" />
-                                <span className="sr-only">Shopping Cart</span>
-                            </Link>
-                        </Button>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
@@ -141,12 +135,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </div>
                     <div className="hidden md:flex items-center gap-2">
                         <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                         <Button asChild variant="ghost" size="icon" className="relative h-7 w-7">
-                            <Link href="/store/cart">
-                                <ShoppingCart className="h-4 w-4" />
-                                <span className="sr-only">Shopping Cart</span>
-                            </Link>
-                        </Button>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
@@ -332,7 +320,7 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3">
-                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
+                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
