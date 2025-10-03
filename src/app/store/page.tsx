@@ -193,7 +193,7 @@ export default function StorePage() {
                          {loading ? (
                             renderSkeleton()
                          ) : (
-                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
