@@ -7,6 +7,7 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
+import { signUpUser } from './auth';
 
 // User Management
 export async function getPendingUsers() {
@@ -90,6 +91,7 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     name: rawData.name as string,
     designation: rawData.designation as string,
     experience: rawData.experience as string,
+    biography: rawData.biography as string || '',
     socialLinks: {
       instagram: rawData.instagram as string || '',
       facebook: rawData.facebook as string || '',
@@ -101,6 +103,8 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     if (photoFile && photoFile.size > 0) {
       const destination = `teacher_photos/${teacherId}-${photoFile.name}`;
       teacherData.photoURL = await uploadFileToGCS(photoFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        teacherData.photoURL = '';
     }
 
     const docRef = doc(db, "users", teacherId);
@@ -111,6 +115,29 @@ export async function editTeacher(teacherId: string, formData: FormData) {
     console.error("Error updating teacher:", error);
     return { success: false, message: "Failed to update teacher." };
   }
+}
+
+const addAdminSchema = z.object({
+  name: z.string().min(2, { message: "Name is required" }),
+  email: z.string().email(),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
+
+export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
+  const validation = addAdminSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: validation.error.errors.map(e => e.message).join(', ') };
+  }
+
+  // Use the existing signUpUser function, but force the role to 'admin'
+  const result = await signUpUser({ ...validation.data, role: 'admin' });
+  
+  // The signUpUser function automatically sets status to 'pending', let's approve it right away for admins
+  if (result.success && result.uid) {
+    await approveUser(result.uid);
+  }
+
+  return result;
 }
 
 
@@ -298,7 +325,6 @@ export async function deleteTestimonial(id: string) {
 const topperTestimonialSchema = z.object({
   studentName: z.string().min(1, 'Student name is required'),
   studentClass: z.string().min(1, 'Class/Course is required'),
-  studentPlace: z.string().min(1, 'Place is required'),
   videoId: z.string().min(1, 'YouTube Video ID is required'),
 });
 
@@ -474,7 +500,7 @@ export async function addExamCategory(formData: FormData) {
     order: parseInt(rawData.order as string, 10) || 99,
   };
 
-  if (categoryData.group === 'school') {
+  if (categoryData.group === 'school' || categoryData.group === 'competitive') {
     categoryData.teacherIds = teacherIds;
   }
 
@@ -508,7 +534,7 @@ export async function editExamCategory(id: string, formData: FormData) {
       teacherIds: [],
     };
 
-    if (categoryData.group === 'school') {
+    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
         categoryData.teacherIds = teacherIds;
     }
     
@@ -516,6 +542,8 @@ export async function editExamCategory(id: string, formData: FormData) {
         if (imageFile && imageFile.size > 0) {
             const destination = `exam-categories/${id}-${imageFile.name}`;
             categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        } else if (rawData.removePhoto === 'true') {
+            categoryData.imageUrl = '';
         }
 
         const docRef = doc(db, "examCategories", id);
@@ -548,7 +576,13 @@ export async function addTeamMember(formData: FormData) {
     name: rawData.name as string,
     designation: rawData.designation as string,
     experience: rawData.experience as string,
+    biography: rawData.biography as string || '',
     order: parseInt(rawData.order as string, 10) || 99,
+    socialLinks: {
+      instagram: rawData.instagram as string || '',
+      facebook: rawData.facebook as string || '',
+      twitter: rawData.twitter as string || '',
+    },
   };
 
   try {
@@ -556,8 +590,6 @@ export async function addTeamMember(formData: FormData) {
     if (avatarFile && avatarFile.size > 0) {
       const destination = `team-members/${Date.now()}-${avatarFile.name}`;
       avatarUrl = await uploadFileToGCS(avatarFile, destination);
-    } else {
-        return { success: false, message: "Avatar image is required." };
     }
     
     await addDoc(collection(db, "teamMembers"), {
@@ -581,13 +613,21 @@ export async function editTeamMember(id: string, formData: FormData) {
       name: rawData.name as string,
       designation: rawData.designation as string,
       experience: rawData.experience as string,
+      biography: rawData.biography as string || '',
       order: parseInt(rawData.order as string, 10) || 99,
+      socialLinks: {
+        instagram: rawData.instagram as string || '',
+        facebook: rawData.facebook as string || '',
+        twitter: rawData.twitter as string || '',
+      },
     };
     
     try {
         if (avatarFile && avatarFile.size > 0) {
             const destination = `team-members/${Date.now()}-${avatarFile.name}`;
             memberData.avatarUrl = await uploadFileToGCS(avatarFile, destination);
+        } else if (rawData.removePhoto === 'true') {
+            memberData.avatarUrl = '';
         }
 
         const docRef = doc(db, "teamMembers", id);
@@ -654,6 +694,177 @@ export async function editAdminProfile(userId: string, formData: FormData) {
   }
 }
 
+export async function getDirectorProfile() {
+  try {
+    const docRef = doc(db, "siteContent", "director");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { success: true, data: serializeFirestoreData(docSnap.data()) };
+    } else {
+      // Return a default structure if it doesn't exist
+      return { success: true, data: { name: 'Amod Kumar Sharma', photoUrl: 'amod.jpg' } };
+    }
+  } catch (error) {
+    console.error("Error fetching director profile:", error);
+    return { success: false, message: "Failed to fetch director profile." };
+  }
+}
+
+export async function editDirectorProfile(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  const name = rawData.name as string;
   
+  const dataToUpdate: any = { name };
+
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `site_assets/director_photo.jpg`;
+      dataToUpdate.photoUrl = await uploadFileToGCS(photoFile, destination);
+    }
+
+    const docRef = doc(db, "siteContent", "director");
+    await setDoc(docRef, dataToUpdate, { merge: true });
+    
+    const updatedDoc = await getDoc(docRef);
+    if (updatedDoc.exists()) {
+      return { success: true, message: "Director profile updated successfully.", data: serializeFirestoreData(updatedDoc.data()) };
+    }
+
+    return { success: true, message: "Director profile updated successfully." };
+  } catch (error) {
+    console.error("Error updating director profile:", error);
+    return { success: false, message: "Failed to update director profile." };
+  }
+}
+
+export async function editStudentProfile(studentId: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  
+  const studentData: any = {
+    name: rawData.name as string,
+    biography: rawData.biography as string || '',
+    dob: rawData.dob ? rawData.dob as string : null,
+    bloodGroup: rawData.bloodGroup as string || '',
+    phone: rawData.phone as string || '',
+    address: rawData.address as string || '',
+    socialLinks: {
+      instagram: rawData.instagram as string || '',
+      facebook: rawData.facebook as string || '',
+      twitter: rawData.twitter as string || '',
+    },
+  };
+
+  try {
+    if (photoFile && photoFile.size > 0) {
+      const destination = `profile_photos/${studentId}-${photoFile.name}`;
+      studentData.photoURL = await uploadFileToGCS(photoFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        studentData.photoURL = '';
+    }
+
+    const docRef = doc(db, "users", studentId);
+    await updateDoc(docRef, studentData);
+    
+    return { success: true, message: "Student profile updated successfully." };
+  } catch (error) {
+    console.error("Error updating student profile:", error);
+    return { success: false, message: "Failed to update student profile." };
+  }
+}
+
+export async function addReferenceBook(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+
+  const bookData: any = {
+    title: rawData.title as string,
+    author: rawData.author as string,
+    price: parseFloat(rawData.price as string),
+    originalPrice: parseFloat(rawData.originalPrice as string),
+    rating: parseFloat(rawData.rating as string),
+    reviews: parseInt(rawData.reviews as string, 10),
+    class: rawData.class as string,
+    subject: rawData.subject as string,
+    edition: rawData.edition as string,
+    set: rawData.set as string,
+    category: rawData.category as string,
+    buyLink: rawData.buyLink as string || '',
+    imageUrl: '',
+    createdAt: serverTimestamp(),
+  };
+
+  if(bookData.category === 'IDL Store' && rawData.productId) {
+    bookData.productId = parseInt(rawData.productId as string, 10);
+  }
+
+  try {
+    if (imageFile && imageFile.size > 0) {
+      const destination = `reference-books/${Date.now()}-${imageFile.name}`;
+      bookData.imageUrl = await uploadFileToGCS(imageFile, destination);
+    }
+
+    await addDoc(collection(db, "referenceBooks"), bookData);
+    return { success: true, message: "Reference book added successfully." };
+  } catch (error) {
+    console.error("Error adding reference book:", error);
+    return { success: false, message: "Failed to add reference book." };
+  }
+}
+
+export async function editReferenceBook(id: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+
+  const bookData: any = {
+    title: rawData.title as string,
+    author: rawData.author as string,
+    price: parseFloat(rawData.price as string),
+    originalPrice: parseFloat(rawData.originalPrice as string),
+    rating: parseFloat(rawData.rating as string),
+    reviews: parseInt(rawData.reviews as string, 10),
+    class: rawData.class as string,
+    subject: rawData.subject as string,
+    edition: rawData.edition as string,
+    set: rawData.set as string,
+    category: rawData.category as string,
+    buyLink: rawData.buyLink as string || '',
+  };
+
+  if(bookData.category === 'IDL Store' && rawData.productId) {
+    bookData.productId = parseInt(rawData.productId as string, 10);
+  } else {
+    bookData.productId = deleteField();
+  }
+
+  try {
+    if (imageFile && imageFile.size > 0) {
+      const destination = `reference-books/${id}-${imageFile.name}`;
+      bookData.imageUrl = await uploadFileToGCS(imageFile, destination);
+    } else if (rawData.removePhoto === 'true') {
+        bookData.imageUrl = '';
+    }
+
+    const docRef = doc(db, "referenceBooks", id);
+    await updateDoc(docRef, bookData);
+    return { success: true, message: "Reference book updated successfully." };
+  } catch (error) {
+    console.error("Error updating reference book:", error);
+    return { success: false, message: "Failed to update reference book." };
+  }
+}
+
+export async function deleteReferenceBook(id: string) {
+  try {
+    const docRef = doc(db, "referenceBooks", id);
+    await deleteDoc(docRef);
+    return { success: true, message: "Reference book deleted successfully." };
+  } catch (error) {
+    console.error("Error deleting reference book:", error);
+    return { success: false, message: "Failed to delete reference book." };
+  }
+}
+    
 
     
