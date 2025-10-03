@@ -113,7 +113,7 @@ export default function OrdersPage() {
       return (
         <>
             <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-                <StoreHeader />
+                <StoreHeader searchTerm="" setSearchTerm={() => {}} />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Card className="shadow-lg">
                         <CardHeader>
@@ -133,7 +133,7 @@ export default function OrdersPage() {
   return (
     <>
       <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-          <StoreHeader />
+          <StoreHeader searchTerm="" setSearchTerm={() => {}} />
           <div className="container mx-auto py-12 px-4 md:px-6">
               <Card className="shadow-lg">
                   <CardHeader>

@@ -128,7 +128,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         </Button>
                     </Link>
                     <Link href="/store/cart" className="relative">
-                        <ShoppingBag className="h-5 w-5" />
                          {cartCount > 0 && (
                             <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
                                 {cartCount}
@@ -344,7 +343,12 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3 flex gap-2">
-                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
+                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
+                                                            Buy Now
+                                                        </Button>
+                                                    </a>
+                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
