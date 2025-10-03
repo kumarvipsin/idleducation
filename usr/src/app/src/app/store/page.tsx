@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -14,10 +14,26 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { useCart } from '@/context/cart-context';
 import { useToast } from '@/hooks/use-toast';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator
+} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useStoreAuth } from '@/context/store-auth-context';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useRouter } from 'next/navigation';
+import { ToastAction } from '@/components/ui/toast';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
 
-const StoreHeader = () => {
+export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
     const { cartCount } = useCart();
+    const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -44,35 +60,106 @@ const StoreHeader = () => {
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-14 items-center justify-between mx-auto px-[10%]">
-                <Link href="/" className="flex items-center gap-2">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14")}>
+            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+                <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
-                <div className="flex items-center gap-4">
-                    <Link href="/" >
+                <div className="flex items-center gap-2 md:gap-4">
+                    <Link href="/" className="hidden md:block">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            HOME
+                           HOME
                         </Button>
                     </Link>
-                    <Link href="/cart">
-                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <ShoppingCart className="h-4 w-4 mr-1" />
-                            <span>MY CART</span>
-                            {cartCount > 0 && (
-                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
-                                    {cartCount}
-                                </span>
-                            )}
+                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
+                    {storeUser ? (
+                       <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                            <Avatar className="h-8 w-8">
+                              <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56" align="end" forceMount>
+                          <DropdownMenuLabel className="font-normal">
+                            <div className="flex flex-col space-y-1">
+                              <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                              <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                            </div>
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                           <DropdownMenuItem asChild>
+                                <Link href="/store/cart">My Cart</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/store/orders">My Orders</Link>
+                            </DropdownMenuItem>
+                           <DropdownMenuItem onClick={storeLogout}>
+                            Logout
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <Link href="/store/auth">LOGIN</Link>
                         </Button>
-                    </Link>
-                    <Link href="/orders">
-                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <ShoppingBag className="h-4 w-4 mr-1" />
-                            <span>MY ORDERS</span>
-                        </Button>
-                    </Link>
+                    )}
+                     <div className="flex items-center md:hidden gap-2">
+                        <Link href="/" >
+                            <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
+                        </Link>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                <DialogTitle>Search Store</DialogTitle>
+                                <DialogDescription>
+                                    Find books by ID, class, or edition.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Search by ID, class, edition..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 w-full"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                    <div className="hidden md:flex items-center gap-2">
+                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                <DialogTitle>Search Store</DialogTitle>
+                                <DialogDescription>
+                                    Find books by ID, class, or edition.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Search by ID, class, edition..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 w-full"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
             </div>
         </header>
@@ -85,8 +172,11 @@ export default function StorePage() {
     const [loading, setLoading] = useState(true);
     const [selectedClass, setSelectedClass] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('All');
+    const [searchTerm, setSearchTerm] = useState('');
     const { addToCart } = useCart();
     const { toast } = useToast();
+    const { user: storeUser } = useStoreAuth();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -105,9 +195,9 @@ export default function StorePage() {
         fetchBooks();
     }, []);
 
-    const classes = Array.from(new Set(books.map(book => book.class))).sort();
+    const classes = useMemo(() => Array.from(new Set(books.map(book => book.class))).sort(), [books]);
     
-    const subjects = ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))];
+    const subjects = useMemo(() => ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))], [books, selectedClass]);
 
     useEffect(() => {
         if (!subjects.includes(selectedSubject)) {
@@ -115,24 +205,40 @@ export default function StorePage() {
         }
     }, [selectedClass, subjects, selectedSubject]);
 
-    const filteredBooks = books.filter(book => 
-        (book.class === selectedClass) &&
-        (selectedSubject === 'All' || book.subject === selectedSubject)
-    );
+    const filteredBooks = useMemo(() => {
+        return books.filter(book => 
+            (book.class === selectedClass) &&
+            (selectedSubject === 'All' || book.subject === selectedSubject) &&
+            (
+                book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(book.productId).toLowerCase().includes(searchTerm.toLowerCase()) ||
+                book.edition.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                book.class.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }, [books, selectedClass, selectedSubject, searchTerm]);
 
     const handleAddToCart = (book: TReferenceBook) => {
+        if (!storeUser) {
+            toast({
+                title: "Please Log In",
+                description: "You need to be logged in to add items to the cart.",
+                action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
+            });
+            return;
+        }
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${book.title} has been added to your cart.`,
+            description: `${''}${book.title} has been added to your cart.`,
         });
     };
     
     const renderSkeleton = () => (
       <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
-            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                <Skeleton className="h-[450px] w-full rounded-lg" />
+            <div key={index} className="block flex-shrink-0 w-[280px]">
+                <Skeleton className="h-[420px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -141,7 +247,7 @@ export default function StorePage() {
     return (
         <>
             <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-                <StoreHeader />
+                <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
                         <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">IDL Store</h1>
@@ -194,10 +300,10 @@ export default function StorePage() {
                             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
-                                        <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
-                                            <CardContent className="p-4 flex flex-col flex-1">
-                                                <div className="relative aspect-[4/5] w-full mb-4">
+                                        <div key={book.id} className="block flex-shrink-0 w-[280px] group">
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
+                                            <CardContent className="p-3 flex flex-col flex-1">
+                                                <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
                                                         filePath={book.imageUrl}
                                                         alt={book.title}
@@ -205,32 +311,37 @@ export default function StorePage() {
                                                         className="object-cover rounded-md"
                                                     />
                                                 </div>
-                                                <div className="flex gap-2">
-                                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                                <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                    <span>{book.set}</span>
+                                                    {book.productId && <span>ID: {book.productId}</span>}
                                                 </div>
-                                                <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                                <h3 className="font-bold text-sm leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
+                                                
+                                                <p className="text-xs font-semibold text-primary mt-1">
+                                                    {book.class} | Edition: {book.edition}
+                                                </p>
+                                                
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <div className="flex items-center gap-0.5">
                                                         {[...Array(5)].map((_, i) => (
-                                                            <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                            <Star key={i} className={`w-3 h-3 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
                                                         ))}
                                                     </div>
                                                     <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
                                                 </div>
                                                 
-                                                <div className="flex items-baseline gap-2 mt-2">
-                                                    <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                                    <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                                    <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                                <div className="flex items-baseline gap-1.5 mt-2">
+                                                    <p className="text-lg font-bold text-foreground">₹{book.price}</p>
+                                                    <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                                    <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
-                                                <div className="mt-4 flex gap-2">
+                                                <div className="mt-3 flex gap-2">
                                                    <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full" disabled={!book.buyLink}>
+                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
                                                             Buy Now
                                                         </Button>
                                                     </a>
-                                                    <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
+                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
