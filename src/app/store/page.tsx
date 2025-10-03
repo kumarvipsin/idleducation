@@ -265,7 +265,7 @@ export default function StorePage() {
                                                             <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
                                                         ))}
                                                     </div>
-                                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating} ({book.reviews} reviews)</span>
+                                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
                                                 </div>
                                                 
                                                 <div className="flex items-baseline gap-2 mt-2">
