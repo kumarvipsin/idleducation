@@ -22,7 +22,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const serializeFirestoreData = (docData: any) => {
+const serializeFirestoreData = (docData: any): any => {
     if (!docData) return null;
     const data = { ...docData };
     for (const key in data) {
@@ -39,6 +39,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   
   useEffect(() => {
+    const storedProfile = sessionStorage.getItem('userProfile');
+    if (storedProfile) {
+      try {
+        const profile = JSON.parse(storedProfile);
+        setUser(profile);
+      } catch (e) {
+        console.error("Failed to parse user profile from session storage", e);
+        sessionStorage.removeItem('userProfile');
+      }
+    }
+    // We set loading to false initially to avoid a flicker on page load
+    // if the user is already authenticated from session storage.
+    // The onAuthStateChanged listener will then verify and update if needed.
+    setLoading(false);
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
