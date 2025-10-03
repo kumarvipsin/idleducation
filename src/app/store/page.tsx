@@ -22,6 +22,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
@@ -66,10 +67,29 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         <span className="text-lg font-bold text-primary">IDL Store</span>
                     </Link>
                     <div className="md:hidden flex items-center gap-2">
-                        <Link href="/store/cart" className="relative">
-                            
-                            
-                        </Link>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                <DialogTitle>Search Store</DialogTitle>
+                                <DialogDescription>
+                                    Find books by ID, class, or edition.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Search..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="pl-10 w-full"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                         {storeUser ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -106,15 +126,30 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </div>
                 </div>
                 
-                <div className="relative w-full md:w-64 lg:w-96">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Search by ID, class, edition..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full"
-                    />
+                <div className="relative w-full md:w-auto">
+                   <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                            <DialogTitle>Search Store</DialogTitle>
+                            <DialogDescription>
+                                Find books by ID, class, or edition.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-10 w-full"
+                                />
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
 
                 <div className="hidden md:flex items-center gap-4">
@@ -122,9 +157,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            HOME
                         </Button>
-                    </Link>
-                    <Link href="/store/cart" className="relative">
-                         
                     </Link>
                     {storeUser ? (
                        <DropdownMenu>
