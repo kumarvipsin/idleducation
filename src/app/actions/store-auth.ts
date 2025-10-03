@@ -3,7 +3,7 @@
 
 import { z } from "zod";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, setDoc, updateDoc, orderBy } from "firebase/firestore";
 import { serializeFirestoreData } from './utils';
 
 // Schema for store user signup

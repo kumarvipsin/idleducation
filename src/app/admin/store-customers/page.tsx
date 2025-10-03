@@ -42,12 +42,18 @@ export default function StoreCustomersPage() {
       setLoading(true);
       const result = await getStoreCustomers();
       if (result.success && result.data) {
-        setCustomers(result.data);
+        setCustomers(result.data as StoreCustomer[]);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: result.message || "Failed to fetch store customers.",
+        });
       }
       setLoading(false);
     }
     fetchCustomers();
-  }, []);
+  }, [toast]);
 
   const handleResetPassword = async () => {
     if (!selectedCustomer || !newPassword) {
