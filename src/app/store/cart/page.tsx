@@ -10,13 +10,81 @@ import Image from "next/image";
 import Link from "next/link";
 import { StoreHeader } from "@/app/store/page";
 import { GcsImage } from "@/components/gcs-image";
+import { createRazorpayOrder } from "@/app/actions";
+import { createOrder } from "@/app/actions/store";
+import { useToast } from "@/hooks/use-toast";
+import Script from "next/script";
+import { useStoreAuth } from "@/context/store-auth-context";
+import { useRouter } from "next/navigation";
 
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, cartTotal } = useCart();
+  const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, cartTotal, clearCart } = useCart();
+  const { toast } = useToast();
+  const { user } = useStoreAuth();
+  const router = useRouter();
+
+
+  const handleCheckout = async () => {
+    if (!user) {
+        toast({
+            variant: "destructive",
+            title: "Authentication Error",
+            description: "You must be logged in to proceed to checkout.",
+        });
+        router.push('/store/auth');
+        return;
+    }
+
+    const result = await createRazorpayOrder({ amount: cartTotal * 100, currency: 'INR' });
+    if (!result.success || !result.order) {
+        toast({ variant: 'destructive', title: 'Payment Error', description: 'Could not create payment order.' });
+        return;
+    }
+    const order = result.order;
+    const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'IDL Store',
+        description: 'Order Payment',
+        order_id: order.id,
+        handler: async function (response: any) {
+            const orderResult = await createOrder({
+                userId: user.id,
+                items: cartItems,
+                totalAmount: cartTotal,
+                paymentId: response.razorpay_payment_id,
+            });
+
+            if (orderResult.success) {
+                toast({ title: 'Payment Successful', description: 'Your order has been placed!' });
+                clearCart();
+                router.push('/store/orders');
+            } else {
+                toast({ variant: 'destructive', title: 'Order Failed', description: 'There was an issue saving your order. Please contact support.' });
+            }
+        },
+        prefill: {
+            name: user.name,
+            contact: user.mobile,
+        },
+        theme: {
+            color: '#0d47a1',
+        },
+    };
+    // @ts-ignore
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  }
+
 
   return (
     <>
+        <Script
+            id="razorpay-checkout-js"
+            src="https://checkout.razorpay.com/v1/checkout.js"
+        />
         <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
             <StoreHeader />
             <div className="container mx-auto py-12 px-4 md:px-6">
@@ -74,7 +142,7 @@ export default function CartPage() {
                                 <span>Total</span>
                                 <span>₹{cartTotal}</span>
                             </div>
-                            <Button className="w-full mt-6" size="lg">
+                            <Button className="w-full mt-6" size="lg" onClick={handleCheckout}>
                                 Proceed to Checkout
                             </Button>
                         </CardFooter>
