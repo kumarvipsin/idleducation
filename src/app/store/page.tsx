@@ -105,11 +105,6 @@ export const StoreHeader = () => {
                             </Link>
                         </Button>
                     )}
-                     <Link href="/store/cart">
-                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           
-                        </Button>
-                    </Link>
                 </div>
             </div>
         </header>
@@ -276,11 +271,6 @@ export default function StorePage() {
                                                     <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-4 flex gap-2">
-                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full" disabled={!book.buyLink}>
-                                                            Buy Now
-                                                        </Button>
-                                                    </a>
                                                     <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
