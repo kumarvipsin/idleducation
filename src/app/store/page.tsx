@@ -248,17 +248,16 @@ export default function StorePage() {
                                                     />
                                                 </div>
                                                 <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                                    <span>Set Of {book.set}</span>
+                                                    <span>{book.set}</span>
                                                     {book.productId && <span>ID: {book.productId}</span>}
                                                 </div>
                                                 <h3 className="font-bold text-sm leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
-                                                <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
-                                                    <span>Class: {book.class}</span>
-                                                    <span>Edition: {book.edition}</span>
-                                                </div>
                                                 
-                                                <div className="flex-grow"></div>
-                                                <div className="flex items-center gap-2 mt-2">
+                                                <p className="text-xs font-semibold text-primary mt-1">
+                                                    {book.class} | Edition: {book.edition}
+                                                </p>
+                                                
+                                                <div className="flex items-center gap-2 mt-1">
                                                     <div className="flex items-center gap-0.5">
                                                         {[...Array(5)].map((_, i) => (
                                                             <Star key={i} className={`w-3 h-3 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
@@ -267,7 +266,7 @@ export default function StorePage() {
                                                     <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
                                                 </div>
                                                 
-                                                <div className="flex items-baseline gap-2 mt-2">
+                                                <div className="flex items-baseline gap-1.5 mt-2">
                                                     <p className="text-lg font-bold text-foreground">₹{book.price}</p>
                                                     <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
