@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -216,6 +216,7 @@ export function Header() {
     { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
