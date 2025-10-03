@@ -56,14 +56,14 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
  * This is used for files that are not publicly accessible by default.
  */
 export async function getSignedUrl(filePath: string): Promise<string> {
+  const storage = getStorageClient();
+  const bucket = storage.bucket(bucketName);
+
   // If the path is already a full GCS URL, extract the object name.
   const gcsUrlPrefix = `https://storage.googleapis.com/${bucketName}/`;
   if (filePath.startsWith(gcsUrlPrefix)) {
     filePath = filePath.substring(gcsUrlPrefix.length);
   }
-
-  const storage = getStorageClient();
-  const bucket = storage.bucket(bucketName);
 
   const options = {
     version: 'v4' as const,

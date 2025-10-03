@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -26,13 +27,8 @@ export function GcsImage({ filePath, alt, className, width, height, fill }: GcsI
         return;
       }
       setLoading(true);
-
-      const isFullUrl = filePath.startsWith('https://storage.googleapis.com/');
-      // If it's already a full GCS URL, use it directly.
-      // Otherwise, assume it's just the path and construct the full URL.
-      const fullPath = isFullUrl ? filePath : `https://storage.googleapis.com/idlcloud/${filePath}`;
       
-      const result = await getSignedUrlForPdf(fullPath);
+      const result = await getSignedUrlForPdf(filePath);
       if (result.success && result.url) {
         setImageUrl(result.url);
       } else {
