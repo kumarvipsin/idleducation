@@ -22,7 +22,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
@@ -57,11 +57,28 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
             };
         }
     }, [controlNavbar]);
+    
+    const searchPopoverContent = (
+      <div className="p-2 space-y-2">
+        <p className="text-sm font-medium text-foreground">Search Store</p>
+        <p className="text-xs text-muted-foreground">Find books by ID, class, or edition.</p>
+        <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 w-full h-9 text-xs"
+            />
+        </div>
+      </div>
+    );
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
@@ -112,55 +129,25 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         </Button>
                     )}
                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:flex" />
-                    <div className="flex items-center md:hidden gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
+                     <div className="flex items-center md:hidden gap-2">
+                        <Popover>
+                            <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64 p-0">
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="hidden md:flex items-center gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
+                        <Popover>
+                            <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-64 p-0">
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                     </div>
                 </div>
             </div>
@@ -356,5 +343,3 @@ export default function StorePage() {
         </>
     );
 }
-
-    
