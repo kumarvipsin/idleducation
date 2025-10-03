@@ -115,12 +115,6 @@ function AdminLayout({
                                 <span>Teachers</span>
                             </Link>
                         </SidebarMenuButton>
-                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
-                            <Link href="/admin/store-customers">
-                                <ShoppingCart />
-                                <span>Store Customers</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
                             <Link href="/admin/staff">
                                 <Users />
@@ -267,6 +261,12 @@ function AdminLayout({
                             <Link href="/admin/excellence-results">
                                 <Star />
                                 <span>Excellence Results</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
+                            <Link href="/admin/store-customers">
+                                <ShoppingCart />
+                                <span>Store Customers</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
