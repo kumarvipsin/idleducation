@@ -85,11 +85,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        <Link href="/" className="hidden md:block">
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            HOME
-                            </Button>
-                        </Link>
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           <Link href="/" >HOME</Link>
+                        </Button>
                         <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                         {storeUser ? (
                         <DropdownMenu>
@@ -126,8 +124,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         )}
                     </div>
                      <div className="flex items-center md:hidden gap-2">
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/" >HOME</Link>
+                        <Button asChild variant="ghost" size="icon" className="relative h-7 w-7">
+                            <Link href="/store/cart">
+                                <ShoppingCart className="h-4 w-4" />
+                                <span className="sr-only">Shopping Cart</span>
+                            </Link>
                         </Button>
                         <Popover>
                             <PopoverTrigger asChild>
@@ -140,6 +141,12 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </div>
                     <div className="hidden md:flex items-center gap-2">
                         <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                         <Button asChild variant="ghost" size="icon" className="relative h-7 w-7">
+                            <Link href="/store/cart">
+                                <ShoppingCart className="h-4 w-4" />
+                                <span className="sr-only">Shopping Cart</span>
+                            </Link>
+                        </Button>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
@@ -324,12 +331,7 @@ export default function StorePage() {
                                                     <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
-                                                <div className="mt-3 flex gap-2">
-                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
-                                                            Buy Now
-                                                        </Button>
-                                                    </a>
+                                                <div className="mt-3">
                                                     <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
@@ -348,3 +350,4 @@ export default function StorePage() {
         </>
     );
 }
+
