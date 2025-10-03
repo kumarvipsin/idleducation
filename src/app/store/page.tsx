@@ -72,12 +72,6 @@ export const StoreHeader = () => {
                         <DropdownMenuItem asChild>
                           <Link href="/">Home</Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href="/store/cart">My Cart</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                           <Link href="/store/orders">My Orders</Link>
-                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
 
