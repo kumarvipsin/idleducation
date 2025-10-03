@@ -84,48 +84,50 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
-                     <Link href="/" className="hidden md:block">
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           HOME
-                        </Button>
-                    </Link>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
-                    {storeUser ? (
-                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
-                            </Avatar>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56" align="end" forceMount>
-                          <DropdownMenuLabel className="font-normal">
-                            <div className="flex flex-col space-y-1">
-                              <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                              <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                            </div>
-                          </DropdownMenuLabel>
-                          <DropdownMenuSeparator />
-                           <DropdownMenuItem asChild>
-                                <Link href="/store/cart">My Cart</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/store/orders">My Orders</Link>
-                            </DropdownMenuItem>
-                           <DropdownMenuItem onClick={storeLogout}>
-                            Logout
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    ) : (
+                     <div className="flex items-center gap-2">
+                        <Link href="/" className="hidden md:block">
+                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            HOME
+                            </Button>
+                        </Link>
+                        <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
+                        {storeUser ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                    <Avatar className="h-8 w-8">
+                                    <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                                    </Avatar>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-56" align="end" forceMount>
+                                <DropdownMenuLabel className="font-normal">
+                                    <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                    <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                    </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/cart">My Cart</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/orders">My Orders</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={storeLogout}>
+                                    Logout
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        ) : (
                         <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <Link href="/store/auth">LOGIN</Link>
                         </Button>
-                    )}
+                        )}
+                    </div>
                      <div className="flex items-center md:hidden gap-2">
                         <Link href="/" >
-                           <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">HOME</Button>
+                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">HOME</Button>
                         </Link>
                         <Popover>
                             <PopoverTrigger asChild>
