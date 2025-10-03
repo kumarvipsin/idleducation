@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import Script from "next/script";
 import { useStoreAuth } from "@/context/store-auth-context";
 import { useRouter } from "next/navigation";
+import { ToastAction } from "@/components/ui/toast";
 
 
 export default function CartPage() {
@@ -31,8 +32,18 @@ export default function CartPage() {
             variant: "destructive",
             title: "Authentication Error",
             description: "You must be logged in to proceed to checkout.",
+            action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
         });
-        router.push('/store/auth');
+        return;
+    }
+    
+    if (!user.shippingAddress) {
+        toast({
+            variant: "destructive",
+            title: "Shipping Address Required",
+            description: "Please add a shipping address to your profile before checking out.",
+            action: <ToastAction altText="Add Address" onClick={() => router.push('/store/account')}>Add Address</ToastAction>,
+        });
         return;
     }
 
