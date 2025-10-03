@@ -40,21 +40,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setLoading(true);
       if (firebaseUser) {
-        const storedUser = sessionStorage.getItem('userProfile');
-        if (storedUser) {
-          try {
-            const parsedUser: UserProfile = JSON.parse(storedUser);
-            if (parsedUser.uid === firebaseUser.uid) {
-              setUser(parsedUser);
-              setLoading(false);
-              return;
-            }
-          } catch (e) {
-            sessionStorage.removeItem('userProfile');
-          }
-        }
-        
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
@@ -76,7 +63,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               name: 'Admin',
               role: 'admin',
             };
-             // Ensure admin doc exists
             const adminData = {
               uid: firebaseUser.uid,
               email: firebaseUser.email,
