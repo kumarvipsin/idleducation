@@ -31,11 +31,12 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
 
-export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
+export const StoreHeader = () => {
     const { cartCount } = useCart();
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
@@ -61,13 +62,18 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14")}>
-            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+             <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
-                    <Link href="/" className="md:block">
+                     <Link href="/" className="md:hidden">
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           HOME
+                        </Button>
+                    </Link>
+                    <Link href="/" className="hidden md:block">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            HOME
                         </Button>
@@ -103,60 +109,33 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                       </DropdownMenu>
                     ) : (
                         <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store/auth">LOGIN</Link>
+                           <Link href="/store/auth">LOGIN</Link>
                         </Button>
                     )}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
-                    <div className="flex items-center md:hidden gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
-                    <div className="hidden md:flex items-center gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
+                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                            <DialogHeader>
+                            <DialogTitle>Search Store</DialogTitle>
+                            <DialogDescription>
+                                Find books by ID, class, or edition.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    type="text"
+                                    placeholder="Search by ID, class, edition..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-10 w-full"
+                                />
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </header>
@@ -298,7 +277,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
@@ -332,12 +311,7 @@ export default function StorePage() {
                                                     <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
-                                                <div className="mt-3 flex gap-2">
-                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
-                                                            Buy Now
-                                                        </Button>
-                                                    </a>
+                                                <div className="mt-3">
                                                     <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
