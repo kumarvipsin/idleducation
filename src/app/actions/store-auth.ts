@@ -3,7 +3,7 @@
 
 import { z } from "zod";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, setDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
 import { serializeFirestoreData } from './utils';
 
 // Schema for store user signup
@@ -91,6 +91,24 @@ export async function loginStoreUser(data: StoreLoginValues) {
     console.error("Error logging in store user:", error);
     return { success: false, message: "An unexpected error occurred during login." };
   }
+}
+
+export async function resetStoreUserPassword(userId: string, newPassword: string) {
+    if (!userId) return { success: false, message: "User ID is required." };
+    if (!newPassword || newPassword.length < 6) {
+        return { success: false, message: "Password must be at least 6 characters long." };
+    }
+    
+    try {
+        const userDocRef = doc(db, "storeCustomers", userId);
+        // In a real app, hash the password
+        const hashedPassword = newPassword; 
+        await updateDoc(userDocRef, { password: hashedPassword });
+        return { success: true, message: "Password reset successfully." };
+    } catch (error) {
+        console.error("Error resetting store user password:", error);
+        return { success: false, message: "Failed to reset password." };
+    }
 }
 
 
