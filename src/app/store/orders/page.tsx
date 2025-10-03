@@ -44,7 +44,7 @@ export default function OrdersPage() {
         return;
       }
       setLoading(true);
-      const q = query(collection(db, "storeOrders"), where("userId", "==", user.id), orderBy("createdAt", "desc"));
+      const q = query(collection(db, "storeOrders"), where("userId", "==", user.id), orderBy("createdAt", "asc"));
       const querySnapshot = await getDocs(q);
       const fetchedOrders = querySnapshot.docs.map(doc => ({
         id: doc.id,
