@@ -79,14 +79,13 @@ const BookForm = ({
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="price" className="text-right">Price</Label><Input id="price" name="price" type="number" defaultValue={book?.price} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="originalPrice" className="text-right">Original Price</Label><Input id="originalPrice" name="originalPrice" type="number" defaultValue={book?.originalPrice} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="rating" className="text-right">Rating</Label><Input id="rating" name="rating" type="number" step="0.1" defaultValue={book?.rating} className="col-span-3" required /></div>
-          <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="reviews" className="text-right">Reviews</Label><Input id="reviews" name="reviews" type="number" defaultValue={book?.reviews} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="class" className="text-right">Class</Label><Input id="class" name="class" defaultValue={book?.class} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="subject" className="text-right">Subject</Label><Input id="subject" name="subject" defaultValue={book?.subject} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="edition" className="text-right">Edition</Label><Input id="edition" name="edition" defaultValue={book?.edition} className="col-span-3" /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="set" className="text-right">Set</Label><Input id="set" name="set" defaultValue={book?.set} className="col-span-3" /></div>
           <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="category" className="text-right">Category</Label>
-              <Select name="category" defaultValue={category} onValueChange={(value) => setCategory(value)}>
+              <Select name="category" defaultValue={category} onValueChange={(value) => setCategory(value as 'IDL Store' | 'Reference Books')}>
                   <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
@@ -185,12 +184,12 @@ export default function AdminReferenceBooksPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
+                    <TableHead>Product ID</TableHead>
                     <TableHead>Title</TableHead>
+                    <TableHead>Author</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Class</TableHead>
-                    <TableHead>Subject</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead>Buy Link</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -199,12 +198,12 @@ export default function AdminReferenceBooksPage() {
                     [...Array(5)].map((_, i) => (
                       <TableRow key={i}>
                         <TableCell><Skeleton className="h-12 w-10 rounded-md" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-10" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
                       </TableRow>
                     ))
@@ -216,18 +215,12 @@ export default function AdminReferenceBooksPage() {
                             {book.imageUrl ? <GcsImage filePath={book.imageUrl} alt={book.title} width={40} height={48} className="object-cover" /> : <ImageIcon className="w-4 h-4 text-muted-foreground"/>}
                            </div>
                         </TableCell>
+                        <TableCell>{book.productId || 'N/A'}</TableCell>
                         <TableCell className="font-medium">{book.title}</TableCell>
+                        <TableCell>{book.author}</TableCell>
                         <TableCell>{book.category}</TableCell>
                         <TableCell>{book.class}</TableCell>
-                        <TableCell>{book.subject}</TableCell>
                         <TableCell>₹{book.price}</TableCell>
-                        <TableCell>
-                          {book.buyLink ? (
-                            <a href={book.buyLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                              <Link2 className="h-4 w-4" />
-                            </a>
-                          ) : 'N/A'}
-                        </TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingBook(book); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />

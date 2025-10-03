@@ -124,7 +124,6 @@ export interface TReferenceBook {
     price: number;
     originalPrice: number;
     rating: number;
-    reviews: number;
     imageUrl: string;
     class: string;
     subject: string;

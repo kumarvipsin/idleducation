@@ -4,7 +4,7 @@
 
 import { z } from "zod";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, deleteField } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { signUpUser } from './auth';
@@ -784,7 +784,6 @@ export async function addReferenceBook(formData: FormData) {
     price: parseFloat(rawData.price as string),
     originalPrice: parseFloat(rawData.originalPrice as string),
     rating: parseFloat(rawData.rating as string),
-    reviews: parseInt(rawData.reviews as string, 10),
     class: rawData.class as string,
     subject: rawData.subject as string,
     edition: rawData.edition as string,
@@ -823,7 +822,6 @@ export async function editReferenceBook(id: string, formData: FormData) {
     price: parseFloat(rawData.price as string),
     originalPrice: parseFloat(rawData.originalPrice as string),
     rating: parseFloat(rawData.rating as string),
-    reviews: parseInt(rawData.reviews as string, 10),
     class: rawData.class as string,
     subject: rawData.subject as string,
     edition: rawData.edition as string,
@@ -865,6 +863,3 @@ export async function deleteReferenceBook(id: string) {
     return { success: false, message: "Failed to delete reference book." };
   }
 }
-    
-
-    
