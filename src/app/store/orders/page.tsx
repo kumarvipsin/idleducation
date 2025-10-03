@@ -26,6 +26,9 @@ interface OrderItem {
 
 interface Order {
   id: string;
+  orderId: string;
+  userName: string;
+  userMobile: string;
   items: OrderItem[];
   totalAmount: number;
   paymentId: string;
@@ -61,14 +64,14 @@ const StatusFooter = ({ order }: { order: Order }) => {
             return (
                  <div className="flex items-center gap-2 text-xs text-green-600 font-medium">
                     <CheckCircle className="h-4 w-4"/>
-                    <span>Delivered on {format(order.deliveredAt.toDate(), 'PPP')}</span>
+                    <span>Delivered on {order.deliveredAt ? format(order.deliveredAt.toDate(), 'PPP') : 'N/A'}</span>
                 </div>
             );
         case 'cancelled':
             return (
                  <div className="flex items-center gap-2 text-xs text-destructive font-medium">
                     <XCircle className="h-4 w-4"/>
-                    <span>Order cancelled on {format(order.cancelledAt.toDate(), 'PPP')}</span>
+                    <span>Order cancelled on {order.cancelledAt ? format(order.cancelledAt.toDate(), 'PPP') : 'N/A'}</span>
                 </div>
             );
         default:
@@ -154,7 +157,7 @@ export default function OrdersPage() {
                                 <Card key={order.id} className="bg-muted/30">
                                     <CardHeader className="flex flex-row justify-between items-center pb-2">
                                         <div>
-                                            <p className="text-sm font-semibold">Order ID: {order.id}</p>
+                                            <p className="text-sm font-semibold">Order ID: {order.orderId}</p>
                                             <p className="text-xs text-muted-foreground">
                                                 Placed on: {format(order.createdAt.toDate(), 'PPP')}
                                             </p>
