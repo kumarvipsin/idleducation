@@ -52,6 +52,8 @@ export default function CartPage() {
         handler: async function (response: any) {
             const orderResult = await createOrder({
                 userId: user.id,
+                userName: user.name,
+                userMobile: user.mobile,
                 items: cartItems,
                 totalAmount: cartTotal,
                 paymentId: response.razorpay_payment_id,

@@ -265,8 +265,14 @@ function AdminLayout({
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
                             <Link href="/admin/store-customers">
-                                <ShoppingCart />
+                                <Users />
                                 <span>Store Customers</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-orders')}>
+                            <Link href="/admin/store-orders">
+                                <ShoppingCart />
+                                <span>Store Orders</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>

@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { ShoppingBag, FileText, Truck } from "lucide-react";
+import { ShoppingBag, FileText, Truck, XCircle, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { StoreHeader } from "@/app/store/page";
 import { useStoreAuth } from "@/context/store-auth-context";
@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 import { GcsImage } from "@/components/gcs-image";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 interface OrderItem {
   id: string;
@@ -29,6 +30,50 @@ interface Order {
   totalAmount: number;
   paymentId: string;
   createdAt: any;
+  status: 'processing' | 'delivered' | 'cancelled';
+  deliveredAt?: any;
+  cancelledAt?: any;
+}
+
+const getStatusBadge = (status: Order['status']) => {
+    switch (status) {
+        case 'processing':
+            return <Badge variant="secondary">Processing</Badge>;
+        case 'delivered':
+            return <Badge variant="default">Delivered</Badge>;
+        case 'cancelled':
+            return <Badge variant="destructive">Cancelled</Badge>;
+        default:
+            return <Badge variant="outline">Unknown</Badge>;
+    }
+};
+
+const StatusFooter = ({ order }: { order: Order }) => {
+    switch (order.status) {
+        case 'processing':
+            return (
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Truck className="h-4 w-4"/>
+                    <span>Estimated delivery within 7-10 working days.</span>
+                </div>
+            );
+        case 'delivered':
+            return (
+                 <div className="flex items-center gap-2 text-xs text-green-600 font-medium">
+                    <CheckCircle className="h-4 w-4"/>
+                    <span>Delivered on {format(order.deliveredAt.toDate(), 'PPP')}</span>
+                </div>
+            );
+        case 'cancelled':
+            return (
+                 <div className="flex items-center gap-2 text-xs text-destructive font-medium">
+                    <XCircle className="h-4 w-4"/>
+                    <span>Order cancelled on {format(order.cancelledAt.toDate(), 'PPP')}</span>
+                </div>
+            );
+        default:
+            return null;
+    }
 }
 
 
@@ -46,14 +91,13 @@ export default function OrdersPage() {
       setLoading(true);
       const q = query(collection(db, "storeOrders"), where("userId", "==", user.id));
       const querySnapshot = await getDocs(q);
-      const fetchedOrders = querySnapshot.docs.map(doc => ({
+      const fetchedOrders: Order[] = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
-        createdAt: doc.data().createdAt.toDate(),
-      })) as Order[];
+      }) as Order);
       
       // Sort orders by date on the client side
-      fetchedOrders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      fetchedOrders.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
       
       setOrders(fetchedOrders);
       setLoading(false);
@@ -112,7 +156,7 @@ export default function OrdersPage() {
                                         <div>
                                             <p className="text-sm font-semibold">Order ID: {order.id}</p>
                                             <p className="text-xs text-muted-foreground">
-                                                Placed on: {format(order.createdAt, 'PPP')}
+                                                Placed on: {format(order.createdAt.toDate(), 'PPP')}
                                             </p>
                                         </div>
                                         <div className="text-right">
@@ -135,11 +179,9 @@ export default function OrdersPage() {
                                         ))}
                                       </div>
                                     </CardContent>
-                                    <CardFooter className="bg-muted/50 px-4 py-2">
-                                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                            <Truck className="h-4 w-4"/>
-                                            <span>Estimated delivery within 7-10 working days.</span>
-                                        </div>
+                                    <CardFooter className="bg-muted/50 px-4 py-2 flex justify-between items-center">
+                                       <StatusFooter order={order} />
+                                       {getStatusBadge(order.status)}
                                     </CardFooter>
                                 </Card>
                               ))}
