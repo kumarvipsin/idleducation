@@ -67,8 +67,8 @@ export default function ReferenceBooksPage() {
     const renderSkeleton = () => (
       <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
-            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                <Skeleton className="h-[450px] w-full rounded-lg" />
+            <div key={index} className="block flex-shrink-0 w-[280px]">
+                <Skeleton className="h-[420px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -134,10 +134,10 @@ export default function ReferenceBooksPage() {
                                 renderSkeleton()
                              ) : (
                                 filteredBooks.map((book, index) => (
-                                    <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                    <div key={book.id} className="block flex-shrink-0 w-[280px] group">
                                     <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
-                                        <CardContent className="p-4 flex flex-col flex-1">
-                                            <div className="relative aspect-[4/5] w-full mb-4">
+                                        <CardContent className="p-3 flex flex-col flex-1">
+                                            <div className="relative aspect-[4/5] w-full mb-3">
                                                 <GcsImage
                                                     filePath={book.imageUrl}
                                                     alt={book.title}
@@ -145,26 +145,31 @@ export default function ReferenceBooksPage() {
                                                     className="object-cover rounded-md"
                                                 />
                                             </div>
-                                            <div className="flex gap-2">
-                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                                <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                            <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                <span>{book.set}</span>
+                                                {book.productId && <span>ID: {book.productId}</span>}
                                             </div>
-                                            <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                            <h3 className="font-bold text-sm leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
+                                            
+                                            <p className="text-xs font-semibold text-primary mt-1">
+                                                {book.class} | Edition: {book.edition}
+                                            </p>
+                                            
                                             <div className="flex items-center gap-2 mt-1">
                                                 <div className="flex items-center gap-0.5">
                                                     {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                        <Star key={i} className={`w-3 h-3 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
                                                     ))}
                                                 </div>
                                                 <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
                                             </div>
                                             
-                                            <div className="flex items-baseline gap-2 mt-2">
-                                                <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                                <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                                <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                            <div className="flex items-baseline gap-1.5 mt-2">
+                                                <p className="text-lg font-bold text-foreground">₹{book.price}</p>
+                                                <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                                <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                             </div>
-                                            <div className="mt-4 flex gap-2">
+                                            <div className="mt-3 flex gap-2">
                                                <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
                                                     <Button className="w-full" disabled={!book.buyLink}>
                                                         Buy Now
