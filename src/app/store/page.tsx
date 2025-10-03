@@ -107,6 +107,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
+                                    <Link href="/store/account">Edit Profile</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
                                     <Link href="/store/cart">My Cart</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
@@ -319,8 +322,13 @@ export default function StorePage() {
                                                     <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
-                                                <div className="mt-3">
-                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
+                                                <div className="mt-3 flex gap-2">
+                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
+                                                            Buy Now
+                                                        </Button>
+                                                    </a>
+                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
