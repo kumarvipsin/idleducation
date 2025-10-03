@@ -39,6 +39,7 @@ export default function StoreCustomersPage() {
 
   useEffect(() => {
     async function fetchCustomers() {
+      setLoading(true);
       const result = await getStoreCustomers();
       if (result.success && result.data) {
         setCustomers(result.data);
