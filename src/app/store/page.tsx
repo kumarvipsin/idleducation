@@ -65,9 +65,8 @@ export const StoreHeader = () => {
                 </Link>
                 <div className="flex items-center gap-4">
                     <Link href="/">
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                           <Home className="h-4 w-4" />
-                           <span className="sr-only">Home</span>
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           HOME
                         </Button>
                     </Link>
                     {storeUser ? (
