@@ -106,7 +106,7 @@ export const StoreHeader = () => {
                     ) : (
                       <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                         <Link href="/store/auth">
-                           <User className="mr-1 h-3 w-3"/> Signup/Login
+                           Signup/Login
                         </Link>
                       </Button>
                     )}
