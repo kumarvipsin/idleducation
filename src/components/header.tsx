@@ -36,6 +36,14 @@ interface Update {
   createdAt: string;
 }
 
+type CartItem = {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+};
+
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   class: z.string().min(1, { message: "Please select a class." }),
@@ -55,6 +63,7 @@ export function Header() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -394,11 +403,6 @@ export function Header() {
                   <Button asChild variant="link" className="relative h-auto p-0 text-foreground hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                     <Link href="/store">
                       <ShoppingBag className="h-4 w-4" />
-                       {cartCount > 0 && (
-                          <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
-                              {cartCount}
-                          </span>
-                      )}
                     </Link>
                   </Button>
                   {notificationDropdown}
