@@ -68,11 +68,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     <div className="md:hidden flex items-center gap-2">
                         <Link href="/store/cart" className="relative">
                             
-                            {cartCount > 0 && (
-                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
-                                    {cartCount}
-                                </span>
-                            )}
+                            
                         </Link>
                         {storeUser ? (
                         <DropdownMenu>
@@ -159,7 +155,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         </DropdownMenuContent>
                       </DropdownMenu>
                     ) : (
-                        <Button asChild variant="ghost" size="sm">
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <Link href="/store/auth">Login</Link>
                         </Button>
                     )}
