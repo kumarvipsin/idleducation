@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ export function HeroSection() {
   const [current, setCurrent] = useState(0)
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
+    Autoplay({ delay: 1000, stopOnInteraction: true, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
