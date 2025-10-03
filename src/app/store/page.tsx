@@ -60,18 +60,18 @@ const StoreHeader = () => {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                          MAIN <ChevronDown className="h-4 w-4 ml-1" />
+                          Main <ChevronDown className="h-4 w-4 ml-1" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem asChild>
-                          <Link href="/">HOME</Link>
+                          <Link href="/">Home</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="/cart">MY CART</Link>
+                          <Link href="/cart">My Cart</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                           <Link href="/orders">MY ORDERS</Link>
+                           <Link href="/orders">My Orders</Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -190,11 +190,11 @@ export default function StorePage() {
                     </div>
                      
                     <div className="relative">
-                         {loading ? (
+                        {loading ? (
                             renderSkeleton()
-                         ) : (
-                             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                 <div className="flex gap-6 px-4 md:px-[10%]">
+                        ) : (
+                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                         <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
@@ -243,7 +243,7 @@ export default function StorePage() {
                                     ))}
                                 </div>
                             </div>
-                        )}
+                         )}
                     </div>
                 </div>
             </div>
