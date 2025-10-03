@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -34,10 +35,6 @@ export default function IDLFoundationPage() {
                         className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                    <div className="absolute bottom-10 left-10 right-10 text-white z-10 p-4 rounded-lg bg-black/30 backdrop-blur-sm text-center">
-                        <h1 className="text-2xl md:text-4xl font-bold">{foundationImage.title}</h1>
-                        <p className="text-sm md:text-lg mt-2 opacity-90">{foundationImage.subtitle}</p>
-                    </div>
                 </div>
             </div>
 
