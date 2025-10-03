@@ -127,6 +127,12 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         <Link href="/" >
                             <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
                         </Link>
+                        <Link href="/store">
+                            <Button variant="ghost" size="icon" className="relative h-7 w-7">
+                                <ShoppingBag className="h-4 w-4" />
+                                <span className="sr-only">Shopping Cart</span>
+                            </Button>
+                        </Link>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
@@ -323,7 +329,12 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3 flex gap-2">
-                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
+                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
+                                                            Buy Now
+                                                        </Button>
+                                                    </a>
+                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
