@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 
 const foundationImage = {
-    src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    src: "https://s3.ap-south-1.amazonaws.com/awsimages.imagesbazaar.com/1200x1800-old/15219/SM601012.jpg?date=Fri%20Oct%2003%202025%2023:12:28%20GMT+0530%20(India%20Standard%20Time)",
     alt: "Happy students celebrating",
     hint: "students celebrating",
     title: "Winds of Change 2019",

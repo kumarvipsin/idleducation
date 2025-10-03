@@ -88,6 +88,12 @@ const nextConfig: NextConfig = {
         hostname: 'icon2.cleanpng.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 's3.ap-south-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
