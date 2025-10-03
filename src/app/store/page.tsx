@@ -133,11 +133,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     <Link href="/store/cart">
                         <Button variant="ghost" size="icon" className="relative h-8 w-8">
                             <ShoppingCart className="h-4 w-4" />
-                            {cartCount > 0 && (
-                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
-                                    {cartCount}
-                                </span>
-                            )}
+                            
                         </Button>
                     </Link>
                 </div>
