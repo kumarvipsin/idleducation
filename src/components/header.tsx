@@ -8,7 +8,7 @@ import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { getUpdates, registerForScholarship } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
@@ -69,20 +69,22 @@ export function Header() {
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
-  
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
   
-  const controlNavbar = () => {
+  const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') { 
-      if (window.scrollY > 80) {
+      if (window.scrollY > 80 && window.scrollY > lastScrollY) {
         setShow(false); 
       } else {
         setShow(true);  
       }
+      setLastScrollY(window.scrollY);
     }
-  };
+  }, [lastScrollY]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -92,7 +94,7 @@ export function Header() {
         window.removeEventListener('scroll', controlNavbar);
       };
     }
-  }, []);
+  }, [lastScrollY, controlNavbar]);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),

@@ -31,12 +31,11 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 
 
-export const StoreHeader = () => {
+export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
     const { cartCount } = useCart();
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('');
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
@@ -61,8 +60,8 @@ export const StoreHeader = () => {
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14")}>
-             <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300")}>
+             <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
@@ -312,7 +311,7 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3">
-                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
+                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
