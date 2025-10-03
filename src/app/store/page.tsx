@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useRouter } from 'next/navigation';
+import { ToastAction } from '@/components/ui/toast';
 
 
 export const StoreHeader = () => {
@@ -118,6 +120,8 @@ export default function StorePage() {
     const [selectedSubject, setSelectedSubject] = useState('All');
     const { addToCart } = useCart();
     const { toast } = useToast();
+    const { user: storeUser } = useStoreAuth();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -152,6 +156,14 @@ export default function StorePage() {
     );
 
     const handleAddToCart = (book: TReferenceBook) => {
+        if (!storeUser) {
+            toast({
+                title: "Please Log In",
+                description: "You need to be logged in to add items to the cart.",
+                action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
+            });
+            return;
+        }
         addToCart(book);
         toast({
             title: "Added to Cart",
