@@ -62,19 +62,11 @@ export const StoreHeader = () => {
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-4">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                     <Link href="/">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                          Main <ChevronDown className="h-4 w-4 ml-1" />
+                           Home
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem asChild>
-                          <Link href="/">Home</Link>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-
+                    </Link>
                     {storeUser ? (
                        <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -92,12 +84,12 @@ export const StoreHeader = () => {
                             </div>
                           </DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem asChild>
-                            <Link href="/store/cart">My Cart</Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild>
-                            <Link href="/store/orders">My Orders</Link>
-                          </DropdownMenuItem>
+                           <DropdownMenuItem asChild>
+                                <Link href="/store/cart">My Cart</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/store/orders">My Orders</Link>
+                            </DropdownMenuItem>
                            <DropdownMenuItem onClick={storeLogout}>
                             Logout
                           </DropdownMenuItem>
