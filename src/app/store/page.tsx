@@ -28,6 +28,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 import { ToastAction } from '@/components/ui/toast';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
 
 export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
@@ -59,79 +60,19 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-auto py-2")}>
-            <div className="container flex flex-col md:flex-row h-auto md:h-14 items-center justify-between mx-auto px-4 md:px-[10%] gap-4 md:gap-0">
-                <div className="flex items-center justify-between w-full md:w-auto">
-                    <Link href="/store" className="flex items-center gap-2">
-                        <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
-                        <span className="text-lg font-bold text-primary">IDL Store</span>
-                    </Link>
-                    <div className="md:hidden flex items-center gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                        {storeUser ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                <Avatar className="h-8 w-8">
-                                <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
-                                </Avatar>
-                            </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56" align="end" forceMount>
-                            <DropdownMenuLabel className="font-normal">
-                                <div className="flex flex-col space-y-1">
-                                <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                                </div>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link href="/store/cart">My Cart</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/store/orders">My Orders</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={storeLogout}>
-                                Logout
-                            </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        ) : (
-                            <Button asChild variant="ghost" size="sm">
-                                <Link href="/store/auth">Login</Link>
-                            </Button>
-                        )}
-                    </div>
-                </div>
-                
-                <div className="hidden md:flex items-center gap-4">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14")}>
+            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+                <Link href="/store" className="flex items-center gap-2">
+                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                    <span className="text-lg font-bold text-primary">IDL Store</span>
+                </Link>
+                <div className="flex items-center gap-2 md:gap-4">
                     <Link href="/">
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 hidden md:block">
                            HOME
                         </Button>
                     </Link>
+                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                     {storeUser ? (
                        <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -165,11 +106,12 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <Link href="/store/auth">LOGIN</Link>
                         </Button>
                     )}
+                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                      <Dialog>
                         <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                         </DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="sm:max-w-md">
                             <DialogHeader>
                             <DialogTitle>Search Store</DialogTitle>
                             <DialogDescription>
@@ -180,7 +122,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     type="text"
-                                    placeholder="Search..."
+                                    placeholder="Search by ID, class, edition..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="pl-10 w-full"
@@ -188,6 +130,16 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             </div>
                         </DialogContent>
                     </Dialog>
+                    <Link href="/store/cart">
+                        <Button variant="ghost" size="icon" className="relative h-8 w-8">
+                            <ShoppingCart className="h-4 w-4" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </header>
@@ -258,7 +210,7 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${''}${book.title} has been added to your cart.`,
+            description: `${book.title} has been added to your cart.`,
         });
     };
     
@@ -266,7 +218,7 @@ export default function StorePage() {
       <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
             <div key={index} className="block flex-shrink-0 w-[280px]">
-                <Skeleton className="h-[380px] w-full rounded-lg" />
+                <Skeleton className="h-[420px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -329,7 +281,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
@@ -364,12 +316,7 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3 flex gap-2">
-                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
-                                                            Buy Now
-                                                        </Button>
-                                                    </a>
-                                                    <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
+                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
                                                     </Button>
@@ -387,4 +334,3 @@ export default function StorePage() {
         </>
     );
 }
-
