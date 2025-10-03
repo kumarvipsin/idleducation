@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, MoreVertical, XCircle, FileText, User } from "lucide-react";
+import { CheckCircle, MoreVertical, XCircle, FileText, User, MapPin } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -35,6 +35,7 @@ interface Order {
   orderId: string;
   userName: string;
   userMobile: string;
+  shippingAddress: string;
   items: OrderItem[];
   totalAmount: number;
   paymentId: string;
@@ -77,7 +78,7 @@ export default function StoreOrdersPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, [toast]);
+  }, []);
   
   const handleAction = async () => {
     if (!selectedOrder || !action) return;
@@ -147,6 +148,7 @@ export default function StoreOrdersPage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Order ID</TableHead>
+                                        <TableHead>Shipping Address</TableHead>
                                         <TableHead>Date</TableHead>
                                         <TableHead>Total</TableHead>
                                         <TableHead>Status</TableHead>
@@ -157,6 +159,12 @@ export default function StoreOrdersPage() {
                                     {userOrders.map((order) => (
                                     <TableRow key={order.id}>
                                         <TableCell className="font-mono text-xs">{order.orderId}</TableCell>
+                                        <TableCell className="text-xs max-w-[200px] whitespace-normal">
+                                            <div className="flex items-start gap-1.5">
+                                                <MapPin className="h-3 w-3 mt-0.5 shrink-0"/>
+                                                <span>{order.shippingAddress}</span>
+                                            </div>
+                                        </TableCell>
                                         <TableCell>{format(order.createdAt, 'PPp')}</TableCell>
                                         <TableCell>₹{order.totalAmount}</TableCell>
                                         <TableCell>

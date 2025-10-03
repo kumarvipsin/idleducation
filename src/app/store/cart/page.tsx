@@ -36,7 +36,7 @@ export default function CartPage() {
         });
         return;
     }
-    
+
     if (!user.shippingAddress) {
         toast({
             variant: "destructive",
@@ -65,6 +65,7 @@ export default function CartPage() {
                 userId: user.id,
                 userName: user.name,
                 userMobile: user.mobile,
+                shippingAddress: user.shippingAddress || 'Not Provided',
                 items: cartItems,
                 totalAmount: cartTotal,
                 paymentId: response.razorpay_payment_id,

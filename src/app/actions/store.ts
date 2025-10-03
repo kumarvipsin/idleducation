@@ -10,6 +10,7 @@ interface OrderData {
     userId: string;
     userName: string;
     userMobile: string;
+    shippingAddress: string;
     items: CartItem[];
     totalAmount: number;
     paymentId: string;
