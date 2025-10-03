@@ -44,13 +44,17 @@ export default function OrdersPage() {
         return;
       }
       setLoading(true);
-      const q = query(collection(db, "storeOrders"), where("userId", "==", user.id), orderBy("createdAt", "asc"));
+      const q = query(collection(db, "storeOrders"), where("userId", "==", user.id));
       const querySnapshot = await getDocs(q);
       const fetchedOrders = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
         createdAt: doc.data().createdAt.toDate(),
       })) as Order[];
+      
+      // Sort orders by date on the client side
+      fetchedOrders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      
       setOrders(fetchedOrders);
       setLoading(false);
     }
