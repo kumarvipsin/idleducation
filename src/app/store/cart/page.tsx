@@ -88,7 +88,7 @@ export default function CartPage() {
             src="https://checkout.razorpay.com/v1/checkout.js"
         />
         <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-            <StoreHeader searchTerm="" setSearchTerm={() => {}} />
+            <StoreHeader />
             <div className="container mx-auto py-12 px-4 md:px-6">
                 <Card className="shadow-lg">
                     <CardHeader>
@@ -110,12 +110,14 @@ export default function CartPage() {
                             <div className="space-y-4">
                                 {cartItems.map(item => (
                                     <div key={item.id} className="flex items-center gap-4 p-4 border rounded-md">
-                                        <div className="relative h-20 w-16 flex-shrink-0">
+                                        <div className="relative h-24 w-20 flex-shrink-0">
                                             <GcsImage filePath={item.imageUrl} alt={item.title} fill className="object-cover rounded-md" />
                                         </div>
                                         <div className="flex-grow">
                                             <h3 className="font-semibold">{item.title}</h3>
-                                            <p className="text-sm text-muted-foreground">₹{item.price}</p>
+                                            <p className="text-sm text-muted-foreground">by {item.author}</p>
+                                            <p className="text-xs text-muted-foreground">{item.class} | {item.subject}</p>
+                                            <p className="text-sm font-bold mt-1">₹{item.price}</p>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Button size="icon" variant="outline" onClick={() => decreaseQuantity(item.id)} className="h-8 w-8">
