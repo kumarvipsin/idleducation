@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -26,9 +26,10 @@ import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
 import { ToastAction } from '@/components/ui/toast';
+import { Input } from '@/components/ui/input';
 
 
-export const StoreHeader = () => {
+export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
     const { cartCount } = useCart();
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
@@ -57,17 +58,82 @@ export const StoreHeader = () => {
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-14 items-center justify-between mx-auto px-[10%]">
-                <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
-                    <span className="text-lg font-bold text-primary">IDL Store</span>
-                </Link>
-                <div className="flex items-center gap-4">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-auto py-2")}>
+            <div className="container flex flex-col md:flex-row h-auto md:h-14 items-center justify-between mx-auto px-4 md:px-[10%] gap-4 md:gap-0">
+                <div className="flex items-center justify-between w-full md:w-auto">
+                    <Link href="/store" className="flex items-center gap-2">
+                        <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                        <span className="text-lg font-bold text-primary">IDL Store</span>
+                    </Link>
+                    <div className="md:hidden flex items-center gap-2">
+                        <Link href="/store/cart" className="relative">
+                            <ShoppingBag className="h-5 w-5" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Link>
+                        {storeUser ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                <Avatar className="h-8 w-8">
+                                <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                                </Avatar>
+                            </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-56" align="end" forceMount>
+                            <DropdownMenuLabel className="font-normal">
+                                <div className="flex flex-col space-y-1">
+                                <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                </div>
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <Link href="/store/cart">My Cart</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/store/orders">My Orders</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={storeLogout}>
+                                Logout
+                            </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        ) : (
+                            <Button asChild variant="ghost" size="sm">
+                                <Link href="/store/auth">Login</Link>
+                            </Button>
+                        )}
+                    </div>
+                </div>
+                
+                <div className="relative w-full md:w-64 lg:w-96">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search by ID, class, edition..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full"
+                    />
+                </div>
+
+                <div className="hidden md:flex items-center gap-4">
                     <Link href="/">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                            HOME
                         </Button>
+                    </Link>
+                    <Link href="/store/cart" className="relative">
+                        <ShoppingBag className="h-5 w-5" />
+                         {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                {cartCount}
+                            </span>
+                        )}
                     </Link>
                     {storeUser ? (
                        <DropdownMenu>
@@ -98,11 +164,8 @@ export const StoreHeader = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     ) : (
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store/auth">
-                               <User className="h-5 w-5" />
-                                <span className="sr-only">Signup/Login</span>
-                            </Link>
+                        <Button asChild variant="ghost" size="sm">
+                            <Link href="/store/auth">Login</Link>
                         </Button>
                     )}
                 </div>
@@ -117,6 +180,7 @@ export default function StorePage() {
     const [loading, setLoading] = useState(true);
     const [selectedClass, setSelectedClass] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('All');
+    const [searchTerm, setSearchTerm] = useState('');
     const { addToCart } = useCart();
     const { toast } = useToast();
     const { user: storeUser } = useStoreAuth();
@@ -139,9 +203,9 @@ export default function StorePage() {
         fetchBooks();
     }, []);
 
-    const classes = Array.from(new Set(books.map(book => book.class))).sort();
+    const classes = useMemo(() => Array.from(new Set(books.map(book => book.class))).sort(), [books]);
     
-    const subjects = ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))];
+    const subjects = useMemo(() => ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))], [books, selectedClass]);
 
     useEffect(() => {
         if (!subjects.includes(selectedSubject)) {
@@ -149,10 +213,18 @@ export default function StorePage() {
         }
     }, [selectedClass, subjects, selectedSubject]);
 
-    const filteredBooks = books.filter(book => 
-        (book.class === selectedClass) &&
-        (selectedSubject === 'All' || book.subject === selectedSubject)
-    );
+    const filteredBooks = useMemo(() => {
+        return books.filter(book => 
+            (book.class === selectedClass) &&
+            (selectedSubject === 'All' || book.subject === selectedSubject) &&
+            (
+                book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                String(book.productId).toLowerCase().includes(searchTerm.toLowerCase()) ||
+                book.edition.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                book.class.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }, [books, selectedClass, selectedSubject, searchTerm]);
 
     const handleAddToCart = (book: TReferenceBook) => {
         if (!storeUser) {
@@ -183,7 +255,7 @@ export default function StorePage() {
     return (
         <>
             <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-                <StoreHeader />
+                <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
                         <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">IDL Store</h1>
