@@ -126,32 +126,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </div>
                 </div>
                 
-                <div className="relative w-full md:w-auto">
-                   <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                            <DialogTitle>Search Store</DialogTitle>
-                            <DialogDescription>
-                                Find books by ID, class, or edition.
-                            </DialogDescription>
-                            </DialogHeader>
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    type="text"
-                                    placeholder="Search..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-10 w-full"
-                                />
-                            </div>
-                        </DialogContent>
-                    </Dialog>
-                </div>
-
                 <div className="hidden md:flex items-center gap-4">
                     <Link href="/">
                         <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
@@ -188,9 +162,32 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                       </DropdownMenu>
                     ) : (
                         <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store/auth">Login</Link>
+                            <Link href="/store/auth">LOGIN</Link>
                         </Button>
                     )}
+                     <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon"><Search className="h-4 w-4" /></Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                            <DialogTitle>Search Store</DialogTitle>
+                            <DialogDescription>
+                                Find books by ID, class, or edition.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-10 w-full"
+                                />
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </div>
         </header>
@@ -261,7 +258,7 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${book.title} has been added to your cart.`,
+            description: `${''}${book.title} has been added to your cart.`,
         });
     };
     
@@ -332,7 +329,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
@@ -390,3 +387,4 @@ export default function StorePage() {
         </>
     );
 }
+
