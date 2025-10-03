@@ -97,9 +97,9 @@ export const StoreHeader = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     ) : (
-                        <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <Link href="/store/auth">
-                                <User className="h-5 w-5" />
+                               <User className="h-5 w-5" />
                                 <span className="sr-only">Signup/Login</span>
                             </Link>
                         </Button>
@@ -256,11 +256,6 @@ export default function StorePage() {
                                                     <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-4 flex gap-2">
-                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
-                                                        <Button className="w-full" disabled={!book.buyLink}>
-                                                            Buy Now
-                                                        </Button>
-                                                    </a>
                                                     <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
