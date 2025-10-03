@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -75,6 +75,11 @@ const StoreHeader = () => {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
+                    <Link href="/store/auth">
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           <User className="mr-1 h-3 w-3"/> Signup/Login
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </header>
@@ -190,11 +195,11 @@ export default function StorePage() {
                     </div>
                      
                     <div className="relative">
-                        {loading ? (
+                         {loading ? (
                             renderSkeleton()
-                        ) : (
+                         ) : (
                             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                <div className="flex gap-6 px-4 md:px-[10%]">
+                                 <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                         <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
@@ -243,7 +248,7 @@ export default function StorePage() {
                                     ))}
                                 </div>
                             </div>
-                         )}
+                        )}
                     </div>
                 </div>
             </div>
