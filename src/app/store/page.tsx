@@ -59,7 +59,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
     }, [controlNavbar]);
     
     const searchPopoverContent = (
-      <div className="p-1 space-y-1">
+      <div className="p-2 space-y-2">
         <p className="text-xs font-medium text-foreground">Search Store</p>
         <p className="text-[10px] text-muted-foreground">Find books by ID, class, or edition.</p>
         <div className="relative">
@@ -69,7 +69,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-6 w-full h-8 text-[10px]"
+                className="pl-6 w-full h-8 text-xs"
             />
         </div>
       </div>
@@ -125,7 +125,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     )}
                      <div className="flex items-center md:hidden gap-2">
                         <Link href="/" >
-                            <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
+                           <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">HOME</Button>
                         </Link>
                         <Popover>
                             <PopoverTrigger asChild>
