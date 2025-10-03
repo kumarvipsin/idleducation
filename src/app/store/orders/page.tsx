@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { ShoppingBag, FileText } from "lucide-react";
+import { ShoppingBag, FileText, Truck } from "lucide-react";
 import Link from "next/link";
 import { StoreHeader } from "@/app/store/page";
 import { useStoreAuth } from "@/context/store-auth-context";
@@ -135,6 +135,12 @@ export default function OrdersPage() {
                                         ))}
                                       </div>
                                     </CardContent>
+                                    <CardFooter className="bg-muted/50 px-4 py-2">
+                                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                            <Truck className="h-4 w-4"/>
+                                            <span>Estimated delivery within 7-10 working days.</span>
+                                        </div>
+                                    </CardFooter>
                                 </Card>
                               ))}
                           </div>
