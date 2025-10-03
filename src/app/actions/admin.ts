@@ -4,7 +4,7 @@
 
 import { z } from "zod";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where, getDocs, updateDoc, Timestamp, orderBy, deleteDoc, writeBatch,getCountFromServer, deleteField } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { signUpUser } from './auth';
@@ -778,7 +778,7 @@ export async function addReferenceBook(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
 
-  const bookData = {
+  const bookData: any = {
     title: rawData.title as string,
     author: rawData.author as string,
     price: parseFloat(rawData.price as string),
@@ -794,6 +794,10 @@ export async function addReferenceBook(formData: FormData) {
     imageUrl: '',
     createdAt: serverTimestamp(),
   };
+
+  if(bookData.category === 'IDL Store' && rawData.productId) {
+    bookData.productId = parseInt(rawData.productId as string, 10);
+  }
 
   try {
     if (imageFile && imageFile.size > 0) {
@@ -827,6 +831,12 @@ export async function editReferenceBook(id: string, formData: FormData) {
     category: rawData.category as string,
     buyLink: rawData.buyLink as string || '',
   };
+
+  if(bookData.category === 'IDL Store' && rawData.productId) {
+    bookData.productId = parseInt(rawData.productId as string, 10);
+  } else {
+    bookData.productId = deleteField();
+  }
 
   try {
     if (imageFile && imageFile.size > 0) {

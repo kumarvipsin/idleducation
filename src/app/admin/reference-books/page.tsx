@@ -31,9 +31,11 @@ const BookForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(book?.imageUrl || null);
   const [removePhoto, setRemovePhoto] = useState(false);
+  const [category, setCategory] = useState(book?.category || 'Reference Books');
 
   useEffect(() => {
     setPreview(book?.imageUrl || null);
+    setCategory(book?.category || 'Reference Books');
     setRemovePhoto(false);
   }, [book]);
 
@@ -84,7 +86,7 @@ const BookForm = ({
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="set" className="text-right">Set</Label><Input id="set" name="set" defaultValue={book?.set} className="col-span-3" /></div>
           <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="category" className="text-right">Category</Label>
-              <Select name="category" defaultValue={book?.category || "Reference Books"}>
+              <Select name="category" defaultValue={category} onValueChange={(value) => setCategory(value as 'IDL Store' | 'Reference Books')}>
                   <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
@@ -94,6 +96,12 @@ const BookForm = ({
                   </SelectContent>
               </Select>
           </div>
+          {category === 'IDL Store' && (
+            <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="productId" className="text-right">Product ID</Label>
+                <Input id="productId" name="productId" type="number" defaultValue={book?.productId} className="col-span-3" placeholder="Enter unique product ID"/>
+            </div>
+          )}
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="buyLink" className="text-right">Buy Link</Label><Input id="buyLink" name="buyLink" defaultValue={book?.buyLink} className="col-span-3" placeholder="https://example.com/buy" /></div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
@@ -177,12 +185,12 @@ export default function AdminReferenceBooksPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
+                    <TableHead>Product ID</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Class</TableHead>
                     <TableHead>Subject</TableHead>
                     <TableHead>Price</TableHead>
-                    <TableHead>Buy Link</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -191,12 +199,12 @@ export default function AdminReferenceBooksPage() {
                     [...Array(5)].map((_, i) => (
                       <TableRow key={i}>
                         <TableCell><Skeleton className="h-12 w-10 rounded-md" /></TableCell>
+                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-48" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                         <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-10" /></TableCell>
                         <TableCell className="text-right"><Skeleton className="h-8 w-20 ml-auto" /></TableCell>
                       </TableRow>
                     ))
@@ -208,18 +216,12 @@ export default function AdminReferenceBooksPage() {
                             {book.imageUrl ? <GcsImage filePath={book.imageUrl} alt={book.title} width={40} height={48} className="object-cover" /> : <ImageIcon className="w-4 h-4 text-muted-foreground"/>}
                            </div>
                         </TableCell>
+                        <TableCell>{book.productId || 'N/A'}</TableCell>
                         <TableCell className="font-medium">{book.title}</TableCell>
                         <TableCell>{book.category}</TableCell>
                         <TableCell>{book.class}</TableCell>
                         <TableCell>{book.subject}</TableCell>
                         <TableCell>₹{book.price}</TableCell>
-                        <TableCell>
-                          {book.buyLink ? (
-                            <a href={book.buyLink} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                              <Link2 className="h-4 w-4" />
-                            </a>
-                          ) : 'N/A'}
-                        </TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingBook(book); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />

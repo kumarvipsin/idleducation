@@ -133,6 +133,7 @@ export interface TReferenceBook {
     category: 'IDL Store' | 'Reference Books';
     buyLink?: string;
     createdAt: string;
+    productId?: number;
 }
 
 export interface Paper {
