@@ -780,11 +780,9 @@ export async function addReferenceBook(formData: FormData) {
 
   const bookData: any = {
     title: rawData.title as string,
-    author: rawData.author as string,
     price: parseFloat(rawData.price as string),
     originalPrice: parseFloat(rawData.originalPrice as string),
     rating: parseFloat(rawData.rating as string),
-    reviews: parseInt(rawData.reviews as string, 10),
     class: rawData.class as string,
     subject: rawData.subject as string,
     edition: rawData.edition as string,
@@ -819,11 +817,9 @@ export async function editReferenceBook(id: string, formData: FormData) {
 
   const bookData: any = {
     title: rawData.title as string,
-    author: rawData.author as string,
     price: parseFloat(rawData.price as string),
     originalPrice: parseFloat(rawData.originalPrice as string),
     rating: parseFloat(rawData.rating as string),
-    reviews: parseInt(rawData.reviews as string, 10),
     class: rawData.class as string,
     subject: rawData.subject as string,
     edition: rawData.edition as string,

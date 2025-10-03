@@ -75,11 +75,9 @@ const BookForm = ({
       <ScrollArea className="h-96 pr-4">
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="title" className="text-right">Title</Label><Input id="title" name="title" defaultValue={book?.title} className="col-span-3" required /></div>
-          <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="author" className="text-right">Author</Label><Input id="author" name="author" defaultValue={book?.author} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="price" className="text-right">Price</Label><Input id="price" name="price" type="number" defaultValue={book?.price} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="originalPrice" className="text-right">Original Price</Label><Input id="originalPrice" name="originalPrice" type="number" defaultValue={book?.originalPrice} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="rating" className="text-right">Rating</Label><Input id="rating" name="rating" type="number" step="0.1" defaultValue={book?.rating} className="col-span-3" required /></div>
-          <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="reviews" className="text-right">Reviews</Label><Input id="reviews" name="reviews" type="number" defaultValue={book?.reviews} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="class" className="text-right">Class</Label><Input id="class" name="class" defaultValue={book?.class} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="subject" className="text-right">Subject</Label><Input id="subject" name="subject" defaultValue={book?.subject} className="col-span-3" required /></div>
           <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="edition" className="text-right">Edition</Label><Input id="edition" name="edition" defaultValue={book?.edition} className="col-span-3" /></div>

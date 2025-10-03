@@ -120,11 +120,9 @@ export interface TTeamMember {
 export interface TReferenceBook {
     id: string;
     title: string;
-    author: string;
     price: number;
     originalPrice: number;
     rating: number;
-    reviews: number;
     imageUrl: string;
     class: string;
     subject: string;
