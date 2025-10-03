@@ -8,7 +8,7 @@ import { useCart } from "@/context/cart-context";
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { StoreHeader } from "../page";
+import { StoreHeader } from "@/app/store/page";
 import { GcsImage } from "@/components/gcs-image";
 
 
