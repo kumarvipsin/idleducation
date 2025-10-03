@@ -22,6 +22,10 @@ interface OrderItem {
   price: number;
   quantity: number;
   imageUrl: string;
+  author: string;
+  class: string;
+  subject: string;
+  edition: string;
 }
 
 interface Order {
@@ -100,7 +104,12 @@ export default function OrdersPage() {
       }) as Order);
       
       // Sort orders by date on the client side
-      fetchedOrders.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
+      fetchedOrders.sort((a, b) => {
+        if (a.createdAt?.toDate && b.createdAt?.toDate) {
+            return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+        }
+        return 0;
+      });
       
       setOrders(fetchedOrders);
       setLoading(false);
@@ -113,7 +122,7 @@ export default function OrdersPage() {
       return (
         <>
             <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-                <StoreHeader searchTerm="" setSearchTerm={() => {}} />
+                <StoreHeader />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Card className="shadow-lg">
                         <CardHeader>
@@ -133,7 +142,7 @@ export default function OrdersPage() {
   return (
     <>
       <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-          <StoreHeader searchTerm="" setSearchTerm={() => {}} />
+          <StoreHeader />
           <div className="container mx-auto py-12 px-4 md:px-6">
               <Card className="shadow-lg">
                   <CardHeader>
@@ -175,7 +184,11 @@ export default function OrdersPage() {
                                             <div className="relative h-12 w-10 flex-shrink-0">
                                                 <GcsImage filePath={item.imageUrl} alt={item.title} fill className="object-cover rounded-sm" />
                                             </div>
-                                            <p className="flex-grow font-medium truncate">{item.title}</p>
+                                            <div className="flex-grow">
+                                                <p className="font-medium truncate">{item.title}</p>
+                                                <p className="text-xs text-muted-foreground">by {item.author}</p>
+                                                <p className="text-xs text-muted-foreground">{item.class} | Edition: 2025</p>
+                                            </div>
                                             <p className="text-muted-foreground">Qty: {item.quantity}</p>
                                             <p className="font-semibold w-20 text-right">₹{item.price * item.quantity}</p>
                                           </div>
@@ -197,3 +210,4 @@ export default function OrdersPage() {
     </>
   );
 }
+
