@@ -117,13 +117,13 @@ export default function CartPage() {
                                                 </div>
                                                 <div className="flex-grow sm:hidden">
                                                     <h3 className="font-semibold text-base">{item.title}</h3>
-                                                    <p className="text-sm text-muted-foreground">by {item.author}</p>
+                                                    <p className="text-sm text-muted-foreground">{item.author}</p>
                                                     <p className="text-xs text-muted-foreground">{item.class} | Edition: {item.edition}</p>
                                                 </div>
                                             </div>
                                             <div className="hidden sm:block flex-grow">
                                                 <h3 className="font-semibold text-base">{item.title}</h3>
-                                                <p className="text-sm text-muted-foreground">by {item.author}</p>
+                                                <p className="text-sm text-muted-foreground">{item.author}</p>
                                                 <p className="text-xs text-muted-foreground">{item.class} | Edition: {item.edition}</p>
                                                 <p className="text-base font-bold mt-1">₹{item.price}</p>
                                             </div>
