@@ -195,11 +195,11 @@ export default function StorePage() {
                     </div>
                      
                     <div className="relative">
-                         {loading ? (
-                            renderSkeleton()
-                         ) : (
-                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                 <div className="flex gap-6 px-4 md:px-[10%]">
+                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                             {loading ? (
+                                renderSkeleton()
+                             ) : (
+                                <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                         <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
@@ -247,8 +247,8 @@ export default function StorePage() {
                                         </div>
                                     ))}
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
