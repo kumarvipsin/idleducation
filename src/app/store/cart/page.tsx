@@ -90,7 +90,7 @@ export default function CartPage() {
         <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
             <StoreHeader />
             <div className="container mx-auto py-12 px-4 md:px-6">
-                <div className="max-w-4xl mx-auto">
+                <div className="w-full">
                     <Card className="shadow-lg">
                         <CardHeader>
                             <CardTitle className="text-2xl flex items-center gap-2">
@@ -110,44 +110,37 @@ export default function CartPage() {
                             ) : (
                                 <div className="space-y-4">
                                     {cartItems.map(item => (
-                                        <div key={item.id} className="flex items-start gap-4 p-4 border rounded-md">
-                                            <div className="relative h-24 w-20 flex-shrink-0">
-                                                <GcsImage filePath={item.imageUrl} alt={item.title} fill className="object-cover rounded-md" />
+                                        <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-md">
+                                            <div className="flex w-full sm:w-auto items-start gap-4">
+                                                <div className="relative h-24 w-20 flex-shrink-0">
+                                                    <GcsImage filePath={item.imageUrl} alt={item.title} fill className="object-cover rounded-md" />
+                                                </div>
+                                                <div className="flex-grow sm:hidden">
+                                                    <h3 className="font-semibold text-base">{item.title}</h3>
+                                                    <p className="text-sm text-muted-foreground">by {item.author}</p>
+                                                    <p className="text-xs text-muted-foreground">{item.class} | Edition: {item.edition}</p>
+                                                </div>
                                             </div>
-                                            <div className="flex-grow">
+                                            <div className="hidden sm:block flex-grow">
                                                 <h3 className="font-semibold text-base">{item.title}</h3>
                                                 <p className="text-sm text-muted-foreground">by {item.author}</p>
                                                 <p className="text-xs text-muted-foreground">{item.class} | Edition: {item.edition}</p>
-                                                <p className="text-base font-bold mt-1 sm:hidden">₹{item.price}</p>
-                                                <div className="flex w-full justify-between items-center mt-2 sm:hidden">
-                                                    <div className="flex items-center gap-2">
-                                                        <Button size="icon" variant="outline" onClick={() => decreaseQuantity(item.id)} className="h-8 w-8">
-                                                            <Minus className="h-4 w-4" />
-                                                        </Button>
-                                                        <span className="font-bold w-8 text-center text-lg">{item.quantity}</span>
-                                                        <Button size="icon" variant="outline" onClick={() => increaseQuantity(item.id)} className="h-8 w-8">
-                                                            <Plus className="h-4 w-4" />
-                                                        </Button>
-                                                    </div>
-                                                    <Button size="icon" variant="ghost" onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive">
-                                                        <Trash2 className="h-5 w-5" />
+                                                <p className="text-base font-bold mt-1">₹{item.price}</p>
+                                            </div>
+                                            <div className="flex w-full sm:w-auto justify-between items-center mt-2 sm:mt-0">
+                                                <div className="flex items-center gap-2">
+                                                    <Button size="icon" variant="outline" onClick={() => decreaseQuantity(item.id)} className="h-8 w-8">
+                                                        <Minus className="h-4 w-4" />
+                                                    </Button>
+                                                    <span className="font-bold w-8 text-center text-lg">{item.quantity}</span>
+                                                    <Button size="icon" variant="outline" onClick={() => increaseQuantity(item.id)} className="h-8 w-8">
+                                                        <Plus className="h-4 w-4" />
                                                     </Button>
                                                 </div>
-                                            </div>
-                                            <div className="hidden sm:flex items-center gap-2">
-                                                <Button size="icon" variant="outline" onClick={() => decreaseQuantity(item.id)} className="h-8 w-8">
-                                                    <Minus className="h-4 w-4" />
-                                                </Button>
-                                                <span className="font-bold w-8 text-center text-lg">{item.quantity}</span>
-                                                <Button size="icon" variant="outline" onClick={() => increaseQuantity(item.id)} className="h-8 w-8">
-                                                    <Plus className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                            <div className="hidden sm:block text-right w-24">
-                                                <p className="font-semibold text-lg">₹{item.price * item.quantity}</p>
-                                            </div>
-                                            <div className="hidden sm:block">
-                                                <Button size="icon" variant="ghost" onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive">
+                                                <div className="text-right flex-grow sm:flex-grow-0 sm:w-24">
+                                                    <p className="font-semibold text-lg">₹{item.price * item.quantity}</p>
+                                                </div>
+                                                 <Button size="icon" variant="ghost" onClick={() => removeFromCart(item.id)} className="text-muted-foreground hover:text-destructive sm:ml-2">
                                                     <Trash2 className="h-5 w-5" />
                                                 </Button>
                                             </div>
