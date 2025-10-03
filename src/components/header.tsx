@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart } from "lucide-react";
@@ -76,13 +75,13 @@ export function Header() {
   }, []);
   
   const controlNavbar = useCallback(() => {
-    if (typeof window !== 'undefined') { 
+    if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
-        setShow(false); 
+        setShow(false);
       } else { // if scroll up show the navbar
-        setShow(true);  
+        setShow(true);
       }
-      setLastScrollY(window.scrollY); 
+      setLastScrollY(window.scrollY);
     }
   }, [lastScrollY]);
 
@@ -402,7 +401,7 @@ export function Header() {
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                   <Link href="/store/cart">
+                   <Link href="/store">
                     <Button variant="ghost" size="icon" className="relative h-7 w-7">
                         <ShoppingBag className="h-4 w-4" />
                         {cartCount > 0 && (
