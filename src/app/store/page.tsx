@@ -258,6 +258,7 @@ export default function StorePage() {
                                                 </div>
                                                 <h3 className="font-bold text-base leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-1">{book.author}</p>
+                                                <p className="text-sm font-semibold text-primary mt-1">{book.class}</p>
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <div className="flex items-center gap-0.5">
                                                         {[...Array(5)].map((_, i) => (
