@@ -9,3 +9,4 @@ export * from './actions/admin';
 export * from './actions/data';
 export * from './actions/user';
 export * from './actions/content';
+export * from './actions/store-auth';
