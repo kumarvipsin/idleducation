@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, MoreVertical, XCircle } from "lucide-react";
+import { CheckCircle, MoreVertical, XCircle, FileText } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 
 interface Order {
     id: string;
+    orderId: string;
     userName: string;
     userMobile: string;
     items: { title: string, quantity: number, price: number }[];
@@ -24,6 +25,8 @@ interface Order {
     paymentId: string;
     createdAt: any;
     status: 'processing' | 'delivered' | 'cancelled';
+    deliveredAt?: any;
+    cancelledAt?: any;
 }
 
 const getBadgeVariant = (status: Order['status']) => {
@@ -37,6 +40,16 @@ const getBadgeVariant = (status: Order['status']) => {
         default:
             return 'outline';
     }
+};
+
+const getCompletionDate = (order: Order) => {
+    if (order.status === 'delivered' && order.deliveredAt) {
+        return format(new Date(order.deliveredAt), 'PPp');
+    }
+    if (order.status === 'cancelled' && order.cancelledAt) {
+        return format(new Date(order.cancelledAt), 'PPp');
+    }
+    return 'N/A';
 };
 
 export default function StoreOrdersPage() {
@@ -83,6 +96,7 @@ export default function StoreOrdersPage() {
       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
       <TableCell><Skeleton className="h-4 w-32" /></TableCell>
       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
       <TableCell><Skeleton className="h-4 w-full" /></TableCell>
       <TableCell className="text-right"><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
     </TableRow>
@@ -102,7 +116,8 @@ export default function StoreOrdersPage() {
                 <TableRow>
                   <TableHead>Order ID</TableHead>
                   <TableHead>Customer</TableHead>
-                  <TableHead>Date</TableHead>
+                  <TableHead>Order Date</TableHead>
+                  <TableHead>Completion Date</TableHead>
                   <TableHead>Total</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -111,12 +126,13 @@ export default function StoreOrdersPage() {
               <TableBody>
                 {loading ? renderSkeleton() : orders.map((order) => (
                   <TableRow key={order.id}>
-                    <TableCell className="font-mono text-xs">{order.id}</TableCell>
+                    <TableCell className="font-mono text-xs">{order.orderId}</TableCell>
                     <TableCell>
                       <div className="font-medium">{order.userName}</div>
                       <div className="text-xs text-muted-foreground">{order.userMobile}</div>
                     </TableCell>
                     <TableCell>{format(order.createdAt, 'PPp')}</TableCell>
+                     <TableCell>{getCompletionDate(order)}</TableCell>
                     <TableCell>₹{order.totalAmount}</TableCell>
                     <TableCell>
                         <Badge variant={getBadgeVariant(order.status)} className="capitalize">{order.status}</Badge>
@@ -156,8 +172,8 @@ export default function StoreOrdersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              {action === 'deliver' && `This will mark order ${selectedOrder?.id} as delivered.`}
-              {action === 'cancel' && `This will cancel order ${selectedOrder?.id}. This action cannot be undone.`}
+              {action === 'deliver' && `This will mark order ${selectedOrder?.orderId} as delivered.`}
+              {action === 'cancel' && `This will cancel order ${selectedOrder?.orderId}. This action cannot be undone.`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

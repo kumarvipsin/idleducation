@@ -15,10 +15,18 @@ interface OrderData {
     paymentId: string;
 }
 
+// Function to generate a random 8-digit order ID
+const generateOrderId = () => {
+    return Math.floor(10000000 + Math.random() * 90000000).toString();
+};
+
+
 export async function createOrder(data: OrderData) {
     try {
+        const orderId = generateOrderId();
         await addDoc(collection(db, "storeOrders"), {
             ...data,
+            orderId: orderId,
             createdAt: serverTimestamp(),
             status: 'processing',
         });
