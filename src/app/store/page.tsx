@@ -236,49 +236,49 @@ export default function StorePage() {
                             <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
-                                        <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                            <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
-                                                <CardContent className="p-4 flex flex-col flex-1">
-                                                    <div className="relative aspect-[4/4] w-full mb-4">
-                                                        <GcsImage
-                                                            filePath={book.imageUrl}
-                                                            alt={book.title}
-                                                            fill
-                                                            className="object-cover rounded-md"
-                                                        />
+                                        <div key={book.id} className="block flex-shrink-0 w-[280px] group">
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
+                                            <CardContent className="p-3 flex flex-col flex-1">
+                                                <div className="relative aspect-[1/1] w-full mb-3">
+                                                    <GcsImage
+                                                        filePath={book.imageUrl}
+                                                        alt={book.title}
+                                                        fill
+                                                        className="object-cover rounded-md"
+                                                    />
+                                                </div>
+                                                <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                    <span>Set Of {book.set}</span>
+                                                    {book.productId && <span>ID: {book.productId}</span>}
+                                                </div>
+                                                <h3 className="font-bold text-sm leading-tight mt-1" title={book.title}>{book.title}</h3>
+                                                <p className="text-xs text-muted-foreground mt-1">Author : {book.author}</p>
+                                                <p className="text-xs font-semibold text-primary mt-1">Class {book.class}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">Subject: {book.subject}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">Edition: {book.edition}</p>
+                                                <div className="flex-grow"></div>
+                                                <div className="flex items-center gap-2 mt-2">
+                                                    <div className="flex items-center gap-0.5">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star key={i} className={`w-3 h-3 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                                                        ))}
                                                     </div>
-                                                    <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                                        <span>{book.set}</span>
-                                                        {book.productId && <span>ID: {book.productId}</span>}
-                                                    </div>
-                                                    <h3 className="font-bold text-base leading-tight mt-1" title={book.title}>{book.title}</h3>
-                                                    <p className="text-sm text-muted-foreground mt-1">Author : {book.author}</p>
-                                                    <p className="text-sm font-semibold text-primary mt-1">Class {book.class}</p>
-                                                    <p className="text-sm text-muted-foreground mt-1">Subject: {book.subject}</p>
-                                                    <p className="text-sm text-muted-foreground mt-1">Edition: {book.edition}</p>
-                                                    <div className="flex-grow"></div>
-                                                    <div className="flex items-center gap-2 mt-2">
-                                                        <div className="flex items-center gap-0.5">
-                                                            {[...Array(5)].map((_, i) => (
-                                                                <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                                                            ))}
-                                                        </div>
-                                                        <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
-                                                    </div>
-                                                    
-                                                    <div className="flex items-baseline gap-2 mt-2">
-                                                        <p className="text-xl font-bold text-foreground">₹{book.price}</p>
-                                                        <p className="text-sm text-muted-foreground line-through">₹{book.originalPrice}</p>
-                                                        <p className="text-sm font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
-                                                    </div>
-                                                    <div className="mt-4 flex gap-2">
-                                                        <Button className="w-full" variant="outline" onClick={() => handleAddToCart(book)}>
-                                                            <ShoppingCart className="mr-2 h-4 w-4" />
-                                                            Add To Cart
-                                                        </Button>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
+                                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
+                                                </div>
+                                                
+                                                <div className="flex items-baseline gap-2 mt-2">
+                                                    <p className="text-lg font-bold text-foreground">₹{book.price}</p>
+                                                    <p className="text-xs text-muted-foreground line-through">₹{book.originalPrice}</p>
+                                                    <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
+                                                </div>
+                                                <div className="mt-3 flex gap-2">
+                                                    <Button className="w-full h-9 text-xs" onClick={() => handleAddToCart(book)}>
+                                                        <ShoppingCart className="mr-2 h-4 w-4" />
+                                                        Add To Cart
+                                                    </Button>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
                                         </div>
                                     ))}
                                 </div>
