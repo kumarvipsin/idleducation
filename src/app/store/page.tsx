@@ -67,7 +67,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </Link>
                     <div className="md:hidden flex items-center gap-2">
                         <Link href="/store/cart" className="relative">
-                            <ShoppingBag className="h-5 w-5" />
+                            
                             {cartCount > 0 && (
                                 <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
                                     {cartCount}
@@ -128,11 +128,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         </Button>
                     </Link>
                     <Link href="/store/cart" className="relative">
-                         {cartCount > 0 && (
-                            <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
-                                {cartCount}
-                            </span>
-                        )}
+                         
                     </Link>
                     {storeUser ? (
                        <DropdownMenu>
