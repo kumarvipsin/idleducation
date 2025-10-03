@@ -18,12 +18,20 @@ const foundationImage = {
 export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-background overflow-y-auto">
-             <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon" className="text-white bg-black/20 hover:bg-black/40">
-                    <Home className="h-6 w-6" />
-                    <span className="sr-only">Home</span>
-                </Button>
-            </Link>
+            <header className="absolute top-0 left-0 right-0 z-20 p-4">
+                <div className="container mx-auto flex justify-between items-center">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
+                        <span className="text-lg font-bold text-white">IDL Foundation</span>
+                    </Link>
+                    <Link href="/" >
+                        <Button variant="ghost" size="icon" className="text-white bg-black/20 hover:bg-black/40">
+                            <Home className="h-6 w-6" />
+                            <span className="sr-only">Home</span>
+                        </Button>
+                    </Link>
+                </div>
+            </header>
 
             <div className="h-screen">
                 <div className="relative w-full h-full">
