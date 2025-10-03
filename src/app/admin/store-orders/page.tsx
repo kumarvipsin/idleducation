@@ -95,9 +95,11 @@ export default function StoreOrdersPage() {
     <TableRow key={i}>
       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
       <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+      <TableCell><Skeleton className="h-4 w-12" /></TableCell>
       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
       <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-full" /></TableCell>
+      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
       <TableCell className="text-right"><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
     </TableRow>
   ));
@@ -116,6 +118,7 @@ export default function StoreOrdersPage() {
                 <TableRow>
                   <TableHead>Order ID</TableHead>
                   <TableHead>Customer</TableHead>
+                  <TableHead>Quantity</TableHead>
                   <TableHead>Order Date</TableHead>
                   <TableHead>Completion Date</TableHead>
                   <TableHead>Total</TableHead>
@@ -131,6 +134,7 @@ export default function StoreOrdersPage() {
                       <div className="font-medium">{order.userName}</div>
                       <div className="text-xs text-muted-foreground">{order.userMobile}</div>
                     </TableCell>
+                    <TableCell className="text-center">{order.items.reduce((sum, item) => sum + item.quantity, 0)}</TableCell>
                     <TableCell>{format(order.createdAt, 'PPp')}</TableCell>
                      <TableCell>{getCompletionDate(order)}</TableCell>
                     <TableCell>₹{order.totalAmount}</TableCell>
