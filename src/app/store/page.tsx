@@ -105,6 +105,16 @@ export const StoreHeader = () => {
                             </Link>
                         </Button>
                     )}
+                     <Link href="/store/cart">
+                        <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <ShoppingBag className="h-4 w-4" />
+                            {cartCount > 0 && (
+                                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-xs font-bold text-destructive-foreground">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </header>
@@ -174,7 +184,7 @@ export default function StorePage() {
       <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
             <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-                <Skeleton className="h-[450px] w-full rounded-lg" />
+                <Skeleton className="h-[500px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -247,18 +257,19 @@ export default function StorePage() {
                                                         className="object-cover rounded-md"
                                                     />
                                                 </div>
-                                                <div className="flex gap-2">
-                                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">{book.set}</Button>
-                                                    <Button variant="outline" size="sm" className="text-xs h-6 rounded-md">Edition - {book.edition}</Button>
+                                                <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                    <span>{book.set} - {book.edition}</span>
+                                                    {book.productId && <span>ID: {book.productId}</span>}
                                                 </div>
-                                                <h3 className="font-bold text-base leading-tight mt-2 flex-grow" title={book.title}>{book.title}</h3>
+                                                <h3 className="font-bold text-base leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
+                                                <p className="text-sm text-muted-foreground mt-1">{book.author}</p>
                                                 <div className="flex items-center gap-2 mt-1">
                                                     <div className="flex items-center gap-0.5">
                                                         {[...Array(5)].map((_, i) => (
                                                             <Star key={i} className={`w-4 h-4 ${i < Math.round(book.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
                                                         ))}
                                                     </div>
-                                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating}</span>
+                                                    <span className="text-xs text-muted-foreground font-semibold">{book.rating} ({book.reviews} reviews)</span>
                                                 </div>
                                                 
                                                 <div className="flex items-baseline gap-2 mt-2">
