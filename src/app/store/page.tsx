@@ -251,12 +251,12 @@ export default function StorePage() {
                                                     <span>Set Of {book.set}</span>
                                                     {book.productId && <span>ID: {book.productId}</span>}
                                                 </div>
-                                                <h3 className="font-bold text-sm leading-tight mt-1" title={book.title}>{book.title}</h3>
-                                                <div className="flex justify-between items-center">
-                                                    <p className="text-xs font-semibold text-primary mt-1">{book.class} | Edition: {book.edition}</p>
-                                                    <p className="text-xs font-semibold text-primary mt-1">{book.subject}</p>
+                                                <h3 className="font-bold text-sm leading-tight mt-1 flex-grow" title={book.title}>{book.title}</h3>
+                                                <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
+                                                    <span>Class: {book.class}</span>
+                                                    <span>Edition: {book.edition}</span>
                                                 </div>
-
+                                                
                                                 <div className="flex-grow"></div>
                                                 <div className="flex items-center gap-2 mt-2">
                                                     <div className="flex items-center gap-0.5">
