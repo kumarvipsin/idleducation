@@ -174,7 +174,7 @@ export default function StorePage() {
       <div className="flex gap-6 px-4 md:px-[10%]">
         {[...Array(4)].map((_, index) => (
             <div key={index} className="block flex-shrink-0 w-[280px]">
-                <Skeleton className="h-[420px] w-full rounded-lg" />
+                <Skeleton className="h-[380px] w-full rounded-lg" />
             </div>
         ))}
       </div>
@@ -252,8 +252,11 @@ export default function StorePage() {
                                                     {book.productId && <span>ID: {book.productId}</span>}
                                                 </div>
                                                 <h3 className="font-bold text-sm leading-tight mt-1" title={book.title}>{book.title}</h3>
-                                                <p className="text-xs font-semibold text-primary mt-1">Class {book.class} | {book.subject}</p>
-                                                
+                                                <div className="flex justify-between items-center">
+                                                    <p className="text-xs font-semibold text-primary mt-1">{book.class} | Edition: {book.edition}</p>
+                                                    <p className="text-xs font-semibold text-primary mt-1">{book.subject}</p>
+                                                </div>
+
                                                 <div className="flex-grow"></div>
                                                 <div className="flex items-center gap-2 mt-2">
                                                     <div className="flex items-center gap-0.5">
