@@ -127,12 +127,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         <Link href="/" >
                             <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
                         </Link>
-                        <Link href="/store">
-                            <Button variant="ghost" size="icon" className="relative h-7 w-7">
-                                <ShoppingBag className="h-4 w-4" />
-                                <span className="sr-only">Shopping Cart</span>
-                            </Button>
-                        </Link>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
