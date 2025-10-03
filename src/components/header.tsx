@@ -402,9 +402,10 @@ export function Header() {
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                   <Link href="/store">
+                  <Link href="/store/cart">
                     <Button variant="ghost" size="icon" className="relative h-7 w-7">
                         <ShoppingBag className="h-4 w-4" />
+                        {cartCount > 0 && <Badge className="absolute -top-2 -right-2 h-4 w-4 justify-center rounded-full p-0 text-xs">{cartCount}</Badge>}
                         <span className="sr-only">Shopping Cart</span>
                     </Button>
                   </Link>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
@@ -8,6 +7,7 @@ export interface StoreUserProfile {
   id: string;
   name: string;
   mobile: string;
+  shippingAddress?: string;
 }
 
 interface StoreAuthContextType {
@@ -15,6 +15,7 @@ interface StoreAuthContextType {
   loading: boolean;
   login: (profile: StoreUserProfile) => void;
   logout: () => void;
+  updateUser: (profile: Partial<StoreUserProfile>) => void;
 }
 
 const StoreAuthContext = createContext<StoreAuthContextType | undefined>(undefined);
@@ -49,9 +50,17 @@ export const StoreAuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
     router.push('/store');
   };
+  
+  const updateUser = (profileUpdate: Partial<StoreUserProfile>) => {
+    if (user) {
+      const updatedUser = { ...user, ...profileUpdate };
+      setUser(updatedUser);
+      sessionStorage.setItem('storeUserProfile', JSON.stringify(updatedUser));
+    }
+  };
 
   return (
-    <StoreAuthContext.Provider value={{ user, loading, login, logout }}>
+    <StoreAuthContext.Provider value={{ user, loading, login, logout, updateUser }}>
       {children}
     </StoreAuthContext.Provider>
   );

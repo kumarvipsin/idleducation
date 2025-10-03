@@ -111,6 +111,20 @@ export async function resetStoreUserPassword(userId: string, newPassword: string
     }
 }
 
+export async function updateStoreUserAddress(userId: string, address: string) {
+    if (!userId) return { success: false, message: "User ID is required." };
+    if (!address) return { success: false, message: "Address is required." };
+
+    try {
+        const userDocRef = doc(db, "storeCustomers", userId);
+        await updateDoc(userDocRef, { shippingAddress: address });
+        return { success: true, message: "Shipping address updated successfully." };
+    } catch (error) {
+        console.error("Error updating shipping address:", error);
+        return { success: false, message: "Failed to update address." };
+    }
+}
+
 
 export async function getStoreCustomers() {
     try {
