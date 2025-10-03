@@ -26,7 +26,7 @@ import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 
-const StoreHeader = () => {
+export const StoreHeader = () => {
     const { cartCount } = useCart();
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
