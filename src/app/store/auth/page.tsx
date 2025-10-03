@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { signUpStoreUser, loginStoreUser } from "@/app/actions/store-auth";
+import { useStoreAuth, type StoreUserProfile } from "@/context/store-auth-context";
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -30,6 +31,7 @@ type LoginValues = z.infer<typeof loginSchema>;
 export default function StoreAuthPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { login } = useStoreAuth();
 
   const signupForm = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -49,9 +51,7 @@ export default function StoreAuthPage() {
         title: "Account Created",
         description: "You have been successfully registered! Please log in.",
       });
-      // Switch to login tab
-      router.replace('/store/auth?tab=login');
-
+      // You can switch to the login tab here if you have a way to control the Tabs component's value
     } else {
       toast({
         variant: "destructive",
@@ -64,11 +64,12 @@ export default function StoreAuthPage() {
   const handleLogin: SubmitHandler<LoginValues> = async (data) => {
     const result = await loginStoreUser(data);
 
-    if (result.success) {
+    if (result.success && result.user) {
       toast({
         title: "Login Successful",
         description: "Welcome back to the IDL Store!",
       });
+      login(result.user as StoreUserProfile);
       router.push('/store');
     } else {
       toast({

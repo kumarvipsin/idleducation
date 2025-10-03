@@ -19,11 +19,16 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { useStoreAuth } from '@/context/store-auth-context';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 
 const StoreHeader = () => {
     const { cartCount } = useCart();
+    const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -52,7 +57,7 @@ const StoreHeader = () => {
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-14 items-center justify-between mx-auto px-[10%]">
-                <Link href="/" className="flex items-center gap-2">
+                <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
@@ -68,18 +73,49 @@ const StoreHeader = () => {
                           <Link href="/">Home</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href="/cart">My Cart</Link>
+                          <Link href="/store/cart">My Cart</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                           <Link href="/orders">My Orders</Link>
+                           <Link href="/store/orders">My Orders</Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                    <Link href="/store/auth">
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+
+                    {storeUser ? (
+                       <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                            <Avatar className="h-8 w-8">
+                              <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56" align="end" forceMount>
+                          <DropdownMenuLabel className="font-normal">
+                            <div className="flex flex-col space-y-1">
+                              <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                              <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                            </div>
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem asChild>
+                            <Link href="/store/cart">My Cart</Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href="/store/orders">My Orders</Link>
+                          </DropdownMenuItem>
+                           <DropdownMenuItem onClick={storeLogout}>
+                            Logout
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <Link href="/store/auth">
                            <User className="mr-1 h-3 w-3"/> Signup/Login
-                        </Button>
-                    </Link>
+                        </Link>
+                      </Button>
+                    )}
                 </div>
             </div>
         </header>
@@ -195,11 +231,11 @@ export default function StorePage() {
                     </div>
                      
                     <div className="relative">
-                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                             {loading ? (
-                                renderSkeleton()
-                             ) : (
-                                <div className="flex gap-6 px-4 md:px-[10%]">
+                         {loading ? (
+                            renderSkeleton()
+                         ) : (
+                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                 <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                                         <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
@@ -247,8 +283,8 @@ export default function StorePage() {
                                         </div>
                                     ))}
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
