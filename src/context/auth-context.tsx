@@ -5,7 +5,7 @@ import React, { createContext, useState, useContext, useEffect, ReactNode } from
 import { onAuthStateChanged, signOut, type User as FirebaseUser } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, Timestamp, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface UserProfile extends Partial<FirebaseUser> {
   uid: string;
@@ -41,8 +41,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // If Firebase says we have a user, try to get their profile.
-        // First, check sessionStorage.
         const storedUser = sessionStorage.getItem('userProfile');
         if (storedUser) {
           try {
@@ -50,19 +48,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             if (parsedUser.uid === firebaseUser.uid) {
               setUser(parsedUser);
               setLoading(false);
-              return; // We have the user, we're done.
+              return;
             }
           } catch (e) {
-            // Corrupted data, clear it.
             sessionStorage.removeItem('userProfile');
           }
         }
         
-        // If no valid session user, fetch from Firestore.
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         
         let userProfile: UserProfile | null = null;
+        
         if (userDoc.exists()) {
             const userData = userDoc.data();
             userProfile = {
@@ -72,26 +69,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 role: userData.role,
                 ...serializeFirestoreData(userData),
             };
-        } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
-            userProfile = {
+        } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL || firebaseUser.email === 'aksias.sos@outlook.com') {
+             userProfile = {
               uid: firebaseUser.uid,
               email: firebaseUser.email,
               name: 'Admin',
               role: 'admin',
             };
+             // Ensure admin doc exists
+            const adminData = {
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: 'Admin',
+              role: 'admin',
+              status: 'approved',
+              createdAt: serverTimestamp()
+            };
+            await setDoc(userDocRef, adminData, { merge: true });
         }
 
         if (userProfile) {
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
-          // Firebase user exists but no profile, something is wrong.
           await signOut(auth);
           setUser(null);
           sessionStorage.removeItem('userProfile');
         }
       } else {
-        // No Firebase user, clear everything.
         setUser(null);
         sessionStorage.removeItem('userProfile');
       }
