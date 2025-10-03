@@ -1,14 +1,14 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { getUpdates, registerForScholarship } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
@@ -26,6 +26,8 @@ import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useCart } from "@/context/cart-context";
+import { GcsImage } from "./gcs-image";
 
 interface Update {
   id: string;
@@ -54,6 +56,7 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
+  const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
@@ -65,10 +68,33 @@ export function Header() {
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
-  
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
+  
+  const controlNavbar = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
+        setShow(false);
+      } else { // if scroll up show the navbar
+        setShow(true);
+      }
+      setLastScrollY(window.scrollY);
+    }
+  }, [lastScrollY]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [controlNavbar]);
   
   const form = useForm<ScholarshipFormValues>({
     resolver: zodResolver(scholarshipSchema),
@@ -201,6 +227,7 @@ export function Header() {
     { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -278,10 +305,10 @@ export function Header() {
             <DropdownMenuSeparator />
             {updates.length > 0 ? (
             updates.map(update => (
-                <DropdownMenuItem key={update.id} className="flex flex-col items-start gap-1">
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
                     <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end">
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
                     {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                     </p>
                 </DropdownMenuItem>
@@ -298,10 +325,11 @@ export function Header() {
         </DropdownMenuContent>
     </DropdownMenu>
   );
+
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14">
+        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14 rounded-t-2xl">
             
         </header>
     );
@@ -309,15 +337,15 @@ export function Header() {
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b">
-          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-14">
+      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7]/80 dark:bg-gray-900/80 border-b backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
+          <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
                     <span className="text-sm font-bold text-primary">
                         {brandName}
                     </span>
-                    <span className="text-[0.4rem] text-primary/80 tracking-tighter -mt-1">
+                    <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
                       (Institute of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
@@ -362,16 +390,23 @@ export function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
+                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/store">
+                      IDL Store
+                    </Link>
+                  </Button>
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {renderAuthSection()}
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
+                  
                   {notificationDropdown}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
-                      {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                      {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
                   </CollapsibleTrigger>
@@ -383,18 +418,50 @@ export function Header() {
             )}>
               <div className="border-t bg-background">
                 <div className="p-2">
-                  <nav className="grid gap-1 text-base font-medium">
-                  {navLinks.map(({ href, label, icon }) => (
-                      <Link
-                      key={href}
-                      href={href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-                      >
-                      {icon}
-                      <span className="text-sm">{label}</span>
-                      </Link>
-                  ))}
+                  <nav className="grid grid-cols-3 gap-1 text-base font-medium">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                Menu
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {navLinks.map(({ href, label }) => (
+                                <DropdownMenuItem asChild key={href}>
+                                    <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                APPLY FOR
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem asChild>
+                                <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                        <span className="sm:inline">{t('login')}</span>
+                    </Link>
+                    </Button>
                   </nav>
                 </div>
                 {renderMobileAuthSection()}

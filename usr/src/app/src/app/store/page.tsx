@@ -22,7 +22,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { useStoreAuth } from '@/context/store-auth-context';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useRouter } from 'next/navigation';
@@ -39,9 +39,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
-            if (window.scrollY > 80 && window.scrollY > lastScrollY) { 
+            if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
                 setShow(false);
-            } else {
+            } else { // if scroll up show the navbar
                 setShow(true);
             }
             setLastScrollY(window.scrollY);
@@ -56,109 +56,95 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 window.removeEventListener('scroll', controlNavbar);
             };
         }
-    }, [lastScrollY, controlNavbar]);
+    }, [controlNavbar]);
+    
+    const searchPopoverContent = (
+      <div className="p-2 space-y-2">
+        <p className="text-xs font-medium text-foreground">Search Store</p>
+        <p className="text-[10px] text-muted-foreground">Find books by ID, class, or edition.</p>
+        <div className="relative">
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+            <Input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-6 w-full h-8 text-xs"
+            />
+        </div>
+      </div>
+    );
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14")}>
-            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
-                    <Link href="/" className="hidden md:block">
-                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           HOME
+                     <div className="flex items-center gap-2">
+                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                           <Link href="/" >HOME</Link>
                         </Button>
-                    </Link>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
-                    {storeUser ? (
-                       <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
-                            </Avatar>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56" align="end" forceMount>
-                          <DropdownMenuLabel className="font-normal">
-                            <div className="flex flex-col space-y-1">
-                              <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                              <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                            </div>
-                          </DropdownMenuLabel>
-                          <DropdownMenuSeparator />
-                           <DropdownMenuItem asChild>
-                                <Link href="/store/cart">My Cart</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/store/orders">My Orders</Link>
-                            </DropdownMenuItem>
-                           <DropdownMenuItem onClick={storeLogout}>
-                            Logout
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    ) : (
+                        <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
+                        {storeUser ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                    <Avatar className="h-8 w-8">
+                                    <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                                    </Avatar>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-56" align="end" forceMount>
+                                <DropdownMenuLabel className="font-normal">
+                                    <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                    <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                    </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/cart">My Cart</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/orders">My Orders</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={storeLogout}>
+                                    Logout
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        ) : (
                         <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                             <Link href="/store/auth">LOGIN</Link>
                         </Button>
-                    )}
+                        )}
+                    </div>
                      <div className="flex items-center md:hidden gap-2">
-                        <Link href="/" >
-                            <Button variant="ghost" size="icon" className="h-8 w-8"><Home className="h-4 w-4" /></Button>
-                        </Link>
-                        <Dialog>
-                            <DialogTrigger asChild>
+                        
+                        <Popover>
+                            <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-48 p-0">
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="hidden md:flex items-center gap-2">
                         <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                        <Dialog>
-                            <DialogTrigger asChild>
+                         
+                        <Popover>
+                            <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                <DialogTitle>Search Store</DialogTitle>
-                                <DialogDescription>
-                                    Find books by ID, class, or edition.
-                                </DialogDescription>
-                                </DialogHeader>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        type="text"
-                                        placeholder="Search by ID, class, edition..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-10 w-full"
-                                    />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-48 p-0">
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                     </div>
                 </div>
             </div>
@@ -230,7 +216,7 @@ export default function StorePage() {
         addToCart(book);
         toast({
             title: "Added to Cart",
-            description: `${''}${book.title} has been added to your cart.`,
+            description: `${book.title} has been added to your cart.`,
         });
     };
     
@@ -301,7 +287,7 @@ export default function StorePage() {
                                  <div className="flex gap-6 px-4 md:px-[10%]">
                                     {filteredBooks.map((book, index) => (
                                         <div key={book.id} className="block flex-shrink-0 w-[280px] group">
-                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${''}${index * 50}ms` }}>
+                                        <Card className="overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up group rounded-lg bg-card flex flex-col h-full" style={{ animationDelay: `${index * 50}ms` }}>
                                             <CardContent className="p-3 flex flex-col flex-1">
                                                 <div className="relative aspect-[4/5] w-full mb-3">
                                                     <GcsImage
