@@ -38,7 +38,7 @@ export function HeroSection() {
   const [current, setCurrent] = useState(0)
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: false })
+    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
   );
 
   useEffect(() => {
