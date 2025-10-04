@@ -100,7 +100,6 @@ const renderSubjectContent = (subject: TSubject | null) => {
     }
 
     const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
-
     return (
          <div className="space-y-4 md:space-y-6">
             {hasParts ? (
@@ -115,8 +114,48 @@ const renderSubjectContent = (subject: TSubject | null) => {
                                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
                                             <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
                                                {chapter.name}
+                                               
                                             </AccordionTrigger>
                                             <AccordionContent>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {chapter.topics?.map((item, key) => {
+          const desc = item.name.toLowerCase();
+          const isNcert = desc.includes("ncert");
+          const isImport = desc.includes("import");
+
+          return (
+            <div
+              key={key}
+              className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <p className="text-gray-500 text-sm">{item.name}</p>
+              </div>
+
+              {/* Conditional Buttons */}
+              <div className="flex justify-end mt-4 space-x-2">
+                {(isNcert || isImport) && (
+                  <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                    View PDF
+                  </button>
+                )}
+
+                {isNcert && (
+                  <button className="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                    Download
+                  </button>
+                )}
+
+                {isImport && (
+                  <button className="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">
+                    Add to Cart
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
                                                 <ChapterResources chapter={chapter} />
                                             </AccordionContent>
                                         </AccordionItem>
@@ -131,7 +170,7 @@ const renderSubjectContent = (subject: TSubject | null) => {
                         <Card key={chapterIndex} className="transition-all duration-300">
                              <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
                                 <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
-                                    {chapter.name}
+                                    {chapter.name} cha
                                 </AccordionTrigger>
                                 <AccordionContent>
                                      <ChapterResources chapter={chapter} />
