@@ -17,12 +17,20 @@ export interface TTopic {
   createdAt: string;
   subTopics?: TSubTopic[];
   order: number;
+  // NCERT PDFs
   pdfUrl_en?: string;
   pdfUrl_hi?: string;
   pdfUrl_en_demo?: string;
   pdfUrl_en_primum?: string;
   pdfUrl_hi_demo?: string;
   pdfUrl_hi_primum?: string;
+  // Notes PDFs
+  notePdfUrl_en?: string;
+  notePdfUrl_hi?: string;
+  notePdfUrl_en_demo?: string;
+  notePdfUrl_en_primum?: string;
+  notePdfUrl_hi_demo?: string;
+  notePdfUrl_hi_primum?: string;
 }
 
 export interface TChapter {

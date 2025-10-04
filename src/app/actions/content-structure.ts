@@ -476,22 +476,17 @@ export async function deleteChapter(collectionType: CollectionType, classId: str
 // Topic Level Operations
 // ==================================
 export async function addTopic(
-    collectionType: CollectionType, 
-    classId: string, 
-    subjectKey: string, 
-    chapterIndex: number, 
-    partKey: string | undefined, 
-    topicName: string, 
-    order: number, 
-    pdf_en: File | null, 
-    pdf_hi: File | null, 
-    pdf_en_demo: File | null,
-    pdf_en_primum: File | null,
-    pdf_hi_demo: File | null,
-    pdf_hi_primum: File | null
+    collectionType: CollectionType,
+    classId: string,
+    subjectKey: string,
+    chapterIndex: number,
+    partKey: string | undefined,
+    formData: FormData
 ) {
+    const topicName = formData.get('name') as string;
+    const order = parseInt(formData.get('order') as string, 10);
     if (!topicName) return { success: false, message: "Topic name is required." };
-    
+
     const slug = generateSlug(topicName);
     const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
@@ -502,12 +497,14 @@ export async function addTopic(
         order: isNaN(order) ? 99 : order,
     };
     
-    if (pdf_en?.size) topicData.pdfUrl_en = await uploadFileToGCS(pdf_en, `${baseDestination}-en.pdf`);
-    if (pdf_hi?.size) topicData.pdfUrl_hi = await uploadFileToGCS(pdf_hi, `${baseDestination}-hi.pdf`);
-    if (pdf_en_demo?.size) topicData.pdfUrl_en_demo = await uploadFileToGCS(pdf_en_demo, `${baseDestination}-en-demo.pdf`);
-    if (pdf_en_primum?.size) topicData.pdfUrl_en_primum = await uploadFileToGCS(pdf_en_primum, `${baseDestination}-en-primum.pdf`);
-    if (pdf_hi_demo?.size) topicData.pdfUrl_hi_demo = await uploadFileToGCS(pdf_hi_demo, `${baseDestination}-hi-demo.pdf`);
-    if (pdf_hi_primum?.size) topicData.pdfUrl_hi_primum = await uploadFileToGCS(pdf_hi_primum, `${baseDestination}-hi-primum.pdf`);
+    const pdfFields: (keyof TTopic)[] = ['pdfUrl_en', 'pdfUrl_hi', 'pdfUrl_en_demo', 'pdfUrl_en_primum', 'pdfUrl_hi_demo', 'pdfUrl_hi_primum', 'notePdfUrl_en', 'notePdfUrl_hi', 'notePdfUrl_en_demo', 'notePdfUrl_en_primum', 'notePdfUrl_hi_demo', 'notePdfUrl_hi_primum'];
+
+    for (const field of pdfFields) {
+        const file = formData.get(field) as File | null;
+        if (file?.size) {
+            topicData[field] = await uploadFileToGCS(file, `${baseDestination}-${field}.pdf`);
+        }
+    }
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -550,15 +547,10 @@ export async function editTopic(
     partKey: string | undefined, 
     chapterIndex: number, 
     topicIndex: number, 
-    newTopicName: string, 
-    order: number, 
-    pdf_en: File | null, 
-    pdf_hi: File | null, 
-    pdf_en_demo: File | null,
-    pdf_en_primum: File | null,
-    pdf_hi_demo: File | null,
-    pdf_hi_primum: File | null
+    formData: FormData
 ) {
+    const newTopicName = formData.get('name') as string;
+    const order = parseInt(formData.get('order') as string, 10);
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !newTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -584,14 +576,15 @@ export async function editTopic(
         const slug = generateSlug(newTopicName);
         const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
-        if (pdf_en?.size) topicToUpdate.pdfUrl_en = await uploadFileToGCS(pdf_en, `${baseDestination}-en.pdf`);
-        if (pdf_hi?.size) topicToUpdate.pdfUrl_hi = await uploadFileToGCS(pdf_hi, `${baseDestination}-hi.pdf`);
-        if (pdf_en_demo?.size) topicToUpdate.pdfUrl_en_demo = await uploadFileToGCS(pdf_en_demo, `${baseDestination}-en-demo.pdf`);
-        if (pdf_en_primum?.size) topicToUpdate.pdfUrl_en_primum = await uploadFileToGCS(pdf_en_primum, `${baseDestination}-en-primum.pdf`);
-        if (pdf_hi_demo?.size) topicToUpdate.pdfUrl_hi_demo = await uploadFileToGCS(pdf_hi_demo, `${baseDestination}-hi-demo.pdf`);
-        if (pdf_hi_primum?.size) topicToUpdate.pdfUrl_hi_primum = await uploadFileToGCS(pdf_hi_primum, `${baseDestination}-hi-primum.pdf`);
-        
+        const pdfFields: (keyof TTopic)[] = ['pdfUrl_en', 'pdfUrl_hi', 'pdfUrl_en_demo', 'pdfUrl_en_primum', 'pdfUrl_hi_demo', 'pdfUrl_hi_primum', 'notePdfUrl_en', 'notePdfUrl_hi', 'notePdfUrl_en_demo', 'notePdfUrl_en_primum', 'notePdfUrl_hi_demo', 'notePdfUrl_hi_primum'];
 
+        for (const field of pdfFields) {
+            const file = formData.get(field) as File | null;
+            if (file?.size) {
+                topicToUpdate[field] = await uploadFileToGCS(file, `${baseDestination}-${field}.pdf`);
+            }
+        }
+        
         chaptersArray[chapterIndex].topics[topicIndex] = topicToUpdate;
 
         const fieldPath = partKey ? `subjects.${subjectKey}.parts.${partKey}.chapters` : `subjects.${subjectKey}.chapters`;
