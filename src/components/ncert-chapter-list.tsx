@@ -181,7 +181,7 @@ const renderSubjectContent = (subject: TSubject | null) => {
                                                         );
                                                         })}
                                                     </div>
-                                                <ChapterResources chapter={chapter} />
+                                                {/* <ChapterResources chapter={chapter} /> */}
                                             </AccordionContent>
                                         </AccordionItem>
                                     </Card>
