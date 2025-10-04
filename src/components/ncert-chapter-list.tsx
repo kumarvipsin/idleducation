@@ -123,64 +123,65 @@ const renderSubjectContent = (subject: TSubject | null) => {
                                             </AccordionTrigger>
                                             <AccordionContent>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                        {chapter.topics?.map((topic, index) => {
-                                                        const name = topic.name.toLowerCase();
-                                                        const isNcert = name.includes("ncert");
-                                                        const isImport = name.includes("import");
-                                                        const hasPdf = topic.pdfUrl && topic.pdfUrl.trim() !== "";
+                                                {chapter.topics?.map((topic, index) => {
+                                                    const cards = [
+                                                    { pdfs: [topic.pdfUrl_en], label: `${topic.name} (Eng)` , is_download: true},
+                                                    { pdfs: [topic.pdfUrl_hi], label: `${topic.name} (Hi)`, is_download: true},
+                                                    { pdfs: [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum], label: `Important Q's (Eng)`, is_download: false},
+                                                    { pdfs: [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum], label: `Important Q's (Hi)`, is_download: false },
+                                                    ];
 
-                                                        return (
-                                                            <div
-                                                            key={index}
-                                                            className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-all duration-300"
-                                                            >
-                                                            {/* Left side: Topic name */}
-                                                            <p className="text-gray-700 text-sm font-medium">{topic.name}</p>
+                                                    return cards.map((card, i) => {
+                                                    const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
+                                                    const hasPdf = !!availablePdf;
 
-                                                            {/* Right side: Icons */}
-                                                            <div className="flex items-center space-x-3">
-                                                                    {(isNcert || isImport) && hasPdf ? (<ViewPdfButton pdfUrl={topic.pdfUrl}/>):
-                                                                    (<span
-                                                                        title="PDF not available"
-                                                                        className="text-gray-400 cursor-not-allowed"
-                                                                      >
-                                                                        <Eye size={20} />
-                                                                      </span>)
-                                                                    }
+                                                    return (
+                                                        <div
+                                                        key={`${index}-${i}`}
+                                                        className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-all duration-300"
+                                                        >
+                                                        {/* Left side: Topic name */}
+                                                        <p className="text-gray-700 text-sm font-medium">{card.label}</p>
 
-                                                                    {isNcert && hasPdf &&  (
-                                                                    <button
-                                                                        onClick={() => handleDownload(topic.pdfUrl)}
-                                                                        title="Download"
-                                                                        className="text-green-500 hover:text-green-700 transition"
-                                                                    >
-                                                                        <Download size={20} />
-                                                                    </button>
-                                                                    )}
-                                                                    {isNcert && !hasPdf &&  (
-                                                                    <button
-                                                                    disabled    
+                                                        {/* Right side: Icons */}
+                                                        <div className="flex items-center space-x-3">
+                                                            {hasPdf ? (
+                                                            <ViewPdfButton pdfUrl={availablePdf} />
+                                                            ) : (
+                                                            <span title="PDF not available" className="text-gray-400 cursor-not-allowed">
+                                                                <Eye size={20} />
+                                                            </span>
+                                                            )}
+
+                                                            {card.is_download && (
+                                                                <button
+                                                                    onClick={hasPdf ? () => handleDownload(availablePdf) : undefined}
+                                                                    disabled={!hasPdf}
                                                                     title="Download"
-                                                                        className="text-green-500 hover:text-green-700 transition"
-                                                                    >
-                                                                        <Download size={20} />
-                                                                    </button>
-                                                                    )}
+                                                                    className={`text-green-500 hover:text-green-700 transition ${!hasPdf ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                                >
+                                                                    <Download size={20} />
+                                                                </button>
+                                                            )}
 
-                                                                    {isImport && (
-                                                                    <button
-                                                                        title="Add to Cart"
-                                                                        className="text-yellow-500 hover:text-yellow-700 transition"
-                                                                        onClick={() => alert(`${topic.name} added to cart!`)}
-                                                                    >
-                                                                        <ShoppingCart size={20} />
-                                                                    </button>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                        })}
-                                                    </div>
+
+                                                            {!card.is_download && (
+                                                            <button
+                                                                title="Add to Cart"
+                                                                className="text-yellow-500 hover:text-yellow-700 transition"
+                                                                onClick={() => alert(`${topic.name} added to cart!`)}
+                                                            >
+                                                                <ShoppingCart size={20} />
+                                                            </button>
+                                                            )}
+                                                        </div>
+                                                        </div>
+                                                    );
+                                                    });
+                                                })}
+                                                </div>
+
+
                                                 {/* <ChapterResources chapter={chapter} /> */}
                                             </AccordionContent>
                                         </AccordionItem>
