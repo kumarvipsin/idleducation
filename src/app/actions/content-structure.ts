@@ -1,4 +1,3 @@
-
 // src/app/actions/content-structure.ts
 'use server';
 import { db } from "@/lib/firebase";
@@ -48,11 +47,11 @@ export async function reorderArrayItem(
             fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
             arrayToModify = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
         } else if (itemType === 'topic' && path.chapterIndex !== undefined) {
-            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
             const chapters = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
             arrayToModify = chapters?.[path.chapterIndex]?.topics;
         } else if (itemType === 'subTopic' && path.chapterIndex !== undefined && path.topicIndex !== undefined) {
-            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${subjectKey}.chapters`;
+            fieldPath = path.partKey ? `subjects.${path.subjectKey}.parts.${path.partKey}.chapters` : `subjects.${path.subjectKey}.chapters`;
             const chapters = path.partKey ? subject.parts?.[path.partKey]?.chapters : subject.chapters;
             arrayToModify = chapters?.[path.chapterIndex]?.topics?.[path.topicIndex]?.subTopics;
         } else {
@@ -476,7 +475,21 @@ export async function deleteChapter(collectionType: CollectionType, classId: str
 // ==================================
 // Topic Level Operations
 // ==================================
-export async function addTopic(collectionType: CollectionType, classId: string, subjectKey: string, chapterIndex: number, partKey: string | undefined, topicName: string, order: number, pdf_en: File | null, pdf_hi: File | null, pdf_demo: File | null, pdf_primum: File | null) {
+export async function addTopic(
+    collectionType: CollectionType, 
+    classId: string, 
+    subjectKey: string, 
+    chapterIndex: number, 
+    partKey: string | undefined, 
+    topicName: string, 
+    order: number, 
+    pdf_en: File | null, 
+    pdf_hi: File | null, 
+    pdf_en_demo: File | null,
+    pdf_en_primum: File | null,
+    pdf_hi_demo: File | null,
+    pdf_hi_primum: File | null
+) {
     if (!topicName) return { success: false, message: "Topic name is required." };
     
     const slug = generateSlug(topicName);
@@ -491,8 +504,10 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     
     if (pdf_en?.size) topicData.pdfUrl_en = await uploadFileToGCS(pdf_en, `${baseDestination}-en.pdf`);
     if (pdf_hi?.size) topicData.pdfUrl_hi = await uploadFileToGCS(pdf_hi, `${baseDestination}-hi.pdf`);
-    if (pdf_demo?.size) topicData.pdfUrl_demo = await uploadFileToGCS(pdf_demo, `${baseDestination}-demo.pdf`);
-    if (pdf_primum?.size) topicData.pdfUrl_primum = await uploadFileToGCS(pdf_primum, `${baseDestination}-primum.pdf`);
+    if (pdf_en_demo?.size) topicData.pdfUrl_en_demo = await uploadFileToGCS(pdf_en_demo, `${baseDestination}-en-demo.pdf`);
+    if (pdf_en_primum?.size) topicData.pdfUrl_en_primum = await uploadFileToGCS(pdf_en_primum, `${baseDestination}-en-primum.pdf`);
+    if (pdf_hi_demo?.size) topicData.pdfUrl_hi_demo = await uploadFileToGCS(pdf_hi_demo, `${baseDestination}-hi-demo.pdf`);
+    if (pdf_hi_primum?.size) topicData.pdfUrl_hi_primum = await uploadFileToGCS(pdf_hi_primum, `${baseDestination}-hi-primum.pdf`);
 
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -528,7 +543,22 @@ export async function addTopic(collectionType: CollectionType, classId: string, 
     }
 }
 
-export async function editTopic(collectionType: CollectionType, classId: string, subjectKey: string, partKey: string | undefined, chapterIndex: number, topicIndex: number, newTopicName: string, order: number, pdf_en: File | null, pdf_hi: File | null, pdf_demo: File | null, pdf_primum: File | null) {
+export async function editTopic(
+    collectionType: CollectionType, 
+    classId: string, 
+    subjectKey: string, 
+    partKey: string | undefined, 
+    chapterIndex: number, 
+    topicIndex: number, 
+    newTopicName: string, 
+    order: number, 
+    pdf_en: File | null, 
+    pdf_hi: File | null, 
+    pdf_en_demo: File | null,
+    pdf_en_primum: File | null,
+    pdf_hi_demo: File | null,
+    pdf_hi_primum: File | null
+) {
     if (!classId || !subjectKey || chapterIndex === undefined || topicIndex === undefined || !newTopicName) {
         return { success: false, message: "Required fields are missing." };
     }
@@ -556,8 +586,11 @@ export async function editTopic(collectionType: CollectionType, classId: string,
 
         if (pdf_en?.size) topicToUpdate.pdfUrl_en = await uploadFileToGCS(pdf_en, `${baseDestination}-en.pdf`);
         if (pdf_hi?.size) topicToUpdate.pdfUrl_hi = await uploadFileToGCS(pdf_hi, `${baseDestination}-hi.pdf`);
-        if (pdf_demo?.size) topicToUpdate.pdfUrl_demo = await uploadFileToGCS(pdf_demo, `${baseDestination}-demo.pdf`);
-        if (pdf_primum?.size) topicToUpdate.pdfUrl_primum = await uploadFileToGCS(pdf_primum, `${baseDestination}-primum.pdf`);
+        if (pdf_en_demo?.size) topicToUpdate.pdfUrl_en_demo = await uploadFileToGCS(pdf_en_demo, `${baseDestination}-en-demo.pdf`);
+        if (pdf_en_primum?.size) topicToUpdate.pdfUrl_en_primum = await uploadFileToGCS(pdf_en_primum, `${baseDestination}-en-primum.pdf`);
+        if (pdf_hi_demo?.size) topicToUpdate.pdfUrl_hi_demo = await uploadFileToGCS(pdf_hi_demo, `${baseDestination}-hi-demo.pdf`);
+        if (pdf_hi_primum?.size) topicToUpdate.pdfUrl_hi_primum = await uploadFileToGCS(pdf_hi_primum, `${baseDestination}-hi-primum.pdf`);
+        
 
         chaptersArray[chapterIndex].topics[topicIndex] = topicToUpdate;
 

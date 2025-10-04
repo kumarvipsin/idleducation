@@ -1,4 +1,3 @@
-
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -16,13 +15,14 @@ export interface TSubTopic {
 export interface TTopic {
   name: string;
   createdAt: string;
-  pdfUrl?: string; // Main PDF (can be considered English)
-  pdfUrl_en?: string; // Explicit English PDF
-  pdfUrl_hi?: string; // Hindi PDF
-  pdfUrl_demo?: string; // Demo PDF
-  pdfUrl_primum?: string; // Primum/Premium PDF
   subTopics?: TSubTopic[];
   order: number;
+  pdfUrl_en?: string;
+  pdfUrl_hi?: string;
+  pdfUrl_en_demo?: string;
+  pdfUrl_en_primum?: string;
+  pdfUrl_hi_demo?: string;
+  pdfUrl_hi_primum?: string;
 }
 
 export interface TChapter {
