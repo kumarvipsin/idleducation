@@ -33,7 +33,7 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     };
 
     return (
-        <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground" onClick={handleViewPdf} disabled={isLoading}>
+        <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500 hover:text-blue-700 transition" onClick={handleViewPdf} disabled={isLoading}>
             <Eye className="h-4 w-4" />
         </Button>
     );
@@ -98,7 +98,12 @@ const renderSubjectContent = (subject: TSubject | null) => {
     if (!subject) {
         return <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>;
     }
-
+    const handleDownload = (url) => {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = url.split("/").pop();
+        link.click();
+      };
     const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
     return (
          <div className="space-y-4 md:space-y-6">
@@ -117,45 +122,65 @@ const renderSubjectContent = (subject: TSubject | null) => {
                                                
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {chapter.topics?.map((item, key) => {
-          const desc = item.name.toLowerCase();
-          const isNcert = desc.includes("ncert");
-          const isImport = desc.includes("import");
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        {chapter.topics?.map((topic, index) => {
+                                                        const name = topic.name.toLowerCase();
+                                                        const isNcert = name.includes("ncert");
+                                                        const isImport = name.includes("import");
+                                                        const hasPdf = topic.pdfUrl && topic.pdfUrl.trim() !== "";
 
-          return (
-            <div
-              key={key}
-              className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
-            >
-              <div>
-                <p className="text-gray-500 text-sm">{item.name}</p>
-              </div>
+                                                        return (
+                                                            <div
+                                                            key={index}
+                                                            className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-all duration-300"
+                                                            >
+                                                            {/* Left side: Topic name */}
+                                                            <p className="text-gray-700 text-sm font-medium">{topic.name}</p>
 
-              {/* Conditional Buttons */}
-              <div className="flex justify-end mt-4 space-x-2">
-                {(isNcert || isImport) && (
-                  <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    View PDF
-                  </button>
-                )}
+                                                            {/* Right side: Icons */}
+                                                            <div className="flex items-center space-x-3">
+                                                                    {(isNcert || isImport) && hasPdf ? (<ViewPdfButton pdfUrl={topic.pdfUrl}/>):
+                                                                    (<span
+                                                                        title="PDF not available"
+                                                                        className="text-gray-400 cursor-not-allowed"
+                                                                      >
+                                                                        <Eye size={20} />
+                                                                      </span>)
+                                                                    }
 
-                {isNcert && (
-                  <button className="px-3 py-1 text-sm bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-                    Download
-                  </button>
-                )}
+                                                                    {isNcert && hasPdf &&  (
+                                                                    <button
+                                                                        onClick={() => handleDownload(topic.pdfUrl)}
+                                                                        title="Download"
+                                                                        className="text-green-500 hover:text-green-700 transition"
+                                                                    >
+                                                                        <Download size={20} />
+                                                                    </button>
+                                                                    )}
+                                                                    {isNcert && !hasPdf &&  (
+                                                                    <button
+                                                                    disabled    
+                                                                    title="Download"
+                                                                        className="text-green-500 hover:text-green-700 transition"
+                                                                    >
+                                                                        <Download size={20} />
+                                                                    </button>
+                                                                    )}
 
-                {isImport && (
-                  <button className="px-3 py-1 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">
-                    Add to Cart
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+                                                                    {isImport && (
+                                                                    <button
+                                                                        title="Add to Cart"
+                                                                        className="text-yellow-500 hover:text-yellow-700 transition"
+                                                                        onClick={() => alert(`${topic.name} added to cart!`)}
+                                                                    >
+                                                                        <ShoppingCart size={20} />
+                                                                    </button>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                        })}
+                                                    </div>
                                                 <ChapterResources chapter={chapter} />
                                             </AccordionContent>
                                         </AccordionItem>
