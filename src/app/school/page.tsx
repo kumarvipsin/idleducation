@@ -157,6 +157,54 @@ function SchoolPageContent() {
           </div>
         </div>
       </div>
+
+       <div className="my-8">
+        <CardHeader>
+          <CardTitle>Subject Video Lessons</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[autoplayPlugin.current]}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
+                <CarouselItem key={subject} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <Card className="group overflow-hidden">
+                    <CardContent className="p-0">
+                      <div className="relative aspect-video">
+                        <Image
+                          src={`https://picsum.photos/seed/${subject}/600/400`}
+                          alt={`${subject} video lesson`}
+                          data-ai-hint={`${subject} lesson`}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                          <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h4 className="font-semibold">{subject} Video Lessons</h4>
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                            <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                                <Link href="#">Click</Link>
+                            </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </CardContent>
+      </div>
       
        {activeTeachers.length > 0 && (
         <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
@@ -187,6 +235,7 @@ function SchoolPageContent() {
                         experience={member.experience || 'Experienced'}
                         avatar={member.photoURL || ''}
                         avatarHint={`${member.name} photo`}
+                        biography={member.biography}
                       />
                     </CarouselItem>
                   ))}
@@ -195,56 +244,6 @@ function SchoolPageContent() {
             </div>
           </section>
         )}
-
-        <div className="my-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Subject Video Lessons</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                plugins={[autoplayPlugin.current]}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-4">
-                  {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                    <CarouselItem key={subject} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                      <Card className="group overflow-hidden">
-                        <CardContent className="p-0">
-                          <div className="relative aspect-video">
-                            <Image
-                              src={`https://picsum.photos/seed/${subject}/600/400`}
-                              alt={`${subject} video lesson`}
-                              data-ai-hint={`${subject} lesson`}
-                              fill
-                              className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                              <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                            </div>
-                          </div>
-                          <div className="p-4">
-                            <h4 className="font-semibold">{subject} Video Lessons</h4>
-                            <div className="flex items-center justify-between">
-                              <p className="text-sm text-muted-foreground">By Manish Sharma</p>
-                              <Button asChild variant="link" size="sm" className="p-0 h-auto">
-                                <Link href="#">Click</Link>
-                              </Button>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
-            </CardContent>
-          </Card>
-        </div>
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="container mx-auto px-4 md:px-[10%]">
@@ -260,6 +259,94 @@ function SchoolPageContent() {
                 <CardContent className="p-6 space-y-8">
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
+                        {activeClass === 'Class 5' && (
+                          <div className="space-y-8">
+                              <Card className="mb-8">
+                                <CardHeader>
+                                    <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 5 Syllabus 2025-26</CardTitle>
+                                    <CardDescription className="text-xs md:text-sm">
+                                        The following table provides the subject-wise Class 5 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 5.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                  <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li>
+                                      <a href="#maths-syllabus" className="text-primary hover:underline">CBSE Class 5 Maths Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#evs-syllabus" className="text-primary hover:underline">Class 5 CBSE EVS Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#english-syllabus" className="text-primary hover:underline">CBSE Class 5 English Syllabus</a>
+                                    </li>
+                                  </ul>
+                                </CardContent>
+                              </Card>
+                              <div className="space-y-4">
+                                  <h4 id="maths-syllabus" className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4>
+                                  <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Chapter Name</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {syllabusData[activeClass].maths.chapters.map((item:any) => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
+                               <Separator />
+                              <div className="space-y-4">
+                                  <h4 id="evs-syllabus" className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4>
+                                  <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Chapter Name</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {syllabusData[activeClass].science.chapters.map((item:any) => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
+                              <Separator />
+                              <div className="space-y-4">
+                                  <h4 id="english-syllabus" className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4>
+                                  <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
+                                  <Table>
+                                    <TableHeader>
+                                      <TableRow>
+                                        <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                        <TableHead>Literature Syllabus</TableHead>
+                                      </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                      {syllabusData[activeClass].english.chapters.map((item:any) => (
+                                        <TableRow key={item.chapter}>
+                                          <TableCell className="font-medium">{item.chapter}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                        </TableRow>
+                                      ))}
+                                    </TableBody>
+                                  </Table>
+                              </div>
+                          </div>
+                        )}
                         {activeClass === 'Class 6' && (
                             <div className="space-y-8">
                                 <Card className="mb-8">
