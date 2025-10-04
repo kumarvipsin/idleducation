@@ -7,117 +7,140 @@ import Link from "next/link";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronRight, Download, Languages, ShoppingCart } from "lucide-react";
-import type { TSubject } from "@/app/actions/types";
+import { ChevronRight, Download, Languages, ShoppingCart, Folder, File as FileIcon, Dot, Eye } from "lucide-react";
+import type { TSubject, TPart, TChapter, TTopic, TSubTopic } from "@/app/actions/types";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { useToast } from "@/hooks/use-toast";
+import { getSignedUrlForPdf } from "@/app/actions";
+
+
+const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
+    const { toast } = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleViewPdf = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!pdfUrl) return;
+        setIsLoading(true);
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
+        setIsLoading(false);
+    };
+
+    return (
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleViewPdf} disabled={isLoading}>
+            <Eye className="h-4 w-4" />
+        </Button>
+    );
+};
+
+
+const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) => {
+    if (!items || items.length === 0) return null;
+
+    return (
+        <div className={level > 0 ? "pl-4 border-l ml-4" : ""}>
+            {items.map((item, index) => {
+                const hasChildren = 'topics' in item || 'subTopics' in item;
+                const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
+                
+                if (hasChildren && children.length > 0) {
+                    return (
+                        <Accordion type="single" collapsible key={index}>
+                            <AccordionItem value={`item-${index}`} className="border-b-0">
+                                <div className="flex items-center p-1 my-1 bg-muted/30 rounded-md">
+                                    <AccordionTrigger className="font-medium text-xs hover:no-underline flex-1 w-full pr-2">
+                                        <div className="flex items-center">
+                                            {level > 0 && <Dot className="w-4 h-4 mr-1" />}
+                                            {item.name}
+                                        </div>
+                                    </AccordionTrigger>
+                                    {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
+                                </div>
+                                <AccordionContent className="pt-0">
+                                    {renderContentTree(children, level + 1)}
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    );
+                }
+
+                return (
+                     <Card key={`item-${index}`} className="transition-all duration-300 my-1">
+                        <div className="flex items-center justify-between p-2 md:p-3 group">
+                            <span className="font-medium text-xs md:text-sm text-foreground/90 flex items-center">
+                               <FileIcon className="w-3 h-3 mr-2" />
+                               {item.name}
+                            </span>
+                          {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
+                        </div>
+                    </Card>
+                );
+            })}
+        </div>
+    );
+};
+
+
+const renderSubjectContent = (subject: TSubject | null) => {
+    if (!subject) {
+        return <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>;
+    }
+
+    const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
+
+    return (
+         <div className="space-y-4 md:space-y-6">
+            {hasParts ? (
+                Object.entries(subject.parts)
+                    .sort(([, a], [, b]) => (a.order || 99) - (b.order || 99))
+                    .map(([partKey, partData]) => (
+                        <Accordion type="single" collapsible key={partKey} defaultValue="item-0">
+                            <AccordionItem value={`item-0`} className="border-b-0">
+                                 <AccordionTrigger className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1 capitalize hover:no-underline">
+                                    {partData.name}
+                                 </AccordionTrigger>
+                                 <AccordionContent>
+                                     {renderContentTree(partData.chapters)}
+                                 </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    ))
+            ) : subject.chapters && subject.chapters.length > 0 ? (
+                renderContentTree(subject.chapters)
+            ) : (
+                <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>
+            )}
+        </div>
+    );
+};
+
 
 export function NcertChapterList({ resources }: { resources: TSubject | null }) {
-  const [notesLang, setNotesLang] = useState<'en' | 'hi'>('en');
   const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
-  const isMobile = useIsMobile();
   
-  const contents = (
-    <div>
-      <div className="flex justify-between items-center mb-4 lg:hidden">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-        <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-            className="rounded-full bg-background/50 border"
-        >
-            <Languages className="w-5 h-5" />
-            <span className="sr-only">Toggle Language</span>
-        </Button>
-      </div>
-      <div className="space-y-4 md:space-y-6">
-        {resources?.chapters?.map((chapter, chapterIndex) => (
-            <Card key={chapterIndex} className="transition-all duration-300 hover:shadow-md hover:bg-background/80 hover:border-primary/30">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-3 md:p-4 group">
-                <span className="font-medium text-sm md:text-base text-foreground/90 mb-2 md:mb-0">{chapter.name}</span>
-                <div className="flex items-center gap-2 w-full md:w-auto">
-                    <Button asChild variant="outline" size="sm" className="w-full md:w-auto">
-                    <Link href="#">View and Download NCERT Solutions</Link>
-                    </Button>
-                    <Button asChild variant="secondary" size="sm" className="w-full md:w-auto">
-                    <Link href="#">
-                        <ShoppingCart className="w-4 h-4 mr-1"/>View and CART Important Question
-                    </Link>
-                    </Button>
-                </div>
-                </div>
-            </Card>
-        ))}
-        </div>
-    </div>
-  );
+  const contents = renderSubjectContent(resources);
 
-  const primumNotes = (
-    <div>
+  return (
+    <>
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Important Questions</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
             <Button 
                 variant="ghost" 
                 size="icon" 
-                onClick={() => setNotesLang(notesLang === 'en' ? 'hi' : 'en')}
+                onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
                 className="rounded-full bg-background/50 border"
             >
                 <Languages className="w-5 h-5" />
                 <span className="sr-only">Toggle Language</span>
             </Button>
         </div>
-        <div className="space-y-2">
-          {resources?.chapters?.map((chapter, index) => (
-            <Card key={index} className="bg-background">
-              <CardContent className="p-3 flex items-center justify-between">
-                <p className="font-medium text-xs md:text-sm flex-1 pr-2">{chapter.name}</p>
-                <div className="flex items-center gap-1 md:gap-2">
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#">View</Link>
-                    </Button>
-                    <Button asChild variant="ghost" size="sm">
-                        <Link href="#"><ShoppingCart className="w-4 h-4 mr-1"/>CART</Link>
-                    </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-    </div>
-  );
-  
-  return (
-    <>
-      {isMobile ? (
-        <Tabs defaultValue="contents" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-muted/60 rounded-lg">
-            <TabsTrigger value="contents" className="rounded-md">Contents</TabsTrigger>
-            <TabsTrigger value="notes" className="rounded-md">Important Questions</TabsTrigger>
-          </TabsList>
-          <TabsContent value="contents" className="pt-4">{contents}</TabsContent>
-          <TabsContent value="notes" className="pt-4">{primumNotes}</TabsContent>
-        </Tabs>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
-          <div className="lg:col-span-1">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-               <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                  className="rounded-full bg-background/50 border"
-              >
-                  <Languages className="w-5 h-5" />
-                  <span className="sr-only">Toggle Language</span>
-              </Button>
-            </div>
-            {contents}
-          </div>
-          <div className="lg:col-span-1">
-            {primumNotes}
-          </div>
-        </div>
-      )}
+        {contents}
     </>
   );
 }

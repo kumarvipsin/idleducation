@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +6,7 @@ import { BookOpen, ShoppingCart } from "lucide-react";
 import { getCollection } from "@/app/actions";
 import { Suspense, useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { NotesChapterList } from "@/components/notes-chapter-list";
+import { NcertChapterList } from "@/components/ncert-chapter-list";
 import type { TSubject } from "@/app/actions/types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
