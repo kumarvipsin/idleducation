@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -119,8 +118,8 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
                       <button
                         className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                           ${slug === currentSlug
-                            ? 'border-primary text-primary bg-primary/10 rounded-full'
-                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                            ? 'border-primary text-primary bg-primary/10 rounded-md'
+                            : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                       >
                         {exam.name}
                       </button>
@@ -145,12 +144,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                        <p className="text-muted-foreground">Detailed syllabus and study strategies for {data.name} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
-                    </div>
-                    <Separator />
-                    <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern &amp; Key Dates</h3>
                         <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {data.name} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
                     </div>
                     <Separator />

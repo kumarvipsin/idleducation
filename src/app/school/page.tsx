@@ -4,12 +4,18 @@
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, Home } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useLanguage } from '@/context/language-context';
 import Autoplay from 'embla-carousel-autoplay';
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -204,7 +210,6 @@ function SchoolPageContent() {
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
                         {activeClass === 'Class 6' && (
                             <div className="space-y-4">
                                 <h4 className="font-semibold text-lg">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</h4>
