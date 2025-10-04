@@ -69,6 +69,7 @@ const class6EnglishGrammarSyllabus = {
   ],
 };
 
+
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -231,29 +232,19 @@ function SchoolPageContent() {
                         {activeClass === 'Class 5' && (
                           <div className="space-y-8">
                               <Card className="mb-8">
-                                <CardHeader>
-                                    <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26</CardTitle>
-                                    <CardDescription className="text-xs md:text-sm">
-                                        The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow className="bg-orange-500 hover:bg-orange-500/90">
-                                                <TableHead className="w-[100px] text-white">S.No.</TableHead>
-                                                <TableHead className="text-white">Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {class6SyllabusLinks.map((item) => (
-                                                <TableRow key={item.sno}>
-                                                    <TableCell className="font-medium">{item.sno}</TableCell>
-                                                    <TableCell><Link href={item.href} className="text-blue-600 hover:underline">{item.subject}</Link></TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+                                <CardContent className="p-6">
+                                  <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li>
+                                      <a href="#maths-syllabus" className="text-primary hover:underline">CBSE Class 5 Maths Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#evs-syllabus" className="text-primary hover:underline">Class 5 CBSE EVS Syllabus</a>
+                                    </li>
+                                    <li>
+                                      <a href="#english-syllabus" className="text-primary hover:underline">CBSE Class 5 English Syllabus</a>
+                                    </li>
+                                  </ul>
                                 </CardContent>
                               </Card>
                               <div className="space-y-4">
@@ -276,7 +267,6 @@ function SchoolPageContent() {
                                     </TableBody>
                                   </Table>
                               </div>
-                               <Separator />
                               <div className="space-y-4">
                                   <h4 id="evs-syllabus" className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4>
                                   <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
@@ -297,7 +287,6 @@ function SchoolPageContent() {
                                     </TableBody>
                                   </Table>
                               </div>
-                              <Separator />
                               <div className="space-y-4">
                                   <h4 id="english-syllabus" className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4>
                                   <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
@@ -387,7 +376,6 @@ function SchoolPageContent() {
                                         </TableBody>
                                     </Table>
                                 </div>
-                                <Separator />
                                 <div className="space-y-4">
                                 <h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4>
                                 <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
@@ -408,7 +396,6 @@ function SchoolPageContent() {
                                     </TableBody>
                                   </Table>
                                 </div>
-                                <Separator />
                                 <div className="space-y-4">
                                     <h4 id="social-science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Social Science Syllabus</h4>
                                     <p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p>
@@ -433,7 +420,6 @@ function SchoolPageContent() {
                                       </TableBody>
                                     </Table>
                                 </div>
-                                <Separator />
                                 <div className="space-y-4">
                                     <h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4>
                                     <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
@@ -495,7 +481,6 @@ function SchoolPageContent() {
                                     </TableBody>
                                 </Table>
                             </div>
-                            <Separator />
                             <div className="space-y-4">
                                 <h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus 2025-26</h4>
                                 <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
@@ -522,7 +507,6 @@ function SchoolPageContent() {
                                     </TableBody>
                                 </Table>
                             </div>
-                            <Separator />
                             <div className="space-y-4">
                                 <h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus 2025-26</h4>
                                 <p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p>
@@ -556,7 +540,6 @@ function SchoolPageContent() {
                                     </Table>
                                 </div>
                             </div>
-                            <Separator />
                             <div className="space-y-4">
                                 <h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus 2025-26</h4>
                                 <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
@@ -699,7 +682,6 @@ function SchoolPageContent() {
                         )}
                     </div>
                     
-                    <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
