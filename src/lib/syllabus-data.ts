@@ -97,3 +97,22 @@ export const syllabusData: any = {
         english: { description: "The English syllabus for Class 12 is aimed at mastering literary analysis and advanced writing skills for the board exams.", chapters: [ { name: "The Last Lesson", topics: [] }, { name: "My Mother at Sixty-Six", topics: [] }, ], }
     },
 };
+
+export const class6EnglishGrammarSyllabus = {
+  description: "The CBSE Class 6 English Grammar syllabus focuses on strengthening the foundation of language through essential grammar topics. Students learn sentence structure, tenses, punctuation, and parts of speech. This builds their writing and comprehension skills effectively. For a detailed overview of all topics included in the syllabus, check the table below.",
+  topics: [
+    { grammar: "Noun", applied: "Gap Filling / Sentence Completion", writing: "Formal Letter" },
+    { grammar: "Pronoun", applied: "Dialogue Completion", writing: "Informal Letter" },
+    { grammar: "Verb", applied: "Sentence Reordering", writing: "Diary Entry" },
+    { grammar: "Tense", applied: "Editing", writing: "Notice Writing" },
+    { grammar: "Voice", applied: "Omission", writing: "Message Writing" },
+    { grammar: "Adjective", applied: "Sentence Transformation", writing: "Debate" },
+    { grammar: "Adverb", applied: "—", writing: "Speech" },
+    { grammar: "Sentence and Phrase", applied: "—", writing: "Article Writing" },
+    { grammar: "Subject-Verb Agreement", applied: "—", writing: "Report Writing" },
+    { grammar: "Reported Speech", applied: "—", writing: "Story Completion" },
+    { grammar: "Framing Questions", applied: "—", writing: "—" },
+    { grammar: "Preposition", applied: "—", writing: "—" },
+    { grammar: "Conjunction", applied: "—", writing: "—" },
+  ],
+};

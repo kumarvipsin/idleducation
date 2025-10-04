@@ -197,10 +197,10 @@ function SchoolPageContent() {
             <CardHeader className="text-center container mx-auto px-4 md:px-6">
               <CardTitle>Subject Video Lessons</CardTitle>
             </CardHeader>
-            <div className="relative w-full overflow-hidden">
-                <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
+            <div className="relative w-full overflow-hidden h-64">
+                <div className="absolute inset-0 flex animate-marquee-scroll hover:animation-play-state-paused">
                     {[...videoLessons, ...videoLessons].map((subject, index) => (
-                        <div key={index} className="flex-shrink-0 w-72 mx-3">
+                        <div key={index} className="flex-shrink-0 w-60 mx-3 h-full">
                             <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                                 <CardContent className="p-0">
                                     <div className="relative aspect-[9/12]">
@@ -220,7 +220,6 @@ function SchoolPageContent() {
                                             <h3 className="text-white text-xl font-bold">{subject}</h3>
                                             <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
                                                 <span>By Manish Sharma</span>
-                                                <span>10K views | 1 hour ago</span>
                                             </div>
                                         </div>
                                     </div>
