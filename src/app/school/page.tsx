@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/image";
 import { Badge } from '@/components/ui/badge';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
@@ -184,7 +184,6 @@ function SchoolPageContent() {
                         name={member.name}
                         designation={member.designation || 'Teacher'}
                         experience={member.experience || 'Experienced'}
-                        biography={member.biography}
                         avatar={member.photoURL || ''}
                         avatarHint={`${member.name} photo`}
                       />
@@ -212,7 +211,7 @@ function SchoolPageContent() {
                         {activeClass === 'Class 6' && (
                             <Card className="border-primary/20">
                                 <CardHeader>
-                                    <CardTitle>CBSE Class 6 Syllabus 2025-26 - Subject wise Links</CardTitle>
+                                    <CardTitle className="font-bold">CBSE Class 6 Syllabus 2025-26</CardTitle>
                                     <CardDescription>
                                         The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
                                     </CardDescription>
