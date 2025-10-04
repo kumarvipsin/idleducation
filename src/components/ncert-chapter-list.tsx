@@ -217,7 +217,6 @@ export function NcertChapterList({ resources }: { resources: TSubject | null }) 
 
   return (
     <>
-        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         {contents}
     </>
   );
