@@ -202,30 +202,34 @@ function SchoolPageContent() {
                 <CardHeader>
                     <CardTitle>Subject Video Lessons</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                    <Card key={subject} className="group overflow-hidden">
-                        <CardContent className="p-0">
-                        <div className="relative aspect-video">
-                            <Image
-                            src={`https://picsum.photos/seed/${subject}/600/400`}
-                            alt={`${subject} video lesson`}
-                            data-ai-hint={`${subject} lesson`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                            </div>
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-6">
+                        {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
+                        <div key={subject} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                            <Card className="group overflow-hidden">
+                                <CardContent className="p-0">
+                                <div className="relative aspect-video">
+                                    <Image
+                                    src={`https://picsum.photos/seed/${subject}/600/400`}
+                                    alt={`${subject} video lesson`}
+                                    data-ai-hint={`${subject} lesson`}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <h4 className="font-semibold">{subject} Video Lessons</h4>
+                                    <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                                </div>
+                                </CardContent>
+                            </Card>
                         </div>
-                        <div className="p-4">
-                            <h4 className="font-semibold">{subject} Video Lessons</h4>
-                            <p className="text-sm text-muted-foreground">By Manish Sharma</p>
-                        </div>
-                        </CardContent>
-                    </Card>
-                    ))}
-                </CardContent>
+                        ))}
+                    </div>
+                </div>
             </Card>
             <div className="text-center my-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
