@@ -16,9 +16,11 @@ export interface TSubTopic {
 export interface TTopic {
   name: string;
   createdAt: string;
-  pdfUrl?: string;
-  shortNotePdfUrl?: string;
-  primumNotePdfUrl?: string;
+  pdfUrl?: string; // Main PDF (can be considered English)
+  pdfUrl_en?: string; // Explicit English PDF
+  pdfUrl_hi?: string; // Hindi PDF
+  pdfUrl_demo?: string; // Demo PDF
+  pdfUrl_primum?: string; // Primum/Premium PDF
   subTopics?: TSubTopic[];
   order: number;
 }
