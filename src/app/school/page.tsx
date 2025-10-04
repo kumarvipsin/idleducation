@@ -21,7 +21,7 @@ import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getExamCategories } from '@/app/actions/data';
 import { getTeachers } from '@/app/actions';
-import type { TExamCategory, TTopperTestimonial } from '@/app/actions/types';
+import type { TExamCategory, TTopperTestimonial, VideoLesson } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { syllabusData, class6EnglishGrammarSyllabus } from '@/lib/syllabus-data';
@@ -101,7 +101,7 @@ function SchoolPageContent() {
     ? teachers.filter(t => activeCategory.teacherIds?.includes(t.id))
     : [];
     
-    const videoLessons = ['Maths', 'Science', 'English', 'Social Studies', 'Hindi', 'Sanskrit'];
+  const videoLessons: VideoLesson[] = activeCategory?.videoLessons || [];
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
@@ -188,42 +188,48 @@ function SchoolPageContent() {
             </section>
             )}
            
-          <section className="w-full my-8">
-            <div className="relative">
-              <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex gap-6 px-4 md:px-[10%]">
-                    {videoLessons.map((subject, index) => (
-                        <div key={index} className="block flex-shrink-0 w-60 h-80">
-                            <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                                <CardContent className="p-0">
-                                    <div className="relative aspect-[9/12]">
-                                        <Image
-                                            src={`https://picsum.photos/seed/${subject}/600/800`}
-                                            alt={`${subject} video lesson`}
-                                            data-ai-hint={`${subject} lesson poster`}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                                                    <PlayCircle className="w-8 h-8 text-primary/80" />
-                                                </button>
-                                            </div>
-                                            <h3 className="text-white text-xl font-bold">{subject}</h3>
-                                            <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
-                                                <span>By Manish Sharma</span>
+          {videoLessons.length > 0 && (
+            <section className="w-full my-8">
+                <div className="relative">
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {videoLessons.map((lesson, index) => {
+                            const videoId = lesson.youtubeLink.split('v=')[1]?.split('&')[0];
+                            return (
+                            <div key={index} className="block flex-shrink-0 w-60 h-80">
+                                <a href={lesson.youtubeLink} target="_blank" rel="noopener noreferrer">
+                                <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                    <CardContent className="p-0">
+                                        <div className="relative aspect-[9/12]">
+                                            <Image
+                                                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                                                alt={`${lesson.subject} video lesson`}
+                                                data-ai-hint={`${lesson.subject} lesson poster`}
+                                                fill
+                                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                        <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                    </button>
+                                                </div>
+                                                <h3 className="text-white text-xl font-bold">{lesson.subject}</h3>
+                                                <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
+                                                    <span>By {lesson.teacher}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    ))}
+                                    </CardContent>
+                                </Card>
+                                </a>
+                            </div>
+                        )})}
+                    </div>
                 </div>
-              </div>
-            </div>
-          </section>
+                </div>
+            </section>
+          )}
 
           <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="container mx-auto px-4 md:px-[10%]">

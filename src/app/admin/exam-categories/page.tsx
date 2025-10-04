@@ -4,14 +4,14 @@
 import { useEffect, useState, useRef } from 'react';
 import { getExamCategories, addExamCategory, editExamCategory, deleteExamCategory } from '@/app/actions';
 import { getTeachers } from '@/app/actions/user';
-import type { TExamCategory } from '@/app/actions/types';
+import type { TExamCategory, VideoLesson } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Users, Image as ImageIcon, Upload } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Users, Image as ImageIcon, Upload, Youtube, XCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -41,6 +41,7 @@ const ExamCategoryForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
+  const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || []);
   
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
@@ -50,6 +51,7 @@ const ExamCategoryForm = ({
   useEffect(() => {
     setSelectedGroup(category?.group);
     setSelectedTeacherIds(category?.teacherIds || []);
+    setVideoLessons(category?.videoLessons || []);
     setPhotoPreview(null);
     setCroppedPhoto(null);
     setRemovePhoto(false);
@@ -65,6 +67,8 @@ const ExamCategoryForm = ({
     selectedTeacherIds.forEach(id => {
       formData.append('teacherIds[]', id);
     });
+
+    formData.append('videoLessons', JSON.stringify(videoLessons));
     
     if (croppedPhoto) {
         formData.append('imageFile', croppedPhoto);
@@ -120,9 +124,24 @@ const ExamCategoryForm = ({
     setCroppedPhoto(null);
   };
 
+  const handleVideoLessonChange = (index: number, field: keyof VideoLesson, value: string) => {
+    const updatedLessons = [...videoLessons];
+    updatedLessons[index][field] = value;
+    setVideoLessons(updatedLessons);
+  };
+
+  const addVideoLesson = () => {
+    setVideoLessons([...videoLessons, { subject: '', teacher: '', youtubeLink: '' }]);
+  };
+
+  const removeVideoLesson = (index: number) => {
+    setVideoLessons(videoLessons.filter((_, i) => i !== index));
+  };
+
   return (
     <>
       <form ref={formRef} onSubmit={handleSubmit}>
+        <ScrollArea className="h-96 pr-4">
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">Name</Label>
@@ -168,6 +187,20 @@ const ExamCategoryForm = ({
               </DropdownMenu>
             </div>
           )}
+           <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right pt-2">Video Lessons</Label>
+              <div className="col-span-3 space-y-4">
+                  {videoLessons.map((lesson, index) => (
+                      <div key={index} className="space-y-2 p-3 border rounded-md relative">
+                           <Button type="button" variant="ghost" size="icon" className="absolute top-1 right-1 h-6 w-6" onClick={() => removeVideoLesson(index)}><XCircle className="w-4 h-4 text-destructive" /></Button>
+                           <Input placeholder="Subject" value={lesson.subject} onChange={(e) => handleVideoLessonChange(index, 'subject', e.target.value)} />
+                           <Input placeholder="Teacher Name" value={lesson.teacher} onChange={(e) => handleVideoLessonChange(index, 'teacher', e.target.value)} />
+                           <Input placeholder="YouTube Link" value={lesson.youtubeLink} onChange={(e) => handleVideoLessonChange(index, 'youtubeLink', e.target.value)} />
+                      </div>
+                  ))}
+                  <Button type="button" variant="outline" size="sm" onClick={addVideoLesson}><PlusCircle className="w-4 h-4 mr-2" /> Add Video Lesson</Button>
+              </div>
+          </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="image" className="text-right">Image</Label>
             <div className="col-span-3 flex items-center gap-4">
@@ -190,6 +223,7 @@ const ExamCategoryForm = ({
             <Input id="order" name="order" type="number" defaultValue={category?.order ?? 99} className="col-span-3" />
           </div>
         </div>
+        </ScrollArea>
         <DialogFooter>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : 'Save changes'}
@@ -289,15 +323,16 @@ export default function AdminExamCategoriesPage() {
                     <h3 className="text-lg font-semibold mb-2">School Exams</h3>
                     <ScrollArea className="h-[calc(100vh-350px)]">
                         <Table>
-                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead>Teachers</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead>Teachers</TableHead><TableHead>Videos</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                             <TableBody>
-                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-24" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : schoolExams.map((cat) => (
+                                {loading ? [...Array(5)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell><Skeleton className="h-4 w-24" /></TableCell><TableCell><Skeleton className="h-4 w-8" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : schoolExams.map((cat) => (
                                 <TableRow key={cat.id}>
                                     <TableCell>
                                       {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
                                     </TableCell>
                                     <TableCell>{cat.name}</TableCell>
                                     <TableCell className="text-xs">{getTeacherNames(cat.teacherIds)}</TableCell>
+                                     <TableCell className="text-center">{cat.videoLessons?.length || 0}</TableCell>
                                     <TableCell className="text-right space-x-2">
                                     <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
                                     <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
