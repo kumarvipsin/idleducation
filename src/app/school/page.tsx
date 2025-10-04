@@ -47,8 +47,7 @@ const class6SyllabusLinks = [
     { sno: 1, subject: 'CBSE Syllabus for Class 6 Maths', href: '#' },
     { sno: 2, subject: 'CBSE Syllabus for Class 6 Science', href: '#' },
     { sno: 3, subject: 'CBSE Syllabus for Class 6 English', href: '#' },
-    { sno: 4, subject: 'CBSE Syllabus for Class 6 Hindi', href: '#' },
-    { sno: 5, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
+    { sno: 4, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
 ];
 
 function SchoolPageContent() {
@@ -209,19 +208,19 @@ function SchoolPageContent() {
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div className="space-y-4">
-                        <Card className="border-primary/20">
+                        <Card className="mb-8">
                             <CardHeader>
-                                <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</CardTitle>
+                                <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26</CardTitle>
                                 <CardDescription className="text-xs md:text-sm">
                                     The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <Table>
-                                    <TableHeader className="bg-orange-500">
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableHead className="w-[100px] text-white">S.No.</TableHead>
-                                            <TableHead className="text-white">Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
+                                            <TableHead className="w-[100px]">S.No.</TableHead>
+                                            <TableHead>Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -238,10 +237,10 @@ function SchoolPageContent() {
                     </div>
                     <Separator />
                     <div>
-                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
+                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
+                                <Button asChild variant="outline" key={link.href} className="justify-start">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>
