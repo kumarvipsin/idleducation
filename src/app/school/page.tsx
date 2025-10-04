@@ -20,12 +20,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getExamCategories } from '@/app/actions/data';
-import { getTeachers, getTopperTestimonials } from '@/app/actions';
+import { getTeachers } from '@/app/actions';
 import type { TExamCategory, TTopperTestimonial } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { syllabusData } from '@/lib/syllabus-data';
-import { TopperTestimonialsClient } from '@/components/landing/topper-testimonials-client';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -80,7 +79,6 @@ function SchoolPageContent() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
-  const [testimonials, setTestimonials] = useState<TTopperTestimonial[]>([]);
   
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -89,10 +87,9 @@ function SchoolPageContent() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const [categoriesResult, teachersResult, testimonialsResult] = await Promise.all([
+      const [categoriesResult, teachersResult] = await Promise.all([
         getExamCategories(),
         getTeachers(),
-        getTopperTestimonials(),
       ]);
 
       if (categoriesResult.success && categoriesResult.data) {
@@ -110,9 +107,6 @@ function SchoolPageContent() {
       }
       if (teachersResult.success && teachersResult.data) {
         setTeachers(teachersResult.data as Teacher[]);
-      }
-       if (testimonialsResult.success && testimonialsResult.data) {
-        setTestimonials(testimonialsResult.data as TTopperTestimonial[]);
       }
       setLoading(false);
     };
@@ -262,7 +256,35 @@ function SchoolPageContent() {
                                             </TableBody>
                                         </Table>
                                     </CardContent>
-                                     <TopperTestimonialsClient testimonials={testimonials as any[]} />
+                                     <Card>
+                        <CardHeader>
+                            <CardTitle>Subject Video Lessons</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
+                            <Card key={subject} className="group overflow-hidden">
+                                <CardContent className="p-0">
+                                <div className="relative aspect-video">
+                                    <Image
+                                    src={`https://picsum.photos/seed/${subject}/600/400`}
+                                    alt={`${subject} video lesson`}
+                                    data-ai-hint={`${subject} lesson`}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <h4 className="font-semibold">{subject} Video Lessons</h4>
+                                    <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                                </div>
+                                </CardContent>
+                            </Card>
+                            ))}
+                        </CardContent>
+                    </Card>
                                 </Card>
                             </div>
                         )}
@@ -380,35 +402,6 @@ function SchoolPageContent() {
                             ))}
                         </div>
                     </div>
-                     <Card>
-                        <CardHeader>
-                            <CardTitle>Subject Video Lessons</CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                            <Card key={subject} className="group overflow-hidden">
-                                <CardContent className="p-0">
-                                <div className="relative aspect-video">
-                                    <Image
-                                    src={`https://picsum.photos/seed/${subject}/600/400`}
-                                    alt={`${subject} video lesson`}
-                                    data-ai-hint={`${subject} lesson`}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                                    </div>
-                                </div>
-                                <div className="p-4">
-                                    <h4 className="font-semibold">{subject} Video Lessons</h4>
-                                    <p className="text-sm text-muted-foreground">Click to watch</p>
-                                </div>
-                                </CardContent>
-                            </Card>
-                            ))}
-                        </CardContent>
-                    </Card>
                 </CardContent>
             </Card>
           </div>
