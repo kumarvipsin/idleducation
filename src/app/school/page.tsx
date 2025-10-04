@@ -382,9 +382,7 @@ function SchoolPageContent() {
                                     <CardContent className="p-6">
                                         <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
                                         <ul className="list-disc pl-5 space-y-2">
-                                            <li>
-                                                <a href="#maths-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Maths Syllabus</a>
-                                            </li>
+                                            
                                             <li>
                                                 <a href="#science-syllabus-6" className="text-primary hover:underline">CBSE Class 6 Science Syllabus</a>
                                             </li>
@@ -400,30 +398,7 @@ function SchoolPageContent() {
                                         </ul>
                                     </CardContent>
                                 </Card>
-                                <div className="space-y-4">
-                                    <h4 id="maths-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Maths Syllabus 2025-26</h4>
-                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
-                                    <Table>
-                                        <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Chapters</TableHead>
-                                            <TableHead>Topics</TableHead>
-                                        </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                        {syllabusData[activeClass].maths.chapters.map((item:any) => (
-                                            <TableRow key={item.chapter}>
-                                            <TableCell className="font-medium">{item.chapter}</TableCell>
-                                            <TableCell>
-                                                <ul className="list-disc pl-5">
-                                                    {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
-                                                </ul>
-                                            </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        </TableBody>
-                                    </Table>
-                                </div>
+                                
                                 <Separator />
                                 <div className="space-y-4">
                                     <h4 id="science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Science Syllabus 2025-26</h4>
@@ -496,6 +471,28 @@ function SchoolPageContent() {
                                     </Table>
                                 </div>
                                 <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="english-grammar-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Grammar Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{class6EnglishGrammarSyllabus.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Grammar Topics</TableHead>
+                                                <TableHead>Applied Grammar</TableHead>
+                                                <TableHead>Writing Section</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class6EnglishGrammarSyllabus.topics.map(item => (
+                                                <TableRow key={item.grammar}>
+                                                    <TableCell>{item.grammar}</TableCell>
+                                                    <TableCell>{item.applied}</TableCell>
+                                                    <TableCell>{item.writing}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
                             </div>
                         )}
                         {activeClass === 'Class 7' && (
@@ -887,4 +884,5 @@ export default function SchoolPage() {
     </div>
   );
 }
+
 
