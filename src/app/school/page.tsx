@@ -24,7 +24,7 @@ import { getTeachers } from '@/app/actions';
 import type { TExamCategory, TTopperTestimonial } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
-import { syllabusData } from '@/lib/syllabus-data';
+import { syllabusData, class6EnglishGrammarSyllabus } from '@/lib/syllabus-data';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -198,37 +198,37 @@ function SchoolPageContent() {
               <CardTitle>Subject Video Lessons</CardTitle>
             </CardHeader>
             <div className="relative w-full overflow-hidden">
-              <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
-                {[...videoLessons, ...videoLessons].map((subject, index) => (
-                  <div key={index} className="flex-shrink-0 w-64 mx-2">
-                    <Card className="group overflow-hidden h-full">
-                      <CardContent className="p-0">
-                        <div className="relative aspect-video">
-                          <Image
-                            src={`https://picsum.photos/seed/${subject}/600/400`}
-                            alt={`${subject} video lesson`}
-                            data-ai-hint={`${subject} lesson`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                          </div>
+                <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
+                    {[...videoLessons, ...videoLessons].map((subject, index) => (
+                        <div key={index} className="flex-shrink-0 w-72 mx-3">
+                            <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                <CardContent className="p-0">
+                                    <div className="relative aspect-[9/12]">
+                                        <Image
+                                            src={`https://picsum.photos/seed/${subject}/600/800`}
+                                            alt={`${subject} video lesson`}
+                                            data-ai-hint={`${subject} lesson poster`}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                    <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                </button>
+                                            </div>
+                                            <h3 className="text-white text-xl font-bold">{subject}</h3>
+                                            <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
+                                                <span>By Manish Sharma</span>
+                                                <span>10K views | 1 hour ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </div>
-                        <div className="p-3">
-                          <h4 className="font-semibold text-sm">{subject} Video Lessons</h4>
-                          <div className="flex items-center justify-between text-xs mt-1">
-                              <p className="text-muted-foreground">By Manish Sharma</p>
-                              <Button asChild variant="link" size="sm" className="p-0 h-auto">
-                                  <Link href="#">Click</Link>
-                              </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
+                    ))}
+                </div>
             </div>
           </section>
 
@@ -246,7 +246,7 @@ function SchoolPageContent() {
                     <CardContent className="p-6 space-y-8">
                         <div>
                             <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                            {activeClass === 'Class 5' && (
+                            {activeClass === 'Class 5' && syllabusData[activeClass] && (
                               <div className="space-y-8">
                                   <Card className="mb-8">
                                     <CardHeader>
@@ -334,7 +334,7 @@ function SchoolPageContent() {
                                   </div>
                               </div>
                             )}
-                             {activeClass === 'Class 6' && (
+                             {activeClass === 'Class 6' && syllabusData[activeClass] && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
                                         <CardHeader>
@@ -357,6 +357,9 @@ function SchoolPageContent() {
                                                 </li>
                                                 <li>
                                                     <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#english-grammar-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Grammar Syllabus</a>
                                                 </li>
                                             </ul>
                                         </CardContent>
@@ -456,9 +459,32 @@ function SchoolPageContent() {
                                             </TableBody>
                                         </Table>
                                     </div>
+                                    <Separator />
+                                    <div className="space-y-4">
+                                        <h4 id="english-grammar-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Grammar Syllabus 2025-26</h4>
+                                        <p className="text-muted-foreground">{class6EnglishGrammarSyllabus.description}</p>
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>Grammar Topics</TableHead>
+                                                    <TableHead>Applied Grammar</TableHead>
+                                                    <TableHead>Writing Section</TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {class6EnglishGrammarSyllabus.topics.map(item => (
+                                                    <TableRow key={item.grammar}>
+                                                        <TableCell>{item.grammar}</TableCell>
+                                                        <TableCell>{item.applied}</TableCell>
+                                                        <TableCell>{item.writing}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 7' && (
+                            {activeClass === 'Class 7' && syllabusData[activeClass] && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
                                         <CardHeader>
@@ -589,7 +615,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 8' && (
+                            {activeClass === 'Class 8' && syllabusData[activeClass] && (
                               <div className="space-y-8">
                                 <Card className="mb-8">
                                     <CardContent className="p-6">
@@ -619,9 +645,11 @@ function SchoolPageContent() {
                                                     <TableCell className="font-medium">{item.chapter}</TableCell>
                                                     <TableCell>{item.name}</TableCell>
                                                     <TableCell>
+                                                      {item.topics && item.topics.length > 0 ? (
                                                         <ul className="list-disc pl-5">
                                                             {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
                                                         </ul>
+                                                      ) : 'Topics will be updated soon.'}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -646,9 +674,11 @@ function SchoolPageContent() {
                                                     <TableCell className="font-medium">{item.chapter}</TableCell>
                                                     <TableCell>{item.name}</TableCell>
                                                      <TableCell>
-                                                        <ul className="list-disc pl-5">
-                                                            {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
-                                                        </ul>
+                                                        {item.topics && item.topics.length > 0 ? (
+                                                          <ul className="list-disc pl-5">
+                                                              {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
+                                                          </ul>
+                                                        ) : 'Topics will be updated soon.'}
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -732,7 +762,7 @@ function SchoolPageContent() {
                                 </div>
                               </div>
                             )}
-                            {['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(activeClass) && (
+                            {['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(activeClass) && syllabusData[activeClass] && (
                                 <Tabs defaultValue="maths" className="w-full">
                                     <TabsList className="grid w-full grid-cols-4">
                                         <TabsTrigger value="maths">Maths</TabsTrigger>
@@ -751,7 +781,7 @@ function SchoolPageContent() {
                                                     <TableRow key={item.name}>
                                                         <TableCell>{item.name}</TableCell>
                                                         <TableCell>
-                                                            {item.topics.length > 0 ? (
+                                                            {item.topics && item.topics.length > 0 ? (
                                                                 <ul className="list-disc pl-5">
                                                                     {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
                                                                 </ul>
