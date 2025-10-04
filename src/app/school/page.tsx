@@ -392,9 +392,6 @@ function SchoolPageContent() {
                                             <li>
                                                 <a href="#english-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Syllabus</a>
                                             </li>
-                                            <li>
-                                                <a href="#english-grammar-syllabus-6" className="text-primary hover:underline">CBSE Class 6 English Grammar Syllabus</a>
-                                            </li>
                                         </ul>
                                     </CardContent>
                                 </Card>
@@ -465,29 +462,6 @@ function SchoolPageContent() {
                                                             {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
                                                         </ul>
                                                     </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                                <Separator />
-                                <div className="space-y-4">
-                                    <h4 id="english-grammar-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Grammar Syllabus 2025-26</h4>
-                                    <p className="text-muted-foreground">{class6EnglishGrammarSyllabus.description}</p>
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Grammar Topics</TableHead>
-                                                <TableHead>Applied Grammar</TableHead>
-                                                <TableHead>Writing Section</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {class6EnglishGrammarSyllabus.topics.map(item => (
-                                                <TableRow key={item.grammar}>
-                                                    <TableCell>{item.grammar}</TableCell>
-                                                    <TableCell>{item.applied}</TableCell>
-                                                    <TableCell>{item.writing}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -869,20 +843,11 @@ function SchoolPageContent() {
 
 export default function SchoolPage() {
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-        <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon">
-                <Home className="h-6 w-6 text-primary" />
-                <span className="sr-only">Home</span>
-            </Button>
-        </Link>
-        <div className="relative z-10">
-            <Suspense fallback={<div>Loading...</div>}>
-              <SchoolPageContent />
-            </Suspense>
-        </div>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <SchoolPageContent />
+    </Suspense>
   );
 }
+
 
 
