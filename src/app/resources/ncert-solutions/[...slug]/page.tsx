@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useEffect, useState, Suspense, ReactNode } from 'react';
@@ -92,7 +91,7 @@ function NcertSolutionsDetailsContent() {
                     <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
-                    <CardTitle className="text-2xl font-bold capitalize">{className} | {subjectName} | CBSE</CardTitle>
+                    <CardTitle className="text-2xl font-bold capitalize">CBSE | {className} | {subjectName}</CardTitle>
                 </div>
                 </div>
             </div>
