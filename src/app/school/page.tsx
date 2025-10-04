@@ -189,7 +189,7 @@ function SchoolPageContent() {
                   {`${activeClass} Online Coaching 2025-2026`}
                 </h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                    Dive into our detailed curriculum and resources designed for your success.
+                    Everything you need to know about the curriculum, exams, and resources.
                 </p>
             </div>
             <Card className="shadow-lg">
@@ -722,7 +722,7 @@ function SchoolPageContent() {
                     
                     <Separator />
                     <div>
-                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
+                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
                                 <Button asChild variant="outline" key={link.href} className="justify-start">
