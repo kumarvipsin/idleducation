@@ -196,16 +196,22 @@ function SchoolPageContent() {
           </section>
         )}
 
-      <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <div className="container mx-auto px-4 md:px-[10%]">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Subject Video Lessons</CardTitle>
-                </CardHeader>
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-6">
+        <div className="my-8">
+            <div className="text-center mb-6">
+                <CardTitle>Subject Video Lessons</CardTitle>
+            </div>
+            <div className="relative">
+                <Carousel
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    plugins={[autoplayPlugin.current]}
+                    className="w-full"
+                >
+                    <CarouselContent className="-ml-4">
                         {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                        <div key={subject} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                        <CarouselItem key={subject} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
                             <Card className="group overflow-hidden">
                                 <CardContent className="p-0">
                                 <div className="relative aspect-video">
@@ -222,16 +228,22 @@ function SchoolPageContent() {
                                 </div>
                                 <div className="p-4">
                                     <h4 className="font-semibold">{subject} Video Lessons</h4>
-                                    <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                                    </div>
                                 </div>
                                 </CardContent>
                             </Card>
-                        </div>
+                        </CarouselItem>
                         ))}
-                    </div>
-                </div>
-            </Card>
-            <div className="text-center my-12">
+                    </CarouselContent>
+                </Carousel>
+            </div>
+        </div>
+
+      <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="container mx-auto px-4 md:px-[10%]">
+            <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
                 </h2>
