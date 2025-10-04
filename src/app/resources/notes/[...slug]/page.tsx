@@ -48,10 +48,10 @@ function NcertSolutionsDetailsContent() {
                     setClassData(classDoc);
                     setNotesData(classDoc.subjects[subjectKey]);
                 } else {
-                    setError("NCERT Solutions content not found.");
+                    setError("NCERT Notes content not found.");
                 }
             } else {
-                setError(notesResult.message || "Failed to fetch NCERT Solutions.");
+                setError(notesResult.message || "Failed to fetch NCERT Notes.");
             }
 
             setLoading(false);
@@ -82,7 +82,7 @@ function NcertSolutionsDetailsContent() {
     const subjectName = notesData.name || subjectKey.replace('-', ' ');
     const className = classData.name || classId.replace('-', ' ');
 
-    const contents = <NcertChapterList resources={notesData} />;
+    const contents = <NcertChapterList resources={notesData} is_note={true}/>;
     
 
     return (

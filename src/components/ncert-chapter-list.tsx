@@ -94,7 +94,7 @@ const ChapterResources = ({ chapter }: { chapter: TChapter }) => {
 };
 
 
-const renderSubjectContent = (subject: TSubject | null) => {
+const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
     if (!subject) {
         return <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>;
     }
@@ -125,10 +125,34 @@ const renderSubjectContent = (subject: TSubject | null) => {
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {chapter.topics?.map((topic, index) => {
                                                     const cards = [
-                                                    { pdfs: [topic.pdfUrl_en], label: `${topic.name} (Eng)` , is_download: true},
-                                                    { pdfs: [topic.pdfUrl_hi], label: `${topic.name} (Hi)`, is_download: true},
-                                                    { pdfs: [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum], label: `Important Q's (Eng)`, is_download: false},
-                                                    { pdfs: [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum], label: `Important Q's (Hi)`, is_download: false },
+                                                        {
+                                                            pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en],
+                                                            label: is_note ? `${topic.name} (Eng)` : `${topic.name} (Eng)`,
+                                                            is_download: true,
+                                                          },
+                                                          {
+                                                            pdfs: [is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi],
+                                                            label: is_note ? `${topic.name} (Hi)` : `${topic.name} (Hi)`,
+                                                            is_download: true,
+                                                          },
+                                                          {
+                                                        pdfs: is_note
+                                                          ? [topic.notePdfUrl_en_demo, topic.notepdfUrl_en_primum]
+                                                          : [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum],
+                                                        label: is_note
+                                                          ? `Premium Notes (Eng)`
+                                                          : `Important Q's (Eng)`,
+                                                        is_download: false,
+                                                      },
+                                                      {
+                                                        pdfs: is_note
+                                                          ? [topic.notePdfUrl_hi_demo, topic.notepdfUrl_hi_primum]
+                                                          : [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum],
+                                                        label: is_note
+                                                          ? `Premium Notes (Hi)`
+                                                          : `Important Q's (Hi)`,
+                                                        is_download: false,
+                                                      }
                                                     ];
 
                                                     return cards.map((card, i) => {
@@ -213,8 +237,8 @@ const renderSubjectContent = (subject: TSubject | null) => {
 };
 
 
-export function NcertChapterList({ resources }: { resources: TSubject | null }) {
-  const contents = renderSubjectContent(resources);
+export function NcertChapterList({ resources, is_note }: { resources: TSubject | null, is_note?: boolean }) {
+  const contents = renderSubjectContent(resources, is_note);
 
   return (
     <>
