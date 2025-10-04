@@ -15,9 +15,9 @@ import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 
 const resourceLinks = [
-  { href: '/resources/previous-year-questions', label: 'Previous Year Question Paper', icon: <FileText /> },
-  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
+  { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
@@ -157,6 +157,24 @@ function ExamcatPageContent() {
                     </div>
                 </section>
             )}
+            
+            <section className="w-full py-12 md:py-24 bg-muted/30 rounded-lg animate-fade-in-up mt-16" style={{ animationDelay: '0.4s' }}>
+              <div className="container mx-auto px-4 md:px-[10%]">
+                 <div className="text-center">
+                    <h3 className="font-bold text-2xl mb-6 text-primary border-b-2 border-primary/20 pb-2 inline-block">Study Resources</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {resourceLinks.map(link => (
+                            <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
+                                <Link href={link.href}>
+                                    {link.icon}
+                                    <span className="ml-2">{link.label}</span>
+                                </Link>
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+              </div>
+          </section>
         </div>
     </div>
   );
