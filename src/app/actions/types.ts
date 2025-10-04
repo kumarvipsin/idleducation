@@ -100,6 +100,12 @@ export interface TGalleryImage {
     createdAt: string;
 }
 
+export type VideoLesson = {
+  subject: string;
+  teacher: string;
+  youtubeLink: string;
+};
+
 export interface TExamCategory {
   id: string;
   name: string;
@@ -109,6 +115,7 @@ export interface TExamCategory {
   teacherIds?: string[];
   imageUrl?: string;
   href: string;
+  videoLessons?: VideoLesson[];
 }
 
 export interface TTeamMember {

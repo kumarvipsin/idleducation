@@ -490,48 +490,52 @@ export async function deleteGalleryImage(id: string) {
 
 // Exam Category Management
 export async function addExamCategory(formData: FormData) {
-  const rawData = Object.fromEntries(formData.entries());
-  const teacherIds = formData.getAll('teacherIds[]') as string[];
-  const imageFile = rawData.imageFile as File | null;
+    const rawData = Object.fromEntries(formData.entries());
+    const teacherIds = formData.getAll('teacherIds[]') as string[];
+    const imageFile = rawData.imageFile as File | null;
+    const videoLessons = JSON.parse(rawData.videoLessons as string);
 
-  const categoryData: any = {
-    name: rawData.name as string,
-    group: rawData.group as 'school' | 'competitive',
-    order: parseInt(rawData.order as string, 10) || 99,
-  };
+    const categoryData: any = {
+        name: rawData.name as string,
+        group: rawData.group as 'school' | 'competitive',
+        order: parseInt(rawData.order as string, 10) || 99,
+        videoLessons: videoLessons,
+    };
 
-  if (categoryData.group === 'school' || categoryData.group === 'competitive') {
-    categoryData.teacherIds = teacherIds;
-  }
-
-  try {
-    if (imageFile && imageFile.size > 0) {
-      const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
-      categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+        categoryData.teacherIds = teacherIds;
     }
 
-    await addDoc(collection(db, "examCategories"), {
-      ...categoryData,
-      createdAt: serverTimestamp(),
-    });
-    
-    return { success: true, message: "Exam category added successfully." };
-  } catch (error) {
-    console.error("Error adding exam category:", error);
-    return { success: false, message: "Failed to add exam category." };
-  }
+    try {
+        if (imageFile && imageFile.size > 0) {
+            const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
+            categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+
+        await addDoc(collection(db, "examCategories"), {
+            ...categoryData,
+            createdAt: serverTimestamp(),
+        });
+        
+        return { success: true, message: "Exam category added successfully." };
+    } catch (error) {
+        console.error("Error adding exam category:", error);
+        return { success: false, message: "Failed to add exam category." };
+    }
 }
 
 export async function editExamCategory(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const teacherIds = formData.getAll('teacherIds[]') as string[];
     const imageFile = rawData.imageFile as File | null;
+    const videoLessons = JSON.parse(rawData.videoLessons as string);
 
     const categoryData: any = {
-      name: rawData.name as string,
-      group: rawData.group as 'school' | 'competitive',
-      order: parseInt(rawData.order as string, 10) || 99,
-      teacherIds: [],
+        name: rawData.name as string,
+        group: rawData.group as 'school' | 'competitive',
+        order: parseInt(rawData.order as string, 10) || 99,
+        teacherIds: [],
+        videoLessons: videoLessons,
     };
 
     if (categoryData.group === 'school' || categoryData.group === 'competitive') {
