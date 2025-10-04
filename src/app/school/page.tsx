@@ -210,7 +210,7 @@ function SchoolPageContent() {
                     <div className="space-y-4">
                         <Card className="mb-8">
                             <CardHeader>
-                                <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26</CardTitle>
+                                <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</CardTitle>
                                 <CardDescription className="text-xs md:text-sm">
                                     The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
                                 </CardDescription>
@@ -218,9 +218,9 @@ function SchoolPageContent() {
                             <CardContent>
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[100px]">S.No.</TableHead>
-                                            <TableHead>Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-500/90">
+                                            <TableHead className="w-[100px] text-white">S.No.</TableHead>
+                                            <TableHead className="text-white">Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
