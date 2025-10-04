@@ -211,8 +211,8 @@ function SchoolPageContent() {
                         {activeClass === 'Class 6' && (
                             <Card className="border-primary/20">
                                 <CardHeader>
-                                    <CardTitle className="font-bold">CBSE Class 6 Syllabus 2025-26</CardTitle>
-                                    <CardDescription>
+                                    <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 6 Syllabus 2025-26</CardTitle>
+                                    <CardDescription className="text-xs md:text-sm">
                                         The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
                                     </CardDescription>
                                 </CardHeader>
