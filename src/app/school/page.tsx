@@ -4,18 +4,12 @@
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
+import { ArrowRight, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, Home } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { useLanguage } from '@/context/language-context';
-import Autoplay from "embla-carousel-autoplay";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -39,8 +33,17 @@ interface Teacher {
   designation: string;
   experience: string;
   photoURL?: string;
+  avatar: string;
+  biography?: string;
 }
 
+const class6SyllabusLinks = [
+    { sno: 1, subject: 'CBSE Syllabus for Class 6 Maths', href: '#' },
+    { sno: 2, subject: 'CBSE Syllabus for Class 6 Science', href: '#' },
+    { sno: 4, subject: 'CBSE Syllabus for Class 6 English', href: '#' },
+    { sno: 5, subject: 'CBSE Syllabus for Class 6 Hindi', href: '#' },
+    { sno: 6, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
+];
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -51,8 +54,6 @@ function SchoolPageContent() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
-  const { t } = useLanguage();
-  const isMobile = useIsMobile();
   
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -103,6 +104,13 @@ function SchoolPageContent() {
     : [];
 
   return (
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
     <div className="container mx-auto py-8 px-4 md:px-6">
        <section className="mb-8">
         <Card className="overflow-hidden shadow-lg">
@@ -125,16 +133,16 @@ function SchoolPageContent() {
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
             {loading ? (
-              [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+              [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
               classes.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => handleClassChange(c.name)}
-                  className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                  className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
                     ${activeClass === c.name 
-                      ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                      ? 'border-primary text-primary bg-primary/10' 
+                      : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
                 >
                   {c.name}
                 </button>
@@ -171,7 +179,8 @@ function SchoolPageContent() {
                         name={member.name}
                         designation={member.designation || 'Teacher'}
                         experience={member.experience || 'Experienced'}
-                        avatar={member.photoURL || ''}
+                        biography={member.biography}
+                        avatar={member.avatar || ''}
                         avatarHint={`${member.name} photo`}
                       />
                     </CarouselItem>
@@ -196,73 +205,93 @@ function SchoolPageContent() {
                 <CardContent className="p-6 space-y-8">
                     <div>
                         <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus & Study Strategy</h3>
-                        {syllabusData[activeClass] ? (
+                        {activeClass === 'Class 6' && (
+                            <div className="space-y-4">
+                                <h4 className="font-semibold text-lg">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</h4>
+                                <p className="text-muted-foreground">The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.</p>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="w-[100px] bg-orange-500 text-white">S.No.</TableHead>
+                                            <TableHead className="bg-orange-500 text-white">Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {class6SyllabusLinks.map((item) => (
+                                            <TableRow key={item.sno}>
+                                                <TableCell className="font-medium">{item.sno}</TableCell>
+                                                <TableCell><Link href={item.href} className="text-blue-600 hover:underline">{item.subject}</Link></TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        )}
+                        {activeClass === 'Class 5' && (
                           <div className="space-y-8">
-                               {activeClass === 'Class 5' && (
-                                <div className="space-y-8">
-                                    <Card className="mb-8">
-                                      <CardContent className="p-6">
+                              <Card className="mb-8">
+                                <CardContent className="p-6">
+                                  <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                  <ul className="list-disc pl-5 space-y-2">
+                                    <li><a href="#maths-syllabus" className="text-primary hover:underline">CBSE Class 5 Maths Syllabus</a></li>
+                                    <li><a href="#evs-syllabus" className="text-primary hover:underline">Class 5 CBSE EVS Syllabus</a></li>
+                                    <li><a href="#english-syllabus" className="text-primary hover:underline">CBSE Class 5 English Syllabus</a></li>
+                                  </ul>
+                                </CardContent>
+                              </Card>
+                              <div className="space-y-4"><h4 id="maths-syllabus" className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
+                                    <Separator />
+                              <div className="space-y-4"><h4 id="evs-syllabus" className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
+                              <Separator />
+                              <div className="space-y-4"><h4 id="english-syllabus" className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Literature Syllabus</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
+                          </div>
+                        )}
+                        
+                        {activeClass === 'Class 7' && (
+                            <div className="space-y-8">
+                                <Card className="mb-8">
+                                    <CardContent className="p-6">
                                         <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
                                         <ul className="list-disc pl-5 space-y-2">
-                                          <li><a href="#maths-syllabus" className="text-primary hover:underline">CBSE Class 5 Maths Syllabus</a></li>
-                                          <li><a href="#evs-syllabus" className="text-primary hover:underline">Class 5 CBSE EVS Syllabus</a></li>
-                                          <li><a href="#english-syllabus" className="text-primary hover:underline">CBSE Class 5 English Syllabus</a></li>
+                                            <li><a href="#maths-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Maths Syllabus</a></li>
+                                            <li><a href="#science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Science Syllabus</a></li>
+                                            <li><a href="#social-science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Social Science Syllabus</a></li>
+                                            <li><a href="#english-syllabus-7" className="text-primary hover:underline">CBSE Class 7 English Syllabus</a></li>
                                         </ul>
-                                      </CardContent>
-                                    </Card>
-                                    <div className="space-y-4"><h4 id="maths-syllabus" className="font-semibold text-lg">CBSE Class 5 Maths Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
-                                    <Separator />
-                                    <div className="space-y-4"><h4 id="evs-syllabus" className="font-semibold text-lg">Class 5 CBSE EVS Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
-                                    <Separator />
-                                    <div className="space-y-4"><h4 id="english-syllabus" className="font-semibold text-lg">CBSE Class 5 English Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Literature Syllabus</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
-                                </div>
-                              )}
-                             {activeClass === 'Class 7' && (
-                                <div className="space-y-8">
-                                    <Card className="mb-8">
-                                        <CardContent className="p-6">
-                                            <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
-                                            <ul className="list-disc pl-5 space-y-2">
-                                                <li><a href="#maths-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Maths Syllabus</a></li>
-                                                <li><a href="#science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Science Syllabus</a></li>
-                                                <li><a href="#social-science-syllabus-7" className="text-primary hover:underline">CBSE Class 7 Social Science Syllabus</a></li>
-                                                <li><a href="#english-syllabus-7" className="text-primary hover:underline">CBSE Class 7 English Syllabus</a></li>
-                                            </ul>
-                                        </CardContent>
-                                    </Card>
-                                    <div className="space-y-4"><h4 id="maths-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Maths Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
-                                    <Separator />
-                                    <div className="space-y-4"><h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Sub Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.subTopics}</TableCell></TableRow>))}</TableBody></Table></div>
-                                    <Separator />
-                                    <div className="space-y-4"><h4 id="social-science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Social Science Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><Table><TableHeader><TableRow><TableHead>Chapter Name</TableHead><TableHead>Subtopics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.chapters.map((item:any) => (<TableRow key={item.name}><TableCell className="font-medium">{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.subtopics.map((subtopic:string) => <li key={subtopic}>{subtopic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
-                                    <Separator />
-                                    <div className="space-y-4"><h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead>Unit</TableHead><TableHead>Lesson Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item:any, index:number) => (<TableRow key={index}><TableCell className="font-medium">{item.unit}</TableCell><TableCell>{item.lessonName}</TableCell></TableRow>))}</TableBody></Table></div>
-                                </div>
-                            )}
-                             {activeClass === 'Class 8' && (
-                              <div className="space-y-8">
-                                <Card className="mb-8"><CardContent className="p-6"><h4 className="font-bold text-lg mb-4">Table of Content:</h4><ul className="list-disc pl-5 space-y-2"><li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li><li><a href="#science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Science Syllabus</a></li><li><a href="#social-science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Social Science Syllabus</a></li><li><a href="#english-syllabus-8" className="text-primary hover:underline">CBSE Class 8 English Syllabus</a></li></ul></CardContent></Card>
-                                <div className="space-y-4"><h4 id="maths-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Maths Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
+                                    </CardContent>
+                                </Card>
+                                <div className="space-y-4"><h4 id="maths-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Maths Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
                                 <Separator />
-                                <div className="space-y-4"><h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
+                                <div className="space-y-4"><h4 id="science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Science Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Sub Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.subTopics}</TableCell></TableRow>))}</TableBody></Table></div>
                                 <Separator />
-                                <div className="space-y-4"><h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><div className='space-y-4'><h5 className='font-semibold'>CBSE Class 8th History Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.history.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>CBSE Class 8th Social and Political Life Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.socialAndPoliticalLife.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>CBSE Class 8th Geography Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.geography.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div></div>
+                                <div className="space-y-4"><h4 id="social-science-syllabus-7" className="font-semibold text-lg">CBSE Class 7 Social Science Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><Table><TableHeader><TableRow><TableHead>Chapter Name</TableHead><TableHead>Subtopics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.chapters.map((item:any) => (<TableRow key={item.name}><TableCell className="font-medium">{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.subtopics.map((subtopic:string) => <li key={subtopic}>{subtopic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
                                 <Separator />
-                                <div className="space-y-4"><h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><h5 className='font-semibold'>Honeydew (Prose and Poems)</h5><Table><TableHeader><TableRow><TableHead>Chapter No.</TableHead><TableHead>Prose</TableHead><TableHead>Poem</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.honeydew.map((item:any) => (<TableRow key={item.chapter}><TableCell>{item.chapter}</TableCell><TableCell>{item.prose}</TableCell><TableCell>{item.poem}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>Its So Happened (Stories)</h5><Table><TableHeader><TableRow><TableHead>Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.itSoHappened.map((item:any) => (<TableRow key={item.chapter}><TableCell>{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
-                              </div>
-                            )}
-                            {['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(activeClass) && (
-                                <Tabs defaultValue="maths" className="w-full">
-                                    <TabsList className="grid w-full grid-cols-4"><TabsTrigger value="maths">Maths</TabsTrigger><TabsTrigger value="science">Science</TabsTrigger><TabsTrigger value="social">Social Science</TabsTrigger><TabsTrigger value="english">English</TabsTrigger></TabsList>
-                                    <TabsContent value="maths" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
-                                    <TabsContent value="science" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
-                                    <TabsContent value="social" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
-                                    <TabsContent value="english" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
-                                </Tabs>
-                            )}
+                                <div className="space-y-4"><h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead>Unit</TableHead><TableHead>Lesson Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item:any, index:number) => (<TableRow key={index}><TableCell className="font-medium">{item.unit}</TableCell><TableCell>{item.lessonName}</TableCell></TableRow>))}</TableBody></Table></div>
+                            </div>
+                        )}
+                        {activeClass === 'Class 8' && (
+                          <div className="space-y-8">
+                            <Card className="mb-8"><CardContent className="p-6"><h4 className="font-bold text-lg mb-4">Table of Content:</h4><ul className="list-disc pl-5 space-y-2"><li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li><li><a href="#science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Science Syllabus</a></li><li><a href="#social-science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Social Science Syllabus</a></li><li><a href="#english-syllabus-8" className="text-primary hover:underline">CBSE Class 8 English Syllabus</a></li></ul></CardContent></Card>
+                            <div className="space-y-4"><h4 id="maths-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Maths Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
+                            <Separator />
+                            <div className="space-y-4"><h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
+                            <Separator />
+                            <div className="space-y-4"><h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><div className='space-y-4'><h5 className='font-semibold'>CBSE Class 8th History Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.history.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>CBSE Class 8th Social and Political Life Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.socialAndPoliticalLife.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>CBSE Class 8th Geography Syllabus</h5><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.geography.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div></div>
+                            <Separator />
+                            <div className="space-y-4"><h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><h5 className='font-semibold'>Honeydew (Prose and Poems)</h5><Table><TableHeader><TableRow><TableHead>Chapter No.</TableHead><TableHead>Prose</TableHead><TableHead>Poem</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.honeydew.map((item:any) => (<TableRow key={item.chapter}><TableCell>{item.chapter}</TableCell><TableCell>{item.prose}</TableCell><TableCell>{item.poem}</TableCell></TableRow>))}</TableBody></Table><h5 className='font-semibold'>Its So Happened (Stories)</h5><Table><TableHeader><TableRow><TableHead>Chapter No.</TableHead><TableHead>Chapter Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.itSoHappened.map((item:any) => (<TableRow key={item.chapter}><TableCell>{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}</TableBody></Table></div>
                           </div>
-                        ) : (
-                          <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                        )}
+                         {activeClass && syllabusData[activeClass] && !['Class 5', 'Class 6', 'Class 7', 'Class 8'].includes(activeClass) && (
+                            <Tabs defaultValue="maths" className="w-full">
+                                <TabsList className="grid w-full grid-cols-4"><TabsTrigger value="maths">Maths</TabsTrigger><TabsTrigger value="science">Science</TabsTrigger><TabsTrigger value="social">Social Science</TabsTrigger><TabsTrigger value="english">English</TabsTrigger></TabsList>
+                                <TabsContent value="maths" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
+                                <TabsContent value="science" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].science.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
+                                <TabsContent value="social" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].social.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
+                                 <TabsContent value="english" className="pt-4"><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead>Chapter</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item: any) => (<TableRow key={item.name}><TableCell>{item.name}</TableCell><TableCell>{item.topics.length > 0 ? (<ul className="list-disc pl-5">{item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}</ul>) : 'Topics will be updated soon.'}</TableCell></TableRow>))}</TableBody></Table></TabsContent>
+                            </Tabs>
+                        )}
+                        {!syllabusData[activeClass] && activeClass && (
+                            <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
                     </div>
                     
@@ -285,6 +314,7 @@ function SchoolPageContent() {
           </div>
       </section>
 
+    </div>
     </div>
   );
 }
