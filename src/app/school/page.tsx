@@ -192,15 +192,16 @@ function SchoolPageContent() {
                 </div>
               </section>
             )}
-
-          <section className="w-full overflow-hidden my-8">
+           
+          <section className="w-full my-8">
             <CardHeader className="text-center container mx-auto px-4 md:px-6">
               <CardTitle>Subject Video Lessons</CardTitle>
             </CardHeader>
-            <div className="relative w-full overflow-hidden h-64">
-                <div className="absolute inset-0 flex animate-marquee-scroll hover:animation-play-state-paused">
-                    {[...videoLessons, ...videoLessons].map((subject, index) => (
-                        <div key={index} className="flex-shrink-0 w-60 mx-3 h-full">
+            <div className="relative">
+              <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-6 px-4 md:px-6">
+                    {videoLessons.map((subject, index) => (
+                        <div key={index} className="block flex-shrink-0 w-60 h-80">
                             <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                                 <CardContent className="p-0">
                                     <div className="relative aspect-[9/12]">
@@ -228,6 +229,7 @@ function SchoolPageContent() {
                         </div>
                     ))}
                 </div>
+              </div>
             </div>
           </section>
 
@@ -483,7 +485,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 7' && (
+                            {activeClass === 'Class 7' && syllabusData[activeClass] && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
                                         <CardHeader>
@@ -614,10 +616,13 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 8' && (
+                            {activeClass === 'Class 8' && syllabusData[activeClass] && (
                               <div className="space-y-8">
                                 <Card className="mb-8">
-                                    <CardContent className="p-6">
+                                    <CardHeader>
+                                      <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 8 Syllabus 2025-26</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
                                         <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
                                         <ul className="list-disc pl-5 space-y-2">
                                             <li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li>
@@ -892,3 +897,5 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
+    
