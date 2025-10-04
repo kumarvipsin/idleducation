@@ -240,7 +240,7 @@ function SchoolPageContent() {
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start">
+                                <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>
