@@ -153,10 +153,10 @@ function SchoolPageContent() {
           </div>
         </div>
 
-        <div className="container mx-auto py-8 px-4 md:px-6">
+        <div className="w-full">
           {activeTeachers.length > 0 && (
             <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-                <div className="px-4 md:px-[10%]">
+                <div className="container mx-auto px-4 md:px-6">
                   <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold">
                       <span className="text-primary">Know Your </span>
@@ -483,7 +483,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 7' && syllabusData[activeClass] && (
+                            {activeClass === 'Class 7' && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
                                         <CardHeader>
@@ -614,7 +614,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 8' && syllabusData[activeClass] && (
+                            {activeClass === 'Class 8' && (
                               <div className="space-y-8">
                                 <Card className="mb-8">
                                     <CardContent className="p-6">
