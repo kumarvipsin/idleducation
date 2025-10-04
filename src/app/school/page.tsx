@@ -46,9 +46,8 @@ interface Teacher {
 const class6SyllabusLinks = [
     { sno: 1, subject: 'CBSE Syllabus for Class 6 Maths', href: '#' },
     { sno: 2, subject: 'CBSE Syllabus for Class 6 Science', href: '#' },
-    { sno: 4, subject: 'CBSE Syllabus for Class 6 English', href: '#' },
-    { sno: 5, subject: 'CBSE Syllabus for Class 6 Hindi', href: '#' },
-    { sno: 6, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
+    { sno: 3, subject: 'CBSE Syllabus for Class 6 English', href: '#' },
+    { sno: 4, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
 ];
 
 function SchoolPageContent() {
@@ -186,7 +185,7 @@ function SchoolPageContent() {
                         designation={member.designation || 'Teacher'}
                         experience={member.experience || 'Experienced'}
                         biography={member.biography}
-                        avatar={member.avatar || ''}
+                        avatar={member.photoURL || ''}
                         avatarHint={`${member.name} photo`}
                       />
                     </CarouselItem>
@@ -210,6 +209,11 @@ function SchoolPageContent() {
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
+                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
+                    </div>
+                     <Separator />
+                        <div>
                         {activeClass === 'Class 6' && (
                             <div className="space-y-4">
                                 <h4 className="font-semibold text-lg">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</h4>
@@ -298,8 +302,7 @@ function SchoolPageContent() {
                         {!syllabusData[activeClass] && activeClass && (
                             <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
                         )}
-                    </div>
-                    
+                        </div>
                     <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
