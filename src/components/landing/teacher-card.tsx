@@ -25,29 +25,29 @@ type TeacherCardProps = {
 export function TeacherCard({ name, designation, experience, biography, avatar, avatarHint, socialLinks }: TeacherCardProps) {
      return (
         <Dialog>
-            <Card 
-              className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col"
-            >
-                <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
-                    <GcsImage
-                        filePath={avatar}
-                        alt={name}
-                        fill
-                        className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                    />
-                </div>
-                <CardContent className="p-4 flex-1 flex flex-col">
-                    <h3 className="text-base md:text-lg font-bold uppercase tracking-wider text-foreground">{name}</h3>
-                    <p className="text-[10px] md:text-xs text-muted-foreground uppercase">{designation}</p>
-                    <div className="mt-4 text-center flex-grow flex items-end justify-center">
-                        <DialogTrigger asChild>
-                           <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
-                                MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
-                           </button>
-                        </DialogTrigger>
+            <DialogTrigger asChild>
+                <Card 
+                  className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg h-full flex flex-col cursor-pointer"
+                >
+                    <div className="relative w-full aspect-[4/5] md:aspect-[3/4]">
+                        <GcsImage
+                            filePath={avatar}
+                            alt={name}
+                            fill
+                            className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                         <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                            <h3 className="text-base md:text-lg font-bold uppercase tracking-wider">{name}</h3>
+                            <p className="text-xs md:text-sm text-white/90">{designation}</p>
+                            <p className="text-xs text-white/80 mt-1">{experience}</p>
+                        </div>
+                        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <ArrowRight className="w-5 h-5 text-white"/>
+                        </div>
                     </div>
-                </CardContent>
-            </Card>
+                </Card>
+            </DialogTrigger>
             <DialogContent className="sm:max-w-md bg-white text-foreground">
                 <div className="p-4 pt-8">
                   <div className="relative flex flex-col items-center text-center">
