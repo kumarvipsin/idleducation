@@ -90,7 +90,7 @@ function NotesDetailsContent({ slug }: { slug: string[] }) {
              <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/resources/notes_new">Notes</BreadcrumbLink>
+                        <BreadcrumbLink href="/resources/notes">Notes</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

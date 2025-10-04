@@ -164,13 +164,13 @@ export default function NotesNewPage() {
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getCollection('notes');
+            const result = await getCollection('ncertSolutions');
             if (result.success && result.data) {
                 const notesByClass = (result.data as any[]).reduce((acc, classDoc) => {
                     const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
                     acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
                         name: subjectData.name,
-                        href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
+                        href: `/resources/notes/${classDoc.id}/${subjectKey}`,
                         imageUrl: getImage(subjectKey).url,
                         imageHint: getImage(subjectKey).hint,
                     }));

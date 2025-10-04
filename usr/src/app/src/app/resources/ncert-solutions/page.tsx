@@ -68,7 +68,7 @@ export default function NcertSolutionsPage() {
           const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
-            href: `/resources/notes_new/${classDoc.id}/${subjectKey}`,
+            href: `/resources/notes/${classDoc.id}/${subjectKey}`,
             icon: getIcon(subjectKey),
             gradient: getGradient(subjectKey),
           }));
