@@ -496,28 +496,6 @@ function SchoolPageContent() {
                                     </Table>
                                 </div>
                                 <Separator />
-                                <div className="space-y-4">
-                                    <h4 id="english-grammar-syllabus-6" className="font-semibold text-lg">CBSE Class 6 English Grammar Syllabus 2025-26</h4>
-                                    <p className="text-muted-foreground">{class6EnglishGrammarSyllabus.description}</p>
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Grammar Topics</TableHead>
-                                                <TableHead>Applied Grammar</TableHead>
-                                                <TableHead>Writing Section</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {class6EnglishGrammarSyllabus.topics.map(item => (
-                                                <TableRow key={item.grammar}>
-                                                    <TableCell>{item.grammar}</TableCell>
-                                                    <TableCell>{item.applied}</TableCell>
-                                                    <TableCell>{item.writing}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </div>
                             </div>
                         )}
                         {activeClass === 'Class 7' && (
