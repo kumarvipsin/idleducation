@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from "next/image";
 import { Badge } from '@/components/ui/badge';
@@ -380,6 +380,35 @@ function SchoolPageContent() {
                             ))}
                         </div>
                     </div>
+                     <Card>
+                        <CardHeader>
+                            <CardTitle>Subject Video Lessons</CardTitle>
+                        </CardHeader>
+                        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
+                            <Card key={subject} className="group overflow-hidden">
+                                <CardContent className="p-0">
+                                <div className="relative aspect-video">
+                                    <Image
+                                    src={`https://picsum.photos/seed/${subject}/600/400`}
+                                    alt={`${subject} video lesson`}
+                                    data-ai-hint={`${subject} lesson`}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                                    </div>
+                                </div>
+                                <div className="p-4">
+                                    <h4 className="font-semibold">{subject} Video Lessons</h4>
+                                    <p className="text-sm text-muted-foreground">Click to watch</p>
+                                </div>
+                                </CardContent>
+                            </Card>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </CardContent>
             </Card>
           </div>
