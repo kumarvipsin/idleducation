@@ -297,17 +297,6 @@ const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolut
 
 export default function ContentManagementPage() {
   return (
-    <Tabs defaultValue="ncertSolutions" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="ncertSolutions">NCERT Solutions</TabsTrigger>
-        <TabsTrigger value="importantQuestions">Important Questions</TabsTrigger>
-      </TabsList>
-      <TabsContent value="ncertSolutions">
-          <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
-      </TabsContent>
-      <TabsContent value="importantQuestions">
-          <ContentManager collectionType="importantQuestions" title="Manage Important Questions" />
-      </TabsContent>
-    </Tabs>
+    <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
   );
 }
