@@ -50,25 +50,6 @@ const class6SyllabusLinks = [
     { sno: 4, subject: 'CBSE Syllabus for Class 6 Social Science', href: '#' },
 ];
 
-const class6EnglishGrammarSyllabus = {
-  description: "The CBSE Class 6 English Grammar syllabus focuses on strengthening the foundation of language through essential grammar topics. Students learn sentence structure, tenses, punctuation, and parts of speech. This builds their writing and comprehension skills effectively. For a detailed overview of all topics included in the syllabus, check the table below.",
-  topics: [
-    { grammar: "Noun", applied: "Gap Filling / Sentence Completion", writing: "Formal Letter" },
-    { grammar: "Pronoun", applied: "Dialogue Completion", writing: "Informal Letter" },
-    { grammar: "Verb", applied: "Sentence Reordering", writing: "Diary Entry" },
-    { grammar: "Tense", applied: "Editing", writing: "Notice Writing" },
-    { grammar: "Voice", applied: "Omission", writing: "Message Writing" },
-    { grammar: "Adjective", applied: "Sentence Transformation", writing: "Debate" },
-    { grammar: "Adverb", applied: "—", writing: "Speech" },
-    { grammar: "Sentence and Phrase", applied: "—", writing: "Article Writing" },
-    { grammar: "Subject-Verb Agreement", applied: "—", writing: "Report Writing" },
-    { grammar: "Reported Speech", applied: "—", writing: "Story Completion" },
-    { grammar: "Framing Questions", applied: "—", writing: "—" },
-    { grammar: "Preposition", applied: "—", writing: "—" },
-    { grammar: "Conjunction", applied: "—", writing: "—" },
-  ],
-};
-
 
 function SchoolPageContent() {
   const searchParams = useSearchParams();
@@ -217,7 +198,36 @@ function SchoolPageContent() {
 
       <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="container mx-auto px-4 md:px-[10%]">
-            <div className="text-center mb-12">
+             <Card>
+                <CardHeader>
+                    <CardTitle>Subject Video Lessons</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
+                    <Card key={subject} className="group overflow-hidden">
+                        <CardContent className="p-0">
+                        <div className="relative aspect-video">
+                            <Image
+                            src={`https://picsum.photos/seed/${subject}/600/400`}
+                            alt={`${subject} video lesson`}
+                            data-ai-hint={`${subject} lesson`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <h4 className="font-semibold">{subject} Video Lessons</h4>
+                            <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                        </div>
+                        </CardContent>
+                    </Card>
+                    ))}
+                </CardContent>
+            </Card>
+            <div className="text-center my-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                   {`${activeClass} Online Coaching 2025-2026`}
                 </h2>
@@ -256,35 +266,6 @@ function SchoolPageContent() {
                                             </TableBody>
                                         </Table>
                                     </CardContent>
-                                     <Card>
-                        <CardHeader>
-                            <CardTitle>Subject Video Lessons</CardTitle>
-                        </CardHeader>
-                        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                            <Card key={subject} className="group overflow-hidden">
-                                <CardContent className="p-0">
-                                <div className="relative aspect-video">
-                                    <Image
-                                    src={`https://picsum.photos/seed/${subject}/600/400`}
-                                    alt={`${subject} video lesson`}
-                                    data-ai-hint={`${subject} lesson`}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                                    </div>
-                                </div>
-                                <div className="p-4">
-                                    <h4 className="font-semibold">{subject} Video Lessons</h4>
-                                    <p className="text-sm text-muted-foreground">By Manish Sharma</p>
-                                </div>
-                                </CardContent>
-                            </Card>
-                            ))}
-                        </CardContent>
-                    </Card>
                                 </Card>
                             </div>
                         )}
@@ -390,10 +371,10 @@ function SchoolPageContent() {
                     
                     
                     <div>
-                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
+                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start rounded-full">
+                                <Button asChild variant="outline" key={link.href} className="justify-start">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>
