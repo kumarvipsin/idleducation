@@ -188,12 +188,6 @@ function AdminLayout({
                                 <span>Exam Categories</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/notes')}>
-                            <Link href="/admin/notes">
-                                <FileText />
-                                <span>Manage Notes</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/ncert-solutions')}>
                            <Link href="/admin/ncert-solutions">
                                 <BookCheck />
