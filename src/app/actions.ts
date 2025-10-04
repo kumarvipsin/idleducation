@@ -9,5 +9,7 @@ export * from './actions/admin';
 export * from './actions/data';
 export * from './actions/user';
 export * from './actions/content';
+export * from './actions/content-structure';
+export * from './actions/previous-year-questions';
 export * from './actions/store-auth';
 export * from './actions/store';
