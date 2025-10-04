@@ -3,7 +3,7 @@
 
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText } from 'lucide-react';
@@ -209,34 +209,35 @@ function SchoolPageContent() {
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
-                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
-                    </div>
-                     <Separator />
-                        <div>
                         {activeClass === 'Class 6' && (
-                            <div className="space-y-4">
-                                <h4 className="font-semibold text-lg">CBSE Class 6 Syllabus 2025-26 - Subject wise Links</h4>
-                                <p className="text-muted-foreground">The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.</p>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[100px] bg-orange-500 text-white">S.No.</TableHead>
-                                            <TableHead className="bg-orange-500 text-white">Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {class6SyllabusLinks.map((item) => (
-                                            <TableRow key={item.sno}>
-                                                <TableCell className="font-medium">{item.sno}</TableCell>
-                                                <TableCell><Link href={item.href} className="text-blue-600 hover:underline">{item.subject}</Link></TableCell>
+                            <Card className="border-primary/20">
+                                <CardHeader>
+                                    <CardTitle>CBSE Class 6 Syllabus 2025-26 - Subject wise Links</CardTitle>
+                                    <CardDescription>
+                                        The following table provides the subject-wise Class 6 Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT Class 6.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="w-[100px]">S.No.</TableHead>
+                                                <TableHead>Subject-Wise Links Class 6 CBSE Syllabus 2025-26</TableHead>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </div>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {class6SyllabusLinks.map((item) => (
+                                                <TableRow key={item.sno}>
+                                                    <TableCell className="font-medium">{item.sno}</TableCell>
+                                                    <TableCell><Link href={item.href} className="text-blue-600 hover:underline">{item.subject}</Link></TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </CardContent>
+                            </Card>
                         )}
-                        {activeClass === 'Class 5' && (
+                        {activeClass === 'Class 5' && syllabusData[activeClass] && (
                           <div className="space-y-8">
                               <Card className="mb-8">
                                 <CardContent className="p-6">
@@ -256,7 +257,7 @@ function SchoolPageContent() {
                           </div>
                         )}
                         
-                        {activeClass === 'Class 7' && (
+                        {activeClass === 'Class 7' && syllabusData[activeClass] && (
                             <div className="space-y-8">
                                 <Card className="mb-8">
                                     <CardContent className="p-6">
@@ -278,7 +279,7 @@ function SchoolPageContent() {
                                 <div className="space-y-4"><h4 id="english-syllabus-7" className="font-semibold text-lg">CBSE Class 7 English Syllabus</h4><p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p><Table><TableHeader><TableRow><TableHead>Unit</TableHead><TableHead>Lesson Name</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].english.chapters.map((item:any, index:number) => (<TableRow key={index}><TableCell className="font-medium">{item.unit}</TableCell><TableCell>{item.lessonName}</TableCell></TableRow>))}</TableBody></Table></div>
                             </div>
                         )}
-                        {activeClass === 'Class 8' && (
+                        {activeClass === 'Class 8' && syllabusData[activeClass] && (
                           <div className="space-y-8">
                             <Card className="mb-8"><CardContent className="p-6"><h4 className="font-bold text-lg mb-4">Table of Content:</h4><ul className="list-disc pl-5 space-y-2"><li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li><li><a href="#science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Science Syllabus</a></li><li><a href="#social-science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Social Science Syllabus</a></li><li><a href="#english-syllabus-8" className="text-primary hover:underline">CBSE Class 8 English Syllabus</a></li></ul></CardContent></Card>
                             <div className="space-y-4"><h4 id="maths-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Maths Syllabus 2025-26</h4><p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p><Table><TableHeader><TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Chapter Name</TableHead><TableHead>Topics</TableHead></TableRow></TableHeader><TableBody>{syllabusData[activeClass].maths.chapters.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell><TableCell><ul className="list-disc pl-5">{item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}</ul></TableCell></TableRow>))}</TableBody></Table></div>
@@ -300,7 +301,7 @@ function SchoolPageContent() {
                             </Tabs>
                         )}
                         {!syllabusData[activeClass] && activeClass && (
-                            <p className="text-muted-foreground">Detailed syllabus and study strategies for {activeClass} will be updated here soon. Our curriculum is designed to cover all topics comprehensively, ensuring you are well-prepared for your exams. We focus on building a strong conceptual foundation and provide ample practice through assignments and tests.</p>
+                            <p className="text-muted-foreground">Detailed syllabus for {activeClass} will be updated here soon.</p>
                         )}
                         </div>
                     <Separator />
