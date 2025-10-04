@@ -2,7 +2,8 @@
 'use client';
 
 import { useEffect, useState, Suspense, ReactNode } from 'react';
-import { getCollection, getImportantQuestionsForSubject } from '@/app/actions';
+import { getCollection } from '@/app/actions/data';
+import { getImportantQuestionsForSubject } from '@/app/actions';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen, Languages, ShoppingCart } from 'lucide-react';
@@ -13,6 +14,7 @@ import { NcertChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { usePathname, useParams } from 'next/navigation';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 function NcertSolutionsDetailsContent() {
     const params = useParams();
@@ -84,6 +86,22 @@ function NcertSolutionsDetailsContent() {
     
 
     return (
+      <div className="space-y-6">
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/resources/ncert-solutions">NCERT Solutions</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbPage className="capitalize">{className}</BreadcrumbPage>
+                </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbPage className="capitalize">{subjectName}</BreadcrumbPage>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
         <Card className="shadow-lg overflow-hidden border-t-8 border-primary">
             <div className="bg-gradient-to-r from-primary to-accent text-white p-4">
                 <div className="flex items-center gap-4">
@@ -96,7 +114,8 @@ function NcertSolutionsDetailsContent() {
                 </div>
             </div>
             <CardContent className="p-4 md:p-6">
-                 <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
                     <Button 
                         variant="ghost" 
                         size="icon" 
@@ -110,14 +129,17 @@ function NcertSolutionsDetailsContent() {
                 {contents}
             </CardContent>
         </Card>
+      </div>
     );
 }
 
 
 export default function NcertSolutionsDetailsPage() {
     return (
-        <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-            <NcertSolutionsDetailsContent />
-        </Suspense>
+        <div className="container mx-auto px-4 md:px-[10%] py-8">
+            <Suspense fallback={<Skeleton className="h-screen w-full" />}>
+                <NcertSolutionsDetailsContent />
+            </Suspense>
+        </div>
     )
 }
