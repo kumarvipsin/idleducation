@@ -25,6 +25,7 @@ import type { TExamCategory, TTopperTestimonial, VideoLesson } from '@/app/actio
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { syllabusData, class6EnglishGrammarSyllabus } from '@/lib/syllabus-data';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -41,6 +42,11 @@ interface Teacher {
   photoURL?: string;
   avatar: string;
   biography?: string;
+  socialLinks?: {
+      instagram?: string;
+      facebook?: string;
+      twitter?: string;
+  };
 }
 
 function SchoolPageContent() {
@@ -179,6 +185,7 @@ function SchoolPageContent() {
                                     avatar={member.photoURL || ''}
                                     avatarHint={`${member.name} photo`}
                                     biography={member.biography}
+                                    socialLinks={member.socialLinks}
                                 />
                             </div>
                         ))}
@@ -196,34 +203,51 @@ function SchoolPageContent() {
                         {videoLessons.map((lesson, index) => {
                             const videoId = lesson.youtubeLink.split('v=')[1]?.split('&')[0];
                             return (
-                            <div key={index} className="block flex-shrink-0 w-60 h-80">
-                                <a href={lesson.youtubeLink} target="_blank" rel="noopener noreferrer">
-                                <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                                    <CardContent className="p-0">
-                                        <div className="relative aspect-[9/12]">
-                                            <Image
-                                                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                                                alt={`${lesson.subject} video lesson`}
-                                                data-ai-hint={`${lesson.subject} lesson poster`}
-                                                fill
-                                                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                                                        <PlayCircle className="w-8 h-8 text-primary/80" />
-                                                    </button>
-                                                </div>
-                                                <h3 className="text-white text-xl font-bold">{lesson.subject}</h3>
-                                                <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
-                                                    <span>By {lesson.teacher}</span>
-                                                </div>
-                                            </div>
+                                <Dialog key={index}>
+                                    <DialogTrigger asChild>
+                                        <div className="block flex-shrink-0 w-60 h-80 cursor-pointer">
+                                            <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                                <CardContent className="p-0">
+                                                    <div className="relative aspect-[9/12]">
+                                                        <Image
+                                                            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                                                            alt={`${lesson.subject} video lesson`}
+                                                            data-ai-hint={`${lesson.subject} lesson poster`}
+                                                            fill
+                                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                                <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                                    <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                                </button>
+                                                            </div>
+                                                            <h3 className="text-white text-xl font-bold">{lesson.subject}</h3>
+                                                            <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
+                                                                <span>By {lesson.teacher}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
                                         </div>
-                                    </CardContent>
-                                </Card>
-                                </a>
-                            </div>
+                                    </DialogTrigger>
+                                     <DialogContent className="max-w-3xl p-0">
+                                        <DialogHeader className="p-4">
+                                            <DialogTitle>{lesson.subject} by {lesson.teacher}</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="aspect-video">
+                                            <iframe
+                                                className="w-full h-full"
+                                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                                                title={`YouTube video player for ${lesson.subject}`}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
+                                            ></iframe>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                         )})}
                     </div>
                 </div>
@@ -895,3 +919,4 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
+
