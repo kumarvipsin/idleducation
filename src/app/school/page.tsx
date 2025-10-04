@@ -194,9 +194,6 @@ function SchoolPageContent() {
             )}
            
           <section className="w-full my-8">
-            <CardHeader className="text-center container mx-auto px-4 md:px-6">
-              <CardTitle>Subject Video Lessons</CardTitle>
-            </CardHeader>
             <div className="relative">
               <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex gap-6 px-4 md:px-6">
@@ -897,5 +894,3 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
-    
