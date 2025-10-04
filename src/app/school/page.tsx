@@ -108,6 +108,8 @@ function SchoolPageContent() {
   const activeTeachers = activeCategory?.teacherIds
     ? teachers.filter(t => activeCategory.teacherIds?.includes(t.id))
     : [];
+    
+    const videoLessons = ['Maths', 'Science', 'English', 'Social Studies', 'Hindi', 'Sanskrit'];
 
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
@@ -157,26 +159,18 @@ function SchoolPageContent() {
           </div>
         </div>
       </div>
-
-       <div className="my-8">
-        <CardHeader>
-          <CardTitle>Subject Video Lessons</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            plugins={[autoplayPlugin.current]}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-4">
-              {['Maths', 'Science', 'English', 'Social Studies'].map((subject) => (
-                <CarouselItem key={subject} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                  <Card className="group overflow-hidden">
+      
+       <section className="w-full overflow-hidden py-8">
+          <CardHeader className="text-center">
+            <CardTitle>Subject Video Lessons</CardTitle>
+          </CardHeader>
+          <div className="relative w-full overflow-hidden">
+            <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
+              {[...videoLessons, ...videoLessons].map((subject, index) => (
+                <div key={index} className="flex-shrink-0 w-64 mx-2">
+                  <Card className="group overflow-hidden h-full">
                     <CardContent className="p-0">
-                      <div className="relative aspect-video">
+                      <div className="relative aspect-video h-[120px]">
                         <Image
                           src={`https://picsum.photos/seed/${subject}/600/400`}
                           alt={`${subject} video lesson`}
@@ -188,10 +182,10 @@ function SchoolPageContent() {
                           <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
                         </div>
                       </div>
-                      <div className="p-4">
-                        <h4 className="font-semibold">{subject} Video Lessons</h4>
-                        <div className="flex items-center justify-between">
-                            <p className="text-sm text-muted-foreground">By Manish Sharma</p>
+                      <div className="p-3">
+                        <h4 className="font-semibold text-sm">{subject} Video Lessons</h4>
+                        <div className="flex items-center justify-between text-xs mt-1">
+                            <p className="text-muted-foreground">By Manish Sharma</p>
                             <Button asChild variant="link" size="sm" className="p-0 h-auto">
                                 <Link href="#">Click</Link>
                             </Button>
@@ -199,13 +193,12 @@ function SchoolPageContent() {
                       </div>
                     </CardContent>
                   </Card>
-                </CarouselItem>
+                </div>
               ))}
-            </CarouselContent>
-          </Carousel>
-        </CardContent>
-      </div>
-      
+            </div>
+          </div>
+        </section>
+
        {activeTeachers.length > 0 && (
         <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
             <div className="px-4 md:px-[10%]">
@@ -378,7 +371,7 @@ function SchoolPageContent() {
                             </div>
                         )}
                         {activeClass === 'Class 7' && (
-                            <div className="space-y-8">
+                           <div className="space-y-8">
                                 <Card className="mb-8">
                                     <CardHeader>
                                         <CardTitle className="font-bold text-xl md:text-2xl">CBSE Class 7 Syllabus 2025-26</CardTitle>
@@ -518,6 +511,7 @@ function SchoolPageContent() {
                     </div>
                     
                     
+                    <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

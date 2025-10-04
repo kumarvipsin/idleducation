@@ -123,6 +123,10 @@ export default {
             'background-position': 'right center',
           },
         },
+        'marquee-scroll': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         'collapsible-down': 'collapsible-down 0.2s ease-out',
@@ -132,6 +136,7 @@ export default {
         'marquee-vertical': 'marquee-vertical 20s linear infinite',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'gradient-x': 'gradient-x 5s ease infinite',
+        'marquee-scroll': 'marquee-scroll 40s linear infinite',
       },
     },
   },
