@@ -156,47 +156,42 @@ function SchoolPageContent() {
         <div className="w-full">
           {activeTeachers.length > 0 && (
             <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-                <div className="container mx-auto px-4 md:px-6">
-                  <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold">
-                      <span className="text-primary">Know Your </span>
-                      <span style={{ color: '#adb5bd' }}>Teachers</span>
-                    </h2>
-                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                      Our dedicated team of educators is here to guide you on your learning journey.
-                    </p>
-                  </div>
-                  <Carousel
-                    opts={{
-                      align: "start",
-                      loop: activeTeachers.length > 3,
-                    }}
-                    plugins={[autoplayPlugin.current]}
-                    className="w-full max-w-6xl mx-auto"
-                  >
-                    <CarouselContent className="-ml-4">
-                      {activeTeachers.map((member) => (
-                        <CarouselItem key={member.id} className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
-                          <TeacherCard 
-                            name={member.name}
-                            designation={member.designation || 'Teacher'}
-                            experience={member.experience || 'Experienced'}
-                            avatar={member.photoURL || ''}
-                            avatarHint={`${member.name} photo`}
-                            biography={member.biography}
-                          />
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                  </Carousel>
+              <div className="container mx-auto px-4 md:px-[10%]">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold">
+                    <span className="text-primary">Know Your </span>
+                    <span style={{ color: '#adb5bd' }}>Teachers</span>
+                  </h2>
+                  <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    Our dedicated team of educators is here to guide you on your learning journey.
+                  </p>
                 </div>
-              </section>
+              </div>
+              <div className="relative">
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {activeTeachers.map((member, index) => (
+                            <div key={member.id} className="block flex-shrink-0 w-[280px] sm:w-[320px]">
+                                <TeacherCard 
+                                    name={member.name}
+                                    designation={member.designation || 'Teacher'}
+                                    experience={member.experience || 'Experienced'}
+                                    avatar={member.photoURL || ''}
+                                    avatarHint={`${member.name} photo`}
+                                    biography={member.biography}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+              </div>
+            </section>
             )}
            
           <section className="w-full my-8">
             <div className="relative">
               <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex gap-6 px-4 md:px-6">
+                <div className="flex gap-6 px-4 md:px-[10%]">
                     {videoLessons.map((subject, index) => (
                         <div key={index} className="block flex-shrink-0 w-60 h-80">
                             <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
