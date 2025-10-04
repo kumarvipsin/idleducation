@@ -191,7 +191,7 @@ function AdminLayout({
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/ncert-solutions')}>
                            <Link href="/admin/ncert-solutions">
                                 <BookCheck />
-                                <span>NCERT Solutions</span>
+                                <span>Study Resources</span>
                            </Link>
                         </SidebarMenuButton>
                          <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/previous-year-questions')}>
