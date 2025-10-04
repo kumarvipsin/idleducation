@@ -98,7 +98,6 @@ function NcertSolutionsDetailsContent() {
             </div>
             <CardContent className="p-4 md:p-6">
                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
                     <Button 
                         variant="ghost" 
                         size="icon" 

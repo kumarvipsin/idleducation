@@ -33,57 +33,64 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     };
 
     return (
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleViewPdf} disabled={isLoading}>
+        <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground" onClick={handleViewPdf} disabled={isLoading}>
             <Eye className="h-4 w-4" />
         </Button>
     );
 };
 
+const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
+    const { toast } = useToast();
+    const [isLoading, setIsLoading] = useState(false);
 
-const renderContentTree = (items: (TChapter | TTopic | TSubTopic)[], level = 0) => {
-    if (!items || items.length === 0) return null;
+    const handleDownload = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!pdfUrl) return;
+        setIsLoading(true);
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            // In a real scenario, you might want to trigger a download differently.
+            // For simplicity, we open it, and the user can save from there.
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
+        setIsLoading(false);
+    };
 
     return (
-        <div className={level > 0 ? "pl-4 border-l ml-4" : ""}>
-            {items.map((item, index) => {
-                const hasChildren = 'topics' in item || 'subTopics' in item;
-                const children = ('topics' in item ? item.topics : ('subTopics' in item ? item.subTopics : [])) || [];
-                
-                if (hasChildren && children.length > 0) {
-                    return (
-                        <Accordion type="single" collapsible key={index}>
-                            <AccordionItem value={`item-${index}`} className="border-b-0">
-                                <div className="flex items-center p-1 my-1 bg-muted/30 rounded-md">
-                                    <AccordionTrigger className="font-medium text-xs hover:no-underline flex-1 w-full pr-2">
-                                        <div className="flex items-center">
-                                            {level > 0 && <Dot className="w-4 h-4 mr-1" />}
-                                            {item.name}
-                                        </div>
-                                    </AccordionTrigger>
-                                    {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
-                                </div>
-                                <AccordionContent className="pt-0">
-                                    {renderContentTree(children, level + 1)}
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    );
-                }
-
-                return (
-                     <Card key={`item-${index}`} className="transition-all duration-300 my-1">
-                        <div className="flex items-center justify-between p-2 md:p-3 group">
-                            <span className="font-medium text-xs md:text-sm text-foreground/90 flex items-center">
-                               <FileIcon className="w-3 h-3 mr-2" />
-                               {item.name}
-                            </span>
-                          {item.pdfUrl && <ViewPdfButton pdfUrl={item.pdfUrl} />}
-                        </div>
-                    </Card>
-                );
-            })}
-        </div>
+        <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground" onClick={handleDownload} disabled={isLoading}>
+            <Download className="h-4 w-4" />
+        </Button>
     );
+}
+
+const ChapterResources = ({ chapter }: { chapter: TChapter }) => {
+    return (
+        <div className="space-y-2 py-2 px-4">
+            {chapter.longNotePdfUrl && (
+                <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+                    <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
+                    <div className="flex items-center">
+                        <ViewPdfButton pdfUrl={chapter.longNotePdfUrl} />
+                        <DownloadPdfButton pdfUrl={chapter.longNotePdfUrl} />
+                    </div>
+                </div>
+            )}
+            {chapter.shortNotePdfUrl && (
+                <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
+                    <span className="text-xs font-medium text-gray-500">Important Q's (EN)</span>
+                    <div className="flex items-center">
+                        <ViewPdfButton pdfUrl={chapter.shortNotePdfUrl} />
+                        <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground">
+                            <Link href="/store"><ShoppingCart className="w-4 h-4" /></Link>
+                        </Button>
+                    </div>
+                </div>
+            )}
+        </div>
+    )
 };
 
 
@@ -100,19 +107,39 @@ const renderSubjectContent = (subject: TSubject | null) => {
                 Object.entries(subject.parts)
                     .sort(([, a], [, b]) => (a.order || 99) - (b.order || 99))
                     .map(([partKey, partData]) => (
-                        <Accordion type="single" collapsible key={partKey} defaultValue="item-0">
-                            <AccordionItem value={`item-0`} className="border-b-0">
-                                 <AccordionTrigger className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1 capitalize hover:no-underline">
-                                    {partData.name}
-                                 </AccordionTrigger>
-                                 <AccordionContent>
-                                     {renderContentTree(partData.chapters)}
-                                 </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
+                        <div key={partKey}>
+                            <h3 className="text-base md:text-lg font-bold mb-3 text-primary border-b pb-1">{partData.name}</h3>
+                             <Accordion type="single" collapsible className="w-full space-y-2">
+                                {partData.chapters.map((chapter, chapterIndex) => (
+                                    <Card key={chapterIndex} className="transition-all duration-300">
+                                        <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                                            <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
+                                               {chapter.name}
+                                            </AccordionTrigger>
+                                            <AccordionContent>
+                                                <ChapterResources chapter={chapter} />
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    </Card>
+                                ))}
+                            </Accordion>
+                        </div>
                     ))
             ) : subject.chapters && subject.chapters.length > 0 ? (
-                renderContentTree(subject.chapters)
+                <Accordion type="single" collapsible className="w-full space-y-2">
+                    {subject.chapters.map((chapter, chapterIndex) => (
+                        <Card key={chapterIndex} className="transition-all duration-300">
+                             <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
+                                <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
+                                    {chapter.name}
+                                </AccordionTrigger>
+                                <AccordionContent>
+                                     <ChapterResources chapter={chapter} />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Card>
+                    ))}
+                </Accordion>
             ) : (
                 <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>
             )}
@@ -122,24 +149,11 @@ const renderSubjectContent = (subject: TSubject | null) => {
 
 
 export function NcertChapterList({ resources }: { resources: TSubject | null }) {
-  const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
-  
   const contents = renderSubjectContent(resources);
 
   return (
     <>
-        <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setContentsLang(contentsLang === 'en' ? 'hi' : 'en')}
-                className="rounded-full bg-background/50 border"
-            >
-                <Languages className="w-5 h-5" />
-                <span className="sr-only">Toggle Language</span>
-            </Button>
-        </div>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
         {contents}
     </>
   );
