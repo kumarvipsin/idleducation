@@ -348,30 +348,6 @@ function SchoolPageContent() {
                                         </Table>
                                     </CardContent>
                                 </Card>
-                                <div className="space-y-4">
-                                    <h4 id="maths-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Maths Syllabus 2025-26</h4>
-                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
-                                    <Table>
-                                        <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Chapters</TableHead>
-                                            <TableHead>Topics</TableHead>
-                                        </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                        {syllabusData[activeClass].maths.chapters.map((item:any) => (
-                                            <TableRow key={item.chapter}>
-                                            <TableCell className="font-medium">{item.chapter}</TableCell>
-                                            <TableCell>
-                                                <ul className="list-disc pl-5">
-                                                    {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
-                                                </ul>
-                                            </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        </TableBody>
-                                    </Table>
-                                </div>
                                 <Separator />
                                 <div className="space-y-4">
                                     <h4 id="science-syllabus-6" className="font-semibold text-lg">CBSE Class 6 Science Syllabus 2025-26</h4>
