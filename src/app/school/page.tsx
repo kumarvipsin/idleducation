@@ -152,45 +152,6 @@ function SchoolPageContent() {
             </div>
           </div>
         </div>
-        
-        <section className="w-full overflow-hidden my-8">
-          <CardHeader className="text-center container mx-auto px-4 md:px-6">
-            <CardTitle>Subject Video Lessons</CardTitle>
-          </CardHeader>
-          <div className="relative w-full overflow-hidden">
-            <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
-              {[...videoLessons, ...videoLessons].map((subject, index) => (
-                <div key={index} className="flex-shrink-0 w-64 mx-2">
-                  <Card className="group overflow-hidden h-full">
-                    <CardContent className="p-0">
-                      <div className="relative aspect-video h-[80%]">
-                        <Image
-                          src={`https://picsum.photos/seed/${subject}/600/400`}
-                          alt={`${subject} video lesson`}
-                          data-ai-hint={`${subject} lesson`}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                          <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <h4 className="font-semibold text-sm">{subject} Video Lessons</h4>
-                        <div className="flex items-center justify-between text-xs mt-1">
-                            <p className="text-muted-foreground">By Manish Sharma</p>
-                            <Button asChild variant="link" size="sm" className="p-0 h-auto">
-                                <Link href="#">Click</Link>
-                            </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <div className="container mx-auto py-8 px-4 md:px-6">
           {activeTeachers.length > 0 && (
@@ -231,6 +192,45 @@ function SchoolPageContent() {
                 </div>
               </section>
             )}
+
+          <section className="w-full overflow-hidden my-8">
+            <CardHeader className="text-center container mx-auto px-4 md:px-6">
+              <CardTitle>Subject Video Lessons</CardTitle>
+            </CardHeader>
+            <div className="relative w-full overflow-hidden">
+              <div className="flex animate-marquee-scroll hover:animation-play-state-paused">
+                {[...videoLessons, ...videoLessons].map((subject, index) => (
+                  <div key={index} className="flex-shrink-0 w-64 mx-2">
+                    <Card className="group overflow-hidden h-full">
+                      <CardContent className="p-0">
+                        <div className="relative aspect-video">
+                          <Image
+                            src={`https://picsum.photos/seed/${subject}/600/400`}
+                            alt={`${subject} video lesson`}
+                            data-ai-hint={`${subject} lesson`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <PlayCircle className="w-12 h-12 text-white/70 group-hover:text-white transition-colors" />
+                          </div>
+                        </div>
+                        <div className="p-3">
+                          <h4 className="font-semibold text-sm">{subject} Video Lessons</h4>
+                          <div className="flex items-center justify-between text-xs mt-1">
+                              <p className="text-muted-foreground">By Manish Sharma</p>
+                              <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                                  <Link href="#">Click</Link>
+                              </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="container mx-auto px-4 md:px-[10%]">
@@ -589,6 +589,149 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
+                            {activeClass === 'Class 8' && (
+                              <div className="space-y-8">
+                                <Card className="mb-8">
+                                    <CardContent className="p-6">
+                                        <h4 className="font-bold text-lg mb-4">Table of Content:</h4>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li><a href="#maths-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Maths Syllabus</a></li>
+                                            <li><a href="#science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Science Syllabus</a></li>
+                                            <li><a href="#social-science-syllabus-8" className="text-primary hover:underline">CBSE Class 8 Social Science Syllabus</a></li>
+                                            <li><a href="#english-syllabus-8" className="text-primary hover:underline">CBSE Class 8 English Syllabus</a></li>
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                                <div className="space-y-4">
+                                    <h4 id="maths-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Maths Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                                <TableHead>Chapter Name</TableHead>
+                                                <TableHead>Topics</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].maths.chapters.map((item:any) => (
+                                                <TableRow key={item.chapter}>
+                                                    <TableCell className="font-medium">{item.chapter}</TableCell>
+                                                    <TableCell>{item.name}</TableCell>
+                                                    <TableCell>
+                                                        <ul className="list-disc pl-5">
+                                                            {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
+                                                        </ul>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Science Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].science.description}</p>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead className="w-[150px]">Chapter No.</TableHead>
+                                                <TableHead>Chapter Name</TableHead>
+                                                <TableHead>Topics</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].science.chapters.map((item:any) => (
+                                                <TableRow key={item.chapter}>
+                                                    <TableCell className="font-medium">{item.chapter}</TableCell>
+                                                    <TableCell>{item.name}</TableCell>
+                                                     <TableCell>
+                                                        <ul className="list-disc pl-5">
+                                                            {item.topics.map((topic:string) => <li key={topic}>{topic}</li>)}
+                                                        </ul>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="social-science-syllabus-8" className="font-semibold text-lg">CBSE Class 8 Social Science Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].social.description}</p>
+                                    <div className='space-y-4'>
+                                        <h5 className='font-semibold'>CBSE Class 8th History Syllabus</h5>
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {syllabusData[activeClass].social.history.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                            </TableBody>
+                                        </Table>
+                                        <h5 className='font-semibold'>CBSE Class 8th Social and Political Life Syllabus</h5>
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {syllabusData[activeClass].social.socialAndPoliticalLife.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                            </TableBody>
+                                        </Table>
+                                        <h5 className='font-semibold'>CBSE Class 8th Geography Syllabus</h5>
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow><TableHead className="w-[150px]">Chapter No.</TableHead><TableHead>Unit</TableHead></TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {syllabusData[activeClass].social.geography.map((item:any) => (<TableRow key={item.chapter}><TableCell className="font-medium">{item.chapter}</TableCell><TableCell>{item.name}</TableCell></TableRow>))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="space-y-4">
+                                    <h4 id="english-syllabus-8" className="font-semibold text-lg">CBSE Class 8 English Syllabus 2025-26</h4>
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].english.description}</p>
+                                    <h5 className='font-semibold'>Honeydew (Prose and Poems)</h5>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Chapter No.</TableHead>
+                                                <TableHead>Prose</TableHead>
+                                                <TableHead>Poem</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].english.honeydew.map((item:any) => (
+                                                <TableRow key={item.chapter}>
+                                                    <TableCell>{item.chapter}</TableCell>
+                                                    <TableCell>{item.prose}</TableCell>
+                                                    <TableCell>{item.poem}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                    <h5 className='font-semibold'>Its So Happened (Stories)</h5>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Chapter No.</TableHead>
+                                                <TableHead>Chapter Name</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {syllabusData[activeClass].english.itSoHappened.map((item:any) => (
+                                                <TableRow key={item.chapter}>
+                                                    <TableCell>{item.chapter}</TableCell>
+                                                    <TableCell>{item.name}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </div>
+                              </div>
+                            )}
                             {['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(activeClass) && (
                                 <Tabs defaultValue="maths" className="w-full">
                                     <TabsList className="grid w-full grid-cols-4">
@@ -630,7 +773,7 @@ function SchoolPageContent() {
                                                     <TableRow key={item.name}>
                                                         <TableCell>{item.name}</TableCell>
                                                         <TableCell>
-                                                            {item.topics.length > 0 ? (
+                                                            {item.topics && item.topics.length > 0 ? (
                                                                 <ul className="list-disc pl-5">
                                                                     {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
                                                                 </ul>
@@ -652,7 +795,7 @@ function SchoolPageContent() {
                                                     <TableRow key={item.name}>
                                                         <TableCell>{item.name}</TableCell>
                                                         <TableCell>
-                                                            {item.topics.length > 0 ? (
+                                                            {item.topics && item.topics.length > 0 ? (
                                                                 <ul className="list-disc pl-5">
                                                                     {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
                                                                 </ul>
@@ -674,7 +817,7 @@ function SchoolPageContent() {
                                                     <TableRow key={item.name}>
                                                         <TableCell>{item.name}</TableCell>
                                                         <TableCell>
-                                                            {item.topics.length > 0 ? (
+                                                            {item.topics && item.topics.length > 0 ? (
                                                                 <ul className="list-disc pl-5">
                                                                     {item.topics.map((topic: string) => <li key={topic}>{topic}</li>)}
                                                                 </ul>
