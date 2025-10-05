@@ -36,14 +36,14 @@ const galleryImages = [
 ];
 
 const companies = [
-    { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
-    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
-    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
-    { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi/200/100" },
+    { name: "DDU-GKY", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ddu-gky.png" },
+    { name: "Maulana Azad Education Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/maef.png" },
+    { name: "Ministry of Textiles", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ministry-of-textiles.png" },
+    { name: "Delhi Government", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/delhi-govt.png" },
 ];
 
 const people = [
-    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/bhagwati/200/100" },
+    { name: "Bhagwati Exports", logo: "https://ekhumfoundation.com/wp-content/uploads/2023/07/Bhagwati-Exports-1-1024x725.png" },
     { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
@@ -241,7 +241,7 @@ export default function IDLFoundationPage() {
                     </div>
                     <div className="relative">
                         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                            <div className="flex gap-6 px-4 md:px-[10%]">
+                            <div className="flex gap-6 pl-[10%]">
                                 {donationCategories.map((category, index) => {
                                     const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                     return(
@@ -442,7 +442,7 @@ export default function IDLFoundationPage() {
               </div>
               <div className="relative">
                   <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4">
+                    <div className="flex gap-6 pl-[10%]">
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
                       </div>
@@ -450,7 +450,7 @@ export default function IDLFoundationPage() {
                         <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="3Z1_Hmc4g-g" title="Annual Charity Gala" />
+                        <EventVideo videoId="xvFZjo5PgG0" title="Annual Charity Gala" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
@@ -516,10 +516,10 @@ export default function IDLFoundationPage() {
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4">
+                        <div className="flex gap-6 pl-[10%]">
                             {team.map((member, index) => (
                                 <div key={index} className="block flex-shrink-0 w-64 group">
-                                    <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
+                                    <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg h-full">
                                         <div className="relative w-full aspect-square">
                                             <Image
                                                 src={member.image}
