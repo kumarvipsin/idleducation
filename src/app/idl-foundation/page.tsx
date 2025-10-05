@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,7 @@ export default function IDLFoundationPage() {
         <div className="relative w-full bg-background overflow-y-auto">
             <header className="absolute top-0 left-0 right-0 z-20 p-4">
                 <div className="container mx-auto flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2 bg-black/30 backdrop-blur-sm p-2 rounded-md">
+                    <Link href="/" className="flex items-center gap-2 p-2 rounded-md">
                         <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
                         <span className="text-lg font-bold text-white">IDL Foundation</span>
                     </Link>
