@@ -13,9 +13,9 @@ const companies = [
 
 const people = [
     { name: "Bhagwati Exports", logo: "https://ekhumfoundation.com/wp-content/uploads/2023/07/Bhagwati-Exports-1-1024x725.png" },
-    { name: "Another Donor", logo: "https://picsum.photos/seed/donor10/200/100" },
-    { name: "New Foundation", logo: "https://picsum.photos/seed/foundation11/200/100" },
-    { name: "Charity Plus", logo: "https://picsum.photos/seed/charity12/200/100" },
+    { name: "Another Donor", logo: "https://static.vecteezy.com/system/resources/thumbnails/008/124/726/small/a-picture-of-a-logo-with-the-words-sri-lanka-on-it-vector.jpg" },
+    { name: "New Foundation", logo: "https://png.pngtree.com/png-vector/20190302/ourmid/pngtree-green-leaf-logo-png-image_734493.jpg" },
+    { name: "Charity Plus", logo: "https://png.pngtree.com/png-vector/20190302/ourmid/pngtree-green-leaf-logo-png-image_734493.jpg" },
 ];
 
 export function Donors() {
