@@ -4,20 +4,13 @@
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle, Eye, Download } from 'lucide-react';
+import { ArrowRight, BookOpen, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle, Eye, Download } from 'lucide-react';
 import Link from 'next/link';
 import Image from "next/image";
-import { Badge } from '@/components/ui/badge';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { TeacherCard } from '@/components/landing/teacher-card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useLanguage } from '@/context/language-context';
-import Autoplay from "embla-carousel-autoplay";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { getExamCategories, getTeachers, getSignedUrlForPdf } from '@/app/actions';
 import type { TExamCategory, VideoLesson, SyllabusItem } from '@/app/actions/types';
@@ -66,9 +59,6 @@ function SchoolPageContent() {
   const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState("PDF Viewer");
   
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -200,25 +190,6 @@ function SchoolPageContent() {
                   </p>
                 </div>
               </div>
-              <div className="relative">
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
-                        {activeTeachers.map((member) => (
-                            <div key={member.id} className="block flex-shrink-0 w-60 h-80">
-                                <TeacherCard 
-                                    name={member.name}
-                                    designation={member.designation || 'Teacher'}
-                                    experience={member.experience || 'Experienced'}
-                                    avatar={member.photoURL || ''}
-                                    avatarHint={`${member.name} photo`}
-                                    biography={member.biography}
-                                    socialLinks={member.socialLinks}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-              </div>
             </section>
             )}
            
@@ -311,14 +282,18 @@ function SchoolPageContent() {
                                         {syllabusItems.map((item) => (
                                             <TableRow key={item.sno}>
                                                 <TableCell className="font-medium">{item.sno}</TableCell>
-                                                <TableCell><span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>{item.name}</span></TableCell>
+                                                <TableCell>
+                                                  <span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
+                                                    {item.name}
+                                                  </span>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             </div>
                         )}
-                         <div>
+                        <div>
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {resourceLinks.map(link => (
