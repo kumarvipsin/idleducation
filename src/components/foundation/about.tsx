@@ -18,9 +18,9 @@ export function About() {
                 <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 max-w-4xl mx-auto">
                     <CardContent className="p-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                            <div className="flex flex-col text-left p-6 rounded-lg bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500">
+                            <div className="flex flex-col text-left p-6 rounded-lg bg-primary/5 border-l-4 border-primary">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 p-3 rounded-full">
+                                    <div className="bg-primary/10 text-primary p-3 rounded-full">
                                         <Eye className="w-6 h-6" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
@@ -30,9 +30,9 @@ export function About() {
                                 </p>
                             </div>
                             
-                            <div className="flex flex-col text-left p-6 rounded-lg bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500">
+                            <div className="flex flex-col text-left p-6 rounded-lg bg-accent/5 border-l-4 border-accent">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-300 p-3 rounded-full">
+                                    <div className="bg-accent/10 text-accent p-3 rounded-full">
                                         <Target className="w-6 h-6" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
@@ -48,3 +48,4 @@ export function About() {
         </section>
     );
 }
+
