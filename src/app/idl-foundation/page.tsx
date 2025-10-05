@@ -52,9 +52,11 @@ export default function IDLFoundationPage() {
                                     <h3 className="text-xl text-left font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
                                     <p className="text-sm text-muted-foreground mt-1 text-left">{category.description}</p>
                                     <div className="mt-4 text-left">
-                                        <Button variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                                            More
-                                            <ArrowRight className="w-4 h-4 ml-2" />
+                                        <Button asChild variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                                            <Link href="#">
+                                                More
+                                                <ArrowRight className="w-4 h-4 ml-2" />
+                                            </Link>
                                         </Button>
                                     </div>
                                 </CardContent>
