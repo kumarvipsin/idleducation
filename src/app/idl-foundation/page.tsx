@@ -31,7 +31,7 @@ export default function IDLFoundationPage() {
                         <div className="flex justify-center mb-4">
                             <HandHeart className="w-12 h-12 text-primary" />
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">A Helping Hand for a Brighter Future</h1>
+                        <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">Make World Happier</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
@@ -44,9 +44,6 @@ export default function IDLFoundationPage() {
                         <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                             <CardContent className="p-8 flex-grow flex flex-col">
-                                <div className="mx-auto h-16 w-16 mb-4 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                                    {category.icon}
-                                </div>
                                 <h3 className="text-xl text-center font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
                                 <div className="mt-4 text-center">
                                     <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-green-500 text-white hover:bg-green-600">Donate</Button>
