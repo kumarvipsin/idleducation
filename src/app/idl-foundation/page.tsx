@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -97,19 +98,30 @@ export default function IDLFoundationPage() {
             <section className="w-full py-12 md:py-24 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <Heart className="w-8 h-8 text-red-500 mx-auto mb-2" />
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-red-500 mx-auto mb-2">
+                            <defs>
+                                <linearGradient id="heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
+                                <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
+                                </linearGradient>
+                            </defs>
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Donors</h2>
                     </div>
-                    <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                         {donors.map((donor, index) => (
-                            <div key={index} className="relative h-16 w-32 md:h-20 md:w-40">
-                                <Image
-                                    src={donor.logo}
-                                    alt={`${donor.name} logo`}
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
+                            <Card key={index} className="flex flex-col items-center justify-center p-6 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
+                                <div className="relative h-20 w-full mb-4">
+                                    <Image
+                                        src={donor.logo}
+                                        alt={`${donor.name} logo`}
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                                <p className="text-sm font-semibold text-center text-muted-foreground">{donor.name}</p>
+                            </Card>
                         ))}
                     </div>
                 </div>
