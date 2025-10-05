@@ -193,8 +193,8 @@ export async function submitAdmissionForm(formData: FormData) {
         fatherName: rawFormData.fatherName as string,
         fatherOccupation: rawFormData.fatherOccupation as string || '',
         motherName: rawFormData.motherName as string,
-        motherOccupation: rawFormData.motherOccupation as string || '',
-        dob: rawFormData.dob as string,
+        motherOccupation: rawData.motherOccupation as string || '',
+        dob: rawData.dob as string,
         gender: rawData.gender as string,
         bloodGroup: rawData.bloodGroup as string || '',
         aadharNumber: rawData.aadharNumber as string || '',
@@ -273,6 +273,10 @@ export async function getNextStudentId() {
 
 // Payment
 export async function createRazorpayOrder(options: { amount: number; currency: string }) {
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+        console.error("Razorpay keys are not set in environment variables.");
+        return { success: false, message: "Payment service is not configured." };
+    }
     const razorpay = new Razorpay({
         key_id: process.env.RAZORPAY_KEY_ID,
         key_secret: process.env.RAZORPAY_KEY_SECRET,
