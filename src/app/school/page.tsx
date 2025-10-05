@@ -315,6 +315,10 @@ function SchoolPageContent() {
                     <CardContent className="p-6 space-y-8">
                         {syllabusItems.length > 0 && (
                             <div>
+                                <div className="mb-4">
+                                    <h3 className="font-bold text-xl text-primary">CBSE {activeClass} Syllabus 2025-26</h3>
+                                    <p className="text-muted-foreground mt-1">The following table provides the subject-wise {activeClass} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeClass}.</p>
+                                </div>
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-orange-500 hover:bg-orange-600">
