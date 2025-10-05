@@ -37,6 +37,9 @@ export default function IDLFoundationPage() {
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
+                        <div className="mt-6">
+                            <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
+                        </div>
                     </div>
                 </div>
                 <div className="relative">
@@ -49,7 +52,7 @@ export default function IDLFoundationPage() {
                                     <h3 className="text-xl text-left font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
                                     <p className="text-sm text-muted-foreground mt-1 text-left">{category.description}</p>
                                     <div className="mt-4 text-left">
-                                        <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
+                                        <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">More</Button>
                                     </div>
                                 </CardContent>
                                  <div className="relative aspect-[4/3] w-full mt-auto">
