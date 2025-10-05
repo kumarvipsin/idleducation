@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Home, HandHeart, Target, Eye, PiggyBank, Book, Trees, UserRound, Briefcase, Plus, Heart, BookOpen } from "lucide-react";
+import { Home, HandHeart, Target, Eye, PiggyBank, BookOpen, Trees, UserRound, Briefcase, Plus, Heart, Save } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,11 +11,10 @@ import { FoundationHero } from "@/components/landing/foundation-hero";
 
 const donationCategories = [
     { title: "Skill Trainings", icon: <Briefcase className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "team training" },
-    { title: "Slum Children Education", icon: <BookOpen className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying" },
-    { title: "Street Children Education", icon: <UserRound className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1620379357062-8531393b057b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "child reading" },
+    { title: "Street & Slum Children Education", icon: <BookOpen className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying" },
     { title: "Environment / Tree Plantation", icon: <Trees className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree" },
     { title: "Women Empowerment", icon: <Heart className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group" },
-    { title: "Medical Assistance", icon: <Plus className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient" },
+    { title: "Medical Assistance", icon: <Save className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient" },
     { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1598411354366-052445e9f528?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people" },
 ];
 
@@ -26,7 +25,7 @@ export default function IDLFoundationPage() {
 
             <FoundationHero />
 
-            <section className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+            <section className="w-full relative py-12 md:py-24 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
