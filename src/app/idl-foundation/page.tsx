@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,6 +28,13 @@ const donors = [
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
 ];
+
+const stats = [
+    { icon: Users, count: 143703, label: 'Visitors' },
+    { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
+    { icon: UserCircle, count: 28, label: 'Members' },
+    { icon: Handshake, count: 37, label: 'Volunteers' }
+]
 
 export default function IDLFoundationPage() {
     return (
@@ -94,6 +101,22 @@ export default function IDLFoundationPage() {
                             </div>
                             ))}
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full py-12 md:py-20 bg-teal-500 text-white">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        {stats.map((stat, index) => (
+                            <div key={index} className="flex flex-col items-center">
+                                <stat.icon className="w-12 h-12 mb-2" />
+                                <p className="text-3xl md:text-4xl font-bold">
+                                    {stat.count.toLocaleString()}{stat.plus && '+'}
+                                </p>
+                                <p className="text-sm md:text-base font-medium">{stat.label}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
