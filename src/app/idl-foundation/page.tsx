@@ -213,21 +213,21 @@ export default function IDLFoundationPage() {
                                                 </Button>
                                             </div>
                                         ) : (
-                                            <div className="py-4 space-y-4">
-                                                <p className="text-center font-semibold">You are donating to "{donationCategory}".</p>
+                                            <div className="pt-4 space-y-3">
+                                                <p className="text-center font-semibold text-sm">You are donating to "{donationCategory}".</p>
                                                 <div className="relative">
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                    <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9" />
+                                                    <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
                                                 </div>
-                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} />
-                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} />
-                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} />
-                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} />
-                                                <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700">
+                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
                                                     <Banknote className="mr-2 h-4 w-4" />
                                                     Proceed to Final Payment
                                                 </Button>
-                                                <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full">
+                                                <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1">
                                                     Change Category
                                                 </Button>
                                             </div>
@@ -268,10 +268,8 @@ export default function IDLFoundationPage() {
                                                         <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
-                                                        <div className="text-right text-xs font-bold text-green-600">
-                                                            {Math.round(percentage)}%
-                                                        </div>
+                                                        <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
+                                                        <p className="text-xs text-muted-foreground text-right">{Math.round(percentage)}%</p>
                                                     </div>
                                                 </div>
 
@@ -295,8 +293,7 @@ export default function IDLFoundationPage() {
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {stats.map((stat, index) => (
-                                <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                                    <stat.icon className="w-8 h-8 mx-auto text-primary mb-2"/>
+                                <Card key={index} className="text-center p-4 bg-transparent border-0 shadow-none">
                                     <p className="text-3xl md:text-4xl font-bold text-primary">
                                         {stat.count.toLocaleString()}{stat.plus && '+'}
                                     </p>
@@ -479,7 +476,7 @@ export default function IDLFoundationPage() {
                                 Our commitment to creating a better society through education and empowerment.
                             </p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
                                 <CardContent className="p-8 text-center">
                                     <div className="flex justify-center mb-4">
@@ -494,7 +491,7 @@ export default function IDLFoundationPage() {
                                 </CardContent>
                             </Card>
                             <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                                <CardContent className="p-8 text-center">
+                                 <CardContent className="p-8 text-center">
                                     <div className="flex justify-center mb-4">
                                         <div className="bg-primary/10 text-primary p-4 rounded-full">
                                             <Target className="w-8 h-8" />
@@ -511,11 +508,11 @@ export default function IDLFoundationPage() {
                 </section>
                 
                 <footer className="bg-background text-gray-800 dark:text-gray-300">
-                    <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                    <Separator className="w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     <div className="container mx-auto px-4 md:px-6 py-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div>
-                                <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
+                                 <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
                                     <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
                                     <span className="text-lg font-bold text-primary">IDL FOUNDATION</span>
                                 </Link>
@@ -544,16 +541,16 @@ export default function IDLFoundationPage() {
                                 <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                                 <div className="flex items-center gap-3">
                                     <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
-                                    <Instagram className="w-5 h-5"/>
+                                      <Instagram className="w-5 h-5"/>
                                     </Link>
                                     <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
-                                    <Facebook className="w-5 h-5"/>
+                                      <Facebook className="w-5 h-5"/>
                                     </Link>
                                     <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
-                                    <Twitter className="w-5 h-5"/>
+                                      <Twitter className="w-5 h-5"/>
                                     </Link>
                                     <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
-                                    <Linkedin className="w-5 h-5"/>
+                                      <Linkedin className="w-5 h-5"/>
                                     </Link>
                                 </div>
                             </div>
