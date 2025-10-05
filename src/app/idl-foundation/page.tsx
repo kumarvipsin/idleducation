@@ -11,12 +11,12 @@ import { FoundationHero } from "@/components/landing/foundation-hero";
 import { Progress } from "@/components/ui/progress";
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "team training", goal: 7089758, raised: 533619 },
-    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying", goal: 7089758, raised: 0 },
-    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree", goal: 7089758, raised: 0 },
-    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group", goal: 5000000, raised: 1250000 },
-    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
-    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://images.unsplash.com/photo-1598411354362-850f3b6143c6?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people", goal: 2500000, raised: 800000 },
+    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
+    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://picsum.photos/seed/slum/600/400", imageHint: "children studying", goal: 7089758, raised: 0 },
+    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://picsum.photos/seed/tree/600/400", imageHint: "planting tree", goal: 7089758, raised: 0 },
+    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://picsum.photos/seed/women/600/400", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/600/400", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://picsum.photos/seed/elderly/600/400", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
 
@@ -91,9 +91,6 @@ export default function IDLFoundationPage() {
                                                 fill
                                                 className="object-cover"
                                             />
-                                            <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md">
-                                                {percentage.toFixed(1)}%
-                                            </div>
                                         </div>
                                         <CardContent className="p-6 flex-grow flex flex-col">
                                             <h3 className="text-xl text-left font-bold">{category.title}</h3>
@@ -108,6 +105,7 @@ export default function IDLFoundationPage() {
                                                     <span className="text-muted-foreground">Raised:</span>
                                                     <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
+                                                <Progress value={percentage} className="mt-2 h-2 [&>div]:bg-green-500" />
                                             </div>
 
                                             <div className="mt-6 text-left">
