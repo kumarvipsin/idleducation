@@ -133,19 +133,19 @@ function SchoolPageContent() {
     setActiveClass(className);
     router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
   };
-
-  const handleAction = async (pdfUrl: string) => {
-    if (!pdfUrl) {
-        toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
-        return;
-    }
-    const result = await getSignedUrlForPdf(pdfUrl);
-    if (result.success && result.url) {
-        window.open(result.url, '_blank');
-    } else {
-        toast({ variant: 'destructive', title: 'Error', description: result.message });
-    }
-  };
+  
+    const handleAction = async (pdfUrl: string) => {
+        if (!pdfUrl) {
+            toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+            return;
+        }
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: 'destructive', title: 'Error', description: result.message });
+        }
+    };
   
   const activeCategory = classes.find(c => c.name === activeClass);
   const activeTeachers = activeCategory?.teacherIds
@@ -340,11 +340,6 @@ function SchoolPageContent() {
                             </div>
                         )}
                         
-                        <Separator />
-                        <div>
-                            <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
-                            <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {activeClass} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
-                        </div>
                         <Separator />
                         <div>
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
