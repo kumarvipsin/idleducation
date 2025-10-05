@@ -131,7 +131,7 @@ export default function IDLFoundationPage() {
                     </div>
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">Companies and Organizations</h3>
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">10+ Companies and Organizations</h3>
                             <div className="w-full overflow-hidden">
                                 <div className="flex animate-marquee-scroll">
                                     {[...companies, ...companies].map((donor, index) => (
@@ -151,7 +151,7 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                         <div className="mt-12">
-                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">People</h3>
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">200+ People</h3>
                             <div className="w-full overflow-hidden">
                                 <div className="flex animate-marquee-scroll-reverse">
                                     {[...people, ...people].map((donor, index) => (
