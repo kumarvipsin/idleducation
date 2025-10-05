@@ -8,15 +8,17 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { FoundationHero } from "@/components/landing/foundation-hero";
+import { Progress } from "@/components/ui/progress";
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "team training" },
-    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "children studying" },
-    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "planting tree" },
-    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "women group" },
-    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "doctor patient" },
-    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "elderly people" },
+    { title: "Support To Rural development", description: "Rural development remains the cornerstone of our mission, aiming to uplift communities through sustainable initiatives.", imageUrl: "https://picsum.photos/seed/rural/600/400", imageHint: "rural development", goal: 7089758, raised: 533619 },
+    { title: "Consumer Awareness", description: "Empowering consumers with knowledge about their rights and fair market practices.", imageUrl: "https://picsum.photos/seed/consumer/600/400", imageHint: "consumer rights", goal: 7089758, raised: 0 },
+    { title: "Health Programmes", description: "Promoting community health through accessible and effective healthcare programs and awareness campaigns.", imageUrl: "https://picsum.photos/seed/health/600/400", imageHint: "health program", goal: 7089758, raised: 0 },
+    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://images.unsplash.com/photo-1598411354362-850f3b6143c6?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
+
 
 const companies = [
     { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
@@ -76,33 +78,49 @@ export default function IDLFoundationPage() {
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         <div className="flex gap-6 px-4 md:px-[10%]">
-                            {donationCategories.map((category, index) => (
-                            <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <CardContent className="p-8 flex-grow flex flex-col">
-                                    <h3 className="text-xl text-left font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
-                                    <p className="text-sm text-muted-foreground mt-1 text-left">{category.description}</p>
-                                    <div className="mt-4 text-left">
-                                        <Button asChild variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                                            <Link href="#">
-                                                More
-                                                <ArrowRight className="w-4 h-4 ml-2" />
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                                 <div className="relative aspect-[4/3] w-full mt-auto">
-                                    <Image
-                                    src={category.imageUrl}
-                                    alt={category.title}
-                                    data-ai-hint={category.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
+                            {donationCategories.map((category, index) => {
+                                const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
+                                return(
+                                <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                                    <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                                        <div className="relative aspect-[4/3] w-full">
+                                            <Image
+                                                src={category.imageUrl}
+                                                alt={category.title}
+                                                data-ai-hint={category.imageHint}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                            <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md">
+                                                {percentage.toFixed(1)}%
+                                            </div>
+                                        </div>
+                                        <CardContent className="p-6 flex-grow flex flex-col">
+                                            <h3 className="text-xl text-left font-bold">{category.title}</h3>
+                                            <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
+                                            
+                                            <div className="mt-4 space-y-2">
+                                                <div className="flex justify-between items-center text-sm font-semibold">
+                                                    <span className="text-muted-foreground">Goal:</span>
+                                                    <span className="text-primary">₹{category.goal.toLocaleString('en-IN')}</span>
+                                                </div>
+                                                 <div className="flex justify-between items-center text-sm font-semibold">
+                                                    <span className="text-muted-foreground">Raised:</span>
+                                                    <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-6 text-left">
+                                                <Button asChild variant="outline" className="font-bold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ease-in-out bg-amber-500 text-white hover:bg-amber-600 border-0">
+                                                    <Link href="#">
+                                                        READ MORE
+                                                    </Link>
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                                </Card>
-                            </div>
-                            ))}
+                            )})}
                         </div>
                     </div>
                 </div>
