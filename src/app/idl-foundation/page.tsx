@@ -389,7 +389,8 @@ export default function IDLFoundationPage() {
                             <p className="text-sm text-muted-foreground">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                         </div>
                         <div>
-                            <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
+                            <div className="w-full h-px mb-4" style={{ background: 'linear-gradient(to right, #ef4444 20%, #e5e7eb 20%)' }}></div>
                             <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
                                 <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a></li>
@@ -397,12 +398,21 @@ export default function IDLFoundationPage() {
                             </ul>
                         </div>
                         <div>
-                            <h3 className="text-lg font-semibold text-foreground mb-4">Follow Us</h3>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
+                            <div className="w-full h-px mb-4" style={{ background: 'linear-gradient(to right, #ef4444 20%, #e5e7eb 20%)' }}></div>
                             <div className="flex items-center gap-3">
-                                <Link href="#" className="text-muted-foreground hover:text-primary"><Instagram className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-muted-foreground hover:text-primary"><Facebook className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-muted-foreground hover:text-primary"><Twitter className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-muted-foreground hover:text-primary"><Linkedin className="w-5 h-5"/></Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+                                  <Instagram className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+                                  <Facebook className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
+                                  <Twitter className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
+                                  <Linkedin className="w-5 h-5"/>
+                                </Link>
                             </div>
                         </div>
                     </div>
