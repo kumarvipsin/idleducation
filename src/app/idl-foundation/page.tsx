@@ -10,13 +10,13 @@ import { Header } from "@/components/header";
 import { FoundationHero } from "@/components/landing/foundation-hero";
 
 const donationCategories = [
-    { title: "Skill Trainings", icon: <Briefcase className="w-8 h-8" /> },
-    { title: "Slum Children Education", icon: <Book className="w-8 h-8" /> },
-    { title: "Street Children Education", icon: <UserRound className="w-8 h-8" /> },
-    { title: "Environment / Tree Plantation", icon: <Trees className="w-8 h-8" /> },
-    { title: "Women Empowerment", icon: <Heart className="w-8 h-8" /> },
-    { title: "Medical Assistance", icon: <Plus className="w-8 h-8" /> },
-    { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" /> },
+    { title: "Skill Trainings", icon: <Briefcase className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "team training" },
+    { title: "Slum Children Education", icon: <Book className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying" },
+    { title: "Street Children Education", icon: <UserRound className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1620379357062-8531393b057b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "child reading" },
+    { title: "Environment / Tree Plantation", icon: <Trees className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree" },
+    { title: "Women Empowerment", icon: <Heart className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group" },
+    { title: "Medical Assistance", icon: <Plus className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient" },
+    { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1598411354366-052445e9f528?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people" },
 ];
 
 export default function IDLFoundationPage() {
@@ -26,9 +26,9 @@ export default function IDLFoundationPage() {
 
             <FoundationHero />
 
-            <section className="py-16 md:py-24 bg-white dark:bg-gray-800/20">
-                <div className="container mx-auto px-4 md:px-6">
-                     <div className="text-center mb-12">
+            <section className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+                <div className="container mx-auto px-4 md:px-[10%] mb-12">
+                    <div className="text-center">
                         <div className="flex justify-center mb-4">
                             <HandHeart className="w-12 h-12 text-primary" />
                         </div>
@@ -37,18 +37,35 @@ export default function IDLFoundationPage() {
                             Join us in making a difference. Your contribution can change lives.
                         </p>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                </div>
+                <div className="relative">
+                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
                         {donationCategories.map((category, index) => (
-                             <Card key={index} className="text-center group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                <CardContent className="p-6">
-                                    <div className="mx-auto h-16 w-16 mb-4 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                                        {category.icon}
-                                    </div>
-                                    <h3 className="text-sm md:text-base font-semibold text-foreground">{category.title}</h3>
-                                    <Button variant="outline" size="sm" className="mt-4 rounded-full">Donate</Button>
-                                </CardContent>
+                        <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                            <CardContent className="p-8 flex-grow flex flex-col">
+                                <div className="mx-auto h-16 w-16 mb-4 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                                    {category.icon}
+                                </div>
+                                <h3 className="text-xl text-center font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
+                                <div className="mt-4 text-center">
+                                    <Button variant="outline" size="sm" className="rounded-full">Donate</Button>
+                                </div>
+                            </CardContent>
+                             <div className="relative aspect-[4/3] w-full mt-auto">
+                                <Image
+                                src={category.imageUrl}
+                                alt={category.title}
+                                data-ai-hint={category.imageHint}
+                                fill
+                                className="object-cover"
+                                />
+                            </div>
                             </Card>
+                        </div>
                         ))}
+                    </div>
                     </div>
                 </div>
             </section>
