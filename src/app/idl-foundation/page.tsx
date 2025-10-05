@@ -36,14 +36,14 @@ const galleryImages = [
 ];
 
 const companies = [
-    { name: "DDU-GKY", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ddu-gky.png" },
-    { name: "Maulana Azad Education Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/maef.png" },
-    { name: "Ministry of Textiles", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ministry-of-textiles.png" },
-    { name: "Delhi Government", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/delhi-govt.png" },
+    { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
+    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
+    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
+    { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi-govt/200/100" },
 ];
 
 const people = [
-    { name: "Bhagwati Exports", logo: "https://ekhumfoundation.com/wp-content/uploads/2023/07/Bhagwati-Exports-1-1024x725.png" },
+    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/donor1/200/100" },
     { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
