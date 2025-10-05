@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -48,6 +48,40 @@ const stats = [
     { icon: UserCircle, count: 28, label: 'Members' },
     { icon: Handshake, count: 37, label: 'Volunteers' }
 ]
+
+const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    if (isPlaying) {
+        return (
+            <div className="aspect-video">
+                <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                    title={title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                ></iframe>
+            </div>
+        );
+    }
+
+    return (
+        <button onClick={() => setIsPlaying(true)} className="relative w-full aspect-video group cursor-pointer focus:outline-none">
+            <Image
+                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                alt={title}
+                fill
+                className="object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+            <div className="absolute inset-0 flex items-center justify-center">
+                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+            </div>
+        </button>
+    );
+};
 
 export default function IDLFoundationPage() {
     const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
@@ -272,6 +306,25 @@ export default function IDLFoundationPage() {
                     </DialogContent>
                 )}
             </Dialog>
+
+            <section className="w-full py-12 md:py-24 bg-background">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Events</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            Watch highlights from our recent events and see the impact we're making together.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="rounded-lg overflow-hidden shadow-lg">
+                            <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
+                        </div>
+                        <div className="rounded-lg overflow-hidden shadow-lg">
+                            <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </div>
     );
