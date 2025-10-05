@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle } from 'lucide-react';
+import { ChevronDown, BookOpen, ArrowRight, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle, Eye, Download } from 'lucide-react';
 import Link from 'next/link';
 import Image from "next/image";
 import { Badge } from '@/components/ui/badge';
@@ -19,13 +19,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { getExamCategories } from '@/app/actions/data';
-import { getTeachers } from '@/app/actions';
-import type { TExamCategory, TTopperTestimonial, VideoLesson } from '@/app/actions/types';
+import { getExamCategories, getTeachers, getSignedUrlForPdf } from '@/app/actions';
+import type { TExamCategory, VideoLesson } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { syllabusData, class6EnglishGrammarSyllabus } from '@/lib/syllabus-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -47,6 +47,36 @@ interface Teacher {
       facebook?: string;
       twitter?: string;
   };
+}
+
+const SyllabusActionButtons = ({ pdfUrl }: { pdfUrl?: string }) => {
+    const { toast } = useToast();
+
+    const handleAction = async () => {
+        if (!pdfUrl) {
+            toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+            return;
+        }
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            window.open(result.url, '_blank');
+        } else {
+            toast({ variant: 'destructive', title: 'Error', description: result.message });
+        }
+    };
+
+    return (
+        <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleAction}>
+                <Eye className="h-4 w-4" />
+                <span className="sr-only">View</span>
+            </Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleAction}>
+                <Download className="h-4 w-4" />
+                <span className="sr-only">Download</span>
+            </Button>
+        </div>
+    )
 }
 
 function SchoolPageContent() {
@@ -507,7 +537,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                             )}
-                            {activeClass === 'Class 7' && syllabusData[activeClass] && (
+                            {activeClass === 'Class 7' && (
                                 <div className="space-y-8">
                                     <Card className="mb-8">
                                         <CardHeader>
@@ -522,24 +552,29 @@ function SchoolPageContent() {
                                                     <TableRow className="bg-orange-500 hover:bg-orange-500/90">
                                                         <TableHead className="w-[100px] text-white">S.No.</TableHead>
                                                         <TableHead className="text-white">Subject-Wise Links CBSE | Class 7 | Syllabus 2025-26</TableHead>
+                                                        <TableHead className="text-right text-white">Actions</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
                                                     <TableRow>
                                                         <TableCell className="font-medium">1</TableCell>
                                                         <TableCell><Link href="#maths-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Maths</Link></TableCell>
+                                                        <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].maths.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                     <TableRow>
                                                         <TableCell className="font-medium">2</TableCell>
                                                         <TableCell><Link href="#science-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Science</Link></TableCell>
+                                                        <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].science.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                     <TableRow>
                                                         <TableCell className="font-medium">3</TableCell>
                                                         <TableCell><Link href="#english-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 English</Link></TableCell>
+                                                        <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].english.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                      <TableRow>
                                                         <TableCell className="font-medium">4</TableCell>
                                                         <TableCell><Link href="#social-science-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Social Science</Link></TableCell>
+                                                        <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].social.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                 </TableBody>
                                             </Table>
@@ -919,4 +954,3 @@ export default function SchoolPage() {
     </Suspense>
   );
 }
-
