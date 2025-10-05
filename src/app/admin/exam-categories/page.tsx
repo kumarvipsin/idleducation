@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -41,8 +40,8 @@ const ExamCategoryForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
-  const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || []);
-  const [syllabus, setSyllabus] = useState<SyllabusItem[]>(category?.syllabus || []);
+  const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
+  const [syllabus, setSyllabus] = useState<SyllabusItem[]>(category?.syllabus || [{ sno: '1', name: '', pdfUrl: '' }]);
   
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
@@ -52,8 +51,8 @@ const ExamCategoryForm = ({
   useEffect(() => {
     setSelectedGroup(category?.group);
     setSelectedTeacherIds(category?.teacherIds || []);
-    setVideoLessons(category?.videoLessons || []);
-    setSyllabus(category?.syllabus || [{ sno: '1', name: '', pdfUrl: '' }]);
+    setVideoLessons(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
+    setSyllabus(category?.syllabus && category.syllabus.length > 0 ? category.syllabus : [{ sno: '1', name: '', pdfUrl: '' }]);
     setPhotoPreview(null);
     setCroppedPhoto(null);
     setRemovePhoto(false);
@@ -143,10 +142,10 @@ const ExamCategoryForm = ({
   
   const handleSyllabusChange = (index: number, field: keyof SyllabusItem, value: string | File) => {
     const updatedSyllabus = [...syllabus];
-    if(field === 'pdfUrl' && value instanceof File) {
+    if (field === 'pdfUrl' && value instanceof File) {
         const fileInput = document.getElementsByName(`syllabus[${index}][pdf]`)[0] as HTMLInputElement;
-        if(fileInput?.files) {
-            updatedSyllabus[index][field] = URL.createObjectURL(fileInput.files[0]); // For preview
+        if (fileInput?.files) {
+            updatedSyllabus[index]['pdfUrl'] = URL.createObjectURL(fileInput.files[0]); // For preview only
         }
     } else {
         updatedSyllabus[index][field as 'sno' | 'name'] = value as string;
@@ -234,8 +233,8 @@ const ExamCategoryForm = ({
                         <div key={index} className="space-y-2 p-3 border rounded-md relative">
                             <Button type="button" variant="ghost" size="icon" className="absolute top-1 right-1 h-6 w-6" onClick={() => removeSyllabusItem(index)}><XCircle className="w-4 h-4 text-destructive" /></Button>
                             <div className="flex gap-2">
-                                <Input placeholder="S.No." name={`syllabus[${index}][sno]`} value={item.sno} onChange={(e) => handleSyllabusChange(index, 'sno', e.target.value)} className="w-16" />
-                                <Input placeholder="Syllabus Item Name" name={`syllabus[${index}][name]`} value={item.name} onChange={(e) => handleSyllabusChange(index, 'name', e.target.value)} />
+                                <Input placeholder="S.No." name={`syllabus[${index}][sno]`} defaultValue={item.sno} onChange={(e) => handleSyllabusChange(index, 'sno', e.target.value)} className="w-16" />
+                                <Input placeholder="Syllabus Item Name" name={`syllabus[${index}][name]`} defaultValue={item.name} onChange={(e) => handleSyllabusChange(index, 'name', e.target.value)} />
                             </div>
                             <Input name={`syllabus[${index}][pdf]`} type="file" accept=".pdf" onChange={(e) => handleSyllabusChange(index, 'pdfUrl', e.target.files ? e.target.files[0] : '')}/>
                              {item.pdfUrl && <p className="text-xs text-muted-foreground">Current file: {item.pdfUrl.split('/').pop()}</p>}
