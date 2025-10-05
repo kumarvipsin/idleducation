@@ -28,7 +28,7 @@ export default function IDLFoundationPage() {
             <div 
                 className="h-screen"
                 style={{
-                    background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
+                    background: 'linear-gradient(135deg, hsl(222, 84%, 20%) 0%, hsl(217, 91%, 60%) 100%)'
                 }}
             >
                 {/* The gradient background is now applied here */}
