@@ -354,7 +354,13 @@ export function Header() {
                     </span>}
                 </div>
               </Link>
-              {!isIdlFoundationPage && (
+              {isIdlFoundationPage ? (
+                 <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/">
+                        HOME
+                    </Link>
+                 </Button>
+              ) : (
                 <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
                     <DropdownMenu>
                           <DropdownMenuTrigger asChild>
