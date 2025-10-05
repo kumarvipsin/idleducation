@@ -37,15 +37,16 @@ export function AppContent({
     '/new-work',
     '/offline-centers',
     '/achievements',
-    '/idl-foundation',
     '/store',
   ];
+  
+  const isIdlFoundationPage = pathname === '/idl-foundation';
 
-  const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
-  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/about') && !pathname.startsWith('/contact') && !pathname.startsWith('/gallery');
+  const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage && !isIdlFoundationPage;
+  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/about') && !pathname.startsWith('/contact') && !pathname.startsWith('/gallery') && !isIdlFoundationPage;
 
 
-  if (isStudentPage || isTeacherPage || isAdminPage) {
+  if (isStudentPage || isTeacherPage || isAdminPage || isIdlFoundationPage) {
      return (
         <>
             {children}
