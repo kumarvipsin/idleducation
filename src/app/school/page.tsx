@@ -207,7 +207,7 @@ function SchoolPageContent() {
                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex gap-6 px-4 md:px-[10%]">
                         {activeTeachers.map((member, index) => (
-                            <div key={member.id} className="block flex-shrink-0 w-[280px] sm:w-[320px]">
+                            <div key={member.id} className="block flex-shrink-0 w-60 h-80">
                                 <TeacherCard 
                                     name={member.name}
                                     designation={member.designation || 'Teacher'}
@@ -558,22 +558,22 @@ function SchoolPageContent() {
                                                 <TableBody>
                                                     <TableRow>
                                                         <TableCell className="font-medium">1</TableCell>
-                                                        <TableCell><Link href="#maths-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Maths</Link></TableCell>
+                                                        <TableCell>CBSE Syllabus for Class 7 Maths</TableCell>
                                                         <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].maths.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                     <TableRow>
                                                         <TableCell className="font-medium">2</TableCell>
-                                                        <TableCell><Link href="#science-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Science</Link></TableCell>
+                                                        <TableCell>CBSE Syllabus for Class 7 Science</TableCell>
                                                         <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].science.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                     <TableRow>
                                                         <TableCell className="font-medium">3</TableCell>
-                                                        <TableCell><Link href="#english-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 English</Link></TableCell>
+                                                        <TableCell>CBSE Syllabus for Class 7 English</TableCell>
                                                         <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].english.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                      <TableRow>
                                                         <TableCell className="font-medium">4</TableCell>
-                                                        <TableCell><Link href="#social-science-syllabus-7" className="text-blue-600 hover:underline">CBSE Syllabus for Class 7 Social Science</Link></TableCell>
+                                                        <TableCell>CBSE Syllabus for Class 7 Social Science</TableCell>
                                                         <TableCell className="text-right"><SyllabusActionButtons pdfUrl={syllabusData[activeClass].social.pdfUrl} /></TableCell>
                                                     </TableRow>
                                                 </TableBody>
