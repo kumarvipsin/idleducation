@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card } from "@/components/ui/card";
@@ -14,9 +13,9 @@ const companies = [
 
 const people = [
     { name: "Bhagwati Exports", logo: "https://ekhumfoundation.com/wp-content/uploads/2023/07/Bhagwati-Exports-1-1024x725.png" },
-    { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
-    { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
-    { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
+    { name: "Another Donor", logo: "https://picsum.photos/seed/donor10/200/100" },
+    { name: "New Foundation", logo: "https://picsum.photos/seed/foundation11/200/100" },
+    { name: "Charity Plus", logo: "https://picsum.photos/seed/charity12/200/100" },
 ];
 
 export function Donors() {
