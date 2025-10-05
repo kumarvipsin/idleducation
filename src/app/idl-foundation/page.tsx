@@ -57,10 +57,10 @@ const team = [
 ];
 
 const stats = [
-    { count: 143703, label: 'Visitors' },
-    { count: 255, label: 'Donors', plus: true },
-    { count: 28, label: 'Members' },
-    { count: 37, label: 'Volunteers' }
+    { count: '143 K+', label: 'Visitors' },
+    { count: '255+', label: 'Donors' },
+    { count: '28', label: 'Members' },
+    { count: '37', label: 'Volunteers' }
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
@@ -287,9 +287,9 @@ export default function IDLFoundationPage() {
                     <div className="container mx-auto px-4 md:px-6">
                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {stats.map((stat, index) => (
-                                <Card key={index} className="text-center p-4 bg-transparent border-0 shadow-none">
+                                <Card key={index} className="text-center p-4 bg-transparent border-2 border-primary/10 shadow-sm">
                                     <p className="text-3xl md:text-4xl font-bold text-primary">
-                                        {stat.count.toLocaleString()}{stat.plus && '+'}
+                                        {stat.count}
                                     </p>
                                     <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
                                 </Card>
@@ -301,6 +301,11 @@ export default function IDLFoundationPage() {
             <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
+                        <div className="flex justify-center mb-4">
+                            <div className="bg-primary/10 p-4 rounded-full">
+                                <Handshake className="w-12 h-12 text-primary" />
+                            </div>
+                        </div>
                         <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Our Donors</h2>
                     </div>
                     <div className="space-y-8">
@@ -352,6 +357,11 @@ export default function IDLFoundationPage() {
                 <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-8">
+                            <div className="flex justify-center mb-4">
+                                <div className="bg-primary/10 p-4 rounded-full">
+                                    <ImageIcon className="w-12 h-12 text-primary" />
+                                </div>
+                            </div>
                             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Glimpses of Our Work</h2>
                             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                                 A visual journey through our impactful initiatives and community engagements.
@@ -413,6 +423,11 @@ export default function IDLFoundationPage() {
             <section className="w-full py-8 bg-background">
               <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-8">
+                   <div className="flex justify-center mb-4">
+                        <div className="bg-primary/10 p-4 rounded-full">
+                            <Video className="w-12 h-12 text-primary" />
+                        </div>
+                    </div>
                   <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
                   <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                     Watch highlights from our recent events and see the impact we're making together.
@@ -442,6 +457,11 @@ export default function IDLFoundationPage() {
              <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
+                        <div className="flex justify-center mb-4">
+                            <div className="bg-primary/10 p-4 rounded-full">
+                                <BookOpen className="w-12 h-12 text-primary" />
+                            </div>
+                        </div>
                         <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Our commitment to creating a better society through education and empowerment.
@@ -479,37 +499,35 @@ export default function IDLFoundationPage() {
             </section>
             
              <section className="w-full py-8 bg-background">
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-8">
-                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
-                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                            The dedicated individuals leading our mission forward.
-                        </p>
-                    </div>
-                    <div className="relative">
-                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                            <div className="flex gap-6 px-4 md:px-[10%]">
-                                {team.map((member, index) => (
-                                    <div key={index} className="block flex-shrink-0 w-64 group">
-                                        <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
-                                            <div className="relative w-full aspect-square">
-                                                <Image
-                                                    src={member.image}
-                                                    alt={member.name}
-                                                    data-ai-hint="person headshot"
-                                                    fill
-                                                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                                                />
-                                            </div>
-                                            <CardContent className="p-4">
-                                                <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
-                                                <p className="text-xs text-muted-foreground">{member.role}</p>
-                                                <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-                                ))}
-                            </div>
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        The dedicated individuals leading our mission forward.
+                    </p>
+                </div>
+                <div className="relative">
+                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <div className="flex gap-6 px-4 md:px-[10%]">
+                            {team.map((member, index) => (
+                                <div key={index} className="block flex-shrink-0 w-64 group">
+                                    <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
+                                        <div className="relative w-full aspect-square">
+                                            <Image
+                                                src={member.image}
+                                                alt={member.name}
+                                                data-ai-hint="person headshot"
+                                                fill
+                                                className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                                            />
+                                        </div>
+                                        <CardContent className="p-4">
+                                            <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                                            <p className="text-xs text-muted-foreground">{member.role}</p>
+                                            <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
