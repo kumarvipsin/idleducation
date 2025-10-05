@@ -355,7 +355,7 @@ export function Header() {
                 </div>
               </Link>
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
-                  {!isIdlFoundationPage && (
+                  {!isIdlFoundationPage ? (
                     <>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -407,10 +407,16 @@ export function Header() {
                         <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                         {notificationDropdown}
                     </>
+                  ) : (
+                    <div className="flex items-center gap-x-4 text-xs font-semibold text-foreground">
+                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                    </div>
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage && (
+                  {!isIdlFoundationPage ? (
                     <>
                     <Link href="/store" className='text-foreground'>
                         <ShoppingBag className="h-4 w-4" />
@@ -418,6 +424,12 @@ export function Header() {
                     </Link>
                     {notificationDropdown}
                     </>
+                  ) : (
+                     <div className="flex items-center gap-x-2 text-xs font-semibold text-foreground">
+                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /></a>
+                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /></a>
+                    </div>
                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
