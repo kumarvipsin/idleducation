@@ -47,10 +47,10 @@ const people = [
 ];
 
 const stats = [
-  { icon: Users, count: 143703, label: 'Visitors' },
-  { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
-  { icon: UserCircle, count: 28, label: 'Members' },
-  { icon: Handshake, count: 37, label: 'Volunteers' }
+    { icon: Users, count: 143703, label: 'Visitors' },
+    { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
+    { icon: UserCircle, count: 28, label: 'Members' },
+    { icon: Handshake, count: 37, label: 'Volunteers' }
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
@@ -159,20 +159,16 @@ export default function IDLFoundationPage() {
                                         <div className="py-4 space-y-4">
                                             <p className="text-center font-semibold">You are donating to "{donationCategory}".</p>
                                             <div className="space-y-2">
-                                                <Label htmlFor="name">Name (Optional)</Label>
-                                                <Input id="name" name="name" placeholder="Your Name" value={donorDetails.name} onChange={handleDetailChange} />
+                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} />
                                             </div>
                                              <div className="space-y-2">
-                                                <Label htmlFor="contact">Contact (Optional)</Label>
-                                                <Input id="contact" name="contact" placeholder="Your Contact Number" value={donorDetails.contact} onChange={handleDetailChange} />
+                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} />
                                             </div>
                                              <div className="space-y-2">
-                                                <Label htmlFor="email">Email (Optional)</Label>
-                                                <Input id="email" name="email" type="email" placeholder="Your Email Address" value={donorDetails.email} onChange={handleDetailChange} />
+                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} />
                                             </div>
                                              <div className="space-y-2">
-                                                <Label htmlFor="place">Place (Optional)</Label>
-                                                <Input id="place" name="place" placeholder="Your City/State" value={donorDetails.place} onChange={handleDetailChange} />
+                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} />
                                             </div>
                                             <Button onClick={() => alert('Redirecting to payment gateway...')} className="w-full bg-green-600 hover:bg-green-700">
                                                 <Banknote className="mr-2 h-4 w-4" />
@@ -219,10 +215,10 @@ export default function IDLFoundationPage() {
                                                     <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
                                                 <div className="space-y-1">
-                                                <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
-                                                <div className="text-right text-xs font-bold text-green-600">
-                                                    {Math.round(percentage)}%
-                                                </div>
+                                                    <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
+                                                    <div className="text-right text-xs font-bold text-green-600">
+                                                        {Math.round(percentage)}%
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -242,9 +238,9 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:bg-card dark:text-gray-300">
+            <section className="w-full py-8 md:py-12 bg-white dark:bg-card text-gray-800 dark:text-gray-300">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
                             <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                 <stat.icon className="w-8 h-8 mx-auto text-primary mb-2"/>
