@@ -93,7 +93,7 @@ export default function IDLFoundationPage() {
 
             <FoundationHero slides={donationCategories} />
             
-            <section className="w-full relative py-12 md:py-24 bg-white dark:bg-gray-800/20">
+            <section className="w-full relative py-8 md:py-16 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
@@ -169,7 +169,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-12 md:py-20 bg-primary text-primary-foreground">
+            <section className="w-full py-8 md:py-16 bg-primary text-primary-foreground">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {stats.map((stat, index) => (
@@ -185,7 +185,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
             
-            <section className="w-full py-12 md:py-24 bg-background">
+            <section className="w-full py-8 md:py-16 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
@@ -241,7 +241,7 @@ export default function IDLFoundationPage() {
             </section>
 
             <Dialog>
-                <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-800/20">
+                <section className="w-full py-8 md:py-16 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-12">
                             <div className="flex justify-center mb-4">
@@ -307,7 +307,7 @@ export default function IDLFoundationPage() {
                 )}
             </Dialog>
 
-            <section className="w-full py-12 md:py-24 bg-background">
+            <section className="w-full py-8 md:py-16 bg-background">
               <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
                    <div className="flex justify-center mb-4">
@@ -344,7 +344,7 @@ export default function IDLFoundationPage() {
               </div>
             </section>
 
-             <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-800/20">
+             <section className="w-full py-8 md:py-16 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
