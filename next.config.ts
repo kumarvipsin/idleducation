@@ -94,6 +94,12 @@ const nextConfig: NextConfig = {
         hostname: 's3.ap-south-1.amazonaws.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ekhumfoundation.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
