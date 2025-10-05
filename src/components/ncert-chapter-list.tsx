@@ -26,12 +26,13 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
         e.stopPropagation();
         if (!pdfUrl) return;
         setIsLoading(true);
+        setIsDialogOpen(true); // Open dialog immediately
         const result = await getSignedUrlForPdf(pdfUrl);
         if (result.success && result.url) {
             setPdfSrc(result.url);
-            setIsDialogOpen(true);
         } else {
             toast({ variant: "destructive", title: "Error", description: result.message });
+            setIsDialogOpen(false); // Close dialog on error
         }
         setIsLoading(false);
     };
@@ -47,10 +48,12 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
                 <DialogHeader className="sr-only">
                     <DialogTitle>PDF Viewer</DialogTitle>
                 </DialogHeader>
-                {pdfSrc ? (
-                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
+                {isLoading || !pdfSrc ? (
+                    <div className="flex items-center justify-center h-full">
+                        <p>Loading PDF...</p>
+                    </div>
                 ) : (
-                    <p>Loading PDF...</p>
+                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
                 )}
             </DialogContent>
         </Dialog>
@@ -68,8 +71,6 @@ const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
         setIsLoading(true);
         const result = await getSignedUrlForPdf(pdfUrl);
         if (result.success && result.url) {
-            // In a real scenario, you might want to trigger a download differently.
-            // For simplicity, we open it, and the user can save from there.
             window.open(result.url, '_blank');
         } else {
             toast({ variant: "destructive", title: "Error", description: result.message });
@@ -264,3 +265,5 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
     </>
   );
 }
+
+    
