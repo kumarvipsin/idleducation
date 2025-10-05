@@ -61,7 +61,9 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                             <div className="space-y-4 text-white">
                                 <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
-                                   {slide.title}
+                                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                                      {slide.title}
+                                    </span>
                                 </h1>
                                 <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
                                     {slide.description}
