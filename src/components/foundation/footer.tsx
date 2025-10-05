@@ -17,7 +17,6 @@ const socialLinks = [
     { href: "#", label: "Instagram", icon: <Instagram className="w-5 h-5"/> },
     { href: "#", label: "Facebook", icon: <Facebook className="w-5 h-5"/> },
     { href: "#", label: "YouTube", icon: <Youtube className="w-5 h-5"/> },
-    { href: "#", label: "LinkedIn", icon: <Linkedin className="w-5 h-5"/> },
 ];
 
 export function FoundationFooter() {
@@ -50,6 +49,7 @@ export function FoundationFooter() {
                     {/* Column 3: Contact Us */}
                     <div>
                         <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
+                        <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                             <li className="flex items-start gap-2">
                                 <MapPin className="w-4 h-4 mt-1 shrink-0" />
@@ -69,6 +69,7 @@ export function FoundationFooter() {
                     {/* Column 4: Follow Us */}
                     <div>
                         <h3 className="text-lg font-semibold text-foreground mb-4">Follow Us</h3>
+                        <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                         <div className="flex items-center gap-3">
                             {socialLinks.map(link => (
                                 <Link key={link.label} href={link.href} className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label={link.label}>
