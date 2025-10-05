@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart } from "lucide-react";
@@ -347,11 +346,11 @@ export function Header() {
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
                     <span className="text-sm font-bold text-primary">
-                        {brandName}
+                        {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                     </span>
-                    <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
+                    {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
                       (Institute of Distance Learning Pvt. Ltd.)
-                    </span>
+                    </span>}
                 </div>
               </Link>
               <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
@@ -406,7 +405,7 @@ export function Header() {
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage ? (
+                  {!isIdlFoundationPage && (
                     <>
                     <Link href="/store" className='text-foreground'>
                         <ShoppingBag className="h-4 w-4" />
@@ -414,13 +413,7 @@ export function Header() {
                     </Link>
                     {notificationDropdown}
                     </>
-                  ) : (
-                    <Button asChild variant="ghost" size="icon" className="text-foreground">
-                        <Link href="/">
-                            <HomeIcon className="h-5 w-5" />
-                        </Link>
-                    </Button>
-                   )}
+                  )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
@@ -434,53 +427,55 @@ export function Header() {
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
               <div className="border-t bg-background">
-                <div className="p-2">
-                  <nav className="grid grid-cols-3 gap-1 text-base font-medium">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                                Menu
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {navLinks.map(({ href, label }) => (
-                                <DropdownMenuItem asChild key={href}>
-                                    <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                                APPLY FOR
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem asChild>
-                                <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                        <span className="sm:inline">{t('login')}</span>
-                    </Link>
-                    </Button>
-                  </nav>
-                </div>
+                {!isIdlFoundationPage && (
+                  <div className="p-2">
+                    <nav className="grid grid-cols-3 gap-1 text-base font-medium">
+                      <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                  Menu
+                              </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                              {navLinks.map(({ href, label }) => (
+                                  <DropdownMenuItem asChild key={href}>
+                                      <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
+                                  </DropdownMenuItem>
+                              ))}
+                          </DropdownMenuContent>
+                      </DropdownMenu>
+                      <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                                  APPLY FOR
+                              </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                              <DropdownMenuItem asChild>
+                                  <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                  <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                  <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                  <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                  <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
+                              </DropdownMenuItem>
+                          </DropdownMenuContent>
+                      </DropdownMenu>
+                      <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
+                      <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                          <span className="sm:inline">{t('login')}</span>
+                      </Link>
+                      </Button>
+                    </nav>
+                  </div>
+                )}
                 {renderMobileAuthSection()}
               </div>
             </div>
