@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,20 @@ const heroSlides = [
     hint: "volunteers community",
     title: "Community Upliftment",
     description: "Working together to build stronger communities."
+  },
+  {
+    src: "https://picsum.photos/seed/foundation4/1920/1080",
+    alt: "A single lightbulb glowing",
+    hint: "idea lightbulb",
+    title: "Igniting Minds",
+    description: "Education is the most powerful weapon which you can use to change the world.",
+  },
+  {
+    src: "https://picsum.photos/seed/foundation5/1920/1080",
+    alt: "Hands holding a small plant",
+    hint: "growth plant",
+    title: "Nurturing Growth",
+    description: "The foundation of every state is the education of its youth.",
   },
 ]
 
@@ -78,7 +93,7 @@ export function FoundationHero() {
                   fill
                   className="object-cover"
                 />
-                 <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
+                 <div className="absolute inset-0 bg-black/70 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
@@ -113,3 +128,4 @@ export function FoundationHero() {
     </section>
   );
 }
+
