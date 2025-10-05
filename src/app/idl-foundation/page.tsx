@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -149,7 +150,12 @@ export default function IDLFoundationPage() {
                                                     <span className="text-muted-foreground">Raised:</span>
                                                     <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
-                                                <Progress value={percentage} className="mt-2 h-2 [&>div]:bg-green-500" />
+                                                <div className="relative pt-1">
+                                                    <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
+                                                    <div className="absolute top-0 right-0 -mt-4 text-xs font-bold text-green-600">
+                                                        {Math.round(percentage)}%
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div className="mt-6 text-left">
@@ -168,19 +174,19 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white dark:bg-card text-gray-800 dark:text-gray-300">
-              <div className="container mx-auto px-4 md:px-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {stats.map((stat, index) => (
-                    <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-800/50 border-none rounded-lg shadow-sm">
-                      <p className="text-3xl md:text-4xl font-bold text-primary">
-                          {stat.count.toLocaleString()}{stat.plus && '+'}
-                      </p>
-                      <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
-                    </Card>
-                  ))}
+            <section className="w-full py-8 md:py-12 bg-background text-foreground">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {stats.map((stat, index) => (
+                            <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-800/50 border-none rounded-lg shadow-sm">
+                            <p className="text-3xl md:text-4xl font-bold text-primary">
+                                {stat.count.toLocaleString()}{stat.plus && '+'}
+                            </p>
+                            <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
-              </div>
             </section>
             
             <section className="w-full py-8 bg-background">
