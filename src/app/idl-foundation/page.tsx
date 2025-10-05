@@ -15,7 +15,7 @@ const donationCategories = [
     { title: "Environment / Tree Plantation", icon: <Trees className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree" },
     { title: "Women Empowerment", icon: <Heart className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group" },
     { title: "Medical Assistance", icon: <Save className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient" },
-    { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1598411354366-052445e9f528?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people" },
+    { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" />, imageUrl: "https://images.unsplash.com/photo-1598411354366-052445e90f528?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people" },
 ];
 
 export default function IDLFoundationPage() {
@@ -24,14 +24,14 @@ export default function IDLFoundationPage() {
             <Header />
 
             <FoundationHero />
-
+            
             <section className="w-full relative py-12 md:py-24 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
                             <HandHeart className="w-12 h-12 text-primary" />
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">Make World Happier</h1>
+                        <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">A Helping Hand for a Brighter Future</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
@@ -49,7 +49,7 @@ export default function IDLFoundationPage() {
                                 </div>
                                 <h3 className="text-xl text-center font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
                                 <div className="mt-4 text-center">
-                                    <Button variant="outline" size="sm" className="rounded-full">Donate</Button>
+                                    <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-green-500 text-white hover:bg-green-600">Donate</Button>
                                 </div>
                             </CardContent>
                              <div className="relative aspect-[4/3] w-full mt-auto">
