@@ -1,10 +1,10 @@
-
 'use client';
 
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
+import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -46,7 +46,8 @@ const TeamMemberCard = ({ member }: { member: typeof team[0] }) => (
 );
 
 export function Team() {
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 });
+    const autoplayPlugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true, stopOnMouseEnter: true }));
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 }, [autoplayPlugin.current]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const scrollTo = useCallback(
