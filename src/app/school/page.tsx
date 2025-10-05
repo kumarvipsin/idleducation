@@ -283,7 +283,7 @@ function SchoolPageContent() {
                                             <TableRow key={item.sno}>
                                                 <TableCell className="font-medium">{item.sno}</TableCell>
                                                 <TableCell>
-                                                  <span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
+                                                  <span className="font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
                                                     {item.name}
                                                   </span>
                                                 </TableCell>
@@ -313,9 +313,7 @@ function SchoolPageContent() {
         </div>
          <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
              <DialogContent className="max-w-4xl h-[90vh] p-2">
-                <DialogHeader className="p-2">
-                    <DialogTitle className="truncate">{dialogTitle}</DialogTitle>
-                </DialogHeader>
+                <p className="p-2 text-sm font-semibold truncate">{dialogTitle}</p>
                 {isLoadingPdf || !pdfSrc ? (
                     <div className="flex items-center justify-center h-full">
                         <p>Loading PDF...</p>
