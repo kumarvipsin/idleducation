@@ -151,10 +151,10 @@ export default function IDLFoundationPage() {
                                                     <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
-                                                    <div className="text-right text-xs font-bold text-green-600">
-                                                        {Math.round(percentage)}%
-                                                    </div>
+                                                <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
+                                                <div className="text-right text-xs font-bold text-green-600">
+                                                    {Math.round(percentage)}%
+                                                </div>
                                                 </div>
                                             </div>
 
@@ -174,11 +174,11 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
+            <section className="w-full py-8 md:py-12 bg-background text-foreground">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
-                            <Card key={index} className="text-center p-4 bg-transparent border-none shadow-none">
+                            <Card key={index} className="text-center p-4 bg-muted/30 rounded-lg">
                                 <p className="text-3xl md:text-4xl font-bold text-primary">
                                     {stat.count.toLocaleString()}{stat.plus && '+'}
                                 </p>
