@@ -1,8 +1,7 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Eye, Target } from "lucide-react";
+import { Eye, Target, Zap, TrendingUp } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export function About() {
@@ -15,7 +14,7 @@ export function About() {
                         Our commitment to creating a better society through education and empowerment.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                         <CardContent className="p-8 text-center flex flex-col items-center">
                             <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
@@ -23,7 +22,7 @@ export function About() {
                             </div>
                             <h3 className="text-2xl font-bold text-foreground mb-2">Our Vision</h3>
                             <p className="text-muted-foreground text-sm leading-relaxed">
-                                To create a world where every individual has the opportunity to achieve their full potential through quality education and skill development, fostering a society of empowered, self-reliant, and responsible citizens.
+                                To create a world where every individual has the opportunity to achieve their full potential through quality education and skill development.
                             </p>
                         </CardContent>
                     </Card>
@@ -34,7 +33,29 @@ export function About() {
                             </div>
                             <h3 className="text-2xl font-bold text-foreground mb-2">Our Mission</h3>
                             <p className="text-muted-foreground text-sm leading-relaxed">
-                                To provide accessible and innovative educational programs, vocational training, and healthcare support to underprivileged communities, with a special focus on children, women, and the elderly, enabling them to lead a life of dignity and respect.
+                                To provide accessible and innovative educational programs, vocational training, and healthcare support to underprivileged communities.
+                            </p>
+                        </CardContent>
+                    </Card>
+                     <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <CardContent className="p-8 text-center flex flex-col items-center">
+                             <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
+                                <Zap className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-foreground mb-2">Our Approach</h3>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                                We believe in a holistic approach, combining technology and grassroots efforts to create sustainable and scalable solutions for social change.
+                            </p>
+                        </CardContent>
+                    </Card>
+                     <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <CardContent className="p-8 text-center flex flex-col items-center">
+                             <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
+                                <TrendingUp className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-foreground mb-2">Our Impact</h3>
+                            <p className="text-muted-foreground text-sm leading-relaxed">
+                                We have touched thousands of lives through our programs, providing education, skills, and opportunities for a better future.
                             </p>
                         </CardContent>
                     </Card>
