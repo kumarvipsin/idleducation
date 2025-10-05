@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -151,7 +150,7 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                         <div className="mt-12">
-                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">200+ People</h3>
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">100+ People</h3>
                             <div className="w-full overflow-hidden">
                                 <div className="flex animate-marquee-scroll-reverse">
                                     {[...people, ...people].map((donor, index) => (
