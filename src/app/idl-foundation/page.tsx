@@ -425,7 +425,7 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-8 border-t border-gray-700 pt-4 text-center text-xs text-gray-500">
+                    <div className="mt-4 border-t border-gray-700 pt-2 text-center text-xs text-gray-500">
                         <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
                     </div>
                 </div>
