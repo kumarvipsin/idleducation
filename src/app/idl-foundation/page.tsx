@@ -64,10 +64,8 @@ const stats = [
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-
     return (
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog>
             <DialogTrigger asChild>
                 <button className="relative w-full aspect-video group cursor-pointer focus:outline-none">
                     <Image
@@ -264,7 +262,7 @@ export default function IDLFoundationPage() {
                                                         <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
+                                                        <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
                                                          <p className="text-xs text-muted-foreground text-right">{Math.round(percentage)}%</p>
                                                     </div>
                                                 </div>
@@ -299,284 +297,279 @@ export default function IDLFoundationPage() {
                         </div>
                     </div>
                 </section>
-                
-                <section className="w-full py-8 bg-background">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <div className="text-center mb-8">
-                            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Our Donors</h2>
-                        </div>
-                        <div className="space-y-8">
-                            <div>
-                                <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">10+ Companies and Organizations</h3>
-                                <div className="w-full overflow-hidden">
-                                    <div className="flex animate-marquee-scroll-reverse">
-                                        {[...companies, ...companies].map((donor, index) => (
-                                            <Card key={`company-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
-                                                <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
-                                                <div className="relative h-12 w-20 ml-4">
-                                                    <Image
-                                                        src={donor.logo}
-                                                        alt={`${donor.name} logo`}
-                                                        fill
-                                                        className="object-contain"
-                                                    />
-                                                </div>
-                                            </Card>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-8">
-                                <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">100+ People</h3>
-                                <div className="w-full overflow-hidden">
-                                    <div className="flex animate-marquee-scroll">
-                                        {[...people, ...people].map((donor, index) => (
-                                            <Card key={`person-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
-                                                <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
-                                                <div className="relative h-12 w-20 ml-4">
-                                                    <Image
-                                                        src={donor.logo}
-                                                        alt={`${donor.name} logo`}
-                                                        fill
-                                                        className="object-contain"
-                                                    />
-                                                </div>
-                                            </Card>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <Dialog>
-                    <section className="w-full py-8 bg-white dark:bg-gray-800/20">
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-8">
-                                <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Glimpses of Our Work</h2>
-                                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                                    A visual journey through our impactful initiatives and community engagements.
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {galleryImages.map((image, index) => (
-                                    <DialogTrigger asChild key={index}>
-                                        <div 
-                                            className="relative aspect-square rounded-lg overflow-hidden shadow-lg group cursor-pointer"
-                                            onClick={() => setSelectedImage(image)}
-                                        >
-                                            <Image
-                                                src={image.src}
-                                                alt={image.alt}
-                                                data-ai-hint={image.hint}
-                                                fill
-                                                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                                            />
-                                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-center">
-                                                <h3 className="text-white font-bold text-lg">{image.title}</h3>
-                                            </div>
-                                            <div className="absolute top-2 right-2 p-2 bg-background/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                <Plus className="w-4 h-4 text-foreground" />
-                                            </div>
-                                        </div>
-                                    </DialogTrigger>
-                                ))}
-                            </div>
-                            <div className="text-center mt-8">
-                                <Button asChild variant="outline" className="rounded-full">
-                                    <Link href="/idl-foundation/gallery">
-                                        VIEW ALL
-                                    </Link>
-                                </Button>
-                            </div>
-                        </div>
-                    </section>
-                    {selectedImage && (
-                        <DialogContent className="sm:max-w-3xl p-2">
-                            <DialogHeader>
-                                <DialogTitle className="sr-only">{selectedImage.title}</DialogTitle>
-                            </DialogHeader>
-                            <div className="relative aspect-video">
-                                <Image
-                                    src={selectedImage.src}
-                                    alt={selectedImage.alt}
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
-                            <div className="p-4 bg-muted/50 rounded-b-lg">
-                                <h3 className="font-bold text-lg">{selectedImage.title}</h3>
-                            </div>
-                        </DialogContent>
-                    )}
-                </Dialog>
-
-                <section className="w-full py-8 bg-background">
+            
+            <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
-                      <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
-                      <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                        Watch highlights from our recent events and see the impact we're making together.
-                      </p>
+                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Our Donors</h2>
                     </div>
-                    <div className="relative">
-                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4 md:px-[10%]">
-                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
-                          </div>
-                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
-                          </div>
-                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
-                          </div>
-                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
-                          </div>
-                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="3JZ_D3p_L4A" title="Women Empowerment Seminar" />
-                          </div>
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">10+ Companies and Organizations</h3>
+                            <div className="w-full overflow-hidden">
+                                <div className="flex animate-marquee-scroll-reverse">
+                                    {[...companies, ...companies].map((donor, index) => (
+                                        <Card key={`company-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
+                                            <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                            <div className="relative h-12 w-20 ml-4">
+                                                <Image
+                                                    src={donor.logo}
+                                                    alt={`${donor.name} logo`}
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    </div>
-                </div>
-                </section>
-
-                 <section className="w-full py-8 bg-white dark:bg-gray-800/20">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <div className="text-center mb-8">
-                            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
-                            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                                Our commitment to creating a better society through education and empowerment.
-                            </p>
-                        </div>
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                                <CardContent className="p-8 text-center">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="bg-primary/10 text-primary p-4 rounded-full">
-                                            <Eye className="w-8 h-8" />
-                                        </div>
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-foreground mb-2">Our Vision</h3>
-                                    <p className="text-muted-foreground">
-                                        To create a world where every individual has the opportunity to achieve their full potential through quality education and skill development, fostering a society of empowered, self-reliant, and responsible citizens.
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                                 <CardContent className="p-8 text-center">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="bg-primary/10 text-primary p-4 rounded-full">
-                                            <Target className="w-8 h-8" />
-                                        </div>
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-foreground mb-2">Our Mission</h3>
-                                    <p className="text-muted-foreground">
-                                        To provide accessible and innovative educational programs, vocational training, and healthcare support to underprivileged communities, with a special focus on children, women, and the elderly, enabling them to lead a life of dignity and respect.
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
-                </section>
-                
-                 <section className="w-full py-8 bg-background">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <div className="text-center mb-8">
-                            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
-                            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                                The dedicated individuals leading our mission forward.
-                            </p>
-                        </div>
-                        <div className="relative">
-                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                <div className="flex gap-6 px-4 md:px-[10%]">
-                                    {team.map((member, index) => (
-                                        <div key={index} className="block flex-shrink-0 w-64 group">
-                                            <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
-                                                <div className="relative w-full aspect-square">
-                                                    <Image
-                                                        src={member.image}
-                                                        alt={member.name}
-                                                        data-ai-hint="person headshot"
-                                                        fill
-                                                        className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                                                    />
-                                                </div>
-                                                <CardContent className="p-4">
-                                                    <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
-                                                    <p className="text-xs text-muted-foreground">{member.role}</p>
-                                                    <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
+                        <div className="mt-8">
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">100+ People</h3>
+                            <div className="w-full overflow-hidden">
+                                <div className="flex animate-marquee-scroll">
+                                    {[...people, ...people].map((donor, index) => (
+                                        <Card key={`person-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
+                                            <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                            <div className="relative h-12 w-20 ml-4">
+                                                <Image
+                                                    src={donor.logo}
+                                                    alt={`${donor.name} logo`}
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </Card>
                                     ))}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-
-                <footer className="bg-background text-gray-800 dark:text-gray-300">
-                    <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-                    <div className="container mx-auto px-4 md:px-6 py-6">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div>
-                                 <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
-                                    <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
-                                    <span className="text-lg font-bold text-primary">IDL FOUNDATION</span>
-                                </Link>
-                                <p className="text-sm text-muted-foreground">A non-profit organization dedicated to empowering communities through education and skill development.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
-                                <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
-                                <ul className="space-y-2 text-sm text-muted-foreground">
-                                    <li className="flex items-start gap-2">
-                                        <MapPin className="w-4 h-4 mt-1 shrink-0"/>
-                                        <span>Y-25A Budh Vihar, Delhi-110086</span>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Phone className="w-4 h-4"/>
-                                        <a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a>
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <Mail className="w-4 h-4"/>
-                                        <a href="mailto:info@idlfoundation.in" className="hover:text-primary hover:underline">info@idlfoundation.in</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
-                                <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
-                                <div className="flex items-center gap-3">
-                                    <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
-                                      <Instagram className="w-5 h-5"/>
-                                    </Link>
-                                    <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
-                                      <Facebook className="w-5 h-5"/>
-                                    </Link>
-                                    <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
-                                      <Twitter className="w-5 h-5"/>
-                                    </Link>
-                                    <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
-                                      <Linkedin className="w-5 h-5"/>
-                                    </Link>
-                                </div>
-                            </div>
+            <Dialog>
+                <section className="w-full py-8 bg-white dark:bg-gray-800/20">
+                    <div className="container mx-auto px-4 md:px-6">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Glimpses of Our Work</h2>
+                            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                                A visual journey through our impactful initiatives and community engagements.
+                            </p>
                         </div>
-                        <div className="mt-6 border-t border-gray-700 py-2 text-center text-xs text-gray-500">
-                            <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {galleryImages.map((image, index) => (
+                                <DialogTrigger asChild key={index}>
+                                    <div 
+                                        className="relative aspect-square rounded-lg overflow-hidden shadow-lg group cursor-pointer"
+                                        onClick={() => setSelectedImage(image)}
+                                    >
+                                        <Image
+                                            src={image.src}
+                                            alt={image.alt}
+                                            data-ai-hint={image.hint}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 text-center">
+                                            <h3 className="text-white font-bold text-lg">{image.title}</h3>
+                                        </div>
+                                        <div className="absolute top-2 right-2 p-2 bg-background/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <Plus className="w-4 h-4 text-foreground" />
+                                        </div>
+                                    </div>
+                                </DialogTrigger>
+                            ))}
+                        </div>
+                        <div className="text-center mt-8">
+                            <Button asChild variant="outline" className="rounded-full">
+                                <Link href="/idl-foundation/gallery">
+                                    VIEW ALL
+                                </Link>
+                            </Button>
                         </div>
                     </div>
-                </footer>
-            </div>
-        </>
+                </section>
+                {selectedImage && (
+                    <DialogContent className="sm:max-w-3xl p-2">
+                        <DialogHeader>
+                            <DialogTitle className="sr-only">{selectedImage.title}</DialogTitle>
+                        </DialogHeader>
+                        <div className="relative aspect-video">
+                            <Image
+                                src={selectedImage.src}
+                                alt={selectedImage.alt}
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
+                        <div className="p-4 bg-muted/50 rounded-b-lg">
+                            <h3 className="font-bold text-lg">{selectedImage.title}</h3>
+                        </div>
+                    </DialogContent>
+                )}
+            </Dialog>
+
+            <section className="w-full py-8 bg-background">
+              <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
+                  <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    Watch highlights from our recent events and see the impact we're making together.
+                  </p>
+                </div>
+                <div className="relative">
+                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="xvFZjo5PgG0" title="Community Skill Training Workshop" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="3JZ_D3p_L4A" title="Women Empowerment Seminar" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+             <section className="w-full py-8 bg-white dark:bg-gray-800/20">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            Our commitment to creating a better society through education and empowerment.
+                        </p>
+                    </div>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                            <CardContent className="p-8 text-center">
+                                <div className="flex justify-center mb-4">
+                                    <div className="bg-primary/10 text-primary p-4 rounded-full">
+                                        <Eye className="w-8 h-8" />
+                                    </div>
+                                </div>
+                                <h3 className="text-2xl font-bold text-foreground mb-2">Our Vision</h3>
+                                <p className="text-muted-foreground">
+                                    To create a world where every individual has the opportunity to achieve their full potential through quality education and skill development, fostering a society of empowered, self-reliant, and responsible citizens.
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-background/50 border-t-4 border-primary rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                             <CardContent className="p-8 text-center">
+                                <div className="flex justify-center mb-4">
+                                    <div className="bg-primary/10 text-primary p-4 rounded-full">
+                                        <Target className="w-8 h-8" />
+                                    </div>
+                                </div>
+                                <h3 className="text-2xl font-bold text-foreground mb-2">Our Mission</h3>
+                                <p className="text-muted-foreground">
+                                    To provide accessible and innovative educational programs, vocational training, and healthcare support to underprivileged communities, with a special focus on children, women, and the elderly, enabling them to lead a life of dignity and respect.
+                                </p>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            </section>
+            
+             <section className="w-full py-8 bg-background">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            The dedicated individuals leading our mission forward.
+                        </p>
+                    </div>
+                    <div className="relative">
+                        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                            <div className="flex gap-6 px-4 md:px-[10%]">
+                                {team.map((member, index) => (
+                                    <div key={index} className="block flex-shrink-0 w-64 group">
+                                        <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
+                                            <div className="relative w-full aspect-square">
+                                                <Image
+                                                    src={member.image}
+                                                    alt={member.name}
+                                                    data-ai-hint="person headshot"
+                                                    fill
+                                                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                                                />
+                                            </div>
+                                            <CardContent className="p-4">
+                                                <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                                                <p className="text-xs text-muted-foreground">{member.role}</p>
+                                                <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <footer className="bg-background text-gray-800 dark:text-gray-300">
+                <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                <div className="container mx-auto px-4 md:px-6 py-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                             <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
+                                <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
+                                <span className="text-lg font-bold text-primary">IDL FOUNDATION</span>
+                            </Link>
+                            <p className="text-sm text-muted-foreground">A non-profit organization dedicated to empowering communities through education and skill development.</p>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                                <li className="flex items-start gap-2">
+                                    <MapPin className="w-4 h-4 mt-1 shrink-0"/>
+                                    <span>Y-25A Budh Vihar, Delhi-110086</span>
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <Phone className="w-4 h-4"/>
+                                    <a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a>
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <Mail className="w-4 h-4"/>
+                                    <a href="mailto:info@idlfoundation.in" className="hover:text-primary hover:underline">info@idlfoundation.in</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
+                            <div className="flex items-center gap-3">
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
+                                  <Instagram className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
+                                  <Facebook className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
+                                  <Twitter className="w-5 h-5"/>
+                                </Link>
+                                <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
+                                  <Linkedin className="w-5 h-5"/>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-6 border-t border-gray-700 py-2 text-center text-xs text-gray-500">
+                        <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </>
     );
 }
-
-    
