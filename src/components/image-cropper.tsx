@@ -26,19 +26,20 @@ export function ImageCropper({
   onClose,
   onImageCropped,
   imageSrc,
-  aspectRatio = 1,
+  aspectRatio,
 }: ImageCropperProps) {
   const [crop, setCrop] = useState<Crop>();
   const imgRef = useRef<HTMLImageElement>(null);
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     const { width, height } = e.currentTarget;
-    const crop = centerCrop(
-      makeAspectCrop({ unit: '%', width: 90 }, aspectRatio, width, height),
-      width,
-      height
-    );
-    setCrop(crop);
+    const cropOptions: { unit: '%', width: number } = { unit: '%', width: 90 };
+    
+    const newCrop = aspectRatio 
+        ? centerCrop(makeAspectCrop(cropOptions, aspectRatio, width, height), width, height)
+        : centerCrop({ ...cropOptions, height: 90 }, width, height);
+
+    setCrop(newCrop);
   }
 
   const handleCrop = async () => {
