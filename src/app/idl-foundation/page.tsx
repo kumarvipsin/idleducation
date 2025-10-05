@@ -386,7 +386,7 @@ export default function IDLFoundationPage() {
                                 <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
                                 <span className="text-lg font-bold text-primary">IDL FOUNDATION</span>
                             </Link>
-                            <p className="text-sm text-gray-400">A non-profit organization dedicated to empowering communities through education and skill development.</p>
+                            <p className="text-sm text-muted-foreground">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
