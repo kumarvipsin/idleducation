@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import Link from "next/link";
-import { IndianRupee, Banknote, CheckCircle, HandHeart } from "lucide-react";
+import { IndianRupee, Banknote, CheckCircle, Heart } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -96,7 +96,15 @@ export function DonationCategories({ donationCategories }: { donationCategories:
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
-                                <HandHeart className="w-12 h-12 text-primary" />
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
+                                <defs>
+                                    <linearGradient id="heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
+                                    <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                </svg>
                             </div>
                         </div>
                         <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white">Make World Happier</h1>
