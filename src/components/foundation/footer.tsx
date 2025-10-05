@@ -9,8 +9,6 @@ import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin, Youtube, H
 const quickLinks = [
     { href: "#about", label: "About Us" },
     { href: "#donate", label: "Donate" },
-    { href: "#events", label: "Events" },
-    { href: "#contact", label: "Contact" },
 ];
 
 const socialLinks = [
