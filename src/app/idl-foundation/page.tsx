@@ -58,6 +58,8 @@ const team = [
     { name: "Rajesh Kumar", role: "Finance & Compliance Officer", image: "https://picsum.photos/seed/team6/400/400", description: "Ensuring financial health and regulatory compliance of the foundation." },
     { name: "Sunita Gupta", role: "Program Coordinator", image: "https://picsum.photos/seed/team7/400/400", description: "Managing and coordinating our diverse range of social programs." },
     { name: "Amit Patel", role: "Technology Lead", image: "https://picsum.photos/seed/team8/400/400", description: "Leveraging technology to amplify our impact and reach." },
+    { name: "Anita Desai", role: "Education Specialist", image: "https://picsum.photos/seed/team9/400/400", description: "Designing and implementing effective educational programs for all ages." },
+    { name: "Ravi Shankar", role: "Healthcare Program Manager", image: "https://picsum.photos/seed/team10/400/400", description: "Overseeing health initiatives and ensuring access to medical care." },
 ];
 
 const stats = [
@@ -217,10 +219,10 @@ export default function IDLFoundationPage() {
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
                                                 </div>
-                                                <Input id="name" name="name" placeholder="Name" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="contact" name="contact" placeholder="Contact" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="email" name="email" type="email" placeholder="Email" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="place" name="place" placeholder="Place" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
                                                 <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
                                                     <Banknote className="mr-2 h-4 w-4" />
                                                     Proceed to Final Payment
@@ -458,8 +460,8 @@ export default function IDLFoundationPage() {
                   </div>
               </div>
             </section>
-
-             <section className="w-full py-8 bg-white dark:bg-gray-800/20">
+            
+            <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
                         <div className="flex justify-center mb-4">
@@ -503,7 +505,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
             
-             <section className="w-full py-8 bg-background">
+            <section className="w-full py-8 bg-background">
                 <div className="text-center mb-8 px-4 md:px-6">
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -537,7 +539,6 @@ export default function IDLFoundationPage() {
                     </div>
                 </div>
             </section>
-
 
             <footer className="bg-background text-gray-800 dark:text-gray-300">
                 <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
