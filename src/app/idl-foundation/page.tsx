@@ -10,12 +10,12 @@ import { Header } from "@/components/header";
 import { FoundationHero } from "@/components/landing/foundation-hero";
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "team training" },
-    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying" },
-    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree" },
-    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group" },
-    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient" },
-    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://images.unsplash.com/photo-1598411354366-052445e90f528?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people" },
+    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "team training" },
+    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "children studying" },
+    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "planting tree" },
+    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "women group" },
+    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "doctor patient" },
+    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "elderly people" },
 ];
 
 export default function IDLFoundationPage() {
