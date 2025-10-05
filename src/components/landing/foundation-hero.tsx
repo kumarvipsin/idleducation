@@ -44,6 +44,17 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
     [api]
   );
   
+  const splitTitle = (title: string) => {
+    const words = title.split(' ');
+    if (words.length <= 1) {
+      return { part1: '', part2: title };
+    }
+    const splitIndex = Math.ceil(words.length / 2);
+    const part1 = words.slice(0, splitIndex).join(' ');
+    const part2 = words.slice(splitIndex).join(' ');
+    return { part1, part2 };
+  };
+
   return (
     <section className="relative w-full h-[36vh] md:h-[40vh] overflow-hidden">
       <Carousel 
@@ -53,28 +64,32 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
         className="w-full h-full"
       >
         <CarouselContent className="h-full">
-          {slides.map((slide, index) => (
-            <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-full" style={{ background: 'black' }}>
-                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
-                    <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
-                        <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
-                            <div className="space-y-4 text-white">
-                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
-                                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-                                      {slide.title}
-                                    </span>
-                                </h1>
-                                <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
-                                    {slide.description}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+          {slides.map((slide, index) => {
+            const { part1, part2 } = splitTitle(slide.title);
+            return (
+              <CarouselItem key={index} className="h-full">
+                <div className="relative w-full h-full" style={{ background: 'black' }}>
+                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
+                      <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
+                          <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
+                              <div className="space-y-4 text-white">
+                                  <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
+                                      <span>{part1} </span>
+                                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                                        {part2}
+                                      </span>
+                                  </h1>
+                                  <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
+                                      {slide.description}
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                 </div>
-              </div>
-            </CarouselItem>
-          ))}
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
       </Carousel>
       <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2">
