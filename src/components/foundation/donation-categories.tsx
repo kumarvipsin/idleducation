@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -24,6 +23,13 @@ interface DonationCategory {
     goal: number;
     raised: number;
 }
+
+const HandHeartIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
+        <path d="M12.38,8.23C12.38,8.23,12.38,8.23,12.38,8.23C11.1,7.5,9.54,8.14,9.14,9.53c-0.24,0.82-0.08,1.72,0.42,2.37 c-0.12-0.2-0.25-0.38-0.39-0.57c-0.83-1.15-1.03-2.62-0.54-3.86c0.7-1.78,2.69-2.73,4.46-2.02C13.81,5.77,14,6.3,14,6.3 s0.19-0.53,0.91-0.84c1.78-0.7,3.77,0.25,4.46,2.02c0.49,1.24,0.29,2.71-0.54,3.86c-0.15,0.2-0.28,0.38-0.4,0.58 c0.5-0.65,0.66-1.55,0.42-2.37c-0.4-1.39-1.96-2.03-3.24-1.31C14.19,8.23,12.38,8.23,12.38,8.23z" />
+        <path d="M19.8,11.91c-0.06,0-0.12,0-0.18,0.01c-0.49,0.05-0.95,0.22-1.38,0.47c-0.14-0.17-0.29-0.34-0.45-0.5 c-1.02-1.22-2.4-1.9-3.9-1.9c-1.5,0-2.88,0.68-3.9,1.9c-0.16,0.16-0.3,0.33-0.45,0.5C8.94,12.14,8.48,11.96,7.99,11.91 c-0.06,0-0.12,0-0.18,0c-1.3,0-2.48,0.66-3.19,1.69c-0.42,0.62-0.61,1.33-0.61,2.06c0,2.6,2.09,4.7,4.69,4.7h0.01 c0.13,0,0.25-0.02,0.37-0.05c0.55-0.13,1.03-0.45,1.4-0.89l0.01-0.01c0.12-0.15,0.22-0.3,0.3-0.47 c0.33,0.11,0.68,0.17,1.04,0.17s0.71-0.06,1.04-0.17c0.08,0.16,0.19,0.32,0.3,0.47l0.01,0.01c0.37,0.44,0.85,0.76,1.4,0.89 c0.12,0.03,0.24,0.05,0.37,0.05h0.01c2.6,0,4.69-2.1,4.69-4.7c0-0.73-0.2-1.44-0.61-2.06C22.28,12.56,21.1,11.91,19.8,11.91z" />
+    </svg>
+);
 
 export function DonationCategories({ donationCategories }: { donationCategories: DonationCategory[] }) {
     const [donationCategory, setDonationCategory] = useState<string>("");
@@ -114,7 +120,10 @@ export function DonationCategories({ donationCategories }: { donationCategories:
                         <div className="mt-6">
                             <Dialog onOpenChange={(open) => { if (!open) setDonationStep(1); }}>
                                 <DialogTrigger asChild>
-                                    <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
+                                    <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-12 px-6">
+                                        <HandHeartIcon className="w-6 h-6 mr-2" />
+                                        <span className="text-lg">DONATE</span>
+                                    </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-md">
                                     <DialogHeader>
@@ -188,7 +197,7 @@ export function DonationCategories({ donationCategories }: { donationCategories:
                                                         <span className="text-muted-foreground">Goal:</span>
                                                         <span className="text-primary">₹{category.goal.toLocaleString('en-IN')}</span>
                                                     </div>
-                                                    <div className="flex justify-between items-center text-sm font-semibold">
+                                                     <div className="flex justify-between items-center text-sm font-semibold">
                                                         <span className="text-muted-foreground">Raised:</span>
                                                         <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                     </div>
