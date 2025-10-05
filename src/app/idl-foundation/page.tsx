@@ -29,6 +29,9 @@ export default function IDLFoundationPage() {
             <section className="py-16 md:py-24 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                      <div className="text-center mb-12">
+                        <div className="flex justify-center mb-4">
+                            <HandHeart className="w-12 h-12 text-primary" />
+                        </div>
                         <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">Make World Happier</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
