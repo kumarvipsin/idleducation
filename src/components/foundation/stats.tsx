@@ -4,10 +4,10 @@
 import { Card } from "@/components/ui/card";
 
 const stats = [
-    { count: '143 K+', label: 'Visitors' },
-    { count: '255+', label: 'Donors' },
-    { count: '28', label: 'Members' },
-    { count: '37', label: 'Volunteers' }
+    { count: '100+', label: 'Visitors' },
+    { count: '100+', label: 'Donors' },
+    { count: '20+', label: 'Members' },
+    { count: '50+', label: 'Volunteers' }
 ]
 
 export function Stats() {
