@@ -71,6 +71,8 @@ export function Header() {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const isIdlFoundationPage = pathname === '/idl-foundation';
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -137,8 +139,10 @@ export function Header() {
         }
       }
     };
-    fetchUpdates();
-  }, []);
+    if (!isIdlFoundationPage) {
+        fetchUpdates();
+    }
+  }, [isIdlFoundationPage]);
   
   const handleLogout = async () => {
     await logout();
@@ -402,8 +406,21 @@ export function Header() {
                   {notificationDropdown}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  
-                  {notificationDropdown}
+                  {!isIdlFoundationPage ? (
+                    <>
+                    <Link href="/store" className='text-foreground'>
+                        <ShoppingBag className="h-4 w-4" />
+                        <span className="sr-only">IDL Store</span>
+                    </Link>
+                    {notificationDropdown}
+                    </>
+                  ) : (
+                    <Button asChild variant="ghost" size="icon" className="text-foreground">
+                        <Link href="/">
+                            <HomeIcon className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
