@@ -339,21 +339,7 @@ function SchoolPageContent() {
                                 </Table>
                             </div>
                         )}
-                        {activeClass && syllabusData[activeClass] && (
-                            <Tabs defaultValue="maths" className="w-full">
-                                <TabsList className="grid w-full grid-cols-4">
-                                    <TabsTrigger value="maths">Maths</TabsTrigger>
-                                    <TabsTrigger value="science">Science</TabsTrigger>
-                                    <TabsTrigger value="social">Social Science</TabsTrigger>
-                                    <TabsTrigger value="english">English</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="maths" className="pt-4">
-                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
-                                    {/* Maths syllabus content */}
-                                </TabsContent>
-                                {/* Other TabsContent */}
-                            </Tabs>
-                        )}
+                        
                         <Separator />
                         <div>
                             <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
