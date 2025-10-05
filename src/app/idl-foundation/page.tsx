@@ -64,36 +64,40 @@ const stats = [
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
-
-    if (isPlaying) {
-        return (
-            <div className="aspect-video">
-                <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
-                    title={title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                ></iframe>
-            </div>
-        );
-    }
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     return (
-        <button onClick={() => setIsPlaying(true)} className="relative w-full aspect-video group cursor-pointer focus:outline-none">
-            <Image
-                src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                alt={title}
-                fill
-                className="object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
-            <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
-            </div>
-        </button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+                <button className="relative w-full aspect-video group cursor-pointer focus:outline-none">
+                    <Image
+                        src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                        alt={title}
+                        fill
+                        className="object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <PlayCircle className="w-16 h-16 text-white/80 transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                </button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl p-0">
+                <DialogHeader className="p-4">
+                    <DialogTitle>{title}</DialogTitle>
+                </DialogHeader>
+                <div className="aspect-video">
+                    <iframe
+                        className="w-full h-full"
+                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                        title={title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 };
 
@@ -574,3 +578,5 @@ export default function IDLFoundationPage() {
         </>
     );
 }
+
+    
