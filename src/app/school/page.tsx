@@ -25,6 +25,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { syllabusData } from '@/lib/syllabus-data';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -87,6 +89,7 @@ function SchoolPageContent() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
+  const { toast } = useToast();
   
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -129,6 +132,19 @@ function SchoolPageContent() {
   const handleClassChange = (className: string) => {
     setActiveClass(className);
     router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
+  };
+
+  const handleAction = async (pdfUrl: string) => {
+    if (!pdfUrl) {
+        toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+        return;
+    }
+    const result = await getSignedUrlForPdf(pdfUrl);
+    if (result.success && result.url) {
+        window.open(result.url, '_blank');
+    } else {
+        toast({ variant: 'destructive', title: 'Error', description: result.message });
+    }
   };
   
   const activeCategory = classes.find(c => c.name === activeClass);
@@ -322,6 +338,21 @@ function SchoolPageContent() {
                                     </TableBody>
                                 </Table>
                             </div>
+                        )}
+                        {activeClass && syllabusData[activeClass] && (
+                            <Tabs defaultValue="maths" className="w-full">
+                                <TabsList className="grid w-full grid-cols-4">
+                                    <TabsTrigger value="maths">Maths</TabsTrigger>
+                                    <TabsTrigger value="science">Science</TabsTrigger>
+                                    <TabsTrigger value="social">Social Science</TabsTrigger>
+                                    <TabsTrigger value="english">English</TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="maths" className="pt-4">
+                                    <p className="text-muted-foreground">{syllabusData[activeClass].maths.description}</p>
+                                    {/* Maths syllabus content */}
+                                </TabsContent>
+                                {/* Other TabsContent */}
+                            </Tabs>
                         )}
                         <Separator />
                         <div>
