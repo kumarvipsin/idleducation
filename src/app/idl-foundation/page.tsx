@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, BookOpen, Save } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,7 +49,7 @@ export default function IDLFoundationPage() {
                                     <h3 className="text-xl text-left font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
                                     <p className="text-sm text-muted-foreground mt-1 text-left">{category.description}</p>
                                     <div className="mt-4 text-left">
-                                        <Button className="font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-green-500 text-white hover:bg-green-600">Donate</Button>
+                                        <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
                                     </div>
                                 </CardContent>
                                  <div className="relative aspect-[4/3] w-full mt-auto">
