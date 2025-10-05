@@ -213,10 +213,10 @@ export default function IDLFoundationPage() {
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
                                                 </div>
-                                                <Input id="name" name="name" placeholder="Name" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="contact" name="contact" placeholder="Contact" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="email" name="email" type="email" placeholder="Email" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="place" name="place" placeholder="Place" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
                                                 <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
                                                     <Banknote className="mr-2 h-4 w-4" />
                                                     Proceed to Final Payment
@@ -263,7 +263,7 @@ export default function IDLFoundationPage() {
                                                     </div>
                                                     <div className="space-y-1">
                                                         <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
-                                                         <p className="text-xs text-muted-foreground text-right">{Math.round(percentage)}%</p>
+                                                         <p className="text-xs text-right text-muted-foreground">{Math.round(percentage)}%</p>
                                                     </div>
                                                 </div>
 
@@ -287,7 +287,7 @@ export default function IDLFoundationPage() {
                     <div className="container mx-auto px-4 md:px-6">
                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {stats.map((stat, index) => (
-                                <Card key={index} className="text-center p-4 bg-transparent border-2 border-primary/10 shadow-sm">
+                                <Card key={index} className="text-center p-4 bg-transparent border-none shadow-none">
                                     <p className="text-3xl md:text-4xl font-bold text-primary">
                                         {stat.count}
                                     </p>
@@ -421,36 +421,37 @@ export default function IDLFoundationPage() {
             </Dialog>
 
             <section className="w-full py-8 bg-background">
-              <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-8">
-                   <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 p-4 rounded-full">
-                            <Video className="w-12 h-12 text-primary" />
-                        </div>
+              <div className="container mx-auto px-4 md:px-6 text-center mb-8">
+                <div className="flex justify-center mb-4">
+                    <div className="bg-primary/10 p-4 rounded-full">
+                        <Video className="w-12 h-12 text-primary" />
                     </div>
-                  <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
-                  <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                    Watch highlights from our recent events and see the impact we're making together.
-                  </p>
                 </div>
-                <div className="relative">
+                <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                Watch highlights from our recent events and see the impact we're making together.
+                </p>
+              </div>
+              <div className="relative">
                   <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 px-4 md:px-[10%]">
+                    <div className="flex gap-6 px-4">
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="xvFZjo5PgG0" title="Community Skill Training Workshop" />
+                        <EventVideo videoId="IO5w8e39v5A" title="Community Skill Training Workshop" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="3JZ_D3p_L4A" title="Women Empowerment Seminar" />
                       </div>
                     </div>
                   </div>
-                </div>
               </div>
             </section>
 
@@ -499,7 +500,7 @@ export default function IDLFoundationPage() {
             </section>
             
              <section className="w-full py-8 bg-background">
-                <div className="text-center mb-8">
+                <div className="container mx-auto px-4 md:px-6 text-center mb-8">
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         The dedicated individuals leading our mission forward.
@@ -507,7 +508,7 @@ export default function IDLFoundationPage() {
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4 md:px-[10%]">
+                        <div className="flex gap-6 px-4">
                             {team.map((member, index) => (
                                 <div key={index} className="block flex-shrink-0 w-64 group">
                                     <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
