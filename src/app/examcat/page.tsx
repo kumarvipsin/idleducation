@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { syllabusData } from '@/lib/syllabus-data';
+import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -311,20 +312,13 @@ function SchoolPageContent() {
               </div>
           </section>
         </div>
-         <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
-             <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col">
-                <DialogHeader className="p-2 border-b">
-                    <p className="truncate text-sm font-semibold">{dialogTitle}</p>
-                </DialogHeader>
-                {isLoadingPdf || !pdfSrc ? (
-                    <div className="flex items-center justify-center h-full">
-                        <p>Loading PDF...</p>
-                    </div>
-                ) : (
-                    <iframe src={pdfSrc} className="w-full h-full rounded-b-md" />
-                )}
-            </DialogContent>
-        </Dialog>
+        <PdfViewerDialog
+          isOpen={isPdfDialogOpen}
+          onOpenChange={setIsPdfDialogOpen}
+          pdfSrc={pdfSrc}
+          isLoading={isLoadingPdf}
+          title={dialogTitle}
+        />
     </div>
   );
 }
