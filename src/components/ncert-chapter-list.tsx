@@ -12,8 +12,7 @@ import type { TSubject, TPart, TChapter, TTopic, TSubTopic } from "@/app/actions
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import { getSignedUrlForPdf } from "@/app/actions";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-
+import { PdfViewerDialog } from "./pdf-viewer-dialog";
 
 const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     const { toast } = useToast();
@@ -143,7 +142,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                           },
                                                           {
                                                         pdfs: is_note
-                                                          ? [topic.notePdfUrl_en_demo, topic.notepdfUrl_en_primum]
+                                                          ? [topic.notePdfUrl_en_demo, topic.notePdfUrl_en_primum]
                                                           : [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum],
                                                         label: is_note
                                                           ? `Premium Notes (Eng)`
@@ -152,7 +151,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                       },
                                                       {
                                                         pdfs: is_note
-                                                          ? [topic.notePdfUrl_hi_demo, topic.notepdfUrl_hi_primum]
+                                                          ? [topic.notePdfUrl_hi_demo, topic.notePdfUrl_hi_primum]
                                                           : [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum],
                                                         label: is_note
                                                           ? `Premium Notes (Hi)`
@@ -242,20 +241,13 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
   return (
     <>
         {renderSubjectContent(resources)}
-        <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
-                     <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col">
-                        <DialogHeader className="p-2 border-b">
-                            <p className="truncate text-sm font-semibold">{dialogTitle}</p>
-                        </DialogHeader>
-                        {isLoadingPdf || !pdfSrc ? (
-                            <div className="flex items-center justify-center h-full">
-                                <p>Loading PDF...</p>
-                            </div>
-                        ) : (
-                            <iframe src={pdfSrc} className="w-full h-full rounded-b-md" />
-                        )}
-                    </DialogContent>
-                </Dialog>
+        <PdfViewerDialog
+          isOpen={isPdfDialogOpen}
+          onOpenChange={setIsPdfDialogOpen}
+          pdfSrc={pdfSrc}
+          isLoading={isLoadingPdf}
+          title={dialogTitle}
+        />
     </>
   );
 }
