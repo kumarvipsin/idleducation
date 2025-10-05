@@ -36,14 +36,14 @@ const galleryImages = [
 ];
 
 const companies = [
-    { name: "DDU-GKY", logo: "https://picsum.photos/seed/company1/200/100" },
-    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/company2/200/100" },
-    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/company3/200/100" },
-    { name: "Delhi Government", logo: "https://picsum.photos/seed/company4/200/100" },
+    { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
+    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
+    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
+    { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi/200/100" },
 ];
 
 const people = [
-    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/person1/200/100" },
+    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/bhagwati/200/100" },
     { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
@@ -54,6 +54,8 @@ const team = [
     { name: "Manish Sharma", role: "Co-Founder & CEO", image: "https://picsum.photos/seed/team2/400/400", description: "Driving the mission forward with innovation and dedication." },
     { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/team3/400/400", description: "Ensuring operational excellence and impactful program delivery." },
     { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/team4/400/400", description: "Empowering individuals with skills for a brighter future." },
+    { name: "Priya Singh", role: "Community Engagement Lead", image: "https://picsum.photos/seed/team5/400/400", description: "Building strong relationships with our communities and partners." },
+    { name: "Rajesh Kumar", role: "Finance & Compliance Officer", image: "https://picsum.photos/seed/team6/400/400", description: "Ensuring financial health and regulatory compliance of the foundation." },
 ];
 
 const stats = [
@@ -213,10 +215,10 @@ export default function IDLFoundationPage() {
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
                                                 </div>
-                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="name" name="name" placeholder="Name" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="contact" name="contact" placeholder="Contact" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="email" name="email" type="email" placeholder="Email" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="place" name="place" placeholder="Place" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
                                                 <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
                                                     <Banknote className="mr-2 h-4 w-4" />
                                                     Proceed to Final Payment
@@ -421,7 +423,7 @@ export default function IDLFoundationPage() {
             </Dialog>
 
             <section className="w-full py-8 bg-background">
-              <div className="container mx-auto px-4 md:px-6 text-center mb-8">
+              <div className="text-center mb-8">
                 <div className="flex justify-center mb-4">
                     <div className="bg-primary/10 p-4 rounded-full">
                         <Video className="w-12 h-12 text-primary" />
@@ -500,7 +502,7 @@ export default function IDLFoundationPage() {
             </section>
             
              <section className="w-full py-8 bg-background">
-                <div className="container mx-auto px-4 md:px-6 text-center mb-8">
+                <div className="text-center mb-8">
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         The dedicated individuals leading our mission forward.
