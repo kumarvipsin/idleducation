@@ -354,82 +354,58 @@ export function Header() {
                     </span>}
                 </div>
               </Link>
-              {isIdlFoundationPage ? (
-                 <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-xs uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                    <Link href="/">
-                        HOME
-                    </Link>
-                 </Button>
-              ) : (
-                <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
-                    <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                              <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                  Menu
-                              </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                              {navLinks.map(({ href, label }) => (
-                                  <DropdownMenuItem asChild key={href}>
-                                      <Link href={href}>{label}</Link>
-                                  </DropdownMenuItem>
-                              ))}
-                          </DropdownMenuContent>
-                      </DropdownMenu>
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                          <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              <span className="sm:inline">APPLY FOR</span>
-                          </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                          <DropdownMenuItem asChild>
-                              <Link href="/scholarship">Apply Scholarship</Link>
-                          </DropdownMenuItem>
-                           <DropdownMenuItem asChild>
-                              <Link href="/admission">Admission Form</Link>
-                          </DropdownMenuItem>
-                           <DropdownMenuItem asChild>
-                              <Link href="/book-demo">Book Free Demo</Link>
-                          </DropdownMenuItem>
-                           <DropdownMenuItem asChild>
-                              <Link href="/feedback">Feedback</Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild>
-                              <Link href="/student-enquiry">Student Enquiry</Link>
-                          </DropdownMenuItem>
-                      </DropdownMenuContent>
+              <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
+                  <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                Menu
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {navLinks.map(({ href, label }) => (
+                                <DropdownMenuItem asChild key={href}>
+                                    <Link href={href}>{label}</Link>
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
                     </DropdownMenu>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                     <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                      <Link href="/store">
-                        IDL Store
-                      </Link>
-                    </Button>
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {renderAuthSection()}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {notificationDropdown}
-                </div>
-              )}
-               <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage && (
-                    <>
-                    <Link href="/store" className='text-foreground'>
-                        <ShoppingBag className="h-4 w-4" />
-                        <span className="sr-only">IDL Store</span>
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                            <span className="sm:inline">APPLY FOR</span>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem asChild>
+                            <Link href="/scholarship">Apply Scholarship</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/admission">Admission Form</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/book-demo">Book Free Demo</Link>
+                        </DropdownMenuItem>
+                         <DropdownMenuItem asChild>
+                            <Link href="/feedback">Feedback</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href="/student-enquiry">Student Enquiry</Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/store">
+                      IDL Store
                     </Link>
-                    {notificationDropdown}
-                    </>
-                  )}
-                   {isIdlFoundationPage && (
-                    <Button asChild variant="ghost" size="icon" className="text-foreground">
-                        <Link href="/">
-                            <HomeIcon className="h-5 w-5" />
-                        </Link>
-                    </Button>
-                   )}
+                  </Button>
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {renderAuthSection()}
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {notificationDropdown}
+              </div>
+               <div className="ml-auto md:hidden flex items-center gap-2">
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
