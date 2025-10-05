@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, BookOpen, Save } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, BookOpen, UserRound, Trees, Save } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,12 +23,12 @@ export default function IDLFoundationPage() {
         <div className="relative w-full bg-background overflow-y-auto">
             <Header />
 
-            <FoundationHero />
+            <FoundationHero slides={donationCategories} />
             
             <section className="w-full relative py-12 md:py-24 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
-                         <div className="flex justify-center mb-4">
+                        <div className="flex justify-center mb-4">
                             <HandHeart className="w-12 h-12 text-primary" />
                         </div>
                         <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">
