@@ -6,28 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
-
-const foundationImage = {
-    src: "https://s3.ap-south-1.amazonaws.com/awsimages.imagesbazaar.com/1200x1800-old/15219/SM601012.jpg?date=Fri%20Oct%2003%202025%2023:12:28%20GMT+0530%20(India%20Standard%20Time)",
-    alt: "Happy students celebrating",
-    hint: "students celebrating",
-    title: "Winds of Change 2019",
-    subtitle: "In the winds of change, we find our true direction.",
-};
+import { FoundationHero } from "@/components/landing/foundation-hero";
 
 export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-background overflow-y-auto">
             <Header />
 
-            <div 
-                className="h-screen"
-                style={{
-                    background: 'linear-gradient(135deg, hsl(222, 84%, 20%) 0%, hsl(217, 91%, 60%) 100%)'
-                }}
-            >
-                {/* The gradient background is now applied here */}
-            </div>
+            <FoundationHero />
 
             <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
                 <div className="container mx-auto px-4 md:px-6">
