@@ -50,12 +50,11 @@ const people = [
 ];
 
 const team = [
-    { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/team1/400/400" },
-    { name: "Manish Sharma", role: "Co-Founder & CEO", image: "https://picsum.photos/seed/team2/400/400" },
-    { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/team3/400/400" },
-    { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/team4/400/400" },
+    { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/team1/400/400", description: "Visionary leader with a passion for education and social change." },
+    { name: "Manish Sharma", role: "Co-Founder & CEO", image: "https://picsum.photos/seed/team2/400/400", description: "Driving the mission forward with innovation and dedication." },
+    { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/team3/400/400", description: "Ensuring operational excellence and impactful program delivery." },
+    { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/team4/400/400", description: "Empowering individuals with skills for a brighter future." },
 ];
-
 
 const stats = [
     { count: 143703, label: 'Visitors' },
@@ -212,10 +211,10 @@ export default function IDLFoundationPage() {
                                                     <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
                                                 </div>
-                                                <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                                                <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="name" name="name" placeholder="Name" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="contact" name="contact" placeholder="Contact" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="email" name="email" type="email" placeholder="Email" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                                                <Input id="place" name="place" placeholder="Place" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
                                                 <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
                                                     <Banknote className="mr-2 h-4 w-4" />
                                                     Proceed to Final Payment
@@ -282,7 +281,7 @@ export default function IDLFoundationPage() {
                     </div>
                 </section>
 
-                <section className="w-full py-8 md:py-12 bg-white dark:bg-card text-gray-800 dark:text-gray-300">
+                 <section className="w-full py-8 md:py-12 bg-background text-foreground">
                     <div className="container mx-auto px-4 md:px-6">
                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {stats.map((stat, index) => (
@@ -412,29 +411,29 @@ export default function IDLFoundationPage() {
                 <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
-                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                            Watch highlights from our recent events and see the impact we're making together.
-                        </p>
+                      <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
+                      <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        Watch highlights from our recent events and see the impact we're making together.
+                      </p>
                     </div>
                     <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         <div className="flex gap-6 px-4 md:px-[10%]">
-                        <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
-                        </div>
-                        <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                          </div>
+                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
-                        </div>
-                        <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                          </div>
+                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
-                        </div>
-                        <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                          </div>
+                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
-                        </div>
-                        <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                          </div>
+                          <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="3JZ_D3p_L4A" title="Women Empowerment Seminar" />
-                        </div>
+                          </div>
                         </div>
                     </div>
                     </div>
@@ -480,7 +479,7 @@ export default function IDLFoundationPage() {
                     </div>
                 </section>
                 
-                <section className="w-full py-8 bg-background">
+                 <section className="w-full py-8 bg-background">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-8">
                             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
@@ -506,6 +505,7 @@ export default function IDLFoundationPage() {
                                                 <CardContent className="p-4">
                                                     <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
                                                     <p className="text-xs text-muted-foreground">{member.role}</p>
+                                                    <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
                                                 </CardContent>
                                             </Card>
                                         </div>
