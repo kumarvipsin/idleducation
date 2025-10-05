@@ -24,6 +24,9 @@ const donors = [
     { name: "Ministry of Textiles", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ministry-of-textiles-logo.png" },
     { name: "Delhi Government", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/delhi-govt-logo.png" },
     { name: "Bhagwati Exports", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/bhagwati-logo.png" },
+    { name: "Another Donor", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ddugky-logo.png" },
+    { name: "New Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/maef-logo.png" },
+    { name: "Charity Plus", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ministry-of-textiles-logo.png" },
 ];
 
 export default function IDLFoundationPage() {
@@ -109,10 +112,10 @@ export default function IDLFoundationPage() {
                         </svg>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Donors</h2>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {donors.map((donor, index) => (
-                            <Card key={index} className="flex flex-col items-center justify-center p-6 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-                                <div className="relative h-20 w-full mb-4">
+                            <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
+                                <div className="relative h-12 w-20 mr-4">
                                     <Image
                                         src={donor.logo}
                                         alt={`${donor.name} logo`}
@@ -120,7 +123,7 @@ export default function IDLFoundationPage() {
                                         className="object-contain"
                                     />
                                 </div>
-                                <p className="text-sm font-semibold text-center text-muted-foreground">{donor.name}</p>
+                                <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
                             </Card>
                         ))}
                     </div>
