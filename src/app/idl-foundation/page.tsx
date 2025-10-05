@@ -105,7 +105,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-12 md:py-20 bg-teal-500 text-white">
+            <section className="w-full py-12 md:py-20 bg-primary text-primary-foreground">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {stats.map((stat, index) => (
