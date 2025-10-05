@@ -17,7 +17,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ImageCropper } from '@/components/image-cropper';
 import { GcsImage } from '@/components/gcs-image';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -30,17 +29,13 @@ const TeamMemberForm = ({
 }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(member?.avatarUrl || null);
-  const [photoForCropper, setPhotoForCropper] = useState<string | null>(null);
-  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-  const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [removePhoto, setRemovePhoto] = useState(false);
 
   useEffect(() => {
-    // Reset state when the member prop changes
     setPreview(member?.avatarUrl || null);
-    setPhotoForCropper(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
     setRemovePhoto(false);
   }, [member]);
 
@@ -50,8 +45,8 @@ const TeamMemberForm = ({
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
-    if (croppedPhoto) {
-        formData.append('avatar', croppedPhoto);
+    if (photoFile) {
+        formData.append('avatar', photoFile);
     }
     if (removePhoto) {
         formData.append('removePhoto', 'true');
@@ -76,24 +71,15 @@ const TeamMemberForm = ({
     const file = e.target.files?.[0];
     if (file) {
       setRemovePhoto(false);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoForCropper(reader.result as string);
-        setIsCropperOpen(true);
-      };
-      reader.readAsDataURL(file);
+      setPhotoFile(file);
+      setPreview(URL.createObjectURL(file));
     }
-  };
-  
-  const onImageCropped = (croppedImageFile: File) => {
-    setCroppedPhoto(croppedImageFile);
-    setPreview(URL.createObjectURL(croppedImageFile)); 
   };
   
   const handleRemovePhoto = () => {
     setRemovePhoto(true);
     setPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
   }
 
   return (
@@ -157,13 +143,6 @@ const TeamMemberForm = ({
           </Button>
         </DialogFooter>
       </form>
-      <ImageCropper 
-        isOpen={isCropperOpen} 
-        onClose={() => setIsCropperOpen(false)} 
-        imageSrc={photoForCropper} 
-        onImageCropped={onImageCropped} 
-        aspectRatio={1}
-      />
     </>
   );
 };

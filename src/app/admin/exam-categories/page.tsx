@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -19,7 +20,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
-import { ImageCropper } from '@/components/image-cropper';
 
 interface User {
   id: string;
@@ -43,9 +43,8 @@ const ExamCategoryForm = ({
   const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
   const [syllabus, setSyllabus] = useState<SyllabusItem[]>(category?.syllabus || [{ sno: '1', name: '', pdfUrl: '' }]);
   
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-  const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [removePhoto, setRemovePhoto] = useState(false);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const ExamCategoryForm = ({
     setVideoLessons(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
     setSyllabus(category?.syllabus && category.syllabus.length > 0 ? category.syllabus : [{ sno: '1', name: '', pdfUrl: '' }]);
     setPhotoPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
     setRemovePhoto(false);
   }, [category]);
 
@@ -72,8 +71,8 @@ const ExamCategoryForm = ({
     formData.append('videoLessons', JSON.stringify(videoLessons));
     formData.append('syllabus', JSON.stringify(syllabus));
     
-    if (croppedPhoto) {
-        formData.append('imageFile', croppedPhoto);
+    if (photoFile) {
+        formData.append('imageFile', photoFile);
     }
     if (removePhoto) {
         formData.append('removePhoto', 'true');
@@ -106,24 +105,19 @@ const ExamCategoryForm = ({
     const file = e.target.files?.[0];
     if (file) {
       setRemovePhoto(false);
+      setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
-        setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const onImageCropped = (croppedImageFile: File) => {
-    setCroppedPhoto(croppedImageFile);
-    setPhotoPreview(URL.createObjectURL(croppedImageFile));
-  };
-  
   const handleRemovePhoto = () => {
     setRemovePhoto(true);
     setPhotoPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
   };
 
   const handleVideoLessonChange = (index: number, field: keyof VideoLesson, value: string) => {
@@ -273,13 +267,6 @@ const ExamCategoryForm = ({
           </Button>
         </DialogFooter>
       </form>
-      <ImageCropper 
-        isOpen={isCropperOpen} 
-        onClose={() => setIsCropperOpen(false)} 
-        imageSrc={photoPreview} 
-        onImageCropped={onImageCropped} 
-        aspectRatio={16/9}
-      />
     </>
   );
 };

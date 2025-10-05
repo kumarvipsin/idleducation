@@ -50,7 +50,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GcsImage } from "@/components/gcs-image";
-import { ImageCropper } from "@/components/image-cropper";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
@@ -86,9 +85,8 @@ type AdminFormValues = z.infer<typeof adminSchema>;
 const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () => void }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-  const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [removePhoto, setRemovePhoto] = useState(false);
 
   const form = useForm<AdminFormValues>({
@@ -108,24 +106,19 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
     const file = e.target.files?.[0];
     if (file) {
       setRemovePhoto(false);
+      setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
-        setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
     }
   };
   
-  const onImageCropped = (croppedImageFile: File) => {
-      setCroppedPhoto(croppedImageFile);
-      setPhotoPreview(URL.createObjectURL(croppedImageFile)); 
-  };
-  
   const handleRemovePhoto = () => {
     setRemovePhoto(true);
     setPhotoPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
   }
 
   const onSubmit: SubmitHandler<AdminFormValues> = async (data) => {
@@ -141,7 +134,7 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
             }
         }
       });
-      if (croppedPhoto) formData.append('photo', croppedPhoto);
+      if (photoFile) formData.append('photo', photoFile);
       if (removePhoto) formData.append('removePhoto', 'true');
       
     if (admin) { // Editing
@@ -233,13 +226,6 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
           </DialogFooter>
         </form>
       </Form>
-      <ImageCropper
-          isOpen={isCropperOpen}
-          onClose={() => setIsCropperOpen(false)}
-          imageSrc={photoPreview}
-          onImageCropped={onImageCropped}
-          aspectRatio={1}
-      />
     </>
   )
 }

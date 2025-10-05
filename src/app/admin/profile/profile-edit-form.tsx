@@ -11,7 +11,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ImageCropper } from "@/components/image-cropper";
 import { User, Mail, Phone, Home, Calendar as CalendarIcon, Droplets, Trash2, Upload } from "lucide-react";
 import { UserProfile } from "@/context/auth-context";
 import { GcsImage } from "@/components/gcs-image";
@@ -39,8 +38,7 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-  const [isCropperOpen, setIsCropperOpen] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [removePhoto, setRemovePhoto] = useState(false);
 
   const form = useForm<ProfileFormValues>({
@@ -58,31 +56,25 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
     const file = e.target.files?.[0];
     if (file) {
       setRemovePhoto(false);
+      setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
-        setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
     }
   };
   
-  const onImageCropped = (croppedImageFile: File) => {
-      setCroppedPhoto(croppedImageFile);
-      setPhotoPreview(URL.createObjectURL(croppedImageFile)); 
-  };
-  
   const handleRemovePhoto = () => {
     setRemovePhoto(true);
     setPhotoPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
   }
 
   const onSubmit = async (data: ProfileFormValues) => {
     setIsSubmitting(true);
     const formData = new FormData();
     
-    // Append form data
     Object.entries(data).forEach(([key, value]) => {
         if (value) {
             if (value instanceof Date) {
@@ -93,8 +85,8 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
         }
     });
 
-    if (croppedPhoto) {
-      formData.append('photo', croppedPhoto);
+    if (photoFile) {
+      formData.append('photo', photoFile);
     }
     
     if (removePhoto) {
@@ -169,13 +161,6 @@ export function ProfileEditForm({ user, onSuccess }: ProfileEditFormProps) {
           </Button>
         </form>
       </Form>
-      <ImageCropper 
-        isOpen={isCropperOpen} 
-        onClose={() => setIsCropperOpen(false)} 
-        imageSrc={photoPreview} 
-        onImageCropped={onImageCropped} 
-        aspectRatio={1}
-      />
     </>
   );
 }

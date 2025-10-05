@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -9,7 +10,6 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
-import { ImageCropper } from '@/components/image-cropper';
 import { editDirectorProfile, getDirectorProfile } from '@/app/actions/admin';
 import { UserCircle } from 'lucide-react';
 
@@ -23,9 +23,8 @@ export default function DirectorProfilePage() {
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [name, setName] = useState('');
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
     const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-    const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-    const [isCropperOpen, setIsCropperOpen] = useState(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -45,18 +44,13 @@ export default function DirectorProfilePage() {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setPhotoFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setPhotoPreview(reader.result as string);
-                setIsCropperOpen(true);
             };
             reader.readAsDataURL(file);
         }
-    };
-
-    const onImageCropped = (croppedImageFile: File) => {
-        setCroppedPhoto(croppedImageFile);
-        setPhotoPreview(URL.createObjectURL(croppedImageFile));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,8 +59,8 @@ export default function DirectorProfilePage() {
         
         const formData = new FormData();
         formData.append('name', name);
-        if (croppedPhoto) {
-            formData.append('photo', croppedPhoto);
+        if (photoFile) {
+            formData.append('photo', photoFile);
         }
 
         const result = await editDirectorProfile(formData);
@@ -78,7 +72,7 @@ export default function DirectorProfilePage() {
                 setProfile(data);
                 setName(data.name);
                 setPhotoPreview(null);
-                setCroppedPhoto(null);
+                setPhotoFile(null);
             }
         } else {
             toast({ variant: 'destructive', title: 'Error', description: result.message });
@@ -126,15 +120,7 @@ export default function DirectorProfilePage() {
                         </Button>
                     </form>
                 )}
-                 <ImageCropper
-                    isOpen={isCropperOpen}
-                    onClose={() => setIsCropperOpen(false)}
-                    imageSrc={photoPreview}
-                    onImageCropped={onImageCropped}
-                    aspectRatio={1}
-                />
             </CardContent>
         </Card>
     );
 }
-    
