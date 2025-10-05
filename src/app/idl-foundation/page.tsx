@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus, PlayCircle, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus, PlayCircle, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Linkedin, Video, ImageIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -190,15 +190,7 @@ export default function IDLFoundationPage() {
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient-donors)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
-                                <defs>
-                                    <linearGradient id="heart-gradient-donors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
-                                    <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                </svg>
+                                <Handshake className="w-12 h-12 text-primary" />
                             </div>
                         </div>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Donors</h2>
@@ -254,15 +246,7 @@ export default function IDLFoundationPage() {
                         <div className="text-center mb-12">
                             <div className="flex justify-center mb-4">
                                 <div className="bg-primary/10 p-4 rounded-full">
-                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient-donors)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
-                                    <defs>
-                                        <linearGradient id="heart-gradient-donors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
-                                        <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
-                                        </linearGradient>
-                                    </defs>
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                    </svg>
+                                    <ImageIcon className="w-12 h-12 text-primary" />
                                 </div>
                             </div>
                             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Glimpses of Our Work</h2>
@@ -328,18 +312,10 @@ export default function IDLFoundationPage() {
                 <div className="text-center mb-12">
                    <div className="flex justify-center mb-4">
                         <div className="bg-primary/10 p-4 rounded-full">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient-donors)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
-                            <defs>
-                                <linearGradient id="heart-gradient-donors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
-                                <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
-                                </linearGradient>
-                            </defs>
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                            </svg>
+                            <PlayCircle className="w-12 h-12 text-primary" />
                         </div>
                     </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Events & Highlights</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Events &amp; Highlights</h2>
                   <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                     Watch highlights from our recent events and see the impact we're making together.
                   </p>
@@ -373,15 +349,7 @@ export default function IDLFoundationPage() {
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient-donors)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
-                                <defs>
-                                    <linearGradient id="heart-gradient-donors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
-                                    <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                </svg>
+                                <BookOpen className="w-12 h-12 text-primary" />
                             </div>
                         </div>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">About IDL Foundation</h2>
