@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, Suspense, useRef } from 'react';
@@ -205,7 +206,7 @@ function SchoolPageContent() {
               <div className="relative">
                 <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex gap-6 px-4 md:px-[10%]">
-                        {activeTeachers.map((member, index) => (
+                        {activeTeachers.map((member) => (
                             <div key={member.id} className="block flex-shrink-0 w-60 h-80">
                                 <TeacherCard 
                                     name={member.name}
@@ -298,20 +299,21 @@ function SchoolPageContent() {
                     <CardContent className="p-6 space-y-8">
                         {syllabusItems.length > 0 && (
                             <div>
-                                <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Syllabus</h3>
+                                <h3 className="font-bold text-xl mb-2 text-primary">Syllabus</h3>
+                                <p className="text-muted-foreground mb-4">The following table provides the subject-wise {activeClass} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeClass}.</p>
                                 <Table>
                                     <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="w-[100px]">S.No.</TableHead>
-                                            <TableHead>Subject</TableHead>
-                                            <TableHead className="text-right">Actions</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="w-[100px] text-white font-bold">S.No.</TableHead>
+                                            <TableHead className="text-white font-bold">Subject-Wise Links CBSE | {activeClass} | Syllabus 2025-26</TableHead>
+                                            <TableHead className="text-right text-white font-bold">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {syllabusItems.map((item, index) => (
-                                            <TableRow key={index}>
+                                        {syllabusItems.map((item) => (
+                                            <TableRow key={item.sno}>
                                                 <TableCell className="font-medium">{item.sno}</TableCell>
-                                                <TableCell>{item.name}</TableCell>
+                                                <TableCell><span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl) }}>{item.name}</span></TableCell>
                                                 <TableCell className="text-right">
                                                     <SyllabusActionButtons pdfUrl={item.pdfUrl} />
                                                 </TableCell>
