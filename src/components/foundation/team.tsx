@@ -6,18 +6,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Users } from "lucide-react";
 
 const team = [
-    { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "/idlfteam.jpg", description: "Visionary leader with a passion for education and social change." },
-    { name: "Manish Sharma", role: "Co-Founder & CEO", image: "/idlfteam.jpg", description: "Driving the mission forward with innovation and dedication." },
-    { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "/idlfteam.jpg", description: "Ensuring operational excellence and impactful program delivery." },
-    { name: "Vijay Verma", role: "Head of Skill Development", image: "/idlfteam.jpg", description: "Empowering individuals with skills for a brighter future." },
-    { name: "Priya Singh", role: "Community Engagement Lead", image: "/idlfteam.jpg", description: "Building strong relationships with our communities and partners." },
-    { name: "Rajesh Kumar", role: "Finance & Compliance Officer", image: "/idlfteam.jpg", description: "Ensuring financial health and regulatory compliance of the foundation." },
-    { name: "Sunita Gupta", role: "Program Coordinator", image: "/idlfteam.jpg", description: "Managing and coordinating our diverse range of social programs." },
-    { name: "Amit Patel", role: "Technology Lead", image: "/idlfteam.jpg", description: "Leveraging technology to amplify our impact and reach." },
-    { name: "Anita Desai", role: "Education Specialist", image: "/idlfteam.jpg", description: "Designing and implementing effective educational programs for all ages." },
-    { name: "Ravi Shankar", role: "Healthcare Program Manager", image: "/idlfteam.jpg", description: "Overseeing health initiatives and ensuring access to medical care." },
-    { name: "Geeta Sharma", role: "Volunteer Coordinator", image: "/idlfteam.jpg", description: "Mobilizing and managing our passionate team of volunteers." },
-    { name: "Vikram Singh", role: "Field Operations Manager", image: "/idlfteam.jpg", description: "Ensuring smooth execution of our on-ground activities and projects." },
+    { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/1/400/400", description: "Visionary leader with a passion for education and social change." },
+    { name: "Manish Sharma", role: "Co-Founder & CEO", image: "https://picsum.photos/seed/2/400/400", description: "Driving the mission forward with innovation and dedication." },
+    { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/3/400/400", description: "Ensuring operational excellence and impactful program delivery." },
+    { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/4/400/400", description: "Empowering individuals with skills for a brighter future." },
+    { name: "Priya Singh", role: "Community Engagement Lead", image: "https://picsum.photos/seed/5/400/400", description: "Building strong relationships with our communities and partners." },
+    { name: "Rajesh Kumar", role: "Finance & Compliance Officer", image: "https://picsum.photos/seed/6/400/400", description: "Ensuring financial health and regulatory compliance of the foundation." },
+    { name: "Sunita Gupta", role: "Program Coordinator", image: "https://picsum.photos/seed/7/400/400", description: "Managing and coordinating our diverse range of social programs." },
+    { name: "Amit Patel", role: "Technology Lead", image: "https://picsum.photos/seed/8/400/400", description: "Leveraging technology to amplify our impact and reach." },
+    { name: "Anita Desai", role: "Education Specialist", image: "https://picsum.photos/seed/9/400/400", description: "Designing and implementing effective educational programs for all ages." },
+    { name: "Ravi Shankar", role: "Healthcare Program Manager", image: "https://picsum.photos/seed/10/400/400", description: "Overseeing health initiatives and ensuring access to medical care." },
+    { name: "Geeta Sharma", role: "Volunteer Coordinator", image: "https://picsum.photos/seed/11/400/400", description: "Mobilizing and managing our passionate team of volunteers." },
+    { name: "Vikram Singh", role: "Field Operations Manager", image: "https://picsum.photos/seed/12/400/400", description: "Ensuring smooth execution of our on-ground activities and projects." },
 ];
 
 export function Team() {
