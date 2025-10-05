@@ -308,31 +308,35 @@ export default function IDLFoundationPage() {
             </Dialog>
 
             <section className="w-full py-12 md:py-24 bg-background">
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Events</h2>
-                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                            Watch highlights from our recent events and see the impact we're making together.
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
-                        </div>
-                        <div className="rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
-                        </div>
-                        <div className="rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="video-id-3" title="Annual Charity Gala" />
-                        </div>
-                        <div className="rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="video-id-4" title="Tree Plantation Drive" />
-                        </div>
-                        <div className="rounded-lg overflow-hidden shadow-lg">
-                            <EventVideo videoId="video-id-5" title="Women Empowerment Seminar" />
-                        </div>
-                    </div>
+              <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Events</h2>
+                  <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    Watch highlights from our recent events and see the impact we're making together.
+                  </p>
                 </div>
+                <div className="relative">
+                  <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="video-id-3" title="Annual Charity Gala" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="video-id-4" title="Tree Plantation Drive" />
+                      </div>
+                      <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
+                        <EventVideo videoId="video-id-5" title="Women Empowerment Seminar" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </section>
 
         </div>
