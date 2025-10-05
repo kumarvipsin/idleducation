@@ -175,22 +175,7 @@ export default function IDLFoundationPage() {
                 <section className="w-full relative py-8 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-[10%] mb-8">
                         <div className="text-center">
-                            <div className="flex justify-center mb-4">
-                                    <div className="bg-primary/10 p-4 rounded-full">
-                                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
-                                        <defs>
-                                            <linearGradient id="heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
-                                            <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
-                                            </linearGradient>
-                                        </defs>
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                                        </svg>
-                                    </div>
-                            </div>
-                            <h1 className="text-3xl md:text-4xl font-sans font-bold text-foreground">
-                                Make World Happier
-                            </h1>
+                           <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white">Make World Happier</h1>
                             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                                 Join us in making a difference. Your contribution can change lives.
                             </p>
@@ -277,7 +262,7 @@ export default function IDLFoundationPage() {
                                                     </div>
                                                     <div className="space-y-1">
                                                         <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
-                                                        <p className="text-xs text-muted-foreground text-right">{Math.round(percentage)}%</p>
+                                                         <p className="text-xs text-muted-foreground text-right">{Math.round(percentage)}%</p>
                                                     </div>
                                                 </div>
 
@@ -315,11 +300,6 @@ export default function IDLFoundationPage() {
                 <section className="w-full py-8 bg-background">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-8">
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-primary/10 p-4 rounded-full">
-                                    <Handshake className="w-12 h-12 text-primary" />
-                                </div>
-                            </div>
                             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Our Donors</h2>
                         </div>
                         <div className="space-y-8">
@@ -371,11 +351,6 @@ export default function IDLFoundationPage() {
                     <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                         <div className="container mx-auto px-4 md:px-6">
                             <div className="text-center mb-8">
-                                <div className="flex justify-center mb-4">
-                                    <div className="bg-primary/10 p-4 rounded-full">
-                                        <ImageIcon className="w-12 h-12 text-primary" />
-                                    </div>
-                                </div>
                                 <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Glimpses of Our Work</h2>
                                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                                     A visual journey through our impactful initiatives and community engagements.
@@ -437,15 +412,10 @@ export default function IDLFoundationPage() {
                 <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
-                    <div className="flex justify-center mb-4">
-                            <div className="bg-primary/10 p-4 rounded-full">
-                                <Video className="w-12 h-12 text-primary" />
-                            </div>
-                        </div>
-                    <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
-                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                        Watch highlights from our recent events and see the impact we're making together.
-                    </p>
+                        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            Watch highlights from our recent events and see the impact we're making together.
+                        </p>
                     </div>
                     <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -471,14 +441,9 @@ export default function IDLFoundationPage() {
                 </div>
                 </section>
 
-                <section className="w-full py-8 bg-white dark:bg-gray-800/20">
+                 <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-8">
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-primary/10 p-4 rounded-full">
-                                    <BookOpen className="w-12 h-12 text-primary" />
-                                </div>
-                            </div>
                             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
                             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                                 Our commitment to creating a better society through education and empowerment.
@@ -518,41 +483,42 @@ export default function IDLFoundationPage() {
                 <section className="w-full py-8 bg-background">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-8">
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-primary/10 p-4 rounded-full">
-                                    <Users className="w-12 h-12 text-primary" />
-                                </div>
-                            </div>
                             <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                                 The dedicated individuals leading our mission forward.
                             </p>
                         </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            {team.map((member, index) => (
-                                <Card key={index} className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
-                                    <div className="relative w-full aspect-square">
-                                        <Image
-                                            src={member.image}
-                                            alt={member.name}
-                                            data-ai-hint="person headshot"
-                                            fill
-                                            className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                    </div>
-                                    <CardContent className="p-4">
-                                        <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
-                                        <p className="text-xs text-muted-foreground">{member.role}</p>
-                                    </CardContent>
-                                </Card>
-                            ))}
+                        <div className="relative">
+                            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                <div className="flex gap-6 px-4 md:px-[10%]">
+                                    {team.map((member, index) => (
+                                        <div key={index} className="block flex-shrink-0 w-64 group">
+                                            <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
+                                                <div className="relative w-full aspect-square">
+                                                    <Image
+                                                        src={member.image}
+                                                        alt={member.name}
+                                                        data-ai-hint="person headshot"
+                                                        fill
+                                                        className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                                                    />
+                                                </div>
+                                                <CardContent className="p-4">
+                                                    <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                                                    <p className="text-xs text-muted-foreground">{member.role}</p>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
 
                 <footer className="bg-background text-gray-800 dark:text-gray-300">
-                    <Separator className="w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+                    <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     <div className="container mx-auto px-4 md:px-6 py-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div>
