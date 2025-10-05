@@ -4,7 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
+import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin, Youtube } from "lucide-react";
 
 export function FoundationFooter() {
     return (
@@ -47,11 +47,8 @@ export function FoundationFooter() {
                             <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Facebook">
                                 <Facebook className="w-5 h-5" />
                             </Link>
-                            <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Twitter">
-                                <Twitter className="w-5 h-5" />
-                            </Link>
-                            <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="LinkedIn">
-                                <Linkedin className="w-5 h-5" />
+                             <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="YouTube">
+                                <Youtube className="w-5 h-5" />
                             </Link>
                         </div>
                     </div>
