@@ -11,9 +11,9 @@ import { FoundationHero } from "@/components/landing/foundation-hero";
 import { Progress } from "@/components/ui/progress";
 
 const donationCategories = [
-    { title: "Support To Rural development", description: "Rural development remains the cornerstone of our mission, aiming to uplift communities through sustainable initiatives.", imageUrl: "https://picsum.photos/seed/rural/600/400", imageHint: "rural development", goal: 7089758, raised: 533619 },
-    { title: "Consumer Awareness", description: "Empowering consumers with knowledge about their rights and fair market practices.", imageUrl: "https://picsum.photos/seed/consumer/600/400", imageHint: "consumer rights", goal: 7089758, raised: 0 },
-    { title: "Health Programmes", description: "Promoting community health through accessible and effective healthcare programs and awareness campaigns.", imageUrl: "https://picsum.photos/seed/health/600/400", imageHint: "health program", goal: 7089758, raised: 0 },
+    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "team training", goal: 7089758, raised: 533619 },
+    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://images.unsplash.com/photo-1594735232922-261543dd3a48?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "children studying", goal: 7089758, raised: 0 },
+    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://images.unsplash.com/photo-1518544458318-775c74de0b90?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "planting tree", goal: 7089758, raised: 0 },
     { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://images.unsplash.com/photo-1567427018141-0584cfcbf1b8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "women group", goal: 5000000, raised: 1250000 },
     { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
     { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://images.unsplash.com/photo-1598411354362-850f3b6143c6?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", imageHint: "elderly people", goal: 2500000, raised: 800000 },
@@ -164,7 +164,7 @@ export default function IDLFoundationPage() {
                         <div>
                             <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">10+ Companies and Organizations</h3>
                             <div className="w-full overflow-hidden">
-                                <div className="flex animate-marquee-scroll">
+                                <div className="flex animate-marquee-scroll-reverse">
                                     {[...companies, ...companies].map((donor, index) => (
                                         <Card key={`company-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
                                             <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
@@ -184,7 +184,7 @@ export default function IDLFoundationPage() {
                         <div className="mt-12">
                             <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">100+ People</h3>
                             <div className="w-full overflow-hidden">
-                                <div className="flex animate-marquee-scroll-reverse">
+                                <div className="flex animate-marquee-scroll">
                                     {[...people, ...people].map((donor, index) => (
                                         <Card key={`person-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
                                             <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
