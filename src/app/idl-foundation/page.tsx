@@ -93,7 +93,7 @@ export default function IDLFoundationPage() {
 
             <FoundationHero slides={donationCategories} />
             
-            <section className="w-full relative py-8 md:py-16 bg-white dark:bg-gray-800/20">
+            <section className="w-full relative py-8 md:py-12 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
@@ -169,26 +169,26 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-16 bg-primary text-primary-foreground">
+            <section className="w-full py-8 md:py-12 bg-background text-foreground">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {stats.map((stat, index) => (
                             <div key={index} className="flex flex-col items-center">
-                                <stat.icon className="w-12 h-12 mb-2" />
+                                <stat.icon className="w-12 h-12 mb-2 text-primary" />
                                 <p className="text-3xl md:text-4xl font-bold">
                                     {stat.count.toLocaleString()}{stat.plus && '+'}
                                 </p>
-                                <p className="text-sm md:text-base font-medium">{stat.label}</p>
+                                <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
             
-            <section className="w-full py-8 md:py-16 bg-background">
+            <section className="w-full py-8 md:py-12 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <div className="flex justify-center mb-4">
+                         <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
                                 <Handshake className="w-12 h-12 text-primary" />
                             </div>
@@ -241,7 +241,7 @@ export default function IDLFoundationPage() {
             </section>
 
             <Dialog>
-                <section className="w-full py-8 md:py-16 bg-white dark:bg-gray-800/20">
+                <section className="w-full py-8 md:py-12 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-12">
                             <div className="flex justify-center mb-4">
@@ -307,7 +307,7 @@ export default function IDLFoundationPage() {
                 )}
             </Dialog>
 
-            <section className="w-full py-8 md:py-16 bg-background">
+            <section className="w-full py-8 md:py-12 bg-background">
               <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
                    <div className="flex justify-center mb-4">
@@ -344,7 +344,7 @@ export default function IDLFoundationPage() {
               </div>
             </section>
 
-             <section className="w-full py-8 md:py-16 bg-white dark:bg-gray-800/20">
+             <section className="w-full py-8 md:py-12 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
@@ -388,8 +388,8 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
             
-            <footer className="bg-background text-gray-800 dark:text-gray-300 mt-12">
-                <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+            <footer className="bg-background text-gray-800 dark:text-gray-300">
+                <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                 <div className="container mx-auto px-4 md:px-6 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
