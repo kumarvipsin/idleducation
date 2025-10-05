@@ -11,6 +11,7 @@ import { FoundationHero } from "@/components/landing/foundation-hero";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
@@ -378,7 +379,8 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
             
-            <footer className="bg-background text-gray-800 dark:text-gray-300 mt-12 border-t border-border">
+            <footer className="bg-background text-gray-800 dark:text-gray-300 mt-12">
+                <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                 <div className="container mx-auto px-4 md:px-6 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
