@@ -73,8 +73,8 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
                       <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                           <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                               <div className="space-y-4 text-white">
-                                  <p className="text-base md:text-lg font-medium">
-                                    <span className="border border-white rounded-md px-3 py-1">
+                                  <p className="text-sm md:text-base font-medium">
+                                    <span className="border border-white rounded px-3 py-1">
                                       Help Us Now
                                     </span>
                                   </p>
