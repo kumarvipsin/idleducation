@@ -220,6 +220,27 @@ function AdminLayout({
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
+                <SidebarMenuSub value="store-management">
+                    <SidebarMenuSubButton>
+                        <ShoppingCart />
+                        <span>Store Management</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
+                            <Link href="/admin/store-customers">
+                                <Users />
+                                <span>Customers</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-orders')}>
+                            <Link href="/admin/store-orders">
+                                <ShoppingCart />
+                                <span>Orders</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
                 <SidebarMenuSub value="site-content">
                     <SidebarMenuSubButton>
                         <Settings2 />
@@ -255,18 +276,6 @@ function AdminLayout({
                             <Link href="/admin/excellence-results">
                                 <Star />
                                 <span>Excellence Results</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-customers')}>
-                            <Link href="/admin/store-customers">
-                                <Users />
-                                <span>Store Customers</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/store-orders')}>
-                            <Link href="/admin/store-orders">
-                                <ShoppingCart />
-                                <span>Store Orders</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
