@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus, PlayCircle, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Linkedin, Video, ImageIcon } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen, Home, Users, HelpingHand, UserCircle, Handshake, Plus, PlayCircle, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Linkedin, Video, ImageIcon, CheckCircle, IndianRupee, Banknote } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,6 +12,8 @@ import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
@@ -86,6 +88,12 @@ const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
 
 export default function IDLFoundationPage() {
     const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
+    const [donationCategory, setDonationCategory] = useState<string>("");
+    const [donationStep, setDonationStep] = useState(1);
+
+    const handleDonateClick = () => {
+        setDonationStep(2);
+    }
 
     return (
         <div className="relative w-full bg-background overflow-y-auto">
@@ -116,7 +124,47 @@ export default function IDLFoundationPage() {
                             Join us in making a difference. Your contribution can change lives.
                         </p>
                         <div className="mt-6">
-                            <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
+                             <Dialog onOpenChange={(open) => { if (!open) setDonationStep(1); }}>
+                                <DialogTrigger asChild>
+                                    <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
+                                        <DialogDescription className="text-center">
+                                            Your generosity helps us create a better world. Please choose where you'd like to make an impact.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    {donationStep === 1 ? (
+                                        <div className="py-4 space-y-4">
+                                            <RadioGroup onValueChange={setDonationCategory} value={donationCategory}>
+                                                {donationCategories.map(category => (
+                                                    <div key={category.title} className="flex items-center space-x-2">
+                                                        <RadioGroupItem value={category.title} id={category.title} />
+                                                        <Label htmlFor={category.title}>{category.title}</Label>
+                                                    </div>
+                                                ))}
+                                            </RadioGroup>
+                                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full">
+                                                Donate to {donationCategory || "..."}
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-4 space-y-4">
+                                            <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
+                                            <p className="font-semibold">Thank you for choosing to support "{donationCategory}"!</p>
+                                            <p className="text-sm text-muted-foreground">Click below to proceed with your donation. You will be redirected to a secure payment gateway.</p>
+                                            <Button onClick={() => alert('Redirecting to payment gateway...')} className="w-full bg-green-600 hover:bg-green-700">
+                                                <Banknote className="mr-2 h-4 w-4" />
+                                                Proceed to Final Payment
+                                            </Button>
+                                             <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs">
+                                                Change Category
+                                            </Button>
+                                        </div>
+                                    )}
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
                 </div>
@@ -174,11 +222,11 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-background text-foreground">
+            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
-                            <Card key={index} className="text-center p-4 bg-muted/30 rounded-lg">
+                            <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                 <p className="text-3xl md:text-4xl font-bold text-primary">
                                     {stat.count.toLocaleString()}{stat.plus && '+'}
                                 </p>
