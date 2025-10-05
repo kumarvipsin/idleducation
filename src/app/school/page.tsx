@@ -312,14 +312,16 @@ function SchoolPageContent() {
           </section>
         </div>
          <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
-             <DialogContent className="max-w-4xl h-[90vh] p-2">
-                <p className="p-2 text-sm font-semibold truncate">{dialogTitle}</p>
+             <DialogContent className="max-w-4xl h-[90vh] p-2 flex flex-col">
+                <DialogHeader className="p-2 border-b">
+                    <DialogTitle className="truncate text-sm font-semibold">{dialogTitle}</DialogTitle>
+                </DialogHeader>
                 {isLoadingPdf || !pdfSrc ? (
                     <div className="flex items-center justify-center h-full">
                         <p>Loading PDF...</p>
                     </div>
                 ) : (
-                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
+                    <iframe src={pdfSrc} className="w-full h-full rounded-b-md" />
                 )}
             </DialogContent>
         </Dialog>
