@@ -18,11 +18,14 @@ const donationCategories = [
     { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://ekhumfoundation.com/wp-content/uploads/2022/02/Donate.jpeg", imageHint: "elderly people" },
 ];
 
-const donors = [
+const companies = [
     { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
     { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
     { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
     { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi/200/100" },
+];
+
+const people = [
     { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/bhagwati/200/100" },
     { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
@@ -135,20 +138,41 @@ export default function IDLFoundationPage() {
                         </svg>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Donors</h2>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {donors.map((donor, index) => (
-                            <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-                                <div className="relative h-12 w-20 mr-4">
-                                    <Image
-                                        src={donor.logo}
-                                        alt={`${donor.name} logo`}
-                                        fill
-                                        className="object-contain"
-                                    />
-                                </div>
-                                <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
-                            </Card>
-                        ))}
+                    <div className="mb-8">
+                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center">Companies and Organizations</h3>
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {companies.map((donor, index) => (
+                                <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
+                                    <div className="relative h-12 w-20 mr-4">
+                                        <Image
+                                            src={donor.logo}
+                                            alt={`${donor.name} logo`}
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                     <div className="mt-12">
+                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center">People</h3>
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {people.map((donor, index) => (
+                                <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
+                                    <div className="relative h-12 w-20 mr-4">
+                                        <Image
+                                            src={donor.logo}
+                                            alt={`${donor.name} logo`}
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                </Card>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
