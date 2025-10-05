@@ -14,6 +14,7 @@ import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
@@ -46,10 +47,10 @@ const people = [
 ];
 
 const stats = [
-    { count: 143703, label: 'Visitors' },
-    { count: 255, label: 'Donors', plus: true },
-    { count: 28, label: 'Members' },
-    { count: 37, label: 'Volunteers' }
+  { icon: Users, count: 143703, label: 'Visitors' },
+  { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
+  { icon: UserCircle, count: 28, label: 'Members' },
+  { icon: Handshake, count: 37, label: 'Volunteers' }
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
@@ -90,9 +91,14 @@ export default function IDLFoundationPage() {
     const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
     const [donationCategory, setDonationCategory] = useState<string>("");
     const [donationStep, setDonationStep] = useState(1);
+    const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '', place: '' });
 
     const handleDonateClick = () => {
         setDonationStep(2);
+    }
+    
+    const handleDetailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDonorDetails({ ...donorDetails, [e.target.name]: e.target.value });
     }
 
     return (
@@ -128,7 +134,7 @@ export default function IDLFoundationPage() {
                                 <DialogTrigger asChild>
                                     <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700">Donate</Button>
                                 </DialogTrigger>
-                                <DialogContent className="sm:max-w-[425px]">
+                                <DialogContent className="sm:max-w-md">
                                     <DialogHeader>
                                         <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
                                         <DialogDescription className="text-center">
@@ -150,15 +156,29 @@ export default function IDLFoundationPage() {
                                             </Button>
                                         </div>
                                     ) : (
-                                        <div className="text-center py-4 space-y-4">
-                                            <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
-                                            <p className="font-semibold">Thank you for choosing to support "{donationCategory}"!</p>
-                                            <p className="text-sm text-muted-foreground">Click below to proceed with your donation. You will be redirected to a secure payment gateway.</p>
+                                        <div className="py-4 space-y-4">
+                                            <p className="text-center font-semibold">You are donating to "{donationCategory}".</p>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="name">Name (Optional)</Label>
+                                                <Input id="name" name="name" placeholder="Your Name" value={donorDetails.name} onChange={handleDetailChange} />
+                                            </div>
+                                             <div className="space-y-2">
+                                                <Label htmlFor="contact">Contact (Optional)</Label>
+                                                <Input id="contact" name="contact" placeholder="Your Contact Number" value={donorDetails.contact} onChange={handleDetailChange} />
+                                            </div>
+                                             <div className="space-y-2">
+                                                <Label htmlFor="email">Email (Optional)</Label>
+                                                <Input id="email" name="email" type="email" placeholder="Your Email Address" value={donorDetails.email} onChange={handleDetailChange} />
+                                            </div>
+                                             <div className="space-y-2">
+                                                <Label htmlFor="place">Place (Optional)</Label>
+                                                <Input id="place" name="place" placeholder="Your City/State" value={donorDetails.place} onChange={handleDetailChange} />
+                                            </div>
                                             <Button onClick={() => alert('Redirecting to payment gateway...')} className="w-full bg-green-600 hover:bg-green-700">
                                                 <Banknote className="mr-2 h-4 w-4" />
                                                 Proceed to Final Payment
                                             </Button>
-                                             <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs">
+                                             <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full">
                                                 Change Category
                                             </Button>
                                         </div>
@@ -222,11 +242,12 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
+            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:bg-card dark:text-gray-300">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
                             <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <stat.icon className="w-8 h-8 mx-auto text-primary mb-2"/>
                                 <p className="text-3xl md:text-4xl font-bold text-primary">
                                     {stat.count.toLocaleString()}{stat.plus && '+'}
                                 </p>
