@@ -106,6 +106,12 @@ export type VideoLesson = {
   youtubeLink: string;
 };
 
+export type SyllabusItem = {
+  sno: string;
+  name: string;
+  pdfUrl?: string;
+};
+
 export interface TExamCategory {
   id: string;
   name: string;
@@ -116,6 +122,7 @@ export interface TExamCategory {
   imageUrl?: string;
   href: string;
   videoLessons?: VideoLesson[];
+  syllabus?: SyllabusItem[];
 }
 
 export interface TTeamMember {
