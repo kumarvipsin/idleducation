@@ -30,24 +30,24 @@ const galleryImages = [
 ];
 
 const companies = [
-    { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
-    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
-    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
-    { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi/200/100" },
+    { name: "DDU-GKY", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ddu-gky.png" },
+    { name: "Maulana Azad Education Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/maef.png" },
+    { name: "Ministry of Textiles", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/ministry-of-textiles.png" },
+    { name: "Delhi Government", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/delhi-govt.png" },
 ];
 
 const people = [
-    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/bhagwati/200/100" },
+    { name: "Bhagwati Exports", logo: "https://ekhumfoundation.com/wp-content/uploads/2023/07/Bhagwati-Exports-1-1024x725.png" },
     { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
     { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
 ];
 
 const stats = [
-    { icon: Users, count: 143703, label: 'Visitors' },
-    { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
-    { icon: UserCircle, count: 28, label: 'Members' },
-    { icon: Handshake, count: 37, label: 'Volunteers' }
+    { count: 143703, label: 'Visitors' },
+    { count: 255, label: 'Donors', plus: true },
+    { count: 28, label: 'Members' },
+    { count: 37, label: 'Volunteers' }
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
@@ -150,9 +150,9 @@ export default function IDLFoundationPage() {
                                                     <span className="text-muted-foreground">Raised:</span>
                                                     <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
-                                                <div className="relative pt-1">
+                                                <div className="space-y-1">
                                                     <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
-                                                    <div className="absolute top-0 right-0 -mt-4 text-xs font-bold text-green-600">
+                                                    <div className="text-right text-xs font-bold text-green-600">
                                                         {Math.round(percentage)}%
                                                     </div>
                                                 </div>
@@ -174,15 +174,15 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-background text-foreground">
+            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
-                            <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-800/50 border-none rounded-lg shadow-sm">
-                            <p className="text-3xl md:text-4xl font-bold text-primary">
-                                {stat.count.toLocaleString()}{stat.plus && '+'}
-                            </p>
-                            <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
+                            <Card key={index} className="text-center p-4 bg-transparent border-none shadow-none">
+                                <p className="text-3xl md:text-4xl font-bold text-primary">
+                                    {stat.count.toLocaleString()}{stat.plus && '+'}
+                                </p>
+                                <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
                             </Card>
                         ))}
                     </div>
