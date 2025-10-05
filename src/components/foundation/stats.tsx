@@ -4,7 +4,7 @@
 import { Card } from "@/components/ui/card";
 
 const stats = [
-    { count: '100+', label: 'Visitors' },
+    { count: '1000+', label: 'Visitors' },
     { count: '100+', label: 'Donors' },
     { count: '20+', label: 'Members' },
     { count: '50+', label: 'Volunteers' }
