@@ -129,40 +129,46 @@ export default function IDLFoundationPage() {
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Donors</h2>
                     </div>
-                    <div className="mb-8">
-                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center">Companies and Organizations</h3>
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {companies.map((donor, index) => (
-                                <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-                                    <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
-                                    <div className="relative h-12 w-20 ml-4">
-                                        <Image
-                                            src={donor.logo}
-                                            alt={`${donor.name} logo`}
-                                            fill
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                </Card>
-                            ))}
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">Companies and Organizations</h3>
+                            <div className="w-full overflow-hidden">
+                                <div className="flex animate-marquee-scroll">
+                                    {[...companies, ...companies].map((donor, index) => (
+                                        <Card key={`company-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
+                                            <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                            <div className="relative h-12 w-20 ml-4">
+                                                <Image
+                                                    src={donor.logo}
+                                                    alt={`${donor.name} logo`}
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                     <div className="mt-12">
-                        <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center">People</h3>
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {people.map((donor, index) => (
-                                <Card key={index} className="flex items-center p-4 bg-card shadow-lg hover:shadow-xl transition-shadow rounded-lg">
-                                     <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
-                                    <div className="relative h-12 w-20 ml-4">
-                                        <Image
-                                            src={donor.logo}
-                                            alt={`${donor.name} logo`}
-                                            fill
-                                            className="object-contain"
-                                        />
-                                    </div>
-                                </Card>
-                            ))}
+                        <div className="mt-12">
+                            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">People</h3>
+                            <div className="w-full overflow-hidden">
+                                <div className="flex animate-marquee-scroll-reverse">
+                                    {[...people, ...people].map((donor, index) => (
+                                        <Card key={`person-${index}`} className="flex-shrink-0 w-64 flex items-center p-4 bg-card shadow-lg mx-3 rounded-lg">
+                                            <p className="text-sm font-semibold text-center text-muted-foreground flex-1">{donor.name}</p>
+                                            <div className="relative h-12 w-20 ml-4">
+                                                <Image
+                                                    src={donor.logo}
+                                                    alt={`${donor.name} logo`}
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

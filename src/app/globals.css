@@ -160,11 +160,12 @@
     20%, 40%, 60%, 80% { transform: rotate(10deg); }
   }
 
-  .marquee-container {
+  .animate-marquee-scroll {
     animation: marquee-scroll 40s linear infinite;
   }
-  .marquee-container:hover {
-    animation-play-state: paused;
+
+  .animate-marquee-scroll-reverse {
+    animation: marquee-scroll-reverse 40s linear infinite;
   }
 
   @keyframes marquee-scroll {
@@ -173,6 +174,15 @@
     }
     to {
       transform: translateX(-100%);
+    }
+  }
+
+  @keyframes marquee-scroll-reverse {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
     }
   }
   
