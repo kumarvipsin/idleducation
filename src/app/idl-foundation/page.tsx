@@ -60,6 +60,8 @@ const team = [
     { name: "Amit Patel", role: "Technology Lead", image: "https://picsum.photos/seed/team8/400/400", description: "Leveraging technology to amplify our impact and reach." },
     { name: "Anita Desai", role: "Education Specialist", image: "https://picsum.photos/seed/team9/400/400", description: "Designing and implementing effective educational programs for all ages." },
     { name: "Ravi Shankar", role: "Healthcare Program Manager", image: "https://picsum.photos/seed/team10/400/400", description: "Overseeing health initiatives and ensuring access to medical care." },
+    { name: "Geeta Sharma", role: "Volunteer Coordinator", image: "https://picsum.photos/seed/team11/400/400", description: "Mobilizing and managing our passionate team of volunteers." },
+    { name: "Vikram Singh", role: "Field Operations Manager", image: "https://picsum.photos/seed/team12/400/400", description: "Ensuring smooth execution of our on-ground activities and projects." },
 ];
 
 const stats = [
@@ -445,7 +447,7 @@ export default function IDLFoundationPage() {
                         <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="IO5w8e39v5A" title="Community Skill Training Workshop" />
+                        <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="3Z1_Hmc4g-g" title="Annual Charity Gala" />
