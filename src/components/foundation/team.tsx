@@ -24,11 +24,6 @@ export function Team() {
     return (
         <section className="w-full py-8 bg-background">
             <div className="text-center mb-8 px-4 md:px-6">
-                 <div className="flex justify-center mb-4">
-                    <div className="bg-primary/10 p-4 rounded-full">
-                        <Users className="w-12 h-12 text-primary" />
-                    </div>
-                </div>
                 <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                 <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                     The dedicated individuals leading our mission forward.

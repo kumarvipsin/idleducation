@@ -9,11 +9,6 @@ export function About() {
         <section className="w-full py-8 bg-white dark:bg-gray-800/20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-8">
-                    <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 p-4 rounded-full">
-                            <BookOpen className="w-12 h-12 text-primary" />
-                        </div>
-                    </div>
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         Our commitment to creating a better society through education and empowerment.
