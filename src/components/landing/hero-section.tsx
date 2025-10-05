@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -12,23 +13,23 @@ import { cn } from "@/lib/utils";
 
 const heroSlides = [
   { 
-    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Brightened.</span></>,
+    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Potential.</span></>,
+    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
-    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Education.</span></>,
+    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
   { 
-    title: <>Learn from the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Best.</span></>,
+    title: <>Learn from the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Best.</span></>,
     description: "Our experienced faculty is dedicated to helping you succeed."
   },
   { 
-    title: <>Education for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Future.</span></>,
+    title: <>Education for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Future.</span></>,
     description: "Modern tools and a dynamic curriculum to prepare you for tomorrow's challenges."
   },
 ]
