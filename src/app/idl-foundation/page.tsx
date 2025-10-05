@@ -13,12 +13,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useState } from "react";
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Help individuals gain valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
-    { title: "Street & Slum Children Education", description: "Provide access to education for children in need.", imageUrl: "https://picsum.photos/seed/slum/600/400", imageHint: "children studying", goal: 7089758, raised: 0 },
-    { title: "Environment / Tree Plantation", description: "Contribute to a greener planet for future generations.", imageUrl: "https://picsum.photos/seed/tree/600/400", imageHint: "planting tree", goal: 7089758, raised: 0 },
-    { title: "Women Empowerment", description: "Support programs that empower women and promote equality.", imageUrl: "https://picsum.photos/seed/women/600/400", imageHint: "women group", goal: 5000000, raised: 1250000 },
-    { title: "Medical Assistance", description: "Help provide essential healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/600/400", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
-    { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://picsum.photos/seed/elderly/600/400", imageHint: "elderly people", goal: 2500000, raised: 800000 },
+    { title: "Skill Trainings", description: "Empower individuals with valuable skills.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
+    { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/600/400", imageHint: "children studying", goal: 7089758, raised: 0 },
+    { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/600/400", imageHint: "planting tree", goal: 7089758, raised: 0 },
+    { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/600/400", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare to those in need.", imageUrl: "https://picsum.photos/seed/medical/600/400", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/600/400", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
 const galleryImages = [
@@ -310,7 +310,7 @@ export default function IDLFoundationPage() {
             <section className="w-full py-12 md:py-24 bg-background">
               <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our Events</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Events & Highlights</h2>
                   <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                     Watch highlights from our recent events and see the impact we're making together.
                   </p>
@@ -325,13 +325,13 @@ export default function IDLFoundationPage() {
                         <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="video-id-3" title="Annual Charity Gala" />
+                        <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="video-id-4" title="Tree Plantation Drive" />
+                        <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="video-id-5" title="Women Empowerment Seminar" />
+                        <EventVideo videoId="3JZ_D3p_L4A" title="Women Empowerment Seminar" />
                       </div>
                     </div>
                   </div>
