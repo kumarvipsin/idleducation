@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from "next/image";
@@ -16,36 +15,31 @@ const team = [
 export function Team() {
     return (
         <section className="w-full py-8 bg-background">
-            <div className="text-center mb-8 px-4 md:px-6">
-                <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
-                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                    The dedicated individuals leading our mission forward.
-                </p>
-            </div>
-            <div className="relative">
-                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex gap-6 pl-[10%]">
-                        {team.map((member, index) => (
-                            <div key={index} className="block flex-shrink-0 w-64 group">
-                                <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg h-full">
-                                    <div className="relative w-full aspect-square">
-                                        <Image
-                                            src={member.image}
-                                            alt={member.name}
-                                            data-ai-hint="person headshot"
-                                            fill
-                                            className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                    </div>
-                                    <CardContent className="p-4">
-                                        <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
-                                        <p className="text-xs text-muted-foreground">{member.role}</p>
-                                        <p className="text-xs text-muted-foreground mt-2">{member.description}</p>
-                                    </CardContent>
-                                </Card>
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        The dedicated individuals leading our mission forward.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    {team.map((member, index) => (
+                        <Card key={index} className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg h-full">
+                            <div className="relative w-full aspect-square">
+                                <Image
+                                    src={member.image}
+                                    alt={member.name}
+                                    data-ai-hint="person headshot"
+                                    fill
+                                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                                />
                             </div>
-                        ))}
-                    </div>
+                            <CardContent className="p-4">
+                                <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                                <p className="text-xs text-muted-foreground">{member.role}</p>
+                            </CardContent>
+                        </Card>
+                    ))}
                 </div>
             </div>
         </section>
