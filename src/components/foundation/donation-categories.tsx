@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import Link from "next/link";
-import { IndianRupee, Banknote, CheckCircle } from "lucide-react";
+import { IndianRupee, Banknote, CheckCircle, Heart } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -121,7 +122,7 @@ export function DonationCategories({ donationCategories }: { donationCategories:
                             <Dialog onOpenChange={(open) => { if (!open) setDonationStep(1); }}>
                                 <DialogTrigger asChild>
                                     <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-12 px-6">
-                                        <HandHeartIcon className="w-6 h-6 mr-2" />
+                                        <Heart className="w-6 h-6 mr-2 fill-white" />
                                         <span className="text-lg">DONATE</span>
                                     </Button>
                                 </DialogTrigger>
