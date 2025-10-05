@@ -29,7 +29,9 @@ export default function IDLFoundationPage() {
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
-                            <HandHeart className="w-12 h-12 text-primary" />
+                            <div className="bg-primary/10 text-primary p-4 rounded-full">
+                                <Heart className="w-12 h-12" />
+                            </div>
                         </div>
                         <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">
                             Make World Happier
