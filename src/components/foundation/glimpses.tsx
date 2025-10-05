@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -9,10 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ImageIcon, Plus } from "lucide-react";
 
 const galleryImages = [
-    { src: 'https://picsum.photos/seed/gallery1/600/600', alt: 'Community gathering', hint: 'community gathering', title: 'Community Outreach' },
-    { src: 'https://picsum.photos/seed/gallery2/600/600', alt: 'Children learning', hint: 'children learning', title: 'Educational Initiatives' },
-    { src: 'https://picsum.photos/seed/gallery3/600/600', alt: 'Event presentation', hint: 'event presentation', title: 'Awareness Campaigns' },
-    { src: 'https://picsum.photos/seed/gallery4/600/600', alt: 'Group discussion', hint: 'group discussion', title: 'Skill Development' },
+    { src: 'https://picsum.photos/seed/gallery1/600/600', alt: 'Community gathering', hint: 'community gathering', title: 'Community Outreach', category: 'IDL Foundation' },
+    { src: 'https://picsum.photos/seed/gallery2/600/600', alt: 'Children learning', hint: 'children learning', title: 'Educational Initiatives', category: 'IDL Foundation' },
+    { src: 'https://picsum.photos/seed/gallery3/600/600', alt: 'Event presentation', hint: 'event presentation', title: 'Awareness Campaigns', category: 'IDL Foundation' },
+    { src: 'https://picsum.photos/seed/gallery4/600/600', alt: 'Group discussion', hint: 'group discussion', title: 'Skill Development', category: 'IDL Foundation' },
 ];
 
 export function Glimpses() {
@@ -54,7 +53,7 @@ export function Glimpses() {
                     </div>
                     <div className="text-center mt-8">
                         <Button asChild variant="outline" className="rounded-full">
-                            <Link href="/idl-foundation/gallery">
+                            <Link href="/gallery?category=IDL Foundation">
                                 VIEW ALL
                             </Link>
                         </Button>

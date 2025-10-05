@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Search, Image as ImageIcon, Plus, Home } from 'lucide-react';
@@ -12,6 +12,7 @@ import { getGalleryImages } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 type GalleryImage = {
   id: string;
@@ -22,13 +23,17 @@ type GalleryImage = {
   className?: string;
 };
 
-export default function GalleryPage() {
+function GalleryPageContent() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
   
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  
+  const [selectedCategory, setSelectedCategory] = useState(categoryParam || 'All');
+
   useEffect(() => {
     const fetchImages = async () => {
       setLoading(true);
@@ -40,12 +45,18 @@ export default function GalleryPage() {
     };
     fetchImages();
   }, []);
+  
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
+  }, [categoryParam]);
 
   const galleryCategories = ['All', ...Array.from(new Set(images.map(img => img.category)))];
 
   const filteredImages = images.filter(image =>
     (selectedCategory === 'All' || image.category === selectedCategory) &&
-    (image.id.toLowerCase().includes(searchTerm.toLowerCase()) || image.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    (image.title.toLowerCase().includes(searchTerm.toLowerCase()))
   );
   
   return (
@@ -63,7 +74,7 @@ export default function GalleryPage() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                         type="text"
-                        placeholder="Search by ID or title..."
+                        placeholder="Search by title..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-10 w-full rounded-full h-10"
@@ -156,4 +167,12 @@ export default function GalleryPage() {
         )}
     </Dialog>
   );
+}
+
+export default function GalleryPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <GalleryPageContent />
+        </Suspense>
+    )
 }
