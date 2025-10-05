@@ -49,11 +49,19 @@ const people = [
     { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
 ];
 
+const team = [
+    { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/team1/400/400" },
+    { name: "Manish Sharma", role: "Co-Founder & CEO", image: "https://picsum.photos/seed/team2/400/400" },
+    { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/team3/400/400" },
+    { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/team4/400/400" },
+];
+
+
 const stats = [
-    { icon: Users, count: 143703, label: 'Visitors' },
-    { icon: HelpingHand, count: 255, label: 'Donors', plus: true },
-    { icon: UserCircle, count: 28, label: 'Members' },
-    { icon: Handshake, count: 37, label: 'Volunteers' }
+    { count: 143703, label: 'Visitors' },
+    { count: 255, label: 'Donors', plus: true },
+    { count: 28, label: 'Members' },
+    { count: 37, label: 'Volunteers' }
 ]
 
 const EventVideo = ({ videoId, title }: { videoId: string, title: string }) => {
@@ -291,7 +299,7 @@ export default function IDLFoundationPage() {
 
                 <section className="w-full py-8 md:py-12 bg-white dark:bg-card text-gray-800 dark:text-gray-300">
                     <div className="container mx-auto px-4 md:px-6">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {stats.map((stat, index) => (
                                 <Card key={index} className="text-center p-4 bg-transparent border-0 shadow-none">
                                     <p className="text-3xl md:text-4xl font-bold text-primary">
@@ -507,6 +515,42 @@ export default function IDLFoundationPage() {
                     </div>
                 </section>
                 
+                <section className="w-full py-8 bg-background">
+                    <div className="container mx-auto px-4 md:px-6">
+                        <div className="text-center mb-8">
+                            <div className="flex justify-center mb-4">
+                                <div className="bg-primary/10 p-4 rounded-full">
+                                    <Users className="w-12 h-12 text-primary" />
+                                </div>
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
+                            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                                The dedicated individuals leading our mission forward.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            {team.map((member, index) => (
+                                <Card key={index} className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group bg-card rounded-lg">
+                                    <div className="relative w-full aspect-square">
+                                        <Image
+                                            src={member.image}
+                                            alt={member.name}
+                                            data-ai-hint="person headshot"
+                                            fill
+                                            className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    </div>
+                                    <CardContent className="p-4">
+                                        <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                                        <p className="text-xs text-muted-foreground">{member.role}</p>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+
                 <footer className="bg-background text-gray-800 dark:text-gray-300">
                     <Separator className="w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                     <div className="container mx-auto px-4 md:px-6 py-6">
