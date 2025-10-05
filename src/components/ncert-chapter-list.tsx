@@ -130,14 +130,14 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {chapter.topics?.map((topic, index) => {
                                                     const cards = [
-                                                        {
+                                                          {
                                                             pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en],
-                                                            label: is_note ? `${topic.name} (Eng)` : `${topic.name} (Eng)`,
+                                                            label: is_note ? 'NCERT Notes (Eng)' : 'NCERT Solutions (Eng)',
                                                             is_download: true,
                                                           },
                                                           {
                                                             pdfs: [is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi],
-                                                            label: is_note ? `${topic.name} (Hi)` : `${topic.name} (Hi)`,
+                                                            label: is_note ? 'NCERT Notes (Hi)' : 'NCERT Solutions (Hi)',
                                                             is_download: true,
                                                           },
                                                           {
