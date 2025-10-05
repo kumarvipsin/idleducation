@@ -390,19 +390,19 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
-                            <ul className="space-y-2 text-sm">
+                            <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
-                                <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:underline">+91 7011117585</a></li>
-                                <li className="flex items-center gap-2"><Mail className="w-4 h-4"/><a href="mailto:info@idlfoundation.in" className="hover:underline">info@idlfoundation.in</a></li>
+                                <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a></li>
+                                <li className="flex items-center gap-2"><Mail className="w-4 h-4"/><a href="mailto:info@idlfoundation.in" className="hover:text-primary hover:underline">info@idlfoundation.in</a></li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-4">Follow Us</h3>
                             <div className="flex items-center gap-3">
-                                <Link href="#" className="text-gray-400 hover:text-white"><Instagram className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-gray-400 hover:text-white"><Facebook className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-gray-400 hover:text-white"><Twitter className="w-5 h-5"/></Link>
-                                <Link href="#" className="text-gray-400 hover:text-white"><Linkedin className="w-5 h-5"/></Link>
+                                <Link href="#" className="text-muted-foreground hover:text-primary"><Instagram className="w-5 h-5"/></Link>
+                                <Link href="#" className="text-muted-foreground hover:text-primary"><Facebook className="w-5 h-5"/></Link>
+                                <Link href="#" className="text-muted-foreground hover:text-primary"><Twitter className="w-5 h-5"/></Link>
+                                <Link href="#" className="text-muted-foreground hover:text-primary"><Linkedin className="w-5 h-5"/></Link>
                             </div>
                         </div>
                     </div>
