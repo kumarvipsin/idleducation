@@ -49,8 +49,10 @@ export function Team() {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 });
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+    const scrollTo = useCallback(
+        (index: number) => emblaApi && emblaApi.scrollTo(index),
+        [emblaApi]
+    );
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -92,22 +94,18 @@ export function Team() {
                             ))}
                         </div>
                     </div>
-                     <Button
-                        variant="outline"
-                        size="icon"
-                        className="absolute top-1/2 -translate-y-1/2 left-0 z-10 h-12 w-12 rounded-full hidden md:flex"
-                        onClick={scrollPrev}
-                    >
-                        <ArrowLeft className="h-6 w-6" />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="icon"
-                        className="absolute top-1/2 -translate-y-1/2 right-0 z-10 h-12 w-12 rounded-full hidden md:flex"
-                        onClick={scrollNext}
-                    >
-                        <ArrowRight className="h-6 w-6" />
-                    </Button>
+                </div>
+                <div className="flex justify-center items-center gap-2 mt-8">
+                    {team.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => scrollTo(index)}
+                            className={cn(
+                                "h-2 w-2 rounded-full transition-all duration-300",
+                                selectedIndex === index ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                            )}
+                        />
+                    ))}
                 </div>
             </div>
         </section>
