@@ -93,7 +93,7 @@ export default function IDLFoundationPage() {
 
             <FoundationHero slides={donationCategories} />
             
-            <section className="w-full relative py-8 md:py-12 bg-white dark:bg-gray-800/20">
+            <section className="w-full relative py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
@@ -169,7 +169,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-background text-foreground">
+            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {stats.map((stat, index) => (
@@ -185,7 +185,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
             
-            <section className="w-full py-8 md:py-12 bg-background">
+            <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                          <div className="flex justify-center mb-4">
@@ -241,7 +241,7 @@ export default function IDLFoundationPage() {
             </section>
 
             <Dialog>
-                <section className="w-full py-8 md:py-12 bg-white dark:bg-gray-800/20">
+                <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
                         <div className="text-center mb-12">
                             <div className="flex justify-center mb-4">
@@ -307,7 +307,7 @@ export default function IDLFoundationPage() {
                 )}
             </Dialog>
 
-            <section className="w-full py-8 md:py-12 bg-background">
+            <section className="w-full py-8 bg-background">
               <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
                    <div className="flex justify-center mb-4">
@@ -315,7 +315,7 @@ export default function IDLFoundationPage() {
                             <PlayCircle className="w-12 h-12 text-primary" />
                         </div>
                     </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Events &amp; Highlights</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">Events & Highlights</h2>
                   <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                     Watch highlights from our recent events and see the impact we're making together.
                   </p>
@@ -344,7 +344,7 @@ export default function IDLFoundationPage() {
               </div>
             </section>
 
-             <section className="w-full py-8 md:py-12 bg-white dark:bg-gray-800/20">
+             <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                         <div className="flex justify-center mb-4">
@@ -401,7 +401,7 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
-                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 from-50% to-primary to-50%" style={{width: 'calc(20% + 80px)'}}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                             <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2">
                                     <MapPin className="w-4 h-4 mt-1 shrink-0"/>
@@ -419,7 +419,7 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
-                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 from-50% to-primary to-50%" style={{width: 'calc(20% + 80px)'}}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                             <div className="flex items-center gap-3">
                                 <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                                   <Instagram className="w-5 h-5"/>
@@ -436,7 +436,7 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-4 border-t border-gray-700 pt-2 text-center text-xs text-gray-500">
+                    <div className="mt-2 border-t border-gray-700 pt-2 text-center text-xs text-gray-500">
                         <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
                     </div>
                 </div>
