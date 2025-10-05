@@ -22,10 +22,10 @@ const donationCategories = [
 ];
 
 const galleryImages = [
-    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Our-Impact-Section-Image-2.png', alt: 'Community gathering', hint: 'community gathering', title: 'Community Outreach' },
-    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Frame-48095759.png', alt: 'Children learning', hint: 'children learning', title: 'Educational Initiatives' },
-    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Group-48095779.png', alt: 'Event presentation', hint: 'event presentation', title: 'Awareness Campaigns' },
-    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Group-48095782.png', alt: 'Group discussion', hint: 'group discussion', title: 'Skill Development' },
+    { src: 'https://picsum.photos/seed/gallery1/600/600', alt: 'Community gathering', hint: 'community gathering', title: 'Community Outreach' },
+    { src: 'https://picsum.photos/seed/gallery2/600/600', alt: 'Children learning', hint: 'children learning', title: 'Educational Initiatives' },
+    { src: 'https://picsum.photos/seed/gallery3/600/600', alt: 'Event presentation', hint: 'event presentation', title: 'Awareness Campaigns' },
+    { src: 'https://picsum.photos/seed/gallery4/600/600', alt: 'Group discussion', hint: 'group discussion', title: 'Skill Development' },
 ];
 
 const companies = [
