@@ -1,3 +1,4 @@
+
 // src/app/actions/admin.ts
 'use server';
 
@@ -506,32 +507,46 @@ export async function addExamCategory(formData: FormData) {
     if (categoryData.group === 'school' || categoryData.group === 'competitive') {
         categoryData.teacherIds = teacherIds;
     }
-
-    try {
-        if (imageFile && imageFile.size > 0) {
-            const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
-            categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
-        }
-        
-        for (let i = 0; i < syllabus.length; i++) {
-            const item = syllabus[i];
-            const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
-            if (pdfFile && pdfFile.size > 0) {
-                const pdfDestination = `syllabus/${Date.now()}-${pdfFile.name}`;
-                item.pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+    
+    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+        try {
+            if (imageFile && imageFile.size > 0) {
+                const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
+                categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
             }
-            categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: item.pdfUrl || '' });
-        }
+            
+            for (let i = 0; i < syllabus.length; i++) {
+                const item = syllabus[i];
+                const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
+                if (pdfFile && pdfFile.size > 0) {
+                    const pdfDestination = `syllabus/${Date.now()}-${pdfFile.name}`;
+                    item.pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+                }
+                categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: item.pdfUrl || '' });
+            }
 
-        await addDoc(collection(db, "examCategories"), {
-            ...categoryData,
-            createdAt: serverTimestamp(),
-        });
-        
-        return { success: true, message: "Exam category added successfully." };
-    } catch (error) {
-        console.error("Error adding exam category:", error);
-        return { success: false, message: "Failed to add exam category." };
+            await addDoc(collection(db, "examCategories"), {
+                ...categoryData,
+                createdAt: serverTimestamp(),
+            });
+            
+            return { success: true, message: "Exam category added successfully." };
+        } catch (error) {
+            console.error("Error adding exam category:", error);
+            return { success: false, message: "Failed to add exam category." };
+        }
+    } else {
+        // Fallback for when group is not school or competitive
+        try {
+            await addDoc(collection(db, "examCategories"), {
+                ...categoryData,
+                createdAt: serverTimestamp(),
+            });
+            return { success: true, message: "Exam category added successfully." };
+        } catch (error) {
+            console.error("Error adding exam category:", error);
+            return { success: false, message: "Failed to add exam category." };
+        }
     }
 }
 
@@ -563,15 +578,17 @@ export async function editExamCategory(id: string, formData: FormData) {
             categoryData.imageUrl = '';
         }
 
-        for (let i = 0; i < syllabus.length; i++) {
-            const item = syllabus[i];
-            const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
-            let pdfUrl = item.pdfUrl || '';
-            if (pdfFile && pdfFile.size > 0) {
-                const pdfDestination = `syllabus/${id}-${i}-${pdfFile.name}`;
-                pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+        if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+            for (let i = 0; i < syllabus.length; i++) {
+                const item = syllabus[i];
+                const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
+                let pdfUrl = item.pdfUrl || '';
+                if (pdfFile && pdfFile.size > 0) {
+                    const pdfDestination = `syllabus/${id}-${i}-${pdfFile.name}`;
+                    pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+                }
+                categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: pdfUrl });
             }
-            categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: pdfUrl });
         }
 
 

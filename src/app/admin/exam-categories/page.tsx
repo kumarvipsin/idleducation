@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { getExamCategories, addExamCategory, editExamCategory, deleteExamCategory } from '@/app/actions';
+import { addExamCategory, editExamCategory, deleteExamCategory, getExamCategories } from '@/app/actions/admin';
 import { getTeachers } from '@/app/actions/user';
 import type { TExamCategory, VideoLesson, SyllabusItem } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -219,7 +219,7 @@ const ExamCategoryForm = ({
                   <Button type="button" variant="outline" size="sm" onClick={addVideoLesson}><PlusCircle className="w-4 h-4 mr-2" /> Add Video Lesson</Button>
               </div>
           </div>
-           {selectedGroup === 'school' && (
+           {(selectedGroup === 'school' || selectedGroup === 'competitive') && (
              <div className="grid grid-cols-4 items-start gap-4">
                 <Label className="text-right pt-2">Syllabus</Label>
                 <div className="col-span-3 space-y-4">
