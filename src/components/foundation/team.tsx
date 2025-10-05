@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -21,7 +22,7 @@ const team = [
 ];
 
 const TeamMemberCard = ({ member }: { member: typeof team[0] }) => (
-    <Card className="h-full bg-white dark:bg-card shadow-xl rounded-2xl border-primary/10 overflow-hidden">
+    <Card className="h-full bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-800 dark:to-blue-900/50 shadow-xl rounded-2xl border-primary/10 overflow-hidden">
         <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4 text-center">
                  <div className="w-32 h-32 flex-shrink-0 relative">
