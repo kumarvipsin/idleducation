@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const team = [
     { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/1/400/400", description: "Visionary leader with a passion for education and social change." },
@@ -47,6 +49,9 @@ export function Team() {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 });
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
         setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -87,6 +92,22 @@ export function Team() {
                             ))}
                         </div>
                     </div>
+                     <Button
+                        variant="outline"
+                        size="icon"
+                        className="absolute top-1/2 -translate-y-1/2 left-0 z-10 h-12 w-12 rounded-full hidden md:flex"
+                        onClick={scrollPrev}
+                    >
+                        <ArrowLeft className="h-6 w-6" />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="absolute top-1/2 -translate-y-1/2 right-0 z-10 h-12 w-12 rounded-full hidden md:flex"
+                        onClick={scrollNext}
+                    >
+                        <ArrowRight className="h-6 w-6" />
+                    </Button>
                 </div>
             </div>
         </section>
