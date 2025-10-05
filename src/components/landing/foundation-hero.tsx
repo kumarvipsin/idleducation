@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -54,7 +55,7 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
         <CarouselContent className="h-full">
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-full" style={{ background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)' }}>
+              <div className="relative w-full h-full" style={{ background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.8) 35%, rgba(0,212,255,0.6) 100%)' }}>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
