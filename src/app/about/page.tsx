@@ -108,44 +108,36 @@ export default function AboutPage() {
               <CardContent className="p-4 md:p-8">
                 <section className="mb-12 md:mb-20">
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-                      <div className="lg:col-span-2 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                          <Card className="w-full max-w-sm rounded-xl shadow-lg overflow-hidden border-2 border-primary/10 transform hover:scale-105 transition-transform duration-300">
-                              <CardContent className="p-0">
-                                  <div className="relative w-full aspect-[4/4]">
-                                    {loading ? (
-                                        <Skeleton className="w-full h-full" />
-                                    ) : director?.photoUrl ? (
-                                        <GcsImage
-                                            filePath={director.photoUrl}
-                                            alt="Director's Photo"
-                                            fill
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <Image
-                                          src="/amod.jpg"
-                                          alt="Director's Photo"
-                                          data-ai-hint="male director"
-                                          fill
-                                          className="w-full h-full object-cover"
-                                        />
-                                    )}
-                                  </div>
-                                  <div className="p-4 bg-muted/30 text-center">
-                                    {loading ? (
-                                        <>
-                                            <Skeleton className="h-6 w-3/4 mx-auto" />
-                                            <Skeleton className="h-4 w-1/2 mx-auto mt-2" />
-                                        </>
-                                    ): (
-                                        <>
-                                            <h2 className="text-lg font-bold text-foreground">{director?.name || 'Amod Kumar Sharma'}</h2>
-                                            <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
-                                        </>
-                                    )}
-                                  </div>
-                              </CardContent>
-                          </Card>
+                      <div className="lg:col-span-2 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                          <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg">
+                            {loading ? (
+                                <Skeleton className="w-full h-full rounded-full" />
+                            ) : director?.photoUrl ? (
+                                <GcsImage
+                                    filePath={director.photoUrl}
+                                    alt="Director's Photo"
+                                    fill
+                                    className="rounded-full object-cover"
+                                />
+                            ) : (
+                                <AvatarFallback className="text-5xl">
+                                    {director?.name ? director.name.charAt(0) : 'A'}
+                                </AvatarFallback>
+                            )}
+                          </Avatar>
+                          <div className="text-center mt-4">
+                            {loading ? (
+                                <>
+                                    <Skeleton className="h-6 w-48 mx-auto" />
+                                    <Skeleton className="h-4 w-32 mx-auto mt-2" />
+                                </>
+                            ): (
+                                <>
+                                    <h2 className="text-xl font-bold text-foreground">{director?.name || 'Amod Kumar Sharma'}</h2>
+                                    <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                                </>
+                            )}
+                          </div>
                       </div>
                       <div className="lg:col-span-3 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                           <div>
