@@ -391,9 +391,9 @@ export default function IDLFoundationPage() {
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
                             <ul className="space-y-2 text-sm">
+                                <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
                                 <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:underline">+91 7011117585</a></li>
                                 <li className="flex items-center gap-2"><Mail className="w-4 h-4"/><a href="mailto:info@idlfoundation.in" className="hover:underline">info@idlfoundation.in</a></li>
-                                <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
                             </ul>
                         </div>
                         <div>
