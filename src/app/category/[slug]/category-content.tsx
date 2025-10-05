@@ -144,15 +144,14 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
                     <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern &amp; Key Dates</h3>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
                         <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {data.name} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
                     </div>
-                    <Separator />
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
+                                <Button asChild variant="outline" key={link.href} className="justify-start rounded-full">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>

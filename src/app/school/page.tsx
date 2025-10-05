@@ -326,7 +326,7 @@ function SchoolPageContent() {
                                     <TableBody>
                                         {syllabusItems.map((item) => (
                                             <TableRow key={item.sno}>
-                                                <TableCell className="font-medium">{item.sno}</TableCell>
+                                                <TableCell className="font-medium text-blue-600">{item.sno}</TableCell>
                                                 <TableCell><span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl) }}>{item.name}</span></TableCell>
                                                 <TableCell className="text-right">
                                                     <SyllabusActionButtons pdfUrl={item.pdfUrl} />
@@ -337,13 +337,11 @@ function SchoolPageContent() {
                                 </Table>
                             </div>
                         )}
-                        
-                        <Separator />
                         <div>
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {resourceLinks.map(link => (
-                                    <Button asChild variant="outline" key={link.href} className="justify-start">
+                                    <Button asChild variant="outline" key={link.href} className="justify-start rounded-full">
                                         <Link href={link.href}>
                                             {link.icon}
                                             <span className="ml-2">{link.label}</span>
