@@ -169,7 +169,7 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
+            <section className="w-full py-8 md:py-12 bg-gradient-to-br from-blue-50 to-purple-50 text-foreground">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {stats.map((stat, index) => (
