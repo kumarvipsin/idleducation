@@ -1,14 +1,22 @@
-
 'use client';
 
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin, Youtube, HandHeart } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const quickLinks = [
-    { href: "#about", label: "About Us" },
-    { href: "#donate", label: "Donate" },
+    { href: "#about", label: "About Us", isDialog: false },
+    { href: "#donate", label: "Donate", isDialog: true },
 ];
 
 const socialLinks = [
@@ -38,7 +46,25 @@ export function FoundationFooter() {
                         <ul className="space-y-2 text-sm">
                            {quickLinks.map(link => (
                                 <li key={link.href}>
+                                  {link.isDialog ? (
+                                     <Dialog>
+                                        <DialogTrigger asChild>
+                                          <button className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</button>
+                                        </DialogTrigger>
+                                        {/* You'll need to place your actual DialogContent here */}
+                                        <DialogContent>
+                                          <DialogHeader>
+                                            <DialogTitle>Donate Now</DialogTitle>
+                                            <DialogDescription>
+                                              Your contribution makes a difference.
+                                            </DialogDescription>
+                                          </DialogHeader>
+                                          <p>Donation form will be here.</p>
+                                        </DialogContent>
+                                      </Dialog>
+                                  ) : (
                                     <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                                  )}
                                 </li>
                             ))}
                         </ul>
@@ -46,7 +72,7 @@ export function FoundationFooter() {
 
                     {/* Column 3: Contact Us */}
                     <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-4">Contact Us</h3>
+                        <h3 className="text-lg font-semibold text-foreground mb-4">Reach Us</h3>
                         <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-primary" style={{width: 'calc(20% + 80px)'}}></div>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                             <li className="flex items-start gap-2">
