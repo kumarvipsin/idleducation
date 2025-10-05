@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -94,7 +93,7 @@ export default function IDLFoundationPage() {
             <FoundationHero slides={donationCategories} />
             
             <section className="w-full relative py-8 bg-white dark:bg-gray-800/20">
-                <div className="container mx-auto px-4 md:px-[10%] mb-12">
+                <div className="container mx-auto px-4 md:px-[10%] mb-8">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
                                 <div className="bg-primary/10 p-4 rounded-full">
@@ -169,25 +168,25 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-white text-gray-800 dark:text-gray-300">
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {stats.map((stat, index) => (
-                            <div key={index} className="text-center p-4">
-                                <p className="text-3xl md:text-4xl font-bold text-primary">
-                                    {stat.count.toLocaleString()}{stat.plus && '+'}
-                                </p>
-                                <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
-                            </div>
-                        ))}
-                    </div>
+            <section className="w-full py-8 md:py-12 bg-white dark:bg-card text-gray-800 dark:text-gray-300">
+              <div className="container mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {stats.map((stat, index) => (
+                    <Card key={index} className="text-center p-4 bg-gray-100 dark:bg-gray-800/50 border-none rounded-lg shadow-sm">
+                      <p className="text-3xl md:text-4xl font-bold text-primary">
+                          {stat.count.toLocaleString()}{stat.plus && '+'}
+                      </p>
+                      <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
+                    </Card>
+                  ))}
                 </div>
+              </div>
             </section>
             
             <section className="w-full py-8 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-12">
-                         <div className="flex justify-center mb-4">
+                    <div className="text-center mb-8">
+                        <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
                                 <Handshake className="w-12 h-12 text-primary" />
                             </div>
@@ -215,7 +214,7 @@ export default function IDLFoundationPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-12">
+                        <div className="mt-8">
                             <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest text-center mb-4">100+ People</h3>
                             <div className="w-full overflow-hidden">
                                 <div className="flex animate-marquee-scroll">
@@ -242,7 +241,7 @@ export default function IDLFoundationPage() {
             <Dialog>
                 <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                     <div className="container mx-auto px-4 md:px-6">
-                        <div className="text-center mb-12">
+                        <div className="text-center mb-8">
                             <div className="flex justify-center mb-4">
                                 <div className="bg-primary/10 p-4 rounded-full">
                                     <ImageIcon className="w-12 h-12 text-primary" />
@@ -308,7 +307,7 @@ export default function IDLFoundationPage() {
 
             <section className="w-full py-8 bg-background">
               <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-12">
+                <div className="text-center mb-8">
                    <div className="flex justify-center mb-4">
                         <div className="bg-primary/10 p-4 rounded-full">
                             <Video className="w-12 h-12 text-primary" />
@@ -345,7 +344,7 @@ export default function IDLFoundationPage() {
 
              <section className="w-full py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-12">
+                    <div className="text-center mb-8">
                         <div className="flex justify-center mb-4">
                             <div className="bg-primary/10 p-4 rounded-full">
                                 <BookOpen className="w-12 h-12 text-primary" />
