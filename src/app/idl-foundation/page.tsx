@@ -280,7 +280,7 @@ export default function IDLFoundationPage() {
                         </div>
                         <div className="text-center mt-8">
                             <Button asChild variant="outline" className="rounded-full">
-                                <Link href="/gallery">
+                                <Link href="/idl-foundation/gallery">
                                     VIEW ALL
                                 </Link>
                             </Button>
@@ -315,12 +315,21 @@ export default function IDLFoundationPage() {
                             Watch highlights from our recent events and see the impact we're making together.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div className="rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="xXpFxS-B5Lg" title="IDL Foundation Event Highlights" />
                         </div>
                         <div className="rounded-lg overflow-hidden shadow-lg">
                             <EventVideo videoId="r9s-s4-N9A8" title="Community Skill Training Workshop" />
+                        </div>
+                        <div className="rounded-lg overflow-hidden shadow-lg">
+                            <EventVideo videoId="video-id-3" title="Annual Charity Gala" />
+                        </div>
+                        <div className="rounded-lg overflow-hidden shadow-lg">
+                            <EventVideo videoId="video-id-4" title="Tree Plantation Drive" />
+                        </div>
+                        <div className="rounded-lg overflow-hidden shadow-lg">
+                            <EventVideo videoId="video-id-5" title="Women Empowerment Seminar" />
                         </div>
                     </div>
                 </div>
