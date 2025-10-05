@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -12,6 +13,9 @@ const team = [
     { name: "Vidhi Sharma", role: "Chief Operating Officer", image: "https://picsum.photos/seed/3/400/400", description: "Ensuring operational excellence and impactful program delivery." },
     { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/4/400/400", description: "Empowering individuals with skills for a brighter future." },
     { name: "Priya Singh", role: "Community Engagement Lead", image: "https://picsum.photos/seed/5/400/400", description: "Building strong relationships with our communities and partners." },
+    { name: "Rahul Gupta", role: "Technology Head", image: "https://picsum.photos/seed/6/400/400", description: "Leveraging technology to make education accessible to all." },
+    { name: "Anjali Mehta", role: "Healthcare Coordinator", image: "https://picsum.photos/seed/7/400/400", description: "Leading our health initiatives and medical assistance programs." },
+    { name: "Suresh Kumar", role: "Environmental Projects Manager", image: "https://picsum.photos/seed/8/400/400", description: "Spearheading our green initiatives and plantation drives." },
 ];
 
 const TeamMemberCard = ({ member }: { member: typeof team[0] }) => (
