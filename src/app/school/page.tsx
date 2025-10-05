@@ -61,6 +61,11 @@ function SchoolPageContent() {
   const [animationKey, setAnimationKey] = useState(0);
   const { toast } = useToast();
   
+  const [isLoadingPdf, setIsLoadingPdf] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("PDF Viewer");
+  
   const autoplayPlugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
@@ -104,17 +109,23 @@ function SchoolPageContent() {
     router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
   };
   
-    const handleAction = async (pdfUrl: string) => {
+    const handleAction = async (pdfUrl: string, title?: string) => {
         if (!pdfUrl) {
             toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
             return;
         }
+        setIsLoadingPdf(true);
+        setIsPdfDialogOpen(true);
+        if (title) setDialogTitle(title);
+        
         const result = await getSignedUrlForPdf(pdfUrl);
         if (result.success && result.url) {
-            window.open(result.url, '_blank');
+            setPdfSrc(result.url);
         } else {
-            toast({ variant: 'destructive', title: 'Error', description: result.message });
+            toast({ variant: "destructive", title: "Error", description: result.message });
+            setIsPdfDialogOpen(false);
         }
+        setIsLoadingPdf(false);
     };
   
   const activeCategory = classes.find(c => c.name === activeClass);
@@ -283,7 +294,7 @@ function SchoolPageContent() {
                 </div>
                 <Card className="shadow-lg">
                     <CardContent className="p-6 space-y-8">
-                        {syllabusItems.length > 0 && (
+                         {syllabusItems.length > 0 && (
                             <div>
                                 <div className="mb-4">
                                     <h3 className="font-bold text-xl text-primary">CBSE {activeClass} Syllabus 2025-26</h3>
@@ -300,7 +311,7 @@ function SchoolPageContent() {
                                         {syllabusItems.map((item) => (
                                             <TableRow key={item.sno}>
                                                 <TableCell className="font-medium">{item.sno}</TableCell>
-                                                <TableCell>{item.name}</TableCell>
+                                                <TableCell><span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>{item.name}</span></TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -311,7 +322,7 @@ function SchoolPageContent() {
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {resourceLinks.map(link => (
-                                    <Button asChild variant="outline" key={link.href} className="justify-start rounded-full bg-background h-12 text-base">
+                                    <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
                                         <Link href={link.href}>
                                             {link.icon}
                                             <span className="ml-2">{link.label}</span>
@@ -325,6 +336,20 @@ function SchoolPageContent() {
               </div>
           </section>
         </div>
+         <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
+             <DialogContent className="max-w-4xl h-[90vh] p-2">
+                <DialogHeader className="p-2">
+                    <DialogTitle className="truncate">{dialogTitle}</DialogTitle>
+                </DialogHeader>
+                {isLoadingPdf || !pdfSrc ? (
+                    <div className="flex items-center justify-center h-full">
+                        <p>Loading PDF...</p>
+                    </div>
+                ) : (
+                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
+                )}
+            </DialogContent>
+        </Dialog>
     </div>
   );
 }
