@@ -19,6 +19,12 @@ const donationCategories = [
     { title: "Senior Citizen/Old Age Home", description: "Support the elderly and ensure they live with dignity.", imageUrl: "https://picsum.photos/seed/elderly/600/400", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
+const galleryImages = [
+    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Our-Impact-Section-Image-2.png', alt: 'Community gathering', hint: 'community gathering' },
+    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Frame-48095759.png', alt: 'Children learning', hint: 'children learning' },
+    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Group-48095779.png', alt: 'Event presentation', hint: 'event presentation' },
+    { src: 'https://ekhumfoundation.com/wp-content/uploads/2024/05/Group-48095782.png', alt: 'Group discussion', hint: 'group discussion' },
+];
 
 const companies = [
     { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
@@ -143,10 +149,10 @@ export default function IDLFoundationPage() {
             <section className="w-full py-12 md:py-24 bg-background">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <div className="flex justify-center mb-4">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
+                         <div className="flex justify-center mb-4">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#heart-gradient-donors)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
                             <defs>
-                                <linearGradient id="heart-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <linearGradient id="heart-gradient-donors" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style={{stopColor: 'red', stopOpacity:1}} />
                                 <stop offset="100%" style={{stopColor: 'darkred', stopOpacity:1}} />
                                 </linearGradient>
@@ -200,6 +206,32 @@ export default function IDLFoundationPage() {
                     </div>
                 </div>
             </section>
+
+            <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-800/20">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Glimpses of Our Work</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            A visual journey through our impactful initiatives and community engagements.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {galleryImages.map((image, index) => (
+                            <div key={index} className="relative aspect-square rounded-lg overflow-hidden shadow-lg group">
+                                <Image
+                                    src={image.src}
+                                    alt={image.alt}
+                                    data-ai-hint={image.hint}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
         </div>
     );
 }
