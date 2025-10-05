@@ -56,6 +56,8 @@ const team = [
     { name: "Vijay Verma", role: "Head of Skill Development", image: "https://picsum.photos/seed/team4/400/400", description: "Empowering individuals with skills for a brighter future." },
     { name: "Priya Singh", role: "Community Engagement Lead", image: "https://picsum.photos/seed/team5/400/400", description: "Building strong relationships with our communities and partners." },
     { name: "Rajesh Kumar", role: "Finance & Compliance Officer", image: "https://picsum.photos/seed/team6/400/400", description: "Ensuring financial health and regulatory compliance of the foundation." },
+    { name: "Sunita Gupta", role: "Program Coordinator", image: "https://picsum.photos/seed/team7/400/400", description: "Managing and coordinating our diverse range of social programs." },
+    { name: "Amit Patel", role: "Technology Lead", image: "https://picsum.photos/seed/team8/400/400", description: "Leveraging technology to amplify our impact and reach." },
 ];
 
 const stats = [
@@ -423,7 +425,7 @@ export default function IDLFoundationPage() {
             </Dialog>
 
             <section className="w-full py-8 bg-background">
-              <div className="text-center mb-8">
+              <div className="text-center mb-8 px-4 md:px-6">
                 <div className="flex justify-center mb-4">
                     <div className="bg-primary/10 p-4 rounded-full">
                         <Video className="w-12 h-12 text-primary" />
@@ -444,7 +446,7 @@ export default function IDLFoundationPage() {
                         <EventVideo videoId="IO5w8e39v5A" title="Community Skill Training Workshop" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
-                        <EventVideo videoId="dQw4w9WgXcQ" title="Annual Charity Gala" />
+                        <EventVideo videoId="3Z1_Hmc4g-g" title="Annual Charity Gala" />
                       </div>
                       <div className="block flex-shrink-0 w-80 rounded-lg overflow-hidden shadow-lg">
                         <EventVideo videoId="xvFZjo5PgG0" title="Tree Plantation Drive" />
@@ -502,7 +504,7 @@ export default function IDLFoundationPage() {
             </section>
             
              <section className="w-full py-8 bg-background">
-                <div className="text-center mb-8">
+                <div className="text-center mb-8 px-4 md:px-6">
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Meet Our Team</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         The dedicated individuals leading our mission forward.
@@ -585,12 +587,12 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-6 border-t border-gray-700 py-2 text-center text-xs text-gray-500">
-                        <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
-                    </div>
+                </div>
+                 <div className="bg-gray-200 dark:bg-gray-900 mt-6 border-t border-gray-300 dark:border-gray-700 py-2 text-center text-xs text-gray-500">
+                    <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
                 </div>
             </footer>
         </div>
-    </>
+        </>
     );
 }
