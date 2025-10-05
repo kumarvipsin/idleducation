@@ -493,12 +493,14 @@ export async function addExamCategory(formData: FormData) {
     const teacherIds = formData.getAll('teacherIds[]') as string[];
     const imageFile = rawData.imageFile as File | null;
     const videoLessons = JSON.parse(rawData.videoLessons as string);
+    const syllabus = JSON.parse(rawData.syllabus as string);
 
     const categoryData: any = {
         name: rawData.name as string,
         group: rawData.group as 'school' | 'competitive',
         order: parseInt(rawData.order as string, 10) || 99,
         videoLessons: videoLessons,
+        syllabus: [],
     };
 
     if (categoryData.group === 'school' || categoryData.group === 'competitive') {
@@ -509,6 +511,16 @@ export async function addExamCategory(formData: FormData) {
         if (imageFile && imageFile.size > 0) {
             const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
             categoryData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+        
+        for (let i = 0; i < syllabus.length; i++) {
+            const item = syllabus[i];
+            const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
+            if (pdfFile && pdfFile.size > 0) {
+                const pdfDestination = `syllabus/${Date.now()}-${pdfFile.name}`;
+                item.pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+            }
+            categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: item.pdfUrl || '' });
         }
 
         await addDoc(collection(db, "examCategories"), {
@@ -528,6 +540,7 @@ export async function editExamCategory(id: string, formData: FormData) {
     const teacherIds = formData.getAll('teacherIds[]') as string[];
     const imageFile = rawData.imageFile as File | null;
     const videoLessons = JSON.parse(rawData.videoLessons as string);
+    const syllabus = JSON.parse(rawData.syllabus as string);
 
     const categoryData: any = {
         name: rawData.name as string,
@@ -535,6 +548,7 @@ export async function editExamCategory(id: string, formData: FormData) {
         order: parseInt(rawData.order as string, 10) || 99,
         teacherIds: [],
         videoLessons: videoLessons,
+        syllabus: [],
     };
 
     if (categoryData.group === 'school' || categoryData.group === 'competitive') {
@@ -548,6 +562,18 @@ export async function editExamCategory(id: string, formData: FormData) {
         } else if (rawData.removePhoto === 'true') {
             categoryData.imageUrl = '';
         }
+
+        for (let i = 0; i < syllabus.length; i++) {
+            const item = syllabus[i];
+            const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;
+            let pdfUrl = item.pdfUrl || '';
+            if (pdfFile && pdfFile.size > 0) {
+                const pdfDestination = `syllabus/${id}-${i}-${pdfFile.name}`;
+                pdfUrl = await uploadFileToGCS(pdfFile, pdfDestination);
+            }
+            categoryData.syllabus.push({ sno: item.sno, name: item.name, pdfUrl: pdfUrl });
+        }
+
 
         const docRef = doc(db, "examCategories", id);
         await updateDoc(docRef, categoryData);
