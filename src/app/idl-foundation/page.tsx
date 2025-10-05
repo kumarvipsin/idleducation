@@ -13,11 +13,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useState } from "react";
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Empower individuals with valuable skills.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
+    { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 7089758, raised: 533619 },
     { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/600/400", imageHint: "children studying", goal: 7089758, raised: 0 },
     { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/600/400", imageHint: "planting tree", goal: 7089758, raised: 0 },
     { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/600/400", imageHint: "women group", goal: 5000000, raised: 1250000 },
-    { title: "Medical Assistance", description: "Provide critical healthcare to those in need.", imageUrl: "https://picsum.photos/seed/medical/600/400", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/600/400", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
     { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/600/400", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
@@ -339,6 +339,40 @@ export default function IDLFoundationPage() {
               </div>
             </section>
 
+             <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-800/20">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">About IDL Foundation</h2>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            Our commitment to creating a better society through education and empowerment.
+                        </p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4">
+                                <div className="bg-primary/10 text-primary p-3 rounded-full">
+                                    <Eye className="w-6 h-6" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-foreground">Our Vision</h3>
+                            </div>
+                            <p className="text-muted-foreground">
+                                To create a world where every individual has the opportunity to achieve their full potential through quality education and skill development, fostering a society of empowered, self-reliant, and responsible citizens.
+                            </p>
+                        </div>
+                        <div className="space-y-4">
+                             <div className="flex items-center gap-4">
+                                <div className="bg-primary/10 text-primary p-3 rounded-full">
+                                    <Target className="w-6 h-6" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
+                            </div>
+                            <p className="text-muted-foreground">
+                                To provide accessible and innovative educational programs, vocational training, and healthcare support to underprivileged communities, with a special focus on children, women, and the elderly, enabling them to lead a life of dignity and respect.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
