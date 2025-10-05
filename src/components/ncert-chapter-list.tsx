@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getSignedUrlForPdf } from "@/app/actions";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
+
 const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
@@ -127,38 +128,86 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                {chapter.name}
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {chapter.topics?.map((topic, index) => {
-                                                    const topicCards = [
-                                                        { pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en], label: is_note ? `Notes (Eng)` : `NCERT Solution (Eng)`, is_download: true },
-                                                        { pdfs: [is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi], label: is_note ? `Notes (Hi)` : `NCERT Solution (Hi)`, is_download: true },
-                                                        { pdfs: [is_note ? topic.notePdfUrl_en_demo : topic.pdfUrl_en_demo], label: `Premium (Eng)`, is_download: false },
-                                                        { pdfs: [is_note ? topic.notePdfUrl_hi_demo : topic.pdfUrl_hi_demo], label: `Premium (Hi)`, is_download: false },
+                                                    const cards = [
+                                                        {
+                                                            pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en],
+                                                            label: is_note ? `${topic.name} (Eng)` : `${topic.name} (Eng)`,
+                                                            is_download: true,
+                                                          },
+                                                          {
+                                                            pdfs: [is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi],
+                                                            label: is_note ? `${topic.name} (Hi)` : `${topic.name} (Hi)`,
+                                                            is_download: true,
+                                                          },
+                                                          {
+                                                        pdfs: is_note
+                                                          ? [topic.notePdfUrl_en_demo, topic.notepdfUrl_en_primum]
+                                                          : [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum],
+                                                        label: is_note
+                                                          ? `Premium Notes (Eng)`
+                                                          : `Important Q's (Eng)`,
+                                                        is_download: false,
+                                                      },
+                                                      {
+                                                        pdfs: is_note
+                                                          ? [topic.notePdfUrl_hi_demo, topic.notepdfUrl_hi_primum]
+                                                          : [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum],
+                                                        label: is_note
+                                                          ? `Premium Notes (Hi)`
+                                                          : `Important Q's (Hi)`,
+                                                        is_download: false,
+                                                      }
                                                     ];
+
+                                                    return cards.map((card, i) => {
+                                                    const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
+                                                    const hasPdf = !!availablePdf;
+
                                                     return (
-                                                        <div key={index} className="bg-white shadow-md rounded-lg p-3 space-y-2">
-                                                            <p className="text-gray-700 text-sm font-semibold truncate">{topic.name}</p>
-                                                            <div className="grid grid-cols-1 gap-1">
-                                                            {topicCards.map((card, i) => {
-                                                                const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
-                                                                const hasPdf = !!availablePdf;
-                                                                return (
-                                                                     <div key={`${index}-${i}`} className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-                                                                        <p className="text-xs font-medium text-gray-500">{card.label}</p>
-                                                                        <div className="flex items-center">
-                                                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500" disabled={!hasPdf} onClick={() => hasPdf && handleViewPdf(availablePdf, `${topic.name} - ${card.label}`)}><Eye size={16} /></Button>
-                                                                            {card.is_download ? (
-                                                                                <Button variant="ghost" size="icon" className="h-7 w-7 text-green-500" disabled={!hasPdf} onClick={() => hasPdf && handleDownload(availablePdf)}><Download size={16} /></Button>
-                                                                            ) : (
-                                                                                <Button asChild variant="ghost" size="icon" className="h-7 w-7 text-yellow-500"><Link href="/store"><ShoppingCart size={16} /></Link></Button>
-                                                                            )}
-                                                                        </div>
-                                                                     </div>
-                                                                );
-                                                            })}
-                                                            </div>
+                                                        <div
+                                                        key={`${index}-${i}`}
+                                                        className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-all duration-300"
+                                                        >
+                                                        {/* Left side: Topic name */}
+                                                        <p className="text-gray-700 text-sm font-medium">{card.label}</p>
+
+                                                        {/* Right side: Icons */}
+                                                        <div className="flex items-center space-x-3">
+                                                            {hasPdf ? (
+                                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500" disabled={!hasPdf} onClick={() => hasPdf && handleViewPdf(availablePdf, `${topic.name} - ${card.label}`)}><Eye size={16} /></Button>
+                                                            ) : (
+                                                            <span title="PDF not available" className="text-gray-400 cursor-not-allowed">
+                                                                <Eye size={20} />
+                                                            </span>
+                                                            )}
+
+                                                            {card.is_download && (
+                                                                <button
+                                                                    onClick={hasPdf ? () => handleDownload(availablePdf) : undefined}
+                                                                    disabled={!hasPdf}
+                                                                    title="Download"
+                                                                    className={`text-green-500 hover:text-green-700 transition ${!hasPdf ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                                >
+                                                                    <Download size={20} />
+                                                                </button>
+                                                            )}
+
+
+                                                            {!card.is_download && (
+                                                            <button
+                                                                title="Add to Cart"
+                                                                className="text-yellow-500 hover:text-yellow-700 transition"
+                                                                onClick={() => alert(`${topic.name} added to cart!`)}
+                                                            >
+                                                                <ShoppingCart size={20} />
+                                                            </button>
+                                                            )}
                                                         </div>
-                                                    )
+                                                        </div>
+                                                    );
+                                                    });
                                                 })}
                                                 </div>
                                             </AccordionContent>
@@ -194,19 +243,19 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
     <>
         {renderSubjectContent(resources)}
         <Dialog open={isPdfDialogOpen} onOpenChange={setIsPdfDialogOpen}>
-             <DialogContent className="max-w-4xl h-[90vh] p-2">
-                <DialogHeader className="p-2">
-                    <DialogTitle className="truncate">{dialogTitle}</DialogTitle>
-                </DialogHeader>
-                {isLoadingPdf || !pdfSrc ? (
-                    <div className="flex items-center justify-center h-full">
-                        <p>Loading PDF...</p>
-                    </div>
-                ) : (
-                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
-                )}
-            </DialogContent>
-        </Dialog>
+                     <DialogContent className="max-w-4xl h-[90vh] p-0 flex flex-col">
+                        <DialogHeader className="p-2 border-b">
+                            <p className="truncate text-sm font-semibold">{dialogTitle}</p>
+                        </DialogHeader>
+                        {isLoadingPdf || !pdfSrc ? (
+                            <div className="flex items-center justify-center h-full">
+                                <p>Loading PDF...</p>
+                            </div>
+                        ) : (
+                            <iframe src={pdfSrc} className="w-full h-full rounded-b-md" />
+                        )}
+                    </DialogContent>
+                </Dialog>
     </>
   );
 }
