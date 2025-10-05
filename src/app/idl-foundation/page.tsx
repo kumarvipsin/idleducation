@@ -390,7 +390,7 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
-                            <div className="w-full h-px mb-4" style={{ background: 'linear-gradient(to right, #ef4444 20%, #e5e7eb 20%)' }}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-transparent" style={{width: 'calc(20% + 80px)'}}></div>
                             <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
                                 <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a></li>
@@ -399,7 +399,7 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
-                            <div className="w-full h-px mb-4" style={{ background: 'linear-gradient(to right, #ef4444 20%, #e5e7eb 20%)' }}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-transparent" style={{width: 'calc(20% + 80px)'}}></div>
                             <div className="flex items-center gap-3">
                                 <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                                   <Instagram className="w-5 h-5"/>
