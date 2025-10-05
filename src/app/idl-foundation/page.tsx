@@ -2,12 +2,22 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Home, HandHeart, Target, Eye } from "lucide-react";
+import { Home, HandHeart, Target, Eye, PiggyBank, Book, Trees, UserRound, Briefcase, Plus, Heart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { FoundationHero } from "@/components/landing/foundation-hero";
+
+const donationCategories = [
+    { title: "Skill Trainings", icon: <Briefcase className="w-8 h-8" /> },
+    { title: "Slum Children Education", icon: <Book className="w-8 h-8" /> },
+    { title: "Street Children Education", icon: <UserRound className="w-8 h-8" /> },
+    { title: "Environment / Tree Plantation", icon: <Trees className="w-8 h-8" /> },
+    { title: "Women Empowerment", icon: <Heart className="w-8 h-8" /> },
+    { title: "Medical Assistance", icon: <Plus className="w-8 h-8" /> },
+    { title: "Senior Citizen/Old Age Home", icon: <Home className="w-8 h-8" /> },
+];
 
 export default function IDLFoundationPage() {
     return (
@@ -34,6 +44,24 @@ export default function IDLFoundationPage() {
                         <Button asChild variant="link" className="mt-6 text-base font-semibold text-primary hover:text-primary/80">
                             <Link href="/contact">HELP US NOW</Link>
                         </Button>
+                    </div>
+                </div>
+            </section>
+
+             <section className="py-16 md:py-24 bg-white dark:bg-gray-800/20">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                        {donationCategories.map((category, index) => (
+                             <Card key={index} className="text-center group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                <CardContent className="p-6">
+                                    <div className="mx-auto h-16 w-16 mb-4 flex items-center justify-center rounded-full bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                                        {category.icon}
+                                    </div>
+                                    <h3 className="text-sm md:text-base font-semibold text-foreground">{category.title}</h3>
+                                    <Button variant="outline" size="sm" className="mt-4 rounded-full">Donate</Button>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
                 </div>
             </section>
