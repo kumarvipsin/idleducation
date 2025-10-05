@@ -19,14 +19,14 @@ const donationCategories = [
 ];
 
 const donors = [
-    { name: "DDU-GKY", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ddugky-logo.png" },
-    { name: "Maulana Azad Education Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/maef-logo.png" },
-    { name: "Ministry of Textiles", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ministry-of-textiles-logo.png" },
-    { name: "Delhi Government", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/delhi-govt-logo.png" },
-    { name: "Bhagwati Exports", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/bhagwati-logo.png" },
-    { name: "Another Donor", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ddugky-logo.png" },
-    { name: "New Foundation", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/maef-logo.png" },
-    { name: "Charity Plus", logo: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.in/ministry-of-textiles-logo.png" },
+    { name: "DDU-GKY", logo: "https://picsum.photos/seed/ddu/200/100" },
+    { name: "Maulana Azad Education Foundation", logo: "https://picsum.photos/seed/maef/200/100" },
+    { name: "Ministry of Textiles", logo: "https://picsum.photos/seed/textiles/200/100" },
+    { name: "Delhi Government", logo: "https://picsum.photos/seed/delhi/200/100" },
+    { name: "Bhagwati Exports", logo: "https://picsum.photos/seed/bhagwati/200/100" },
+    { name: "Another Donor", logo: "https://picsum.photos/seed/donor2/200/100" },
+    { name: "New Foundation", logo: "https://picsum.photos/seed/foundation/200/100" },
+    { name: "Charity Plus", logo: "https://picsum.photos/seed/charity/200/100" },
 ];
 
 export default function IDLFoundationPage() {
