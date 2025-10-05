@@ -21,8 +21,11 @@ const team = [
     { name: "Suresh Kumar", role: "Environmental Projects Manager", image: "https://picsum.photos/seed/8/400/400", description: "Spearheading our green initiatives and plantation drives." },
 ];
 
-const TeamMemberCard = ({ member }: { member: typeof team[0] }) => (
-    <Card className="h-full bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-800 dark:to-blue-900/50 shadow-xl rounded-2xl border-primary/10 overflow-hidden">
+const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
+    <Card className={cn(
+        "h-full shadow-xl rounded-2xl border-primary/10 overflow-hidden transition-all duration-300",
+        isActive ? "bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-800 dark:to-blue-900/50" : "bg-card"
+    )}>
         <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4 text-center">
                  <div className="w-32 h-32 flex-shrink-0 relative">
@@ -90,7 +93,7 @@ export function Team() {
                                         "transition-transform duration-300",
                                         selectedIndex === index ? "scale-100" : "scale-90 opacity-60"
                                     )}>
-                                        <TeamMemberCard member={member} />
+                                        <TeamMemberCard member={member} isActive={selectedIndex === index} />
                                     </div>
                                 </div>
                             ))}
