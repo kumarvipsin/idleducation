@@ -169,13 +169,12 @@ export default function IDLFoundationPage() {
                 </div>
             </section>
 
-            <section className="w-full py-8 md:py-12 bg-gradient-to-br from-blue-50 to-purple-50 text-foreground">
+            <section className="w-full py-8">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.map((stat, index) => (
-                            <div key={index} className="flex flex-col items-center">
-                                <stat.icon className="w-12 h-12 mb-2 text-primary" />
-                                <p className="text-3xl md:text-4xl font-bold">
+                            <div key={index} className="bg-primary/5 border border-primary/10 p-4 rounded-lg text-center">
+                                <p className="text-3xl md:text-4xl font-bold text-primary">
                                     {stat.count.toLocaleString()}{stat.plus && '+'}
                                 </p>
                                 <p className="text-sm md:text-base font-medium text-muted-foreground">{stat.label}</p>
@@ -436,7 +435,7 @@ export default function IDLFoundationPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-2 border-t border-gray-700 pt-2 text-center text-xs text-gray-500">
+                    <div className="mt-8 border-t border-gray-700 pt-4 text-center text-xs text-gray-500">
                         <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
                     </div>
                 </div>
