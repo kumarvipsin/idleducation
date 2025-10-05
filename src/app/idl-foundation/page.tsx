@@ -26,30 +26,14 @@ export default function IDLFoundationPage() {
 
             <FoundationHero />
 
-            <section className="py-16 md:py-24 bg-background">
+            <section className="py-16 md:py-24 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center">
-                        <div className="flex justify-center mb-4">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="url(#heartGradient)" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style={{stopColor: '#fde047', stopOpacity:1}} />
-                                    <stop offset="100%" style={{stopColor: '#f43f5e', stopOpacity:1}} />
-                                </linearGradient>
-                                </defs>
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                        </div>
+                     <div className="text-center mb-12">
                         <h1 className="text-4xl md:text-6xl font-sans font-bold text-foreground">Make World Happier</h1>
-                        <Button asChild variant="link" className="mt-6 text-base font-semibold text-primary hover:text-primary/80">
-                            <Link href="/contact">HELP US NOW</Link>
-                        </Button>
+                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                            Join us in making a difference. Your contribution can change lives.
+                        </p>
                     </div>
-                </div>
-            </section>
-
-             <section className="py-16 md:py-24 bg-white dark:bg-gray-800/20">
-                <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                         {donationCategories.map((category, index) => (
                              <Card key={index} className="text-center group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
