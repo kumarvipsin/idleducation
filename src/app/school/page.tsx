@@ -315,8 +315,6 @@ function SchoolPageContent() {
                     <CardContent className="p-6 space-y-8">
                         {syllabusItems.length > 0 && (
                             <div>
-                                <h3 className="font-bold text-xl mb-2 text-primary">Syllabus</h3>
-                                <p className="text-muted-foreground mb-4">The following table provides the subject-wise {activeClass} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeClass}.</p>
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-orange-500 hover:bg-orange-600">
@@ -340,8 +338,9 @@ function SchoolPageContent() {
                             </div>
                         )}
                         
+                        <Separator />
                         <div>
-                            <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Essential Resources</h3>
+                            <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {resourceLinks.map(link => (
                                     <Button asChild variant="outline" key={link.href} className="justify-start">
