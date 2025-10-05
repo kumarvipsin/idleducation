@@ -30,9 +30,9 @@ export function About() {
                                 </p>
                             </div>
                             
-                            <div className="flex flex-col text-left p-6 rounded-lg bg-accent/5 border-l-4 border-accent">
+                            <div className="flex flex-col text-left p-6 rounded-lg bg-primary/5 border-l-4 border-primary">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="bg-accent/10 text-accent p-3 rounded-full">
+                                    <div className="bg-primary/10 text-primary p-3 rounded-full">
                                         <Target className="w-6 h-6" />
                                     </div>
                                     <h3 className="text-2xl font-bold text-foreground">Our Mission</h3>
