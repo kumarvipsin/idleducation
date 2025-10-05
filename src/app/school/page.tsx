@@ -50,36 +50,6 @@ interface Teacher {
   };
 }
 
-const SyllabusActionButtons = ({ pdfUrl }: { pdfUrl?: string }) => {
-    const { toast } = useToast();
-
-    const handleAction = async () => {
-        if (!pdfUrl) {
-            toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
-            return;
-        }
-        const result = await getSignedUrlForPdf(pdfUrl);
-        if (result.success && result.url) {
-            window.open(result.url, '_blank');
-        } else {
-            toast({ variant: 'destructive', title: 'Error', description: result.message });
-        }
-    };
-
-    return (
-        <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleAction}>
-                <Eye className="h-4 w-4" />
-                <span className="sr-only">View</span>
-            </Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleAction}>
-                <Download className="h-4 w-4" />
-                <span className="sr-only">Download</span>
-            </Button>
-        </div>
-    )
-}
-
 function SchoolPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -324,28 +294,24 @@ function SchoolPageContent() {
                                         <TableRow className="bg-orange-500 hover:bg-orange-600">
                                             <TableHead className="w-[100px] text-white font-bold">S.No.</TableHead>
                                             <TableHead className="text-white font-bold">Subject-Wise Links CBSE | {activeClass} | Syllabus 2025-26</TableHead>
-                                            <TableHead className="text-right text-white font-bold">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {syllabusItems.map((item) => (
                                             <TableRow key={item.sno}>
-                                                <TableCell className="font-medium text-blue-600">{item.sno}</TableCell>
-                                                <TableCell><span className="text-blue-600 font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl) }}>{item.name}</span></TableCell>
-                                                <TableCell className="text-right">
-                                                    <SyllabusActionButtons pdfUrl={item.pdfUrl} />
-                                                </TableCell>
+                                                <TableCell className="font-medium">{item.sno}</TableCell>
+                                                <TableCell>{item.name}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             </div>
                         )}
-                        <div>
+                         <div>
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {resourceLinks.map(link => (
-                                    <Button asChild variant="outline" key={link.href} className="justify-start rounded-full">
+                                    <Button asChild variant="outline" key={link.href} className="justify-start rounded-full bg-background h-12 text-base">
                                         <Link href={link.href}>
                                             {link.icon}
                                             <span className="ml-2">{link.label}</span>
