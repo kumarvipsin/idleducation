@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import Link from "next/link";
-import { IndianRupee, Banknote, CheckCircle } from "lucide-react";
+import { IndianRupee, Banknote, CheckCircle, HandHeart } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -94,6 +94,11 @@ export function DonationCategories({ donationCategories }: { donationCategories:
             <section className="w-full relative py-8 bg-white dark:bg-gray-800/20">
                 <div className="container mx-auto px-4 md:px-[10%] mb-8">
                     <div className="text-center">
+                        <div className="flex justify-center mb-4">
+                            <div className="bg-primary/10 p-4 rounded-full">
+                                <HandHeart className="w-12 h-12 text-primary" />
+                            </div>
+                        </div>
                         <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white">Make World Happier</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
