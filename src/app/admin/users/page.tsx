@@ -53,7 +53,6 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ImageCropper } from "@/components/image-cropper";
 
 interface User {
   id: string;
@@ -92,9 +91,8 @@ type StudentFormValues = z.infer<typeof studentSchema>;
 const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSuccess: () => void }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
-  const [isCropperOpen, setIsCropperOpen] = useState(false);
   const [removePhoto, setRemovePhoto] = useState(false);
 
   const form = useForm<StudentFormValues>({
@@ -116,24 +114,19 @@ const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSucce
     const file = e.target.files?.[0];
     if (file) {
       setRemovePhoto(false);
+      setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhotoPreview(reader.result as string);
-        setIsCropperOpen(true);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const onImageCropped = (croppedImageFile: File) => {
-    setCroppedPhoto(croppedImageFile);
-    setPhotoPreview(URL.createObjectURL(croppedImageFile));
-  };
-
   const handleRemovePhoto = () => {
     setRemovePhoto(true);
     setPhotoPreview(null);
-    setCroppedPhoto(null);
+    setPhotoFile(null);
   };
 
   const onSubmit = async (data: StudentFormValues) => {
@@ -145,7 +138,7 @@ const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSucce
       if (value) formData.append(key, value);
     });
 
-    if (croppedPhoto) formData.append('photo', croppedPhoto);
+    if (photoFile) formData.append('photo', photoFile);
     if (removePhoto) formData.append('removePhoto', 'true');
 
     const result = await editStudentProfile(student.id, formData);
@@ -205,13 +198,6 @@ const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSucce
           </DialogFooter>
         </form>
       </Form>
-      <ImageCropper 
-        isOpen={isCropperOpen} 
-        onClose={() => setIsCropperOpen(false)} 
-        imageSrc={photoPreview} 
-        onImageCropped={onImageCropped} 
-        aspectRatio={1}
-      />
     </>
   )
 }
