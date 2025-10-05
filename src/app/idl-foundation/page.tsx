@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { HandHeart, Target, Eye, Briefcase, BookOpen, UserRound, Trees, Save, ArrowRight } from "lucide-react";
+import { HandHeart, Target, Eye, Briefcase, UserRound, Trees, Save, ArrowRight, Heart, BookOpen } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -79,7 +79,7 @@ export default function IDLFoundationPage() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-primary flex items-center justify-center gap-3">
-                            <HandHeart className="w-8 h-8" />
+                            <Heart className="w-8 h-8" />
                             About IDL Foundation
                         </h2>
                         <p className="text-muted-foreground mt-2 max-w-3xl mx-auto">
