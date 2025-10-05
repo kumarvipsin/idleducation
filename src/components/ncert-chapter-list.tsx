@@ -12,11 +12,14 @@ import type { TSubject, TPart, TChapter, TTopic, TSubTopic } from "@/app/actions
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import { getSignedUrlForPdf } from "@/app/actions";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 
 const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
+    const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleViewPdf = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -25,7 +28,8 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
         setIsLoading(true);
         const result = await getSignedUrlForPdf(pdfUrl);
         if (result.success && result.url) {
-            window.open(result.url, '_blank');
+            setPdfSrc(result.url);
+            setIsDialogOpen(true);
         } else {
             toast({ variant: "destructive", title: "Error", description: result.message });
         }
@@ -33,9 +37,23 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     };
 
     return (
-        <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500 hover:text-blue-700 transition" onClick={handleViewPdf} disabled={isLoading}>
-            <Eye className="h-4 w-4" />
-        </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500 hover:text-blue-700 transition" onClick={handleViewPdf} disabled={isLoading}>
+                    <Eye className="h-4 w-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl h-[90vh] p-2">
+                <DialogHeader className="sr-only">
+                    <DialogTitle>PDF Viewer</DialogTitle>
+                </DialogHeader>
+                {pdfSrc ? (
+                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
+                ) : (
+                    <p>Loading PDF...</p>
+                )}
+            </DialogContent>
+        </Dialog>
     );
 };
 
@@ -98,10 +116,10 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
     if (!subject) {
         return <p className="text-muted-foreground p-4 text-center">No content available for this subject yet.</p>;
     }
-    const handleDownload = (url) => {
+    const handleDownload = (url:string) => {
         const link = document.createElement("a");
         link.href = url;
-        link.download = url.split("/").pop();
+        link.download = url.split("/").pop() || 'download';
         link.click();
       };
     const hasParts = subject.parts && Object.keys(subject.parts).length > 0;
@@ -137,7 +155,7 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
                                                           },
                                                           {
                                                         pdfs: is_note
-                                                          ? [topic.notePdfUrl_en_demo, topic.notepdfUrl_en_primum]
+                                                          ? [topic.notePdfUrl_en_demo, topic.notePdfUrl_en_primum]
                                                           : [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum],
                                                         label: is_note
                                                           ? `Premium Notes (Eng)`
@@ -146,7 +164,7 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
                                                       },
                                                       {
                                                         pdfs: is_note
-                                                          ? [topic.notePdfUrl_hi_demo, topic.notepdfUrl_hi_primum]
+                                                          ? [topic.notePdfUrl_hi_demo, topic.notePdfUrl_hi_primum]
                                                           : [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum],
                                                         label: is_note
                                                           ? `Premium Notes (Hi)`
@@ -170,7 +188,7 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
                                                         {/* Right side: Icons */}
                                                         <div className="flex items-center space-x-3">
                                                             {hasPdf ? (
-                                                            <ViewPdfButton pdfUrl={availablePdf} />
+                                                            <ViewPdfButton pdfUrl={availablePdf!} />
                                                             ) : (
                                                             <span title="PDF not available" className="text-gray-400 cursor-not-allowed">
                                                                 <Eye size={20} />
@@ -179,7 +197,7 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
 
                                                             {card.is_download && (
                                                                 <button
-                                                                    onClick={hasPdf ? () => handleDownload(availablePdf) : undefined}
+                                                                    onClick={hasPdf ? () => handleDownload(availablePdf!) : undefined}
                                                                     disabled={!hasPdf}
                                                                     title="Download"
                                                                     className={`text-green-500 hover:text-green-700 transition ${!hasPdf ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -220,7 +238,7 @@ const renderSubjectContent = (subject: TSubject | null, is_note: boolean) => {
                         <Card key={chapterIndex} className="transition-all duration-300">
                              <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
                                 <AccordionTrigger className="p-3 md:p-4 font-medium text-sm md:text-base text-foreground text-left hover:no-underline">
-                                    {chapter.name} cha
+                                    {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent>
                                      <ChapterResources chapter={chapter} />
