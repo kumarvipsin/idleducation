@@ -244,6 +244,13 @@ export default function IDLFoundationPage() {
                                 </DialogTrigger>
                             ))}
                         </div>
+                        <div className="text-center mt-8">
+                            <Button asChild variant="outline" className="rounded-full">
+                                <Link href="/gallery">
+                                    VIEW ALL
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                 </section>
                 {selectedImage && (
