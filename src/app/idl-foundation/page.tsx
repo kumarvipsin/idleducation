@@ -390,16 +390,25 @@ export default function IDLFoundationPage() {
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Contact Us</h3>
-                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-transparent" style={{width: 'calc(20% + 80px)'}}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 from-50% to-primary to-50%" style={{width: 'calc(20% + 80px)'}}></div>
                             <ul className="space-y-2 text-sm text-muted-foreground">
-                                <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>Y-25A Budh Vihar, Delhi-110086</span></li>
-                                <li className="flex items-center gap-2"><Phone className="w-4 h-4"/><a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a></li>
-                                <li className="flex items-center gap-2"><Mail className="w-4 h-4"/><a href="mailto:info@idlfoundation.in" className="hover:text-primary hover:underline">info@idlfoundation.in</a></li>
+                                <li className="flex items-start gap-2">
+                                    <MapPin className="w-4 h-4 mt-1 shrink-0"/>
+                                    <span>Y-25A Budh Vihar, Delhi-110086</span>
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <Phone className="w-4 h-4"/>
+                                    <a href="tel:+917011117585" className="hover:text-primary hover:underline">+91 7011117585</a>
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <Mail className="w-4 h-4"/>
+                                    <a href="mailto:info@idlfoundation.in" className="hover:text-primary hover:underline">info@idlfoundation.in</a>
+                                </li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold text-foreground mb-2">Follow Us</h3>
-                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-transparent" style={{width: 'calc(20% + 80px)'}}></div>
+                            <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 from-50% to-primary to-50%" style={{width: 'calc(20% + 80px)'}}></div>
                             <div className="flex items-center gap-3">
                                 <Link href="#" className="p-2 bg-gray-200 dark:bg-gray-700 rounded-full text-muted-foreground hover:bg-primary hover:text-white transition-colors" aria-label="Instagram">
                                   <Instagram className="w-5 h-5"/>
