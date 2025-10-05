@@ -7,14 +7,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 
-const foundationImage = {
-    src: "https://s3.ap-south-1.amazonaws.com/awsimages.imagesbazaar.com/1200x1800-old/15219/SM601012.jpg?date=Fri%20Oct%2003%202025%2023:12:28%20GMT+0530%20(India%20Standard%20Time)",
-    alt: "Happy students celebrating",
-    hint: "students celebrating",
-    title: "Winds of Change 2019",
-    subtitle: "In the winds of change, we find our true direction.",
-};
-
 export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-background overflow-y-auto">
@@ -33,17 +25,13 @@ export default function IDLFoundationPage() {
                 </div>
             </header>
 
-            <div className="h-screen">
-                <div className="relative w-full h-full">
-                    <Image
-                        src={foundationImage.src}
-                        alt={foundationImage.alt}
-                        data-ai-hint={foundationImage.hint}
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                </div>
+            <div 
+                className="h-screen"
+                style={{
+                    background: 'linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)'
+                }}
+            >
+                {/* The gradient background is now applied here */}
             </div>
 
             <section className="py-16 md:py-24 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
