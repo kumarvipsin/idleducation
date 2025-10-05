@@ -423,6 +423,13 @@ export function Header() {
                     {notificationDropdown}
                     </>
                   )}
+                   {isIdlFoundationPage && (
+                    <Button asChild variant="ghost" size="icon" className="text-foreground">
+                        <Link href="/">
+                            <HomeIcon className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
