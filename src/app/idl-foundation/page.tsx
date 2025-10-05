@@ -382,7 +382,10 @@ export default function IDLFoundationPage() {
                 <div className="container mx-auto px-4 md:px-6 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
-                            <h3 className="text-lg font-semibold text-white mb-4">IDL Foundation</h3>
+                             <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
+                                <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
+                                <span className="text-lg font-bold text-primary">IDL FOUNDATION</span>
+                            </Link>
                             <p className="text-sm text-gray-400">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                         </div>
                         <div>
