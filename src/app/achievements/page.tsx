@@ -62,7 +62,7 @@ export default function AchievementsPage() {
         </Link>
         <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
             <section className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Celebrating Student Success</h1>
+                <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Our Achievers</h1>
                 <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
                 Our students are accomplishing great things. Here are a few of their recent achievements.
                 </p>
