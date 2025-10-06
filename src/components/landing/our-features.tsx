@@ -71,7 +71,7 @@ export function OurFeatures() {
                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                   <CardContent className="p-8 flex-grow flex flex-col">
                     
-                    <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{feature.title}</h3>
+                    <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{feature.title}</h3>
                     <p className="text-sm mt-2 text-muted-foreground flex-grow">{feature.description}</p>
                     <div className="mt-4">
                         <Button asChild variant="outline" size="sm" className="rounded-full text-xs">
