@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Trophy } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Trophy, ClipboardList } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -40,7 +40,7 @@ function StudentLayout({
   const mobileNavLinks = [
     { href: '/student/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
     { href: '/student/courses', label: 'Courses', icon: <BookOpen /> },
-    { href: '/student/achievements', label: 'Achievements', icon: <Trophy /> },
+    { href: '/student/study-plan', label: 'Study Plan', icon: <ClipboardList /> },
     { href: '/student/profile', label: 'Profile', icon: <User /> },
   ];
 
@@ -100,6 +100,17 @@ function StudentLayout({
                   <Link href="/student/achievements">
                     <Trophy />
                     <span>Achievements</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === '/student/study-plan'}
+                >
+                  <Link href="/student/study-plan">
+                    <ClipboardList />
+                    <span>Study Plan</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
