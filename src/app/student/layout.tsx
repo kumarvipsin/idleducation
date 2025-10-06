@@ -45,31 +45,25 @@ function StudentLayout({
       <div className="flex min-h-screen">
         <Sidebar className="hidden md:flex">
           <SidebarHeader>
-            <div className="flex items-center gap-2 p-2">
-              <BookOpen className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold">IDL EDUCATION</span>
-            </div>
           </SidebarHeader>
-          <SidebarContent className="mt-5">
+          <SidebarContent className="mt-2">
             <SidebarMenu>
-              <SidebarMenuItem className="my-4">
-                <SidebarMenuButton asChild isActive={pathname.startsWith('/student/profile')} className="h-auto py-2">
+              <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname.startsWith('/student/profile')} className="h-auto py-2">
                   <Link href="/student/profile">
-                    <Avatar className="h-10 w-10">
+                      <Avatar className="h-10 w-10">
                       <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Student'} />
                       <AvatarFallback>
-                        {user?.name ? user.name.charAt(0).toUpperCase() : 'S'}
+                          {user?.name ? user.name.charAt(0).toUpperCase() : 'S'}
                       </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
+                      </Avatar>
+                      <div className="flex flex-col">
                       <span className="font-semibold">{user?.name}</span>
                       <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
-                    </div>
+                      </div>
                   </Link>
-                </SidebarMenuButton>
+                  </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
-            <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
