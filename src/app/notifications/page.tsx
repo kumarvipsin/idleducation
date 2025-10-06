@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -104,7 +105,7 @@ export default function NotificationsPage() {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+      <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
         <Link href="/" className="absolute top-4 right-4 z-20">
             <Button variant="ghost" size="icon">
                 <Home className="h-6 w-6 text-primary" />
