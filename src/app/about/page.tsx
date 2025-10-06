@@ -102,8 +102,8 @@ export default function AboutPage() {
               <span className="sr-only">Home</span>
           </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12">
-          <div className="md:max-w-4xl md:mx-auto">
+      <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+          <div className="w-full">
             <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
                 <section className="mb-12 md:mb-20">
@@ -133,7 +133,7 @@ export default function AboutPage() {
                                 </>
                             ): (
                                 <>
-                                    <h2 className="text-xl font-bold text-foreground">{director?.name || 'Amod Kumar Sharma'}</h2>
+                                    <h2 className="text-xl font-bold text-foreground">{director?.name || 'AMOD KUMAR SHARMA'}</h2>
                                     <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
                                 </>
                             )}
