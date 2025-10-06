@@ -50,7 +50,7 @@ const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive
 );
 
 export function Team() {
-    const autoplayPlugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true, stopOnMouseEnter: true }));
+    const autoplayPlugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true, stopOnMouseEnter: true }));
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 }, [autoplayPlugin.current]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -58,6 +58,8 @@ export function Team() {
         (index: number) => emblaApi && emblaApi.scrollTo(index),
         [emblaApi]
     );
+     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -101,6 +103,9 @@ export function Team() {
                     </div>
                 </div>
                 <div className="flex justify-center items-center gap-2 mt-8">
+                     <Button variant="outline" size="icon" onClick={scrollPrev} className="rounded-full h-8 w-8">
+                        <ArrowLeft className="h-4 w-4" />
+                    </Button>
                     {team.map((_, index) => (
                         <button
                             key={index}
@@ -111,6 +116,9 @@ export function Team() {
                             )}
                         />
                     ))}
+                    <Button variant="outline" size="icon" onClick={scrollNext} className="rounded-full h-8 w-8">
+                        <ArrowRight className="h-4 w-4" />
+                    </Button>
                 </div>
             </div>
         </section>
