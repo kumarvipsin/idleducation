@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button";
 const quickLinks = [
     { href: "#about", label: "About Us" },
     { href: "#donate", label: "Donate" },
+    { href: "/volunteer", label: "Volunteer" },
 ];
 
 const socialLinks = [

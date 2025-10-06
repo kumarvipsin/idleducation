@@ -235,6 +235,35 @@ export async function submitAdmissionForm(formData: FormData) {
     }
 }
 
+const volunteerSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email." }),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  address: z.string().min(5, { message: "Address is required." }),
+  availability: z.string().min(1, { message: "Please select your availability." }),
+  reason: z.string().min(20, { message: "Please tell us why you want to volunteer (min. 20 characters)." }),
+});
+
+type VolunteerFormValues = z.infer<typeof volunteerSchema>;
+
+export async function submitVolunteerForm(data: VolunteerFormValues) {
+  const validation = volunteerSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check your inputs." };
+  }
+
+  try {
+    await addDoc(collection(db, "volunteerApplications"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Your application has been submitted successfully!" };
+  } catch (error) {
+    console.error("Error submitting volunteer form:", error);
+    return { success: false, message: "Failed to submit your application. Please try again later." };
+  }
+}
+
 // Utility
 export async function getNextStudentId() {
   try {
