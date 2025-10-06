@@ -16,6 +16,7 @@ const quickLinks = [
 const resourceLinks = [
   { href: "/resources/notes", label: "Notes" },
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
+  { href: "/resources/previous-year-questions", label: "Previous Year Questions" },
   { href: "/resources/reference-books", label: "Reference Books" },
   { href: "/store", label: "IDL Store" },
 ];
