@@ -55,8 +55,8 @@ export default function FeatureDetailPage({ params }: { params: { slug: string }
           <span className="sr-only">Home</span>
         </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12">
-        <div className="md:max-w-4xl md:mx-auto">
+      <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+        <div className="w-full">
           <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
             <div className="relative w-full h-64">
                 <Image
