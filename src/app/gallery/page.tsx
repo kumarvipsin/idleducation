@@ -68,7 +68,7 @@ function GalleryPageContent() {
                 <span className="sr-only">Home</span>
             </Button>
         </Link>
-        <div className="relative z-10 container mx-auto py-8">
+        <div className="relative z-10 py-8 md:px-[10%]">
             <div className="mb-8 space-y-4">
                  <div className="relative mx-auto max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
