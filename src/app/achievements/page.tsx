@@ -60,7 +60,7 @@ export default function AchievementsPage() {
                 <span className="sr-only">Home</span>
             </Button>
         </Link>
-        <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
+        <div className="relative z-10 container mx-auto py-12">
             <section className="text-center mb-12">
                 <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">Our Achievers</h1>
                 <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80">
@@ -70,7 +70,7 @@ export default function AchievementsPage() {
             
             <div className="relative">
               <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex gap-6 px-4">
+                <div className="flex gap-6 px-4 md:px-0">
                   {achievements.map((achievement, index) => (
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                       <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow bg-card">
