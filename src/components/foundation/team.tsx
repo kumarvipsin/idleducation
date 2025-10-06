@@ -24,7 +24,7 @@ const team = [
 const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
     <Card className={cn(
         "h-full shadow-xl rounded-2xl border-primary/10 overflow-hidden transition-all duration-300",
-        isActive ? "bg-gradient-to-br from-gray-50 to-blue-100 dark:from-gray-800 dark:to-blue-900/50" : "bg-card"
+        isActive ? "bg-gradient-to-br from-blue-50 to-purple-100 dark:from-gray-800 dark:to-purple-900/50" : "bg-card"
     )}>
         <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4 text-center">
