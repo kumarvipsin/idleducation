@@ -24,7 +24,7 @@ const team = [
 const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
     <Card className={cn(
         "h-full shadow-xl rounded-2xl border-primary/10 overflow-hidden transition-all duration-300",
-        isActive ? "bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900" : "bg-card"
+        isActive ? "bg-gradient-to-br from-orange-100 to-yellow-100 dark:from-orange-900/50 dark:to-yellow-900/50" : "bg-card"
     )}>
         <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4 text-center">
@@ -38,7 +38,7 @@ const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive
                     />
                 </div>
                 <div className={cn(isActive ? "text-foreground" : "")}>
-                    <h3 className={cn("text-xl font-bold", isActive ? "text-primary" : "text-primary")}>{member.name}</h3>
+                    <h3 className={cn("text-xl font-black", isActive ? "text-primary" : "text-primary")}>{member.name}</h3>
                     <p className={cn("text-sm font-medium", isActive ? "text-muted-foreground" : "text-muted-foreground")}>{member.role}</p>
                     <p className={cn("text-sm mt-3 text-center", isActive ? "text-muted-foreground" : "text-muted-foreground")}>
                         {member.description}
