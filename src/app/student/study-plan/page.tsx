@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Trash2, Plus, ClipboardList, Calendar as CalendarIcon, Tag, GripVertical } from 'lucide-react';
+import { Trash2, Plus, ClipboardList, Calendar as CalendarIcon, Tag } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';

@@ -116,16 +116,6 @@ function StudentLayout({
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarContent>
-          <SidebarFooter>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={handleLogout}>
-                    <LogOut />
-                    <span>Logout</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarFooter>
         </Sidebar>
          <div className="flex flex-col flex-1">
           <header className="p-4 border-b flex items-center md:hidden">
