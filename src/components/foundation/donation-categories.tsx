@@ -190,7 +190,7 @@ export function DonationCategories({ donationCategories }: { donationCategories:
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">{category.title}</h3>
+                                                <h3 className="text-xl text-left font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-300">{category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
