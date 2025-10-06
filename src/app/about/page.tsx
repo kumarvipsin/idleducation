@@ -54,11 +54,11 @@ const TeamMembers = () => {
             </p>
             </div>
             {loading ? (
-                <div className="grid grid-cols-2 gap-6">
-                    {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
                 </div>
             ) : (
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {teamMembers.map((member) => (
                     <TeacherCard 
                         key={member.id} 
