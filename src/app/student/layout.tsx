@@ -18,6 +18,10 @@ import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MobileBottomNav } from '@/components/mobile-bottom-nav';
+import { Header } from '@/components/header';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+
 
 function StudentLayout({
   children,
@@ -41,6 +45,8 @@ function StudentLayout({
   ];
 
   return (
+    <>
+    <Header />
     <SidebarProvider>
       <div className="flex min-h-screen">
         <Sidebar className="hidden md:flex">
@@ -110,16 +116,49 @@ function StudentLayout({
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex-1 pb-16 md:pb-0">
-            <header className="p-4 border-b flex items-center">
-                <SidebarTrigger />
-                <h1 className="text-xl md:text-2xl font-semibold ml-4">Student Dashboard</h1>
-            </header>
-            <div className="p-4 md:p-6">{children}</div>
-        </main>
+         <div className="flex flex-col flex-1">
+          <header className="p-4 border-b flex items-center md:hidden">
+            <div className="ml-auto flex items-center gap-2">
+                 {user && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                            <AvatarFallback>
+                              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56" align="end" forceMount>
+                        <DropdownMenuLabel className="font-normal">
+                          <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium leading-none">{user.name}</p>
+                            <p className="text-xs leading-none text-muted-foreground">
+                              {user.email}
+                            </p>
+                          </div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={handleLogout}>
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Log out</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                  <SidebarTrigger />
+            </div>
+          </header>
+          <main className="flex-1 p-4 md:p-6 bg-muted/20">
+            {children}
+          </main>
+        </div>
         <MobileBottomNav links={mobileNavLinks} />
       </div>
     </SidebarProvider>
+    </>
   );
 }
 
