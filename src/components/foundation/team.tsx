@@ -24,7 +24,7 @@ const team = [
 const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
     <Card className={cn(
         "h-full shadow-xl rounded-2xl border-primary/10 overflow-hidden transition-all duration-300",
-        isActive ? "bg-gradient-to-br from-teal-300 to-blue-600 dark:from-teal-800 dark:to-blue-900" : "bg-card"
+        isActive ? "bg-gradient-to-br from-teal-500 to-blue-700 dark:from-teal-800 dark:to-blue-900" : "bg-card"
     )}>
         <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4 text-center">
@@ -37,10 +37,10 @@ const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive
                         className="rounded-full object-cover shadow-md border-4 border-white"
                     />
                 </div>
-                <div>
-                    <h3 className="text-xl font-bold text-primary">{member.name}</h3>
-                    <p className="text-sm text-muted-foreground font-medium">{member.role}</p>
-                    <p className="text-sm text-muted-foreground mt-3 text-center">
+                <div className={cn(isActive ? "text-white" : "")}>
+                    <h3 className={cn("text-xl font-bold", isActive ? "text-white" : "text-primary")}>{member.name}</h3>
+                    <p className={cn("text-sm font-medium", isActive ? "text-white/90" : "text-muted-foreground")}>{member.role}</p>
+                    <p className={cn("text-sm mt-3 text-center", isActive ? "text-white/80" : "text-muted-foreground")}>
                         {member.description}
                     </p>
                 </div>
