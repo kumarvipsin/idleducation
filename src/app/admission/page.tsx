@@ -368,8 +368,8 @@ export default function AdmissionPage() {
               <span className="sr-only">Home</span>
           </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-0">
-        <div className="md:max-w-4xl md:mx-auto">
+      <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
+        <div className="w-full">
           <div className="text-center mb-8 animate-fade-in-up">
               <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
                   Admission Form
