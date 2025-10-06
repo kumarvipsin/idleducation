@@ -145,8 +145,8 @@ export default function ContactPage() {
                 <span className="sr-only">Home</span>
             </Button>
         </Link>
-        <div className="relative z-10 container mx-auto py-12">
-          <div className="md:max-w-6xl md:mx-auto">
+        <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+          <div className="w-full">
               <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up flex flex-col md:flex-row">
                   <div className="p-8 md:w-1/2 m-[2.5%] border rounded-lg flex flex-col justify-start">
                   <div className="space-y-2">
