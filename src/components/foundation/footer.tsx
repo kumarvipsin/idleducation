@@ -1,22 +1,15 @@
+
 'use client';
 
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin, Youtube, HandHeart } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 const quickLinks = [
-    { href: "#about", label: "About Us", isDialog: false },
-    { href: "#donate", label: "Donate", isDialog: true },
+    { href: "#about", label: "About Us" },
+    { href: "#donate", label: "Donate" },
 ];
 
 const socialLinks = [
@@ -25,7 +18,11 @@ const socialLinks = [
     { href: "#", label: "YouTube", icon: <Youtube className="w-5 h-5"/> },
 ];
 
-export function FoundationFooter() {
+interface FoundationFooterProps {
+  openDonateDialog: () => void;
+}
+
+export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
     return (
         <footer className="bg-background text-gray-800 dark:text-gray-300">
             <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -46,22 +43,8 @@ export function FoundationFooter() {
                         <ul className="space-y-2 text-sm">
                            {quickLinks.map(link => (
                                 <li key={link.href}>
-                                  {link.isDialog ? (
-                                     <Dialog>
-                                        <DialogTrigger asChild>
-                                          <button className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</button>
-                                        </DialogTrigger>
-                                        {/* You'll need to place your actual DialogContent here */}
-                                        <DialogContent>
-                                          <DialogHeader>
-                                            <DialogTitle>Donate Now</DialogTitle>
-                                            <DialogDescription>
-                                              Your contribution makes a difference.
-                                            </DialogDescription>
-                                          </DialogHeader>
-                                          <p>Donation form will be here.</p>
-                                        </DialogContent>
-                                      </Dialog>
+                                  {link.href === '#donate' ? (
+                                      <button onClick={openDonateDialog} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</button>
                                   ) : (
                                     <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                                   )}
