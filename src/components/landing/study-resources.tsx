@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +62,7 @@ export function StudyResources() {
                 <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                   <CardContent className="p-8 flex-grow flex flex-col">
                     
-                    <h3 className="text-2xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
+                    <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
                     <p className="text-sm mt-2 text-muted-foreground flex-grow">{resource.description}</p>
                   </CardContent>
                   <div className="relative aspect-[4/3] w-full mt-auto">
