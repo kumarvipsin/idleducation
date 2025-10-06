@@ -121,7 +121,7 @@ export default function OrdersPage() {
   if (loading) {
       return (
         <>
-            <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
                 <StoreHeader searchTerm="" setSearchTerm={() => {}} />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Card className="shadow-lg">
@@ -141,7 +141,7 @@ export default function OrdersPage() {
 
   return (
     <>
-      <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
           <StoreHeader searchTerm="" setSearchTerm={() => {}} />
           <div className="container mx-auto py-12 px-4 md:px-6">
               <Card className="shadow-lg">
@@ -184,11 +184,7 @@ export default function OrdersPage() {
                                             <div className="relative h-12 w-10 flex-shrink-0">
                                                 <GcsImage filePath={item.imageUrl} alt={item.title} fill className="object-cover rounded-sm" />
                                             </div>
-                                            <div className="flex-grow">
-                                                <p className="font-medium truncate">{item.title}</p>
-                                                <p className="text-xs text-muted-foreground">by {item.author}</p>
-                                                <p className="text-xs text-muted-foreground">{item.class} | Edition: {item.edition}</p>
-                                            </div>
+                                            <p className="flex-grow font-medium truncate">{item.title}</p>
                                             <p className="text-muted-foreground">Qty: {item.quantity}</p>
                                             <p className="font-semibold w-20 text-right">₹{item.price * item.quantity}</p>
                                           </div>

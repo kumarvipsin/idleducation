@@ -233,7 +233,7 @@ export default function StorePage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
@@ -323,6 +323,11 @@ export default function StorePage() {
                                                     <p className="text-xs font-semibold text-destructive">{Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)}% Off</p>
                                                 </div>
                                                 <div className="mt-3 flex gap-2">
+                                                   <a href={book.buyLink || '#'} target="_blank" rel="noopener noreferrer" className={!book.buyLink ? 'pointer-events-none flex-1' : 'flex-1'}>
+                                                        <Button className="w-full h-9 text-xs" disabled={!book.buyLink}>
+                                                            Buy Now
+                                                        </Button>
+                                                    </a>
                                                     <Button className="w-full h-9 text-xs" variant="outline" onClick={() => handleAddToCart(book)}>
                                                         <ShoppingCart className="mr-2 h-4 w-4" />
                                                         Add To Cart
