@@ -40,9 +40,6 @@ const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive
                 <div className={cn(isActive ? "text-foreground" : "")}>
                     <h3 className={cn("text-xl font-black", isActive ? "text-primary" : "text-primary")}>{member.name}</h3>
                     <p className={cn("text-sm font-medium", isActive ? "text-muted-foreground" : "text-muted-foreground")}>{member.role}</p>
-                    <p className={cn("text-sm mt-3 text-center", isActive ? "text-muted-foreground" : "text-muted-foreground")}>
-                        {member.description}
-                    </p>
                 </div>
             </div>
         </CardContent>
