@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -112,7 +111,7 @@ export default function NotificationsPage() {
                 <span className="sr-only">Home</span>
             </Button>
         </Link>
-        <div className="relative z-10 container mx-auto">
+        <div className="relative z-10 container mx-auto py-12">
             <Card className="max-w-4xl mx-auto bg-card/80 backdrop-blur-sm shadow-2xl border-primary/10 rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
