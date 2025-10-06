@@ -16,7 +16,7 @@ export function About() {
                     </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                    <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <Card className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-800/20 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                         <CardContent className="p-8 text-center flex flex-col items-center">
                             <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
                                 <Eye className="w-8 h-8" />
@@ -27,7 +27,7 @@ export function About() {
                             </p>
                         </CardContent>
                     </Card>
-                    <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                    <Card className="bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-900/20 dark:to-teal-800/20 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                         <CardContent className="p-8 text-center flex flex-col items-center">
                              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
                                 <Target className="w-8 h-8" />
@@ -38,7 +38,7 @@ export function About() {
                             </p>
                         </CardContent>
                     </Card>
-                     <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                     <Card className="bg-gradient-to-br from-yellow-100 to-orange-100 dark:from-yellow-900/20 dark:to-orange-800/20 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                         <CardContent className="p-8 text-center flex flex-col items-center">
                              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
                                 <Zap className="w-8 h-8" />
@@ -49,7 +49,7 @@ export function About() {
                             </p>
                         </CardContent>
                     </Card>
-                     <Card className="bg-background/80 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                     <Card className="bg-gradient-to-br from-red-100 to-pink-100 dark:from-red-900/20 dark:to-pink-800/20 backdrop-blur-sm border-0 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                         <CardContent className="p-8 text-center flex flex-col items-center">
                              <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
                                 <TrendingUp className="w-8 h-8" />
