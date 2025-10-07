@@ -55,7 +55,8 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 
 export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }: { isIdlFoundationPage?: boolean }) {
   const { t } = useLanguage();
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
+  const { logout } = useAuth();
   const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
@@ -166,7 +167,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     return `/${user.role}/profile`;
   }
 
-  const logoHref = "/";
+  const logoHref = isIdlFoundationPage ? "/idl-foundation" : "/";
 
   const renderAuthSection = () => {
     if (loading) {
@@ -333,13 +334,13 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
-    isClient && show ? "translate-y-0" : "-translate-y-full",
+    show ? "translate-y-0" : "-translate-y-full",
     "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
   );
   
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <header className={headerClasses}>
+      <header className={isClient ? headerClasses : "sticky top-0 z-50 border-b bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm h-12"}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
@@ -414,7 +415,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage && (
+                  {!isIdlFoundationPage ? (
                     <>
                     <Link href="/store" className='text-foreground'>
                         <ShoppingBag className="h-4 w-4" />
@@ -422,6 +423,11 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                     </Link>
                     {notificationDropdown}
                     </>
+                  ) : (
+                     <div className="flex items-center gap-2">
+                        <a href="tel:7011117585" className="text-primary"><Phone className="h-4 w-4" /></a>
+                        <a href="mailto:info@idlfoundation.in" className="text-primary"><Mail className="h-4 w-4" /></a>
+                    </div>
                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
