@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 import Link from "next/link";
-import { IndianRupee, Banknote, CheckCircle, Heart } from "lucide-react";
+import { IndianRupee, Banknote, CheckCircle, Heart, ArrowRight } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -175,7 +175,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 pl-4 md:pl-[10%]">
+                        <div className="flex gap-6 px-4 md:pl-[10%]">
                             {donationCategories.map((category, index) => {
                                 const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                 return (
@@ -191,7 +191,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black text-[#FF7F50]">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                                <h3 className="text-xl text-left font-black text-coral-500">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
@@ -212,7 +212,8 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 <div className="mt-6 text-left">
                                                     <Button asChild variant="outline" size="sm" className="font-bold rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out text-primary">
                                                         <Link href="#">
-                                                            Read More
+                                                            READ MORE
+                                                            <ArrowRight className="ml-2 h-4 w-4" />
                                                         </Link>
                                                     </Button>
                                                 </div>
