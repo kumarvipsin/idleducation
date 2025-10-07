@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react";
@@ -197,7 +198,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black text-coral-500">{category.title}</h3>
+                                                <h3 className="text-xl text-left font-black" style={{ color: '#FF6347' }}>{category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
