@@ -79,9 +79,9 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
   
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
-      if (window.scrollY > lastScrollY && window.scrollY > 80) {
+      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
         setShow(false);
-      } else {
+      } else { // if scroll up show the navbar
         setShow(true);
       }
       setLastScrollY(window.scrollY);
@@ -490,3 +490,5 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </Collapsible>
   );
 }
+
+    
