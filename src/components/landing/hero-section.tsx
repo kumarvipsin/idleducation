@@ -85,7 +85,7 @@ export function HeroSection() {
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                             <div className="space-y-4 text-white">
-                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter">
+                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tighter">
                                    {slide.title}
                                 </h1>
                                 <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
