@@ -231,6 +231,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
@@ -405,7 +406,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                   {notificationDropdown}
                     </>
                   ) : (
-                    <div className="flex items-center gap-x-4 text-xs font-semibold text-foreground">
+                    <div className="flex items-center gap-x-4 text-xs font-semibold">
                       <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
                       <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                       <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
