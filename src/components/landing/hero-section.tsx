@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ const heroSlides = [
     src: "https://picsum.photos/seed/hero2/1920/1080", 
     alt: "A student focused on a difficult problem", 
     hint: "student studying",
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
+    title: <><span className="font-extrabold">Unlock Your</span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500 font-extrabold">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
@@ -68,7 +69,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[36vh] md:h-[40vh] overflow-hidden bg-blue-600">
+    <section className="relative w-full h-[25vh] md:h-[28vh] overflow-hidden bg-blue-600">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
