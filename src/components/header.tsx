@@ -71,11 +71,11 @@ export function Header() {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const isIdlFoundationPage = pathname === '/idl-foundation';
-
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const isIdlFoundationPage = pathname === '/idl-foundation';
   
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -332,10 +332,8 @@ export function Header() {
 
   
   if (!isClient) {
-    return (
-        <header className={cn("sticky top-0 z-50 border-b h-14")}>
-        </header>
-    );
+    // Render a placeholder or null on the server to avoid hydration errors
+    return <header className={cn("sticky top-0 z-50 border-b h-14", isIdlFoundationPage ? "bg-red-600" : "bg-[#F5F5F7] dark:bg-gray-900")} />;
   }
 
   return (
