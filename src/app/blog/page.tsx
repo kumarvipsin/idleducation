@@ -91,14 +91,10 @@ export default function BlogPage() {
                         </div>
                       </div>
                   </CardHeader>
-                  <CardContent className="flex-grow h-32 overflow-hidden">
-                    <div className="h-full relative">
-                        <p className="text-sm text-muted-foreground animate-marquee-vertical-slow group-hover:pause">
-                            {post.excerpt}
-                            <br/><br/>
-                            {post.excerpt}
-                        </p>
-                    </div>
+                  <CardContent className="flex-grow h-32 overflow-y-auto">
+                    <p className="text-sm text-muted-foreground">
+                        {post.excerpt}
+                    </p>
                   </CardContent>
                 </Card>
               </Link>
