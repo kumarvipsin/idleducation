@@ -191,7 +191,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black text-coral-500">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                                <h3 className="text-xl text-left font-bold" style={{color: 'coral'}}>{category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
