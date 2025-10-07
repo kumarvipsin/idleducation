@@ -166,7 +166,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     return `/${user.role}/profile`;
   }
 
-  const logoHref = isIdlFoundationPage ? '/idl-foundation' : '/';
+  const logoHref = '/';
 
   const renderAuthSection = () => {
     if (loading) {
@@ -330,11 +330,20 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </DropdownMenu>
   );
 
+  
+  if (!isClient) {
+    return (
+        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-12 rounded-t-2xl">
+            
+        </header>
+    );
+  }
+
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className={cn(
         "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
-        isClient && show ? "translate-y-0" : "-translate-y-full",
+        show ? "translate-y-0" : "-translate-y-full",
         isIdlFoundationPage ? "bg-background text-foreground" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
       )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
@@ -490,5 +499,3 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </Collapsible>
   );
 }
-
-    
