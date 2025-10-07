@@ -499,3 +499,4 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </Collapsible>
   );
 }
+
