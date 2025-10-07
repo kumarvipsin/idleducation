@@ -108,6 +108,18 @@ export async function getAdmissions() {
   }
 }
 
+export async function getVolunteerApplications() {
+  try {
+    const applicationsQuery = query(collection(db, "volunteerApplications"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(applicationsQuery);
+    const applications = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: applications };
+  } catch (error) {
+    console.error("Error fetching volunteer applications:", error);
+    return { success: false, message: "Failed to fetch volunteer applications." };
+  }
+}
+
 export async function getTestimonials() {
     try {
         const testimonialsQuery = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
