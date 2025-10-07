@@ -53,7 +53,7 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-export function Header({ isIdlFoundationPage = false }: { isIdlFoundationPage?: boolean }) {
+export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }: { isIdlFoundationPage?: boolean }) {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
   const { cartCount } = useCart();
@@ -67,9 +67,16 @@ export function Header({ isIdlFoundationPage = false }: { isIdlFoundationPage?: 
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
+  const isIdlFoundationPage = pathname === '/idl-foundation';
+
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
@@ -323,11 +330,17 @@ export function Header({ isIdlFoundationPage = false }: { isIdlFoundationPage?: 
     </DropdownMenu>
   );
 
+  if (!isClient) {
+    return (
+        <header className={cn("sticky top-0 z-50 border-b h-14")}>
+        </header>
+    );
+  }
+
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className={cn("sticky top-0 z-50 border-b backdrop-blur-sm transition-transform duration-300 h-12", 
-        show ? "translate-y-0" : "-translate-y-full",
-        isIdlFoundationPage ? "bg-red-600 text-white" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80"
+      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7]/80 dark:bg-gray-900/80 border-b backdrop-blur-sm transition-transform duration-300 h-12", 
+        show ? "translate-y-0" : "-translate-y-full"
       )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
@@ -383,16 +396,16 @@ export function Header({ isIdlFoundationPage = false }: { isIdlFoundationPage?: 
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store">
-                            IDL Store
-                            </Link>
-                        </Button>
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                        {renderAuthSection()}
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                        {notificationDropdown}
+                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                    <Link href="/store">
+                      IDL Store
+                    </Link>
+                  </Button>
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {renderAuthSection()}
+                  <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                  {notificationDropdown}
                     </>
                   ) : (
                     <div className="flex items-center gap-x-4 text-xs font-semibold text-white">
