@@ -13,7 +13,7 @@ import { Team } from "@/components/foundation/team";
 import { FoundationFooter } from "@/components/foundation/footer";
 import { useState } from "react";
 
-const donationCategoriesData = [
+const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 100000, raised: 1500 },
     { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/600/400", imageHint: "children studying", goal: 100000, raised: 2200 },
     { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/600/400", imageHint: "planting tree", goal: 100000, raised: 1800 },
