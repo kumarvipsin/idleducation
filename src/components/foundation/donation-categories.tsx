@@ -175,7 +175,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 pl-[10%]">
+                        <div className="flex gap-6 pl-4 md:pl-0">
                             {donationCategories.map((category, index) => {
                                 const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                 return (
