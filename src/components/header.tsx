@@ -167,7 +167,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     return `/${user.role}/profile`;
   }
 
-  const logoHref = isIdlFoundationPage ? "/idl-foundation" : "/";
+  const logoHref = "/";
 
   const renderAuthSection = () => {
     if (loading) {
