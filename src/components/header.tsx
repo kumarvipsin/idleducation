@@ -53,7 +53,7 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-export function Header() {
+export function Header({ isIdlFoundationPage = false }: { isIdlFoundationPage?: boolean }) {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
   const { cartCount } = useCart();
@@ -67,15 +67,8 @@ export function Header() {
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const isIdlFoundationPage = pathname === '/idl-foundation';
   
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -330,15 +323,9 @@ export function Header() {
     </DropdownMenu>
   );
 
-  
-  if (!isClient) {
-    // Render a placeholder or null on the server to avoid hydration errors
-    return <header className={cn("sticky top-0 z-50 border-b h-14", isIdlFoundationPage ? "bg-red-600" : "bg-[#F5F5F7] dark:bg-gray-900")} />;
-  }
-
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className={cn("sticky top-0 z-50 border-b backdrop-blur-sm transition-transform duration-300", 
+      <div className={cn("sticky top-0 z-50 border-b backdrop-blur-sm transition-transform duration-300 h-12", 
         show ? "translate-y-0" : "-translate-y-full",
         isIdlFoundationPage ? "bg-red-600 text-white" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80"
       )}>
