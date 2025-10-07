@@ -57,7 +57,7 @@ export default function BlogPage() {
       <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
           <div className="text-center mb-12 animate-fade-in-up">
               <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
-                  IDL Education Blog
+                  IDL Blog
               </h1>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
                   Insights, tips, and stories from the world of education.
