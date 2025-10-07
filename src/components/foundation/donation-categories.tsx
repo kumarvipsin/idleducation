@@ -175,7 +175,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 pl-4 md:pl-[10%]">
+                        <div className="flex gap-6 px-4 md:pl-[10%]">
                             {donationCategories.map((category, index) => {
                                 const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                 return (
@@ -191,7 +191,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-bold" style={{color: 'coral'}}>{category.title}</h3>
+                                                <h3 className="text-xl text-left font-black" style={{color: 'coral'}}>{category.title.includes('Environment') ? <span className="font-black">Environment / Tree Plantation</span>: category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
