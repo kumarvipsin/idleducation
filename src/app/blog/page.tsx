@@ -68,7 +68,7 @@ export default function BlogPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full">
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group">
                   <div className="relative w-full aspect-video">
                     <Image 
                       src={post.imageUrl}
@@ -91,8 +91,14 @@ export default function BlogPage() {
                         </div>
                       </div>
                   </CardHeader>
-                  <CardContent className="flex-grow">
-                    <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                  <CardContent className="flex-grow h-32 overflow-hidden">
+                    <div className="h-full relative">
+                        <p className="text-sm text-muted-foreground animate-marquee-vertical-slow group-hover:pause">
+                            {post.excerpt}
+                            <br/><br/>
+                            {post.excerpt}
+                        </p>
+                    </div>
                   </CardContent>
                 </Card>
               </Link>
