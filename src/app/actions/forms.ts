@@ -264,6 +264,36 @@ export async function submitVolunteerForm(data: VolunteerFormValues) {
   }
 }
 
+const donationSchema = z.object({
+    name: z.string().optional(),
+    contact: z.string().optional(),
+    email: z.string().email().optional().or(z.literal('')),
+    place: z.string().optional(),
+    amount: z.number(),
+    category: z.string(),
+    paymentId: z.string(),
+});
+type DonationValues = z.infer<typeof donationSchema>;
+
+export async function recordDonation(data: DonationValues) {
+  const validation = donationSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided." };
+  }
+
+  try {
+    await addDoc(collection(db, "donations"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Donation recorded successfully." };
+  } catch (error) {
+    console.error("Error recording donation:", error);
+    return { success: false, message: "Failed to record donation." };
+  }
+}
+
+
 // Utility
 export async function getNextStudentId() {
   try {

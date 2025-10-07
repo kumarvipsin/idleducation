@@ -12,7 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { createRazorpayOrder } from "@/app/actions";
+import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Script from "next/script";
 
 interface DonationCategory {
@@ -66,7 +66,14 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
             name: 'IDL Foundation Donation',
             description: `Donation for ${donationCategory}`,
             order_id: order.id,
-            handler: function (response: any) {
+            handler: async function (response: any) {
+                const donationData = {
+                    ...donorDetails,
+                    amount: amount,
+                    category: donationCategory,
+                    paymentId: response.razorpay_payment_id,
+                };
+                await recordDonation(donationData);
                 toast({ title: 'Payment Successful', description: `Thank you for your donation of ₹${amount}!` });
                 setDonationStep(1);
                 setDonationCategory('');
@@ -174,7 +181,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 pl-4 md:pl-[10%]">
+                        <div className="flex gap-6 px-4 md:px-[10%]">
                             {donationCategories.map((category, index) => {
                                 const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                 return (
@@ -190,7 +197,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black" style={{color: 'coral'}}>{category.title}</h3>
+                                                <h3 className="text-xl text-left font-black">{category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
@@ -206,6 +213,14 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                         <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
                                                         <p className="text-xs text-right text-muted-foreground">{Math.round(percentage)}%</p>
                                                     </div>
+                                                </div>
+
+                                                <div className="mt-6 text-left">
+                                                   <Button asChild variant="outline" size="sm" className="font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out text-primary text-xs h-8 px-2">
+                                                        <Link href="#">
+                                                            READ MORE<ArrowRight className="ml-1 h-3 w-3" />
+                                                        </Link>
+                                                    </Button>
                                                 </div>
                                             </CardContent>
                                         </Card>

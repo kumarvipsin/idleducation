@@ -120,6 +120,18 @@ export async function getVolunteerApplications() {
   }
 }
 
+export async function getDonations() {
+  try {
+    const donationsQuery = query(collection(db, "donations"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(donationsQuery);
+    const donations = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    return { success: true, data: donations };
+  } catch (error) {
+    console.error("Error fetching donations:", error);
+    return { success: false, message: "Failed to fetch donations." };
+  }
+}
+
 export async function getTestimonials() {
     try {
         const testimonialsQuery = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
