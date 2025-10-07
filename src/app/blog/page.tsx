@@ -10,7 +10,7 @@ const blogPosts = [
   {
     slug: "power-of-personalized-learning",
     title: "The Power of Personalized Learning in Today's Education",
-    excerpt: "Discover how tailoring education to individual student needs can unlock unprecedented potential and foster a lifelong love for learning. We explore the tools and techniques making it a reality.",
+    excerpt: "Discover how tailoring education to individual student needs can unlock unprecedented potential and foster a lifelong love for learning. We explore the tools and techniques making it a reality. In this post, we'll dive deep into adaptive learning technologies, the role of AI in creating customized study plans, and how data analytics can provide insights into a student's progress. We also discuss the challenges and benefits of implementing personalized learning in traditional classroom settings, and share success stories from schools that have embraced this innovative approach. Learn how this educational revolution is preparing students not just for exams, but for a lifetime of curiosity and growth.",
     author: "Dr. Jane Doe",
     date: "July 15, 2024",
     imageUrl: "https://picsum.photos/seed/blog1/800/600",
@@ -19,7 +19,7 @@ const blogPosts = [
   {
     slug: "future-of-stem-education",
     title: "The Future of STEM: Preparing Students for Tomorrow's Careers",
-    excerpt: "STEM fields are evolving at a rapid pace. This post delves into how we can adapt our teaching methods to equip students with the skills needed for the jobs of the future.",
+    excerpt: "STEM fields are evolving at a rapid pace. This post delves into how we can adapt our teaching methods to equip students with the skills needed for the jobs of the future. We'll examine the importance of interdisciplinary projects, hands-on experiments, and coding literacy from an early age. Furthermore, we explore the integration of robotics, artificial intelligence, and data science into the K-12 curriculum. Find out how educators can inspire the next generation of innovators and problem-solvers who will tackle the world's most pressing challenges.",
     author: "John Smith",
     date: "July 10, 2024",
     imageUrl: "https://picsum.photos/seed/blog2/800/600",
@@ -28,7 +28,7 @@ const blogPosts = [
   {
     slug: "importance-of-arts-in-education",
     title: "Why Arts and Humanities are Crucial in a Tech-Driven World",
-    excerpt: "While technology is important, the arts and humanities cultivate critical thinking, empathy, and creativity. Learn why a balanced education is more important than ever.",
+    excerpt: "While technology is important, the arts and humanities cultivate critical thinking, empathy, and creativity. Learn why a balanced education is more important than ever. This article makes a case for the arts by showing how they improve communication skills, foster cultural understanding, and encourage out-of-the-box thinking. We'll share practical tips for integrating arts into any subject, from history to mathematics, and showcase how students who engage with humanities are often better equipped to navigate complex social and ethical issues in their personal and professional lives.",
     author: "Emily White",
     date: "July 5, 2024",
     imageUrl: "https://picsum.photos/seed/blog3/800/600",
@@ -37,7 +37,7 @@ const blogPosts = [
     {
     slug: "mastering-exam-preparation",
     title: "Mastering Exam Preparation: Tips for Less Stress and More Success",
-    excerpt: "Exams can be stressful, but they don't have to be. We share proven strategies to help students study smarter, manage their time effectively, and approach exams with confidence.",
+    excerpt: "Exams can be stressful, but they don't have to be. We share proven strategies to help students study smarter, manage their time effectively, and approach exams with confidence. This guide covers everything from creating a realistic study schedule to using active recall techniques like flashcards and practice tests. We also address the importance of a healthy lifestyle, including proper sleep, nutrition, and exercise, in boosting cognitive performance. Learn how to conquer exam anxiety and walk into the test hall feeling prepared and self-assured.",
     author: "Amod Sharma",
     date: "July 1, 2024",
     imageUrl: "https://picsum.photos/seed/blog4/800/600",
