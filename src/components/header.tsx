@@ -329,19 +329,19 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
         </DropdownMenuContent>
     </DropdownMenu>
   );
-
+  
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className={cn(
         "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
-        show ? "translate-y-0" : "-translate-y-full",
-        isIdlFoundationPage ? "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
+        isClient && show ? "translate-y-0" : "-translate-y-full",
+        "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
       )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className={cn("text-sm font-bold", isIdlFoundationPage ? "text-primary" : "text-primary")}>
+                    <span className={cn("text-sm font-bold", "text-primary")}>
                         {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                     </span>
                     {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
@@ -421,7 +421,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                     </>
                   )}
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7", isIdlFoundationPage && "text-foreground")}>
+                    <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
@@ -432,7 +432,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className={cn("border-t", isIdlFoundationPage ? "bg-background" : "bg-background")}>
+              <div className={cn("border-t bg-background")}>
                 {!isIdlFoundationPage && (
                   <div className="p-2">
                     <nav className="grid grid-cols-3 gap-1 text-base font-medium">
