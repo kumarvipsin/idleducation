@@ -166,7 +166,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     return `/${user.role}/profile`;
   }
 
-  const logoHref = '/';
+  const logoHref = isIdlFoundationPage ? "/" : "/idl-foundation";
 
   const renderAuthSection = () => {
     if (loading) {
@@ -333,7 +333,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     isClient && show ? "translate-y-0" : "-translate-y-full",
-    isIdlFoundationPage ? "bg-background text-foreground" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
+    "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
   );
   
   return (
@@ -413,13 +413,22 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage && (
+                  {isIdlFoundationPage ? (
+                    <div className="flex items-center gap-2">
+                      <a href="tel:7011117585" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <Phone className="h-4 w-4 text-foreground" />
+                      </a>
+                      <a href="mailto:info@idlfoundation.in" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <Mail className="h-4 w-4 text-foreground" />
+                      </a>
+                    </div>
+                  ) : (
                     <>
-                    <Link href="/store" className='text-foreground'>
-                        <ShoppingBag className="h-4 w-4" />
-                        <span className="sr-only">IDL Store</span>
-                    </Link>
-                    {notificationDropdown}
+                      <Link href="/store" className='text-foreground'>
+                          <ShoppingBag className="h-4 w-4" />
+                          <span className="sr-only">IDL Store</span>
+                      </Link>
+                      {notificationDropdown}
                     </>
                   )}
                   <CollapsibleTrigger asChild>
