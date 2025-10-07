@@ -53,7 +53,7 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }: { isIdlFoundationPage?: boolean }) {
+export function Header() {
   const { t } = useLanguage();
   const { user, loading } = useAuth();
   const { logout } = useAuth();
@@ -499,4 +499,3 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </Collapsible>
   );
 }
-

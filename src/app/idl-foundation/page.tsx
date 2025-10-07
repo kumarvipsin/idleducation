@@ -27,7 +27,7 @@ export default function IDLFoundationPage() {
 
     return (
         <div className="relative w-full bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
-            <Header isIdlFoundationPage={true} />
+            <Header />
             <FoundationHero slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
