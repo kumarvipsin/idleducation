@@ -56,7 +56,7 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
   };
 
   return (
-    <section className="relative w-full h-[28vh] md:h-[32vh] overflow-hidden bg-blue-600">
+    <section className="relative w-full h-[22.4vh] md:h-[25.6vh] overflow-hidden bg-blue-600">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
