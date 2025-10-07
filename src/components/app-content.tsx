@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -38,6 +37,7 @@ export function AppContent({
     '/offline-centers',
     '/achievements',
     '/store',
+    '/volunteer',
   ];
   
   const isIdlFoundationPage = pathname === '/idl-foundation';
