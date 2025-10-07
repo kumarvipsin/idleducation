@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -13,14 +12,23 @@ import { cn } from "@/lib/utils";
 
 const heroSlides = [
   { 
+    src: "https://picsum.photos/seed/hero1/1920/1080", 
+    alt: "Students learning in a modern classroom", 
+    hint: "students classroom",
     title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
+    src: "https://picsum.photos/seed/hero2/1920/1080", 
+    alt: "A student focused on a difficult problem", 
+    hint: "student studying",
     title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
+    src: "https://picsum.photos/seed/hero3/1920/1080", 
+    alt: "A group of happy students celebrating success", 
+    hint: "students success",
     title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
@@ -39,7 +47,7 @@ export function HeroSection() {
   const [current, setCurrent] = useState(0)
 
   const autoplayPlugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: false })
+    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
   );
 
   useEffect(() => {
@@ -60,7 +68,7 @@ export function HeroSection() {
   );
   
   return (
-    <section className="relative w-full h-[28vh] md:h-[32vh] overflow-hidden bg-black">
+    <section className="relative w-full h-[36vh] md:h-[40vh] overflow-hidden bg-blue-600">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -70,8 +78,9 @@ export function HeroSection() {
         <CarouselContent className="h-full">
           {heroSlides.map((slide, index) => (
             <CarouselItem key={index} className="h-full">
-              <div className="relative w-full h-full flex flex-col items-center justify-center bg-black">
-                 <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="relative w-full h-full flex flex-col items-center justify-center">
+                 <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
+                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                             <div className="space-y-4 text-white">
