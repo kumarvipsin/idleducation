@@ -333,7 +333,7 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className={cn("sticky top-0 z-50 border-b h-14 rounded-t-2xl", isIdlFoundationPage ? "bg-red-600" : "bg-[#F5F5F7] dark:bg-gray-900")}>
+        <header className={cn("sticky top-0 z-50 border-b h-14")}>
         </header>
     );
   }
@@ -384,13 +384,13 @@ export function Header() {
                                 <DropdownMenuItem asChild>
                                     <Link href="/scholarship">Apply Scholarship</Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
+                                 <DropdownMenuItem asChild>
                                     <Link href="/admission">Admission Form</Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
+                                 <DropdownMenuItem asChild>
                                     <Link href="/book-demo">Book Free Demo</Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
+                                 <DropdownMenuItem asChild>
                                     <Link href="/feedback">Feedback</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
@@ -428,7 +428,7 @@ export function Header() {
                     </>
                   )}
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7">
+                    <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
