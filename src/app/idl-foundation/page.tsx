@@ -28,9 +28,9 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
             <Header />
-            <FoundationHero slides={donationCategoriesData} />
+            <FoundationHero slides={donationCategories} />
             <DonationCategories 
-                donationCategories={donationCategoriesData} 
+                donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 
                 isDonateDialogOpen={isDonateOpen}
                 onDonateDialogChange={setIsDonateOpen}
