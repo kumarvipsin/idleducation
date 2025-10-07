@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -91,7 +90,7 @@ export default function BlogPage() {
                         </div>
                       </div>
                   </CardHeader>
-                  <CardContent className="flex-grow h-32 overflow-y-auto">
+                  <CardContent className="flex-grow h-32 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <p className="text-sm text-muted-foreground">
                         {post.excerpt}
                     </p>
