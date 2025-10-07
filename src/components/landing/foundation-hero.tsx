@@ -74,6 +74,9 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
                         <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                             <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                                 <div className="space-y-4 text-white">
+                                    <div className="inline-block border border-white/50 rounded-full px-3 py-1 text-xs uppercase tracking-wider mb-2">
+                                        Help Us Now
+                                    </div>
                                     <h1 className="text-2xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
                                         <span>{part1} </span>
                                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">
