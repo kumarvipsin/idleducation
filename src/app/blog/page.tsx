@@ -67,40 +67,35 @@ export default function BlogPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
-              <Card key={post.slug} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col" style={{ animationDelay: `${index * 100}ms`}}>
-                <div className="relative w-full aspect-video">
-                  <Image 
-                    src={post.imageUrl}
-                    alt={post.title}
-                    data-ai-hint={post.imageHint}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-xl h-16">{post.title}</CardTitle>
-                   <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
-                      <div className="flex items-center gap-1.5">
-                        <User className="h-3 w-3" />
-                        <span>{post.author}</span>
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full">
+                  <div className="relative w-full aspect-video">
+                    <Image 
+                      src={post.imageUrl}
+                      alt={post.title}
+                      data-ai-hint={post.imageHint}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardHeader>
+                    <CardTitle className="text-xl h-16">{post.title}</CardTitle>
+                     <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
+                        <div className="flex items-center gap-1.5">
+                          <User className="h-3 w-3" />
+                          <span>{post.author}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <Calendar className="h-3 w-3" />
+                          <span>{post.date}</span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="h-3 w-3" />
-                        <span>{post.date}</span>
-                      </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-sm text-muted-foreground">{post.excerpt}</p>
-                </CardContent>
-                <CardFooter>
-                    <Button asChild variant="outline" className="w-full">
-                        <Link href={`/blog/${post.slug}`}>
-                            Read More <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardFooter>
-              </Card>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
       </div>
