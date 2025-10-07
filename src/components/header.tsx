@@ -71,12 +71,12 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const isIdlFoundationPage = pathname === '/idl-foundation';
+
   useEffect(() => {
     setIsClient(true);
   }, []);
   
-  const isIdlFoundationPage = pathname === '/idl-foundation';
-
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
@@ -330,17 +330,12 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     </DropdownMenu>
   );
 
-  if (!isClient) {
-    return (
-        <header className={cn("sticky top-0 z-50 border-b h-14")}>
-        </header>
-    );
-  }
-
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7]/80 dark:bg-gray-900/80 border-b backdrop-blur-sm transition-transform duration-300 h-12", 
-        show ? "translate-y-0" : "-translate-y-full"
+      <header className={cn(
+        "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+        show ? "translate-y-0" : "-translate-y-full",
+        isIdlFoundationPage ? "bg-red-600" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
       )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
@@ -426,7 +421,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                     </>
                   )}
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
+                    <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7", isIdlFoundationPage && "text-white")}>
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
@@ -491,7 +486,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
               </div>
             </div>
           </CollapsibleContent>
-      </div>
+      </header>
     </Collapsible>
   );
 }
