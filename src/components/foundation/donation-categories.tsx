@@ -175,7 +175,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 </div>
                 <div className="relative">
                     <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4 md:pl-[10%]">
+                        <div className="flex gap-6 px-4 md:px-[10%]">
                             {donationCategories.map((category, index) => {
                                 const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                                 return (
@@ -210,10 +210,10 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 </div>
 
                                                 <div className="mt-6 text-left">
-                                                    <Button asChild variant="outline" size="sm" className="font-bold rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out text-primary">
+                                                    <Button asChild variant="outline" size="sm" className="font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out text-primary text-xs h-8 px-3">
                                                         <Link href="#">
                                                             READ MORE
-                                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                                            <ArrowRight className="ml-1 h-3 w-3" />
                                                         </Link>
                                                     </Button>
                                                 </div>
