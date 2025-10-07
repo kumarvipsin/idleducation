@@ -166,7 +166,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
     return `/${user.role}/profile`;
   }
 
-  const logoHref = isIdlFoundationPage ? "/" : "/idl-foundation";
+  const logoHref = "/";
 
   const renderAuthSection = () => {
     if (loading) {
@@ -413,22 +413,13 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {isIdlFoundationPage ? (
-                    <div className="flex items-center gap-2">
-                      <a href="tel:7011117585" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <Phone className="h-4 w-4 text-foreground" />
-                      </a>
-                      <a href="mailto:info@idlfoundation.in" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <Mail className="h-4 w-4 text-foreground" />
-                      </a>
-                    </div>
-                  ) : (
+                  {!isIdlFoundationPage && (
                     <>
-                      <Link href="/store" className='text-foreground'>
-                          <ShoppingBag className="h-4 w-4" />
-                          <span className="sr-only">IDL Store</span>
-                      </Link>
-                      {notificationDropdown}
+                    <Link href="/store" className='text-foreground'>
+                        <ShoppingBag className="h-4 w-4" />
+                        <span className="sr-only">IDL Store</span>
+                    </Link>
+                    {notificationDropdown}
                     </>
                   )}
                   <CollapsibleTrigger asChild>
@@ -443,7 +434,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className={cn("border-t bg-background")}>
+              <div className="border-t bg-background">
                 {!isIdlFoundationPage && (
                   <div className="p-2">
                     <nav className="grid grid-cols-3 gap-1 text-base font-medium">
