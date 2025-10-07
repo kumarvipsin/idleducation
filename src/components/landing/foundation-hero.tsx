@@ -77,7 +77,7 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
                                     <div className="inline-block border border-white/50 rounded-full px-3 py-1 text-xs uppercase tracking-wider mb-2">
                                         Help Us Now
                                     </div>
-                                    <h1 className="text-2xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tighter">
+                                    <h1 className="text-2xl md:text-5xl lg:text-6xl font-black tracking-tighter">
                                         <span>{part1} </span>
                                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">
                                             {part2}

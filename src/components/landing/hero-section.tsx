@@ -13,23 +13,23 @@ import { cn } from "@/lib/utils";
 
 const heroSlides = [
   { 
-    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Brightened.</span></>,
+    title: <>Your Future, <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Brightened.</span></>,
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths."
   },
   { 
-    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Potential.</span></>,
+    title: <>Unlock Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Potential.</span></>,
     description: "Discover a new way of learning that adapts to you, not the other way around."
   },
   { 
-    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Education.</span></>,
+    title: <>Excellence in <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Education.</span></>,
     description: "Our commitment to quality education ensures you receive the best learning experience possible."
   },
   { 
-    title: <>Learn from the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Best.</span></>,
+    title: <>Learn from the <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Best.</span></>,
     description: "Our experienced faculty is dedicated to helping you succeed."
   },
   { 
-    title: <>Education for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500">Future.</span></>,
+    title: <>Education for the <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">Future.</span></>,
     description: "Modern tools and a dynamic curriculum to prepare you for tomorrow's challenges."
   },
 ]
@@ -75,10 +75,10 @@ export function HeroSection() {
                     <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
                         <div className="grid lg:grid-cols-1 gap-8 items-center text-center">
                             <div className="space-y-4 text-white">
-                                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
+                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter">
                                    {slide.title}
                                 </h1>
-                                <p className="max-w-2xl mx-auto text-base md:text-xl text-white/90">
+                                <p className="max-w-2xl mx-auto text-sm md:text-xl text-white/90">
                                     {slide.description}
                                 </p>
                             </div>
