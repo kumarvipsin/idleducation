@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -191,7 +190,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                 />
                                             </div>
                                             <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black" style={{color: 'coral'}}>{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                                <h3 className="text-xl text-left font-black" style={{color: 'coral'}}>{category.title}</h3>
                                                 <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
 
                                                 <div className="mt-4 space-y-2">
@@ -208,15 +207,6 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                                         <p className="text-xs text-right text-muted-foreground">{Math.round(percentage)}%</p>
                                                     </div>
                                                 </div>
-
-                                                <div className="mt-6 text-left">
-                                                    <Button asChild variant="outline" size="sm" className="font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out text-primary text-xs h-8 px-2">
-                                                        <Link href="#">
-                                                            READ MORE
-                                                            <ArrowRight className="ml-1 h-3 w-3" />
-                                                        </Link>
-                                                    </Button>
-                                                </div>
                                             </CardContent>
                                         </Card>
                                     </div>
@@ -229,4 +219,3 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
         </>
     );
 }
-    
