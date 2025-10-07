@@ -79,9 +79,9 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
   
   const controlNavbar = useCallback(() => {
     if (typeof window !== 'undefined') {
-      if (window.scrollY > lastScrollY && window.scrollY > 80) { // if scroll down hide the navbar
+      if (window.scrollY > lastScrollY && window.scrollY > 80) {
         setShow(false);
-      } else { // if scroll up show the navbar
+      } else {
         setShow(true);
       }
       setLastScrollY(window.scrollY);
@@ -124,7 +124,7 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
 
   useEffect(() => {
     const fetchUpdates = async () => {
-      const result = await getUpdates(3); // Fetch only the 3 most recent updates
+      const result = await getUpdates(3);
       if (result.success && result.data) {
         const fetchedUpdates = result.data as Update[];
         setUpdates(fetchedUpdates);
@@ -329,19 +329,19 @@ export function Header({ isIdlFoundationPage: isIdlFoundationPageProp = false }:
         </DropdownMenuContent>
     </DropdownMenu>
   );
-  
+
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
       <header className={cn(
         "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
         isClient && show ? "translate-y-0" : "-translate-y-full",
-        "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
+        isIdlFoundationPage ? "bg-background text-foreground" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
       )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className={cn("text-sm font-bold", "text-primary")}>
+                    <span className={cn("text-sm font-bold", isIdlFoundationPage ? "text-primary" : "text-primary")}>
                         {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                     </span>
                     {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
