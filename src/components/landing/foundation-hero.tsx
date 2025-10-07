@@ -69,13 +69,6 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
               return (
                 <CarouselItem key={index} className="h-full">
                   <div className="relative w-full h-full flex flex-col items-center justify-center">
-                    <Image 
-                      src={slide.imageUrl} 
-                      alt={slide.alt || slide.title} 
-                      data-ai-hint={slide.imageHint}
-                      fill
-                      className="object-cover"
-                    />
                      <div className="absolute inset-0 bg-primary/80 bg-gradient-to-br from-[#070A52]/90 via-[#070A52]/80 to-accent/90 z-0"></div>
                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
                         <div className="container mx-auto px-4 md:px-6 flex-grow flex items-center justify-center">
