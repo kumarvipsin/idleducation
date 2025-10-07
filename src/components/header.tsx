@@ -333,20 +333,22 @@ export function Header() {
   
   if (!isClient) {
     return (
-        <header className="sticky top-0 z-50 bg-[#F5F5F7] dark:bg-gray-900 border-b h-14 rounded-t-2xl">
-            
+        <header className={cn("sticky top-0 z-50 border-b h-14 rounded-t-2xl", isIdlFoundationPage ? "bg-red-600" : "bg-[#F5F5F7] dark:bg-gray-900")}>
         </header>
     );
   }
 
   return (
     <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-      <div className={cn("sticky top-0 z-50 bg-[#F5F5F7]/80 dark:bg-gray-900/80 border-b backdrop-blur-sm transition-transform duration-300", show ? "translate-y-0" : "-translate-y-full")}>
+      <div className={cn("sticky top-0 z-50 border-b backdrop-blur-sm transition-transform duration-300", 
+        show ? "translate-y-0" : "-translate-y-full",
+        isIdlFoundationPage ? "bg-red-600 text-white" : "bg-[#F5F5F7]/80 dark:bg-gray-900/80"
+      )}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
                 <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
-                    <span className="text-sm font-bold text-primary">
+                    <span className={cn("text-sm font-bold", isIdlFoundationPage ? "text-white" : "text-primary")}>
                         {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                     </span>
                     {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
@@ -408,15 +410,15 @@ export function Header() {
                         {notificationDropdown}
                     </>
                   ) : (
-                    <div className="flex items-center gap-x-4 text-xs font-semibold text-foreground">
-                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                    <div className="flex items-center gap-x-4 text-xs font-semibold text-white">
+                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-gray-200"><Phone className="h-3 w-3" /> 7011117585</a>
+                      <Separator orientation="vertical" className="h-3 bg-white/20" />
+                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-gray-200"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
                     </div>
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage ? (
+                  {!isIdlFoundationPage && (
                     <>
                     <Link href="/store" className='text-foreground'>
                         <ShoppingBag className="h-4 w-4" />
@@ -424,15 +426,9 @@ export function Header() {
                     </Link>
                     {notificationDropdown}
                     </>
-                  ) : (
-                     <div className="flex items-center gap-x-2 text-xs font-semibold text-foreground">
-                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /></a>
-                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /></a>
-                    </div>
                   )}
                   <CollapsibleTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7">
+                    <Button variant="ghost" size="icon" className="h-7 w-7">
                       {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                       <span className="sr-only">Toggle navigation menu</span>
                     </Button>
@@ -443,7 +439,7 @@ export function Header() {
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
-              <div className="border-t bg-background">
+              <div className={cn("border-t", isIdlFoundationPage ? "bg-red-600" : "bg-background")}>
                 {!isIdlFoundationPage && (
                   <div className="p-2">
                     <nav className="grid grid-cols-3 gap-1 text-base font-medium">
