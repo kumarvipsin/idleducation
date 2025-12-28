@@ -1,4 +1,6 @@
+
 import type {Config} from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 export default {
   darkMode: ['class'],
@@ -10,9 +12,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Space Grotesk', 'sans-serif'],
-        code: ['monospace'],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -65,6 +65,10 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        purple: {
+          DEFAULT: 'hsl(var(--purple))',
+          foreground: 'hsl(var(--purple-foreground))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -72,26 +76,68 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
-        'accordion-down': {
+        'collapsible-down': {
           from: {
             height: '0',
+            opacity: '0',
           },
           to: {
-            height: 'var(--radix-accordion-content-height)',
+            height: 'var(--radix-collapsible-content-height)',
+            opacity: '1',
           },
         },
-        'accordion-up': {
+        'collapsible-up': {
           from: {
-            height: 'var(--radix-accordion-content-height)',
+            height: 'var(--radix-collapsible-content-height)',
+            opacity: '1',
           },
           to: {
             height: '0',
+            opacity: '0',
           },
+        },
+        'marquee-slower': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-vertical-slow': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-50%)' },
+        },
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        },
+        'gradient-x': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center',
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center',
+          },
+        },
+        'marquee-scroll': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'collapsible-down': 'collapsible-down 0.2s ease-out',
+        'collapsible-up': 'collapsible-up 0.2s ease-out',
+        'marquee-slower': 'marquee-slower 60s linear infinite',
+        'marquee-slower-reverse': 'marquee-slower 60s linear infinite reverse',
+        'marquee-vertical-slow': 'marquee-vertical-slow 20s linear infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+        'gradient-x': 'gradient-x 5s ease infinite',
+        'marquee-scroll': 'marquee-scroll 40s linear infinite',
       },
     },
   },

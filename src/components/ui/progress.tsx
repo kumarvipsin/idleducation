@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 "use client"
 
 import * as React from "react"
@@ -12,7 +16,11 @@ const Progress = React.forwardRef<
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
+<<<<<<< HEAD
       "relative h-4 w-full overflow-hidden rounded-full bg-secondary",
+=======
+      "relative h-2 w-full overflow-hidden rounded-full bg-secondary",
+>>>>>>> origin/main
       className
     )}
     {...props}

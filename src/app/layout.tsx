@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type { Metadata } from 'next';
 import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
@@ -10,12 +11,41 @@ export const metadata: Metadata = {
     'Educational platform for CBSE, government exams, and NIOS. Featuring AI-powered study plans and content recommendations.',
 };
 
+=======
+
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Providers } from '@/components/providers';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
+
+export const metadata: Metadata = {
+  title: 'IDL EDUCATION',
+  description: 'An interactive educational platform for students and teachers.',
+  icons: {
+    icon: '/logo.png',
+  },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
+
+>>>>>>> origin/main
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
+<<<<<<< HEAD
     <html lang="en" className="light">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,6 +69,13 @@ export default function RootLayout({
             <Toaster />
           </SidebarInset>
         </SidebarProvider>
+=======
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+        <Providers>
+          {children}
+        </Providers>
+>>>>>>> origin/main
       </body>
     </html>
   );
