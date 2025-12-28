@@ -1,15 +1,12 @@
-
-'use server';
-
-import 'dotenv/config';
-import { Storage } from '@google-cloud/storage';
+import type { Storage } from '@google-cloud/storage';
 
 const bucketName = 'idlcloud';
 
 /**
  * Initializes and returns a Google Cloud Storage client.
  */
-function getStorageClient(): Storage {
+async function getStorageClient(): Promise<Storage> {
+  const { Storage } = await import('@google-cloud/storage');
   const credentialsEnv = process.env.GCS_CREDENTIALS;
 
   if (!credentialsEnv) {
@@ -31,7 +28,7 @@ function getStorageClient(): Storage {
  * and that the `allUsers` principal has the `Storage Object Viewer` role.
  */
 export async function uploadFileToGCS(file: File, destination: string): Promise<string> {
-  const storage = getStorageClient();
+  const storage = await getStorageClient();
   const bucket = storage.bucket(bucketName);
   const buffer = Buffer.from(await file.arrayBuffer());
   const blob = bucket.file(destination);
@@ -42,7 +39,7 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
       // The `predefinedAcl` option is not used with uniform bucket-level access.
       // Permissions are managed by IAM.
     });
-    
+
     // Construct the public URL manually.
     return `https://storage.googleapis.com/${bucketName}/${destination}`;
   } catch (err) {
@@ -56,7 +53,7 @@ export async function uploadFileToGCS(file: File, destination: string): Promise<
  * This is used for files that are not publicly accessible by default.
  */
 export async function getSignedUrl(filePath: string): Promise<string> {
-  const storage = getStorageClient();
+  const storage = await getStorageClient();
   const bucket = storage.bucket(bucketName);
 
   // If the path is already a full GCS URL, extract the object name.
