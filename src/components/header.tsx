@@ -343,7 +343,7 @@ export function Header() {
       <header className={isClient ? headerClasses : "sticky top-0 z-50 border-b bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm h-12"}>
           <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
               <Link href={logoHref} className="flex items-center justify-center">
-                <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} className="h-6 w-auto" />
+                <Image src="/logo.png" alt="IDL Education Logo" width={36} height={36} className="h-9 w-auto" />
                 <div className="ml-1.5 flex flex-col leading-tight">
                     <span className={cn("text-sm font-bold", isIdlFoundationPage ? "text-primary" : "text-primary")}>
                         {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
@@ -415,7 +415,7 @@ export function Header() {
                   )}
               </div>
                <div className="ml-auto md:hidden flex items-center gap-2">
-                  {!isIdlFoundationPage ? (
+                  {!isIdlFoundationPage && (
                     <>
                     <Link href="/store" className='text-foreground'>
                         <ShoppingBag className="h-4 w-4" />
@@ -423,11 +423,6 @@ export function Header() {
                     </Link>
                     {notificationDropdown}
                     </>
-                  ) : (
-                     <div className="flex items-center gap-2">
-                        <a href="tel:7011117585" className="text-primary"><Phone className="h-4 w-4" /></a>
-                        <a href="mailto:info@idlfoundation.in" className="text-primary"><Mail className="h-4 w-4" /></a>
-                    </div>
                   )}
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
