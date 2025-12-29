@@ -8,6 +8,7 @@ import { ExamCategories } from '@/components/landing/exam-categories';
 import { getTopperTestimonials } from '@/app/actions';
 import type { TTopperTestimonial } from '@/app/actions/types';
 import { HeroSection } from '@/components/landing/hero-section';
+import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 
 export default async function Home() {
   const testimonialsResult = await getTopperTestimonials();
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col bg-white dark:bg-background">
       <HeroSection />
+      <BuildSkillsSection />
       <OurFeatures />
       <ExamCategories />
       <AcademicExcellence />
