@@ -15,7 +15,7 @@ const categories = [
   },
   {
     title: "Competitive Exams",
-    subtitle: "JEE, NEET, SSC, NDA, CUET",
+    subtitle: "CUET | SSC | DELHI POLICE & OTHER GOVT. EXAM",
     href: "/examcat",
     imageUrl: "https://static.vecteezy.com/system/resources/previews/028/286/737/non_2x/a-female-doctor-smiles-and-looks-up-at-the-sky-with-a-stethoscope-around-her-neck-ai-generated-photo.jpg",
     imageHint: "female doctor"
