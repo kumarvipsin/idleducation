@@ -55,8 +55,8 @@ export function ExamCategories() {
                 {categories.map((category, index) => (
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                 <div className="relative aspect-[16/9] w-full">
+                            <Card className="h-[520px] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                                 <div className="relative aspect-[16/10] w-full">
                                     <Image
                                         src={category.imageUrl}
                                         alt={category.title}
