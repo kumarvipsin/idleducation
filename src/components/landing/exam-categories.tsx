@@ -1,7 +1,6 @@
-
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from "@/components/ui/card";
 import Link from 'next/link';
 import Image from "next/image";
 
@@ -26,6 +25,13 @@ const categories = [
     href: "#",
     imageUrl: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/student-smiling.png",
     imageHint: "male student"
+  },
+  {
+    title: "Other Programs",
+    subtitle: "Explore more learning opportunities",
+    href: "#",
+    imageUrl: "https://picsum.photos/seed/other-programs/800/600",
+    imageHint: "group learning"
   }
 ];
 
@@ -39,7 +45,7 @@ export function ExamCategories() {
             Find the perfect program to help you achieve your academic and career goals.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map((category, index) => (
                 <Link href={category.href} key={index} className="block group">
                     <Card className="h-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
