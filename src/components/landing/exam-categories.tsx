@@ -1,8 +1,7 @@
-
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 import Image from "next/image";
 
 const categories = [
@@ -51,7 +50,7 @@ export function ExamCategories() {
         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:px-[10%]">
                 {categories.map((category, index) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group h-[470px]">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                                 <CardContent className="p-8 flex-grow flex flex-col">
