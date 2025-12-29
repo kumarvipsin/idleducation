@@ -42,27 +42,28 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-16 bg-cover bg-center bg-no-repeat"
-      style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"}}
+      className="w-full relative py-12 md:py-16 bg-[#F5F5F7] dark:bg-gray-900"
     >
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         
-        <Card className="max-w-7xl mx-auto bg-background/90 rounded-2xl shadow-2xl">
-          <CardContent className="p-6 md:p-8">
-             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {features.map((feature, index) => (
-                  <div key={index} className="text-center p-4 rounded-lg hover:bg-muted transition-colors">
-                     <div className="inline-block bg-primary/10 text-primary p-3 rounded-full mb-3">
+        <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Why Choose IDL?</h2>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                Discover the advantages that make our platform the best choice for your learning journey.
+            </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+                <Card key={index} className="group p-6 text-center bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-t-4 border-primary overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
+                    <div className="inline-block bg-primary/10 text-primary p-4 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
                         {feature.icon}
-                      </div>
-                      <h3 className="text-md font-bold text-foreground mb-1">{feature.title}</h3>
-                      <p className="text-xs text-muted-foreground">{feature.description}</p>
-                  </div>
-                ))}
-            </div>
-          </CardContent>
-        </Card>
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                </Card>
+            ))}
+        </div>
 
       </div>
     </section>
