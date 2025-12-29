@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { XCircle, CheckCircle } from "lucide-react";
 
 const otherInstitutePoints = [
@@ -67,7 +67,7 @@ export function TrustedBy() {
                         </div>
 
                         {/* IDL Education Column */}
-                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20 md:rounded-l-[25%]">
+                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20">
                              <h3 className="text-2xl font-bold text-primary mb-6">IDL Education</h3>
                              <div className="space-y-6">
                                 {idlEducationPoints.map((item, index) => (
