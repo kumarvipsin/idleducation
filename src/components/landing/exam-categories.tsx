@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -50,14 +51,10 @@ export function ExamCategories() {
         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:px-[10%]">
                 {categories.map((category, index) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group h-[470px]">
+                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <CardContent className="p-8 flex-grow flex flex-col">
-                                    <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
-                                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{category.subtitle}</p>
-                                </CardContent>
-                                <div className="relative aspect-[4/3] w-full mt-auto">
+                                 <div className="relative aspect-video w-full">
                                     <Image
                                         src={category.imageUrl}
                                         alt={category.title}
@@ -66,6 +63,16 @@ export function ExamCategories() {
                                         className="object-cover"
                                     />
                                 </div>
+                                <CardContent className="p-6 flex-grow flex flex-col">
+                                    <h3 className="text-xl font-bold text-foreground">{category.title}</h3>
+                                    <p className="text-sm mt-1 text-muted-foreground">{category.subtitle}</p>
+                                    <div className="mt-auto pt-4">
+                                        <div className="text-primary font-semibold flex items-center group-hover:underline">
+                                            Read more
+                                            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                        </div>
+                                    </div>
+                                </CardContent>
                             </Card>
                         </Link>
                     </div>
