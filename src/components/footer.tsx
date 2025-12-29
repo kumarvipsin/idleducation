@@ -23,9 +23,10 @@ const resourceLinks = [
 ];
 
 export function Footer() {
-  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><g fill='rgba(30,58,138,0.05)'><circle cx='25' cy='25' r='2'/><circle cx='75' cy='75' r='2'/><circle cx='25' cy='75' r='2'/><circle cx='75' cy='25' r='2'/></g></svg>`;
+  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.05)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
   const textureStyle = {
     backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+    backgroundSize: '500px 500px',
   };
 
   return (
