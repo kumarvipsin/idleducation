@@ -1,8 +1,7 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { XCircle, CheckCircle } from "lucide-react";
 
 const otherInstitutePoints = [
   {
@@ -56,7 +55,7 @@ export function TrustedBy() {
                             <div className="space-y-6">
                                 {otherInstitutePoints.map((item, index) => (
                                     <div key={index} className="flex items-start gap-4">
-                                        <div className="w-4 h-4 rounded-full bg-destructive mt-1 flex-shrink-0" />
+                                        <XCircle className="w-5 h-5 text-destructive mt-1 flex-shrink-0" />
                                         <div>
                                             <h4 className="font-bold text-foreground">{item.title}</h4>
                                             <p className="text-sm text-muted-foreground">{item.description}</p>
@@ -67,12 +66,12 @@ export function TrustedBy() {
                         </div>
 
                         {/* IDL Education Column */}
-                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20 rounded-l-3xl md:rounded-l-[80px]">
+                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20 md:rounded-l-[80px]">
                              <h3 className="text-2xl font-bold text-primary mb-6">IDL Education</h3>
                              <div className="space-y-6">
                                 {idlEducationPoints.map((item, index) => (
                                     <div key={index} className="flex items-start gap-4">
-                                        <div className="w-4 h-4 rounded-full bg-primary mt-1 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                                         <div>
                                             <h4 className="font-bold text-foreground">{item.title}</h4>
                                             <p className="text-sm text-muted-foreground">{item.description}</p>
