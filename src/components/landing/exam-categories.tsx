@@ -55,22 +55,20 @@ export function ExamCategories() {
                 {categories.map((category, index) => (
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
-                            <Card className="h-[520px] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                 <div className="relative aspect-[16/10] w-full">
-                                    <Image
-                                        src={category.imageUrl}
-                                        alt={category.title}
-                                        data-ai-hint={category.imageHint}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <CardContent className="p-6 flex-grow flex flex-col">
-                                    <Badge variant="secondary" className="mb-2 w-fit">{category.subtitle}</Badge>
-                                    <h3 className="text-xl font-bold text-foreground">{category.title}</h3>
-                                    <p className="text-sm mt-1 text-muted-foreground">{category.subtitle}</p>
-                                    <div className="mt-auto pt-4">
-                                        <div className="text-primary font-semibold flex items-center group-hover:underline">
+                            <Card className="h-[480px] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card relative">
+                                <Image
+                                    src={category.imageUrl}
+                                    alt={category.title}
+                                    data-ai-hint={category.imageHint}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                                <CardContent className="absolute bottom-0 left-0 right-0 p-6 text-white z-10 flex flex-col items-start">
+                                    <Badge variant="secondary" className="mb-2 w-fit bg-white/20 text-white backdrop-blur-sm border-0">{category.subtitle}</Badge>
+                                    <h3 className="text-xl font-bold text-left">{category.title}</h3>
+                                    <div className="mt-4">
+                                        <div className="font-semibold flex items-center group-hover:underline">
                                             Read more
                                             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                         </div>
