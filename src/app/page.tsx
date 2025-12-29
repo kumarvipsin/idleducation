@@ -16,8 +16,8 @@ export default async function Home() {
   return (
     <div className="flex flex-col bg-white dark:bg-background">
       <BuildSkillsSection />
-      <OurFeatures />
       <ExamCategories />
+      <OurFeatures />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
