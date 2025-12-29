@@ -8,32 +8,32 @@ import { Button } from "../ui/button";
 
 const features = [
   {
-    icon: <GraduationCap className="w-8 h-8 text-primary" />,
+    icon: <GraduationCap className="w-8 h-8 text-white" />,
     title: "Expert Faculty",
     description: "Learn from highly skilled, experienced mentors.",
   },
   {
-    icon: <FlaskConical className="w-8 h-8 text-primary" />,
+    icon: <FlaskConical className="w-8 h-8 text-white" />,
     title: "Practical Learning",
     description: "Apply concepts through real, hands-on practice.",
   },
   {
-    icon: <Clock className="w-8 h-8 text-primary" />,
+    icon: <Clock className="w-8 h-8 text-white" />,
     title: "Flexible Batches",
     description: "Choose timings that suit your schedule.",
   },
   {
-    icon: <IndianRupee className="w-8 h-8 text-primary" />,
+    icon: <IndianRupee className="w-8 h-8 text-white" />,
     title: "Affordable Fees",
     description: "Quality learning at genuinely fair pricing.",
   },
   {
-    icon: <Zap className="w-8 h-8 text-primary" />,
+    icon: <Zap className="w-8 h-8 text-white" />,
     title: "Quick Support",
     description: "Get immediate help whenever you need.",
   },
   {
-    icon: <Shield className="w-8 h-8 text-primary" />,
+    icon: <Shield className="w-8 h-8 text-white" />,
     title: "Trusted Institute",
     description: "Known for consistent results and reliability.",
   },
@@ -55,12 +55,12 @@ export function OurFeatures() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-                <Card key={index} className="group p-6 text-center bg-card rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-t-4 border-primary overflow-hidden" style={{ animationDelay: `${index * 100}ms` }}>
-                    <div className="inline-block bg-primary/10 text-primary p-4 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                <Card key={index} className="group p-6 text-center bg-gradient-to-br from-purple-500 to-blue-500 dark:from-purple-900/70 dark:to-blue-900/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-0" style={{ animationDelay: `${index * 100}ms` }}>
+                    <div className="inline-block bg-white/20 text-white p-4 rounded-full mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
                         {feature.icon}
                     </div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                    <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                    <p className="text-sm text-white/80">{feature.description}</p>
                 </Card>
             ))}
         </div>
