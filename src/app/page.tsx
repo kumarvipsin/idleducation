@@ -7,7 +7,6 @@ import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { ExamCategories } from '@/components/landing/exam-categories';
 import { getTopperTestimonials } from '@/app/actions';
 import type { TTopperTestimonial } from '@/app/actions/types';
-import { HeroSection } from '@/components/landing/hero-section';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 
 export default async function Home() {
@@ -16,7 +15,6 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col bg-white dark:bg-background">
-      <HeroSection />
       <BuildSkillsSection />
       <OurFeatures />
       <ExamCategories />
