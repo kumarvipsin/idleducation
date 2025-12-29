@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ const categories = [
   },
   {
     title: "Competitive Exams",
-    subtitle: "CUET | SSC | DELHI POLICE & OTHER GOVT. EXAM",
+    subtitle: "CUET | SSC | DELHI POLICE & OTHER EXAM",
     href: "/examcat",
     imageUrl: "https://static.vecteezy.com/system/resources/previews/028/286/737/non_2x/a-female-doctor-smiles-and-looks-up-at-the-sky-with-a-stethoscope-around-her-neck-ai-generated-photo.jpg",
     imageHint: "female doctor"
