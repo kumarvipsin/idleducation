@@ -64,7 +64,7 @@ export function ExamCategories() {
                                         alt={category.title}
                                         data-ai-hint={category.imageHint}
                                         fill
-                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        className="object-cover"
                                     />
                                 </div>
                             </Card>
