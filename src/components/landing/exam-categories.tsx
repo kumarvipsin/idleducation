@@ -22,7 +22,7 @@ const categories = [
   },
   {
     title: "Open School & Special Programs",
-    subtitle: "NIOS, Foundation Courses",
+    subtitle: "NIOS | IGNOU | DU SOL",
     href: "#",
     imageUrl: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/student-smiling.png",
     imageHint: "male student"
