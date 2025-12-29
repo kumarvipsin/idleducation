@@ -81,10 +81,6 @@ export function BuildSkillsSection() {
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg">
                        {slide.title}
                     </h1>
-                    <Button className="mt-8 rounded-full h-12 px-8 text-base font-bold bg-white text-primary hover:bg-gray-200 shadow-lg transition-transform hover:scale-105">
-                        {slide.buttonText}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
                 </div>
               </div>
             </CarouselItem>
