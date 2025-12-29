@@ -56,7 +56,7 @@ export function ExamCategories() {
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                 <div className="relative aspect-[16/10] w-full">
+                                 <div className="relative aspect-[16/9] w-full">
                                     <Image
                                         src={category.imageUrl}
                                         alt={category.title}
@@ -66,6 +66,7 @@ export function ExamCategories() {
                                     />
                                 </div>
                                 <CardContent className="p-6 flex-grow flex flex-col">
+                                    <Badge variant="secondary" className="mb-2 w-fit">{category.subtitle}</Badge>
                                     <h3 className="text-xl font-bold text-foreground">{category.title}</h3>
                                     <p className="text-sm mt-1 text-muted-foreground">{category.subtitle}</p>
                                     <div className="mt-auto pt-4">
