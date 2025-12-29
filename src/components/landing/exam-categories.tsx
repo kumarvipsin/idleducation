@@ -54,21 +54,19 @@ export function ExamCategories() {
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <CardContent className="p-0 flex-grow flex flex-col justify-between">
-                                    <div className="p-6 text-white text-center z-10" style={{ background: 'linear-gradient(135deg, #2E6B9E, #62B8F6)'}}>
-                                        <h3 className="text-xl font-bold">{category.title}</h3>
-                                        <p className="text-sm opacity-90">{category.subtitle}</p>
-                                    </div>
-                                    <div className="relative aspect-[4/3.5] w-full mt-auto">
-                                        <Image
-                                            src={category.imageUrl}
-                                            alt={category.title}
-                                            data-ai-hint={category.imageHint}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                    </div>
+                                <CardContent className="p-8 flex-grow flex flex-col">
+                                    <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{category.title}</h3>
+                                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{category.subtitle}</p>
                                 </CardContent>
+                                <div className="relative aspect-[4/3] w-full mt-auto">
+                                    <Image
+                                        src={category.imageUrl}
+                                        alt={category.title}
+                                        data-ai-hint={category.imageHint}
+                                        fill
+                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                </div>
                             </Card>
                         </Link>
                     </div>
