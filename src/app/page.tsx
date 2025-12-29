@@ -14,7 +14,7 @@ export default async function Home() {
   const testimonials = testimonialsResult.success ? testimonialsResult.data : [];
 
   return (
-    <div className="flex flex-col bg-background dark:bg-background">
+    <div className="flex flex-col bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
       <div className="mx-[2vw] mt-[1vh] rounded-2xl overflow-hidden">
         <BuildSkillsSection />
       </div>
