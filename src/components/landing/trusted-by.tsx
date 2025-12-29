@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -46,7 +47,7 @@ export function TrustedBy() {
                 </p>
             </div>
 
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-7xl mx-auto">
                  <Card className="shadow-2xl rounded-3xl overflow-hidden bg-background">
                     <div className="grid grid-cols-1 md:grid-cols-2">
                         {/* Other Institute Column */}
@@ -66,7 +67,7 @@ export function TrustedBy() {
                         </div>
 
                         {/* IDL Education Column */}
-                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20 md:rounded-l-[80px]">
+                        <div className="p-8 bg-blue-50 dark:bg-blue-900/20 md:rounded-l-[25%]">
                              <h3 className="text-2xl font-bold text-primary mb-6">IDL Education</h3>
                              <div className="space-y-6">
                                 {idlEducationPoints.map((item, index) => (
