@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,11 +69,6 @@ export function OurFeatures() {
                       <p className="text-xs text-muted-foreground">{feature.description}</p>
                   </div>
                 ))}
-            </div>
-            <div className="text-center mt-8">
-              <Button asChild>
-                <Link href="/about">View More</Link>
-              </Button>
             </div>
           </CardContent>
         </Card>
