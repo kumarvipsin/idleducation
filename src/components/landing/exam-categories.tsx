@@ -1,38 +1,38 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 const categories = [
   {
     title: "Academic Programs",
     subtitle: "Class 6 - 12",
     href: "/school",
-    imageUrl: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://www.euroschoolindia.com/wp-content/uploads/2023/10/what-is-the-cbse-board-and-how-does-it-work.jpg",
     imageHint: "students in classroom"
   },
   {
     title: "Competitive Exams",
     subtitle: "CUET | SSC | DELHI POLICE & OTHER EXAM",
     href: "/examcat",
-    imageUrl: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://static.vecteezy.com/system/resources/thumbnails/008/412/475/small_2x/group-of-people-in-formal-wear-walking-and-talking-in-a-busy-modern-office-building-in-the-lobby-in-slow-motion-video.jpg",
     imageHint: "professionals meeting"
   },
   {
     title: "Open School Programs",
     subtitle: "NIOS | IGNOU | DU SOL",
     href: "/new-work",
-    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://png.pngtree.com/png-vector/20240409/ourmid/pngtree-a-group-of-students-studying-png-image_12239493.png",
     imageHint: "students outdoors"
   },
   {
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "/category/iit-jee",
-    imageUrl: "https://images.unsplash.com/photo-1627993093883-3729daste15a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/share/neet-jee.png",
     imageHint: "science laboratory"
   }
 ];
@@ -54,27 +54,29 @@ export function ExamCategories() {
                 {categories.map((category, index) => (
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
-                            <Card className="h-[400px] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card relative">
-                                <div className="absolute inset-0">
-                                    <Image
-                                        src={category.imageUrl}
-                                        alt={category.title}
-                                        data-ai-hint={category.imageHint}
-                                        fill
-                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                                <div className="relative aspect-[4/3] w-full bg-slate-100 dark:bg-slate-800 p-4">
+                                     <Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">{category.subtitle}</Badge>
+                                    <div className="relative w-full h-full">
+                                        <Image
+                                            src={category.imageUrl}
+                                            alt={category.title}
+                                            data-ai-hint={category.imageHint}
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="relative mt-auto p-6 text-white z-10">
-                                    <h3 className="text-2xl font-bold">{category.title}</h3>
-                                    <p className="text-sm mt-1 opacity-90">{category.subtitle}</p>
-                                    <div className="mt-4">
-                                        <div className="font-semibold flex items-center group-hover:underline">
+                                <CardContent className="p-6 flex flex-col items-start flex-grow">
+                                    <h3 className="text-xl font-bold text-foreground">{category.title}</h3>
+                                    <p className="text-sm mt-1 text-muted-foreground">{category.subtitle}</p>
+                                    <div className="mt-auto pt-4">
+                                        <div className="text-primary font-semibold flex items-center group-hover:underline underline-offset-4">
                                             Read more
                                             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                         </div>
                                     </div>
-                                </div>
+                                </CardContent>
                             </Card>
                         </Link>
                     </div>
