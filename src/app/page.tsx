@@ -1,3 +1,4 @@
+
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { OurFeatures } from '@/components/landing/our-features';
 import { TopperTestimonialsClient } from '@/components/landing/topper-testimonials-client';
@@ -19,7 +20,6 @@ export default async function Home() {
         <BuildSkillsSection />
       </div>
       <ExamCategories />
-      <OurFeatures />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
