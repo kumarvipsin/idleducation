@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const categories = [
   {
-    title: "School Programs",
+    title: "Academic Programs",
     subtitle: "Classes 6-12",
     href: "/school",
     imageUrl: "https://png.pngtree.com/png-vector/20240415/ourmid/pngtree-a-picture-of-a-school-boy-with-a-blue-background-png-image_12236319.png",
