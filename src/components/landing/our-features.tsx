@@ -1,39 +1,37 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, BookUp, FileStack, Users, ChevronRight, FlaskConical, Clock, IndianRupee, Zap, Shield } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Image from "next/image";
 
 const features = [
   {
-    icon: <GraduationCap className="w-6 h-6 text-primary" />,
+    icon: <GraduationCap className="w-8 h-8 text-primary" />,
     title: "Expert Faculty",
     description: "Learn from highly skilled, experienced mentors.",
   },
   {
-    icon: <FlaskConical className="w-6 h-6 text-primary" />,
+    icon: <FlaskConical className="w-8 h-8 text-primary" />,
     title: "Practical Learning",
     description: "Apply concepts through real, hands-on practice.",
   },
   {
-    icon: <Clock className="w-6 h-6 text-primary" />,
+    icon: <Clock className="w-8 h-8 text-primary" />,
     title: "Flexible Batches",
     description: "Choose timings that suit your schedule.",
   },
   {
-    icon: <IndianRupee className="w-6 h-6 text-primary" />,
+    icon: <IndianRupee className="w-8 h-8 text-primary" />,
     title: "Affordable Fees",
     description: "Quality learning at genuinely fair pricing.",
   },
   {
-    icon: <Zap className="w-6 h-6 text-primary" />,
+    icon: <Zap className="w-8 h-8 text-primary" />,
     title: "Quick Support",
     description: "Get immediate help whenever you need.",
   },
   {
-    icon: <Shield className="w-6 h-6 text-primary" />,
+    icon: <Shield className="w-8 h-8 text-primary" />,
     title: "Trusted Institute",
     description: "Known for consistent results and reliability.",
   },
@@ -53,36 +51,22 @@ export function OurFeatures() {
             </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl animate-fade-in-up">
-                <Image 
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="Students collaborating"
-                    data-ai-hint="students collaborating"
-                    fill
-                    className="object-cover"
-                />
-                 <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
-            </div>
-            <div className="space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                 <Accordion type="single" defaultValue="item-0" collapsible className="w-full">
-                    {features.map((feature, index) => (
-                        <AccordionItem value={`item-${index}`} key={index} className="bg-background border border-border rounded-lg mb-2 shadow-sm transition-shadow hover:shadow-md">
-                            <AccordionTrigger className="p-4 text-base font-semibold text-left hover:no-underline">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-primary/10 text-primary p-3 rounded-full">
-                                        {feature.icon}
-                                    </div>
-                                    <span>{feature.title}</span>
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="px-4 pb-4">
-                                <p className="text-muted-foreground pl-14 text-sm">{feature.description}</p>
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, index) => (
+                <Card 
+                    key={index}
+                    className="p-6 text-center bg-background/50 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 animate-fade-in-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                >
+                    <div className="flex justify-center mb-4">
+                        <div className="bg-primary/10 text-primary p-4 rounded-full">
+                            {feature.icon}
+                        </div>
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
+                </Card>
+            ))}
         </div>
 
       </div>
