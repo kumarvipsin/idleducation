@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from "lucide-react";
 import Link from "next/link";
@@ -85,7 +85,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
     }
   ];
 
-  const competitiveExamSlugs = competitiveExams.map(e => e.href.split('/').pop());
+  const competitiveExamSlugs = (competitiveExams || []).map(e => e.href.split('/').pop());
   const isCompetitiveExamPage = competitiveExamSlugs.includes(slug);
 
   return (

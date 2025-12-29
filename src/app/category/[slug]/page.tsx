@@ -1,5 +1,7 @@
 
 import { CategoryContent } from "./category-content";
+import { getExamCategories } from "@/app/actions/data";
+import type { TExamCategory } from "@/app/actions/types";
 
 const categoryData: { [key: string]: any } = {
   "neet": { 
@@ -43,10 +45,14 @@ const subCategories: { [key: string]: string[] } = {
 };
 
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
   const data = categoryData[slug] || { name: "Category", description: "No information available for this category.", courses: [] };
   const subs = subCategories[slug] || subCategories["default"];
 
-  return <CategoryContent data={data} slug={slug} subCategories={subs} />;
+  const categoriesResult = await getExamCategories();
+  const allCategories = categoriesResult.success ? (categoriesResult.data as TExamCategory[]) : [];
+  const competitiveExams = allCategories.filter(c => c.group === 'competitive');
+
+  return <CategoryContent data={data} slug={slug} subCategories={subs} competitiveExams={competitiveExams} />;
 }
