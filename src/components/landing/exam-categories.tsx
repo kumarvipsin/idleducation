@@ -29,7 +29,7 @@ const categories = [
   },
   {
     title: "Other Programs",
-    subtitle: "Explore more learning opportunities",
+    subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "#",
     imageUrl: "https://picsum.photos/seed/other-programs/800/600",
     imageHint: "group learning"
