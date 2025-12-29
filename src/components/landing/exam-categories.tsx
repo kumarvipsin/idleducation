@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -41,7 +40,7 @@ export function ExamCategories() {
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Exam Categories</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Exam Categories</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Find the perfect program to help you achieve your academic and career goals.
           </p>
@@ -53,7 +52,7 @@ export function ExamCategories() {
                 {categories.map((category, index) => (
                     <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <Link href={category.href} className="block h-full">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                                 <CardContent className="p-0 flex-grow flex flex-col justify-between">
                                     <div className="p-6 text-white text-center z-10" style={{ background: 'linear-gradient(135deg, #2E6B9E, #62B8F6)'}}>
                                         <h3 className="text-xl font-bold">{category.title}</h3>
