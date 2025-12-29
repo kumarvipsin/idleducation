@@ -9,32 +9,32 @@ import { Button } from "../ui/button";
 
 const features = [
   {
-    icon: <GraduationCap className="w-8 h-8 text-primary" />,
+    icon: <GraduationCap className="w-8 h-8 text-white" />,
     title: "Expert Faculty",
     description: "Learn from highly skilled, experienced mentors.",
   },
   {
-    icon: <FlaskConical className="w-8 h-8 text-primary" />,
+    icon: <FlaskConical className="w-8 h-8 text-white" />,
     title: "Practical Learning",
     description: "Apply concepts through real, hands-on practice.",
   },
   {
-    icon: <Clock className="w-8 h-8 text-primary" />,
+    icon: <Clock className="w-8 h-8 text-white" />,
     title: "Flexible Batches",
     description: "Choose timings that suit your schedule.",
   },
   {
-    icon: <IndianRupee className="w-8 h-8 text-primary" />,
+    icon: <IndianRupee className="w-8 h-8 text-white" />,
     title: "Affordable Fees",
     description: "Quality learning at genuinely fair pricing.",
   },
   {
-    icon: <Zap className="w-8 h-8 text-primary" />,
+    icon: <Zap className="w-8 h-8 text-white" />,
     title: "Quick Support",
     description: "Get immediate help whenever you need.",
   },
   {
-    icon: <Shield className="w-8 h-8 text-primary" />,
+    icon: <Shield className="w-8 h-8 text-white" />,
     title: "Trusted Institute",
     description: "Known for consistent results and reliability.",
   },
@@ -50,7 +50,7 @@ export function OurFeatures() {
             {features.map((feature, index) => (
               <div key={index} className="text-center p-6">
                 <div className="flex justify-center mb-4">
-                  <div className="bg-primary/10 text-primary p-4 rounded-full">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-700 text-primary-foreground p-4 rounded-full shadow-lg">
                     {feature.icon}
                   </div>
                 </div>
