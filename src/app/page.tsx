@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col bg-background dark:bg-background">
-      <div className="mx-[1vw] mt-[1vh] rounded-2xl overflow-hidden">
+      <div className="mx-[2vw] mt-[1vh] rounded-2xl overflow-hidden">
         <BuildSkillsSection />
       </div>
       <ExamCategories />
