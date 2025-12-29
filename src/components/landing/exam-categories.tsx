@@ -33,7 +33,7 @@ const categories = [
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "/category/iit-jee",
-    imageUrl: "https://images.unsplash.com/photo-1627993093883-3729da5e15a4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://images.unsplash.com/photo-1627993093883-3729daste15a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "science laboratory"
   }
 ];
@@ -69,7 +69,7 @@ export function ExamCategories() {
                                     <h3 className="text-xl font-bold text-left">{category.title}</h3>
                                     <div className="mt-4">
                                         <div className="font-semibold flex items-center group-hover:underline">
-                                            Read more
+                                            Explore Category
                                             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                         </div>
                                     </div>
