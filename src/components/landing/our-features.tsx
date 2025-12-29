@@ -48,15 +48,15 @@ export function OurFeatures() {
       <div className="container mx-auto px-4 md:px-[10%]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-0">
-                  <div className="flex justify-center mb-4">
-                    <div className="bg-primary/10 text-primary-foreground p-4 rounded-full">
-                      {feature.icon}
+              <Card key={index} className="bg-background rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-t-4 border-primary overflow-hidden group">
+                <CardContent className="p-6 text-center">
+                    <div className="flex justify-center mb-4">
+                      <div className="bg-primary/10 text-primary p-4 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
+                        {feature.icon}
+                      </div>
                     </div>
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                    <h3 className="text-xl font-bold text-foreground mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
