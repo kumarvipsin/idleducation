@@ -23,8 +23,13 @@ const resourceLinks = [
 ];
 
 export function Footer() {
+  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><g fill='rgba(30,58,138,0.05)'><circle cx='25' cy='25' r='2'/><circle cx='75' cy='75' r='2'/><circle cx='25' cy='75' r='2'/><circle cx='75' cy='25' r='2'/></g></svg>`;
+  const textureStyle = {
+    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+  };
+
   return (
-    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300" style={textureStyle}>
         <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
