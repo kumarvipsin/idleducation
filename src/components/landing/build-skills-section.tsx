@@ -58,7 +58,7 @@ export function BuildSkillsSection() {
   );
   
   return (
-    <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
+    <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}

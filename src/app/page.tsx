@@ -14,8 +14,10 @@ export default async function Home() {
   const testimonials = testimonialsResult.success ? testimonialsResult.data : [];
 
   return (
-    <div className="flex flex-col bg-white dark:bg-background">
-      <BuildSkillsSection />
+    <div className="flex flex-col bg-background dark:bg-background">
+      <div className="mx-[1vw] mt-[1vh] rounded-2xl overflow-hidden">
+        <BuildSkillsSection />
+      </div>
       <ExamCategories />
       <OurFeatures />
       <AcademicExcellence />
