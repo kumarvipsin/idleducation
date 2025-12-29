@@ -43,7 +43,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-10 md:py-12 bg-cover bg-center bg-no-repeat"
+      className="w-full relative py-12 md:py-16 bg-cover bg-center bg-no-repeat"
       style={{backgroundImage: "url('https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8')"}}
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
