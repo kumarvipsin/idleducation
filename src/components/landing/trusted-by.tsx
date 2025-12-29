@@ -42,6 +42,9 @@ export function TrustedBy() {
                 <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
                     Trusted by Students & Parents
                 </h2>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    See how IDL Education compares to other institutes and why we are the preferred choice for dedicated learners.
+                </p>
             </div>
 
             <div className="max-w-4xl mx-auto">
