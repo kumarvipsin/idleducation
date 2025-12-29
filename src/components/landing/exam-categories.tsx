@@ -10,29 +10,29 @@ const categories = [
     title: "Academic Programs",
     subtitle: "Class 6 - 12",
     href: "/school",
-    imageUrl: "https://png.pngtree.com/png-vector/20240415/ourmid/pngtree-a-picture-of-a-school-boy-with-a-blue-background-png-image_12236319.png",
-    imageHint: "school boy"
+    imageUrl: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageHint: "students in classroom"
   },
   {
     title: "Competitive Exams",
     subtitle: "CUET | SSC | DELHI POLICE & OTHER EXAM",
     href: "/examcat",
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/028/286/737/non_2x/a-female-doctor-smiles-and-looks-up-at-the-sky-with-a-stethoscope-around-her-neck-ai-generated-photo.jpg",
-    imageHint: "female doctor"
+    imageUrl: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageHint: "professionals meeting"
   },
   {
     title: "Open School Programs",
     subtitle: "NIOS | IGNOU | DU SOL",
-    href: "#",
-    imageUrl: "https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/student-smiling.png",
-    imageHint: "male student"
+    href: "/new-work",
+    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageHint: "students outdoors"
   },
   {
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
-    href: "#",
-    imageUrl: "https://picsum.photos/seed/other-programs/800/600",
-    imageHint: "group learning"
+    href: "/category/iit-jee",
+    imageUrl: "https://images.unsplash.com/photo-1627993093883-3729daste15a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageHint: "science laboratory"
   }
 ];
 
