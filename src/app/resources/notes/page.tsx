@@ -91,7 +91,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-             {sortedClasses.length === 0 && loading ? (
+             {sortedClasses.length === 0 ? (
                  [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
                 allClassButtons.map((className: string) => (
@@ -114,8 +114,8 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       <main className="flex-1">
         <div className="relative">
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {sortedClasses.length === 0 && loading ? renderSkeleton() : (
-                <div key={animationKey} className="flex gap-6 px-4 md:px-[10%] animate-fade-in-up">
+            {sortedClasses.length === 0 ? renderSkeleton() : (
+                <div key={animationKey} className="flex gap-6 pl-4 md:pl-[10%] animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                     subjects.map((subject: Subject, index: number) => (
                         <div key={`${subject.href}-${index}`} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
@@ -197,7 +197,7 @@ export default function NotesNewPage() {
 
     if (loading) {
         return (
-            <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
               <div className="relative z-10 container mx-auto py-12">
                 <div className="mb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
