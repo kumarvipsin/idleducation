@@ -53,7 +53,7 @@ function NcertSolutionsPageContent() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('All NCERT');
+  const [selectedClass, setSelectedClass] = useState('All Ncert');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ function NcertSolutionsPageContent() {
     fetchSolutionsData();
   }, []);
 
-  const subjects = selectedClass === 'All NCERT'
+  const subjects = selectedClass === 'All Ncert'
     ? Object.values(solutionsByClass).flat() as Subject[]
     : solutionsByClass[selectedClass] || [];
   
@@ -111,7 +111,7 @@ function NcertSolutionsPageContent() {
   return (
     <div className="py-12">
         <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass === 'All NCERT' ? 'All Classes' : selectedClass}</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass === 'All Ncert' ? 'All Classes' : selectedClass}</h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
                 Explore our detailed, step-by-step solutions for your NCERT textbooks.
             </p>
@@ -146,7 +146,7 @@ function NcertSolutionsPageContent() {
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="flex gap-6 px-4 md:px-[10%] animate-fade-in-up">
+              <div key={animationKey} className="flex gap-6 px-4 md:pl-[10%] animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
                     <div key={`${subject.href}-${index}`} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
