@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, Image as ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, ArrowRight, HelpCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -235,6 +235,14 @@ export function Header() {
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
     { href: "/idl-foundation", label: "IDL Foundation", target: "_blank" },
   ];
+  
+  const applyForLinks = [
+      { href: "/scholarship", label: "Apply Scholarship", icon: <Award className="h-4 w-4" /> },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" /> },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
+  ];
 
   const loggedInNavLinks = [
     { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
@@ -353,9 +361,9 @@ export function Header() {
                     </span>}
                 </div>
               </Link>
-              <div className={cn("items-center hidden md:flex gap-x-1.5 md:gap-x-2")}>
-                  {!isIdlFoundationPage ? (
-                    <>
+              <nav className="items-center hidden md:flex gap-x-1.5 md:gap-x-2">
+                    {!isIdlFoundationPage ? (
+                      <>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
@@ -370,34 +378,24 @@ export function Header() {
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                        <DropdownMenu>
+                          <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                     <span className="sm:inline">APPLY FOR</span>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/scholarship">Apply Scholarship</Link>
-                                </DropdownMenuItem>
-                                 <DropdownMenuItem asChild>
-                                    <Link href="/admission">Admission Form</Link>
-                                </DropdownMenuItem>
-                                 <DropdownMenuItem asChild>
-                                    <Link href="/book-demo">Book Free Demo</Link>
-                                </DropdownMenuItem>
-                                 <DropdownMenuItem asChild>
-                                    <Link href="/feedback">Feedback</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/student-enquiry">Student Enquiry</Link>
-                                </DropdownMenuItem>
+                                {applyForLinks.map(({ href, label }) => (
+                                    <DropdownMenuItem asChild key={href}>
+                                        <Link href={href}>{label}</Link>
+                                    </DropdownMenuItem>
+                                ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                    <Link href="/store" target="_blank" rel="noopener noreferrer">
+                   <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0" target="_blank" rel="noopener noreferrer">
+                    <Link href="/store">
                       IDL Store
                     </Link>
                   </Button>
@@ -405,15 +403,15 @@ export function Header() {
                   {renderAuthSection()}
                   <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                   {notificationDropdown}
-                    </>
-                  ) : (
-                    <div className="flex items-center gap-x-4 text-xs font-semibold">
-                      <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                      <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                    </div>
-                  )}
-              </div>
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-x-4 text-xs font-semibold">
+                        <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                        <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                      </div>
+                    )}
+                </nav>
                <div className="ml-auto md:hidden flex items-center gap-2">
                   {!isIdlFoundationPage && (
                     <>
@@ -432,58 +430,28 @@ export function Header() {
                   </CollapsibleTrigger>
                 </div>
           </div>
-          <CollapsibleContent asChild>
+          <CollapsibleContent>
             <div className={cn(
               "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
             )}>
               <div className="border-t bg-background">
                 {!isIdlFoundationPage && (
                   <div className="p-2">
-                    <nav className="grid grid-cols-3 gap-1 text-base font-medium">
-                      <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                                  Menu
-                              </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                              {navLinks.map(({ href, label, target }) => (
-                                  <DropdownMenuItem asChild key={href}>
-                                      <Link href={href} onClick={() => setIsMobileMenuOpen(false)} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>{label}</Link>
-                                  </DropdownMenuItem>
-                              ))}
-                          </DropdownMenuContent>
-                      </DropdownMenu>
-                      <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                                  APPLY FOR
-                              </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                              <DropdownMenuItem asChild>
-                                  <Link href="/scholarship" onClick={() => setIsMobileMenuOpen(false)}>Apply Scholarship</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                  <Link href="/admission" onClick={() => setIsMobileMenuOpen(false)}>Admission Form</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                  <Link href="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>Book Free Demo</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                  <Link href="/feedback" onClick={() => setIsMobileMenuOpen(false)}>Feedback</Link>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                  <Link href="/student-enquiry" onClick={() => setIsMobileMenuOpen(false)}>Student Enquiry</Link>
-                              </DropdownMenuItem>
-                          </DropdownMenuContent>
-                      </DropdownMenu>
-                      <Button asChild variant="ghost" className="h-auto p-2 text-gray-800 dark:text-gray-300 font-bold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex flex-col gap-1">
-                      <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                          <span className="sm:inline">{t('login')}</span>
-                      </Link>
-                      </Button>
-                    </nav>
+                    <nav className="grid gap-1">
+                        {navLinks.map(({ href, label, icon, target }) => (
+                          <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                            {icon}
+                            {label}
+                          </Link>
+                        ))}
+                         <Separator />
+                         {applyForLinks.map(({ href, label, icon }) => (
+                          <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                            {icon}
+                            {label}
+                          </Link>
+                        ))}
+                      </nav>
                   </div>
                 )}
                 {renderMobileAuthSection()}
@@ -494,3 +462,5 @@ export function Header() {
     </Collapsible>
   );
 }
+
+    
