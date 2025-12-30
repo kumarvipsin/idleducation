@@ -397,7 +397,7 @@ export function Header() {
                         </DropdownMenu>
                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                    <Link href="/store">
+                    <Link href="/store" target="_blank" rel="noopener noreferrer">
                       IDL Store
                     </Link>
                   </Button>
@@ -417,7 +417,7 @@ export function Header() {
                <div className="ml-auto md:hidden flex items-center gap-2">
                   {!isIdlFoundationPage && (
                     <>
-                    <Link href="/store" className='text-foreground'>
+                    <Link href="/store" className='text-foreground' target="_blank" rel="noopener noreferrer">
                         <ShoppingBag className="h-4 w-4" />
                         <span className="sr-only">IDL Store</span>
                     </Link>
