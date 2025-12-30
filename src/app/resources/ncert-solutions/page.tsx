@@ -19,6 +19,7 @@ type Subject = {
   href: string;
   imageUrl: string;
   imageHint: string;
+  className: string;
 };
 
 const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
@@ -52,7 +53,7 @@ function NcertSolutionsPageContent() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState('All NCERT');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ function NcertSolutionsPageContent() {
             href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
             imageUrl: getImage(subjectKey).url,
             imageHint: getImage(subjectKey).hint,
+            className: className,
           }));
           return acc;
         }, {});
@@ -78,10 +80,6 @@ function NcertSolutionsPageContent() {
 
         setSolutionsByClass(formattedData);
         setClasses(sortedClasses);
-        if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
-            setSelectedClass(defaultClass);
-        }
       }
       setLoading(false);
     };
@@ -89,12 +87,16 @@ function NcertSolutionsPageContent() {
     fetchSolutionsData();
   }, []);
 
-  const subjects = solutionsByClass[selectedClass] || [];
+  const subjects = selectedClass === 'All NCERT'
+    ? Object.values(solutionsByClass).flat() as Subject[]
+    : solutionsByClass[selectedClass] || [];
   
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
     setAnimationKey(prev => prev + 1);
   };
+  
+  const allClassButtons = ['All NCERT', ...classes];
 
   const renderSkeleton = () => (
     <div className="flex gap-6 px-4 md:px-[10%]">
@@ -109,7 +111,7 @@ function NcertSolutionsPageContent() {
   return (
     <div className="py-12">
         <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass}</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass === 'All NCERT' ? 'All Classes' : selectedClass}</h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
                 Explore our detailed, step-by-step solutions for your NCERT textbooks.
             </p>
@@ -119,9 +121,9 @@ function NcertSolutionsPageContent() {
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
              {loading ? (
-                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                 [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
-                classes.map((className) => (
+                allClassButtons.map((className: string) => (
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
@@ -147,14 +149,17 @@ function NcertSolutionsPageContent() {
               <div key={animationKey} className="flex gap-6 px-4 md:px-[10%] animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                    <div key={`${subject.href}-${index}`} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                       <Link href={subject.href} className="block h-full">
                         <Card
                           className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
                           <CardContent className="p-6 flex-grow flex flex-col">
-                            <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                            <div className="flex justify-between items-start">
+                              <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                              <Badge variant="secondary">{subject.className}</Badge>
+                            </div>
                             <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
                             <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
                           </CardContent>
@@ -199,7 +204,7 @@ export default function NcertSolutionsPage() {
                     <Skeleton className="h-5 w-96 mx-auto" />
                 </div>
                 <div className="mb-8 flex justify-center gap-2">
-                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
+                    {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
                 <div className="flex gap-6 overflow-hidden">
                     {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[450px] w-[350px] flex-shrink-0 rounded-2xl" />)}
