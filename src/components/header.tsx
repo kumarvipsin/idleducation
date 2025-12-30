@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, UserCircle, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -54,23 +54,25 @@ type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title: string, children?: React.ReactNode }) => (
-    <div className="container mx-auto px-4 md:px-6">
-        <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
-                    <div className="bg-primary/10 text-primary p-2 rounded-md">
-                        {link.icon}
-                    </div>
-                    <div>
-                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
-                    </div>
-                </Link>
-            ))}
-            {children}
-        </div>
+  <div className="container mx-auto px-4 md:px-6">
+    <div className="pt-4 pb-6">
+      <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {links && links.map((link) => (
+              <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
+                  <div className="bg-primary/10 text-primary p-2 rounded-md">
+                      {link.icon}
+                  </div>
+                  <div>
+                      <p className="font-semibold text-sm text-foreground">{link.label}</p>
+                  </div>
+              </Link>
+          ))}
+          {children}
+      </div>
     </div>
-  );
+  </div>
+);
 
 export function Header() {
   const { t } = useLanguage();
@@ -285,15 +287,15 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-      return (
-        <div className="flex items-center gap-3 p-2 border-t">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <div className="w-full space-y-1.5">
-            <Skeleton className="h-3 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-          </div>
-        </div>
-      );
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
     }
     if (user) {
       return (
@@ -335,6 +337,20 @@ export function Header() {
     }
     return (
       <div className="p-2 border-t">
+        <Collapsible>
+          <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+            <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+            <ChevronDown className="h-4 w-4" />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pl-8">
+            {applyForLinks.map(({ href, label, icon }) => (
+              <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                {icon}
+                {label}
+              </Link>
+            ))}
+          </CollapsibleContent>
+        </Collapsible>
         <Link
           href="/login"
           onClick={() => setIsMobileMenuOpen(false)}
@@ -388,10 +404,10 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    "bg-background/80 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
+  const megaMenuBg = "bg-background/80 backdrop-blur-sm";
 
   return (
     <>
@@ -471,7 +487,7 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible>
                                   <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
+                                    <span className="flex items-center gap-3">Menu</span>
                                     <ChevronDown className="h-4 w-4" />
                                   </CollapsibleTrigger>
                                   <CollapsibleContent className="pl-8">
@@ -482,20 +498,6 @@ export function Header() {
                                         </Link>
                                      ))}
                                   </CollapsibleContent>
-                                </Collapsible>
-                                 <Collapsible>
-                                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                    <ChevronDown className="h-4 w-4" />
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="pl-8">
-                                    {applyForLinks.map(({ href, label, icon }) => (
-                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                            {icon}
-                                            {label}
-                                        </Link>
-                                    ))}
-                                    </CollapsibleContent>
                                 </Collapsible>
                             </nav>
                         </div>
@@ -515,10 +517,8 @@ export function Header() {
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
-          <div className="pt-2 pb-4">
             {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
-          </div>
         </div>
       </div>
     </>
