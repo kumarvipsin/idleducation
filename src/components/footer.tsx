@@ -41,7 +41,7 @@ export function Footer() {
                         <Image src="/logo.png" alt="IDL Education Logo" width={72} height={72} />
                         <div className="flex flex-col leading-tight">
                             <span className="text-lg font-black text-primary">IDL EDUCATION</span>
-                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
+                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
                         </div>
