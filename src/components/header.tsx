@@ -249,7 +249,7 @@ export function Header() {
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
-    { href: "/idl-foundation", label: "IDL Foundation", target: "_blank", icon: <HandHeart className="h-4 w-4" /> },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank" },
   ];
   
   const applyForLinks = [
@@ -359,9 +359,11 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm"
+    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 backdrop-blur-sm"
   );
   
+  const megaMenuBg = "bg-gradient-to-br from-blue-50/80 via-purple-50/80 to-pink-50/80 dark:from-gray-900/80 dark:to-gray-800/80 backdrop-blur-sm";
+
   const MegaMenu = ({ links, title }: { links: typeof navLinks, title: string }) => (
     <div className="container mx-auto px-4 md:px-6">
         <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>
@@ -411,8 +413,8 @@ export function Header() {
                             </Button>
                           </div>
                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0" target="_blank" rel="noopener noreferrer">
-                      <Link href="/store">
+                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                      <Link href="/store" target="_blank" rel="noopener noreferrer">
                         IDL Store
                       </Link>
                     </Button>
@@ -447,11 +449,8 @@ export function Header() {
                     </CollapsibleTrigger>
                   </div>
             </div>
-            <CollapsibleContent asChild>
-              <div className={cn(
-                "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
-              )}>
-                <div className="border-t bg-background">
+            <CollapsibleContent>
+                <div className="md:hidden border-t bg-background">
                   {!isIdlFoundationPage && (
                   <div className="p-2">
                       <nav className="grid gap-1">
@@ -473,7 +472,6 @@ export function Header() {
                   )}
                   {renderMobileAuthSection()}
                 </div>
-              </div>
             </CollapsibleContent>
         </header>
       </Collapsible>
@@ -485,10 +483,11 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className="absolute inset-x-0 top-0 h-screen bg-black/30 backdrop-blur-sm" />
-        <div className="relative bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm p-4">
-          {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
-          {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+          <div className="py-4">
+            {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
+          </div>
         </div>
       </div>
     </>
