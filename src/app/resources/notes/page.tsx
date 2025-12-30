@@ -68,7 +68,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
   };
   
   const renderSkeleton = () => (
-    <div className="flex gap-6 px-4 md:px-[10%]">
+    <div className="flex gap-6 px-4 md:pl-[10%]">
       {[...Array(4)].map((_, i) => (
         <div key={i} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
             <Skeleton key={i} className="h-[450px] w-full rounded-2xl" />
