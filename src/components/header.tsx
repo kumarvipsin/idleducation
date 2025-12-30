@@ -55,6 +55,7 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 
 const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title: string, children?: React.ReactNode }) => (
   <div className="container mx-auto px-4 md:px-6">
+    <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {links && links.map((link) => (
             <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
@@ -333,7 +334,7 @@ export function Header() {
       );
     }
     return (
-      <div className="p-2 border-t">
+       <div className="p-2 border-t">
         <Collapsible>
           <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
             <span className="flex items-center gap-3">Apply For</span>
@@ -401,10 +402,10 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    "bg-background/80 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
+  const megaMenuBg = "bg-background/80 backdrop-blur-sm";
 
   return (
     <>
@@ -482,20 +483,12 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
-                                <Collapsible>
-                                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3">Menu</span>
-                                    <ChevronDown className="h-4 w-4" />
-                                  </CollapsibleTrigger>
-                                  <CollapsibleContent className="pl-8">
-                                     {navLinks.map(({ href, label, icon, target }) => (
-                                        <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                            {icon}
-                                            {label}
-                                        </Link>
-                                     ))}
-                                  </CollapsibleContent>
-                                </Collapsible>
+                                {navLinks.map(({ href, label, icon, target }) => (
+                                    <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                        {icon}
+                                        {label}
+                                    </Link>
+                                ))}
                             </nav>
                         </div>
                         )}
@@ -514,8 +507,10 @@ export function Header() {
         )}
       >
         <div className={cn("absolute inset-x-0 top-0 py-4", megaMenuBg)}>
+          <div className="pt-2 pb-4">
             {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
+          </div>
         </div>
       </div>
     </>
