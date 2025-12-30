@@ -285,15 +285,15 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+      return (
+        <div className="flex items-center gap-3 p-2 border-t">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="w-full space-y-1.5">
+            <Skeleton className="h-3 w-3/4" />
+            <Skeleton className="h-3 w-1/2" />
+          </div>
+        </div>
+      );
     }
     if (user) {
       return (
@@ -333,7 +333,18 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+      <div className="p-2 border-t">
+        <Link
+          href="/login"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+        >
+          <LogIn className="h-4 w-4" />
+          {t('login')}
+        </Link>
+      </div>
+    );
   };
   
   const notificationDropdown = (
@@ -377,10 +388,10 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-background/80 backdrop-blur-sm"
+    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
   );
   
-  const megaMenuBg = "bg-background/80 backdrop-blur-sm";
+  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
 
   return (
     <>
@@ -472,22 +483,20 @@ export function Header() {
                                      ))}
                                   </CollapsibleContent>
                                 </Collapsible>
-                                 {!user && (
-                                     <Collapsible>
-                                        <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                        <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                        <ChevronDown className="h-4 w-4" />
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent className="pl-8">
-                                        {applyForLinks.map(({ href, label, icon }) => (
-                                            <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                                {icon}
-                                                {label}
-                                            </Link>
-                                        ))}
-                                        </CollapsibleContent>
-                                    </Collapsible>
-                                )}
+                                 <Collapsible>
+                                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                    <ChevronDown className="h-4 w-4" />
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="pl-8">
+                                    {applyForLinks.map(({ href, label, icon }) => (
+                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                            {icon}
+                                            {label}
+                                        </Link>
+                                    ))}
+                                    </CollapsibleContent>
+                                </Collapsible>
                             </nav>
                         </div>
                         )}
@@ -515,4 +524,3 @@ export function Header() {
     </>
   );
 }
-
