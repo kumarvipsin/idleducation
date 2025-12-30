@@ -96,7 +96,7 @@ function NcertSolutionsPageContent() {
     setAnimationKey(prev => prev + 1);
   };
   
-  const allClassButtons = ['All NCERT', ...classes];
+  const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
     <div className="flex gap-6 px-4 md:px-[10%]">
