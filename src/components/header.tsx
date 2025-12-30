@@ -334,30 +334,30 @@ export function Header() {
       );
     }
     return (
-       <div className="p-2 border-t">
-        <Collapsible>
-          <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-            <span className="flex items-center gap-3">Apply For</span>
-            <ChevronDown className="h-4 w-4" />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pl-4">
-            {applyForLinks.map(({ href, label, icon }) => (
-              <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                {icon}
-                {label}
-              </Link>
-            ))}
-          </CollapsibleContent>
-        </Collapsible>
-        <Link
-          href="/login"
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          <LogIn className="h-4 w-4" />
-          {t('login')}
-        </Link>
-      </div>
+        <div className="p-2 border-t">
+            <Collapsible>
+              <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                <span className="flex items-center gap-3">Apply For</span>
+                <ChevronDown className="h-4 w-4" />
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pl-4">
+                {applyForLinks.map(({ href, label, icon }) => (
+                  <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                    {icon}
+                    {label}
+                  </Link>
+                ))}
+              </CollapsibleContent>
+            </Collapsible>
+             <Link
+              href="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              <LogIn className="h-4 w-4" />
+              {t('login')}
+            </Link>
+        </div>
     );
   };
   
@@ -402,10 +402,10 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-background/80 backdrop-blur-sm"
+    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
   );
   
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
+  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
 
   return (
     <>
@@ -418,7 +418,7 @@ export function Header() {
                       <span className={cn("text-sm font-black", isIdlFoundationPage ? "text-primary" : "text-primary")}>
                           {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                       </span>
-                      {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
+                      {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
                         (Institute of Distance Learning Pvt. Ltd.)
                       </span>}
                   </div>
@@ -538,4 +538,3 @@ export function Header() {
     </>
   );
 }
-
