@@ -233,7 +233,7 @@ export function Header() {
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank" },
+    { href: "/idl-foundation", label: "IDL Foundation", target: "_blank" },
   ];
 
   const loggedInNavLinks = [

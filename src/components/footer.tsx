@@ -19,7 +19,7 @@ const resourceLinks = [
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
   { href: "/resources/previous-year-questions", label: "Previous Year Questions" },
   { href: "/resources/reference-books", label: "Reference Books" },
-  { href: "/store", label: "IDL Store" },
+  { href: "/store", label: "IDL Store", target: "_blank" },
 ];
 
 export function Footer() {
@@ -89,7 +89,7 @@ export function Footer() {
                     <ul className="space-y-2 text-sm">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                             </li>
                         ))}
                     </ul>
