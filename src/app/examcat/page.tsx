@@ -44,12 +44,12 @@ interface Teacher {
   };
 }
 
-function SchoolPageContent() {
+function ExamcatPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const classParam = searchParams.get('class');
-  const [activeClass, setActiveClass] = useState('');
-  const [classes, setClasses] = useState<TExamCategory[]>([]);
+  const categoryParam = searchParams.get('category');
+  const [activeCategory, setActiveCategory] = useState<TExamCategory | null>(null);
+  const [categories, setCategories] = useState<TExamCategory[]>([]);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [animationKey, setAnimationKey] = useState(0);
@@ -70,16 +70,16 @@ function SchoolPageContent() {
       ]);
 
       if (categoriesResult.success && categoriesResult.data) {
-        const schoolExams = (categoriesResult.data as TExamCategory[])
+        const competitiveExams = (categoriesResult.data as TExamCategory[])
           .filter(cat => cat.group === 'competitive')
           .sort((a, b) => (a.order || 99) - (b.order || 99));
-        setClasses(schoolExams);
+        setCategories(competitiveExams);
 
-        if (schoolExams.length > 0) {
-          const initialClass = classParam && schoolExams.some(c => c.name === classParam)
-            ? classParam 
-            : schoolExams.find(c => c.name.includes('8'))?.name || schoolExams[0].name;
-          setActiveClass(initialClass);
+        if (competitiveExams.length > 0) {
+          const initialCategory = 
+            competitiveExams.find(c => c.name.toLowerCase().replace(/\s+/g, '-') === categoryParam) || 
+            competitiveExams[0];
+          setActiveCategory(initialCategory);
         }
       }
       if (teachersResult.success && teachersResult.data) {
@@ -88,16 +88,17 @@ function SchoolPageContent() {
       setLoading(false);
     };
     fetchData();
-  }, [classParam]);
+  }, [categoryParam]);
 
 
   useEffect(() => {
     setAnimationKey(prev => prev + 1);
-  }, [activeClass]);
+  }, [activeCategory]);
 
-  const handleClassChange = (className: string) => {
-    setActiveClass(className);
-    router.push(`/examcat?class=${encodeURIComponent(className)}`, { scroll: false });
+  const handleCategoryChange = (category: TExamCategory) => {
+    setActiveCategory(category);
+    const slug = category.name.toLowerCase().replace(/\s+/g, '-');
+    router.push(`/examcat?category=${slug}`, { scroll: false });
   };
   
     const handleAction = async (pdfUrl: string, title?: string) => {
@@ -119,7 +120,6 @@ function SchoolPageContent() {
         setIsLoadingPdf(false);
     };
   
-  const activeCategory = classes.find(c => c.name === activeClass);
   const activeTeachers = activeCategory?.teacherIds
     ? teachers.filter(t => activeCategory.teacherIds?.includes(t.id))
     : [];
@@ -159,12 +159,12 @@ function SchoolPageContent() {
                 {loading ? (
                   [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
                 ) : (
-                  classes.map((c) => (
+                  categories.map((c) => (
                     <button
                       key={c.id}
-                      onClick={() => handleClassChange(c.name)}
+                      onClick={() => handleCategoryChange(c)}
                       className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
-                        ${activeClass === c.name 
+                        ${activeCategory?.id === c.id
                           ? 'border-primary text-primary bg-primary/10 rounded-md' 
                           : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                     >
@@ -258,7 +258,7 @@ function SchoolPageContent() {
               <div className="container mx-auto px-4 md:px-[10%]">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-primary">
-                      {`${activeClass} Online Coaching 2025-2026`}
+                      {`${activeCategory?.name} Online Coaching 2025-2026`}
                     </h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         Everything you need to know about the curriculum, exams, and resources.
@@ -269,14 +269,14 @@ function SchoolPageContent() {
                          {syllabusItems.length > 0 && (
                             <div>
                                 <div className="mb-4">
-                                    <h3 className="font-bold text-xl text-primary">CBSE {activeClass} Syllabus 2025-26</h3>
-                                    <p className="text-muted-foreground mt-1">The following table provides the subject-wise {activeClass} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeClass}.</p>
+                                    <h3 className="font-bold text-xl text-primary">CBSE {activeCategory?.name} Syllabus 2025-26</h3>
+                                    <p className="text-muted-foreground mt-1">The following table provides the subject-wise {activeCategory?.name} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeCategory?.name}.</p>
                                 </div>
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-orange-500 hover:bg-orange-600">
                                             <TableHead className="w-[100px] text-white font-bold">S.No.</TableHead>
-                                            <TableHead className="text-white font-bold">Subject-Wise Links CBSE | {activeClass} | Syllabus 2025-26</TableHead>
+                                            <TableHead className="text-white font-bold">Subject-Wise Links CBSE | {activeCategory?.name} | Syllabus 2025-26</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -323,10 +323,10 @@ function SchoolPageContent() {
   );
 }
 
-export default function SchoolPage() {
+export default function ExamcatPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <SchoolPageContent />
+      <ExamcatPageContent />
     </Suspense>
   );
 }

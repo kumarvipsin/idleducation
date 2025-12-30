@@ -323,7 +323,11 @@ function SchoolPageContent() {
   );
 }
 
-export default function SchoolPage() {
+export default function SchoolPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SchoolPageContent />
