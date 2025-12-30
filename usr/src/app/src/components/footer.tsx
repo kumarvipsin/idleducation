@@ -10,19 +10,27 @@ const quickLinks = [
   { href: "/contact", label: "Contact Us" },
   { href: "/gallery", label: "Gallery" },
   { href: "/achievements", label: "Achievements" },
+  { href: "/blog", label: "IDL Blog" },
   { href: "/idl-foundation", label: "IDL Foundation" },
 ];
 
 const resourceLinks = [
   { href: "/resources/notes", label: "Notes" },
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
+  { href: "/resources/previous-year-questions", label: "Previous Year Questions" },
   { href: "/resources/reference-books", label: "Reference Books" },
   { href: "/store", label: "IDL Store" },
 ];
 
 export function Footer() {
+  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.05)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
+  const textureStyle = {
+    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+    backgroundSize: '500px 500px',
+  };
+
   return (
-    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300">
+    <footer className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300" style={textureStyle}>
         <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -30,7 +38,7 @@ export function Footer() {
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col gap-4">
                     <Link href="/" className="flex items-center gap-2">
-                        <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
+                        <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                         <div className="flex flex-col leading-tight">
                             <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
                             <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
@@ -92,14 +100,14 @@ export function Footer() {
                     <h3 className="text-md font-semibold mb-4 text-foreground">Get Our App</h3>
                     <p className="text-sm text-muted-foreground mb-4">IDL Learning App - Learn Smart</p>
                     <div className="flex flex-col items-start gap-2">
-                        <div className="cursor-not-allowed">
+                        <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                             <Image 
                                 src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                                 alt="Get it on Google Play"
                                 width={135}
                                 height={40}
                             />
-                        </div>
+                        </Link>
                         <div className="cursor-not-allowed">
                             <Image 
                                 src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
