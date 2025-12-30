@@ -1,10 +1,9 @@
 
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useSearchParams } from 'next/navigation'
-import { Suspense, ReactNode, use } from "react";
+import { useSearchParams, useParams } from 'next/navigation'
+import { Suspense, ReactNode } from "react";
 import { NotesContentRenderer } from "@/components/notes-content-renderer";
 import { BookOpen } from "lucide-react";
 
@@ -575,9 +574,12 @@ const notesData: { [key: string]: { en: { title: string, content: string }, hi: 
 
 
 function NotesContent() {
-  const params = use(useParams());
-  const searchParams = use(useSearchParams());
-  const slug = params.slug as string;
+  const params = useParams();
+  const searchParams = useSearchParams();
+  
+  // Ensure slug is always a string
+  const slug = typeof params.slug === 'string' ? params.slug : 'default';
+  
   const lang = searchParams.get('lang') === 'hi' ? 'hi' : 'en';
   
   const chapterNotes = notesData[slug] || notesData['default'];
