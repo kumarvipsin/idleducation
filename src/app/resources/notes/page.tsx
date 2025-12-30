@@ -19,6 +19,7 @@ type Subject = {
   href: string;
   imageUrl: string;
   imageHint: string;
+  className: string;
 };
 
 const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
@@ -50,17 +51,16 @@ const getImage = (key: string) => {
 
 function NotesPageContent({ initialData }: { initialData: any }) {
   const { notesByClass, classes: sortedClasses } = initialData;
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState('All Notes');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
-    if (sortedClasses.length > 0) {
-      const defaultClass = sortedClasses.find((c: string) => c.includes('10')) || sortedClasses[0];
-      setSelectedClass(defaultClass);
-    }
+    // The default is now "All Notes", so no need to set a specific class.
   }, [sortedClasses]);
 
-  const subjects = notesByClass[selectedClass] || [];
+  const subjects = selectedClass === 'All Notes'
+    ? Object.values(notesByClass).flat() as Subject[]
+    : notesByClass[selectedClass] || [];
 
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
@@ -76,11 +76,13 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       ))}
     </div>
   );
+  
+  const allClassButtons = ['All Notes', ...sortedClasses];
 
   return (
     <>
       <div className="text-center mb-12 animate-fade-in-up">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Notes for {selectedClass}</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Notes for {selectedClass === 'All Notes' ? 'All Classes' : selectedClass}</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
           Find concise and comprehensive notes to help you revise and learn effectively.
         </p>
@@ -89,10 +91,10 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-             {sortedClasses.length === 0 ? (
-                 [...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+             {sortedClasses.length === 0 && loading ? (
+                 [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
             ) : (
-                sortedClasses.map((className: string) => (
+                allClassButtons.map((className: string) => (
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
@@ -112,18 +114,21 @@ function NotesPageContent({ initialData }: { initialData: any }) {
       <main className="flex-1">
         <div className="relative">
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {sortedClasses.length === 0 ? renderSkeleton() : (
+            {sortedClasses.length === 0 && loading ? renderSkeleton() : (
                 <div key={animationKey} className="flex gap-6 px-4 md:px-[10%] animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                     subjects.map((subject: Subject, index: number) => (
-                        <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                        <div key={`${subject.href}-${index}`} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                             <Link href={subject.href} className="block h-full">
                                 <Card
                                 className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
                                 style={{ animationDelay: `${index * 50}ms` }}
                                 >
                                 <CardContent className="p-6 flex-grow flex flex-col">
-                                    <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                                    <div className="flex justify-between items-start">
+                                      <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
+                                      <Badge variant="secondary">{subject.className}</Badge>
+                                    </div>
                                     <p className="text-sm text-muted-foreground mb-4">In-depth notes for {subject.name}.</p>
                                     <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
                                 </CardContent>
@@ -159,7 +164,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
 }
 
 export default function NotesNewPage() {
-    const [initialData, setInitialData] = useState({ notesByClass: {}, classes: [] });
+    const [initialData, setInitialData] = useState<{ notesByClass: any, classes: string[] }>({ notesByClass: {}, classes: [] });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -173,6 +178,7 @@ export default function NotesNewPage() {
                         href: `/resources/notes/${classDoc.id}/${subjectKey}`,
                         imageUrl: getImage(subjectKey).url,
                         imageHint: getImage(subjectKey).hint,
+                        className: className,
                     }));
                     return acc;
                 }, {});
@@ -191,14 +197,14 @@ export default function NotesNewPage() {
 
     if (loading) {
         return (
-            <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+            <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
               <div className="relative z-10 container mx-auto py-12">
                 <div className="mb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
                     <Skeleton className="h-5 w-96 mx-auto" />
                 </div>
                 <div className="mb-8 flex justify-center gap-2">
-                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
+                    {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
                 <div className="flex gap-6 overflow-hidden">
                     {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[450px] w-[350px] flex-shrink-0 rounded-2xl" />)}
@@ -209,7 +215,7 @@ export default function NotesNewPage() {
     }
     
     return (
-        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
             <Link href="/" className="absolute top-4 right-4 z-20">
                 <Button variant="ghost" size="icon">
                     <Home className="h-6 w-6 text-primary" />
