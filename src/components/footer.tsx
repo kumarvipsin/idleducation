@@ -36,8 +36,8 @@ export function Footer() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
                 {/* Column 1: Brand and Socials */}
-                <div className="flex flex-col gap-4">
-                    <Link href="/" className="flex items-center gap-2">
+                <div className="flex flex-col items-center text-center gap-4">
+                    <Link href="/" className="flex flex-col items-center gap-2">
                         <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                         <div className="flex flex-col leading-tight">
                             <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
