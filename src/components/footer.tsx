@@ -11,7 +11,7 @@ const quickLinks = [
   { href: "/gallery", label: "Gallery" },
   { href: "/achievements", label: "Achievements" },
   { href: "/blog", label: "IDL Blog" },
-  { href: "/idl-foundation", label: "IDL Foundation" },
+  { href: "/idl-foundation", label: "IDL Foundation", target: "_blank" },
 ];
 
 const resourceLinks = [
@@ -77,7 +77,7 @@ export function Footer() {
                     <ul className="space-y-2 text-sm">
                         {quickLinks.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                             </li>
                         ))}
                     </ul>

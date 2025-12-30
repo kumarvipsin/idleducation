@@ -233,7 +233,7 @@ export function Header() {
     { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" /> },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank" },
   ];
 
   const loggedInNavLinks = [
@@ -363,9 +363,9 @@ export function Header() {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                {navLinks.map(({ href, label }) => (
+                                {navLinks.map(({ href, label, target }) => (
                                     <DropdownMenuItem asChild key={href}>
-                                        <Link href={href}>{label}</Link>
+                                        <Link href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>{label}</Link>
                                     </DropdownMenuItem>
                                 ))}
                             </DropdownMenuContent>
@@ -447,9 +447,9 @@ export function Header() {
                               </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                              {navLinks.map(({ href, label }) => (
+                              {navLinks.map(({ href, label, target }) => (
                                   <DropdownMenuItem asChild key={href}>
-                                      <Link href={href} onClick={() => setIsMobileMenuOpen(false)}>{label}</Link>
+                                      <Link href={href} onClick={() => setIsMobileMenuOpen(false)} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>{label}</Link>
                                   </DropdownMenuItem>
                               ))}
                           </DropdownMenuContent>

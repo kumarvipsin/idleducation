@@ -111,7 +111,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
           <div className="mb-8">
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
-                {competitiveExams.map((exam) => {
+                {(competitiveExams || []).map((exam) => {
                   const currentSlug = exam.href.split('/').pop();
                   return (
                     <Link href={exam.href} key={exam.name}>
