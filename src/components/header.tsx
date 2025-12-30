@@ -333,7 +333,14 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                <LogIn className="h-4 w-4" />
+                {t('login')}
+            </Link>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -377,10 +384,10 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    "bg-background/80 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-blue-50/80 dark:bg-gray-900/80 backdrop-blur-sm";
+  const megaMenuBg = "bg-background/80 backdrop-blur-sm";
 
   return (
     <>
@@ -449,43 +456,52 @@ export function Header() {
                     </CollapsibleTrigger>
                   </div>
             </div>
-            <CollapsibleContent>
-                <div className="md:hidden border-t bg-background">
-                  {!isIdlFoundationPage && (
-                  <div className="p-2">
-                      <nav className="grid gap-1">
-                        <Collapsible>
-                          <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
-                            <ChevronDown className="h-4 w-4" />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="pl-8">
-                             {navLinks.map(({ href, label, icon, target }) => (
-                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    {icon}
-                                    {label}
-                                </Link>
-                             ))}
-                          </CollapsibleContent>
-                        </Collapsible>
-                         <Collapsible>
-                          <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                            <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                            <ChevronDown className="h-4 w-4" />
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="pl-8">
-                            {applyForLinks.map(({ href, label, icon }) => (
-                              <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                  {icon}
-                                  {label}
-                              </Link>
-                            ))}
-                          </CollapsibleContent>
-                        </Collapsible>
-                      </nav>
-                  </div>
-                  )}
-                  {renderMobileAuthSection()}
+            <CollapsibleContent asChild>
+                <div className={cn(
+                    "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden",
+                    "duration-200"
+                )}>
+                    <div className="border-t bg-background">
+                        {!isIdlFoundationPage && (
+                        <div className="p-2">
+                            <nav className="grid gap-1">
+                                <Collapsible>
+                                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
+                                    <ChevronDown className="h-4 w-4" />
+                                  </CollapsibleTrigger>
+                                  <CollapsibleContent className="pl-8">
+                                     {navLinks.map(({ href, label, icon, target }) => (
+                                        <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                            {icon}
+                                            {label}
+                                        </Link>
+                                     ))}
+                                  </CollapsibleContent>
+                                </Collapsible>
+                            </nav>
+                        </div>
+                        )}
+                        {renderMobileAuthSection()}
+                        {!isIdlFoundationPage && !user && (
+                            <div className="p-2 border-t">
+                                <Collapsible>
+                                    <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                    <ChevronDown className="h-4 w-4" />
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="pl-8">
+                                    {applyForLinks.map(({ href, label, icon }) => (
+                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                            {icon}
+                                            {label}
+                                        </Link>
+                                    ))}
+                                    </CollapsibleContent>
+                                </Collapsible>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </CollapsibleContent>
         </header>
@@ -499,7 +515,7 @@ export function Header() {
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
-          <div className="py-4">
+          <div className="pt-2 pb-4">
             {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
           </div>
@@ -508,4 +524,3 @@ export function Header() {
     </>
   );
 }
-
