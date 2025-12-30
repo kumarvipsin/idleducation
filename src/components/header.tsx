@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, ArrowRight, HelpCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -411,7 +411,7 @@ export function Header() {
                             </Button>
                           </div>
                      <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                     <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0" target="_blank" rel="noopener noreferrer">
+                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0" target="_blank" rel="noopener noreferrer">
                       <Link href="/store">
                         IDL Store
                       </Link>
@@ -447,7 +447,7 @@ export function Header() {
                     </CollapsibleTrigger>
                   </div>
             </div>
-            <CollapsibleContent>
+            <CollapsibleContent asChild>
               <div className={cn(
                 "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden", "duration-200"
               )}>
@@ -486,7 +486,7 @@ export function Header() {
         )}
       >
         <div className="absolute inset-x-0 top-0 h-screen bg-black/30 backdrop-blur-sm" />
-        <div className="relative bg-background/80 dark:bg-gray-900/80 p-6 shadow-2xl">
+        <div className="relative bg-[#F5F5F7]/80 dark:bg-gray-900/80 backdrop-blur-sm p-4">
           {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
           {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
         </div>
