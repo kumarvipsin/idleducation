@@ -361,8 +361,8 @@ export function Header() {
       );
     }
     return (
-        <div className="p-2 border-t grid grid-cols-2 gap-2">
-        </div>
+      <div className="p-2 border-t grid grid-cols-2 gap-2">
+      </div>
     );
   };
   
@@ -427,7 +427,7 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="outline" data-active={activeMenu === 'menu'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
+                                <Button variant="outline" data-active={activeMenu === 'menu'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary border-primary/20">
                                     MENU
                                 </Button>
                               </div>
@@ -463,7 +463,7 @@ export function Header() {
                       
                     </div>
                     
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center">
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
                     </div>
