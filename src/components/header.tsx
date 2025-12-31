@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -255,11 +255,29 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="ghost" className="h-8 w-8 rounded-full">
-           <Link href="/login">
-              <UserCircle />
-           </Link>
-         </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 rounded-full">
+            <UserCircle />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-40" align="end">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/login">
+              <LogIn className="mr-2 h-4 w-4" />
+              <span>Login</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/signup">
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Sign Up</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   };
   
@@ -333,18 +351,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-      <div className="p-2 border-t">
-        <Link
-          href="/login"
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          <LogIn className="h-4 w-4" />
-          {t('login')}
-        </Link>
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
