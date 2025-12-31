@@ -149,7 +149,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 <DropdownMenuItem asChild>
                                     <Link href="/store/auth">
                                         <LogIn className="mr-2 h-4 w-4" />
-                                        <span>Sign In</span>
+                                        <span>Login</span>
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
