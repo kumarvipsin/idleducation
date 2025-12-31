@@ -157,16 +157,16 @@ function ExamcatPageContent() {
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {loading ? (
-                  [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                  [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
                 ) : (
                   categories.map((c) => (
                     <button
                       key={c.id}
                       onClick={() => handleCategoryChange(c)}
-                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
                         ${activeCategory?.id === c.id
-                          ? 'border-primary text-primary bg-primary/10 rounded-md' 
-                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                          ? 'border-primary text-primary bg-primary/10' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
                     >
                       {c.name}
                     </button>
