@@ -1,90 +1,318 @@
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { getExamCategories } from "@/app/actions/data";
-import type { TExamCategory } from "@/app/actions/types";
-import { GcsImage } from "@/components/gcs-image";
+'use client';
 
-async function getOpenSchoolPrograms() {
-    const result = await getExamCategories();
-    if (result.success && result.data) {
-        return (result.data as TExamCategory[]).filter(cat => cat.group === 'open-school');
-    }
-    return [];
+import { useState, useEffect, Suspense, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { ArrowRight, BookOpen, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle, Eye, Download } from 'lucide-react';
+import Link from 'next/link';
+import Image from "next/image";
+import { useSearchParams, useRouter } from 'next/navigation';
+import { TeacherCard } from '@/components/landing/teacher-card';
+import { useLanguage } from '@/context/language-context';
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getExamCategories, getTeachers, getSignedUrlForPdf } from '@/app/actions';
+import type { TExamCategory, VideoLesson, SyllabusItem } from '@/app/actions/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import { GcsImage } from '@/components/gcs-image';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { syllabusData } from '@/lib/syllabus-data';
+import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
+
+const resourceLinks = [
+  { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
+  { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
+  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
+];
+
+interface Teacher {
+  id: string;
+  name: string;
+  designation: string;
+  experience: string;
+  photoURL?: string;
+  avatar: string;
+  biography?: string;
+  socialLinks?: {
+      instagram?: string;
+      facebook?: string;
+      twitter?: string;
+  };
 }
 
-export default async function NewWorkPage() {
-  const programs = await getOpenSchoolPrograms();
+function OpenSchoolPageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const programParam = searchParams.get('program');
+  const [activeProgram, setActiveProgram] = useState<TExamCategory | null>(null);
+  const [programs, setPrograms] = useState<TExamCategory[]>([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [animationKey, setAnimationKey] = useState(0);
+  const { toast } = useToast();
+  
+  const [isLoadingPdf, setIsLoadingPdf] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("PDF Viewer");
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [categoriesResult, teachersResult] = await Promise.all([
+        getExamCategories(),
+        getTeachers(),
+      ]);
+
+      if (categoriesResult.success && categoriesResult.data) {
+        const openSchoolPrograms = (categoriesResult.data as TExamCategory[])
+          .filter(cat => cat.group === 'open-school')
+          .sort((a, b) => (a.order || 99) - (b.order || 99));
+        setPrograms(openSchoolPrograms);
+
+        if (openSchoolPrograms.length > 0) {
+          const initialProgram = 
+            openSchoolPrograms.find(c => c.name === programParam) || 
+            openSchoolPrograms[0];
+          setActiveProgram(initialProgram);
+        }
+      }
+      if (teachersResult.success && teachersResult.data) {
+        setTeachers(teachersResult.data as Teacher[]);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, [programParam]);
+
+
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeProgram]);
+
+  const handleProgramChange = (program: TExamCategory) => {
+    setActiveProgram(program);
+    const slug = program.name.toLowerCase().replace(/\s+/g, '-');
+    router.push(`/new-work?program=${slug}`, { scroll: false });
+  };
+  
+    const handleAction = async (pdfUrl: string, title?: string) => {
+        if (!pdfUrl) {
+            toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+            return;
+        }
+        setIsLoadingPdf(true);
+        setIsPdfDialogOpen(true);
+        if (title) setDialogTitle(title);
+        
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            setPdfSrc(result.url);
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+            setIsPdfDialogOpen(false);
+        }
+        setIsLoadingPdf(false);
+    };
+  
+  const activeTeachers = activeProgram?.teacherIds
+    ? teachers.filter(t => activeProgram.teacherIds?.includes(t.id))
+    : [];
+    
+  const videoLessons: VideoLesson[] = activeProgram?.videoLessons || [];
+  const syllabusItems: SyllabusItem[] = activeProgram?.syllabus || [];
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
         <Link href="/" className="absolute top-4 right-4 z-20">
             <Button variant="ghost" size="icon">
                 <Home className="h-6 w-6 text-primary" />
                 <span className="sr-only">Home</span>
             </Button>
         </Link>
-        <div className="relative z-10 container mx-auto py-12 flex flex-col items-center justify-center min-h-screen">
-             <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Open School Programs</h1>
-                <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Flexible and accessible education for everyone.
-                </p>
+        <div className="container mx-auto py-8 px-4 md:px-6">
+          <section className="mb-8">
+            <Card className="overflow-hidden shadow-lg">
+              <div className="relative w-full aspect-[16/4]">
+                {loading || !activeProgram?.imageUrl ? (
+                  <Skeleton className="w-full h-full" />
+                ) : (
+                    <GcsImage
+                        filePath={activeProgram.imageUrl}
+                        alt={`Banner for ${activeProgram.name}`}
+                        fill
+                        className="object-cover"
+                    />
+                )}
+              </div>
+            </Card>
+          </section>
+
+          <div className="mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                {loading ? (
+                  [...Array(3)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
+                ) : (
+                  programs.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => handleProgramChange(p)}
+                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border rounded-full
+                        ${activeProgram?.id === p.id
+                          ? 'border-primary text-primary bg-primary/10' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'}`}
+                    >
+                      {p.name}
+                    </button>
+                  ))
+                )}
+              </div>
             </div>
-            {programs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {programs.map((program) => (
-                         <Link key={program.id} href={program.href} className="block">
-                            <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group">
-                              <div className="relative w-full aspect-video">
-                                {program.imageUrl ? (
-                                    <GcsImage 
-                                      filePath={program.imageUrl}
-                                      alt={program.name}
-                                      fill
-                                      className="object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full bg-secondary flex items-center justify-center">
-                                        <Home className="w-12 h-12 text-muted-foreground" />
-                                    </div>
-                                )}
-                              </div>
-                              <CardHeader>
-                                <CardTitle>{program.name}</CardTitle>
-                              </CardHeader>
-                              <CardContent className="flex-grow">
-                                <p className="text-sm text-muted-foreground">
-                                    Learn more about our {program.name} program.
-                                </p>
-                              </CardContent>
-                               <div className="p-4 pt-0">
-                                <Button variant="link" className="p-0">
-                                    Explore Program <ArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
-                              </div>
-                            </Card>
-                         </Link>
-                    ))}
+          </div>
+        </div>
+
+        <div className="w-full">
+           
+          {videoLessons.length > 0 && (
+            <section className="w-full my-8">
+                <div className="relative">
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {videoLessons.map((lesson, index) => {
+                            const videoId = lesson.youtubeLink.split('v=')[1]?.split('&')[0];
+                            return (
+                                <Dialog key={index}>
+                                    <DialogTrigger asChild>
+                                        <div className="block flex-shrink-0 w-60 h-80 cursor-pointer">
+                                            <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                                <CardContent className="p-0">
+                                                    <div className="relative aspect-[9/12]">
+                                                        <Image
+                                                            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                                                            alt={`${lesson.subject} video lesson`}
+                                                            data-ai-hint={`${lesson.subject} lesson poster`}
+                                                            fill
+                                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                                <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                                    <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                                </button>
+                                                            </div>
+                                                            <h3 className="text-white text-xl font-bold">{lesson.subject}</h3>
+                                                            <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
+                                                                <span>By {lesson.teacher}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </DialogTrigger>
+                                     <DialogContent className="max-w-3xl p-0">
+                                        <DialogHeader className="p-4">
+                                            <DialogTitle>{lesson.subject} by {lesson.teacher}</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="aspect-video">
+                                            <iframe
+                                                className="w-full h-full"
+                                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                                                title={`YouTube video player for ${lesson.subject}`}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
+                                            ></iframe>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
+                        )})}
+                    </div>
                 </div>
-            ) : (
-                <Card className="w-full max-w-lg animate-fade-in-up shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
-                    <CardHeader className="text-center">
-                        <CardTitle>Coming Soon</CardTitle>
-                        <CardDescription>
-                            Stay tuned for exciting new content!
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-center text-muted-foreground">
-                            Content for this section will be available soon.
-                        </p>
+                </div>
+            </section>
+          )}
+
+          <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="container mx-auto px-4 md:px-[10%]">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                      {`${activeProgram?.name} Online Coaching 2025-2026`}
+                    </h2>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        Everything you need to know about the curriculum, exams, and resources.
+                    </p>
+                </div>
+                <Card className="shadow-lg">
+                    <CardContent className="p-6 space-y-8">
+                         {syllabusItems.length > 0 && (
+                            <div>
+                                <div className="mb-4">
+                                    <h3 className="font-bold text-xl text-primary">{activeProgram?.name} Syllabus 2025-26</h3>
+                                </div>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="w-[100px] text-white font-bold">S.No.</TableHead>
+                                            <TableHead className="text-white font-bold">Subject-Wise Links | {activeProgram?.name} | Syllabus 2025-26</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {syllabusItems.map((item) => (
+                                            <TableRow key={item.sno}>
+                                                <TableCell className="font-medium">{item.sno}</TableCell>
+                                                <TableCell>
+                                                  <span className={cn("font-medium", item.pdfUrl && "hover:underline cursor-pointer")} onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
+                                                    {item.name}
+                                                  </span>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        )}
+                        <div>
+                            <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {resourceLinks.map(link => (
+                                    <Button asChild variant="outline" key={link.href} className="justify-start bg-background h-12 text-sm rounded-full">
+                                        <Link href={link.href}>
+                                            {link.icon}
+                                            <span className="ml-2">{link.label}</span>
+                                        </Link>
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
-            )}
+              </div>
+          </section>
         </div>
+        <PdfViewerDialog
+          isOpen={isPdfDialogOpen}
+          onOpenChange={setIsPdfDialogOpen}
+          pdfSrc={pdfSrc}
+          isLoading={isLoadingPdf}
+          title={dialogTitle}
+        />
     </div>
   );
 }
+
+export default function NewWorkPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <OpenSchoolPageContent />
+        </Suspense>
+    )
+}
+
+    
