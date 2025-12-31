@@ -85,9 +85,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           <Link href="/store" >HOME</Link>
-                        </Button>
+                        
                         <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                         {storeUser ? (
                         <DropdownMenu>
