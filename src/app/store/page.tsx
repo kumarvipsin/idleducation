@@ -66,24 +66,23 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
             description: "You need to be logged in to access this page.",
             action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
         });
-        router.push('/store/auth');
     }
     
     const searchPopoverContent = (
-      <div className="p-2 space-y-2">
-        <p className="text-xs font-medium text-foreground">Search Store</p>
-        <p className="text-[10px] text-muted-foreground">Find books by ID, class, or edition.</p>
-        <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-6 w-full h-8 text-xs"
-            />
+        <div className="p-4 w-screen max-w-full">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search for books by title, ID, class, or edition..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full h-10"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
     );
 
 
@@ -100,7 +99,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-48 p-0">
+                            <PopoverContent className="w-screen max-w-full p-0" sideOffset={14}>
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
@@ -161,8 +160,8 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                     <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
-                                        Create Your IDL Store Account
+                                    <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
+                                       <span>Create Your IDL Store Account</span>
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
