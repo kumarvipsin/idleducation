@@ -413,9 +413,9 @@ export function Header() {
     <>
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-12">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-10 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -449,27 +449,20 @@ export function Header() {
                           )}
                     </nav>
                 </div>
-                 <div className="hidden md:flex items-center gap-2">
-                    <Button variant="outline" className="h-8 px-3 text-xs">
-                      <a href="tel:7011117585" className="flex items-center gap-1">
-                        <Phone className="h-3 w-3" /> CALL NOW
-                      </a>
-                    </Button>
+                 <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
+                      <Button variant="outline" className="h-8 px-3 text-xs">
+                        <a href="tel:7011117585" className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" /> CALL NOW
+                        </a>
+                      </Button>
+                      
+                      {!isIdlFoundationPage && notificationDropdown}
+                    </div>
                     
                     {renderAuthSection()}
-                    {!isIdlFoundationPage && notificationDropdown}
-                </div>
-                 <div className="md:hidden flex items-center gap-2">
-                    {!isIdlFoundationPage && (
-                      <>
-                      <Link href="/store" className='text-foreground' target="_blank" rel="noopener noreferrer">
-                          <ShoppingBag className="h-4 w-4" />
-                          <span className="sr-only">IDL Store</span>
-                      </Link>
-                      {notificationDropdown}
-                      </>
-                    )}
-                    <CollapsibleTrigger asChild>
+
+                    <CollapsibleTrigger asChild className="md:hidden">
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
                         {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                         <span className="sr-only">Toggle navigation menu</span>
