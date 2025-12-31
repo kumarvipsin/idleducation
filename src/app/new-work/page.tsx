@@ -77,7 +77,7 @@ function OpenSchoolPageContent() {
 
         if (openSchoolPrograms.length > 0) {
           const initialProgram = 
-            openSchoolPrograms.find(c => c.name === programParam) || 
+            openSchoolPrograms.find(c => c.name.toLowerCase().replace(/\s+/g, '-') === programParam) || 
             openSchoolPrograms[0];
           setActiveProgram(initialProgram);
         }
@@ -314,5 +314,3 @@ export default function NewWorkPage() {
         </Suspense>
     )
 }
-
-    
