@@ -322,6 +322,8 @@ export default function AdminExamCategoriesPage() {
   
   const schoolExams = categories.filter(c => c.group === 'school').sort((a,b) => (a.order || 99) - (b.order || 99));
   const competitiveExams = categories.filter(c => c.group === 'competitive').sort((a,b) => (a.order || 99) - (b.order || 99));
+  const openSchoolPrograms = categories.filter(c => c.group === 'open-school').sort((a,b) => (a.order || 99) - (b.order || 99));
+
   
   const getTeacherNames = (teacherIds: string[] = []) => {
     if (!Array.isArray(teacherIds) || teacherIds.length === 0) return 'N/A';
@@ -350,7 +352,7 @@ export default function AdminExamCategoriesPage() {
             </DialogTrigger>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 <div>
                     <h3 className="text-lg font-semibold mb-2">School Exams</h3>
                     <ScrollArea className="h-[calc(100vh-350px)]">
@@ -387,6 +389,27 @@ export default function AdminExamCategoriesPage() {
                                     </TableCell>
                                     <TableCell>{cat.name}</TableCell>
                                     <TableCell className="text-xs">{getTeacherNames(cat.teacherIds)}</TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                    <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
+                                    <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                                    </TableCell>
+                                </TableRow>))}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </div>
+                 <div className="lg:col-span-2 xl:col-span-1">
+                    <h3 className="text-lg font-semibold mb-2">Open School Programs</h3>
+                    <ScrollArea className="h-[calc(100vh-350px)]">
+                        <Table>
+                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableBody>
+                                {loading ? [...Array(2)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : openSchoolPrograms.map((cat) => (
+                                <TableRow key={cat.id}>
+                                    <TableCell>
+                                      {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+                                    </TableCell>
+                                    <TableCell>{cat.name}</TableCell>
                                     <TableCell className="text-right space-x-2">
                                     <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
                                     <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
