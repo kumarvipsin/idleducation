@@ -78,7 +78,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         placeholder="Search for books by title, ID, class, or edition..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full h-10"
+                        className="pl-10 w-full h-10 rounded-full"
                     />
                 </div>
             </div>
@@ -99,7 +99,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-screen max-w-full p-0" sideOffset={14}>
+                            <PopoverContent className="w-screen max-w-full p-0 mt-2" sideOffset={14}>
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
@@ -159,7 +159,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                         <span>Login</span>
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
+                                 <DropdownMenuItem asChild>
                                     <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
                                        <span>Create Your IDL Store Account</span>
                                     </Link>
