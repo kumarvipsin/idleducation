@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Phone, Lock, Home } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { signUpStoreUser, loginStoreUser } from "@/app/actions/store-auth";
 import { useStoreAuth, type StoreUserProfile } from "@/context/store-auth-context";
+import { Suspense } from "react";
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -28,10 +29,12 @@ const loginSchema = z.object({
 });
 type LoginValues = z.infer<typeof loginSchema>;
 
-export default function StoreAuthPage() {
+function StoreAuthPageContent() {
   const router = useRouter();
   const { toast } = useToast();
   const { login } = useStoreAuth();
+  const searchParams = useSearchParams();
+  const defaultTab = searchParams.get('view') === 'signup' ? 'signup' : 'login';
 
   const signupForm = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -90,7 +93,7 @@ export default function StoreAuthPage() {
         </Link>
         <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
              <div className="w-full max-w-lg mx-auto animate-fade-in-up">
-                <Tabs defaultValue="login">
+                <Tabs defaultValue={defaultTab}>
                   <TabsList className="grid w-full grid-cols-2 bg-transparent p-0">
                     <TabsTrigger value="login" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=inactive]:bg-background/80 backdrop-blur-sm rounded-t-lg rounded-b-none border-b-0 py-3">
                       <Lock className="mr-2 h-4 w-4" /> Login
@@ -219,4 +222,12 @@ export default function StoreAuthPage() {
         </div>
     </div>
   );
+}
+
+export default function StoreAuthPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <StoreAuthPageContent />
+    </Suspense>
+  )
 }

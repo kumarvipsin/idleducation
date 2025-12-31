@@ -153,7 +153,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                     <Link href="/store/auth" className="text-xs text-muted-foreground justify-center">
+                                     <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
                                         Create Your IDL Store Account
                                     </Link>
                                 </DropdownMenuItem>
