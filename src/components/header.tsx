@@ -414,7 +414,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
@@ -456,35 +456,11 @@ export function Header() {
                         <Phone className="h-3 w-3" /> CALL NOW
                       </a>
                     </Button>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                <MapPin className="h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-80">
-                            <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <h4 className="font-medium leading-none">Our Branches</h4>
-                                    <p className="text-sm text-muted-foreground">
-                                    Find a center near you.
-                                    </p>
-                                </div>
-                                <div className="grid gap-2">
-                                    {branches.map((branch, index) => (
-                                    <div key={index} className="grid grid-cols-[25px_1fr] items-start pb-2 last:pb-0">
-                                        <MapPin className="h-4 w-4" />
-                                        <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            {branch.name}
-                                        </p>
-                                        </div>
-                                    </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </PopoverContent>
-                    </Popover>
+                    <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                            <MapPin className="h-4 w-4" />
+                        </Button>
+                    </a>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
@@ -570,3 +546,5 @@ export function Header() {
     </>
   );
 }
+
+    
