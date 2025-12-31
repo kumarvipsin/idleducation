@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
@@ -452,7 +451,7 @@ export function Header() {
                     </Button>
                     <p className="text-xs font-semibold hidden lg:block">
                       Call now<br/>
-                      <span className="font-bold text-primary">1800-102-2727</span>
+                      <span className="font-bold text-primary">8860040010</span>
                     </p>
                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
                       <MapPin className="h-4 w-4" />
