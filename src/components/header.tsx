@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin, UserPlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -256,29 +256,29 @@ export function Header() {
     }
 
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-            <UserCircle />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-40" align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" />
-              <span>Login</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/signup">
-              <UserPlus className="mr-2 h-4 w-4" />
-              <span>Sign Up</span>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <UserCircle />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>Login</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/signup">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Sign Up</span>
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
   };
   
@@ -411,7 +411,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                <div className="flex-1 flex justify-end items-center gap-1">
+                <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
                     <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
@@ -441,69 +441,79 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-
-                     <div className="hidden md:flex items-center gap-2">
-                        <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                            <a href="tel:+918860040010" aria-label="Call Now">
-                                <Phone className="h-4 w-4" />
-                            </a>
-                        </Button>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                    <MapPin className="h-4 w-4" />
-                                </Button>
-                            </PopoverTrigger>
-                             <PopoverContent className="w-80">
-                                <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <h4 className="font-medium leading-none">Our Branches</h4>
-                                    <p className="text-sm text-muted-foreground">
-                                    Find a center near you.
-                                    </p>
+                </div>
+                 <div className="hidden md:flex items-center gap-2">
+                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                        <a href="tel:+918860040010" aria-label="Call Now">
+                            <Phone className="h-4 w-4" />
+                        </a>
+                    </Button>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                                <MapPin className="h-4 w-4" />
+                            </Button>
+                        </PopoverTrigger>
+                         <PopoverContent className="w-80">
+                            <div className="grid gap-4">
+                            <div className="space-y-2">
+                                <h4 className="font-medium leading-none">Our Branches</h4>
+                                <p className="text-sm text-muted-foreground">
+                                Find a center near you.
+                                </p>
+                            </div>
+                            <div className="grid gap-2">
+                                <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <MapPin className="flex h-2 w-2 translate-y-1" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Mukherjee Nagar-110009
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="grid gap-2">
+                                <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <MapPin className="flex h-2 w-2 translate-y-1" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Mangol Puri Delhi-110086
+                                        </p>
+                                    </div>
+                                </div>
                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                        <div className="grid gap-1">
-                                            <p className="text-sm font-medium leading-none">
-                                            Mukherjee Nagar-110009
-                                            </p>
-                                        </div>
+                                    <MapPin className="flex h-2 w-2 translate-y-1" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Budh Vihar-110086
+                                        </p>
                                     </div>
+                                </div>
                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                        <div className="grid gap-1">
-                                            <p className="text-sm font-medium leading-none">
-                                            Mangol Puri Delhi-110086
-                                            </p>
-                                        </div>
-                                    </div>
-                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                        <div className="grid gap-1">
-                                            <p className="text-sm font-medium leading-none">
-                                            Budh Vihar-110086
-                                            </p>
-                                        </div>
-                                    </div>
-                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                        <div className="grid gap-1">
-                                            <p className="text-sm font-medium leading-none">
-                                            Krishan Vihar-110086
-                                            </p>
-                                        </div>
+                                    <MapPin className="flex h-2 w-2 translate-y-1" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Krishan Vihar-110086
+                                        </p>
                                     </div>
                                 </div>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
+                            </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
+                </div>
+                 <div className="md:hidden flex items-center gap-2">
+                    {!isIdlFoundationPage && (
+                      <>
+                      <Link href="/store" className='text-foreground' target="_blank" rel="noopener noreferrer">
+                          <ShoppingBag className="h-4 w-4" />
+                          <span className="sr-only">IDL Store</span>
+                      </Link>
+                      {notificationDropdown}
+                      </>
+                    )}
                     <CollapsibleTrigger asChild>
-                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8 md:hidden")}>
+                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                         {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                         <span className="sr-only">Toggle navigation menu</span>
                       </Button>
@@ -574,3 +584,4 @@ export function Header() {
     </>
   );
 }
+
