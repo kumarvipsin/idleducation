@@ -1,3 +1,4 @@
+
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -115,7 +116,7 @@ export type SyllabusItem = {
 export interface TExamCategory {
   id: string;
   name: string;
-  group: 'school' | 'competitive' | 'open-school';
+  group: 'school' | 'competitive' | 'open-school' | 'foundation';
   order: number;
   createdAt: string;
   teacherIds?: string[];

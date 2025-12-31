@@ -498,17 +498,17 @@ export async function addExamCategory(formData: FormData) {
 
     const categoryData: any = {
         name: rawData.name as string,
-        group: rawData.group as 'school' | 'competitive',
+        group: rawData.group as 'school' | 'competitive' | 'open-school' | 'foundation',
         order: parseInt(rawData.order as string, 10) || 99,
         videoLessons: videoLessons,
         syllabus: [],
     };
 
-    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+    if (categoryData.group === 'school' || categoryData.group === 'competitive' || categoryData.group === 'foundation') {
         categoryData.teacherIds = teacherIds;
     }
     
-    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+    if (categoryData.group === 'school' || categoryData.group === 'competitive' || categoryData.group === 'foundation') {
         try {
             if (imageFile && imageFile.size > 0) {
                 const destination = `exam-categories/${Date.now()}-${imageFile.name}`;
@@ -559,14 +559,14 @@ export async function editExamCategory(id: string, formData: FormData) {
 
     const categoryData: any = {
         name: rawData.name as string,
-        group: rawData.group as 'school' | 'competitive',
+        group: rawData.group as 'school' | 'competitive' | 'open-school' | 'foundation',
         order: parseInt(rawData.order as string, 10) || 99,
         teacherIds: [],
         videoLessons: videoLessons,
         syllabus: [],
     };
 
-    if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+    if (categoryData.group === 'school' || categoryData.group === 'competitive' || categoryData.group === 'foundation') {
         categoryData.teacherIds = teacherIds;
     }
     
@@ -578,7 +578,7 @@ export async function editExamCategory(id: string, formData: FormData) {
             categoryData.imageUrl = '';
         }
 
-        if (categoryData.group === 'school' || categoryData.group === 'competitive') {
+        if (categoryData.group === 'school' || categoryData.group === 'competitive' || categoryData.group === 'foundation') {
             for (let i = 0; i < syllabus.length; i++) {
                 const item = syllabus[i];
                 const pdfFile = formData.get(`syllabus[${i}][pdf]`) as File | null;

@@ -39,7 +39,7 @@ const ExamCategoryForm = ({
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | 'open-school' | undefined>(category?.group);
+  const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | 'open-school' | 'foundation' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
   const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
   const [syllabus, setSyllabus] = useState<SyllabusItem[]>(category?.syllabus || [{ sno: '1', name: '', pdfUrl: '' }]);
@@ -168,7 +168,7 @@ const ExamCategoryForm = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="group" className="text-right">Group</Label>
-            <Select name="group" value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive' | 'open-school')}>
+            <Select name="group" value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive' | 'open-school' | 'foundation')}>
                 <SelectTrigger className="col-span-3">
                     <SelectValue placeholder="Select a group" />
                 </SelectTrigger>
@@ -176,10 +176,11 @@ const ExamCategoryForm = ({
                     <SelectItem value="school">School Exams</SelectItem>
                     <SelectItem value="competitive">Competitive Exams</SelectItem>
                     <SelectItem value="open-school">Open School Programs</SelectItem>
+                    <SelectItem value="foundation">NEET/JEE &amp; Foundations</SelectItem>
                 </SelectContent>
             </Select>
           </div>
-          {(selectedGroup === 'school' || selectedGroup === 'competitive') && (
+          {(selectedGroup === 'school' || selectedGroup === 'competitive' || selectedGroup === 'foundation') && (
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="teachers" className="text-right">Teachers</Label>
               <DropdownMenu>
@@ -221,7 +222,7 @@ const ExamCategoryForm = ({
                   <Button type="button" variant="outline" size="sm" onClick={addVideoLesson}><PlusCircle className="w-4 h-4 mr-2" /> Add Video Lesson</Button>
               </div>
           </div>
-           {(selectedGroup === 'school' || selectedGroup === 'competitive') && (
+           {(selectedGroup === 'school' || selectedGroup === 'competitive' || selectedGroup === 'foundation') && (
              <div className="grid grid-cols-4 items-start gap-4">
                 <Label className="text-right pt-2">Syllabus</Label>
                 <div className="col-span-3 space-y-4">
@@ -323,6 +324,7 @@ export default function AdminExamCategoriesPage() {
   const schoolExams = categories.filter(c => c.group === 'school').sort((a,b) => (a.order || 99) - (b.order || 99));
   const competitiveExams = categories.filter(c => c.group === 'competitive').sort((a,b) => (a.order || 99) - (b.order || 99));
   const openSchoolPrograms = categories.filter(c => c.group === 'open-school').sort((a,b) => (a.order || 99) - (b.order || 99));
+  const foundationPrograms = categories.filter(c => c.group === 'foundation').sort((a,b) => (a.order || 99) - (b.order || 99));
 
   
   const getTeacherNames = (teacherIds: string[] = []) => {
@@ -405,6 +407,27 @@ export default function AdminExamCategoriesPage() {
                             <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
                             <TableBody>
                                 {loading ? [...Array(2)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : openSchoolPrograms.map((cat) => (
+                                <TableRow key={cat.id}>
+                                    <TableCell>
+                                      {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
+                                    </TableCell>
+                                    <TableCell>{cat.name}</TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                    <Button variant="outline" size="icon" onClick={() => { setEditingCategory(cat); setIsDialogOpen(true); }}><Edit className="h-4 w-4" /></Button>
+                                    <AlertDialogTrigger asChild><Button variant="destructive" size="icon" onClick={() => setDeletingCategory(cat)}><Trash2 className="h-4 w-4" /></Button></AlertDialogTrigger>
+                                    </TableCell>
+                                </TableRow>))}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </div>
+                <div className="lg:col-span-2 xl:col-span-1">
+                    <h3 className="text-lg font-semibold mb-2">NEET/JEE &amp; Foundations</h3>
+                     <ScrollArea className="h-[calc(100vh-350px)]">
+                        <Table>
+                            <TableHeader><TableRow><TableHead>Image</TableHead><TableHead>Name</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader>
+                            <TableBody>
+                                {loading ? [...Array(2)].map((_, i) => (<TableRow key={i}><TableCell><Skeleton className="h-10 w-10 rounded-md" /></TableCell><TableCell><Skeleton className="h-4 w-32" /></TableCell><TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell></TableRow>)) : foundationPrograms.map((cat) => (
                                 <TableRow key={cat.id}>
                                     <TableCell>
                                       {cat.imageUrl ? <GcsImage filePath={cat.imageUrl} alt={cat.name} width={40} height={40} className="rounded-md object-cover" /> : <div className="w-10 h-10 bg-muted rounded-md flex items-center justify-center"><ImageIcon className="w-4 h-4 text-muted-foreground"/></div>}
