@@ -152,12 +152,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                         <span>Sign In</span>
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/auth">
-                                        <UserPlus className="mr-2 h-4 w-4" />
-                                        <span>Sign Up</span>
-                                    </Link>
-                                </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         )}
