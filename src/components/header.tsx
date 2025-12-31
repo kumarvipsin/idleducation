@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin, UserPlus } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -80,7 +80,6 @@ export function Header() {
   const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
-  const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
@@ -204,6 +203,14 @@ export function Header() {
         setActiveMenu(null);
     }, 200);
   };
+  
+  const branches = [
+    { name: "Mukherjee Nagar", address: "Delhi-110009" },
+    { name: "Mangol Puri", address: "Delhi-110083" },
+    { name: "Budh Vihar", address: "Delhi-110086" },
+    { name: "Krishan Vihar", address: "Delhi-110086" },
+    { name: "Burari", address: "Delhi-110084" },
+  ];
 
   const renderAuthSection = () => {
     if (loading) {
@@ -408,7 +415,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className="h-14 w-auto" />
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
@@ -416,7 +423,7 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
                                     MENU
                                 </Button>
                               </div>
@@ -445,11 +452,16 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="hidden md:flex items-center gap-2">
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                        <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer" aria-label="Our Location">
-                            <MapPin className="h-4 w-4" />
-                        </a>
+                    <Button variant="outline" className="h-8 px-3 text-xs">
+                      <a href="tel:8860040010" className="flex items-center gap-1">
+                        <Phone className="h-3 w-3" /> CALL NOW
+                      </a>
                     </Button>
+                    <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer" aria-label="Our Location">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                          <MapPin className="h-4 w-4" />
+                      </Button>
+                    </a>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
