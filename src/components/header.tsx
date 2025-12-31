@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin, UserPlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -205,11 +205,10 @@ export function Header() {
   };
   
   const branches = [
-    { name: "Mukherjee Nagar", address: "Delhi-110009" },
-    { name: "Mangol Puri", address: "Delhi-110083" },
-    { name: "Budh Vihar", address: "Delhi-110086" },
-    { name: "Krishan Vihar", address: "Delhi-110086" },
-    { name: "Burari", address: "Delhi-110084" },
+    { name: "Mukherjee Nagar-110009" },
+    { name: "Mangol Puri Delhi-110086" },
+    { name: "Budh Vihar-110086" },
+    { name: "Krishan Vihar-110086" },
   ];
 
   const renderAuthSection = () => {
@@ -415,7 +414,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className="h-14 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
@@ -457,11 +456,35 @@ export function Header() {
                         <Phone className="h-3 w-3" /> CALL NOW
                       </a>
                     </Button>
-                    <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer" aria-label="Our Location">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                          <MapPin className="h-4 w-4" />
-                      </Button>
-                    </a>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                                <MapPin className="h-4 w-4" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                            <div className="grid gap-4">
+                                <div className="space-y-2">
+                                    <h4 className="font-medium leading-none">Our Branches</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                    Find a center near you.
+                                    </p>
+                                </div>
+                                <div className="grid gap-2">
+                                    {branches.map((branch, index) => (
+                                    <div key={index} className="grid grid-cols-[25px_1fr] items-start pb-2 last:pb-0">
+                                        <MapPin className="h-4 w-4" />
+                                        <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                            {branch.name}
+                                        </p>
+                                        </div>
+                                    </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
