@@ -15,7 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 export default function PreviousYearQuestionsPage() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedClass, setSelectedClass] = useState<string>('');
+    const [selectedClass, setSelectedClass] = useState<string>('All PYQ');
     const [selectedSubject, setSelectedSubject] = useState<string>('All');
     const { toast } = useToast();
 
@@ -26,13 +26,6 @@ export default function PreviousYearQuestionsPage() {
             if (result.success && result.data) {
                 const fetchedQuestions = result.data as TPreviousYearQuestion[];
                 setQuestions(fetchedQuestions);
-                if (fetchedQuestions.length > 0) {
-                    const classes = Array.from(new Set(fetchedQuestions.map(q => q.exam))).sort();
-                    if (classes.length > 0) {
-                        const defaultClass = classes.find(c => c.includes('10')) || classes[0];
-                        setSelectedClass(defaultClass);
-                    }
-                }
             }
             setLoading(false);
         };
@@ -41,13 +34,12 @@ export default function PreviousYearQuestionsPage() {
 
     const classes = useMemo(() => {
         if (questions.length === 0) return [];
-        return Array.from(new Set(questions.map(q => q.exam))).sort();
+        return ['All PYQ', ...Array.from(new Set(questions.map(q => q.exam))).sort()];
     }, [questions]);
 
     const subjects = useMemo(() => {
-        if (!selectedClass) return [];
         const subjectsForClass = questions
-            .filter(q => q.exam === selectedClass)
+            .filter(q => selectedClass === 'All PYQ' || q.exam === selectedClass)
             .flatMap(q => Array.isArray(q.subjects) ? q.subjects.map(s => s.name) : []);
         return ['All', ...Array.from(new Set(subjectsForClass))].sort();
     }, [questions, selectedClass]);
@@ -58,7 +50,7 @@ export default function PreviousYearQuestionsPage() {
 
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => 
-            q.exam === selectedClass &&
+            (selectedClass === 'All PYQ' || q.exam === selectedClass) &&
             (selectedSubject === 'All' || (Array.isArray(q.subjects) && q.subjects.some(s => s.name === selectedSubject)))
         );
     }, [questions, selectedClass, selectedSubject]);
