@@ -256,29 +256,29 @@ export function Header() {
     }
 
     return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 rounded-full">
-              <UserCircle />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-40" align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/login">
-                <LogIn className="mr-2 h-4 w-4" />
-                <span>Login</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/signup">
-                <UserPlus className="mr-2 h-4 w-4" />
-                <span>Sign Up</span>
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+            <UserCircle />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-40" align="end">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/login">
+              <LogIn className="mr-2 h-4 w-4" />
+              <span>Login</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/signup">
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Sign Up</span>
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   };
   
@@ -423,18 +423,18 @@ export function Header() {
                         <>
                           <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
                             <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                Menu
+                                MENU
                             </Button>
                           </div>
                           <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                             <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              Apply For
+                              APPLY FOR
                             </Button>
                           </div>
                            <div className="h-full flex items-center">
                             <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                               <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                IDL Store
+                                IDL STORE
                               </Link>
                             </Button>
                           </div>
@@ -448,20 +448,68 @@ export function Header() {
                       )}
                   </nav>
                  <div className="ml-auto flex items-center gap-1">
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                        <a href="tel:+918860040010" aria-label="Call Now">
-                            <Phone className="h-4 w-4" />
-                        </a>
-                    </Button>
-                    <p className="text-xs font-semibold hidden lg:block">
-                      Call now<br/>
-                      <span className="font-bold text-primary">8860040010</span>
-                    </p>
-                    <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                        <Link href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer" aria-label="Our Location">
-                            <MapPin className="h-4 w-4" />
-                        </Link>
-                    </Button>
+                     <div className="hidden md:flex items-center gap-2">
+                        <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                            <a href="tel:+918860040010" aria-label="Call Now">
+                                <Phone className="h-4 w-4" />
+                            </a>
+                        </Button>
+                        <div className="text-xs font-semibold">
+                          <p>Call now</p>
+                          <p className="font-bold text-primary">8860040010</p>
+                        </div>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                                    <MapPin className="h-4 w-4" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-80">
+                                <div className="grid gap-4">
+                                <div className="space-y-2">
+                                    <h4 className="font-medium leading-none">Our Branches</h4>
+                                    <p className="text-sm text-muted-foreground">
+                                    Find a center near you.
+                                    </p>
+                                </div>
+                                <div className="grid gap-2">
+                                    <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Mukherjee Nagar-110009
+                                        </p>
+                                    </div>
+                                    </div>
+                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Mangol Puri Delhi-110086
+                                        </p>
+                                    </div>
+                                    </div>
+                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Budh Vihar-110086
+                                        </p>
+                                    </div>
+                                    </div>
+                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                    <div className="grid gap-1">
+                                        <p className="text-sm font-medium leading-none">
+                                        Krishan Vihar-110086
+                                        </p>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                     <CollapsibleTrigger asChild>
