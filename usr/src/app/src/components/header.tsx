@@ -1,13 +1,14 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { getUpdates, registerForScholarship } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
@@ -203,19 +204,26 @@ export function Header() {
         setActiveMenu(null);
     }, 200);
   };
+  
+  const branches = [
+    { name: "Mukherjee Nagar, Delhi-110009", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
+    { name: "Mangol Puri, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
+    { name: "Budh Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
+    { name: "Krishan Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
+  ];
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-7 w-7 rounded-full" />;
+      return <Skeleton className="h-8 w-8 rounded-full" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-7 w-7 rounded-full">
-              <Avatar className="h-7 w-7">
-                 <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
+                 <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
                 </AvatarFallback>
@@ -247,7 +255,7 @@ export function Header() {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <span>Logout</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -255,11 +263,29 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-           <Link href="/login">
-              <span className="sm:inline">{t('login')}</span>
-           </Link>
-         </Button>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <UserCircle />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>Login</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/signup">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Sign Up</span>
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
   };
   
@@ -300,7 +326,7 @@ export function Header() {
         <div className="p-2 border-t">
           <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
             <Avatar className="h-10 w-10 border-2 border-primary">
-              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+              <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
               <AvatarFallback>
                 {user.name ? user.name.charAt(0).toUpperCase() : <User />}
               </AvatarFallback>
@@ -333,17 +359,27 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t grid grid-cols-2 gap-2">
+            <Button asChild className="w-full">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                <Bell className="h-3 w-3" />
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+                <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
-                    <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                        {updates.length}
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                     </span>
                 )}
             </Button>
@@ -377,71 +413,65 @@ export function Header() {
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    "bg-background/95 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   return (
     <>
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
-                <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={36} height={36} className="h-9 w-auto" />
-                  <div className="ml-1.5 flex flex-col leading-tight">
-                      <span className={cn("text-sm font-bold", isIdlFoundationPage ? "text-primary" : "text-primary")}>
-                          {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
-                      </span>
-                      {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1">
-                        (Institute of Distance Learning Pvt. Ltd.)
-                      </span>}
-                  </div>
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
+                <Link href={logoHref} className="flex items-center justify-center -ml-2">
+                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
-                <nav className="items-center hidden md:flex gap-x-1.5 md:gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
-                      {!isIdlFoundationPage ? (
-                        <>
-                          <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                Menu
-                            </Button>
-                          </div>
-                          <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                          <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              APPLY FOR
-                            </Button>
-                          </div>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                      <Link href="/store" target="_blank" rel="noopener noreferrer">
-                        IDL Store
-                      </Link>
-                    </Button>
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {renderAuthSection()}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {notificationDropdown}
-                        </>
-                      ) : (
-                        <div className="flex items-center gap-x-4 text-xs font-semibold">
-                          <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                          <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                          <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                        </div>
-                      )}
-                  </nav>
-                 <div className="ml-auto md:hidden flex items-center gap-2">
-                    {!isIdlFoundationPage && (
-                      <>
-                      <Link href="/store" className='text-foreground' target="_blank" rel="noopener noreferrer">
-                          <ShoppingBag className="h-4 w-4" />
-                          <span className="sr-only">IDL Store</span>
-                      </Link>
-                      {notificationDropdown}
-                      </>
-                    )}
-                    <CollapsibleTrigger asChild>
+                
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                          {!isIdlFoundationPage ? (
+                            <>
+                              <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
+                                <Button variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    MENU
+                                </Button>
+                              </div>
+                              <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                                <Button variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                  APPLY FOR
+                                </Button>
+                              </div>
+                               <div className="h-full flex items-center">
+                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer">
+                                    IDL STORE
+                                  </Link>
+                                </Button>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="flex items-center gap-x-4 text-xs font-semibold">
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            </div>
+                          )}
+                    </nav>
+                </div>
+                 <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
+                      <Button variant="outline" className="h-8 px-3 text-xs">
+                        <a href="tel:7011117585" className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" /> CALL NOW
+                        </a>
+                      </Button>
+                      
+                    </div>
+                    
+                    {isClient && renderAuthSection()}
+                    {!isIdlFoundationPage && notificationDropdown}
+
+                    <CollapsibleTrigger asChild className="md:hidden">
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
                         {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                         <span className="sr-only">Toggle navigation menu</span>
