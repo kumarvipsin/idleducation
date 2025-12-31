@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -85,8 +85,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
                         {storeUser ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -119,12 +117,40 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             </DropdownMenuContent>
                         </DropdownMenu>
                         ) : (
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store/auth">LOGIN</Link>
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                                    <User className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-48" align="end">
+                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/cart">
+                                        <ShoppingCart className="mr-2 h-4 w-4" />
+                                        <span>My Cart</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/orders">
+                                        <ShoppingBag className="mr-2 h-4 w-4" />
+                                        <span>My Orders</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/auth">
+                                        <LogIn className="mr-2 h-4 w-4" />
+                                        <span>Sign In / Sign Up</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         )}
                     </div>
                      <div className="flex items-center md:hidden gap-2">
+                        
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
@@ -136,6 +162,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                     </div>
                     <div className="hidden md:flex items-center gap-2">
                         <Separator orientation="vertical" className="h-3 bg-foreground/20" />
+                         
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
