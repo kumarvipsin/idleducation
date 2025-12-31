@@ -53,7 +53,7 @@ function NcertSolutionsPageContent() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('All Ncert');
+  const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -80,6 +80,10 @@ function NcertSolutionsPageContent() {
 
         setSolutionsByClass(formattedData);
         setClasses(sortedClasses);
+        if (sortedClasses.length > 0) {
+            const defaultClass = sortedClasses.find(c => c.includes('6')) || sortedClasses[0];
+            setSelectedClass(defaultClass);
+        }
       }
       setLoading(false);
     };
@@ -121,7 +125,7 @@ function NcertSolutionsPageContent() {
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
              {loading ? (
-                 [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                 [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
                 allClassButtons.map((className: string) => (
                 <button
