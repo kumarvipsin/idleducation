@@ -408,7 +408,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
@@ -420,11 +420,13 @@ export function Header() {
                                     MENU
                                 </Button>
                               </div>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                                 <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                   APPLY FOR
                                 </Button>
                               </div>
+                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                                <div className="h-full flex items-center">
                                 <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
@@ -435,7 +437,7 @@ export function Header() {
                             </>
                           ) : (
                             <div className="flex items-center gap-x-4 text-xs font-semibold">
-                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 7011117585</a>
+                              <a href="tel:8860040010" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 8860040010</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-4 w-4" /> info@idlfoundation.in</a>
                             </div>
@@ -444,61 +446,10 @@ export function Header() {
                 </div>
                  <div className="hidden md:flex items-center gap-2">
                     <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                        <a href="tel:+918860040010" aria-label="Call Now">
-                            <Phone className="h-4 w-4" />
+                        <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer" aria-label="Our Location">
+                            <MapPin className="h-4 w-4" />
                         </a>
                     </Button>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                <MapPin className="h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                         <PopoverContent className="w-80">
-                            <div className="grid gap-4">
-                            <div className="space-y-2">
-                                <h4 className="font-medium leading-none">Our Branches</h4>
-                                <p className="text-sm text-muted-foreground">
-                                Find a center near you.
-                                </p>
-                            </div>
-                            <div className="grid gap-2">
-                                <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <MapPin className="flex h-2 w-2 translate-y-1" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Mukherjee Nagar-110009
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <MapPin className="flex h-2 w-2 translate-y-1" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Mangol Puri Delhi-110086
-                                        </p>
-                                    </div>
-                                </div>
-                                    <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <MapPin className="flex h-2 w-2 translate-y-1" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Budh Vihar-110086
-                                        </p>
-                                    </div>
-                                </div>
-                                    <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <MapPin className="flex h-2 w-2 translate-y-1" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Krishan Vihar-110086
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </PopoverContent>
-                    </Popover>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
@@ -584,4 +535,3 @@ export function Header() {
     </>
   );
 }
-
