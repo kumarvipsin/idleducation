@@ -80,6 +80,7 @@ export function Header() {
   const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
+  const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
@@ -401,7 +402,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-10",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -412,13 +413,13 @@ export function Header() {
     <>
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-10">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-12">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                <div className="flex flex-1 justify-start items-center gap-1 ml-4">
-                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-1.5 md:gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -426,13 +427,11 @@ export function Header() {
                                     MENU
                                 </Button>
                               </div>
-                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                                 <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                   APPLY FOR
                                 </Button>
                               </div>
-                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                                <div className="h-full flex items-center">
                                 <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
@@ -443,7 +442,7 @@ export function Header() {
                             </>
                           ) : (
                             <div className="flex items-center gap-x-4 text-xs font-semibold">
-                              <a href="tel:8860040010" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 8860040010</a>
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 7011117585</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-4 w-4" /> info@idlfoundation.in</a>
                             </div>
@@ -452,7 +451,7 @@ export function Header() {
                 </div>
                  <div className="hidden md:flex items-center gap-2">
                     <Button variant="outline" className="h-8 px-3 text-xs">
-                      <a href="tel:8860040010" className="flex items-center gap-1">
+                      <a href="tel:7011117585" className="flex items-center gap-1">
                         <Phone className="h-3 w-3" /> CALL NOW
                       </a>
                     </Button>
@@ -528,7 +527,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-10 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
