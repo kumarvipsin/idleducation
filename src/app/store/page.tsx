@@ -134,7 +134,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     <UserCircle />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-48" align="end">
+                            <DropdownMenuContent className="w-56" align="end">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
@@ -150,6 +150,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     <Link href="/store/auth">
                                         <LogIn className="mr-2 h-4 w-4" />
                                         <span>Sign In</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                     <Link href="/store/auth" className="text-xs text-muted-foreground justify-center">
+                                        Create Your IDL Store Account
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
