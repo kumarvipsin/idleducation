@@ -25,7 +25,7 @@ const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
-export function CategoryContent({ data, slug, subCategories, competitiveExams }: { data: any, slug: string, subCategories: string[], competitiveExams: TExamCategory[] }) {
+export function CategoryContent({ data, slug, subCategories, competitiveExams, foundationExams }: { data: any, slug: string, subCategories: string[], competitiveExams: TExamCategory[], foundationExams: TExamCategory[] }) {
   const { t } = useLanguage();
   const [activeSubCategory, setActiveSubCategory] = useState(subCategories && subCategories.length > 0 ? subCategories[0] : '');
   const [animationKey, setAnimationKey] = useState(0);
@@ -85,8 +85,12 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
     }
   ];
 
-  const competitiveExamSlugs = (competitiveExams || []).map(e => e.href.split('/').pop());
+  const competitiveExamSlugs = (competitiveExams || []).map(e => e.href.split('/').pop()?.split('?')[0]);
   const isCompetitiveExamPage = competitiveExamSlugs.includes(slug);
+
+  const foundationExamSlugs = (foundationExams || []).map(e => e.href.split('/').pop()?.split('?')[0]);
+  const isFoundationExamPage = foundationExamSlugs.includes(slug) || slug === 'iit-jee' || slug === 'neet';
+
 
   return (
     <div>
@@ -112,7 +116,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {(competitiveExams || []).map((exam) => {
-                  const currentSlug = exam.href.split('/').pop();
+                  const currentSlug = exam.href.split('/').pop()?.split('?')[0];
                   return (
                     <Link href={exam.href} key={exam.name}>
                       <button
@@ -129,6 +133,30 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams }:
               </div>
             </div>
           </div>
+        )}
+
+        {isFoundationExamPage && (
+            <div className="mb-8">
+                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                    {(foundationExams || []).map((exam) => {
+                    const currentSlug = exam.href.split('/').pop()?.split('?')[0];
+                    return (
+                        <Link href={exam.href} key={exam.name}>
+                        <button
+                            className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                            ${slug === currentSlug
+                                ? 'border-primary text-primary bg-primary/10 rounded-md'
+                                : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                        >
+                            {exam.name}
+                        </button>
+                        </Link>
+                    )
+                    })}
+                </div>
+                </div>
+            </div>
         )}
         
         <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>

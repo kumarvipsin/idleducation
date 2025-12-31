@@ -52,7 +52,9 @@ export default async function CategoryPage({ params }: { params: { slug: string 
 
   const categoriesResult = await getExamCategories();
   const allCategories = categoriesResult.success ? (categoriesResult.data as TExamCategory[]) : [];
+  
   const competitiveExams = allCategories.filter(c => c.group === 'competitive');
+  const foundationExams = allCategories.filter(c => c.group === 'foundation');
 
-  return <CategoryContent data={data} slug={slug} subCategories={subs} competitiveExams={competitiveExams} />;
+  return <CategoryContent data={data} slug={slug} subCategories={subs} competitiveExams={competitiveExams} foundationExams={foundationExams} />;
 }
