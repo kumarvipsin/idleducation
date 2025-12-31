@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -206,15 +206,15 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-7 w-7 rounded-full" />;
+      return <Skeleton className="h-8 w-8 rounded-full" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-7 w-7 rounded-full">
-              <Avatar className="h-7 w-7">
+             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
                  <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
@@ -255,9 +255,9 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+        <Button asChild variant="ghost" className="h-8 w-8 rounded-full">
            <Link href="/login">
-              <span className="sm:inline">{t('login')}</span>
+              <UserCircle />
            </Link>
          </Button>
     );
@@ -334,41 +334,28 @@ export function Header() {
       );
     }
     return (
-        <div className="p-2 border-t">
-            <Collapsible>
-              <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                <span className="flex items-center gap-3">Apply For</span>
-                <ChevronDown className="h-4 w-4" />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="pl-4">
-                {applyForLinks.map(({ href, label, icon }) => (
-                  <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                    {icon}
-                    {label}
-                  </Link>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-             <Link
-              href="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-            >
-              <LogIn className="h-4 w-4" />
-              {t('login')}
-            </Link>
-        </div>
+      <div className="p-2 border-t">
+        <Link
+          href="/login"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+        >
+          <LogIn className="h-4 w-4" />
+          {t('login')}
+        </Link>
+      </div>
     );
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="link" className="relative h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                <Bell className="h-3 w-3" />
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+                <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
-                    <span className="absolute -top-1 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                        {updates.length}
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                     </span>
                 )}
             </Button>
@@ -400,22 +387,22 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
+    "bg-background/95 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800";
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   return (
     <>
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-[10%] flex justify-between items-center h-12">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={36} height={36} className="h-9 w-auto" />
-                  <div className="ml-1.5 flex flex-col leading-tight">
-                      <span className={cn("text-sm font-black", isIdlFoundationPage ? "text-primary" : "text-primary")}>
+                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+                  <div className="ml-2 flex flex-col leading-tight">
+                      <span className={cn("text-lg font-black", isIdlFoundationPage ? "text-primary" : "text-primary")}>
                           {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
                       </span>
                       {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
@@ -423,51 +410,64 @@ export function Header() {
                       </span>}
                   </div>
                 </Link>
-                <nav className="items-center hidden md:flex gap-x-1.5 md:gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
+                <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                       {!isIdlFoundationPage ? (
                         <>
                           <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                Menu
+                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                Centers
                             </Button>
                           </div>
-                          <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                          <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                            <Button variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              APPLY FOR
+                          <div onMouseEnter={() => handleMouseEnter('courses')} className="h-full flex items-center">
+                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex items-center">
+                              Courses <ChevronDown className="w-4 h-4 ml-1" />
                             </Button>
                           </div>
-                     <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                      <Link href="/store" target="_blank" rel="noopener noreferrer">
-                        IDL Store
-                      </Link>
-                    </Button>
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {renderAuthSection()}
-                    <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                    {notificationDropdown}
+                           <div onMouseEnter={() => handleMouseEnter('results')} className="relative h-full flex items-center">
+                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                              Results
+                            </Button>
+                             <Badge variant="secondary" className="absolute -top-1 -right-4 text-[8px] p-0.5 px-1 bg-green-100 text-green-800 border-green-200">New</Badge>
+                          </div>
+                           <div onMouseEnter={() => handleMouseEnter('scholarship')} className="relative h-full flex items-center">
+                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                              Scholarship
+                            </Button>
+                             <Badge variant="secondary" className="absolute -top-1 -right-4 text-[8px] p-0.5 px-1 bg-green-100 text-green-800 border-green-200">New</Badge>
+                          </div>
+                          <div onMouseEnter={() => handleMouseEnter('students')} className="h-full flex items-center">
+                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex items-center">
+                              Students Hub <ChevronDown className="w-4 h-4 ml-1" />
+                            </Button>
+                          </div>
+                          <div onMouseEnter={() => handleMouseEnter('blog')} className="h-full flex items-center">
+                            <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                              <Link href="/blog">Blog</Link>
+                            </Button>
+                          </div>
                         </>
                       ) : (
-                        <div className="flex items-center gap-x-4 text-xs font-semibold">
-                          <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                          <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                          <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                        <div className="flex items-center gap-x-4 text-sm font-semibold">
+                          <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 7011117585</a>
+                          <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                          <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-4 w-4" /> info@idlfoundation.in</a>
                         </div>
                       )}
                   </nav>
-                 <div className="ml-auto md:hidden flex items-center gap-2">
-                    {!isIdlFoundationPage && (
-                      <>
-                      <Link href="/store" className='text-foreground' target="_blank" rel="noopener noreferrer">
-                          <ShoppingBag className="h-4 w-4" />
-                          <span className="sr-only">IDL Store</span>
-                      </Link>
-                      {notificationDropdown}
-                      </>
-                    )}
+                 <div className="ml-auto flex items-center gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                      <Phone className="h-4 w-4" />
+                    </Button>
+                    <p className="text-xs font-semibold hidden lg:block">
+                      Call now<br/>
+                      <span className="font-bold text-primary">1800-102-2727</span>
+                    </p>
+                     <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                      <MapPin className="h-4 w-4" />
+                    </Button>
+                    {renderAuthSection()}
                     <CollapsibleTrigger asChild>
-                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
+                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8 md:hidden")}>
                         {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                         <span className="sr-only">Toggle navigation menu</span>
                       </Button>
@@ -485,7 +485,7 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3">Menu</span>
+                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
                                     <ChevronDown className="h-4 w-4" />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
@@ -499,7 +499,7 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3">Apply For</span>
+                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
                                     <ChevronDown className="h-4 w-4" />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
@@ -520,21 +520,6 @@ export function Header() {
             </CollapsibleContent>
         </header>
       </Collapsible>
-       <div 
-        onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
-        onMouseLeave={handleMouseLeave} 
-        className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
-          activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
-        )}
-      >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
-          <div className="py-2">
-            {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
-          </div>
-        </div>
-      </div>
     </>
   );
 }
