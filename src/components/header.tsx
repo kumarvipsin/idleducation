@@ -360,7 +360,10 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t grid grid-cols-2 gap-2">
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -424,12 +427,12 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button variant="outline" data-active={activeMenu === 'menu'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
                                     MENU
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button variant="outline" data-active={activeMenu === 'apply'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
                                   APPLY FOR
                                 </Button>
                               </div>
@@ -460,10 +463,10 @@ export function Header() {
                       
                     </div>
                     
-                     <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1">
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
-                     </div>
+                    </div>
 
                     <CollapsibleTrigger asChild className="md:hidden">
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
