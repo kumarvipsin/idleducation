@@ -359,7 +359,16 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t grid grid-cols-2 gap-2">
+            <Button asChild className="w-full">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -415,11 +424,11 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-10 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1.5 md:gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -456,11 +465,12 @@ export function Header() {
                           <Phone className="h-3 w-3" /> CALL NOW
                         </a>
                       </Button>
-                      
-                      {!isIdlFoundationPage && notificationDropdown}
                     </div>
                     
-                    {renderAuthSection()}
+                    <div className="flex items-center gap-1">
+                        {isClient && renderAuthSection()}
+                        {!isIdlFoundationPage && notificationDropdown}
+                    </div>
 
                     <CollapsibleTrigger asChild className="md:hidden">
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
