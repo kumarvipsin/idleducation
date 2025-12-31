@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin, UserPlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -222,7 +222,7 @@ export function Header() {
           <DropdownMenuTrigger asChild>
              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
-                 <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+                 <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
                 </AvatarFallback>
@@ -325,7 +325,7 @@ export function Header() {
         <div className="p-2 border-t">
           <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
             <Avatar className="h-10 w-10 border-2 border-primary">
-              <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
+              <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
               <AvatarFallback>
                 {user.name ? user.name.charAt(0).toUpperCase() : <User />}
               </AvatarFallback>
@@ -401,7 +401,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-14",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -412,13 +412,13 @@ export function Header() {
     <>
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-14">
+            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-12">
                 <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={28} height={28} className="h-7 w-auto" />
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
-                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center hidden md:flex gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -456,39 +456,11 @@ export function Header() {
                         <Phone className="h-3 w-3" /> CALL NOW
                       </a>
                     </Button>
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                <MapPin className="h-4 w-4" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-80">
-                            <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <h4 className="font-medium leading-none">Our Branches</h4>
-                                    <p className="text-sm text-muted-foreground">
-                                    Find a center near you.
-                                    </p>
-                                </div>
-                                <div className="grid gap-2">
-                                    {branches.map(branch => (
-                                         <a
-                                            key={branch.name}
-                                            href={branch.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="group grid grid-cols-[auto_1fr] items-start gap-2 rounded-md p-2 hover:bg-muted"
-                                        >
-                                            <MapPin className="h-4 w-4 mt-1 text-primary" />
-                                            <div className="grid gap-1">
-                                                <p className="text-sm font-medium leading-none group-hover:underline">{branch.name}</p>
-                                            </div>
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-                        </PopoverContent>
-                    </Popover>
+                    <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                            <MapPin className="h-4 w-4" />
+                        </Button>
+                    </a>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
@@ -560,7 +532,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
