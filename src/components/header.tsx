@@ -409,14 +409,6 @@ export function Header() {
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-16">
                 <Link href={logoHref} className="flex items-center justify-center">
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
-                  <div className="ml-2 flex flex-col leading-tight">
-                      <span className={cn("text-lg font-black", isIdlFoundationPage ? "text-primary" : "text-primary")}>
-                          {isIdlFoundationPage ? "IDL FOUNDATION" : brandName}
-                      </span>
-                      {!isIdlFoundationPage && <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
-                        (Institute of Distance Learning Pvt. Ltd.)
-                      </span>}
-                  </div>
                 </Link>
                 <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                       {!isIdlFoundationPage ? (
@@ -460,11 +452,11 @@ export function Header() {
                         </div>
                         <Popover>
                             <PopoverTrigger asChild>
-                                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
                                     <MapPin className="h-4 w-4" />
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-80">
+                             <PopoverContent className="w-80">
                                 <div className="grid gap-4">
                                 <div className="space-y-2">
                                     <h4 className="font-medium leading-none">Our Branches</h4>
@@ -474,36 +466,36 @@ export function Header() {
                                 </div>
                                 <div className="grid gap-2">
                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Mukherjee Nagar-110009
-                                        </p>
+                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium leading-none">
+                                            Mukherjee Nagar-110009
+                                            </p>
+                                        </div>
                                     </div>
-                                    </div>
-                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Mangol Puri Delhi-110086
-                                        </p>
-                                    </div>
-                                    </div>
-                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Budh Vihar-110086
-                                        </p>
-                                    </div>
+                                    <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium leading-none">
+                                            Mangol Puri Delhi-110086
+                                            </p>
+                                        </div>
                                     </div>
                                      <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                                    <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                        Krishan Vihar-110086
-                                        </p>
+                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium leading-none">
+                                            Budh Vihar-110086
+                                            </p>
+                                        </div>
                                     </div>
+                                     <div className="grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+                                        <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium leading-none">
+                                            Krishan Vihar-110086
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>
