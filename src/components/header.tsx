@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
@@ -7,6 +8,7 @@ import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { getUpdates, registerForScholarship } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
@@ -54,8 +56,8 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 
 const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <h3 className="text-sm font-semibold text-muted-foreground mb-2">{title}</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+        <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
                     <div className="bg-primary/10 text-primary p-2 rounded-md">
@@ -254,29 +256,29 @@ export function Header() {
     }
 
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 rounded-full">
-            <UserCircle />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-40" align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" />
-              <span>Login</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/signup">
-              <UserPlus className="mr-2 h-4 w-4" />
-              <span>Sign Up</span>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 rounded-full">
+              <UserCircle />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-40" align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/login">
+                <LogIn className="mr-2 h-4 w-4" />
+                <span>Login</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/signup">
+                <UserPlus className="mr-2 h-4 w-4" />
+                <span>Sign Up</span>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
     );
   };
   
@@ -453,9 +455,29 @@ export function Header() {
                       Call now<br/>
                       <span className="font-bold text-primary">8860040010</span>
                     </p>
-                     <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                      <MapPin className="h-4 w-4" />
-                    </Button>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                          <MapPin className="h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80">
+                        <div className="grid gap-4">
+                          <div className="space-y-2">
+                            <h4 className="font-medium leading-none">Our Branches</h4>
+                            <p className="text-sm text-muted-foreground">
+                              Find a center near you.
+                            </p>
+                          </div>
+                          <div className="grid gap-2 text-sm">
+                            <div className="font-semibold">Mukherjee Nagar-110009</div>
+                            <div className="font-semibold">Mangol Puri Delhi-110086</div>
+                            <div className="font-semibold">Budh Vihar-110086</div>
+                            <div className="font-semibold">Krishan Vihar-110086</div>
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                     <CollapsibleTrigger asChild>
@@ -530,3 +552,5 @@ export function Header() {
     </>
   );
 }
+
+    
