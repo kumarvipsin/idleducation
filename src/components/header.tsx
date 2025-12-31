@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -428,7 +428,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -465,15 +465,12 @@ export function Header() {
                           <Phone className="h-3 w-3" /> CALL NOW
                         </a>
                       </Button>
+                      
                     </div>
                     
-                    <div className="flex items-center gap-1 md:hidden">
-                        {isClient && renderAuthSection()}
-                        {!isIdlFoundationPage && notificationDropdown}
-                    </div>
-                     <div className="hidden md:flex items-center gap-1">
-                        {isClient && renderAuthSection()}
-                        {!isIdlFoundationPage && notificationDropdown}
+                    <div className="flex items-center gap-1">
+                      {isClient && renderAuthSection()}
+                      {!isIdlFoundationPage && notificationDropdown}
                     </div>
 
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -509,7 +506,7 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
+                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
                                     <ChevronDown className="h-4 w-4" />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
@@ -521,19 +518,10 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
-                                <Link
-                                    href="/store"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-                                >
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
-                                </Link>
                             </nav>
                         </div>
                         )}
+                        {renderMobileAuthSection()}
                     </div>
                 </div>
             </CollapsibleContent>
