@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin, UserPlus } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -206,7 +206,7 @@ export function Header() {
   
   const branches = [
     { name: "Mukherjee Nagar, Delhi-110009", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
-    { name: "Mangol Puri, Delhi-110083", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
+    { name: "Mangol Puri, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
     { name: "Budh Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
     { name: "Krishan Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
   ];
@@ -418,7 +418,7 @@ export function Header() {
                 </Link>
                 
                 <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
-                    <nav className="items-center hidden md:flex gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center hidden md:flex gap-x-1.5 md:gap-x-2 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -456,11 +456,7 @@ export function Header() {
                         <Phone className="h-3 w-3" /> CALL NOW
                       </a>
                     </Button>
-                    <a href="https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" target="_blank" rel="noopener noreferrer">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                            <MapPin className="h-4 w-4" />
-                        </Button>
-                    </a>
+                    
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
                 </div>
