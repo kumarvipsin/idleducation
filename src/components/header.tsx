@@ -413,11 +413,11 @@ export function Header() {
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-10">
-                <Link href={logoHref} className="flex items-center justify-center">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={36} height={36} className="h-9 w-auto" />
+                <Link href={logoHref} className="flex items-center justify-center -ml-2">
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                <div className="flex flex-1 justify-end md:justify-center items-center gap-1">
+                <div className="flex flex-1 justify-start items-center gap-1 ml-4">
                     <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
