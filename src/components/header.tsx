@@ -415,34 +415,19 @@ export function Header() {
                         <>
                           <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
                             <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                Centers
+                                Menu
                             </Button>
                           </div>
-                          <div onMouseEnter={() => handleMouseEnter('courses')} className="h-full flex items-center">
-                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex items-center">
-                              Courses <ChevronDown className="w-4 h-4 ml-1" />
-                            </Button>
-                          </div>
-                           <div onMouseEnter={() => handleMouseEnter('results')} className="relative h-full flex items-center">
+                          <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                             <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              Results
-                            </Button>
-                             <Badge variant="secondary" className="absolute -top-1 -right-4 text-[8px] p-0.5 px-1 bg-green-100 text-green-800 border-green-200">New</Badge>
-                          </div>
-                           <div onMouseEnter={() => handleMouseEnter('scholarship')} className="relative h-full flex items-center">
-                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              Scholarship
-                            </Button>
-                             <Badge variant="secondary" className="absolute -top-1 -right-4 text-[8px] p-0.5 px-1 bg-green-100 text-green-800 border-green-200">New</Badge>
-                          </div>
-                          <div onMouseEnter={() => handleMouseEnter('students')} className="h-full flex items-center">
-                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0 flex items-center">
-                              Students Hub <ChevronDown className="w-4 h-4 ml-1" />
+                              Apply For
                             </Button>
                           </div>
-                          <div onMouseEnter={() => handleMouseEnter('blog')} className="h-full flex items-center">
+                           <div className="h-full flex items-center">
                             <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              <Link href="/blog">Blog</Link>
+                              <Link href="/store" target="_blank" rel="noopener noreferrer">
+                                IDL Store
+                              </Link>
                             </Button>
                           </div>
                         </>
@@ -466,6 +451,7 @@ export function Header() {
                       <MapPin className="h-4 w-4" />
                     </Button>
                     {renderAuthSection()}
+                    {!isIdlFoundationPage && notificationDropdown}
                     <CollapsibleTrigger asChild>
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8 md:hidden")}>
                         {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
@@ -520,6 +506,21 @@ export function Header() {
             </CollapsibleContent>
         </header>
       </Collapsible>
+       <div 
+        onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
+        onMouseLeave={handleMouseLeave} 
+        className={cn(
+          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+        )}
+      >
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+          <div className="pt-2 pb-4">
+            {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
+          </div>
+        </div>
+      </div>
     </>
   );
 }
