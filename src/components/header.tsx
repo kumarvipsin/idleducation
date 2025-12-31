@@ -415,7 +415,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-12">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -433,7 +433,7 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL STORE
                                   </Link>
