@@ -60,7 +60,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         }
     }, [controlNavbar]);
     
-    const handleUnauthenticatedClick = () => {
+    const handleUnauthenticatedClick = (path: string) => {
         toast({
             title: "Please Log In",
             description: "You need to be logged in to access this page.",
@@ -137,11 +137,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <DropdownMenuContent className="w-48" align="end">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem onSelect={handleUnauthenticatedClick}>
+                                <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
                                     <ShoppingCart className="mr-2 h-4 w-4" />
                                     <span>My Cart</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={handleUnauthenticatedClick}>
+                                <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
                                     <ShoppingBag className="mr-2 h-4 w-4" />
                                     <span>My Orders</span>
                                 </DropdownMenuItem>
@@ -149,7 +149,13 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 <DropdownMenuItem asChild>
                                     <Link href="/store/auth">
                                         <LogIn className="mr-2 h-4 w-4" />
-                                        <span>Sign In / Sign Up</span>
+                                        <span>Sign In</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/store/auth">
+                                        <UserPlus className="mr-2 h-4 w-4" />
+                                        <span>Sign Up</span>
                                     </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
