@@ -115,7 +115,7 @@ export type SyllabusItem = {
 export interface TExamCategory {
   id: string;
   name: string;
-  group: 'school' | 'competitive';
+  group: 'school' | 'competitive' | 'open-school';
   order: number;
   createdAt: string;
   teacherIds?: string[];

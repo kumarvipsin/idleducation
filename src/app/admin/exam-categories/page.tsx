@@ -39,7 +39,7 @@ const ExamCategoryForm = ({
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | undefined>(category?.group);
+  const [selectedGroup, setSelectedGroup] = useState<'school' | 'competitive' | 'open-school' | undefined>(category?.group);
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>(category?.teacherIds || []);
   const [videoLessons, setVideoLessons] = useState<VideoLesson[]>(category?.videoLessons || [{ subject: '', teacher: '', youtubeLink: '' }]);
   const [syllabus, setSyllabus] = useState<SyllabusItem[]>(category?.syllabus || [{ sno: '1', name: '', pdfUrl: '' }]);
@@ -168,13 +168,14 @@ const ExamCategoryForm = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="group" className="text-right">Group</Label>
-            <Select name="group" value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive')}>
+            <Select name="group" value={selectedGroup} onValueChange={(value) => setSelectedGroup(value as 'school' | 'competitive' | 'open-school')}>
                 <SelectTrigger className="col-span-3">
                     <SelectValue placeholder="Select a group" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value="school">School Exams</SelectItem>
                     <SelectItem value="competitive">Competitive Exams</SelectItem>
+                    <SelectItem value="open-school">Open School Programs</SelectItem>
                 </SelectContent>
             </Select>
           </div>
