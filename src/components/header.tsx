@@ -424,11 +424,11 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -467,7 +467,11 @@ export function Header() {
                       </Button>
                     </div>
                     
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 md:hidden">
+                        {isClient && renderAuthSection()}
+                        {!isIdlFoundationPage && notificationDropdown}
+                    </div>
+                     <div className="hidden md:flex items-center gap-1">
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
                     </div>
@@ -505,7 +509,7 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                    <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                     <ChevronDown className="h-4 w-4" />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
@@ -530,7 +534,6 @@ export function Header() {
                             </nav>
                         </div>
                         )}
-                        {renderMobileAuthSection()}
                     </div>
                 </div>
             </CollapsibleContent>
