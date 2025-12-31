@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -410,46 +410,44 @@ export function Header() {
                 <Link href={logoHref} className="flex items-center justify-center">
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
-                <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
-                      {!isIdlFoundationPage ? (
-                        <>
-                          <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                                MENU
-                            </Button>
-                          </div>
-                          <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                            <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              APPLY FOR
-                            </Button>
-                          </div>
-                           <div className="h-full flex items-center">
-                            <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                              <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                IDL STORE
-                              </Link>
-                            </Button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex items-center gap-x-4 text-sm font-semibold">
-                          <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 7011117585</a>
-                          <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                          <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-4 w-4" /> info@idlfoundation.in</a>
-                        </div>
-                      )}
-                  </nav>
-                 <div className="ml-auto flex items-center gap-1">
+                
+                <div className="flex-1 flex justify-end items-center gap-1">
+                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                          {!isIdlFoundationPage ? (
+                            <>
+                              <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
+                                <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    MENU
+                                </Button>
+                              </div>
+                              <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                                <Button variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                  APPLY FOR
+                                </Button>
+                              </div>
+                               <div className="h-full flex items-center">
+                                <Button asChild variant="link" className="p-0 h-auto text-sm font-semibold text-foreground uppercase hover:text-primary hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer">
+                                    IDL STORE
+                                  </Link>
+                                </Button>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="flex items-center gap-x-4 text-xs font-semibold">
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-4 w-4" /> 7011117585</a>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-4 w-4" /> info@idlfoundation.in</a>
+                            </div>
+                          )}
+                    </nav>
+
                      <div className="hidden md:flex items-center gap-2">
                         <Button asChild variant="ghost" size="icon" className="h-8 w-8 rounded-full">
                             <a href="tel:+918860040010" aria-label="Call Now">
                                 <Phone className="h-4 w-4" />
                             </a>
                         </Button>
-                        <div className="text-xs font-semibold">
-                          <p>Call now</p>
-                          <p className="font-bold text-primary">8860040010</p>
-                        </div>
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
