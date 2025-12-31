@@ -424,7 +424,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} className="h-8 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -517,6 +517,16 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
+                                <Link
+                                    href="/store"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                                >
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
+                                </Link>
                             </nav>
                         </div>
                         )}
