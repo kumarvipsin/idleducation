@@ -302,6 +302,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -468,10 +469,10 @@ export function Header() {
                       
                     </div>
                     
-                    <div className="flex items-center gap-1">
-                      {isClient && renderAuthSection()}
-                      {!isIdlFoundationPage && notificationDropdown}
-                    </div>
+                     <div className="flex items-center gap-1">
+                        {isClient && renderAuthSection()}
+                        {!isIdlFoundationPage && notificationDropdown}
+                     </div>
 
                     <CollapsibleTrigger asChild className="md:hidden">
                       <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
@@ -518,6 +519,10 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
+                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
+                                </Link>
                             </nav>
                         </div>
                         )}
