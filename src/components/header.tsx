@@ -456,27 +456,51 @@ export function Header() {
                       <span className="font-bold text-primary">8860040010</span>
                     </p>
                     <Popover>
-                      <PopoverTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                          <MapPin className="h-4 w-4" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-80">
-                        <div className="grid gap-4">
-                          <div className="space-y-2">
-                            <h4 className="font-medium leading-none">Our Branches</h4>
-                            <p className="text-sm text-muted-foreground">
-                              Find a center near you.
-                            </p>
-                          </div>
-                          <div className="grid gap-2 text-sm">
-                            <div className="font-semibold">Mukherjee Nagar-110009</div>
-                            <div className="font-semibold">Mangol Puri Delhi-110086</div>
-                            <div className="font-semibold">Budh Vihar-110086</div>
-                            <div className="font-semibold">Krishan Vihar-110086</div>
-                          </div>
-                        </div>
-                      </PopoverContent>
+                        <PopoverTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                            <MapPin className="h-4 w-4" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                            <div className="grid gap-4">
+                            <div className="space-y-2">
+                                <h4 className="font-medium leading-none">Our Branches</h4>
+                                <p className="text-sm text-muted-foreground">
+                                Find a center near you.
+                                </p>
+                            </div>
+                            <div className="grid gap-2 text-sm">
+                                <div className="flex items-start gap-2">
+                                <MapPin className="h-4 w-4 mt-1 text-primary" />
+                                <div>
+                                    <p className="font-semibold">Mukherjee Nagar</p>
+                                    <p className="text-muted-foreground">Delhi-110009</p>
+                                </div>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                <MapPin className="h-4 w-4 mt-1 text-primary" />
+                                <div>
+                                    <p className="font-semibold">Mangol Puri</p>
+                                    <p className="text-muted-foreground">Delhi-110086</p>
+                                </div>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                <MapPin className="h-4 w-4 mt-1 text-primary" />
+                                <div>
+                                    <p className="font-semibold">Budh Vihar</p>
+                                    <p className="text-muted-foreground">Delhi-110086</p>
+                                </div>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                <MapPin className="h-4 w-4 mt-1 text-primary" />
+                                <div>
+                                    <p className="font-semibold">Krishan Vihar</p>
+                                    <p className="text-muted-foreground">Delhi-110086</p>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </PopoverContent>
                     </Popover>
                     {renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
@@ -552,5 +576,3 @@ export function Header() {
     </>
   );
 }
-
-    
