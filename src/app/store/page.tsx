@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,8 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const router = useRouter();
+    const { toast } = useToast();
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
@@ -57,6 +59,15 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
             };
         }
     }, [controlNavbar]);
+    
+    const handleUnauthenticatedClick = () => {
+        toast({
+            title: "Please Log In",
+            description: "You need to be logged in to access this page.",
+            action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
+        });
+        router.push('/store/auth');
+    }
     
     const searchPopoverContent = (
       <div className="p-2 space-y-2">
@@ -120,23 +131,19 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                    <User className="h-4 w-4" />
+                                    <UserCircle />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-48" align="end">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/cart">
-                                        <ShoppingCart className="mr-2 h-4 w-4" />
-                                        <span>My Cart</span>
-                                    </Link>
+                                <DropdownMenuItem onSelect={handleUnauthenticatedClick}>
+                                    <ShoppingCart className="mr-2 h-4 w-4" />
+                                    <span>My Cart</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/orders">
-                                        <ShoppingBag className="mr-2 h-4 w-4" />
-                                        <span>My Orders</span>
-                                    </Link>
+                                <DropdownMenuItem onSelect={handleUnauthenticatedClick}>
+                                    <ShoppingBag className="mr-2 h-4 w-4" />
+                                    <span>My Orders</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
