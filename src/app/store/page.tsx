@@ -96,6 +96,14 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-48 p-0">
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                         {storeUser ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -160,29 +168,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             </DropdownMenuContent>
                         </DropdownMenu>
                         )}
-                    </div>
-                     <div className="flex items-center md:hidden gap-2">
-                        
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-48 p-0">
-                                {searchPopoverContent}
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="hidden md:flex items-center gap-2">
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                         
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-48 p-0">
-                                {searchPopoverContent}
-                            </PopoverContent>
-                        </Popover>
                     </div>
                 </div>
             </div>
