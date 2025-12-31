@@ -99,7 +99,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-screen max-w-full p-0 mt-2" sideOffset={14}>
+                            <PopoverContent className="w-screen max-w-full p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
@@ -159,7 +159,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                         <span>Login</span>
                                     </Link>
                                 </DropdownMenuItem>
-                                 <DropdownMenuItem asChild>
+                                <DropdownMenuItem asChild>
                                     <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
                                        <span>Create Your IDL Store Account</span>
                                     </Link>
