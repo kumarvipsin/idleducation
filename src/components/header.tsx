@@ -428,8 +428,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
+                      {!isIdlFoundationPage && notificationDropdown}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -472,7 +472,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-start text-sm">
-                                            <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
+                                            <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
