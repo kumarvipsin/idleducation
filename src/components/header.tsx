@@ -360,10 +360,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-      <div className="p-2 border-t grid grid-cols-2 gap-2">
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -432,7 +429,7 @@ export function Header() {
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="outline" data-active={activeMenu === 'apply'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
+                                <Button variant="outline" data-active={activeMenu === 'apply'} className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary border-primary/20">
                                   APPLY FOR
                                 </Button>
                               </div>
@@ -454,7 +451,7 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="flex items-center gap-2">
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-1">
                       <Button variant="outline" className="h-8 px-3 text-xs">
                         <a href="tel:7011117585" className="flex items-center gap-1">
                           <Phone className="h-3 w-3" /> CALL NOW
@@ -517,6 +514,10 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                 </Link>
+                                <a href="tel:7011117585" className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
+                                    <Phone className="h-4 w-4" />
+                                    Call Now
+                                </a>
                             </nav>
                         </div>
                         )}
