@@ -263,7 +263,31 @@ export function Header() {
       );
     }
 
-    return null;
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <UserCircle />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>Login</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/signup">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Sign Up</span>
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
   };
   
   const navLinks = [
@@ -337,7 +361,16 @@ export function Header() {
         </div>
       );
     }
-    return null
+    return (
+        <div className="p-2 border-t grid grid-cols-2 gap-2">
+            <Button asChild className="w-full">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -428,21 +461,27 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-1">
                         <Button asChild variant="outline" className="h-8 px-3 text-xs">
                            <a href="tel:7011117585" className="flex items-center gap-1">
                              <Phone className="h-3 w-3" /> CALL NOW
                            </a>
                         </Button>
                     </div>
-                    {isClient && renderAuthSection()}
+                    
+                    <div className="hidden md:flex">
+                        {isClient && renderAuthSection()}
+                    </div>
+                    
                     {!isIdlFoundationPage && notificationDropdown}
-                    <div className="flex items-center md:hidden">
+
+                    <div className="flex md:hidden items-center gap-2">
+                        {isClient && user && renderAuthSection()}
                         <CollapsibleTrigger asChild>
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
-                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                            <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
+                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
+                                {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                                <span className="sr-only">Toggle navigation menu</span>
+                            </Button>
                         </CollapsibleTrigger>
                     </div>
                 </div>
@@ -515,7 +554,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-2 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Main Menu" />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Explore" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
           </div>
         </div>
