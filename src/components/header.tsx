@@ -303,6 +303,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -451,25 +452,28 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="flex items-center gap-2">
-                    <div className="hidden md:flex items-center gap-1">
-                        <Button variant="outline" className="h-8 px-3 text-xs">
-                          <a href="tel:7011117585" className="flex items-center gap-1">
-                            <Phone className="h-3 w-3" /> CALL NOW
-                          </a>
-                        </Button>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                       {isClient && renderAuthSection()}
-                       {!isIdlFoundationPage && notificationDropdown}
-                    </div>
-
-                    <CollapsibleTrigger asChild className="md:hidden">
-                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
-                        {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                        <span className="sr-only">Toggle navigation menu</span>
+                    <div className="hidden md:flex items-center gap-2">
+                      <Button variant="outline" className="h-8 px-3 text-xs">
+                        <a href="tel:7011117585" className="flex items-center gap-1">
+                          <Phone className="h-3 w-3" /> CALL NOW
+                        </a>
                       </Button>
-                    </CollapsibleTrigger>
+                    </div>
+                    <div className="hidden md:flex items-center gap-1">
+                      {isClient && renderAuthSection()}
+                    </div>
+                     {!isIdlFoundationPage && <div className="hidden md:block">{notificationDropdown}</div>}
+
+                    <div className="flex items-center gap-1 md:hidden">
+                        {isClient && renderAuthSection()}
+                        {!isIdlFoundationPage && notificationDropdown}
+                        <CollapsibleTrigger asChild>
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                        </CollapsibleTrigger>
+                    </div>
                   </div>
             </div>
              <CollapsibleContent asChild>
@@ -481,6 +485,18 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
+                                <Button variant="outline" className="w-full justify-start text-sm">
+                                  <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now
+                                  </a>
+                                </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <ShoppingCart className="h-4 w-4 mr-3" />
+                                    IDL Store
+                                  </Link>
+                                </Button>
                                 <Collapsible open={openMobileAccordion === 'menu'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'menu' : null)}>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                                     <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
@@ -509,18 +525,6 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
-                                  </Link>
-                                </Button>
-                                <Button variant="outline" className="w-full justify-start text-sm">
-                                  <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now
-                                  </a>
-                                </Button>
                             </nav>
                         </div>
                         )}
