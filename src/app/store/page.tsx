@@ -140,8 +140,15 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 ) : (
                                     <>
                                         <DropdownMenuItem asChild>
-                                            <Link href="/store/auth" className="w-full">
-                                                <User className="mr-2 h-4 w-4" /> My Account
+                                            <Link href="/store/auth?view=signup">
+                                                <UserPlus className="mr-2 h-4 w-4" />
+                                                <span>Sign Up</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth">
+                                                <LogIn className="mr-2 h-4 w-4" />
+                                                <span>Login</span>
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
@@ -152,18 +159,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                         <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
                                             <ShoppingBag className="mr-2 h-4 w-4" />
                                             <span>My Orders</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild>
-                                            <Link href="/store/auth">
-                                                <LogIn className="mr-2 h-4 w-4" />
-                                                <span>Login</span>
-                                            </Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild>
-                                            <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
-                                            <span>Create Your IDL Store Account</span>
-                                            </Link>
                                         </DropdownMenuItem>
                                     </>
                                 )}
