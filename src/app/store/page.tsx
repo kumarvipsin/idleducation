@@ -103,70 +103,61 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
-                        {storeUser ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                    <Avatar className="h-8 w-8">
-                                    <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
-                                    </Avatar>
+                                    {storeUser ? (
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+                                    ) : (
+                                        <UserCircle />
+                                    )}
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end" forceMount>
-                                <DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                    <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                                    </div>
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/account">Edit Profile</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/cart">My Cart</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/orders">My Orders</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={storeLogout}>
-                                    Logout
-                                </DropdownMenuItem>
+                                {storeUser ? (
+                                    <>
+                                        <DropdownMenuLabel className="font-normal">
+                                            <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                            <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                            </div>
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild><Link href="/store/account">My Account</Link></DropdownMenuItem>
+                                        <DropdownMenuItem asChild><Link href="/store/cart">My Cart</Link></DropdownMenuItem>
+                                        <DropdownMenuItem asChild><Link href="/store/orders">My Orders</Link></DropdownMenuItem>
+                                        <DropdownMenuItem onClick={storeLogout}>Logout</DropdownMenuItem>
+                                    </>
+                                ) : (
+                                    <>
+                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            <span>My Cart</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
+                                            <ShoppingBag className="mr-2 h-4 w-4" />
+                                            <span>My Orders</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth">
+                                                <LogIn className="mr-2 h-4 w-4" />
+                                                <span>Login</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
+                                            <span>Create Your IDL Store Account</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </>
+                                )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        ) : (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                    <UserCircle />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56" align="end">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
-                                    <ShoppingCart className="mr-2 h-4 w-4" />
-                                    <span>My Cart</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
-                                    <ShoppingBag className="mr-2 h-4 w-4" />
-                                    <span>My Orders</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/auth">
-                                        <LogIn className="mr-2 h-4 w-4" />
-                                        <span>Login</span>
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
-                                       <span>Create Your IDL Store Account</span>
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        )}
                     </div>
                 </div>
             </div>
