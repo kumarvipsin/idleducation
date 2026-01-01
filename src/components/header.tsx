@@ -230,19 +230,25 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem asChild>
-               <Link href={getProfilePath(user)} className="flex flex-col items-start p-2">
-                 <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    {user.email}
-                  </p>
-               </Link>
-            </DropdownMenuItem>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user.name}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {user.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                <Link href={getDashboardPath(user)}>
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={getProfilePath(user)}>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -305,7 +311,15 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return null;
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
     }
     if (user) {
       return null;
@@ -414,8 +428,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {isClient && renderAuthSection()}
                       {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -458,7 +472,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-start text-sm">
-                                            <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                            <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
