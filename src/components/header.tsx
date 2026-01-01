@@ -311,22 +311,10 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+        return null
     }
     if (user) {
-      return (
-        <div className="p-2 border-t">
-            {/* User profile section removed as per request */}
-        </div>
-      );
+      return null
     }
     return null;
   };
@@ -432,8 +420,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
+                      {!isIdlFoundationPage && notificationDropdown}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -498,12 +486,6 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                   <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
-                                  </a>
                                 </Button>
                             </nav>
                         </div>
