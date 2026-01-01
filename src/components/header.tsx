@@ -263,31 +263,7 @@ export function Header() {
       );
     }
 
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <UserCircle />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40" align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" />
-                        <span>Login</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/signup">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        <span>Sign Up</span>
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
+    return null;
   };
   
   const navLinks = [
@@ -424,9 +400,9 @@ export function Header() {
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                              <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
-                                    Menu
+                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
+                                    Explore
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
@@ -492,10 +468,10 @@ export function Header() {
                                     IDL Store
                                   </Link>
                                 </Button>
-                                <Collapsible open={openMobileAccordion === 'menu'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'menu' : null)}>
+                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
-                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'menu' ? 'rotate(180deg)' : 'none' }}/>
+                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
                                     {navLinks.map(({ href, label, icon, target }) => (
@@ -539,7 +515,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-2 pb-4">
-            {activeMenu === 'menu' && <MegaMenu links={navLinks} title="Main Menu" />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Main Menu" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
           </div>
         </div>
