@@ -58,12 +58,10 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-primary/5 transition-colors">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">
-                        {link.icon}
-                    </div>
+                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors">
+                    <div className="bg-muted p-2 rounded-md mt-1">{link.icon}</div>
                     <div>
-                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
+                        <p className="font-semibold text-sm">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
                     </div>
                 </Link>
@@ -326,45 +324,11 @@ export function Header() {
     if (user) {
       return (
         <div className="p-2 border-t">
-          <div className="flex items-center gap-3 mb-2 p-2 rounded-md bg-muted/50">
-            <Avatar className="h-10 w-10 border-2 border-primary">
-              <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
-              <AvatarFallback>
-                {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold text-sm">{user.name}</p>
-              <p className="text-xs text-muted-foreground">{user.email}</p>
-            </div>
-          </div>
-          <div className="grid gap-1">
-            {loggedInNavLinks.map(({ href, label, icon }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm hover:bg-muted ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-muted-foreground'}`}
-              >
-                {icon}
-                {label}
-              </Link>
-            ))}
-            <button
-              onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </button>
-          </div>
+          {/* Content removed as per user request */}
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t">
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -495,7 +459,7 @@ export function Header() {
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="pl-4">
+                                    <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
                                             {navLinks.map(({ href, label, icon, description, target }) => (
                                                 <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
