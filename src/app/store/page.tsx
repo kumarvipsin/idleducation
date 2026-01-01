@@ -99,10 +99,13 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <PopoverTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-screen max-w-full p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
+                            <PopoverContent className="w-screen max-w-lg p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
                                 {searchPopoverContent}
                             </PopoverContent>
                         </Popover>
+                        <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                            <Link href="/"><Home className="h-4 w-4" /></Link>
+                        </Button>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
