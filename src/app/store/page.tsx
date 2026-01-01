@@ -117,37 +117,54 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end" forceMount>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/account" className="flex items-center gap-3 p-2">
-                                        <User className="mr-2 h-4 w-4" />
-                                        <div>
-                                            <p className="text-sm font-medium leading-none">{storeUser?.name || 'My Account'}</p>
-                                            {storeUser && <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>}
-                                        </div>
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
-                                <DropdownMenuItem asChild><Link href={storeUser ? "/store/orders" : "/store/auth"}><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
-                                <DropdownMenuSeparator />
                                 {storeUser ? (
-                                    <DropdownMenuItem onClick={storeLogout}>
-                                        <LogOut className="mr-2 h-4 w-4" />
-                                        <span>Logout</span>
-                                    </DropdownMenuItem>
+                                    <>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/account" className="flex items-center gap-3 p-2">
+                                                <User className="mr-2 h-4 w-4" />
+                                                <div>
+                                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                                    {storeUser && <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>}
+                                                </div>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
+                                        <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onClick={storeLogout}>
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <span>Logout</span>
+                                        </DropdownMenuItem>
+                                    </>
                                 ) : (
                                     <>
-                                     <DropdownMenuItem asChild>
-                                        <Link href="/store/auth">
-                                            <LogIn className="mr-2 h-4 w-4" />
-                                            <span>Login</span>
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
-                                        <span>Create Your IDL Store Account</span>
-                                        </Link>
-                                    </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth" className="w-full">
+                                                <User className="mr-2 h-4 w-4" /> My Account
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            <span>My Cart</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
+                                            <ShoppingBag className="mr-2 h-4 w-4" />
+                                            <span>My Orders</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth">
+                                                <LogIn className="mr-2 h-4 w-4" />
+                                                <span>Login</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
+                                            <span>Create Your IDL Store Account</span>
+                                            </Link>
+                                        </DropdownMenuItem>
                                     </>
                                 )}
                             </DropdownMenuContent>
