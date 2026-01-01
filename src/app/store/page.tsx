@@ -118,17 +118,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end" forceMount>
                                 <DropdownMenuItem asChild>
-                                    <Link href={storeUser ? "/store/account" : "/store/auth"} className="w-full">
-                                        <div className="flex items-center gap-3">
-                                            <User className="mr-2 h-4 w-4" />
-                                            {storeUser ? (
-                                                <div>
-                                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                                    <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                                                </div>
-                                            ) : (
-                                                <span>My Account</span>
-                                            )}
+                                    <Link href="/store/account" className="flex items-center gap-3 p-2">
+                                        <User className="mr-2 h-4 w-4" />
+                                        <div>
+                                            <p className="text-sm font-medium leading-none">{storeUser?.name || 'My Account'}</p>
+                                            {storeUser && <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>}
                                         </div>
                                     </Link>
                                 </DropdownMenuItem>
