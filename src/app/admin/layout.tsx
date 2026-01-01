@@ -297,7 +297,7 @@ function AdminLayout({
         </Sidebar>
         <div className="flex flex-col flex-1">
           <header className="p-4 border-b flex items-center md:hidden">
-            <div className="ml-auto flex items-center gap-2">
+            <div className="flex items-center gap-2 ml-auto">
                  {user && (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -325,10 +325,6 @@ function AdminLayout({
                                 <Menu className="mr-2 h-4 w-4" />
                                 <span>Toggle Menu</span>
                             </SidebarTrigger>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={handleLogout}>
-                          <LogOut className="mr-2 h-4 w-4" />
-                          <span>Log out</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
