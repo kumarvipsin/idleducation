@@ -360,7 +360,16 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t grid grid-cols-2 gap-2">
+            <Button asChild className="w-full">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -451,7 +460,7 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="flex items-center gap-2">
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-2">
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
                     </div>
@@ -474,10 +483,12 @@ export function Header() {
                         <div className="p-2">
                             <nav className="grid gap-1">
                                 <Collapsible>
-                                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
-                                    <ChevronDown className="h-4 w-4" />
-                                </CollapsibleTrigger>
+                                <Button asChild variant="outline" className="w-full justify-between">
+                                  <CollapsibleTrigger>
+                                      <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
+                                      <ChevronDown className="h-4 w-4" />
+                                  </CollapsibleTrigger>
+                                </Button>
                                 <CollapsibleContent className="pl-8">
                                     {navLinks.map(({ href, label, icon, target }) => (
                                         <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
@@ -488,10 +499,12 @@ export function Header() {
                                 </CollapsibleContent>
                                 </Collapsible>
                                 <Collapsible>
-                                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                    <ChevronDown className="h-4 w-4" />
-                                </CollapsibleTrigger>
+                                <Button asChild variant="outline" className="w-full justify-between">
+                                  <CollapsibleTrigger>
+                                      <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                      <ChevronDown className="h-4 w-4" />
+                                  </CollapsibleTrigger>
+                                </Button>
                                 <CollapsibleContent className="pl-8">
                                     {applyForLinks.map(({ href, label, icon }) => (
                                     <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
@@ -501,15 +514,11 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
-                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
-                                </Link>
-                                <Button asChild variant="outline" className="w-full justify-start mt-2">
-                                    <a href="tel:7011117585" className="flex items-center gap-3">
-                                        <Phone className="h-4 w-4" />
-                                        Call Now
-                                    </a>
+                                 <Button asChild variant="outline" className="w-full justify-start">
+                                    <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
+                                        <ShoppingCart className="h-4 w-4" />
+                                        IDL Store
+                                    </Link>
                                 </Button>
                             </nav>
                         </div>
