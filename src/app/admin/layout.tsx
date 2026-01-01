@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -319,6 +320,12 @@ function AdminLayout({
                           </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <SidebarTrigger className="w-full justify-start">
+                                <Menu className="mr-2 h-4 w-4" />
+                                <span>Toggle Menu</span>
+                            </SidebarTrigger>
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={handleLogout}>
                           <LogOut className="mr-2 h-4 w-4" />
                           <span>Log out</span>
@@ -326,7 +333,6 @@ function AdminLayout({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   )}
-                  <SidebarTrigger />
             </div>
           </header>
           <main className="flex-1 p-4 md:p-6 bg-muted/20">
