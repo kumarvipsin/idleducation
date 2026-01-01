@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,8 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
     const { user: storeUser, logout: storeLogout } = useStoreAuth();
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const router = useRouter();
+    const { toast } = useToast();
 
     const controlNavbar = useCallback(() => {
         if (typeof window !== 'undefined') {
@@ -58,21 +60,29 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         }
     }, [controlNavbar]);
     
+    const handleUnauthenticatedClick = (path: string) => {
+        toast({
+            title: "Please Log In",
+            description: "You need to be logged in to access this page.",
+            action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
+        });
+    }
+    
     const searchPopoverContent = (
-      <div className="p-2 space-y-2">
-        <p className="text-xs font-medium text-foreground">Search Store</p>
-        <p className="text-[10px] text-muted-foreground">Find books by ID, class, or edition.</p>
-        <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-            <Input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-6 w-full h-8 text-xs"
-            />
+        <div className="p-4 w-screen max-w-full">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search for books by title, ID, class, or edition..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full h-10 rounded-full"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
     );
 
 
@@ -85,66 +95,71 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                           <Link href="/" >HOME</Link>
-                        </Button>
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20 hidden md:block" />
-                        {storeUser ? (
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-screen max-w-full p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                    <Avatar className="h-8 w-8">
-                                    <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
-                                    </Avatar>
+                                    {storeUser ? (
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+                                    ) : (
+                                        <UserCircle />
+                                    )}
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="end" forceMount>
-                                <DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                    <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                                    </div>
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/cart">My Cart</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
-                                    <Link href="/store/orders">My Orders</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={storeLogout}>
-                                    Logout
-                                </DropdownMenuItem>
+                                {storeUser ? (
+                                    <>
+                                        <DropdownMenuLabel className="font-normal p-0">
+                                            <Link href="/store/account" className="block p-2">
+                                                <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                                <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                                </div>
+                                            </Link>
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild><Link href="/store/account"><User className="mr-2 h-4 w-4" />My Account</Link></DropdownMenuItem>
+                                        <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
+                                        <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
+                                        <DropdownMenuItem onClick={storeLogout}>Logout</DropdownMenuItem>
+                                    </>
+                                ) : (
+                                    <>
+                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
+                                            <ShoppingCart className="mr-2 h-4 w-4" />
+                                            <span>My Cart</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
+                                            <ShoppingBag className="mr-2 h-4 w-4" />
+                                            <span>My Orders</span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth">
+                                                <LogIn className="mr-2 h-4 w-4" />
+                                                <span>Login</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
+                                            <span>Create Your IDL Store Account</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </>
+                                )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        ) : (
-                        <Button asChild variant="link" className="h-auto p-0 text-foreground font-semibold text-[0.6rem] uppercase hover:no-underline focus-visible:ring-0 focus-visible:ring-offset-0">
-                            <Link href="/store/auth">LOGIN</Link>
-                        </Button>
-                        )}
-                    </div>
-                     <div className="flex items-center md:hidden gap-2">
-                        
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-48 p-0">
-                                {searchPopoverContent}
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                    <div className="hidden md:flex items-center gap-2">
-                        <Separator orientation="vertical" className="h-3 bg-foreground/20" />
-                         
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-48 p-0">
-                                {searchPopoverContent}
-                            </PopoverContent>
-                        </Popover>
                     </div>
                 </div>
             </div>
@@ -232,7 +247,7 @@ export default function StorePage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
