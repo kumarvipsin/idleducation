@@ -302,7 +302,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -360,16 +359,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t grid grid-cols-2 gap-2">
-            <Button asChild className="w-full">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-            </Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -429,7 +419,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -443,7 +433,7 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary border-primary/20">
+                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 border-primary/20">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL STORE
                                   </Link>
@@ -460,17 +450,26 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="flex items-center gap-2">
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-1">
+                        <Button variant="outline" className="h-8 px-3 text-xs">
+                          <a href="tel:7011117585" className="flex items-center gap-1">
+                            <Phone className="h-3 w-3" /> CALL NOW
+                          </a>
+                        </Button>
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
                     </div>
 
-                    <CollapsibleTrigger asChild className="md:hidden">
-                      <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
-                        {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                        <span className="sr-only">Toggle navigation menu</span>
-                      </Button>
-                    </CollapsibleTrigger>
+                    <div className="flex items-center gap-1 md:hidden">
+                        {isClient && renderAuthSection()}
+                        {!isIdlFoundationPage && notificationDropdown}
+                        <CollapsibleTrigger asChild>
+                          <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-7 w-7")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                            <span className="sr-only">Toggle navigation menu</span>
+                          </Button>
+                        </CollapsibleTrigger>
+                    </div>
                   </div>
             </div>
              <CollapsibleContent asChild>
@@ -482,6 +481,18 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                    <a href="tel:7011117585" className="flex items-center gap-3">
+                                        <Phone className="h-4 w-4" />
+                                        Call Now
+                                    </a>
+                                </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
+                                  </Link>
+                                </Button>
                                 <Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-between">
                                   <CollapsibleTrigger>
@@ -514,12 +525,6 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
-                                 <Button asChild variant="outline" className="w-full justify-start">
-                                    <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                        <ShoppingCart className="h-4 w-4" />
-                                        IDL Store
-                                    </Link>
-                                </Button>
                             </nav>
                         </div>
                         )}
