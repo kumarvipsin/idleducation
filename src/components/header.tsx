@@ -361,16 +361,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t grid grid-cols-2 gap-2">
-            <Button asChild className="w-full">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-            </Button>
-        </div>
-    );
+    return null
   };
   
   const notificationDropdown = (
@@ -434,17 +425,17 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/10 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
+                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">
                                     MENU
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/10 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">
                                   APPLY FOR
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/10 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL STORE
                                   </Link>
@@ -460,9 +451,9 @@ export function Header() {
                           )}
                     </nav>
                 </div>
-                 <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-1">
-                      <Button variant="outline" className="h-8 px-3 text-xs">
+                      <Button asChild variant="outline" className="h-8 px-3 text-xs">
                         <a href="tel:7011117585" className="flex items-center gap-1">
                           <Phone className="h-3 w-3" /> CALL NOW
                         </a>
@@ -478,7 +469,7 @@ export function Header() {
                         </Button>
                         </CollapsibleTrigger>
                     </div>
-                  </div>
+                </div>
             </div>
              <CollapsibleContent asChild>
                 <div className={cn(
@@ -489,7 +480,7 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
-                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <a href="tel:7011117585" className="flex items-center gap-3">
                                       <Phone className="h-4 w-4" />
                                       Call Now
@@ -532,16 +523,7 @@ export function Header() {
                             </nav>
                         </div>
                         )}
-                        {!user && (
-                            <div className="p-2 border-t grid grid-cols-2 gap-2">
-                                <Button asChild className="w-full">
-                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-                                </Button>
-                            </div>
-                        )}
+                        {renderMobileAuthSection()}
                     </div>
                 </div>
             </CollapsibleContent>
