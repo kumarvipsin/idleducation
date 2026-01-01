@@ -361,7 +361,7 @@ export function Header() {
         </div>
       );
     }
-    return null
+    return null;
   };
   
   const notificationDropdown = (
@@ -453,11 +453,11 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-1">
-                      <Button asChild variant="outline" className="h-8 px-3 text-xs">
-                        <a href="tel:7011117585" className="flex items-center gap-1">
-                          <Phone className="h-3 w-3" /> CALL NOW
-                        </a>
-                      </Button>
+                        <Button asChild variant="outline" className="h-8 px-3 text-xs">
+                           <a href="tel:7011117585" className="flex items-center gap-1">
+                             <Phone className="h-3 w-3" /> CALL NOW
+                           </a>
+                        </Button>
                     </div>
                     {isClient && renderAuthSection()}
                     {!isIdlFoundationPage && notificationDropdown}
