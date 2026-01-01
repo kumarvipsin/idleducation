@@ -434,7 +434,7 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0">
+                                <Button asChild variant="outline" className="h-8 px-4 text-sm font-semibold text-foreground uppercase hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/10 data-[active=true]:text-primary border-primary/20">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL STORE
                                   </Link>
@@ -452,15 +452,6 @@ export function Header() {
                 </div>
                  <div className="flex items-center gap-2">
                     <div className="hidden md:flex items-center gap-1">
-                      <Button variant="outline" className="h-8 px-3 text-xs">
-                        <a href="tel:7011117585" className="flex items-center gap-1">
-                          <Phone className="h-3 w-3" /> CALL NOW
-                        </a>
-                      </Button>
-                      
-                    </div>
-                    
-                    <div className="flex items-center">
                         {isClient && renderAuthSection()}
                         {!isIdlFoundationPage && notificationDropdown}
                     </div>
@@ -514,10 +505,12 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                 </Link>
-                                <a href="tel:7011117585" className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <Phone className="h-4 w-4" />
-                                    Call Now
-                                </a>
+                                <Button asChild variant="outline" className="w-full justify-start mt-2">
+                                    <a href="tel:7011117585" className="flex items-center gap-3">
+                                        <Phone className="h-4 w-4" />
+                                        Call Now
+                                    </a>
+                                </Button>
                             </nav>
                         </div>
                         )}
