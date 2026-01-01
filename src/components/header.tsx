@@ -361,7 +361,11 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t">
+          
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -465,9 +469,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {isClient && user && renderAuthSection()}
                       {!isIdlFoundationPage && notificationDropdown}
-                      {isClient && !user && renderAuthSection()}
+                      {isClient && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
