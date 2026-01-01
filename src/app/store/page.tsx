@@ -127,7 +127,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild><Link href="/store/account"><User className="mr-2 h-4 w-4" />My Account</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
                                         <DropdownMenuItem onClick={storeLogout}>Logout</DropdownMenuItem>
@@ -136,10 +135,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     <>
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/account')}>
-                                            <User className="mr-2 h-4 w-4" />
-                                            <span>My Account</span>
-                                        </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
                                             <ShoppingCart className="mr-2 h-4 w-4" />
                                             <span>My Cart</span>
