@@ -94,6 +94,7 @@ export function Header() {
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
@@ -302,7 +303,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
-      { href: "/volunteer", label: "Become a Volunteer", icon: <HandHeart className="h-4 w-4" /> },
   ];
 
   const loggedInNavLinks = [
@@ -360,11 +360,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t grid grid-cols-2 gap-2">
-            
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -424,7 +420,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
@@ -455,13 +451,12 @@ export function Header() {
                     </nav>
                 </div>
                  <div className="flex items-center gap-2">
-                    <div className="hidden md:flex items-center gap-2">
-                      <Button variant="outline" className="h-8 px-3 text-xs">
-                        <a href="tel:7011117585" className="flex items-center gap-1">
-                          <Phone className="h-3 w-3" /> CALL NOW
-                        </a>
-                      </Button>
-                      
+                    <div className="hidden md:flex items-center gap-1">
+                        <Button variant="outline" className="h-8 px-3 text-xs">
+                          <a href="tel:7011117585" className="flex items-center gap-1">
+                            <Phone className="h-3 w-3" /> CALL NOW
+                          </a>
+                        </Button>
                     </div>
                     
                     <div className="flex items-center gap-1">
@@ -486,22 +481,10 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                  <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now
-                                  </a>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
-                                  </Link>
-                                </Button>
-                                <Collapsible>
+                                <Collapsible open={openMobileAccordion === 'menu'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'menu' : null)}>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                                     <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Menu</span>
-                                    <ChevronDown className="h-4 w-4" />
+                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'menu' ? 'rotate(180deg)' : 'none' }}/>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
                                     {navLinks.map(({ href, label, icon, target }) => (
@@ -512,10 +495,10 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
-                                <Collapsible>
+                                <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                 <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                                     <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                    <ChevronDown className="h-4 w-4" />
+                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'apply' ? 'rotate(180deg)' : 'none' }}/>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-8">
                                     {applyForLinks.map(({ href, label, icon }) => (
@@ -526,6 +509,18 @@ export function Header() {
                                     ))}
                                 </CollapsibleContent>
                                 </Collapsible>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
+                                  </Link>
+                                </Button>
+                                <Button variant="outline" className="w-full justify-start text-sm">
+                                  <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now
+                                  </a>
+                                </Button>
                             </nav>
                         </div>
                         )}
