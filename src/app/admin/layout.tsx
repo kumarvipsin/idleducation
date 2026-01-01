@@ -299,26 +299,16 @@ function AdminLayout({
           <header className="p-4 border-b flex items-center md:hidden">
             <div className="flex items-center gap-2 ml-auto">
                  {user && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                    <SidebarTrigger>
                         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                          <Avatar className="h-10 w-10">
+                            <Avatar className="h-10 w-10">
                             <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
                             <AvatarFallback>
-                              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                                {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
                             </AvatarFallback>
-                          </Avatar>
+                            </Avatar>
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56" align="end" forceMount>
-                        <DropdownMenuItem asChild>
-                            <SidebarTrigger className="w-full justify-start">
-                                <Menu className="mr-2 h-4 w-4" />
-                                <span>Toggle Menu</span>
-                            </SidebarTrigger>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    </SidebarTrigger>
                   )}
             </div>
           </header>
@@ -334,4 +324,5 @@ function AdminLayout({
 
 export default withAuth(AdminLayout, ['admin']);
 
+    
     
