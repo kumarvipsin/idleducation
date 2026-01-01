@@ -311,7 +311,15 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return null
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
     }
     if (user) {
       return null
@@ -481,6 +489,12 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                   <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now (70-1111-7585)
+                                  </a>
+                                </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
                                     <ShoppingCart className="h-4 w-4" />
