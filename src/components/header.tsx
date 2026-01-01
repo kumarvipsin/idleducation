@@ -56,7 +56,6 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 
 const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title?: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
-        {title && <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
@@ -94,7 +93,7 @@ export function Header() {
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>('explore');
+  const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
@@ -461,7 +460,7 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                     <div className="hidden md:flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-1">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                 <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
@@ -473,21 +472,18 @@ export function Header() {
                         </a>
                     </div>
                     
-                    <div className="hidden md:flex">
-                        {isClient && renderAuthSection()}
+                    <div className="flex items-center gap-1">
+                      {isClient && user && renderAuthSection()}
+                      {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && !user && renderAuthSection()}
                     </div>
                     
-                    {!isIdlFoundationPage && notificationDropdown}
-
-                    <div className="flex md:hidden items-center gap-2">
-                        {isClient && user && renderAuthSection()}
-                        <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
-                                {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                                <span className="sr-only">Toggle navigation menu</span>
-                            </Button>
-                        </CollapsibleTrigger>
-                    </div>
+                    <CollapsibleTrigger asChild className="md:hidden">
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </CollapsibleTrigger>
                 </div>
             </div>
              <CollapsibleContent asChild>
@@ -517,11 +513,13 @@ export function Header() {
                                   </Link>
                                 </Button>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
-                                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
-                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
+                                <CollapsibleTrigger asChild>
+                                  <Button variant="outline" className="w-full justify-between text-sm">
+                                      <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                      <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
+                                  </Button>
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="pl-8">
+                                <CollapsibleContent className="pl-4">
                                     {navLinks.map(({ href, label, icon, target }) => (
                                         <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                                             {icon}
@@ -531,11 +529,13 @@ export function Header() {
                                 </CollapsibleContent>
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
-                                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
-                                    <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                    <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'apply' ? 'rotate(180deg)' : 'none' }}/>
+                                <CollapsibleTrigger asChild>
+                                    <Button variant="outline" className="w-full justify-between text-sm">
+                                      <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
+                                      <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'apply' ? 'rotate(180deg)' : 'none' }}/>
+                                    </Button>
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="pl-8">
+                                <CollapsibleContent className="pl-4">
                                     {applyForLinks.map(({ href, label, icon }) => (
                                     <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 p-3 rounded-md text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground">
                                         {icon}
