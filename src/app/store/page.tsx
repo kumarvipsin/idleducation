@@ -118,12 +118,14 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <DropdownMenuContent className="w-56" align="end" forceMount>
                                 {storeUser ? (
                                     <>
-                                        <DropdownMenuLabel className="font-normal">
-                                            <div className="flex flex-col space-y-1">
-                                            <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                            <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
-                                            </div>
-                                        </DropdownMenuLabel>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/account" className="w-full">
+                                                <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                                <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
+                                                </div>
+                                            </Link>
+                                        </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild><Link href="/store/account"><User className="mr-2 h-4 w-4" />My Account</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
@@ -134,6 +136,10 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     <>
                                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
+                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/account')}>
+                                            <User className="mr-2 h-4 w-4" />
+                                            <span>My Account</span>
+                                        </DropdownMenuItem>
                                         <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
                                             <ShoppingCart className="mr-2 h-4 w-4" />
                                             <span>My Cart</span>
