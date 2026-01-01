@@ -56,12 +56,12 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 
 const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors">
-                    <div className="bg-muted p-2 rounded-md mt-1">{link.icon}</div>
+                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
-                        <p className="font-semibold text-sm">{link.label}</p>
+                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
                     </div>
                 </Link>
@@ -324,7 +324,7 @@ export function Header() {
     if (user) {
       return (
         <div className="p-2 border-t">
-          {/* Content removed as per user request */}
+            {/* User profile section removed as per request */}
         </div>
       );
     }
@@ -432,8 +432,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {isClient && renderAuthSection()}
                       {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -455,7 +455,7 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                        <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
                                         </Button>
                                     </CollapsibleTrigger>
@@ -475,9 +475,8 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="outline" className="w-full justify-start text-sm">
                                             <span className="flex items-center gap-3"><UserCircle className="h-4 w-4" /> Apply For</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'apply' ? 'rotate(180deg)' : 'none' }}/>
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
