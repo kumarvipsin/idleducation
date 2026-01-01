@@ -69,7 +69,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
     }
     
     const searchPopoverContent = (
-        <div className="p-4 w-screen max-w-full">
+        <div className="p-4 w-screen max-w-lg">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -136,17 +136,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                     </>
                                 ) : (
                                     <>
-                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
-                                            <ShoppingCart className="mr-2 h-4 w-4" />
-                                            <span>My Cart</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/orders')}>
-                                            <ShoppingBag className="mr-2 h-4 w-4" />
-                                            <span>My Orders</span>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild>
                                             <Link href="/store/auth">
                                                 <LogIn className="mr-2 h-4 w-4" />
