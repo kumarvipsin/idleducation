@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -118,19 +118,18 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                             <DropdownMenuContent className="w-56" align="end" forceMount>
                                 {storeUser ? (
                                     <>
-                                        <DropdownMenuLabel className="font-normal p-0">
-                                            <Link href="/store/account" className="block p-2">
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/store/account" className="w-full">
                                                 <div className="flex flex-col space-y-1">
                                                 <p className="text-sm font-medium leading-none">{storeUser.name}</p>
                                                 <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
                                                 </div>
                                             </Link>
-                                        </DropdownMenuLabel>
+                                        </DropdownMenuItem>
                                         <DropdownMenuSeparator />
-                                        <DropdownMenuItem asChild><Link href="/store/account"><User className="mr-2 h-4 w-4" />My Account</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
-                                        <DropdownMenuItem onClick={storeLogout}>Logout</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={storeLogout}><LogOut className="mr-2 h-4 w-4" />Logout</DropdownMenuItem>
                                     </>
                                 ) : (
                                     <>
