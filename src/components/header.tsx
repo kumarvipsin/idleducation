@@ -54,16 +54,17 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title?: string, children?: React.ReactNode }) => (
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
-                    <div className="bg-primary/10 text-primary p-2 rounded-md">
+                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-primary/5 transition-colors">
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">
                         {link.icon}
                     </div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
+                        <p className="text-xs text-muted-foreground">{link.description}</p>
                     </div>
                 </Link>
             ))}
@@ -290,19 +291,19 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" /> },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" /> },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" /> },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" /> },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank" },
+    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" /> },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" /> },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" /> },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" /> },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" /> },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
@@ -432,8 +433,8 @@ export function Header() {
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
+                              <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
                                     Explore
                                 </Button>
                               </div>
@@ -460,17 +461,15 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-1">
-                        <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                            </div>
-                            <div>
-                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
-                            </div>
-                        </a>
-                    </div>
+                    <a href="tel:7011117585" className="hidden md:flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                        <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                            <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                            <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                            <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                        </div>
+                    </a>
                     
                     <div className="flex items-center gap-1">
                       {isClient && user && renderAuthSection()}
@@ -514,10 +513,10 @@ export function Header() {
                                 </Button>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                 <CollapsibleTrigger asChild>
-                                  <Button variant="outline" className="w-full justify-between text-sm">
-                                      <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
-                                      <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
-                                  </Button>
+                                    <Button variant="outline" className="w-full justify-between text-sm">
+                                        <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                        <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
+                                    </Button>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="pl-4">
                                     {navLinks.map(({ href, label, icon, target }) => (
@@ -562,7 +561,7 @@ export function Header() {
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
-          <div className="pt-2 pb-4">
+          <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Explore" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
           </div>
