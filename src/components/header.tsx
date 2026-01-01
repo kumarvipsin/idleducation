@@ -54,9 +54,9 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title: string, children?: React.ReactNode }) => (
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; target?: string }[], title?: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
-        
+        {title && <h3 className="text-sm font-semibold text-muted-foreground mb-4">{title}</h3>}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 transition-colors">
@@ -94,7 +94,7 @@ export function Header() {
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
+  const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>('explore');
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
@@ -434,17 +434,17 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
                                     Explore
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md" style={{ fontSize: '90%' }}>
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL Store
                                   </Link>
@@ -461,12 +461,16 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-1">
-                        <Button asChild variant="outline" className="h-8 px-3 text-xs">
-                           <a href="tel:7011117585" className="flex items-center gap-1">
-                             <Phone className="h-3 w-3" /> CALL NOW
-                           </a>
-                        </Button>
+                     <div className="hidden md:flex items-center gap-1">
+                        <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                            </div>
+                        </a>
                     </div>
                     
                     <div className="hidden md:flex">
@@ -495,15 +499,20 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                  <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now
+                                <Button asChild variant="outline" className="w-full justify-start text-sm h-auto py-3">
+                                  <a href="tel:7011117585" className="flex items-center gap-2">
+                                    <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                                        <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[0.6rem] text-muted-foreground leading-tight text-left">Call now</p>
+                                        <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                                    </div>
                                   </a>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <ShoppingCart className="h-4 w-4 mr-3" />
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
+                                    <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
                                 </Button>
