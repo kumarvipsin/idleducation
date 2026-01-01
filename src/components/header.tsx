@@ -230,25 +230,19 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
-                </p>
-              </div>
-            </DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+               <Link href={getProfilePath(user)} className="flex flex-col items-start p-2">
+                 <p className="text-sm font-medium leading-none">{user.name}</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    {user.email}
+                  </p>
+               </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                <Link href={getDashboardPath(user)}>
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={getProfilePath(user)}>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -311,18 +305,10 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+        return null;
     }
     if (user) {
-      return null
+      return null;
     }
     return null;
   };
@@ -490,16 +476,16 @@ export function Header() {
                                     </CollapsibleContent>
                                 </Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                   <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
-                                  </a>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
+                                </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                   <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now (70-1111-7585)
+                                  </a>
                                 </Button>
                             </nav>
                         </div>
