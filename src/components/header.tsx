@@ -363,7 +363,6 @@ export function Header() {
     }
     return (
         <div className="p-2 border-t">
-          
         </div>
     );
   };
@@ -469,8 +468,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
+                      {!isIdlFoundationPage && notificationDropdown}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -492,12 +491,11 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="outline" className="w-full justify-start text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform duration-200" style={{ transform: openMobileAccordion === 'explore' ? 'rotate(180deg)' : 'none' }}/>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
+                                    <CollapsibleContent className="pl-4">
                                         <div className="grid grid-cols-1 gap-1">
                                             {navLinks.map(({ href, label, icon, description, target }) => (
                                                 <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
