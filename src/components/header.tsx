@@ -54,7 +54,7 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-const MegaMenu = ({ links, title }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string }) => (
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {links && links.map((link) => (
@@ -68,6 +68,7 @@ const MegaMenu = ({ links, title }: { links?: { href: string; label: string; ico
                     </div>
                 </Link>
             ))}
+            {children}
         </div>
     </div>
   );
@@ -420,7 +421,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
@@ -534,6 +535,12 @@ export function Header() {
                                     IDL Store
                                   </Link>
                                 </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                   <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now (70-1111-7585)
+                                  </a>
+                                </Button>
                             </nav>
                         </div>
                         )}
@@ -554,7 +561,7 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Application & Enquiries" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
           </div>
         </div>
       </div>
