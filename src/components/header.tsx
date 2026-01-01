@@ -360,16 +360,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t grid grid-cols-2 gap-2">
-            <Button asChild className="w-full">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-            </Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -562,7 +553,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Main Menu" />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Application & Enquiries" />}
           </div>
         </div>
