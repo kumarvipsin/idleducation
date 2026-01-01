@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -129,7 +129,10 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
-                                        <DropdownMenuItem onClick={storeLogout}>Logout</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={storeLogout}>
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <span>Logout</span>
+                                        </DropdownMenuItem>
                                     </>
                                 ) : (
                                     <>
