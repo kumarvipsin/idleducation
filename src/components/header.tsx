@@ -433,8 +433,8 @@ export function Header() {
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                              <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
+                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
                                     Explore
                                 </Button>
                               </div>
@@ -560,7 +560,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="Explore" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="Apply For" />}
