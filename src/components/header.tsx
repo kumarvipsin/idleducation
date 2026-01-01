@@ -425,19 +425,19 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('menu')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">
-                                    MENU
+                                <Button variant="ghost" data-active={activeMenu === 'menu'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
+                                    Menu
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">
-                                  APPLY FOR
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md" style={{ fontSize: '90%' }}>
+                                  Apply For
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground uppercase hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md">
+                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md" style={{ fontSize: '90%' }}>
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                    IDL STORE
+                                    IDL Store
                                   </Link>
                                 </Button>
                               </div>
@@ -486,7 +486,7 @@ export function Header() {
                                       Call Now
                                   </a>
                                 </Button>
-                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}>
                                     <ShoppingCart className="h-4 w-4 mr-3" />
                                     IDL Store
