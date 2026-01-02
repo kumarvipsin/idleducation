@@ -13,13 +13,15 @@ import Link from "next/link";
 
 const defaultSlides = [
   { 
+    id: "default-1",
     imageUrl: "https://picsum.photos/seed/build-skills/1920/1080", 
     alt: "Students with backpacks looking towards the sky", 
     hint: "students future skills",
-    title: "Build Skills That Shape<br/> Your Future.",
+    title: "",
     description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.",
     buttonText: "Enroll Now",
-    buttonLink: "/admission"
+    buttonLink: "/admission",
+    order: 1,
   },
 ];
 
@@ -52,7 +54,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   );
   
   return (
-    <section className="relative w-full aspect-video md:aspect-video lg:aspect-[16/7] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-video md:aspect-[16/7] lg:aspect-[16/7] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -71,8 +73,6 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                 />
                  <div className="absolute inset-0 bg-black/30 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg" dangerouslySetInnerHTML={{ __html: slide.title.replace('<br/>', '<br />') }}>
-                    </h1>
                      {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
                      {slide.buttonText && slide.buttonLink && (
                         <Button asChild size="lg" className="mt-8">

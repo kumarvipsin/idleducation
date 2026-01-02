@@ -61,7 +61,7 @@ const HeroSlideForm = ({
     <form onSubmit={handleSubmit}>
       <ScrollArea className="h-96 pr-4">
         <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="title" className="text-right">Title</Label><Input id="title" name="title" defaultValue={slide?.title} className="col-span-3" required /></div>
+            <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="title" className="text-right">Title</Label><Input id="title" name="title" defaultValue={slide?.title} className="col-span-3" /></div>
             <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="description" className="text-right">Description</Label><Textarea id="description" name="description" defaultValue={slide?.description} className="col-span-3" /></div>
             <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="buttonText" className="text-right">Button Text</Label><Input id="buttonText" name="buttonText" defaultValue={slide?.buttonText} className="col-span-3" /></div>
             <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor="buttonLink" className="text-right">Button Link</Label><Input id="buttonLink" name="buttonLink" defaultValue={slide?.buttonLink} className="col-span-3" /></div>
