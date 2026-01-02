@@ -33,7 +33,7 @@ const categories = [
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "/category/iit-jee",
-    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2022/04/concept-clarity.png",
+    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/Aakash_JEE_NEET.webp",
     imageHint: "student studying"
   }
 ];
@@ -43,7 +43,10 @@ export function ExamCategories() {
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Exam Categories</h2>
+            <div className="flex items-center justify-center">
+              <span className="text-sky-500 text-2xl mr-2">•</span>
+              <h2 className="text-lg font-semibold text-sky-500">Exam Categories</h2>
+            </div>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Find the perfect program to help you achieve your academic and career goals.
           </p>
