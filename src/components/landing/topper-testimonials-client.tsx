@@ -6,9 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
-import Autoplay from "embla-carousel-autoplay";
-import { Separator } from "../ui/separator";
+import { PlayCircle } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -56,9 +54,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </DialogContent>
         </Dialog>
 
-        <div className="p-2 flex-grow flex flex-col">
-          <p className="font-bold text-xs text-foreground truncate">{testimonial.studentName}</p>
-          <div className="flex justify-between items-center text-[10px] text-muted-foreground mt-1">
+        <div className="p-4 flex-grow flex flex-col">
+          <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
           </div>
         </div>
@@ -68,28 +66,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
 };
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
-  const [api, setApi] = React.useState<CarouselApi>()
-  const [playingVideoId, setPlayingVideoId] = React.useState<string | null>(null);
-
-  const autoplayPlugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
-  );
-
-  React.useEffect(() => {
-    if (!api) {
-      return;
-    }
-    if (playingVideoId) {
-      if (api.plugins().autoplay) {
-        api.plugins().autoplay.stop();
-      }
-    } else {
-       if (api.plugins().autoplay) {
-          api.plugins().autoplay.play();
-       }
-    }
-  }, [playingVideoId, api]);
-
   if (!testimonials || testimonials.length === 0) {
     return (
       <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
@@ -114,7 +90,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         
         <div className="relative mt-12">
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex gap-6 px-4 md:pl-[10%]">
+            <div className="flex gap-6 px-4 md:px-[10%]">
               {testimonials.map((testimonial) => (
                 <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                     <TestimonialCard testimonial={testimonial} />

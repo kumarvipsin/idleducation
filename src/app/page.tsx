@@ -1,7 +1,6 @@
 
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { OurFeatures } from '@/components/landing/our-features';
-import { TopperTestimonialsClient } from '@/components/landing/topper-testimonials-client';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
@@ -26,7 +25,7 @@ export default async function Home() {
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
-      <TopperTestimonialsClient testimonials={testimonials as any[]} />
+      <ToppersTestimonials testimonials={testimonials as TTopperTestimonial[]} />
     </div>
   );
 }
