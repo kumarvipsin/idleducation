@@ -230,7 +230,7 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuItem asChild>
+            <DropdownMenuLabel className="font-normal">
                 <Link href={getProfilePath(user)}>
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">{user.name}</p>
@@ -239,18 +239,12 @@ export function Header() {
                         </p>
                     </div>
                 </Link>
-            </DropdownMenuItem>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                <Link href={getDashboardPath(user)}>
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={getProfilePath(user)}>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
