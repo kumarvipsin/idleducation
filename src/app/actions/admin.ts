@@ -909,4 +909,70 @@ export async function deleteReferenceBook(id: string) {
     return { success: false, message: "Failed to delete reference book." };
   }
 }
+
+// Hero Slide Management
+export async function addHeroSlide(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const imageFile = rawData.image as File | null;
+  if (!imageFile) return { success: false, message: "Image is required." };
+
+  try {
+    const destination = `hero-slides/${Date.now()}-${imageFile.name}`;
+    const imageUrl = await uploadFileToGCS(imageFile, destination);
+    
+    await addDoc(collection(db, "heroSlides"), {
+      title: rawData.title as string,
+      description: rawData.description as string,
+      buttonText: rawData.buttonText as string,
+      buttonLink: rawData.buttonLink as string,
+      order: parseInt(rawData.order as string, 10) || 99,
+      imageUrl,
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Hero slide added successfully." };
+  } catch (error) {
+    console.error("Error adding hero slide:", error);
+    return { success: false, message: "Failed to add hero slide." };
+  }
+}
+
+export async function editHeroSlide(id: string, formData: FormData) {
+    const rawData = Object.fromEntries(formData.entries());
+    const imageFile = rawData.image as File | null;
+
+    const slideData: any = {
+      title: rawData.title as string,
+      description: rawData.description as string,
+      buttonText: rawData.buttonText as string,
+      buttonLink: rawData.buttonLink as string,
+      order: parseInt(rawData.order as string, 10) || 99,
+    };
+    
+    try {
+        if (imageFile && imageFile.size > 0) {
+            const destination = `hero-slides/${Date.now()}-${imageFile.name}`;
+            slideData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+
+        const docRef = doc(db, "heroSlides", id);
+        await updateDoc(docRef, slideData);
+        
+        return { success: true, message: "Hero slide updated successfully." };
+    } catch (error) {
+        console.error("Error updating hero slide:", error);
+        return { success: false, message: "Failed to update hero slide." };
+    }
+}
+
+export async function deleteHeroSlide(id: string) {
+    try {
+        const docRef = doc(db, "heroSlides", id);
+        await deleteDoc(docRef);
+        return { success: true, message: "Hero slide deleted successfully." };
+    } catch (error) {
+        console.error("Error deleting hero slide:", error);
+        return { success: false, message: "Failed to delete hero slide." };
+    }
+}
     
