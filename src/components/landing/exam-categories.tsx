@@ -33,7 +33,7 @@ const categories = [
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "/category/iit-jee",
-    imageUrl: "https://images.unsplash.com/photo-1627993093883-3729daste15a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/LiveClasses_Hero_50kb.webp",
     imageHint: "science laboratory"
   }
 ];
