@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -58,7 +59,7 @@ export function BuildSkillsSection() {
   );
   
   return (
-    <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-[16/9] md:aspect-video lg:aspect-[16/7] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
