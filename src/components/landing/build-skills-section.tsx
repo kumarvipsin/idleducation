@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -67,11 +66,10 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
               <div className="relative w-full h-full flex flex-col items-center justify-center">
                  <GcsImage 
                   filePath={slide.imageUrl}
-                  alt={slide.title}
+                  alt={slide.title || 'Hero Image'}
                   fill
                   className="object-cover"
                 />
-                 <div className="absolute inset-0 bg-black/30 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
                      {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
                      {slide.buttonText && slide.buttonLink && (
