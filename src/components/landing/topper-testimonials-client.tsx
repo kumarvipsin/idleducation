@@ -103,9 +103,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
         <div className="text-center mb-12 px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
-            Topper's Testimonials
-          </h2>
+          <div className="flex items-center justify-center">
+            <span className="text-sky-500 text-2xl mr-2">•</span>
+            <h2 className="text-lg font-semibold text-sky-500">Topper's Testimonials</h2>
+          </div>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
