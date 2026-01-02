@@ -7,35 +7,28 @@ import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import type { THeroSlide } from "@/app/actions/types";
+import { GcsImage } from "../gcs-image";
+import Link from "next/link";
 
-const slides = [
+const defaultSlides = [
   { 
-    src: "https://picsum.photos/seed/build-skills/1920/1080", 
+    imageUrl: "https://picsum.photos/seed/build-skills/1920/1080", 
     alt: "Students with backpacks looking towards the sky", 
     hint: "students future skills",
-    title: <>Build Skills That Shape<br/> Your Future.</>,
-    buttonText: "Enroll Now"
-  },
-  { 
-    src: "https://picsum.photos/seed/discover-passion/1920/1080", 
-    alt: "A student engaged in a creative activity", 
-    hint: "student engaged hobby",
-    title: <>Discover Your Passion. <br/>Ignite Your Career.</>,
-    buttonText: "Explore Courses"
-  },
-  { 
-    src: "https://picsum.photos/seed/career-ready/1920/1080", 
-    alt: "A young professional working on a laptop", 
-    hint: "young professional",
-    title: <>From Classroom to <br/>Career-Ready.</>,
-    buttonText: "Get Started"
+    title: "Build Skills That Shape<br/> Your Future.",
+    description: "Join thousands of students achieving their dreams with our expert-led courses and personalized learning paths.",
+    buttonText: "Enroll Now",
+    buttonLink: "/admission"
   },
 ];
 
-export function BuildSkillsSection() {
+
+export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSlide[] }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+
+  const slides = initialSlides.length > 0 ? initialSlides : defaultSlides;
 
   const autoplayPlugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
@@ -59,7 +52,7 @@ export function BuildSkillsSection() {
   );
   
   return (
-    <section className="relative w-full aspect-[16/9] md:aspect-video lg:aspect-[16/7] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-video md:aspect-video lg:aspect-[16/7] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -68,20 +61,24 @@ export function BuildSkillsSection() {
       >
         <CarouselContent className="h-full">
           {slides.map((slide, index) => (
-            <CarouselItem key={index} className="h-full">
+            <CarouselItem key={slide.id || index} className="h-full">
               <div className="relative w-full h-full flex flex-col items-center justify-center">
-                <Image 
-                  src={slide.src} 
-                  alt={slide.alt} 
-                  data-ai-hint={slide.hint}
+                 <GcsImage 
+                  filePath={slide.imageUrl}
+                  alt={slide.title}
                   fill
                   className="object-cover"
                 />
                  <div className="absolute inset-0 bg-black/30 z-0"></div>
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg">
-                       {slide.title}
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-lg" dangerouslySetInnerHTML={{ __html: slide.title.replace('<br/>', '<br />') }}>
                     </h1>
+                     {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
+                     {slide.buttonText && slide.buttonLink && (
+                        <Button asChild size="lg" className="mt-8">
+                            <Link href={slide.buttonLink}>{slide.buttonText}</Link>
+                        </Button>
+                     )}
                 </div>
               </div>
             </CarouselItem>
