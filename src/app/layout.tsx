@@ -1,12 +1,17 @@
 
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Dancing_Script } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ['latin'],
+  variable: '--font-dancing-script',
 });
 
 export const metadata: Metadata = {
@@ -31,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+      <body className={`${inter.variable} ${dancingScript.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
