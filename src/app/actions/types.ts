@@ -178,3 +178,13 @@ export interface TPreviousYearQuestion {
   subjects: SubjectWithPapers[];
   createdAt: string;
 }
+
+export interface THeroSlide {
+  id: string;
+  title: string;
+  description?: string;
+  imageUrl: string;
+  buttonText?: string;
+  buttonLink?: string;
+  order: number;
+}
