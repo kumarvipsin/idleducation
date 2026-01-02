@@ -62,8 +62,9 @@ export function ExamCategories() {
                                         alt={category.title}
                                         data-ai-hint={category.imageHint}
                                         fill
-                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        className="object-cover"
                                     />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                                 </div>
                                 <CardContent className="p-6 flex-grow flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
                                     <Badge variant="secondary" className="mb-2">{category.subtitle}</Badge>
