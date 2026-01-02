@@ -15,7 +15,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { GcsImage } from "../gcs-image";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
@@ -70,9 +70,10 @@ export function StudentTestimonials() {
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
-        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
-          What Our Students Say
-        </h2>
+        <div className="flex items-center justify-center">
+          <span className="text-sky-500 text-2xl mr-2">•</span>
+          <h2 className="text-lg font-semibold text-sky-500">What Our Students Say</h2>
+        </div>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           {t('testimonials.subtitle')}
         </p>
