@@ -53,10 +53,10 @@ export function ExamCategories() {
         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:px-[10%]">
                 {categories.map((category, index) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] h-[450px] sm:w-[350px] sm:h-[525px] group">
+                    <div key={index} className="block flex-shrink-0 w-[300px] h-[525px] sm:w-[350px] sm:h-[612.5px] group">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <div className="relative aspect-[16/10] w-full">
+                                <div className="relative w-full h-[75%]">
                                     <Image
                                         src={category.imageUrl}
                                         alt={category.title}
@@ -65,11 +65,11 @@ export function ExamCategories() {
                                         className="object-cover"
                                     />
                                 </div>
-                                <CardContent className="p-6 flex-grow flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
+                                <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[25%]">
                                     <Badge variant="secondary" className="mb-2">{category.subtitle}</Badge>
-                                    <h3 className="text-xl font-bold text-foreground text-left">{category.title}</h3>
-                                    <div className="mt-auto pt-4">
-                                        <div className="text-primary font-semibold flex items-center group-hover:underline">
+                                    <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
+                                    <div className="mt-auto pt-2">
+                                        <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
                                             Explore Category
                                             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                         </div>
