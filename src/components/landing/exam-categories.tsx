@@ -33,8 +33,8 @@ const categories = [
     title: "Other Programs",
     subtitle: "NEET / JEE & OTHER FOUNDATION",
     href: "/category/iit-jee",
-    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/LiveClasses_Hero_50kb.webp",
-    imageHint: "science laboratory"
+    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2022/04/concept-clarity.png",
+    imageHint: "student studying"
   }
 ];
 
