@@ -53,10 +53,10 @@ export function ExamCategories() {
         <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:px-[10%]">
                 {categories.map((category, index) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                    <div key={index} className="block flex-shrink-0 w-[300px] h-[450px] sm:w-[350px] sm:h-[525px] group">
                         <Link href={category.href} className="block h-full">
                             <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <div className="relative aspect-[4/3] w-full">
+                                <div className="relative aspect-[16/10] w-full">
                                     <Image
                                         src={category.imageUrl}
                                         alt={category.title}
@@ -64,7 +64,6 @@ export function ExamCategories() {
                                         fill
                                         className="object-cover"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                                 </div>
                                 <CardContent className="p-6 flex-grow flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
                                     <Badge variant="secondary" className="mb-2">{category.subtitle}</Badge>
