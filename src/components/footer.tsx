@@ -46,7 +46,7 @@ export function Footer() {
                             </span>
                         </div>
                     </Link>
-                    <p className="text-base text-muted-foreground font-dancing-script font-bold">
+                    <p className="text-lg text-muted-foreground font-dancing-script font-extrabold">
                       We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
                     </p>
                     <div className="flex items-center gap-2">
