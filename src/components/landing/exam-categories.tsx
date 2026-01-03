@@ -39,7 +39,7 @@ const categories = [
 
 export function ExamCategories() {
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full py-4 md:py-8 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
             <div className="flex items-center justify-center">
