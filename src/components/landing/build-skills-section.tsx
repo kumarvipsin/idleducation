@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 import type { THeroSlide } from "@/app/actions/types";
 import { GcsImage } from "../gcs-image";
 import Link from "next/link";
+import useEmblaCarousel from "embla-carousel-react"
 
 const defaultSlides = [
   { 
@@ -53,7 +55,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   );
   
   return (
-    <section className="relative w-full aspect-video md:aspect-[16/7] lg:aspect-[16/7] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-[2/1] md:aspect-[16/7] lg:aspect-[16/6] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -70,10 +72,15 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                   fill
                   className="object-cover"
                 />
-                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
-                     {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
+                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 bg-black/30 md:bg-black/40">
+                     <div className="md:hidden">
+                        {slide.description && <p className="mt-2 text-sm text-white/90 drop-shadow-md">{slide.description}</p>}
+                     </div>
+                     <div className="hidden md:block">
+                        {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
+                     </div>
                      {slide.buttonText && slide.buttonLink && (
-                        <Button asChild size="lg" className="mt-8">
+                        <Button asChild size="sm" className="mt-4 md:mt-8 md:h-11 md:px-8 md:text-base">
                             <Link href={slide.buttonLink}>{slide.buttonText}</Link>
                         </Button>
                      )}
