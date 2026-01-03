@@ -12,7 +12,7 @@ export function TrustedPlatform() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Bharat's <span className="text-primary">Trusted & Affordable</span> Educational Platform
+              India's <span className="text-primary">Trusted & Affordable</span> Educational Platform
             </h2>
             <p className="text-muted-foreground text-lg">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
