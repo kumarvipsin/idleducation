@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GraduationCap, BookUp, FileStack, Users, CheckCircle, Zap } from "lucide-react";
 
 const features = [
@@ -56,24 +55,41 @@ export function OurFeatures() {
             </p>
         </div>
         
-        <div className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <Accordion type="single" collapsible className="w-full space-y-4">
-              {features.map((feature, index) => (
-                <AccordionItem value={`item-${index}`} key={index} className="bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <AccordionTrigger className="p-4 text-left font-semibold hover:no-underline">
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 bg-primary/10 text-primary rounded-lg">
-                        {feature.icon}
-                      </div>
-                      <span>{feature.title}</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="space-y-4">
+            {features.slice(0, 3).map((feature, index) => (
+              <Card key={index} className="bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-primary/10 text-primary rounded-lg mt-1">
+                      {feature.icon}
                     </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-6 pb-4 text-muted-foreground">
-                    {feature.description}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+                    <div>
+                      <h4 className="font-semibold text-left">{feature.title}</h4>
+                      <p className="text-muted-foreground text-left text-sm">{feature.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="space-y-4">
+            {features.slice(3, 6).map((feature, index) => (
+              <Card key={index} className="bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-primary/10 text-primary rounded-lg mt-1">
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-left">{feature.title}</h4>
+                      <p className="text-muted-foreground text-left text-sm">{feature.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </section>
