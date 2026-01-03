@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users, CheckCircle } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, CheckCircle, Zap } from "lucide-react";
 import Image from "next/image";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -31,6 +31,11 @@ const features = [
     icon: <BookUp className="w-5 h-5" />,
     title: "All-in-One Learning, Anytime, Anywhere.",
     description: "Our platform is a one-stop solution with a vast library of study materials, including tests, sample papers, and notes, accessible anytime, anywhere.",
+  },
+  {
+    icon: <Zap className="w-5 h-5" />,
+    title: "Practical Learning",
+    description: "Apply your knowledge with hands-on projects and real-world case studies to build practical skills.",
   },
 ];
 
