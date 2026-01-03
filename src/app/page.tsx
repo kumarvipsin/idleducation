@@ -9,6 +9,8 @@ import { getTopperTestimonials, getCollection } from '@/app/actions';
 import type { TTopperTestimonial, THeroSlide } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const testimonialsResult = await getTopperTestimonials();
   const testimonials = testimonialsResult.success ? testimonialsResult.data : [];
