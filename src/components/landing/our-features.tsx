@@ -41,11 +41,11 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-16 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative py-4 md:py-8 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         
-        <div className="text-center mb-12">
+        <div className="text-center mb-6">
             <div className="flex items-center justify-center">
                 <span className="text-sky-500 text-2xl mr-2">•</span>
                 <h2 className="text-lg font-semibold text-sky-500">Our Features</h2>
