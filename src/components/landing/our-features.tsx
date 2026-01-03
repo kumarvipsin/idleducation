@@ -2,42 +2,42 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users, ChevronRight, FlaskConical, Clock, IndianRupee, Zap, Shield, CheckCircle } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, CheckCircle } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const features = [
   {
     icon: <GraduationCap className="w-5 h-5" />,
     title: "100+ Expert Faculty",
-    href: "/feature/expert-faculty",
+    description: "Our faculty comprises highly qualified and experienced educators from top institutions. They are dedicated to nurturing students' potential and guiding them toward academic excellence.",
   },
   {
     icon: <CheckCircle className="w-5 h-5" />,
     title: "100% Quality Education",
-    href: "/feature/quality-education",
+    description: "We are committed to delivering the highest quality education through interactive and engaging classes, utilizing modern teaching aids to make learning enjoyable and effective.",
   },
   {
     icon: <FileStack className="w-5 h-5" />,
     title: "100% Complete Syllabus",
-    href: "/feature/complete-syllabus",
+    description: "Our curriculum ensures thorough coverage of all subjects as per the latest academic syllabus. Regular assessments and revision sessions are conducted to reinforce learning.",
   },
   {
     icon: <Users className="w-5 h-5" />,
     title: "Unique Two-Teacher Model",
-    href: "/feature/two-teacher-model",
+    description: "Our innovative two-teacher model ensures every student gets the attention they need. One teacher leads the class, while the second instantly clears any doubts.",
   },
    {
     icon: <BookUp className="w-5 h-5" />,
     title: "All-in-One Learning, Anytime, Anywhere.",
-    href: "/feature/all-in-one-learning",
+    description: "Our platform is a one-stop solution with a vast library of study materials, including tests, sample papers, and notes, accessible anytime, anywhere.",
   },
 ];
 
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative pt-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative py-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -53,23 +53,23 @@ export function OurFeatures() {
                     <p className="text-muted-foreground text-center lg:text-left">
                         Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
                     </p>
-                    <div className="space-y-4">
+                    <Accordion type="single" collapsible className="w-full space-y-3">
                         {features.map((feature, index) => (
-                           <Link href={feature.href} key={index} className="block group">
-                             <Card className="shadow-sm hover:shadow-md hover:border-primary/50 transition-all duration-300">
-                                <CardContent className="p-4 flex items-center justify-between">
+                           <AccordionItem value={`item-${index}`} key={index} className="border bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                                <AccordionTrigger className="p-4 font-semibold text-left hover:no-underline">
                                     <div className="flex items-center gap-4">
                                         <div className="p-3 bg-primary/10 text-primary rounded-lg">
                                             {feature.icon}
                                         </div>
-                                        <p className="font-semibold text-foreground">{feature.title}</p>
+                                        <p className="text-foreground">{feature.title}</p>
                                     </div>
-                                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
-                                </CardContent>
-                            </Card>
-                           </Link>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-4 pb-4">
+                                    <p className="text-sm text-muted-foreground ml-16">{feature.description}</p>
+                                </AccordionContent>
+                            </AccordionItem>
                         ))}
-                    </div>
+                    </Accordion>
                 </div>
             </div>
              <div className="order-1 lg:order-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
