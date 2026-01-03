@@ -31,7 +31,8 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
                     </div>
-                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full" data-ai-hint="teacher profile" />
+                    <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
+                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute bottom-20 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
                     <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
@@ -46,7 +47,8 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
-                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
+                    <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
+                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
