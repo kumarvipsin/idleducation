@@ -31,7 +31,7 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
                     </div>
-                    <Image src="https://picsum.photos/seed/random-teacher/150/150" alt="Amod Sir" width={150} height={150} className="rounded-full" data-ai-hint="teacher profile" />
+                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute bottom-20 -right-28 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
                     <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
