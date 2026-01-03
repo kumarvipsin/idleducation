@@ -49,7 +49,7 @@ export function TrustedPlatform() {
                     <Image src="https://picsum.photos/seed/student-lady/150/150" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
-                    <p className="text-xs text-gray-800">Alakh Sir, What is PW?</p>
+                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
                     <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-white"></div>
                 </div>
             </div>
