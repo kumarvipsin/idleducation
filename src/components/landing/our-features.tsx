@@ -48,7 +48,7 @@ export function OurFeatures() {
         <div className="text-center mb-12">
             <div className="flex items-center justify-center">
                 <span className="text-sky-500 text-2xl mr-2">•</span>
-                <h2 className="text-lg font-semibold text-sky-500">Our Features</h2>
+                <h2 className="text-lg font-semibold text-sky-500">Why Choose IDL?</h2>
             </div>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Discover the advantages that make our platform the best choice for your learning journey.
