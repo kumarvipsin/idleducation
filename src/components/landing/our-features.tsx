@@ -57,8 +57,8 @@ export function OurFeatures() {
             </p>
         </div>
         
-        <Accordion type="multiple" className="w-full space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Accordion type="single" collapsible className="w-full space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {features.map((feature, index) => (
                     <Card key={index} className="bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
                         <AccordionItem value={`item-${index}`} className="border-b-0">
