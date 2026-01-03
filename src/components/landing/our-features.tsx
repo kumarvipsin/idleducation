@@ -64,7 +64,7 @@ export function OurFeatures() {
                         <AccordionItem value={`item-${index}`} className="border-b-0">
                             <AccordionTrigger className="p-3 text-left hover:no-underline">
                                 <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-primary/10 text-primary rounded-lg">
+                                    <div className="p-3 bg-primary/10 text-primary rounded-full">
                                         {feature.icon}
                                     </div>
                                     <h4 className="font-semibold">{feature.title}</h4>
