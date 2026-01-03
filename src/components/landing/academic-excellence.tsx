@@ -58,8 +58,8 @@ export function AcademicExcellence() {
       <div className="w-full">
         <div className="text-center mb-6 px-4">
           <div className="flex items-center justify-center">
-            <span className="text-sky-500 text-2xl mr-2">•</span>
-            <h2 className="text-lg font-semibold text-sky-500">Excellence Results</h2>
+            <span className="text-blue-600 text-2xl mr-2">•</span>
+            <h2 className="text-lg font-semibold text-blue-600">Excellence Results</h2>
           </div>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Our students consistently achieve outstanding results. Here's a glimpse of their success.

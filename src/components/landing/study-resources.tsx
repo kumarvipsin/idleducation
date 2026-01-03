@@ -47,8 +47,8 @@ export function StudyResources() {
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
             <div className="flex items-center justify-center">
-              <span className="text-sky-500 text-2xl mr-2">•</span>
-              <h2 className="text-lg font-semibold text-sky-500">Study Resources</h2>
+              <span className="text-blue-600 text-2xl mr-2">•</span>
+              <h2 className="text-lg font-semibold text-blue-600">Study Resources</h2>
             </div>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base">
             A diverse array of learning materials to enhance your educational journey.

@@ -44,8 +44,8 @@ export function OurFeatures() {
             <div className="order-2 lg:order-1 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="space-y-6">
                     <div className="flex items-center justify-center lg:justify-start">
-                        <span className="text-sky-500 text-2xl mr-2">•</span>
-                        <h2 className="text-lg font-semibold text-sky-500">Why Choose IDL?</h2>
+                        <span className="text-blue-600 text-2xl mr-2">•</span>
+                        <h2 className="text-lg font-semibold text-blue-600">Why Choose IDL?</h2>
                     </div>
                      <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight text-center lg:text-left">
                         Experience a New Era of Learning
