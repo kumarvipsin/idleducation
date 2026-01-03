@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +62,7 @@ export function OurFeatures() {
                 {features.map((feature, index) => (
                     <Card key={index} className="bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
                         <AccordionItem value={`item-${index}`} className="border-b-0">
-                            <AccordionTrigger className="p-4 text-left hover:no-underline">
+                            <AccordionTrigger className="p-3 text-left hover:no-underline">
                                 <div className="flex items-center gap-4">
                                     <div className="p-3 bg-primary/10 text-primary rounded-lg">
                                         {feature.icon}
