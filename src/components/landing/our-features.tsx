@@ -10,7 +10,7 @@ const features = [
   {
     icon: <GraduationCap className="w-5 h-5" />,
     title: "100+ Expert Faculty",
-    description: "Our faculty comprises highly qualified and experienced educators from top institutions. They are dedicated to nurturing students' potential and guiding them toward academic excellence.",
+    description: "Learn from experienced educators and subject matter experts dedicated to your success.",
   },
   {
     icon: <CheckCircle className="w-5 h-5" />,
