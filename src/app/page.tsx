@@ -8,6 +8,7 @@ import { ExamCategories } from '@/components/landing/exam-categories';
 import { getTopperTestimonials, getCollection } from '@/app/actions';
 import type { TTopperTestimonial, THeroSlide } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
+import { TrustedPlatform } from '@/components/landing/trusted-platform';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,7 @@ export default async function Home() {
       <div className="mx-[2vw] mt-[1vh] rounded-2xl overflow-hidden">
         <BuildSkillsSection slides={slides} />
       </div>
+      <TrustedPlatform />
       <ExamCategories />
       <OurFeatures />
       <AcademicExcellence />
