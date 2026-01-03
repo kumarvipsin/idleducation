@@ -41,7 +41,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-24 bg-background dark:bg-gray-900"
+      className="w-full relative py-12 md:py-24"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         
