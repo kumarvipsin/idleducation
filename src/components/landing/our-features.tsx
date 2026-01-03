@@ -43,7 +43,7 @@ export function OurFeatures() {
     <section 
       className="w-full relative py-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
     >
-      <div className="container mx-auto px-4 md:px-[10%] relative z-10">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div className="space-y-6 text-center mb-12">
             <div className="flex items-center justify-center">
                 <span className="text-blue-600 text-2xl mr-2">•</span>
@@ -58,7 +58,7 @@ export function OurFeatures() {
         </div>
         
         <Accordion type="single" collapsible className="w-full space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                 {features.map((feature, index) => (
                     <Card key={index} className="bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
                         <AccordionItem value={`item-${index}`} className="border-b-0">
