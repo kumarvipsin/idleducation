@@ -1,7 +1,7 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { GraduationCap, BookUp, FileStack, Users, CheckCircle, Zap } from "lucide-react";
 
 const features = [
@@ -37,26 +37,7 @@ const features = [
   },
 ];
 
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-    <Card className="border bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
-        <CardContent className="p-4">
-            <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/10 text-primary rounded-lg mt-1">
-                    {icon}
-                </div>
-                <div>
-                    <h4 className="font-semibold text-foreground">{title}</h4>
-                    <p className="text-sm text-muted-foreground">{description}</p>
-                </div>
-            </div>
-        </CardContent>
-    </Card>
-);
-
 export function OurFeatures() {
-  const leftFeatures = features.slice(0, 3);
-  const rightFeatures = features.slice(3, 6);
-
   return (
     <section 
       className="w-full relative py-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
@@ -75,17 +56,24 @@ export function OurFeatures() {
             </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="space-y-6">
-                {leftFeatures.map((feature, index) => (
-                    <FeatureCard key={index} {...feature} />
-                ))}
-            </div>
-            <div className="space-y-6">
-                {rightFeatures.map((feature, index) => (
-                    <FeatureCard key={index} {...feature} />
-                ))}
-            </div>
+        <div className="max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {features.map((feature, index) => (
+                <AccordionItem value={`item-${index}`} key={index} className="bg-background border border-border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                  <AccordionTrigger className="p-4 text-left font-semibold hover:no-underline">
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-primary/10 text-primary rounded-lg">
+                        {feature.icon}
+                      </div>
+                      <span>{feature.title}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                    {feature.description}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
         </div>
       </div>
     </section>
