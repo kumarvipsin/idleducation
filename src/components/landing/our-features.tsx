@@ -37,7 +37,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-24 bg-background dark:bg-gray-900/50"
+      className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -75,9 +75,9 @@ export function OurFeatures() {
              <div className="order-1 lg:order-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                  <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
                      <Image
-                        src="https://www.euroschoolindia.com/wp-content/uploads/2023/10/benefits-of-co-education-in-school.jpg"
-                        alt="Why Choose IDL"
-                        data-ai-hint="teacher student"
+                        src="https://picsum.photos/seed/learning/800/800"
+                        alt="A student engaged in learning"
+                        data-ai-hint="student learning"
                         fill
                         className="object-cover rounded-2xl shadow-xl"
                     />
