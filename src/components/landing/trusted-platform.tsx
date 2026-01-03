@@ -46,7 +46,7 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
-                    <Image src="https://picsum.photos/seed/random-student/150/150" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
+                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
