@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full py-12 md:py-24 bg-background">
+    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
