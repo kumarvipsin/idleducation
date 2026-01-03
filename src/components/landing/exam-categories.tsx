@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 
 const categories = [
   {
@@ -44,8 +43,8 @@ export function ExamCategories() {
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
         <div className="text-center">
             <div className="flex items-center justify-center">
-              <span className="text-sky-500 text-2xl mr-2">•</span>
-              <h2 className="text-lg font-semibold text-sky-500">Exam Categories</h2>
+              <span className="text-blue-600 text-2xl mr-2">•</span>
+              <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
             </div>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Find the perfect program to help you achieve your academic and career goals.
@@ -69,8 +68,8 @@ export function ExamCategories() {
                                     />
                                 </div>
                                 <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[25%]">
-                                    <Badge variant="secondary" className="mb-2">{category.subtitle}</Badge>
                                     <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
+                                    <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
                                     <div className="mt-auto pt-2">
                                         <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
                                             Explore Category
