@@ -37,7 +37,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative pt-6 md:pt-12 pb-12 md:pb-24 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
