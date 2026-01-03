@@ -129,6 +129,14 @@ export default {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'spin-slow-reverse': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
       },
       animation: {
         'collapsible-down': 'collapsible-down 0.2s ease-out',
@@ -139,6 +147,8 @@ export default {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'gradient-x': 'gradient-x 5s ease infinite',
         'marquee-scroll': 'marquee-scroll 40s linear infinite',
+        'spin-slow': 'spin-slow 20s linear infinite',
+        'spin-slow-reverse': 'spin-slow-reverse 20s linear infinite',
       },
     },
   },
