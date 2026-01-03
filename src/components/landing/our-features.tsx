@@ -37,7 +37,7 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative pt-6 md:pt-12 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative pt-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
@@ -75,7 +75,7 @@ export function OurFeatures() {
              <div className="order-1 lg:order-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                  <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
                      <Image
-                        src="https://www.shutterstock.com/image-vector/girl-idea-holding-light-bulb-260nw-2509326603.jpg"
+                        src="https://media.istockphoto.com/id/2155002287/vector/vector-illustration-of-a-smiling-student-reading-a-book-with-an-idea-lightbulb-icon-flat.jpg?s=612x612&w=0&k=20&c=JnC3n6fZgWRQ5pKa8MTYP9dPz03kX0V_EzjgGlooz4Y="
                         alt="A student engaged in learning"
                         data-ai-hint="students learning together"
                         fill
