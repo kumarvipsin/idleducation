@@ -22,6 +22,7 @@ export default async function Home() {
         <BuildSkillsSection slides={slides} />
       </div>
       <ExamCategories />
+      <OurFeatures />
       <AcademicExcellence />
       <StudentTestimonials />
       <StudyResources />
