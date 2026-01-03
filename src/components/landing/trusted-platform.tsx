@@ -26,7 +26,7 @@ export function TrustedPlatform() {
             
             {/* Character 1 */}
             <div className="absolute left-[10%] bottom-[10%] animate-float">
-                <Image src="https://www.pw.live/version14/assets/img/group-chat-1.webp" alt="Alakh Pandey" width={150} height={150} className="rounded-full" />
+                <Image src="https://picsum.photos/seed/teacher/150/150" alt="Alakh Pandey" width={150} height={150} className="rounded-full" data-ai-hint="teacher profile" />
                  <div className="absolute bottom-20 -right-28 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
                     <p className="text-xs">PW is where students learn with love and can grow with guidance</p>
                     <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
@@ -35,7 +35,7 @@ export function TrustedPlatform() {
 
             {/* Character 2 */}
             <div className="absolute right-[10%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
-                <Image src="https://www.pw.live/version14/assets/img/group-chat-2.webp" alt="Student" width={150} height={150} className="rounded-full" />
+                <Image src="https://picsum.photos/seed/student-lady/150/150" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Alakh Sir, What is PW?</p>
                     <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-white"></div>
