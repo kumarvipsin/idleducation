@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -59,11 +58,11 @@ export function OurFeatures() {
             {features.map((feature, index) => (
                 <Card 
                     key={index}
-                    className="p-6 text-center bg-background/50 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 animate-fade-in-up"
+                    className="p-6 text-center bg-background/50 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 animate-fade-in-up border-t-4 border-primary group"
                     style={{ animationDelay: `${index * 100}ms` }}
                 >
                     <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 text-primary p-4 rounded-full">
+                        <div className="bg-primary/10 text-primary p-4 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                             {feature.icon}
                         </div>
                     </div>
