@@ -55,7 +55,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   );
   
   return (
-    <section className="relative w-full aspect-[2/1] md:aspect-[16/7] lg:aspect-[16/6] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-[2.5/1] md:aspect-[16/6] overflow-hidden rounded-2xl">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
@@ -72,15 +72,12 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                   fill
                   className="object-cover"
                 />
-                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 bg-black/30 md:bg-black/40">
-                     <div className="md:hidden">
-                        {slide.description && <p className="mt-2 text-sm text-white/90 drop-shadow-md">{slide.description}</p>}
-                     </div>
-                     <div className="hidden md:block">
-                        {slide.description && <p className="mt-4 max-w-2xl text-lg text-white/90 drop-shadow-md">{slide.description}</p>}
+                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
+                     <div className="text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
+                        {slide.description && <p className="mt-2 text-sm md:text-lg max-w-2xl drop-shadow-md">{slide.description}</p>}
                      </div>
                      {slide.buttonText && slide.buttonLink && (
-                        <Button asChild size="sm" className="mt-4 md:mt-8 md:h-11 md:px-8 md:text-base">
+                        <Button asChild size="sm" className="mt-4 h-8 px-4 text-xs md:h-11 md:px-8 md:text-base md:mt-8">
                             <Link href={slide.buttonLink}>{slide.buttonText}</Link>
                         </Button>
                      )}
