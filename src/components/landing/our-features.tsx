@@ -41,12 +41,15 @@ const features = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-16 bg-white dark:bg-gray-900/50"
+      className="w-full relative py-12 md:py-16 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
         
         <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Why Choose IDL?</h2>
+            <div className="flex items-center justify-center">
+                <span className="text-sky-500 text-2xl mr-2">•</span>
+                <h2 className="text-lg font-semibold text-sky-500">Our Features</h2>
+            </div>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Discover the advantages that make our platform the best choice for your learning journey.
             </p>
