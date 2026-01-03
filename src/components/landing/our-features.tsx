@@ -2,77 +2,88 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users, ChevronRight, FlaskConical, Clock, IndianRupee, Zap, Shield } from "lucide-react";
+import { GraduationCap, BookUp, FileStack, Users, ChevronRight, FlaskConical, Clock, IndianRupee, Zap, Shield, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const features = [
   {
-    icon: <GraduationCap className="w-6 h-6 text-white" />,
-    title: "Expert Faculty",
-    description: "Learn from highly skilled, experienced mentors.",
+    icon: <GraduationCap className="w-5 h-5" />,
+    title: "100+ Expert Faculty",
+    href: "/feature/expert-faculty",
   },
   {
-    icon: <FlaskConical className="w-6 h-6 text-white" />,
-    title: "Practical Learning",
-    description: "Apply concepts through real, hands-on practice.",
+    icon: <CheckCircle className="w-5 h-5" />,
+    title: "100% Quality Education",
+    href: "/feature/quality-education",
   },
   {
-    icon: <Clock className="w-6 h-6 text-white" />,
-    title: "Flexible Batches",
-    description: "Choose timings that suit your schedule.",
+    icon: <FileStack className="w-5 h-5" />,
+    title: "100% Complete Syllabus",
+    href: "/feature/complete-syllabus",
   },
   {
-    icon: <IndianRupee className="w-6 h-6 text-white" />,
-    title: "Affordable Fees",
-    description: "Quality learning at genuinely fair pricing.",
+    icon: <Users className="w-5 h-5" />,
+    title: "Unique Two-Teacher Model",
+    href: "/feature/two-teacher-model",
   },
-  {
-    icon: <Zap className="w-6 h-6 text-white" />,
-    title: "Quick Support",
-    description: "Get immediate help whenever you need.",
-  },
-  {
-    icon: <Shield className="w-6 h-6 text-white" />,
-    title: "Trusted Institute",
-    description: "Known for consistent results and reliability.",
+   {
+    icon: <BookUp className="w-5 h-5" />,
+    title: "All-in-One Learning, Anytime, Anywhere.",
+    href: "/feature/all-in-one-learning",
   },
 ];
 
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative py-12 md:py-24 bg-background dark:bg-gray-900/50"
     >
       <div className="container mx-auto px-4 md:px-[10%] relative z-10">
-        
-        <div className="text-center mb-12">
-            <div className="flex items-center justify-center">
-                <span className="text-sky-500 text-2xl mr-2">•</span>
-                <h2 className="text-lg font-semibold text-sky-500">Why Choose IDL?</h2>
-            </div>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                Discover the advantages that make our platform the best choice for your learning journey.
-            </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">
-            {features.map((feature, index) => (
-                <div 
-                    key={index}
-                    className="flex flex-col items-center text-center animate-fade-in-up"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                >
-                    <div className="flex justify-center mb-4">
-                        <div className="bg-primary p-4 rounded-xl shadow-lg">
-                            {feature.icon}
-                        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="order-2 lg:order-1 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <div className="space-y-6">
+                    <div className="flex items-center">
+                        <span className="text-sky-500 text-2xl mr-2">•</span>
+                        <h2 className="text-lg font-semibold text-sky-500">Why Choose IDL?</h2>
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground max-w-xs">{feature.description}</p>
+                     <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
+                        Experience a New Era of Learning
+                    </h3>
+                    <p className="text-muted-foreground">
+                        Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
+                    </p>
+                    <div className="space-y-4">
+                        {features.map((feature, index) => (
+                           <Link href={feature.href} key={index} className="block group">
+                             <Card className="shadow-sm hover:shadow-md hover:border-primary/50 transition-all duration-300">
+                                <CardContent className="p-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div className="p-3 bg-primary/10 text-primary rounded-lg">
+                                            {feature.icon}
+                                        </div>
+                                        <p className="font-semibold text-foreground">{feature.title}</p>
+                                    </div>
+                                     <ChevronRight className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+                                </CardContent>
+                            </Card>
+                           </Link>
+                        ))}
+                    </div>
                 </div>
-            ))}
+            </div>
+             <div className="order-1 lg:order-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                 <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
+                     <Image
+                        src="https://www.euroschoolindia.com/wp-content/uploads/2023/10/benefits-of-co-education-in-school.jpg"
+                        alt="Why Choose IDL"
+                        data-ai-hint="teacher student"
+                        fill
+                        className="object-cover rounded-2xl shadow-xl"
+                    />
+                 </div>
+            </div>
         </div>
-
       </div>
     </section>
   );
