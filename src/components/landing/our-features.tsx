@@ -43,14 +43,14 @@ export function OurFeatures() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="space-y-6">
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-center lg:justify-start">
                         <span className="text-sky-500 text-2xl mr-2">•</span>
                         <h2 className="text-lg font-semibold text-sky-500">Why Choose IDL?</h2>
                     </div>
-                     <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
+                     <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight text-center lg:text-left">
                         Experience a New Era of Learning
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-center lg:text-left">
                         Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
                     </p>
                     <div className="space-y-4">
@@ -75,9 +75,9 @@ export function OurFeatures() {
              <div className="order-1 lg:order-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                  <div className="relative aspect-square max-w-md mx-auto lg:max-w-none">
                      <Image
-                        src="https://picsum.photos/seed/learning/800/800"
+                        src="https://images.unsplash.com/photo-1543269865-cbf427effbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdHVkZW50cyUyMGxhcHRvcCUyMGdyb3VwfGVufDB8fHx8MTc1OTMwMjIzN3ww&ixlib=rb-4.1.0&q=80&w=1080"
                         alt="A student engaged in learning"
-                        data-ai-hint="student learning"
+                        data-ai-hint="students learning together"
                         fill
                         className="object-cover rounded-2xl shadow-xl"
                     />
