@@ -37,7 +37,7 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
                                 <span className="text-lg font-black text-white">IDL FOUNDATION</span>
                             </div>
                         </Link>
-                        <p className="text-sm text-white/80">A non-profit organization dedicated to empowering communities through education and skill development.</p>
+                        <p className="text-lg text-white/80 font-dancing-script font-extrabold">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                     </div>
 
                     {/* Column 2: Quick Links */}
