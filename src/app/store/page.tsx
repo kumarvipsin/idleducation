@@ -91,7 +91,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-16 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                    <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
@@ -121,25 +121,22 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 {storeUser ? (
                                     <>
                                         <DropdownMenuItem asChild>
-                                            <Link href="/store/account" className="flex items-center gap-3 p-2">
-                                                <User className="mr-2 h-4 w-4" />
-                                                <div>
-                                                    <p className="text-sm font-medium leading-none">{storeUser.name}</p>
-                                                    {storeUser && <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>}
+                                            <Link href="/store/account" className="w-full">
+                                                <div className="flex flex-col space-y-1">
+                                                <p className="text-sm font-medium leading-none">{storeUser.name}</p>
+                                                <p className="text-xs leading-none text-muted-foreground">{storeUser.mobile}</p>
                                                 </div>
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem asChild><Link href="/store/cart"><ShoppingCart className="mr-2 h-4 w-4" />My Cart</Link></DropdownMenuItem>
                                         <DropdownMenuItem asChild><Link href="/store/orders"><ShoppingBag className="mr-2 h-4 w-4" />My Orders</Link></DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem onClick={storeLogout}>
-                                            <LogOut className="mr-2 h-4 w-4" />
-                                            <span>Logout</span>
-                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={storeLogout}><LogOut className="mr-2 h-4 w-4" />Logout</DropdownMenuItem>
                                     </>
                                 ) : (
                                     <>
+                                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem onSelect={() => handleUnauthenticatedClick('/store/cart')}>
                                             <ShoppingCart className="mr-2 h-4 w-4" />
                                             <span>My Cart</span>
@@ -156,18 +153,14 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild>
-                                            <Link href="/store/auth?view=signup">
-                                                <UserPlus className="mr-2 h-4 w-4" />
-                                                <span>Sign Up</span>
+                                            <Link href="/store/auth?view=signup" className="text-xs text-muted-foreground justify-center">
+                                            <span>Create Your IDL Store Account</span>
                                             </Link>
                                         </DropdownMenuItem>
                                     </>
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                         <Button asChild variant="ghost" size="icon" className="h-8 w-8">
-                            <Link href="/"><Home className="h-4 w-4" /></Link>
-                        </Button>
                     </div>
                 </div>
             </div>
@@ -255,7 +248,7 @@ export default function StorePage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-white dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
