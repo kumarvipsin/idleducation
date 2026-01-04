@@ -11,10 +11,10 @@ export function TrustedPlatform() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
             </h2>
-            <p className="text-muted-foreground text-base">
+            <p className="text-muted-foreground text-sm">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
             <Button asChild size="lg" className="rounded-full">
