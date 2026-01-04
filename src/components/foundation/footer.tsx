@@ -29,10 +29,15 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                     {/* Column 1: Brand */}
-                    <div>
-                        <Link href="/idl-foundation" className="flex items-center gap-2 mb-4">
-                            <Image src="/logo.png" alt="IDL Foundation Logo" width={32} height={32} />
-                            <span className="text-lg font-bold text-white">IDL FOUNDATION</span>
+                    <div className="flex flex-col items-center text-center gap-4">
+                        <Link href="/idl-foundation" className="flex flex-col items-center gap-2">
+                            <Image src="/logo.png" alt="IDL Foundation Logo" width={72} height={72} />
+                            <div className="flex flex-col leading-tight">
+                                <span className="text-lg font-black text-white">IDL FOUNDATION</span>
+                                <span className="text-[0.4rem] text-white/80 tracking-wider -mt-1 font-black">
+                                (Institute of Distance Learning Pvt. Ltd.)
+                                </span>
+                            </div>
                         </Link>
                         <p className="text-sm text-white/80">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                     </div>
