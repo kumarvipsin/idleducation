@@ -15,7 +15,7 @@ export function DirectorMessage() {
         <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden">
           <div className="relative w-full aspect-[16/7]">
              <Image 
-                src="https://www.euroschoolindia.com/wp-content/uploads/2023/10/what-are-the-roles-and-responsibilities-of-a-teacher-in-the-classroom.jpg" 
+                src="https://images.unsplash.com/photo-1758270703178-bc9eed1525f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8Z3JvdXAlMjBwaG90byUyMHN0dWRlbnR8ZW58MHx8fHwxNzY3NTQwOTMzfDA&ixlib=rb-4.1.0&q=80&w=1080" 
                 alt="IDL Education Team" 
                 data-ai-hint="team meeting" 
                 layout="fill" 
