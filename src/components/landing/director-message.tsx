@@ -24,12 +24,7 @@ export function DirectorMessage() {
              <div className="absolute inset-0 bg-black/30"></div>
           </div>
           <CardContent className="p-8 text-center relative bg-background">
-             <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-                <Avatar className="w-24 h-24 shadow-lg">
-                    <AvatarImage src="/amod.jpg" alt="Amod Kumar Sharma" />
-                </Avatar>
-             </div>
-              <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-16">
+              <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-8">
                 "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams."
               </blockquote>
               <div className="mt-6">
