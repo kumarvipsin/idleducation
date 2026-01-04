@@ -48,9 +48,6 @@ export function OurFeatures() {
             <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
                 Experience a New Era of Learning
             </h3>
-            <p className="text-muted-foreground max-w-3xl mx-auto text-sm">
-              At IDL Education, we redefine the learning experience by addressing the shortcomings of traditional coaching. See how we compare and why our modern approach is the better choice for your success.
-            </p>
         </div>
 
         <div className="max-w-5xl mx-auto">
