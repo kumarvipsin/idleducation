@@ -16,7 +16,7 @@ const categories = [
   },
   {
     title: "For Medical & Non Medical",
-    subtitle: "NEET / JEE & OTHER FOUNDATION",
+    subtitle: "Take the First Step towards becoming a Doctor/Engineer",
     href: "/category/iit-jee",
     imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/Aakash_JEE_NEET.webp",
     imageHint: "student studying"
@@ -47,8 +47,11 @@ export function ExamCategories() {
               <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
             </div>
           <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-            Discover Your Path to Success with Our Diverse Programs.
+            Find the perfect program to help you achieve your academic and career goals.
           </h3>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
+          </p>
         </div>
       </div>
        <div className="relative">
