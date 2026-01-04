@@ -6,9 +6,9 @@ import Image from "next/image";
 
 export function DirectorMessage() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
-      <Card className="shadow-lg overflow-hidden border-0 rounded-none">
-          <div className="relative w-full h-96 bg-black">
+    <section className="w-full py-12 md:py-24 bg-background">
+      <Card className="shadow-lg overflow-hidden border-0 rounded-none bg-black">
+          <div className="relative w-full h-[50vh] md:h-[70vh]">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
@@ -16,7 +16,6 @@ export function DirectorMessage() {
                 fill
                 className="object-contain"
              />
-             <div className="absolute inset-0 bg-black/30 -z-10"></div>
           </div>
           <CardContent className="p-8 text-center relative bg-background">
               <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-8">
