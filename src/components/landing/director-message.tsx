@@ -9,7 +9,7 @@ export function DirectorMessage() {
   return (
     <section className="w-full bg-white dark:bg-background py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="bg-blue-950 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="bg-[#bde0fe] rounded-2xl shadow-2xl overflow-hidden">
                 <div className="relative w-full aspect-[4/3] md:aspect-[16/7]">
                     <Image
                         src="/team.png"
@@ -20,8 +20,8 @@ export function DirectorMessage() {
                     />
                 </div>
             </div>
-            <div className="relative text-center px-4 -mt-16 md:-mt-20 z-10">
-                <Card className="max-w-4xl mx-auto p-6 md:p-8 rounded-2xl shadow-xl bg-background">
+            <div className="relative text-center px-4 -mt-24 z-10">
+                <Card className="max-w-4xl mx-auto p-6 md:p-12 rounded-2xl shadow-xl bg-background">
                     <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center justify-center gap-2">
                         <PenSquare className="w-7 h-7" /> Director's Message
                     </h3>
