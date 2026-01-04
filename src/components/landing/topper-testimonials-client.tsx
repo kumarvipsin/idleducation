@@ -83,7 +83,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <span className="text-blue-600 text-2xl mr-2">•</span>
             <h2 className="text-lg font-semibold text-blue-600">Topper's Testimonials</h2>
           </div>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm">
             Discover how our top students achieved their goals. Watch their success stories and get inspired.
           </p>
         </div>

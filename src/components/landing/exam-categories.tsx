@@ -46,7 +46,7 @@ export function ExamCategories() {
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
             </div>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm md:text-base">
             Find the perfect program to help you achieve your academic and career goals.
           </p>
         </div>
