@@ -7,14 +7,14 @@ import Image from "next/image";
 export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-white">
-      <Card className="shadow-lg overflow-hidden border-0 rounded-none">
-          <div className="relative w-full h-[70vh] bg-white">
+      <Card className="shadow-lg overflow-hidden border-0 rounded-none bg-white">
+          <div className="relative w-full h-[70vh]">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
                 data-ai-hint="team meeting" 
                 fill
-                className="object-contain"
+                className="object-cover"
              />
           </div>
           <CardContent className="p-8 text-center relative bg-white">
