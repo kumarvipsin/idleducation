@@ -18,7 +18,7 @@ export function TrustedPlatform() {
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
             <Button asChild size="lg" className="rounded-full">
-              <Link href="/signup">Get Started</Link>
+              <Link href="/student-enquiry">Get Started</Link>
             </Button>
           </div>
           <div className="relative h-[400px] flex items-center justify-center">
