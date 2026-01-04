@@ -41,7 +41,7 @@ export function DirectorMessage() {
                         </blockquote>
                         <div className="mt-6">
                             <p className="font-josefin-sans font-bold text-lg text-primary">AMOD KUMAR SHARMA</p>
-                            <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                            <p className="text-sm text-muted-foreground font-josefin-sans">Founder & Managing Director</p>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
