@@ -45,7 +45,7 @@ export function OurFeatures() {
                 <span className="text-blue-600 text-2xl mr-2">•</span>
                 <h2 className="text-lg font-semibold text-blue-600">Why Choose IDL?</h2>
             </div>
-            <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
+            <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight">
                 Empowering Students with a Modern and Effective Learning Experience.
             </h3>
         </div>
