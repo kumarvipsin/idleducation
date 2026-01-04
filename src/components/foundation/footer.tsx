@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -34,9 +35,6 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
                             <Image src="/logo.png" alt="IDL Foundation Logo" width={72} height={72} />
                             <div className="flex flex-col leading-tight">
                                 <span className="text-lg font-black text-white">IDL FOUNDATION</span>
-                                <span className="text-[0.4rem] text-white/80 tracking-wider -mt-1 font-black">
-                                (Institute of Distance Learning Pvt. Ltd.)
-                                </span>
                             </div>
                         </Link>
                         <p className="text-sm text-white/80">A non-profit organization dedicated to empowering communities through education and skill development.</p>
