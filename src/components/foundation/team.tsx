@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import useEmblaCarousel, { type CarouselApi } from 'embla-carousel-react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
@@ -22,26 +22,21 @@ const team = [
 ];
 
 const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
-    <Card className={cn(
-        "h-full shadow-xl rounded-2xl border-primary/10 overflow-hidden transition-all duration-300",
-        isActive ? "bg-white dark:bg-card" : "bg-card"
+     <Card className={cn(
+        "h-full shadow-xl rounded-2xl border-0 overflow-hidden transition-all duration-300 relative aspect-[4/5]",
+        isActive ? "scale-105" : "scale-95 opacity-80"
     )}>
-        <CardContent className="p-6">
-            <div className="flex flex-col items-center gap-4 text-center">
-                 <div className="w-32 h-32 flex-shrink-0 relative">
-                     <Image
-                        src={member.image}
-                        alt={member.name}
-                        data-ai-hint="person headshot"
-                        fill
-                        className="rounded-full object-cover shadow-md border-4 border-white"
-                    />
-                </div>
-                <div className={cn(isActive ? "text-foreground" : "")}>
-                    <h3 className={cn("text-xl font-black", isActive ? "text-primary" : "text-primary")}>{member.name}</h3>
-                    <p className={cn("text-sm font-medium", isActive ? "text-muted-foreground" : "text-muted-foreground")}>{member.role}</p>
-                </div>
-            </div>
+        <Image
+            src={member.image}
+            alt={member.name}
+            data-ai-hint="person headshot"
+            fill
+            className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+        <CardContent className="p-4 absolute bottom-0 left-0 right-0 text-white">
+             <h3 className="text-lg font-bold">{member.name}</h3>
+             <p className="text-sm text-white/90">{member.role}</p>
         </CardContent>
     </Card>
 );
@@ -51,12 +46,9 @@ export function Team() {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 }, [autoplayPlugin.current]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const scrollTo = useCallback(
-        (index: number) => emblaApi && emblaApi.scrollTo(index),
-        [emblaApi]
-    );
-     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
+    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+    const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -86,20 +78,15 @@ export function Team() {
                             {team.map((member, index) => (
                                 <div 
                                     key={member.name} 
-                                    className="flex-shrink-0 flex-grow-0 basis-full md:basis-1/2 lg:basis-1/3 min-w-0 pl-4"
+                                    className="flex-shrink-0 flex-grow-0 basis-full md:basis-1/3 lg:basis-1/4 min-w-0 pl-4"
                                 >
-                                    <div className={cn(
-                                        "transition-transform duration-300",
-                                        selectedIndex === index ? "scale-100" : "scale-90 opacity-60"
-                                    )}>
-                                        <TeamMemberCard member={member} isActive={selectedIndex === index} />
-                                    </div>
+                                    <TeamMemberCard member={member} isActive={selectedIndex === index} />
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center items-center gap-2 mt-8">
+                 <div className="flex justify-center items-center gap-2 mt-8">
                      <Button variant="outline" size="icon" onClick={scrollPrev} className="rounded-full h-8 w-8">
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
