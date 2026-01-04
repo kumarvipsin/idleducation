@@ -25,7 +25,7 @@ const categories = [
     title: "Open School Programs",
     subtitle: "NIOS | IGNOU | DU SOL",
     href: "/new-work",
-    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "students outdoors"
   },
   {
@@ -47,7 +47,7 @@ export function ExamCategories() {
               <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
             </div>
           <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-            Find the perfect program to help you achieve your academic and career goals.
+            Discover Your Path to Success with Our Diverse Programs.
           </h3>
         </div>
       </div>
