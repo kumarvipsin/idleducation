@@ -49,12 +49,12 @@ export function OurFeatures() {
                 Experience a New Era of Learning
             </h3>
             <p className="text-muted-foreground max-w-3xl mx-auto">
-                Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
+              At IDL Education, we redefine the learning experience by addressing the shortcomings of traditional coaching. See how we compare and why our modern approach is the better choice for your success.
             </p>
         </div>
 
         <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-transparent p-4 rounded-2xl border">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-transparent p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
                 {/* Other Institute Column */}
                 <div className="space-y-8 p-4">
                     <h4 className="text-2xl font-bold text-foreground">Other Institute</h4>
