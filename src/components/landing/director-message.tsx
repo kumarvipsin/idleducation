@@ -13,7 +13,7 @@ export function DirectorMessage() {
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
         </div>
         <Card className="shadow-lg overflow-hidden border-0 rounded-2xl">
-          <div className="relative w-full aspect-[16/5]">
+          <div className="relative w-full h-96">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
