@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Home, User, GraduationCap, Phone, Mail, MapPin, Globe } from "lucide-react";
+import { CheckCircle, Home, User, GraduationCap, Phone, Mail, MapPin, Globe, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -124,9 +124,9 @@ export default function BookDemoPage() {
   return (
     <div key={studentId} className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon">
-              <Home className="h-6 w-6 text-primary" />
-              <span className="sr-only">Home</span>
+          <Button variant="outline" size="icon" className="rounded-full">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
           </Button>
       </Link>
       <div className="relative z-10 container mx-auto py-12 md:px-[10%]">

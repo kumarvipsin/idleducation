@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Home, CheckCircle, GraduationCap, Phone, MapPin } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Home, CheckCircle, GraduationCap, Phone, MapPin, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -74,9 +74,9 @@ export default function StudentEnquiryPage() {
         <>
             <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
                 <Link href="/" className="absolute top-4 right-4 z-20">
-                    <Button variant="ghost" size="icon">
-                        <Home className="h-6 w-6 text-primary" />
-                        <span className="sr-only">Home</span>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Close</span>
                     </Button>
                 </Link>
                 <div className="relative z-10 container mx-auto py-12 md:px-[10%]">

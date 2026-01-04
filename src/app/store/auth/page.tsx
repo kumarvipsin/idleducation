@@ -1,11 +1,10 @@
 
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Phone, Lock, Home } from "lucide-react";
+import { User, Phone, Lock, Home, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,9 +86,9 @@ function StoreAuthPageContent() {
   return (
     <div className="relative min-h-screen w-full p-4 bg-white dark:bg-background overflow-y-auto">
         <Link href="/store" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon">
-                <Home className="h-6 w-6 text-primary" />
-                <span className="sr-only">Home</span>
+            <Button variant="outline" size="icon" className="rounded-full">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
             </Button>
         </Link>
         <div className="relative z-10 container mx-auto py-12 md:px-[10%]">

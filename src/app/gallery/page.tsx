@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, Plus, Home } from 'lucide-react';
+import { Search, Image as ImageIcon, Plus, Home, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -62,9 +63,9 @@ function GalleryPageContent() {
     <Dialog>
       <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
         <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon">
-                <Home className="h-6 w-6 text-primary" />
-                <span className="sr-only">Home</span>
+            <Button variant="outline" size="icon" className="rounded-full">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
             </Button>
         </Link>
         <div className="relative z-10 py-8 md:px-[10%]">

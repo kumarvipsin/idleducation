@@ -1,8 +1,9 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, User, Calendar, ArrowRight } from "lucide-react";
+import { Home, User, Calendar, ArrowRight, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,9 +50,9 @@ export default function BlogPage() {
   return (
     <div className="relative min-h-screen w-full p-4 bg-white dark:bg-gray-900 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon">
-              <Home className="h-6 w-6 text-primary" />
-              <span className="sr-only">Home</span>
+          <Button variant="outline" size="icon" className="rounded-full">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
           </Button>
       </Link>
       <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">

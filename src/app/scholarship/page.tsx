@@ -4,7 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Award, Calendar, IndianRupee, Home, User, GraduationCap, Phone, MapPin, CheckCircle, Globe } from 'lucide-react';
+import { Award, Calendar, IndianRupee, Home, User, GraduationCap, Phone, MapPin, CheckCircle, Globe, X } from 'lucide-react';
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,7 +20,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 
 const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  guardianName: z.string().min(2, { message: "Guardian name must be at least 2 characters." }),
+  guardianName: z.string().min(2, { message: "Guardian name is required." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   country: z.string().min(1, { message: "Please select a country." }),
@@ -129,9 +129,9 @@ export default function ScholarshipPage() {
         <>
             <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
                 <Link href="/" className="absolute top-4 right-4 z-20">
-                    <Button variant="ghost" size="icon">
-                        <Home className="h-6 w-6 text-primary" />
-                        <span className="sr-only">Home</span>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Close</span>
                     </Button>
                 </Link>
                 {/* Content */}

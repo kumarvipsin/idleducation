@@ -2,7 +2,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, Star, Trophy, Target, Home } from "lucide-react";
+import { Award, Star, Trophy, Target, Home, X } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -62,9 +62,9 @@ export default function AchievementsPage() {
   return (
     <section className="w-full relative py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
         <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon">
-                <Home className="h-6 w-6 text-primary" />
-                <span className="sr-only">Home</span>
+            <Button variant="outline" size="icon" className="rounded-full">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
             </Button>
         </Link>
         <div className="container mx-auto px-4 md:px-[10%] mb-12">
