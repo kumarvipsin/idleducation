@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -69,7 +70,7 @@ export function OurFeatures() {
                 </div>
 
                 {/* IDL Education Column */}
-                <div className="space-y-8 bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+                <div className="space-y-8 bg-blue-50 dark:bg-blue-900/20 p-8 rounded-lg">
                     <h4 className="text-2xl font-bold text-primary">IDL Education</h4>
                     {idlEducationFeatures.map((feature, index) => (
                         <div key={index} className="flex items-start gap-4">
