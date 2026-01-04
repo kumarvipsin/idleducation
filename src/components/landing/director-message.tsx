@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,7 +27,7 @@ export function DirectorMessage() {
              <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                 <Avatar className="w-24 h-24 border-4 border-background shadow-lg">
                     <AvatarImage src="/amod.jpg" alt="Amod Kumar Sharma" />
-                    <AvatarFallback>AS</AvatarFallback>
+                    <AvatarFallback></AvatarFallback>
                 </Avatar>
              </div>
               <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-16">
