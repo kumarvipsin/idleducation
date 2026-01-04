@@ -247,6 +247,12 @@ export function Header() {
                 <span>Dashboard</span>
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={getProfilePath(user)}>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
@@ -420,8 +426,16 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {isClient && renderAuthSection()}
-                      {!isIdlFoundationPage && notificationDropdown}
+                      {isIdlFoundationPage ? (
+                        <Link href="/" className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-full">
+                          <X className="h-4 w-4" />
+                        </Link>
+                      ) : (
+                        <>
+                          {notificationDropdown}
+                          {isClient && renderAuthSection()}
+                        </>
+                      )}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">

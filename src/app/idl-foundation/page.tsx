@@ -14,6 +14,9 @@ import { FoundationFooter } from "@/components/foundation/footer";
 import { useState } from "react";
 import { FoundationContactForm } from "@/components/foundation/contact-form";
 import { FAQ } from "@/components/foundation/faq";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -30,6 +33,12 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-blue-950 dark:bg-gray-900 overflow-y-auto">
             <Header />
+            <Link href="/" className="absolute top-4 right-4 z-[60]">
+                <Button variant="outline" size="icon" className="rounded-full">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Close</span>
+                </Button>
+            </Link>
             <FoundationHero slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
