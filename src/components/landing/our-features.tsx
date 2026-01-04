@@ -56,30 +56,6 @@ export function OurFeatures() {
                 Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
             </p>
         </div>
-        
-        <Accordion type="single" collapsible className="w-full space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2">
-                {features.map((feature, index) => (
-                    <Card key={index} className="bg-background rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                        <AccordionItem value={`item-${index}`} className="border-b-0">
-                            <AccordionTrigger className="p-3 text-left hover:no-underline">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-primary/10 text-primary rounded-full">
-                                        {feature.icon}
-                                    </div>
-                                    <h4 className="font-semibold">{feature.title}</h4>
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="px-4 pb-4">
-                                <p className="text-muted-foreground text-sm pl-16 -mt-2">
-                                    {feature.description}
-                                </p>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Card>
-                ))}
-            </div>
-        </Accordion>
       </div>
     </section>
   );
