@@ -3,45 +3,41 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { GraduationCap, BookUp, FileStack, Users, CheckCircle, Zap } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
-const features = [
+const otherInstituteFeatures = [
   {
-    icon: <GraduationCap className="w-5 h-5" />,
-    title: "100+ Expert Faculty",
-    description: "Learn from experienced educators and subject matter experts dedicated to your success.",
+    title: "Outdated Teaching",
+    description: "Traditional methods that fail to adapt to changing exam patterns and student needs.",
   },
   {
-    icon: <CheckCircle className="w-5 h-5" />,
-    title: "100% Quality Education",
-    description: "We are committed to delivering the highest quality education through interactive and engaging classes, utilizing modern teaching aids to make learning enjoyable and effective.",
+    title: "Minimal Attention",
+    description: "Large batches where students struggle to get personal guidance or doubt support.",
   },
   {
-    icon: <FileStack className="w-5 h-5" />,
-    title: "100% Complete Syllabus",
-    description: "Our curriculum ensures thorough coverage of all subjects as per the latest academic syllabus. Regular assessments and revision sessions are conducted to reinforce learning.",
+    title: "Unclear Process",
+    description: "Confusing fee structures and no clear roadmap for learning or improvement.",
+  },
+];
+
+const idlEducationFeatures = [
+  {
+    title: "Modern Learning Approach",
+    description: "Updated curriculum, smart learning methods, and exam focused strategies built for today's students.",
   },
   {
-    icon: <Users className="w-5 h-5" />,
-    title: "Unique Two-Teacher Model",
-    description: "Our innovative two-teacher model ensures every student gets the attention they need. One teacher leads the class, while the second instantly clears any doubts.",
-  },
-   {
-    icon: <BookUp className="w-5 h-5" />,
-    title: "All-in-One Learning, Anytime, Anywhere.",
-    description: "Our platform is a one-stop solution with a vast library of study materials, including tests, sample papers, and notes, accessible anytime, anywhere.",
+    title: "Personal Mentorship",
+    description: "Small batches, instant doubt resolution, and dedicated mentor support at every step.",
   },
   {
-    icon: <Zap className="w-5 h-5" />,
-    title: "Practical Learning",
-    description: "Apply your knowledge with hands-on projects and real-world case studies to build practical skills.",
+    title: "Structured & Transparent",
+    description: "Clear learning paths, organized study plans, and upfront pricing with no hidden charges.",
   },
 ];
 
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-6 md:py-12 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative py-12 md:py-20 bg-[#F5F5F7] dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div className="space-y-6 text-center mb-12">
@@ -56,6 +52,39 @@ export function OurFeatures() {
                 Our platform is meticulously crafted to provide a holistic and effective learning experience. Here's what sets us apart:
             </p>
         </div>
+
+        <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-card p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                {/* Other Institute Column */}
+                <div className="space-y-8">
+                    <h4 className="text-2xl font-bold text-foreground">Other Institute</h4>
+                    {otherInstituteFeatures.map((feature, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                            <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                            <div>
+                                <h5 className="font-semibold text-lg">{feature.title}</h5>
+                                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* IDL Education Column */}
+                <div className="space-y-8 bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+                    <h4 className="text-2xl font-bold text-primary">IDL Education</h4>
+                    {idlEducationFeatures.map((feature, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                            <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                            <div>
+                                <h5 className="font-semibold text-lg">{feature.title}</h5>
+                                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+
       </div>
     </section>
   );
