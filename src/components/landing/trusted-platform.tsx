@@ -7,17 +7,17 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="lg" className="rounded-full">
+            <Button asChild size="lg" variant="outline" className="rounded-full">
               <Link href="/student-enquiry">Get Started</Link>
             </Button>
           </div>
