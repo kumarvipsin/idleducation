@@ -27,7 +27,7 @@ export function DirectorMessage() {
                 </div>
             </div>
             <div className="relative text-center px-4 -mt-24 z-10">
-                <Card className="max-w-4xl mx-auto p-6 md:p-8 rounded-2xl shadow-xl bg-background">
+                <Card className="max-w-4xl mx-auto p-6 md:p-8 rounded-2xl shadow-xl bg-gradient-to-b from-background via-background/90 to-background/70 backdrop-blur-sm border-0">
                   <Accordion type="single" collapsible>
                     <AccordionItem value="item-1" className="border-b-0">
                       <AccordionTrigger>
