@@ -109,7 +109,7 @@ export default function AboutPage() {
                 <section className="mb-12 md:mb-20">
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
                       <div className="lg:col-span-2 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                          <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-blue-100 dark:bg-blue-900/20">
+                          <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
                             {loading ? (
                                 <Skeleton className="w-full h-full rounded-full" />
                             ) : (
