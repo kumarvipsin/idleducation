@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,7 +50,7 @@ export function StudyResources() {
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Study Resources</h2>
             </div>
-          <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
+          <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
             Your one-stop destination for comprehensive and effective study materials.
           </h3>
         </div>
