@@ -10,34 +10,28 @@ import {
 
 const faqs = [
   {
-    question: "How does IDL's learning process work?",
-    answer:
-      "Our learning process is designed to be interactive and student-centric. We use a blend of live online classes, recorded lectures, and personalized study materials. Our unique two-teacher model ensures that students get their doubts cleared instantly, making learning more effective.",
+    question: "How can I donate to IDL Foundation?",
+    answer: "You can donate through our website by clicking the 'Donate' button. We accept various payment methods through our secure gateway. Your contribution helps fund our educational and social initiatives.",
   },
   {
-    question: "Which classes and exam categories do you teach?",
-    answer:
-      "We offer courses for classes 6 to 12, covering a wide range of subjects. Additionally, we provide specialized coaching for competitive exams like NEET, JEE, CUET, and various government job exams.",
+    question: "What are the main areas IDL Foundation works in?",
+    answer: "We focus on several key areas: providing education for underprivileged children, skill development for youth, women empowerment programs, environmental initiatives like tree plantation, and providing medical assistance to those in need.",
   },
   {
-    question: "What makes your teaching methods different?",
-    answer:
-      "Our teaching methods are a blend of traditional wisdom and modern technology. We focus on conceptual understanding rather than rote learning. Our two-teacher model, personalized attention, and regular assessments help students build a strong foundation and excel in their exams.",
+    question: "How is my donation utilized?",
+    answer: "Your donation is utilized transparently and efficiently. A majority of the funds go directly into our programs, covering costs for educational materials, teacher salaries, vocational training equipment, and medical supplies. A small portion is used for administrative costs.",
   },
   {
-    question: "Do you provide personal doubt-clearing sessions?",
-    answer:
-      "Yes, absolutely. Our unique two-teacher model in live classes is designed for instant doubt resolution. Additionally, we have dedicated doubt-clearing sessions and one-on-one mentorship to ensure every student's queries are addressed.",
+    question: "Can I volunteer for IDL Foundation?",
+    answer: "Yes, we welcome volunteers who are passionate about making a difference. You can find more information and apply to be a volunteer through the 'Become a Volunteer' link on our website. We have various opportunities ranging from teaching to event management.",
   },
   {
-    question: "How many students are there in one batch?",
-    answer:
-      "We believe in personalized attention, which is why we maintain small batch sizes. This allows our teachers to focus on each student's individual learning needs and provide them with the guidance they need to succeed.",
+    question: "Is my donation tax-deductible?",
+    answer: "Yes, IDL Foundation is a registered non-profit organization. All donations made in India are eligible for tax exemption under Section 80G of the Income Tax Act. A receipt for your donation will be provided for your tax purposes.",
   },
   {
-    question: "Are the classes online, offline, or hybrid?",
-    answer:
-      "We offer flexible learning options to suit every student's needs. You can choose from online classes, offline sessions at our centers, or a hybrid model that combines the best of both worlds.",
+    question: "How can I stay updated on the foundation's activities?",
+    answer: "You can follow us on our social media channels (Facebook, Instagram, Twitter) and subscribe to our newsletter. We regularly post updates, success stories, and information about upcoming events and campaigns.",
   },
 ];
 
