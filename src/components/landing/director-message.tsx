@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,7 +6,7 @@ import Image from "next/image";
 
 export function DirectorMessage() {
   return (
-    <section className="w-full py-12 md:py-24 bg-muted/20">
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
