@@ -9,6 +9,7 @@ import { getTopperTestimonials, getCollection } from '@/app/actions';
 import type { TTopperTestimonial, THeroSlide } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 import { TrustedPlatform } from '@/components/landing/trusted-platform';
+import { DirectorMessage } from '@/components/landing/director-message';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ export default async function Home() {
       <StudentTestimonials />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials as TTopperTestimonial[]} />
+      <DirectorMessage />
     </div>
   );
 }
