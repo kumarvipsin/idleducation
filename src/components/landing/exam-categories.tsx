@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,9 +48,7 @@ export function ExamCategories() {
           <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
           </h3>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
-          </p>
+          
         </div>
       </div>
        <div className="relative">
