@@ -4,6 +4,12 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { PenSquare } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export function DirectorMessage() {
   return (
@@ -22,16 +28,24 @@ export function DirectorMessage() {
             </div>
             <div className="relative text-center px-4 -mt-24 z-10">
                 <Card className="max-w-4xl mx-auto p-6 md:p-8 rounded-2xl shadow-xl bg-background">
-                    <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center justify-center gap-2">
-                        <PenSquare className="w-7 h-7" /> Director's Message
-                    </h3>
-                    <blockquote className="font-dancing-script text-xl md:text-2xl text-foreground/80 font-extrabold">
-                        "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams. We believe in fostering a learning environment that is not only rigorous but also inspiring and supportive. Join us on this journey to redefine education and shape the leaders of tomorrow."
-                    </blockquote>
-                    <div className="mt-6">
-                        <p className="font-bold text-lg text-primary">AMOD KUMAR SHARMA</p>
-                        <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
-                    </div>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value="item-1" className="border-b-0">
+                      <AccordionTrigger>
+                        <h3 className="text-2xl md:text-3xl font-bold text-primary flex items-center justify-center gap-2">
+                            <PenSquare className="w-7 h-7" /> Director's Message
+                        </h3>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <blockquote className="font-dancing-script text-xl md:text-2xl text-foreground/80 font-extrabold pt-4">
+                            "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams. We believe in fostering a learning environment that is not only rigorous but also inspiring and supportive. Join us on this journey to redefine education and shape the leaders of tomorrow."
+                        </blockquote>
+                        <div className="mt-6">
+                            <p className="font-bold text-lg text-primary">AMOD KUMAR SHARMA</p>
+                            <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </Card>
             </div>
         </div>
