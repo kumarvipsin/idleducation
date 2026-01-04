@@ -33,12 +33,6 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-blue-950 dark:bg-gray-900 overflow-y-auto">
             <Header />
-            <Link href="/" className="absolute top-4 right-4 z-[60]">
-                <Button variant="outline" size="icon" className="rounded-full">
-                    <X className="h-4 w-4" />
-                    <span className="sr-only">Close</span>
-                </Button>
-            </Link>
             <FoundationHero slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
