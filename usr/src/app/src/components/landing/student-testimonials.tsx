@@ -14,26 +14,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { GcsImage } from "../gcs-image";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
   const fullText = language === 'hi' && testimonial.testimonial_hi ? testimonial.testimonial_hi : testimonial.testimonial;
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [loadingAvatar, setLoadingAvatar] = useState(true);
-
-  useEffect(() => {
-    const fetchAvatarUrl = async () => {
-      setLoadingAvatar(true);
-      if (testimonial.avatarUrl) {
-        const result = await getSignedUrlForPdf(testimonial.avatarUrl);
-        if (result.success && result.url) {
-          setAvatarUrl(result.url);
-        }
-      }
-      setLoadingAvatar(false);
-    };
-    fetchAvatarUrl();
-  }, [testimonial.avatarUrl]);
 
   return (
     <Card
@@ -41,28 +27,16 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     >
         <CardContent className="p-4 flex flex-col text-center items-center">
             <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                {loadingAvatar ? (
-                    <Skeleton className="w-full h-full" />
-                ) : avatarUrl ? (
-                    <Image
-                    src={avatarUrl}
+                <GcsImage
+                    filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                     alt={testimonial.name}
                     fill
                     className="object-cover"
-                    />
-                ) : (
-                    <Image
-                    src="https://picsum.photos/seed/5/400/400"
-                    alt="Placeholder for testimonial author"
-                    data-ai-hint="person student"
-                    fill
-                    className="object-cover"
-                    />
-                )}
+                />
             </div>
             <h3 className="font-bold text-lg">{testimonial.name}</h3>
             <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-            <div className="relative h-36">
+            <div className="relative h-28">
                 <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
                 <ScrollArea className="h-full w-full px-2">
                     <blockquote className="text-sm text-muted-foreground italic">
@@ -80,12 +54,6 @@ export function StudentTestimonials() {
   const { t } = useLanguage();
   const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -99,34 +67,18 @@ export function StudentTestimonials() {
     fetchTestimonials();
   }, []);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
-
-  const scrollTo = useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
-
   return (
-    <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
+    <section id="testimonials" className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
-        <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">
-          What Our Students Say
-        </h2>
-        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+        <div className="flex items-center justify-center">
+          <span className="text-blue-600 text-2xl mr-2">•</span>
+          <h2 className="text-lg font-semibold text-blue-600">What Our Students Say</h2>
+        </div>
+        <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
           {t('testimonials.subtitle')}
-        </p>
+        </h3>
       </div>
-      <div className="relative w-full pr-[10%]">
+      <div className="relative">
           {loading ? (
              <div className="flex justify-center gap-6 px-4 md:px-[10%]">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
@@ -134,37 +86,15 @@ export function StudentTestimonials() {
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden lg:block" />
              </div>
           ) : testimonials && testimonials.length > 0 ? (
-            <>
-              <Carousel
-                  setApi={setApi}
-                  opts={{
-                  align: "start",
-                  loop: true,
-                  }}
-                  plugins={[autoplayPlugin.current]}
-                  className="w-full"
-              >
-                  <CarouselContent className="-ml-6">
-                  {testimonials.map((testimonial, index) => (
-                      <CarouselItem key={index} className="pl-6 basis-full sm:basis-1/2 md:basis-[40%]">
+            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-6 px-4 md:pl-[10%]">
+                    {testimonials.map((testimonial) => (
+                    <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
                         <TestimonialCard testimonial={testimonial} />
-                      </CarouselItem>
-                  ))}
-                  </CarouselContent>
-              </Carousel>
-              <div className="flex justify-center gap-2 mt-8">
-                {testimonials.map((_, i) => (
-                    <button
-                    key={i}
-                    onClick={() => scrollTo(i)}
-                    className={cn(
-                        "h-2 w-2 rounded-full transition-all",
-                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
-                    )}
-                    />
-                ))}
+                    </div>
+                    ))}
+                </div>
             </div>
-          </>
           ) : (
             <p className="text-center text-muted-foreground">No testimonials available at the moment.</p>
           )}
