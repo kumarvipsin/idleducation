@@ -92,7 +92,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex gap-6 px-4 md:px-[10%]">
               {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
+                <div key={testimonial.id} className="block flex-shrink-0 w-80 sm:w-96 group">
                     <TestimonialCard testimonial={testimonial} />
                 </div>
               ))}
