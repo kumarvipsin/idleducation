@@ -17,12 +17,12 @@ import { Button } from '@/components/ui/button';
 
 const combinedValues = [
     {
-        icon: <Eye className="w-10 h-10 text-primary" />,
+        icon: <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />,
         title: "Our Vision",
         description: "IDL EDUCATION shall remain a Unique Educational Centre defined by its core values. With excellence in all our activities of instructing, we are committed to provide the best education in the most cultivable environment so as to empower everyone. Our vision is to prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world."
     },
     {
-        icon: <Target className="w-10 h-10 text-primary" />,
+        icon: <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />,
         title: "Our Mission",
         description: "IDL EDUCATION has developed a sustainable, innovative, aspiring learning environment for its pupils, with focus on the three main fundamentals of life-Physical, Mental and Spiritual fitness. We at IDL EDUCATION are equipped with 21st century skills. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity."
     },
@@ -166,21 +166,44 @@ export default function AboutPage() {
                       We are driven by a set of core values that define our mission and guide our approach to education.
                     </p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {combinedValues.map((item, index) => (
-                      <Card key={index} className="bg-background rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up border-t-4 border-primary overflow-hidden group">
-                          <CardContent className="p-6 text-center">
-                              <div className="flex justify-center mb-4">
-                                <div className="bg-primary/10 text-primary p-4 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12">
-                                  {item.icon}
+                  <div className="max-w-5xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-transparent p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
+                        <div className="space-y-8 p-4">
+                            <h4 className="text-2xl font-bold text-foreground">Our Vision</h4>
+                            <div className="flex items-start gap-4">
+                                <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                                <div>
+                                    <h5 className="font-semibold text-lg">Empowerment</h5>
+                                    <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
                                 </div>
-                              </div>
-                              <h3 className="text-2xl font-bold text-foreground mb-2">{item.title}</h3>
-                              <p className="text-foreground/80 leading-relaxed">{item.description}</p>
-                          </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                            </div>
+                            <div className="flex items-start gap-4">
+                                <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                                <div>
+                                    <h5 className="font-semibold text-lg">Global Citizens</h5>
+                                    <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="space-y-8 bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl">
+                             <h4 className="text-2xl font-bold text-primary">Our Mission</h4>
+                            <div className="flex items-start gap-4">
+                                <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                                <div>
+                                    <h5 className="font-semibold text-lg">Holistic Development</h5>
+                                    <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
+                                </div>
+                            </div>
+                             <div className="flex items-start gap-4">
+                                <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                                <div>
+                                    <h5 className="font-semibold text-lg">Service to Humanity</h5>
+                                    <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </section>
               </CardContent>
             </Card>
