@@ -54,9 +54,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </DialogContent>
         </Dialog>
 
-        <div className="p-4 flex-grow flex flex-col">
-          <p className="font-bold text-lg text-foreground truncate">{testimonial.studentName}</p>
-          <div className="flex justify-between items-center text-sm text-muted-foreground mt-1">
+        <div className="p-3">
+          <p className="font-bold text-base text-foreground truncate">{testimonial.studentName}</p>
+          <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
             <span>{testimonial.studentClass}</span>
           </div>
         </div>
