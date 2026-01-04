@@ -402,11 +402,7 @@ export function Header() {
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center gap-x-4 text-xs font-semibold">
-                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                            </div>
+                            null
                           )}
                     </nav>
                 </div>
