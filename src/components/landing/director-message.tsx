@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,11 +8,11 @@ import Image from "next/image";
 export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-muted/20">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
         </div>
-        <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden border-0 rounded-2xl">
+        <Card className="mx-auto shadow-lg overflow-hidden border-0 rounded-2xl">
           <div className="relative w-full aspect-[16/7]">
              <Image 
                 src="/team.png"
