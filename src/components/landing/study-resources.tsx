@@ -50,9 +50,9 @@ export function StudyResources() {
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Study Resources</h2>
             </div>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm">
+          <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
             A diverse array of learning materials to enhance your educational journey.
-          </p>
+          </h3>
         </div>
       </div>
       <div className="relative">
