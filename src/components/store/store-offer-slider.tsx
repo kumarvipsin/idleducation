@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const offerSlides = [
     {
-        src: "https://picsum.photos/seed/offer1/1200/400",
+        src: "https://www.crossword.in/cdn/shop/files/Website_banners_1600_x_450_px_d9ef9aa3-d81b-41fc-ae41-804d9c86b27b.webp?v=1765520789&width=3000",
         alt: "Special offer on textbooks",
         hint: "textbooks sale",
     },
