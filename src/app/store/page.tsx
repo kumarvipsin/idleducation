@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -96,7 +96,14 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-screen max-w-full p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
+                                {searchPopoverContent}
+                            </PopoverContent>
+                        </Popover>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -153,6 +160,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
+                         <Button asChild variant="ghost" size="icon" className="h-8 w-8">
+                            <Link href="/"><X className="h-5 w-5" /></Link>
+                        </Button>
                     </div>
                 </div>
             </div>

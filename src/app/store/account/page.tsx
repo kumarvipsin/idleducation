@@ -72,7 +72,7 @@ export default function AccountPage() {
     if (loading || !user) {
         return (
             <div className="relative min-h-screen w-full bg-white dark:bg-background">
-                <Skeleton className="h-12 w-full" />
+                <StoreHeader searchTerm="" setSearchTerm={() => {}} />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Skeleton className="h-96 w-full max-w-2xl mx-auto" />
                 </div>
