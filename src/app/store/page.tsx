@@ -153,8 +153,8 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                         <Button asChild variant="outline" size="icon" className="h-8 w-8 rounded-full">
-                            <Link href="/"><X className="h-5 w-5" /></Link>
+                         <Button asChild variant="outline" size="icon" className="h-7 w-7 rounded-full">
+                            <Link href="/"><X className="h-4 w-4" /></Link>
                         </Button>
                     </div>
                 </div>
