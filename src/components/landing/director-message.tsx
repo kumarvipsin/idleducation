@@ -36,7 +36,7 @@ export function DirectorMessage() {
                         </h3>
                       </AccordionTrigger>
                       <AccordionContent>
-                        <blockquote className="font-josefin-sans text-xl md:text-2xl text-foreground/80 font-extrabold pt-4">
+                        <blockquote className="font-josefin-sans text-base md:text-lg text-foreground/80 leading-relaxed pt-4">
                             "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams. We believe in fostering a learning environment that is not only rigorous but also inspiring and supportive. Join us on this journey to redefine education and shape the leaders of tomorrow."
                         </blockquote>
                         <div className="mt-6">
