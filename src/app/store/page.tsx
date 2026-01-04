@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -99,9 +98,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                      <div className="flex items-center gap-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                <Button variant="ghost" className="relative h-7 w-7 rounded-full">
                                     {storeUser ? (
-                                        <Avatar className="h-8 w-8">
+                                        <Avatar className="h-7 w-7">
                                             <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                     ) : (
@@ -252,7 +251,7 @@ export default function StorePage() {
                             Welcome to the IDL Store
                         </h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Discover a curated collection of reference books and study materials to help you excel in your studies. Find everything you need to succeed, all in one place.
+                            Find all the books and materials you need for your studies.
                         </p>
                     </div>
 
