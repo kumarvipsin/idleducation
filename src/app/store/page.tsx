@@ -73,21 +73,12 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-16 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
-                    <span className="text-lg font-bold text-primary">IDL Store</span>
+                    <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} />
+                    <span className="text-xl font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        <Link href="/store/cart" className="relative">
-                            <Button variant="ghost" size="icon" className="h-9 w-9">
-                                <ShoppingCart className="h-5 w-5" />
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                                        {cartCount}
-                                    </span>
-                                )}
-                            </Button>
-                        </Link>
+                        
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
