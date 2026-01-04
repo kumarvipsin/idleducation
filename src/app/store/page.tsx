@@ -73,7 +73,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-16 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} />
+                    <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                     <span className="text-xl font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
@@ -227,7 +227,9 @@ export default function StorePage() {
                 <div className="container mx-auto py-12">
                     <StoreOfferSlider />
                     <div className="text-center mb-12 animate-fade-in-up">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Welcome to the IDL Store</h1>
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                            Welcome to the IDL Store
+                        </h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
                             Discover a curated collection of reference books and study materials to help you excel in your studies. Find everything you need to succeed, all in one place.
                         </p>
