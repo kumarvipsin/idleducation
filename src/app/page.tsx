@@ -20,7 +20,7 @@ export default async function Home() {
   const slides = slidesResult.success ? (slidesResult.data as THeroSlide[]).sort((a,b) => a.order - b.order) : [];
 
   return (
-    <div className="flex flex-col bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="flex flex-col bg-white dark:bg-black">
       <div className="mx-[2vw] mt-[1vh] rounded-2xl overflow-hidden">
         <BuildSkillsSection slides={slides} />
       </div>
