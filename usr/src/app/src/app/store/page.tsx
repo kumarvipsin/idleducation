@@ -1,10 +1,11 @@
 
+
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut } from "lucide-react";
+import { Home, ShoppingCart, Star, ShoppingBag, ChevronDown, User, Search, LogIn, UserPlus, UserCircle, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -29,6 +30,7 @@ import { useRouter } from 'next/navigation';
 import { ToastAction } from '@/components/ui/toast';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { StoreOfferSlider } from '@/components/store/store-offer-slider';
 
 
 export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
@@ -67,47 +69,22 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
             action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
         });
     }
-    
-    const searchPopoverContent = (
-        <div className="p-4 w-screen max-w-full">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Search for books by title, ID, class, or edition..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full h-10 rounded-full"
-                    />
-                </div>
-            </div>
-        </div>
-    );
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-full items-center justify-between mx-auto px-4 md:px-6">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
-                    <span className="text-lg font-bold text-primary">IDL Store</span>
+                    <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+                    <span className="text-xl font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8"><Search className="h-4 w-4" /></Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-screen max-w-full p-0 mt-2 bg-transparent border-0 shadow-none" sideOffset={14}>
-                                {searchPopoverContent}
-                            </PopoverContent>
-                        </Popover>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                                     {storeUser ? (
-                                        <Avatar className="h-8 w-8">
+                                        <Avatar className="h-10 w-10">
                                             <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                     ) : (
@@ -159,6 +136,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
+                         <Button asChild variant="outline" size="icon" className="h-10 w-10 rounded-full">
+                            <Link href="/"><X className="h-4 w-4" /></Link>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -246,14 +226,18 @@ export default function StorePage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
+                    <StoreOfferSlider />
                     <div className="text-center mb-12 animate-fade-in-up">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">IDL Store</h1>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Your one-stop shop for the best reference books and study materials.
-                        </p>
+                      <div className="flex items-center justify-center">
+                          <span className="text-primary text-2xl mr-2">•</span>
+                          <h2 className="text-lg font-semibold text-primary">Welcome to the IDL Store</h2>
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
+                          Your one-stop shop for the best reference books and study materials.
+                      </h3>
                     </div>
 
                     <div className="flex flex-col items-center space-y-4 mb-8">
