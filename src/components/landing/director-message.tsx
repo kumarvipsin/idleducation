@@ -12,23 +12,24 @@ export function DirectorMessage() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
         </div>
-        <Card className="max-w-4xl mx-auto shadow-lg">
-          <CardContent className="p-8 grid md:grid-cols-3 gap-8 items-center">
-            <div className="md:col-span-1 flex justify-center">
-              <Avatar className="w-40 h-40 border-4 border-primary">
-                <Image src="https://picsum.photos/seed/director/400/400" alt="Director's Photo" data-ai-hint="director portrait" layout="fill" objectFit="cover" />
-                <AvatarFallback>DM</AvatarFallback>
-              </Avatar>
-            </div>
-            <div className="md:col-span-2">
-              <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80">
+        <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden">
+          <div className="relative w-full aspect-[16/7]">
+             <Image 
+                src="https://images.unsplash.com/photo-1573495612027-02c3d07941b2?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                alt="IDL Education Team" 
+                data-ai-hint="team meeting" 
+                layout="fill" 
+                objectFit="cover" 
+             />
+          </div>
+          <CardContent className="p-8 text-center">
+              <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto">
                 "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams."
               </blockquote>
-              <div className="mt-4 text-right">
+              <div className="mt-6">
                 <p className="font-bold text-lg text-primary">Amod Kumar Sharma</p>
                 <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
               </div>
-            </div>
           </CardContent>
         </Card>
       </div>
