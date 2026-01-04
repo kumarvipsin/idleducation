@@ -40,7 +40,7 @@ export function DirectorMessage() {
                             "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams. We believe in fostering a learning environment that is not only rigorous but also inspiring and supportive. Join us on this journey to redefine education and shape the leaders of tomorrow."
                         </blockquote>
                         <div className="mt-6">
-                            <p className="font-bold text-lg text-primary">AMOD KUMAR SHARMA</p>
+                            <p className="font-josefin-sans font-bold text-lg text-primary">AMOD KUMAR SHARMA</p>
                             <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
                         </div>
                       </AccordionContent>
