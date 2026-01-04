@@ -3,7 +3,6 @@
 
 import { Header } from "@/components/header";
 import { DonationCategories } from "@/components/foundation/donation-categories";
-import { Stats } from "@/components/foundation/stats";
 import { Donors } from "@/components/foundation/donors";
 import { Glimpses } from "@/components/foundation/glimpses";
 import { Events } from "@/components/foundation/events";
@@ -41,7 +40,6 @@ export default function IDLFoundationPage() {
                 isDonateDialogOpen={isDonateOpen}
                 onDonateDialogChange={setIsDonateOpen}
             />
-            <Stats />
             <Donors />
             <Glimpses />
             <Events />
