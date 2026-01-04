@@ -8,7 +8,7 @@ export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <Card className="shadow-lg overflow-hidden border-0 rounded-none">
-          <div className="relative w-full h-96">
+          <div className="relative w-full h-96 bg-black">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
