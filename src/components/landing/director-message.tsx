@@ -8,7 +8,7 @@ export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-white">
       <Card className="shadow-lg overflow-hidden border-0 rounded-none">
-          <div className="relative w-full h-[70vh] bg-black">
+          <div className="relative w-full h-[70vh] bg-white">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
@@ -17,7 +17,7 @@ export function DirectorMessage() {
                 className="object-contain"
              />
           </div>
-          <CardContent className="p-8 text-center relative bg-background">
+          <CardContent className="p-8 text-center relative bg-white">
               <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-8">
                 "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams."
               </blockquote>
