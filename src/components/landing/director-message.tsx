@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +9,7 @@ export function DirectorMessage() {
   return (
     <section className="w-full bg-white dark:bg-background py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="bg-black rounded-2xl shadow-2xl overflow-hidden">
+            <div className="bg-blue-950 rounded-2xl shadow-2xl overflow-hidden">
                 <div className="relative w-full aspect-[4/3] md:aspect-[16/7]">
                     <Image
                         src="/team.png"
