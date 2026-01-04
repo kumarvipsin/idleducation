@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -63,7 +62,7 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
                         <ul className="space-y-2 text-sm text-white/80">
                             <li className="flex items-start gap-2">
                                 <MapPin className="w-4 h-4 mt-1 shrink-0" />
-                                <span>Y-25A Budh Vihar, Delhi-110086</span>
+                                <span>E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
                             </li>
                         </ul>
                     </div>
