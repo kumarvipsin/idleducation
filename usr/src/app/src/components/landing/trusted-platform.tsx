@@ -7,14 +7,14 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              India's <span className="text-primary">Trusted & Affordable</span> Educational Platform
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
+              Bharat's Trusted & Affordable Educational Platform
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
             <Button asChild size="lg" className="rounded-full">
@@ -31,9 +31,10 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
                     </div>
-                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full" data-ai-hint="teacher profile" />
+                    <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
+                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-20 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
+                 <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
                     <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
                     <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
                 </div>
@@ -46,7 +47,8 @@ export function TrustedPlatform() {
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
-                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full" data-ai-hint="student profile" />
+                    <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
+                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
