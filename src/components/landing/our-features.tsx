@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -54,9 +53,9 @@ export function OurFeatures() {
         </div>
 
         <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-card p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-white dark:bg-card p-4 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                 {/* Other Institute Column */}
-                <div className="space-y-8">
+                <div className="space-y-8 p-4">
                     <h4 className="text-2xl font-bold text-foreground">Other Institute</h4>
                     {otherInstituteFeatures.map((feature, index) => (
                         <div key={index} className="flex items-start gap-4">
