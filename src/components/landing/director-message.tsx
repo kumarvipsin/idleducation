@@ -12,7 +12,7 @@ export function DirectorMessage() {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
         </div>
-        <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden border-0 rounded-2xl">
+        <Card className="shadow-lg overflow-hidden border-0 rounded-2xl">
           <div className="relative w-full aspect-[16/5]">
              <Image 
                 src="/team.png"
