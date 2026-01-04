@@ -25,7 +25,7 @@ export function DirectorMessage() {
                     <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center justify-center gap-2">
                         <PenSquare className="w-7 h-7" /> Director's Message
                     </h3>
-                    <blockquote className="italic text-base md:text-lg text-foreground/80">
+                    <blockquote className="font-dancing-script text-xl md:text-2xl text-foreground/80">
                         "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our commitment is to provide the highest quality education and empower every student to achieve their dreams. We believe in fostering a learning environment that is not only rigorous but also inspiring and supportive. Join us on this journey to redefine education and shape the leaders of tomorrow."
                     </blockquote>
                     <div className="mt-6">
