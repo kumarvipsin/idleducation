@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -244,9 +243,9 @@ export default function StorePage() {
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">IDL Store</h1>
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Welcome to the IDL Store</h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Your one-stop shop for the best reference books and study materials.
+                            Discover a curated collection of reference books and study materials to help you excel in your studies. Find everything you need to succeed, all in one place.
                         </p>
                     </div>
 
