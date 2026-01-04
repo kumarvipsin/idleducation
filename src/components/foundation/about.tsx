@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 
 export function About() {
     return (
-        <section id="about" className="w-full py-16 md:py-24 bg-gray-50 dark:bg-gray-900 scroll-mt-20">
+        <section id="about" className="w-full py-16 md:py-24 bg-white dark:bg-gray-800/20 scroll-mt-20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">About IDL Foundation</h2>
