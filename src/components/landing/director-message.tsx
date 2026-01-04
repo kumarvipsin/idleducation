@@ -8,17 +8,17 @@ import Image from "next/image";
 export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
-      <div className="px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
         </div>
-        <Card className="mx-auto shadow-lg overflow-hidden border-0 rounded-2xl">
-          <div className="relative w-full aspect-[16/7]">
+        <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden border-0 rounded-2xl">
+          <div className="relative w-full aspect-[16/5]">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
                 data-ai-hint="team meeting" 
-                layout="fill" 
+                fill
                 objectFit="cover" 
              />
              <div className="absolute inset-0 bg-black/30"></div>
@@ -27,7 +27,6 @@ export function DirectorMessage() {
              <div className="absolute -top-12 left-1/2 -translate-x-1/2">
                 <Avatar className="w-24 h-24 border-4 border-background shadow-lg">
                     <AvatarImage src="/amod.jpg" alt="Amod Kumar Sharma" />
-                    <AvatarFallback></AvatarFallback>
                 </Avatar>
              </div>
               <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-16">
