@@ -112,17 +112,13 @@ export default function AboutPage() {
                           <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg">
                             {loading ? (
                                 <Skeleton className="w-full h-full rounded-full" />
-                            ) : director?.photoUrl ? (
-                                <GcsImage
-                                    filePath={director.photoUrl}
+                            ) : (
+                                <Image
+                                    src="/teacher.png"
                                     alt="Director's Photo"
                                     fill
                                     className="rounded-full object-cover"
                                 />
-                            ) : (
-                                <AvatarFallback className="text-5xl">
-                                    {director?.name ? director.name.charAt(0) : 'A'}
-                                </AvatarFallback>
                             )}
                           </Avatar>
                           <div className="text-center mt-4">
