@@ -69,12 +69,30 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         });
     }
     
+    const searchPopoverContent = (
+        <div className="p-4 w-screen max-w-full">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search for books by title, ID, class, or edition..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 w-full h-10 rounded-full"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+
+
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-16 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
-                    <span className="text-xl font-bold text-primary">IDL Store</span>
+                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                    <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
