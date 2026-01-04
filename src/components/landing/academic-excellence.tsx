@@ -61,7 +61,7 @@ export function AcademicExcellence() {
             <span className="text-blue-600 text-2xl mr-2">•</span>
             <h2 className="text-lg font-semibold text-blue-600">Excellence Results</h2>
           </div>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto text-sm">
+          <p className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2 max-w-2xl mx-auto">
             Our students consistently achieve outstanding results. Here's a glimpse of their success.
           </p>
         </div>
