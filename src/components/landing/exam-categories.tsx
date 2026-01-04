@@ -15,6 +15,13 @@ const categories = [
     imageHint: "students in classroom"
   },
   {
+    title: "For Medical & Non Medical",
+    subtitle: "NEET / JEE & OTHER FOUNDATION",
+    href: "/category/iit-jee",
+    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/Aakash_JEE_NEET.webp",
+    imageHint: "student studying"
+  },
+  {
     title: "Competitive Exams",
     subtitle: "CUET | SSC | DELHI POLICE & OTHER EXAM",
     href: "/examcat",
@@ -28,13 +35,6 @@ const categories = [
     imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "students outdoors"
   },
-  {
-    title: "For Medical & Non Medical",
-    subtitle: "NEET / JEE & OTHER FOUNDATION",
-    href: "/category/iit-jee",
-    imageUrl: "https://cdn1.byjus.com/wp-content/uploads/2024/02/Aakash_JEE_NEET.webp",
-    imageHint: "student studying"
-  }
 ];
 
 export function ExamCategories() {
