@@ -37,7 +37,7 @@ const idlEducationFeatures = [
 export function OurFeatures() {
   return (
     <section 
-      className="w-full relative py-12 md:py-20 bg-[#F5F5F7] dark:bg-gray-900"
+      className="w-full relative py-12 md:py-20 bg-white dark:bg-gray-900"
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div className="space-y-6 text-center mb-12">

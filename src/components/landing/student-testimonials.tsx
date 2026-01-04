@@ -68,7 +68,7 @@ export function StudentTestimonials() {
   }, []);
 
   return (
-    <section id="testimonials" className="w-full py-12 md:py-24 bg-[#F5F5F7] dark:bg-background">
+    <section id="testimonials" className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
         <div className="flex items-center justify-center">
           <span className="text-blue-600 text-2xl mr-2">•</span>
