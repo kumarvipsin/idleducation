@@ -68,28 +68,11 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
             action: <ToastAction altText="Login" onClick={() => router.push('/store/auth')}>Login</ToastAction>,
         });
     }
-    
-    const searchPopoverContent = (
-        <div className="p-4 w-screen max-w-full">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Search for books by title, ID, class, or edition..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full h-10 rounded-full"
-                    />
-                </div>
-            </div>
-        </div>
-    );
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
-            <div className="container flex h-12 items-center justify-between mx-auto px-4 md:px-[10%]">
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
+            <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
@@ -98,9 +81,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                      <div className="flex items-center gap-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-7 w-7 rounded-full">
+                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                     {storeUser ? (
-                                        <Avatar className="h-7 w-7">
+                                        <Avatar className="h-8 w-8">
                                             <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                     ) : (
@@ -247,11 +230,12 @@ export default function StorePage() {
                 <div className="container mx-auto py-12">
                     <StoreOfferSlider />
                     <div className="text-center mb-12 animate-fade-in-up">
-                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                            Welcome to the IDL Store
-                        </h1>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Find all the books and materials you need for your studies.
+                        <div className="flex items-center justify-center">
+                            <span className="text-primary text-2xl mr-2">•</span>
+                            <h2 className="text-lg font-semibold text-primary">Welcome to the IDL Store</h2>
+                        </div>
+                        <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                            Your one-stop shop for the best reference books and study materials.
                         </p>
                     </div>
 
