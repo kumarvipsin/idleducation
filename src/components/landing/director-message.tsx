@@ -25,7 +25,7 @@ export function DirectorMessage() {
           </div>
           <CardContent className="p-8 text-center relative bg-background">
              <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-                <Avatar className="w-24 h-24 border-4 border-background shadow-lg">
+                <Avatar className="w-24 h-24 shadow-lg">
                     <AvatarImage src="/amod.jpg" alt="Amod Kumar Sharma" />
                 </Avatar>
              </div>
