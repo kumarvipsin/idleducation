@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,7 +50,7 @@ export function StudyResources() {
               <h2 className="text-lg font-semibold text-blue-600">Study Resources</h2>
             </div>
           <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-            A diverse array of learning materials to enhance your educational journey.
+            Your one-stop destination for comprehensive and effective study materials.
           </h3>
         </div>
       </div>
