@@ -74,7 +74,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-14 items-center justify-between mx-auto px-4 md:px-[10%]">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={24} height={24} />
+                    <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                     <span className="text-lg font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
@@ -230,13 +230,13 @@ export default function StorePage() {
                 <div className="container mx-auto py-12">
                     <StoreOfferSlider />
                     <div className="text-center mb-12 animate-fade-in-up">
-                        <div className="flex items-center justify-center">
-                            <span className="text-primary text-2xl mr-2">•</span>
-                            <h2 className="text-lg font-semibold text-primary">Welcome to the IDL Store</h2>
-                        </div>
-                        <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
-                            Your one-stop shop for the best reference books and study materials.
-                        </h3>
+                      <div className="flex items-center justify-center">
+                          <span className="text-primary text-2xl mr-2">•</span>
+                          <h2 className="text-lg font-semibold text-primary">Welcome to the IDL Store</h2>
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
+                          Your one-stop shop for the best reference books and study materials.
+                      </h3>
                     </div>
 
                     <div className="flex flex-col items-center space-y-4 mb-8">
