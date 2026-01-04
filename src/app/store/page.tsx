@@ -254,7 +254,7 @@ export default function StorePage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-white dark:bg-gray-900">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
                     <div className="text-center mb-12 animate-fade-in-up">
