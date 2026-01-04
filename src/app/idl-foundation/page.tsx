@@ -12,6 +12,7 @@ import { About } from "@/components/foundation/about";
 import { Team } from "@/components/foundation/team";
 import { FoundationFooter } from "@/components/foundation/footer";
 import { useState } from "react";
+import { FoundationContactForm } from "@/components/foundation/contact-form";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/600/400", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -26,7 +27,7 @@ export default function IDLFoundationPage() {
     const [isDonateOpen, setIsDonateOpen] = useState(false);
 
     return (
-        <div className="relative w-full bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
+        <div className="relative w-full bg-white dark:bg-gray-900 overflow-y-auto">
             <Header />
             <FoundationHero slides={donationCategories} />
             <DonationCategories 
@@ -41,6 +42,7 @@ export default function IDLFoundationPage() {
             <Events />
             <About />
             <Team />
+            <FoundationContactForm />
             <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} />
         </div>
     );
