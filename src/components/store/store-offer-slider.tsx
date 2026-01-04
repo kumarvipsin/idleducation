@@ -40,7 +40,7 @@ export function StoreOfferSlider() {
                 <CarouselContent>
                     {offerSlides.map((slide, index) => (
                         <CarouselItem key={index}>
-                            <div className="relative w-full aspect-[16/6] rounded-lg overflow-hidden">
+                            <div className="relative w-full aspect-[16/4] rounded-lg overflow-hidden">
                                 <Image
                                     src={slide.src}
                                     alt={slide.alt}
