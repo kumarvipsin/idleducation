@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,20 +7,16 @@ import Image from "next/image";
 export function DirectorMessage() {
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">Director's Message</h2>
-        </div>
-        <Card className="shadow-lg overflow-hidden border-0 rounded-2xl">
+      <Card className="shadow-lg overflow-hidden border-0 rounded-none">
           <div className="relative w-full h-96">
              <Image 
                 src="/team.png"
                 alt="IDL Education Team" 
                 data-ai-hint="team meeting" 
                 fill
-                objectFit="cover" 
+                className="object-contain"
              />
-             <div className="absolute inset-0 bg-black/30"></div>
+             <div className="absolute inset-0 bg-black/30 -z-10"></div>
           </div>
           <CardContent className="p-8 text-center relative bg-background">
               <blockquote className="border-l-4 border-primary pl-4 italic text-lg text-foreground/80 max-w-3xl mx-auto pt-8">
@@ -33,7 +28,6 @@ export function DirectorMessage() {
               </div>
           </CardContent>
         </Card>
-      </div>
     </section>
   );
 }
