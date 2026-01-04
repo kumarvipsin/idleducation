@@ -383,7 +383,7 @@ export default function AdmissionPage() {
             <header className="bg-primary text-white p-4">
                 <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
+                    <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
                     <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
                 </div>
                 </div>
@@ -906,7 +906,7 @@ export default function AdmissionPage() {
                     <header className="bg-primary text-white p-4">
                         <div className="flex flex-col items-center justify-center gap-2 text-center">
                         <div>
-                            <h1 className="text-2xl font-bold tracking-wider">IDL EDUCATION</h1>
+                            <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
                             <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
                         </div>
                         </div>
