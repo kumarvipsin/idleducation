@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { ImageSlider } from "@/components/foundation/image-slider";
+import { Footer } from "@/components/footer";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -48,7 +49,7 @@ export default function IDLFoundationPage() {
             <Team />
             <FAQ />
             <FoundationContactForm />
-            <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} />
+            <Footer />
         </div>
     );
 }
