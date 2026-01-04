@@ -100,7 +100,7 @@ export default function CartPage() {
             id="razorpay-checkout-js"
             src="https://checkout.razorpay.com/v1/checkout.js"
         />
-        <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+        <div className="relative min-h-screen w-full bg-white dark:bg-background">
             <StoreHeader searchTerm="" setSearchTerm={() => {}} />
             <div className="container mx-auto py-12 px-4 md:px-6">
                 <div className="w-full">

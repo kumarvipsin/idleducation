@@ -23,10 +23,6 @@ interface OrderItem {
   price: number;
   quantity: number;
   imageUrl: string;
-  author: string;
-  class: string;
-  subject: string;
-  edition: string;
 }
 
 interface Order {
@@ -122,7 +118,7 @@ export default function OrdersPage() {
   if (loading) {
       return (
         <>
-            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
                 <StoreHeader searchTerm="" setSearchTerm={() => {}} />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Card className="shadow-lg">
@@ -142,7 +138,7 @@ export default function OrdersPage() {
 
   return (
     <>
-      <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+      <div className="relative min-h-screen w-full bg-white dark:bg-background">
           <StoreHeader searchTerm="" setSearchTerm={() => {}} />
           <div className="container mx-auto py-12 px-4 md:px-6">
               <Card className="shadow-lg">

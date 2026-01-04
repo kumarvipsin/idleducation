@@ -71,7 +71,7 @@ export default function AccountPage() {
 
     if (loading || !user) {
         return (
-            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
                 <Skeleton className="h-12 w-full" />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Skeleton className="h-96 w-full max-w-2xl mx-auto" />
@@ -82,7 +82,7 @@ export default function AccountPage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
                 <StoreHeader searchTerm="" setSearchTerm={() => {}} />
                 <div className="container mx-auto py-12 px-4 md:px-6">
                     <Card className="max-w-2xl mx-auto shadow-lg">

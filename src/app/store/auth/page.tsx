@@ -84,7 +84,7 @@ function StoreAuthPageContent() {
   };
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
+    <div className="relative min-h-screen w-full p-4 bg-white dark:bg-background overflow-y-auto">
         <Link href="/store" className="absolute top-4 right-4 z-20">
             <Button variant="ghost" size="icon">
                 <Home className="h-6 w-6 text-primary" />
