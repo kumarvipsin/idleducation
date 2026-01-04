@@ -33,7 +33,6 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-blue-950 dark:bg-gray-900 overflow-y-auto">
             <Header />
-            <ImageSlider slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 
