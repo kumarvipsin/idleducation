@@ -29,6 +29,7 @@ import { useRouter } from 'next/navigation';
 import { ToastAction } from '@/components/ui/toast';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { StoreOfferSlider } from '@/components/store/store-offer-slider';
 
 
 export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string, setSearchTerm: (term: string) => void }) => {
@@ -68,24 +69,6 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
         });
     }
     
-    const searchPopoverContent = (
-        <div className="p-4 w-screen max-w-md">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Search for books by title, ID, class, or edition..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full h-10 rounded-full"
-                    />
-                </div>
-            </div>
-        </div>
-    );
-
-
     return (
         <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-16 items-center justify-between mx-auto px-4 md:px-[10%]">
@@ -95,7 +78,16 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
                      <div className="flex items-center gap-2">
-                        
+                        <Link href="/store/cart" className="relative">
+                            <Button variant="ghost" size="icon" className="h-9 w-9">
+                                <ShoppingCart className="h-5 w-5" />
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </Button>
+                        </Link>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -242,6 +234,7 @@ export default function StorePage() {
             <div className="relative min-h-screen w-full bg-[#F5F5F7] dark:bg-gray-900">
                 <StoreHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <div className="container mx-auto py-12">
+                    <StoreOfferSlider />
                     <div className="text-center mb-12 animate-fade-in-up">
                         <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Welcome to the IDL Store</h1>
                         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
