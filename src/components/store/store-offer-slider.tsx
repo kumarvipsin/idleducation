@@ -12,12 +12,12 @@ const offerSlides = [
         hint: "textbooks sale",
     },
     {
-        src: "https://picsum.photos/seed/offer2/1200/400",
+        src: "https://www.crossword.in/cdn/shop/files/Website_banners_1600_x_450_px_d9ef9aa3-d81b-41fc-ae41-804d9c86b27b.webp?v=1765520789&width=3000",
         alt: "Discount on science kits",
         hint: "science kit discount",
     },
     {
-        src: "https://picsum.photos/seed/offer3/1200/400",
+        src: "https://www.crossword.in/cdn/shop/files/Website_banners_1600_x_450_px_d9ef9aa3-d81b-41fc-ae41-804d9c86b27b.webp?v=1765520789&width=3000",
         alt: "Free shipping on all orders",
         hint: "free shipping",
     },
