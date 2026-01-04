@@ -234,9 +234,9 @@ export default function StorePage() {
                             <span className="text-primary text-2xl mr-2">•</span>
                             <h2 className="text-lg font-semibold text-primary">Welcome to the IDL Store</h2>
                         </div>
-                        <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                        <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
                             Your one-stop shop for the best reference books and study materials.
-                        </p>
+                        </h3>
                     </div>
 
                     <div className="flex flex-col items-center space-y-4 mb-8">
