@@ -75,7 +75,7 @@ export function StudentTestimonials() {
           <h2 className="text-lg font-semibold text-blue-600">What Our Students Say</h2>
         </div>
         <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-          {t('testimonials.subtitle')}
+          Discover the real impact of our education through the voices of our students.
         </h3>
       </div>
       <div className="relative">
