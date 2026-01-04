@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -48,7 +47,7 @@ const blogPosts = [
 
 export default function BlogPage() {
   return (
-    <div className="relative min-h-screen w-full p-4 bg-[#F5F5F7] dark:bg-gray-900 overflow-y-auto">
+    <div className="relative min-h-screen w-full p-4 bg-white dark:bg-gray-900 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
           <Button variant="ghost" size="icon">
               <Home className="h-6 w-6 text-primary" />
