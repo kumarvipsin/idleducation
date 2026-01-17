@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageCircle, HelpCircle, CheckCircle, Smartphone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -89,7 +89,7 @@ export function GetAppSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative h-40 md:h-48">
                 <Image
-                    src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2Fhomepage%2FbrochureImgDesk.avif&w=640&q=90"
+                    src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="IDL Education Brochure"
                     data-ai-hint="education brochure"
                     fill
