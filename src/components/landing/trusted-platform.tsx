@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
@@ -16,7 +16,7 @@ export function TrustedPlatform() {
             <p className="text-muted-foreground text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="rounded-md">
               <Link href="/signup">Get Started</Link>
             </Button>
           </div>
@@ -49,9 +49,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
                     <Image src="/student.png" alt="Student" width={112} height={112} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
-                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-white"></div>
+                 <div className="absolute top-8 -left-44 w-48 bg-secondary p-3 rounded-lg shadow-md">
+                    <p className="text-sm text-secondary-foreground">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-secondary"></div>
                 </div>
             </div>
 
