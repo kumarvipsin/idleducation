@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -35,6 +34,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+                <div className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                    <PlayCircle className="w-6 h-6 text-primary/80" />
+                </div>
             </button>
             </DialogTrigger>
             <DialogContent className="max-w-3xl p-0" onInteractOutside={handleClose}>
