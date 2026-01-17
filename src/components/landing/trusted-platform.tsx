@@ -16,8 +16,8 @@ export function TrustedPlatform() {
             <p className="text-muted-foreground text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="lg" variant="outline" className="rounded-full">
-              <Link href="/student-enquiry">Get Started</Link>
+            <Button asChild size="lg" className="rounded-full">
+              <Link href="/signup">Get Started</Link>
             </Button>
           </div>
           <div className="relative h-[400px] flex items-center justify-center">
@@ -25,13 +25,13 @@ export function TrustedPlatform() {
             
             {/* Character 1 */}
             <div className="absolute left-[10%] bottom-[10%] animate-float">
-                <div className="relative w-[150px] h-[150px]">
+                <div className="relative w-[112px] h-[112px]">
                     <div className="absolute inset-[-20px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow">
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
-                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
+                    <Image src="/teacher.png" alt="Amod Sir" width={112} height={112} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
                     <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
@@ -41,13 +41,13 @@ export function TrustedPlatform() {
 
             {/* Character 2 */}
             <div className="absolute right-[10%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
-                <div className="relative w-[150px] h-[150px]">
+                <div className="relative w-[112px] h-[112px]">
                      <div className="absolute inset-[-20px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
-                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full relative" data-ai-hint="student profile" />
+                    <Image src="/student.png" alt="Student" width={112} height={112} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
