@@ -29,7 +29,7 @@ export function DiscoverAdvantage() {
             </div>
             <div className="relative h-40 md:h-48">
               <Image
-                src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2Fhomepage%2FbrochureImgDesk.avif&w=640&q=90"
+                src="https://www.aakash.ac.in/images/homepage/brochureImgDesk.avif"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure"
                 fill
