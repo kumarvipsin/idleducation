@@ -1,6 +1,5 @@
 // src/app/actions/content.ts
 'use server';
-import 'dotenv/config';
 import { db } from "@/lib/firebase";
 import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, getDocs, collection, serverTimestamp, deleteField, addDoc } from "firebase/firestore";
 import { z } from "zod";
@@ -782,3 +781,5 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
         return { success: false, message: "Failed to delete sub-topic." };
     }
 }
+
+    
