@@ -23,8 +23,15 @@ const resourceLinks = [
 ];
 
 export function Footer() {
+  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(30,58,138,0.05)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
+  const textureStyle = {
+    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
+    backgroundSize: '500px 500px',
+  };
+
   return (
-    <footer className="bg-[#F5F5F7] dark:bg-gray-900">
+    <footer className="bg-white dark:bg-black text-gray-800 dark:text-gray-300" style={textureStyle}>
+        <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
@@ -114,7 +121,7 @@ export function Footer() {
 
             </div>
         </div>
-        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
+        <div className="bg-gray-50 dark:bg-gray-900/50 border-t border-gray-300 dark:border-gray-700">
             <div className="container mx-auto px-4 md:px-6 py-1">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-[0.6rem]">
                     <div className="flex items-center gap-2">
