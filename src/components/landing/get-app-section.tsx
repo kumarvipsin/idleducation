@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -50,7 +51,7 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog>
             <DialogTrigger asChild>
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+              <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <HelpCircle className="w-6 h-6" />
@@ -74,7 +75,7 @@ export function GetAppSection() {
             </DialogContent>
           </Dialog>
 
-          <Card className="hover:bg-muted/50 transition-colors">
+          <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
             <Link href="/contact" className="flex items-center gap-4 p-6">
               <div className="bg-primary/10 text-primary p-3 rounded-full">
                 <MessageCircle className="w-6 h-6" />
@@ -86,10 +87,11 @@ export function GetAppSection() {
 
         <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-8 md:p-12 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative h-64 md:h-48 -mb-16 md:-mb-24">
+            <div className="relative h-40 md:h-48">
                 <Image
                     src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2Fhomepage%2FbrochureImgDesk.avif&w=640&q=90"
-                    alt="IDL App Screenshot"
+                    alt="IDL Education Brochure"
+                    data-ai-hint="education brochure"
                     fill
                     className="object-contain object-bottom"
                 />
