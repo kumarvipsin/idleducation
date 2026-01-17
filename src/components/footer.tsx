@@ -23,14 +23,8 @@ const resourceLinks = [
 ];
 
 export function Footer() {
-  const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(255,255,255,0.05)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
-  const textureStyle = {
-    backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
-    backgroundSize: '500px 500px',
-  };
-
   return (
-    <footer className="bg-blue-950 text-gray-300" style={textureStyle}>
+    <footer className="bg-gray-50 dark:bg-gray-900/50">
         <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -40,32 +34,32 @@ export function Footer() {
                     <Link href="/" className="flex flex-col items-center gap-2">
                         <Image src="/logo.png" alt="IDL Education Logo" width={72} height={72} />
                         <div className="flex flex-col leading-tight">
-                            <span className="text-lg font-black text-white">IDL EDUCATION</span>
-                            <span className="text-[0.4rem] text-white/80 tracking-wider -mt-1 font-black">
+                            <span className="text-lg font-black text-primary">IDL EDUCATION</span>
+                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
                         </div>
                     </Link>
-                    <p className="text-lg text-white/80 font-dancing-script font-extrabold">
+                    <p className="text-lg text-muted-foreground font-dancing-script font-extrabold">
                       We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
                     </p>
                     <div className="flex items-center gap-2">
-                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="Instagram">
+                        <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="LinkedIn">
+                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="LinkedIn">
                           <Linkedin className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="Facebook">
+                        <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
-                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="Twitter">
+                        <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
                         </Link>
-                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="Telegram">
+                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Telegram">
                           <Send className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-white/10 rounded-md text-white/80 hover:bg-white/20 hover:text-white transition-colors" aria-label="YouTube">
+                        <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
                         </Link>
                     </div>
@@ -73,11 +67,11 @@ export function Footer() {
 
                 {/* Column 2: Quick Links */}
                 <div>
-                    <h3 className="text-md font-semibold mb-4 text-white">Quick Links</h3>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Quick Links</h3>
                     <ul className="space-y-2 text-sm">
                         {quickLinks.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-white/80 hover:text-white hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                             </li>
                         ))}
                     </ul>
@@ -85,11 +79,11 @@ export function Footer() {
                 
                 {/* Column 3: Resources */}
                 <div>
-                    <h3 className="text-md font-semibold mb-4 text-white">Resources</h3>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Resources</h3>
                     <ul className="space-y-2 text-sm">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-white/80 hover:text-white hover:underline underline-offset-4 transition-colors">{link.label}</Link>
+                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-muted-foreground hover:text-primary hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                             </li>
                         ))}
                     </ul>
@@ -97,8 +91,8 @@ export function Footer() {
 
                 {/* Column 4: Get our App */}
                 <div>
-                    <h3 className="text-md font-semibold mb-4 text-white">Get Our App</h3>
-                    <p className="text-sm text-white/80 mb-4">IDL Learning App - Learn Smart</p>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Get Our App</h3>
+                    <p className="text-sm text-muted-foreground mb-4">IDL Learning App - Learn Smart</p>
                     <div className="flex flex-col items-start gap-2">
                         <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                             <Image 
@@ -121,7 +115,7 @@ export function Footer() {
 
             </div>
         </div>
-        <div className="bg-blue-900 border-t border-blue-800">
+        <div className="bg-gray-200 dark:bg-gray-900 border-t border-gray-300 dark:border-gray-700">
             <div className="container mx-auto px-4 md:px-6 py-1">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-[0.6rem]">
                     <div className="flex items-center gap-2">
@@ -132,13 +126,13 @@ export function Footer() {
                             height={30}
                             className="rounded-full"
                         />
-                        <p className="text-white/60">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
+                        <p className="text-muted-foreground">&copy; {new Date().getFullYear()} IDL EDUCATION. All rights reserved.</p>
                     </div>
                     <nav className="flex gap-4 sm:gap-6 mt-2 sm:mt-0">
-                        <Link href="#" className="text-white/60 hover:text-white hover:underline underline-offset-4">
+                        <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                         Terms of Service
                         </Link>
-                        <Link href="#" className="text-white/60 hover:text-white hover:underline underline-offset-4">
+                        <Link href="#" className="text-muted-foreground hover:text-primary hover:underline underline-offset-4">
                         Privacy
                         </Link>
                     </nav>
