@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -28,9 +29,9 @@ export function DiscoverAdvantage() {
             </div>
             <div className="relative h-40 md:h-48">
               <Image
-                src="https://img.freepik.com/premium-vector/happy-indian-student-girl-cartoon-character_713739-16.jpg"
-                alt="Happy Student"
-                data-ai-hint="happy student illustration"
+                src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2Fhomepage%2FbrochureImgDesk.avif&w=640&q=90"
+                alt="IDL Education Brochure"
+                data-ai-hint="education brochure"
                 fill
                 className="object-contain"
               />
