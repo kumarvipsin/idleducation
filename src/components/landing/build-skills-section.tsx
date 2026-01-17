@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
 
-  const slides = initialSlides.length > 0 ? initialSlides : defaultSlides;
+  const slides = (initialSlides.length > 0 ? initialSlides : defaultSlides).filter((_, index) => index !== 1);
 
   const autoplayPlugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: true, stopOnMouseEnter: true })
@@ -58,7 +57,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
     <section className="relative w-full aspect-[2.5/1] md:aspect-[16/6] overflow-hidden">
       <Carousel 
         setApi={setApi}
-        opts={{ loop: true }}
+        opts={{ loop: slides.length > 1 }}
         plugins={[autoplayPlugin.current]} 
         className="w-full h-full"
       >
@@ -87,18 +86,20 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center gap-2">
-        {slides.map((_, i) => (
-            <button
-            key={i}
-            onClick={() => scrollTo(i)}
-            className={cn(
-                "h-2 w-2 rounded-full transition-all duration-300",
-                current === i ? "w-8 bg-white" : "bg-white/50"
-            )}
-            />
-        ))}
-    </div>
+      {slides.length > 1 && (
+        <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center gap-2">
+            {slides.map((_, i) => (
+                <button
+                key={i}
+                onClick={() => scrollTo(i)}
+                className={cn(
+                    "h-2 w-2 rounded-full transition-all duration-300",
+                    current === i ? "w-8 bg-white" : "bg-white/50"
+                )}
+                />
+            ))}
+        </div>
+      )}
     </section>
   );
 }
