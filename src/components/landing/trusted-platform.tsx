@@ -34,9 +34,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={112} height={112} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-10 -right-40 w-48 bg-secondary p-3 rounded-lg shadow-md">
-                    <p className="text-sm text-secondary-foreground">IDL is where student learn with love and can grow with guidance</p>
-                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-secondary"></div>
+                 <div className="absolute bottom-6 -right-36 w-36 bg-primary text-primary-foreground p-2 rounded-lg shadow-lg">
+                    <p className="text-xs text-primary-foreground">IDL is where student learn with love and can grow with guidance</p>
+                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
                 </div>
             </div>
 
@@ -50,9 +50,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
                     <Image src="/student.png" alt="Student" width={112} height={112} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-8 -left-44 w-48 bg-secondary p-3 rounded-lg shadow-md">
-                    <p className="text-sm text-secondary-foreground">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-secondary"></div>
+                 <div className="absolute top-8 -left-36 w-40 bg-background p-2 rounded-lg shadow-md">
+                    <p className="text-xs text-foreground">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-background"></div>
                 </div>
             </div>
 
