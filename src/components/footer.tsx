@@ -30,7 +30,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-white dark:bg-black text-gray-800 dark:text-gray-300" style={textureStyle}>
+    <footer className="bg-slate-100 dark:bg-slate-900 text-gray-800 dark:text-gray-300" style={textureStyle}>
         <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -121,7 +121,7 @@ export function Footer() {
 
             </div>
         </div>
-        <div className="bg-gray-50 dark:bg-gray-900/50 border-t border-gray-300 dark:border-gray-700">
+        <div className="bg-slate-200 dark:bg-slate-800 border-t border-slate-300 dark:border-slate-700">
             <div className="container mx-auto px-4 md:px-6 py-1">
                 <div className="flex flex-col sm:flex-row justify-between items-center text-[0.6rem]">
                     <div className="flex items-center gap-2">
