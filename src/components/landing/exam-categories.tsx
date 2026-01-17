@@ -23,14 +23,14 @@ const categories = [
   },
   {
     title: "For Competitive Exams",
-    subtitle: "Your gateway to success in government and national-level entrance exams.",
+    subtitle: "CUET | SSC | DELHI POLICE & OTHER EXAM",
     href: "/examcat",
     imageUrl: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "professionals meeting"
   },
   {
     title: "For Open School/College",
-    subtitle: "Flexible and accessible education for all through NIOS, IGNOU, and DU SOL.",
+    subtitle: "NIOS | IGNOU | DU SOL",
     href: "/new-work",
     imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "students outdoors"
@@ -49,9 +49,6 @@ export function ExamCategories() {
           <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
           </h3>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
-          </p>
         </div>
       </div>
        <div className="relative">
