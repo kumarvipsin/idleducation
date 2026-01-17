@@ -29,11 +29,11 @@ export function DiscoverAdvantage() {
             </div>
             <div className="relative h-40 md:h-48">
               <Image
-                src="https://picsum.photos/seed/brochure/800/400"
+                src="https://picsum.photos/seed/brochure2/800/400"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure"
                 fill
-                className="object-contain"
+                className="object-contain object-bottom"
               />
             </div>
           </div>
