@@ -1,4 +1,3 @@
-
 // src/app/actions/admin.ts
 'use server';
 
@@ -261,6 +260,7 @@ export async function addTestimonial(formData: FormData) {
     achievement: rawData.achievement as string,
     testimonial: rawData.testimonial as string,
     testimonial_hi: rawData.testimonial_hi as string || '',
+    videoId: rawData.videoId as string || '',
   };
 
   try {
@@ -292,6 +292,7 @@ export async function editTestimonial(id: string, formData: FormData) {
       achievement: rawData.achievement as string,
       testimonial: rawData.testimonial as string,
       testimonial_hi: rawData.testimonial_hi as string || '',
+      videoId: rawData.videoId as string || '',
     };
     
     try {

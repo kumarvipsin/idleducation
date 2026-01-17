@@ -1,4 +1,3 @@
-
 // src/app/actions/types.ts
 
 // This file defines the TypeScript types for the content structure
@@ -73,6 +72,7 @@ export interface TTestimonial {
   testimonial_hi?: string;
   avatarUrl?: string;
   createdAt: string;
+  videoId?: string;
 }
 
 export interface TTopperTestimonial {

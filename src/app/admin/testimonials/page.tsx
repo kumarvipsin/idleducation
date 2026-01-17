@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -73,6 +72,10 @@ const TestimonialForm = ({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="testimonial_hi" className="text-right">Testimonial (HI)</Label>
           <Textarea id="testimonial_hi" name="testimonial_hi" defaultValue={testimonial?.testimonial_hi} className="col-span-3" />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="videoId" className="text-right">YouTube Video ID</Label>
+          <Input id="videoId" name="videoId" defaultValue={testimonial?.videoId} className="col-span-3" placeholder="e.g., dQw4w9WgXcQ" />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="avatar" className="text-right">Avatar</Label>

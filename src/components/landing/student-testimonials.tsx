@@ -27,20 +27,22 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
       >
           <CardContent className="p-4 flex flex-col text-center items-center">
-              <DialogTrigger asChild>
-                <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
-                    <GcsImage
-                        filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
-                        alt={testimonial.name}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 opacity-0 group-hover:opacity-100">
-                        <PlayCircle className="w-6 h-6 text-primary/80" />
-                    </div>
-                </div>
-              </DialogTrigger>
+              <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
+                  <GcsImage
+                      filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {testimonial.videoId && (
+                    <DialogTrigger asChild>
+                       <button className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                          <PlayCircle className="w-6 h-6 text-primary/80" />
+                      </button>
+                    </DialogTrigger>
+                  )}
+              </div>
               <h3 className="font-bold text-lg">{testimonial.name}</h3>
               <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
               <div className="relative h-28">
@@ -54,28 +56,23 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </div>
           </CardContent>
       </Card>
-      <DialogContent className="sm:max-w-md p-0">
-         <div className="p-6 pt-12">
-            <div className="flex flex-col items-center -mt-24">
-                <div className="w-24 h-24 rounded-full border-4 border-background shadow-lg flex items-center justify-center overflow-hidden mb-4 bg-muted">
-                    <div className="relative w-full h-full">
-                        <GcsImage
-                            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
-                            alt={testimonial.name}
-                            fill
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-                <h3 className="text-2xl font-bold text-center">{testimonial.name}</h3>
-                <p className="text-sm text-primary font-semibold text-center">{testimonial.achievement}</p>
+      {testimonial.videoId && (
+        <DialogContent className="max-w-3xl p-0">
+            <DialogHeader className="p-4">
+                <DialogTitle>{testimonial.name}'s Testimonial</DialogTitle>
+            </DialogHeader>
+            <div className="aspect-video">
+            <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+                title={`YouTube video player for ${testimonial.name}'s testimonial`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+            ></iframe>
             </div>
-        
-            <blockquote className="mt-6 border-l-4 border-primary pl-4 italic text-muted-foreground">
-                {fullText}
-            </blockquote>
-        </div>
-      </DialogContent>
+        </DialogContent>
+      )}
     </Dialog>
   );
 };
