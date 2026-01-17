@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,7 @@ import Link from "next/link";
 
 export function DiscoverAdvantage() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+    <section className="w-full py-7 md:py-14 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-8 md:p-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -27,7 +26,7 @@ export function DiscoverAdvantage() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-64 md:h-80">
+            <div className="relative h-40 md:h-48">
               <Image
                 src="https://img.freepik.com/premium-vector/happy-indian-student-girl-cartoon-character_713739-16.jpg"
                 alt="Happy Student"
