@@ -25,7 +25,6 @@ const resourceLinks = [
 export function Footer() {
   return (
     <footer className="bg-[#F5F5F7] dark:bg-gray-900">
-        <Separator className="w-9/10 mx-auto h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
