@@ -457,8 +457,8 @@ export function Header() {
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
+                                    <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                                        <div className="grid grid-cols-1 gap-1 p-2">
                                             {navLinks.map(({ href, label, icon, description, target }) => (
                                                 <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
@@ -477,8 +477,8 @@ export function Header() {
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
+                                    <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                                        <div className="grid grid-cols-1 gap-1 p-2">
                                             {applyForLinks.map(({ href, label, icon, description }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
