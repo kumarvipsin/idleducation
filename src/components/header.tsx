@@ -369,7 +369,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -408,7 +408,11 @@ export function Header() {
                               </div>
                             </>
                           ) : (
-                            null
+                            <div className="flex items-center gap-x-4 text-xs font-semibold">
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            </div>
                           )}
                     </nav>
                 </div>
@@ -426,16 +430,8 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {isIdlFoundationPage ? (
-                        <Link href="/" className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 rounded-full">
-                          <X className="h-4 w-4" />
-                        </Link>
-                      ) : (
-                        <>
-                          {notificationDropdown}
-                          {isClient && renderAuthSection()}
-                        </>
-                      )}
+                      {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -520,7 +516,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
