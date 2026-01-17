@@ -9,11 +9,11 @@ export function TrustedPlatform() {
     <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 text-left">
+          <div className="space-y-6 text-center lg:text-left">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mt-8">
               Bharat's Trusted &<br />Affordable<br />Educational Platform
             </h2>
-            <p className="text-muted-foreground text-base max-w-lg">
+            <p className="text-muted-foreground text-base max-w-lg mx-auto lg:mx-0">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
             <Button asChild size="lg" className="rounded-md">
@@ -33,9 +33,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
+                 <div className="absolute bottom-10 -right-40 w-48 bg-white text-gray-800 p-3 rounded-lg shadow-lg">
                     <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
-                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
+                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-white"></div>
                 </div>
             </div>
 
