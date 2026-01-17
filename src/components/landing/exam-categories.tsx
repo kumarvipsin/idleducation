@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +9,7 @@ import Image from "next/image";
 const categories = [
   {
     title: "Academic Programs",
-    subtitle: "Your complete guide to school-level success.",
+    subtitle: "Class 6 - 12",
     href: "/school",
     imageUrl: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     imageHint: "students in classroom"
@@ -45,10 +46,12 @@ export function ExamCategories() {
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
             </div>
-          <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
+          <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
           </h3>
-          
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
+          </p>
         </div>
       </div>
        <div className="relative">
