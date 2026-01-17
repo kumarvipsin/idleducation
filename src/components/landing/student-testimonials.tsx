@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -16,37 +15,68 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { GcsImage } from "../gcs-image";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { PlayCircle } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const { language } = useLanguage();
   const fullText = language === 'hi' && testimonial.testimonial_hi ? testimonial.testimonial_hi : testimonial.testimonial;
 
   return (
-    <Card
-      className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
-    >
-        <CardContent className="p-4 flex flex-col text-center items-center">
-            <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
-                <GcsImage
-                    filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
-                    alt={testimonial.name}
-                    fill
-                    className="object-cover"
-                />
+    <Dialog>
+      <Card
+        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
+      >
+          <CardContent className="p-4 flex flex-col text-center items-center">
+              <DialogTrigger asChild>
+                <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
+                    <GcsImage
+                        filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 opacity-0 group-hover:opacity-100">
+                        <PlayCircle className="w-6 h-6 text-primary/80" />
+                    </div>
+                </div>
+              </DialogTrigger>
+              <h3 className="font-bold text-lg">{testimonial.name}</h3>
+              <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
+              <div className="relative h-28">
+                  <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
+                  <ScrollArea className="h-full w-full px-2">
+                      <blockquote className="text-sm text-muted-foreground italic">
+                      {fullText}
+                      </blockquote>
+                  </ScrollArea>
+                  <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
+              </div>
+          </CardContent>
+      </Card>
+      <DialogContent className="sm:max-w-md p-0">
+         <div className="p-6 pt-12">
+            <div className="flex flex-col items-center -mt-24">
+                <div className="w-24 h-24 rounded-full border-4 border-background shadow-lg flex items-center justify-center overflow-hidden mb-4 bg-muted">
+                    <div className="relative w-full h-full">
+                        <GcsImage
+                            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
+                            alt={testimonial.name}
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </div>
+                <h3 className="text-2xl font-bold text-center">{testimonial.name}</h3>
+                <p className="text-sm text-primary font-semibold text-center">{testimonial.achievement}</p>
             </div>
-            <h3 className="font-bold text-lg">{testimonial.name}</h3>
-            <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-            <div className="relative h-28">
-                <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
-                <ScrollArea className="h-full w-full px-2">
-                    <blockquote className="text-sm text-muted-foreground italic">
-                    {fullText}
-                    </blockquote>
-                </ScrollArea>
-                <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
-            </div>
-        </CardContent>
-    </Card>
+        
+            <blockquote className="mt-6 border-l-4 border-primary pl-4 italic text-muted-foreground">
+                {fullText}
+            </blockquote>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
