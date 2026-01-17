@@ -55,7 +55,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   );
   
   return (
-    <section className="relative w-full aspect-[2.5/1] md:aspect-[16/6] overflow-hidden rounded-2xl">
+    <section className="relative w-full aspect-[2.5/1] md:aspect-[16/6] overflow-hidden">
       <Carousel 
         setApi={setApi}
         opts={{ loop: true }}
