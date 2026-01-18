@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -95,7 +96,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         <div className="text-center mb-12 px-4 md:px-6">
           <div className="flex items-center justify-center">
             <span className="text-blue-600 text-2xl mr-2">•</span>
-            <h2 className="text-lg font-semibold text-blue-600">Topper's Testimonials</h2>
+            <h2 className="text-lg font-semibold text-blue-600">Hear from Our Achievers</h2>
           </div>
           <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
              What our students & parents say about us
