@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone } from "lucide-react";
+import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone, MapPin, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -28,6 +28,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { requestCallBack } from "@/app/actions/forms";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { allPrograms } from "@/lib/courses";
 
 const faqs = [
   {
@@ -56,6 +58,8 @@ const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  place: z.string().optional(),
+  classCourse: z.string().optional(),
 });
 
 type CallBackFormValues = z.infer<typeof callBackSchema>;
@@ -71,6 +75,8 @@ export function GetAppSection() {
             name: '',
             mobile: '',
             email: '',
+            place: '',
+            classCourse: '',
         },
     });
 
@@ -183,6 +189,45 @@ export function GetAppSection() {
                                             <Input placeholder="Email (Optional)" {...field} className="pl-9" type="email" />
                                         </div>
                                     </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="place"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Your Place (Optional)" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="classCourse"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <div className="relative">
+                                            <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <SelectTrigger className="pl-9">
+                                                <SelectValue placeholder="Select Class/Course (Optional)" />
+                                            </SelectTrigger>
+                                        </div>
+                                        </FormControl>
+                                        <SelectContent>
+                                        {allPrograms.map(program => (
+                                            <SelectItem key={program.name} value={program.name}>{program.name}</SelectItem>
+                                        ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}

@@ -358,6 +358,8 @@ const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  place: z.string().optional(),
+  classCourse: z.string().optional(),
 });
 
 type CallBackFormValues = z.infer<typeof callBackSchema>;
