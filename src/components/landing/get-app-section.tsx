@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -125,14 +126,14 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
-                <div className="flex items-center gap-4 p-6">
-                  <div className="bg-primary/10 text-primary p-3 rounded-full">
-                    <Headset className="w-6 h-6" />
-                  </div>
-                  <p className="text-lg font-semibold">Technical Support</p>
-                </div>
-              </Card>
+                <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
+                    <div className="flex items-center gap-4 p-6">
+                    <div className="bg-primary/10 text-primary p-3 rounded-full">
+                        <Headset className="w-6 h-6" />
+                    </div>
+                    <p className="text-lg font-semibold">Technical Support</p>
+                    </div>
+                </Card>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
                 <DialogHeader className="text-center mb-6">
@@ -217,7 +218,7 @@ export function GetAppSection() {
                             )}
                         />
                         <Button type="submit" className="w-full" disabled={supportForm.formState.isSubmitting}>
-                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Get a Support'}
                         </Button>
                     </form>
                 </Form>
