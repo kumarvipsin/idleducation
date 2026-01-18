@@ -76,14 +76,14 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
           <div className="space-y-6 text-center lg:text-left">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight">IDL Stars</h2>
             <p className="text-lg text-blue-200 max-w-lg mx-auto lg:mx-0">
-              Uncover the Journey to Rise and Shine
+              What our students & parents say about us
             </p>
             <Button variant="secondary" size="lg" className="bg-white text-blue-900 hover:bg-gray-200">
               <Video className="mr-2 h-5 w-5" />
               Watch Videos
             </Button>
           </div>
-          <div className="relative h-96 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="relative h-[30rem] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <div className="flex flex-col gap-4">
               <div className="flex animate-marquee-scroll gap-4">
                 {duplicatedTestimonials.map((testimonial, index) => (
@@ -95,6 +95,13 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                <div className="flex animate-marquee-scroll-reverse gap-4">
                 {duplicatedTestimonials.slice().reverse().map((testimonial, index) => (
                   <div key={`row2-${index}`} className="w-64 flex-shrink-0">
+                    <TestimonialCard testimonial={testimonial} />
+                  </div>
+                ))}
+              </div>
+              <div className="flex animate-marquee-scroll gap-4">
+                {duplicatedTestimonials.map((testimonial, index) => (
+                  <div key={`row3-${index}`} className="w-64 flex-shrink-0">
                     <TestimonialCard testimonial={testimonial} />
                   </div>
                 ))}
