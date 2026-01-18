@@ -24,7 +24,7 @@ export function TrustedPlatform() {
             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
             
             {/* Character 1 */}
-            <div className="absolute left-[15%] bottom-[15%] animate-float">
+            <div className="absolute left-[10%] bottom-[10%] animate-float">
                 <div className="relative w-[105px] h-[105px]">
                     <div className="absolute inset-[-14px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow">
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-blue-400 rounded-full"></div>
@@ -33,32 +33,32 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-7 -right-32 w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg">
-                    <p className="text-[10px] leading-tight">IDL is where student learn with love and can grow with guidance</p>
+                 <div className="absolute bottom-7 -right-32 w-36 bg-white p-2 rounded-lg shadow-lg">
+                    <p className="text-[10px] leading-tight text-gray-800">IDL is where student learn with love and can grow with guidance</p>
                     <div className="absolute left-0 bottom-[-8px] w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-white"></div>
                 </div>
             </div>
 
             {/* Character 2 */}
-            <div className="absolute right-[15%] top-[15%] animate-float" style={{ animationDelay: '0.5s' }}>
+            <div className="absolute right-[10%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
                 <div className="relative w-[105px] h-[105px]">
                      <div className="absolute inset-[-14px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full"></div>
-                        <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-2 h-2 bg-green-400 rounded-full"></div>
+                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
+                        <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-6 -left-36 w-36 bg-white p-2 rounded-lg shadow-lg">
+                 <div className="absolute top-8 -left-44 w-48 bg-green-100 p-3 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-8px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[8px] border-l-white"></div>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-green-100"></div>
                 </div>
             </div>
 
              {/* Decorative dots */}
             <div className="absolute top-[15%] left-[25%] w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
             <div className="absolute bottom-[25%] right-[20%] w-2 h-2 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-             <div className="absolute bottom-[15%] left-[48%] w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
+             <div className="absolute bottom-[10%] left-[45%] w-2 h-2 bg-orange-400 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
 
           </div>
         </div>
