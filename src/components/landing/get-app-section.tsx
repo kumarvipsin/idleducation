@@ -46,7 +46,6 @@ const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
     mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-    place: z.string().min(1, { message: "Place is required." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
 type SupportTicketValues = z.infer<typeof supportTicketSchema>;
@@ -75,7 +74,6 @@ export function GetAppSection() {
             studentName: '',
             email: '',
             mobile: '',
-            place: '',
             problem: '',
         },
     });
@@ -182,21 +180,6 @@ export function GetAppSection() {
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                         <Input type="email" placeholder="Your email address" {...field} className="pl-9" />
                                     </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={supportForm.control}
-                            name="place"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Your Place *" {...field} className="pl-9" />
-                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -425,7 +408,9 @@ export function GetAppSection() {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">Close</Button>
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">
+            Close
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
