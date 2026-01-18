@@ -8,9 +8,9 @@ import Link from "next/link";
 
 export function DiscoverAdvantage() {
   return (
-    <section className="w-full py-7 md:py-14 bg-white dark:bg-gray-900">
+    <section className="w-full py-4 md:py-7 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-8 md:p-12">
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold text-primary">
@@ -27,9 +27,9 @@ export function DiscoverAdvantage() {
                 </Link>
               </Button>
             </div>
-            <div className="h-64 md:h-80 flex items-end justify-center">
+            <div className="h-32 md:h-40 flex items-end justify-center">
               <Image
-                src="https://picsum.photos/seed/brochure-new/800/600"
+                src="https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/website-images/discover-advantage.png"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure mobile"
                 width={800}
