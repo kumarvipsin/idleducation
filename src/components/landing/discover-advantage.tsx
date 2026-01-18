@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -29,7 +28,7 @@ export function DiscoverAdvantage() {
             </div>
             <div className="h-32 md:h-40 flex items-end justify-center">
               <Image
-                src="https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/website-images/discover-advantage.png"
+                src="https://picsum.photos/seed/brochure/800/600"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure mobile"
                 width={800}
