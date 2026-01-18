@@ -36,23 +36,19 @@ export function Footer() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
                 {/* Column 1: Brand and Socials */}
-                <div className="flex flex-col items-center text-center gap-4 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                    <Link href="/" className="flex flex-col items-center gap-2">
-                        <Image src="/logo.png" alt="IDL Education Logo" width={72} height={72} />
+                <div className="flex flex-col gap-4">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                         <div className="flex flex-col leading-tight">
-                            <span className="text-lg font-black text-primary">IDL EDUCATION</span>
-                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-black">
+                            <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
+                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-bold">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
                         </div>
                     </Link>
-                    <div className="text-sm text-muted-foreground space-y-2 text-left">
-                        <p className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span><span className="font-semibold text-foreground">Office Address:</span> E-18 Krishan Vihar, Kanjhawala road, Hariram Sweets, Delhi-110086</span></p>
-                        <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0"/><span className="font-semibold text-foreground">Calling:</span> <a href="tel:+917011117585" className="hover:text-primary">+91 7011117585</a></p>
-                        <p className="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08.12 4.79.12h.01c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2zM12.04 20.1c-1.55 0-3.04-.49-4.28-1.38l-.3-.18-3.18.84.85-3.1-.19-.31c-.98-1.56-1.5-3.39-1.5-5.28 0-4.51 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.67 8.18-8.18 8.18zm4.49-5.37c-.27-.13-1.59-.78-1.84-.87-.25-.09-.43-.13-.62.13-.19.27-.7.87-.86 1.04-.16.18-.32.19-.59.06-.27-.13-1.15-.42-2.18-1.34s-1.66-2.09-1.86-2.43c-.2-.35-.02-.54.12-.68.12-.13.27-.32.4-.43.14-.11.18-.18.27-.3.09-.12.05-.23-.02-.32-.07-.09-.62-1.49-.85-2.04-.23-.55-.46-.48-.62-.48-.15 0-.32-.02-.49-.02s-.43.06-.65.3c-.22.25-.85.83-.85 2.02s.87 2.35 1 2.51c.13.16.85 1.35 2.98 2.62.5.31.89.49 1.2.62.5.21.94.18 1.3.11.39-.07 1.15-.47 1.32-.92.16-.45.16-.83.11-.92-.05-.09-.18-.13-.45-.26z"/></svg><span className="font-semibold text-foreground">WhatsApp:</span> <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="hover:text-primary">+91 8860040010</a></p>
-                        <p className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0"/><span className="font-semibold text-foreground">Telephone:</span> <a href="tel:+911145035713" className="hover:text-primary">+91 1145035713</a></p>
-                        <p className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0"/><span className="font-semibold text-foreground">Email:</span> <a href="mailto:info@idleducation.in" className="hover:text-primary">info@idleducation.in</a></p>
-                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
+                    </p>
                     <div className="flex items-center gap-2">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
@@ -99,6 +95,17 @@ export function Footer() {
                     </ul>
                 </div>
 
+                {/* Column 4: Contact Us */}
+                 <div>
+                    <h3 className="text-md font-semibold mb-4 text-foreground">Contact Us</h3>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-1 shrink-0"/><span>E-18 Krishan Vihar, Kanjhawala road, Hariram Sweets, Delhi-110086</span></li>
+                        <li className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0"/> <a href="tel:+917011117585" className="hover:text-primary">+91 7011117585</a></li>
+                        <li className="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08.12 4.79.12h.01c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2zM12.04 20.1c-1.55 0-3.04-.49-4.28-1.38l-.3-.18-3.18.84.85-3.1-.19-.31c-.98-1.56-1.5-3.39-1.5-5.28 0-4.51 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.67 8.18-8.18 8.18zm4.49-5.37c-.27-.13-1.59-.78-1.84-.87-.25-.09-.43-.13-.62.13-.19.27-.7.87-.86 1.04-.16.18-.32.19-.59.06-.27-.13-1.15-.42-2.18-1.34s-1.66-2.09-1.86-2.43c-.2-.35-.02-.54.12-.68.12-.13.27-.32.4-.43.14-.11.18-.18.27-.3.09-.12.05-.23-.02-.32-.07-.09-.62-1.49-.85-2.04-.23-.55-.46-.48-.62-.48-.15 0-.32-.02-.49-.02s-.43.06-.65.3c-.22.25-.85.83-.85 2.02s.87 2.35 1 2.51c.13.16.85 1.35 2.98 2.62.5.31.89.49 1.2.62.5.21.94.18 1.3.11.39-.07 1.15-.47 1.32-.92.16-.45.16-.83.11-.92-.05-.09-.18-.13-.45-.26z"/></svg><a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="hover:text-primary">+91 8860040010</a></li>
+                        <li className="flex items-center gap-2"><Phone className="w-4 h-4 shrink-0"/> <a href="tel:+911145035713" className="hover:text-primary">+91 1145035713</a></li>
+                        <li className="flex items-center gap-2"><Mail className="w-4 h-4 shrink-0"/> <a href="mailto:info@idleducation.in" className="hover:text-primary">info@idleducation.in</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div className="bg-slate-200 dark:bg-slate-800 border-t border-slate-300 dark:border-slate-700">
