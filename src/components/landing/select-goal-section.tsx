@@ -4,15 +4,6 @@ import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 
-const EngineerIcon = () => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="64" height="64" rx="12" fill="#FFF3E0"/>
-        <path d="M19 28C19 23.5817 22.5817 20 27 20H37C41.4183 20 45 23.5817 45 28V32H19V28Z" fill="#FFC107"/>
-        <path d="M32 44C37.5228 44 42 39.5228 42 34C42 28.4772 37.5228 24 32 24C26.4772 24 22 28.4772 22 34C22 39.5228 26.4772 44 32 44Z" fill="#A1887F"/>
-        <path d="M48 56C48 48.268 40.8366 42 32 42C23.1634 42 16 48.268 16 56H48Z" fill="#E0E0E0"/>
-    </svg>
-);
-
 const SchoolIcon = () => (
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="64" height="64" rx="12" fill="#E8EAF6"/>
@@ -41,7 +32,7 @@ const goals = [
   },
   {
     name: "Engineer",
-    icon: <EngineerIcon />,
+    icon: <Image src="/engineers.png" alt="Engineer" width={64} height={64} />,
     href: "/category/iit-jee",
   },
   {
@@ -61,7 +52,7 @@ export function SelectGoalSection() {
         <section className="w-full py-6 md:py-8 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-10">
-                    <h1 className="text-2xl md:text-3xl font-black text-accent">
+                    <h1 className="text-xl md:text-2xl font-black text-accent">
                         Start Your Journey
                     </h1>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
