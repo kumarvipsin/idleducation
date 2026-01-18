@@ -191,8 +191,8 @@ export async function submitAdmissionForm(formData: FormData) {
         studentId: rawFormData.studentId as string,
         studentName: rawFormData.studentName as string,
         fatherName: rawFormData.fatherName as string,
-        fatherOccupation: rawFormData.fatherOccupation as string || '',
-        motherName: rawFormData.motherName as string,
+        fatherOccupation: rawData.fatherOccupation as string || '',
+        motherName: rawData.motherName as string,
         motherOccupation: rawData.motherOccupation as string || '',
         dob: rawData.dob as string,
         gender: rawData.gender as string,
@@ -358,8 +358,8 @@ const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
-  place: z.string().optional(),
-  classCourse: z.string().optional(),
+  place: z.string().min(1, { message: "Place is required." }),
+  classCourse: z.string().min(1, { message: "Class/Course is required." }),
 });
 
 type CallBackFormValues = z.infer<typeof callBackSchema>;

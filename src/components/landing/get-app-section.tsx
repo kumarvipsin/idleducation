@@ -58,8 +58,8 @@ const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
-  place: z.string().optional(),
-  classCourse: z.string().optional(),
+  place: z.string().min(1, { message: "Place is required." }),
+  classCourse: z.string().min(1, { message: "Class/Course is required." }),
 });
 
 type CallBackFormValues = z.infer<typeof callBackSchema>;
@@ -201,7 +201,7 @@ export function GetAppSection() {
                                     <FormControl>
                                         <div className="relative">
                                             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Your Place (Optional)" {...field} className="pl-9" />
+                                            <Input placeholder="Your Place *" {...field} className="pl-9" />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -218,7 +218,7 @@ export function GetAppSection() {
                                         <div className="relative">
                                             <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                             <SelectTrigger className="pl-9">
-                                                <SelectValue placeholder="Select Class/Course (Optional)" />
+                                                <SelectValue placeholder="Select Class/Course *" />
                                             </SelectTrigger>
                                         </div>
                                         </FormControl>
