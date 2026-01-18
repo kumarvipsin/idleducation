@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-background">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center lg:text-left">
@@ -25,39 +25,39 @@ export function TrustedPlatform() {
             
             {/* Character 1 */}
             <div className="absolute left-[10%] bottom-[10%] animate-float">
-                <div className="relative w-[105px] h-[105px]">
-                    <div className="absolute inset-[-14px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow">
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-blue-400 rounded-full"></div>
-                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-orange-400 rounded-full"></div>
+                <div className="relative w-[150px] h-[150px]">
+                    <div className="absolute inset-[-20px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-blue-400 rounded-full"></div>
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
-                    <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
+                    <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-7 -right-40 w-48 bg-white p-2 rounded-lg shadow-lg">
-                    <p className="text-xs leading-tight text-gray-800">IDL is where student learn with love and can grow with guidance</p>
-                    <div className="absolute left-0 bottom-[-8px] w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-white"></div>
+                 <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
+                    <p className="text-xs leading-tight">IDL provides quality education with personalized attention to help you succeed.</p>
+                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
                 </div>
             </div>
 
             {/* Character 2 */}
             <div className="absolute right-[10%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
-                <div className="relative w-[105px] h-[105px]">
-                     <div className="absolute inset-[-14px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
+                <div className="relative w-[150px] h-[150px]">
+                     <div className="absolute inset-[-20px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
-                    <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
+                    <Image src="/student.png" alt="Student" width={150} height={150} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-6 -left-36 w-36 bg-green-100 p-2 rounded-lg shadow-lg">
-                    <p className="text-xs leading-tight text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-green-100"></div>
+                 <div className="absolute top-8 -left-44 w-48 bg-white p-3 rounded-lg shadow-lg">
+                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-white"></div>
                 </div>
             </div>
 
              {/* Decorative dots */}
-            <div className="absolute top-[15%] left-[25%] w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-[25%] right-[20%] w-2 h-2 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+            <div className="absolute top-[15%] left-[20%] w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-[25%] right-[15%] w-3 h-3 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
              <div className="absolute bottom-[10%] left-[45%] w-2 h-2 bg-orange-400 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
 
           </div>
