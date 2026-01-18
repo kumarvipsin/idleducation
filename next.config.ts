@@ -148,7 +148,13 @@ const nextConfig: NextConfig = {
         hostname: 'www.aakash.ac.in',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

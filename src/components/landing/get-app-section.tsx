@@ -123,7 +123,7 @@ export function GetAppSection() {
             <div className="flex flex-col items-center justify-center gap-4">
                 <div className="bg-white p-2 rounded-lg">
                     <Image
-                        src="https://picsum.photos/seed/qr/100/100"
+                        src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
                         alt="QR Code"
                         data-ai-hint="qr code"
                         width={100}
