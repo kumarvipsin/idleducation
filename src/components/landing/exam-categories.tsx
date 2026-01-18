@@ -72,7 +72,7 @@ export function ExamCategories() {
     <section className="w-full py-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-black text-primary">Start Your Journey</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-primary">Exam Categories</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Find the perfect program to help you achieve your academic and career goals.
           </p>
@@ -107,7 +107,7 @@ export function ExamCategories() {
                                       />
                                   </div>
                                   <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[40%]">
-                                      <h3 className="text-base font-bold text-foreground text-left">{category.title}</h3>
+                                      <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
                                       <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
                                       <div className="mt-auto pt-2">
                                           <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
