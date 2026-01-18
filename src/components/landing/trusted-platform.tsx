@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -10,14 +9,14 @@ export function TrustedPlatform() {
     <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 text-left">
+          <div className="space-y-6 text-center lg:text-left">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-primary mt-8">
               Bharat's <span className="text-purple-600">Trusted & Affordable</span><br />Educational Platform
             </h2>
             <p className="text-muted-foreground text-base max-w-lg mx-auto lg:mx-0">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="lg" className="rounded-md">
+            <Button asChild size="lg" className="rounded-md bg-accent text-accent-foreground hover:bg-accent/90">
               <Link href="/signup">Get Started</Link>
             </Button>
           </div>
