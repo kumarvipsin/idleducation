@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -95,9 +94,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
         <div className="text-center mb-12 px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl font-black text-primary">Hear from Our Achievers</h1>
-          <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
              What our students & parents say about us
-          </h3>
+          </p>
         </div>
         
         <div className="container mx-auto px-4 md:px-6">
@@ -125,7 +124,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     ))}
                 </CarouselContent>
             </Carousel>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-2 mt-4">
                 {testimonials.map((_, i) => (
                     <button
                         key={i}
