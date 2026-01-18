@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone, MapPin, GraduationCap, Copy, Edit } from "lucide-react";
+import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone, MapPin, GraduationCap, Copy, Edit, Headset } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -125,9 +125,9 @@ export function GetAppSection() {
               <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
-                    <HelpCircle className="w-6 h-6" />
+                    <Headset className="w-6 h-6" />
                   </div>
-                  <p className="text-lg font-semibold">Submit a Support Ticket</p>
+                  <p className="text-lg font-semibold">Technical Support</p>
                 </div>
               </Card>
             </DialogTrigger>
