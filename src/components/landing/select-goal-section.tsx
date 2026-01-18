@@ -4,16 +4,6 @@ import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 
-const SchoolIcon = () => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="64" height="64" rx="12" fill="#E8EAF6"/>
-        <path d="M44 26L32 16L20 26V46C20 48.2091 21.7909 50 24 50H40C42.2091 50 44 48.2091 44 46V26Z" fill="white"/>
-        <path d="M32 16V32" stroke="#4A90E2" strokeWidth="3" strokeLinecap="round"/>
-        <circle cx="32" cy="39" r="4" fill="#4A90E2"/>
-        <path d="M28 50V58L32 54L36 58V50" stroke="white" strokeWidth="3" fill="#FF6B6B"/>
-    </svg>
-);
-
 const ExploreIcon = () => (
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="64" height="64" rx="12" fill="#E0F2F1"/>
@@ -37,7 +27,7 @@ const goals = [
   },
   {
     name: "6-10th",
-    icon: <SchoolIcon />,
+    icon: <Image src="/shuttle.png" alt="School Prep" width={64} height={64} />,
     href: "/school",
   },
   {
