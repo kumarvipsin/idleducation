@@ -51,7 +51,7 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog>
             <DialogTrigger asChild>
-              <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer">
+              <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <HelpCircle className="w-6 h-6" />
@@ -75,7 +75,7 @@ export function GetAppSection() {
             </DialogContent>
           </Dialog>
 
-          <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+          <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors border">
             <Link href="/contact" className="flex items-center gap-4 p-6">
               <div className="bg-primary/10 text-primary p-3 rounded-full">
                 <MessageCircle className="w-6 h-6" />
