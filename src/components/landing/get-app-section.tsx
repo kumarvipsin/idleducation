@@ -140,10 +140,10 @@ export function GetAppSection() {
               </Card>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
-                <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-primary">Request a Call Back</h2>
-                    <p className="text-muted-foreground text-sm">Our expert will call you back shortly.</p>
-                </div>
+                <DialogHeader className="text-center mb-6">
+                    <DialogTitle className="text-2xl font-bold text-primary">Request a Call Back</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-sm">Our expert will call you back shortly.</DialogDescription>
+                </DialogHeader>
                  <Form {...form}>
                     <form onSubmit={form.handleSubmit(onCallBackSubmit)} className="space-y-4">
                         <FormField
