@@ -8,8 +8,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
@@ -39,7 +37,7 @@ const categories = [
     imageHint: "professionals meeting"
   },
   {
-    title: "For Open School/College",
+    title: "For Open School Programs",
     subtitle: "NIOS | IGNOU | DU SOL",
     href: "/new-work",
     imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -100,7 +98,7 @@ export function ExamCategories() {
           <CarouselContent className="-ml-4">
             {categories.map((category, index) => (
               <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <div className="p-1">
+                <div className="p-1 h-full">
                     <Link href={category.href} className="block h-full group">
                         <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                             <div className="relative w-full aspect-[4/3]">
@@ -114,7 +112,7 @@ export function ExamCategories() {
                             </div>
                             <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 flex-grow">
                                 <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
-                                <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
+                                <p className="text-xs mt-1 text-muted-foreground min-h-[3rem]">{category.subtitle}</p>
                                 <div className="mt-auto pt-2">
                                     <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
                                         Explore Category
@@ -128,8 +126,6 @@ export function ExamCategories() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden sm:flex" />
-          <CarouselNext className="hidden sm:flex" />
         </Carousel>
         <div className="flex justify-center gap-2 mt-8">
             {categories.map((_, i) => (
