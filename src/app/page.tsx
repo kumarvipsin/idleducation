@@ -12,6 +12,7 @@ import { TrustedPlatform } from '@/components/landing/trusted-platform';
 import { DiscoverAdvantage } from '@/components/landing/discover-advantage';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
+import { BlogSection } from '@/components/landing/blog-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,6 +35,7 @@ export default async function Home() {
       <DiscoverAdvantage />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials as TTopperTestimonial[]} />
+      <BlogSection />
       <GetAppSection />
     </div>
   );
