@@ -23,7 +23,7 @@ import {
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -139,13 +139,11 @@ export function GetAppSection() {
                 </div>
               </Card>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Request a Call Back</DialogTitle>
-                    <DialogDescription>
-                        Our expert will call you back shortly.
-                    </DialogDescription>
-                </DialogHeader>
+            <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
+                <div className="text-center mb-6">
+                    <h2 className="text-2xl font-bold text-primary">Request a Call Back</h2>
+                    <p className="text-muted-foreground text-sm">Our expert will call you back shortly.</p>
+                </div>
                  <Form {...form}>
                     <form onSubmit={form.handleSubmit(onCallBackSubmit)} className="space-y-4">
                         <FormField
@@ -232,17 +230,15 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <DialogFooter>
-                            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                                {form.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
-                            </Button>
-                        </DialogFooter>
+                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
+                        </Button>
                     </form>
                 </Form>
             </DialogContent>
           </Dialog>
         </div>
-
+        
         <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-4 md:p-6 text-white border">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             {/* Column 1: Mobile App Image */}
