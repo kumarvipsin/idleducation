@@ -44,7 +44,7 @@ type CallBackFormValues = z.infer<typeof callBackSchema>;
 
 const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+    email: z.string().email({ message: "Please enter a valid email." }),
     mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
@@ -155,7 +155,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                         <FormField
                             control={supportForm.control}
                             name="mobile"
                             render={({ field }) => (
@@ -178,7 +178,7 @@ export function GetAppSection() {
                                     <FormControl>
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input type="email" placeholder="Your email address" {...field} className="pl-9" />
+                                        <Input type="email" placeholder="Your email address *" {...field} className="pl-9" />
                                     </div>
                                     </FormControl>
                                     <FormMessage />
