@@ -70,8 +70,13 @@ export function SelectGoalSection() {
         <section className="w-full py-6 md:py-8 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-10">
-                    <h2 className="text-3xl font-bold tracking-tight">Select your goal</h2>
-                    <h3 className="text-3xl font-bold tracking-tight text-cyan-500">to explore our courses</h3>
+                    <div className="flex items-center justify-center">
+                      <span className="text-blue-600 text-2xl mr-2">•</span>
+                      <h2 className="text-lg font-semibold text-blue-600">Start Your Journey</h2>
+                    </div>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        Select your goal and we will guide you with a personalized learning path.
+                    </p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-8 max-w-2xl mx-auto">
                     {goals.map((goal) => (
