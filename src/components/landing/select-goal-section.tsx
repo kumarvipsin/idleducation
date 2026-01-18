@@ -32,9 +32,12 @@ export function SelectGoalSection() {
         <section className="w-full py-6 md:py-8 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-10">
-                    <h1 className="text-xl md:text-2xl font-black text-accent">
-                        Start Your Journey
-                    </h1>
+                    <div className="flex items-center justify-center gap-2">
+                        <span className="text-primary font-bold text-sm">•</span>
+                        <h2 className="text-sm font-bold text-primary">
+                            Start Your Journey
+                        </h2>
+                    </div>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         Select your goal and we will guide you with a personalized learning path.
                     </p>
