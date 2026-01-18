@@ -99,9 +99,9 @@ export function GetAppSection() {
             </div>
             
             {/* Column 2: Title and Key Points */}
-            <div className="space-y-6 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold">Get IDL App for JEE & NEET</h2>
-              <ul className="space-y-3 inline-block text-left">
+            <div className="space-y-6 text-center lg:text-left">
+              <h2 className="text-2xl font-bold">Get IDL App for JEE & NEET</h2>
+              <ul className="space-y-3 text-left">
                 <li className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400" />
                   <span>Access <strong>free</strong> videos worth ₹5000</span>
