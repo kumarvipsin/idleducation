@@ -44,7 +44,9 @@ type CallBackFormValues = z.infer<typeof callBackSchema>;
 
 const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email." }),
+    email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+    mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+    place: z.string().min(1, { message: "Place is required." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
 type SupportTicketValues = z.infer<typeof supportTicketSchema>;
@@ -72,6 +74,8 @@ export function GetAppSection() {
         defaultValues: {
             studentName: '',
             email: '',
+            mobile: '',
+            place: '',
             problem: '',
         },
     });
@@ -131,10 +135,10 @@ export function GetAppSection() {
                 </div>
               </Card>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Submit a Support Ticket</DialogTitle>
-                    <DialogDescription>Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
+            <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
+                <DialogHeader className="text-center mb-6">
+                    <DialogTitle className="text-2xl font-bold text-primary">Submit a Support Ticket</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-sm">Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
                 </DialogHeader>
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
@@ -155,14 +159,44 @@ export function GetAppSection() {
                         />
                         <FormField
                             control={supportForm.control}
+                            name="mobile"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Mobile Number *" {...field} className="pl-9" type="tel" maxLength={10} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={supportForm.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input type="email" placeholder="Your email address *" {...field} className="pl-9" />
+                                        <Input type="email" placeholder="Your email address" {...field} className="pl-9" />
                                     </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={supportForm.control}
+                            name="place"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Your Place *" {...field} className="pl-9" />
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

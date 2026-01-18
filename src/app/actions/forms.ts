@@ -1,3 +1,4 @@
+
 // src/app/actions/forms.ts
 'use server';
 
@@ -96,7 +97,9 @@ export async function submitContactForm(data: ContactFormValues) {
 
 const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email." }),
+    email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+    mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+    place: z.string().min(1, { message: "Place is required." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
 type SupportTicketValues = z.infer<typeof supportTicketSchema>;
