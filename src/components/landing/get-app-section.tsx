@@ -84,20 +84,23 @@ export function GetAppSection() {
           </Card>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-3 md:p-5 text-white">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative h-32 md:h-40">
+        <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10 text-white">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+            {/* Column 1: Mobile App Image */}
+            <div className="relative h-80 flex items-center justify-center">
                 <Image
                     src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
-                    alt="IDL Education App on a smartphone"
-                    data-ai-hint="mobile learning"
+                    alt="IDL Education App Features"
+                    data-ai-hint="mobile learning app"
                     fill
                     className="object-contain"
                 />
             </div>
-            <div className="space-y-6">
+            
+            {/* Column 2: Title and Key Points */}
+            <div className="space-y-6 text-center">
               <h2 className="text-3xl md:text-4xl font-bold">Get IDL App for JEE & NEET</h2>
-              <ul className="space-y-3">
+              <ul className="space-y-3 inline-block text-left">
                 <li className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400" />
                   <span>Access <strong>free</strong> videos worth ₹5000</span>
@@ -111,7 +114,10 @@ export function GetAppSection() {
                   <span>Clear all your doubts</span>
                 </li>
               </ul>
-              <div className="flex items-center gap-6">
+            </div>
+
+            {/* Column 3: QR and App Store Links */}
+            <div className="flex flex-col items-center justify-center gap-4">
                 <div className="bg-white p-2 rounded-lg">
                     <Image
                         src="https://picsum.photos/seed/qr/100/100"
@@ -121,7 +127,7 @@ export function GetAppSection() {
                         height={100}
                     />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 flex flex-col items-center">
                      <Link href="https://apps.apple.com" target="_blank" rel="noopener noreferrer">
                         <Image 
                             src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
@@ -140,7 +146,6 @@ export function GetAppSection() {
                     </Link>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
