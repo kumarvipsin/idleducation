@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -137,8 +136,8 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
                 <DialogHeader className="text-center mb-6">
-                    <DialogTitle className="text-2xl font-bold text-primary">Submit a Support Ticket</DialogTitle>
-                    <DialogDescription className="text-muted-foreground text-sm">Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
+                    <DialogTitle className="text-2xl font-bold text-primary">Raise a Support Ticket</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-sm">Fill out the form below and our support team will get in touch with you.</DialogDescription>
                 </DialogHeader>
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
