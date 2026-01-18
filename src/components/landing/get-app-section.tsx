@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -86,7 +87,7 @@ export function GetAppSection() {
 
         <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-10 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative h-40 md:h-52">
+            <div className="relative h-60 md:h-auto md:aspect-[4/5]">
                 <Image
                     src="https://picsum.photos/seed/app-section/800/400"
                     alt="IDL Education App on a smartphone"
