@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -93,7 +94,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
         <div className="text-center mb-12 px-4 md:px-6">
-          <h1 className="text-3xl md:text-4xl font-black text-primary">Hear from Our Achievers</h1>
+          <h1 className="text-2xl md:text-3xl font-black text-accent">Hear from Our Achievers</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
              What our students & parents say about us
           </p>

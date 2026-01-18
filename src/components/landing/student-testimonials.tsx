@@ -118,7 +118,7 @@ export function StudentTestimonials() {
   return (
     <section id="testimonials" className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black text-primary">IDL Stars</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-accent">IDL Stars</h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           Uncover the Journey to Rise and Shine
         </p>
