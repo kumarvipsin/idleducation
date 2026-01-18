@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -366,16 +365,16 @@ export function GetAppSection() {
                         <Image 
                             src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                             alt="Get it on Google Play"
-                            width={110}
-                            height={32}
+                            width={120}
+                            height={40}
                         />
                     </Link>
                      <Link href="https://apps.apple.com" target="_blank" rel="noopener noreferrer">
                         <Image 
                             src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                             alt="Download on the App Store"
-                            width={110}
-                            height={32}
+                            width={120}
+                            height={40}
                         />
                     </Link>
                 </div>
