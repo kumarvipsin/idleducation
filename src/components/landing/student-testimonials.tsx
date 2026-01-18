@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -45,7 +46,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </div>
               <h3 className="font-bold text-lg">{testimonial.name}</h3>
               <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-              <div className="relative h-24">
+              <div className="relative h-20">
                   <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
                   <ScrollArea className="h-full w-full px-2">
                       <blockquote className="text-sm text-muted-foreground italic">
@@ -122,9 +123,7 @@ export function StudentTestimonials() {
           <h2 className="text-lg font-semibold text-blue-600">IDL Stars</h2>
         </div>
         <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
-          Discover the real impact of our education
-          <br />
-          through their voices.
+          Uncover the Journey to Rise and Shine
         </h3>
       </div>
       <div className="container mx-auto px-4 md:px-6">
