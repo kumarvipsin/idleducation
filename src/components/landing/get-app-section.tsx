@@ -85,10 +85,10 @@ export function GetAppSection() {
           </Card>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10 text-white">
+        <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 text-white">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             {/* Column 1: Mobile App Image */}
-            <div className="relative h-64 md:h-80 flex items-center justify-center">
+            <div className="relative h-56 md:h-64 flex items-center justify-center">
                 <Image
                     src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="IDL Education App Features"
