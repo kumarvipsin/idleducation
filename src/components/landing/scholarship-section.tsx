@@ -47,7 +47,7 @@ export function ScholarshipSection() {
                                 <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-lg">
                                     <div className="flex items-center gap-2">
                                         <Award className="w-6 h-6 text-yellow-300" />
-                                        <span>Cash Prize: <span className="font-bold">₹50K</span></span>
+                                        <span>Cash Prize: <span className="font-bold">₹10K</span></span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <IndianRupee className="w-6 h-6 text-yellow-300" />
