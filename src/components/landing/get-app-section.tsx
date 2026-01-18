@@ -1,8 +1,9 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone, MapPin, GraduationCap } from "lucide-react";
+import { MessageCircle, HelpCircle, CheckCircle, Smartphone, User, Mail, Phone, MapPin, GraduationCap, Copy, Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -27,32 +28,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { requestCallBack } from "@/app/actions/forms";
+import { requestCallBack, submitSupportTicket } from "@/app/actions/forms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { allPrograms } from "@/lib/courses";
-
-const faqs = [
-  {
-    question: "What courses do you offer?",
-    answer: "We offer a wide range of courses for students from Class 4 to Class 10, covering subjects like Mathematics, Science, History, and Arts. We also have specialized courses for competitive exams.",
-  },
-  {
-    question: "Are the classes live or recorded?",
-    answer: "Our platform offers both live interactive classes and recorded sessions. This allows students to learn at their own pace and revisit concepts whenever they need to.",
-  },
-  {
-    question: "How are doubts cleared?",
-    answer: "We have a unique two-teacher model where one teacher conducts the class and another teacher is dedicated to clearing doubts instantly during the live session. We also have dedicated doubt-solving sessions.",
-  },
-  {
-    question: "Do you provide study materials?",
-    answer: "Yes, we provide comprehensive study materials including notes, practice questions, sample papers, and mock tests to ensure students are well-prepared for their exams.",
-  },
-  {
-    question: "Is there a free trial available?",
-    answer: "Absolutely! You can book a free demo class to experience our teaching methodology and platform features before enrolling in a course.",
-  },
-];
+import { Textarea } from "../ui/textarea";
 
 const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -61,15 +40,23 @@ const callBackSchema = z.object({
   place: z.string().min(1, { message: "Place is required." }),
   classCourse: z.string().min(1, { message: "Class/Course is required." }),
 });
-
 type CallBackFormValues = z.infer<typeof callBackSchema>;
+
+const supportTicketSchema = z.object({
+    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z.string().email({ message: "Please enter a valid email." }),
+    problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
+});
+type SupportTicketValues = z.infer<typeof supportTicketSchema>;
 
 
 export function GetAppSection() {
     const { toast } = useToast();
     const [isCallbackDialogOpen, setIsCallbackDialogOpen] = useState(false);
+    const [isSupportDialogOpen, setIsSupportDialogOpen] = useState(false);
+    const [submittedTicketId, setSubmittedTicketId] = useState<string | null>(null);
 
-    const form = useForm<CallBackFormValues>({
+    const callBackForm = useForm<CallBackFormValues>({
         resolver: zodResolver(callBackSchema),
         defaultValues: {
             name: '',
@@ -80,6 +67,15 @@ export function GetAppSection() {
         },
     });
 
+    const supportForm = useForm<SupportTicketValues>({
+        resolver: zodResolver(supportTicketSchema),
+        defaultValues: {
+            studentName: '',
+            email: '',
+            problem: '',
+        },
+    });
+
     const onCallBackSubmit: SubmitHandler<CallBackFormValues> = async (data) => {
         const result = await requestCallBack(data);
         if (result.success) {
@@ -87,7 +83,7 @@ export function GetAppSection() {
                 title: "Request Received",
                 description: result.message,
             });
-            form.reset();
+            callBackForm.reset();
             setIsCallbackDialogOpen(false);
         } else {
             toast({
@@ -97,34 +93,101 @@ export function GetAppSection() {
             });
         }
     };
+
+    const onSupportSubmit: SubmitHandler<SupportTicketValues> = async (data) => {
+        const result = await submitSupportTicket(data);
+        if (result.success) {
+            setSubmittedTicketId(result.ticketId || null);
+            supportForm.reset();
+            setIsSupportDialogOpen(false);
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+        }
+    };
+    
+    const handleCopyToClipboard = () => {
+        if (submittedTicketId) {
+            navigator.clipboard.writeText(submittedTicketId);
+            toast({
+                title: "Copied to clipboard!",
+                description: `Ticket ID: ${submittedTicketId}`,
+            });
+        }
+    };
     
   return (
+    <>
     <section className="w-full py-6 md:py-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Dialog>
+          <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
               <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <HelpCircle className="w-6 h-6" />
                   </div>
-                  <p className="text-lg font-semibold">Frequently Asked Questions</p>
+                  <p className="text-lg font-semibold">Submit a Support Ticket</p>
                 </div>
               </Card>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-2xl">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold">Frequently Asked Questions</DialogTitle>
-              </DialogHeader>
-              <Accordion type="single" collapsible className="w-full">
-                {faqs.map((faq, index) => (
-                  <AccordionItem value={`item-${index}`} key={index}>
-                    <AccordionTrigger>{faq.question}</AccordionTrigger>
-                    <AccordionContent>{faq.answer}</AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Submit a Support Ticket</DialogTitle>
+                    <DialogDescription>Please describe your issue, and our support team will get back to you shortly.</DialogDescription>
+                </DialogHeader>
+                <Form {...supportForm}>
+                    <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
+                        <FormField
+                            control={supportForm.control}
+                            name="studentName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                            <Input placeholder="Your full name *" {...field} className="pl-9" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={supportForm.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                        <Input type="email" placeholder="Your email address *" {...field} className="pl-9" />
+                                    </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={supportForm.control}
+                            name="problem"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                    <div className="relative">
+                                        <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                        <Textarea placeholder="Describe your issue... *" {...field} className="pl-9" />
+                                    </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" className="w-full" disabled={supportForm.formState.isSubmitting}>
+                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+                        </Button>
+                    </form>
+                </Form>
             </DialogContent>
           </Dialog>
 
@@ -144,10 +207,10 @@ export function GetAppSection() {
                     <DialogTitle className="text-2xl font-bold text-primary">Request a Call Back</DialogTitle>
                     <DialogDescription className="text-muted-foreground text-sm">Our expert will call you back shortly.</DialogDescription>
                 </DialogHeader>
-                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onCallBackSubmit)} className="space-y-4">
+                 <Form {...callBackForm}>
+                    <form onSubmit={callBackForm.handleSubmit(onCallBackSubmit)} className="space-y-4">
                         <FormField
-                            control={form.control}
+                            control={callBackForm.control}
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
@@ -162,7 +225,7 @@ export function GetAppSection() {
                             )}
                         />
                         <FormField
-                            control={form.control}
+                            control={callBackForm.control}
                             name="mobile"
                             render={({ field }) => (
                                 <FormItem>
@@ -177,7 +240,7 @@ export function GetAppSection() {
                             )}
                         />
                          <FormField
-                            control={form.control}
+                            control={callBackForm.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
@@ -192,7 +255,7 @@ export function GetAppSection() {
                             )}
                         />
                         <FormField
-                            control={form.control}
+                            control={callBackForm.control}
                             name="place"
                             render={({ field }) => (
                                 <FormItem>
@@ -207,7 +270,7 @@ export function GetAppSection() {
                             )}
                         />
                         <FormField
-                            control={form.control}
+                            control={callBackForm.control}
                             name="classCourse"
                             render={({ field }) => (
                                 <FormItem>
@@ -230,8 +293,8 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                            {form.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
+                        <Button type="submit" className="w-full" disabled={callBackForm.formState.isSubmitting}>
+                            {callBackForm.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
                         </Button>
                     </form>
                 </Form>
@@ -241,10 +304,9 @@ export function GetAppSection() {
         
         <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-4 md:p-6 text-white border">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-            {/* Column 1: Mobile App Image */}
             <div className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden">
                 <Image
-                    src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2FpromotionalBanner%2FmobileApp.webp&w=750&q=90"
                     alt="IDL Education App Features"
                     data-ai-hint="education brochure mobile"
                     fill
@@ -252,7 +314,6 @@ export function GetAppSection() {
                 />
             </div>
             
-            {/* Column 2: Title and Key Points */}
             <div className="space-y-6 text-center lg:text-left">
               <h2 className="text-2xl font-bold">
                 IDL Learning App - Learn Smart
@@ -273,7 +334,6 @@ export function GetAppSection() {
               </ul>
             </div>
 
-            {/* Column 3: QR and App Store Links */}
             <div className="flex flex-col items-center justify-center gap-4">
                 <div className="bg-white p-2 rounded-lg">
                     <Image
@@ -307,5 +367,34 @@ export function GetAppSection() {
         </div>
       </div>
     </section>
+    <Dialog open={!!submittedTicketId} onOpenChange={() => setSubmittedTicketId(null)}>
+      <DialogContent>
+        <DialogHeader>
+          <div className="flex justify-center mb-4">
+            <CheckCircle className="w-16 h-16 text-green-500" />
+          </div>
+          <DialogTitle className="text-center text-2xl">Ticket Submitted!</DialogTitle>
+          <DialogDescription className="text-center">
+            Your support ticket has been successfully submitted. Please save your ticket ID for future reference.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="py-4">
+          <div 
+            className="flex items-center justify-between p-3 border-2 border-dashed rounded-lg bg-muted cursor-pointer hover:bg-muted/80"
+            onClick={handleCopyToClipboard}
+          >
+            <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground">Your Ticket ID</span>
+                <span className="font-mono font-semibold text-lg">{submittedTicketId}</span>
+            </div>
+            <Copy className="w-6 h-6 text-primary" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">Close</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
