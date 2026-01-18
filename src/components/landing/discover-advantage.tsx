@@ -27,13 +27,14 @@ export function DiscoverAdvantage() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-64 md:h-80">
+            <div className="h-64 md:h-80 flex items-end justify-center">
               <Image
                 src="https://picsum.photos/seed/brochure-new/800/600"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure mobile"
-                fill
-                className="object-contain object-bottom"
+                width={800}
+                height={600}
+                className="object-contain max-h-full w-auto"
               />
             </div>
           </div>
