@@ -45,6 +45,9 @@ export function Footer() {
                             </span>
                         </div>
                     </Link>
+                    <p className="text-sm text-muted-foreground">
+                      We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
+                    </p>
                     <div className="flex items-center gap-2">
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
