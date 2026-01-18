@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -87,7 +88,7 @@ export function GetAppSection() {
         <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6 md:p-10 text-white">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             {/* Column 1: Mobile App Image */}
-            <div className="relative h-80 flex items-center justify-center">
+            <div className="relative h-64 md:h-80 flex items-center justify-center">
                 <Image
                     src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="IDL Education App Features"
@@ -99,7 +100,7 @@ export function GetAppSection() {
             
             {/* Column 2: Title and Key Points */}
             <div className="space-y-6 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold">Get IDL App for JEE & NEET</h2>
+              <h2 className="text-2xl md:text-3xl font-bold">Get IDL App for JEE & NEET</h2>
               <ul className="space-y-3 inline-block text-left">
                 <li className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400" />
