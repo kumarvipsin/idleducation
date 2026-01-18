@@ -2,16 +2,7 @@
 
 import Link from "next/link";
 import React from 'react';
-
-const DoctorIcon = () => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="64" height="64" rx="12" fill="#EBF5FF"/>
-      <path d="M32 38C38.6274 38 44 33.5228 44 27C44 20.4772 38.6274 16 32 16C25.3726 16 20 20.4772 20 27C20 33.5228 25.3726 38 32 38Z" fill="#4A4A4A"/>
-      <path d="M48 54C48 46.268 40.8366 40 32 40C23.1634 40 16 46.268 16 54H48Z" fill="white"/>
-      <rect x="30" y="14" width="4" height="2" rx="1" fill="#FFD966"/>
-      <rect x="28" y="12" width="8" height="2" rx="1" fill="#FFD966"/>
-    </svg>
-);
+import Image from "next/image";
 
 const EngineerIcon = () => (
     <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +36,7 @@ const ExploreIcon = () => (
 const goals = [
   {
     name: "Doctor",
-    icon: <DoctorIcon />,
+    icon: <Image src="/doctor.png" alt="Doctor" width={64} height={64} />,
     href: "/category/neet",
   },
   {
