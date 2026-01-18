@@ -6,6 +6,8 @@ import type { TTopperTestimonial } from "@/app/actions/types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PlayCircle, Video } from "lucide-react";
 import { Button } from "../ui/button";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -66,50 +68,45 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
     return null;
   }
   
-  // Duplicate testimonials for seamless marquee effect
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
-
   return (
-    <section className="w-full py-12 md:py-24 bg-blue-900 text-white">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 text-center lg:text-left">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">IDL Stars</h2>
-            <p className="text-lg text-blue-200 max-w-lg mx-auto lg:mx-0">
-              What our students & parents say about us
-            </p>
-            <Button variant="secondary" size="lg" className="bg-white text-blue-900 hover:bg-gray-200">
-              <Video className="mr-2 h-5 w-5" />
-              Watch Videos
-            </Button>
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
+        <div className="text-center mb-12 px-4 md:px-6">
+          <div className="flex items-center justify-center">
+            <span className="text-blue-600 text-2xl mr-2">•</span>
+            <h2 className="text-lg font-semibold text-blue-600">Topper's Testimonials</h2>
           </div>
-          <div className="relative h-[15rem] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black)]">
-            <div className="flex flex-col gap-4">
-              <div className="flex animate-marquee-scroll gap-4">
-                {duplicatedTestimonials.map((testimonial, index) => (
-                  <div key={`row1-${index}`} className="w-64 flex-shrink-0">
-                    <TestimonialCard testimonial={testimonial} />
-                  </div>
-                ))}
-              </div>
-               <div className="flex animate-marquee-scroll-reverse gap-4">
-                {duplicatedTestimonials.slice().reverse().map((testimonial, index) => (
-                  <div key={`row2-${index}`} className="w-64 flex-shrink-0">
-                    <TestimonialCard testimonial={testimonial} />
-                  </div>
-                ))}
-              </div>
-              <div className="flex animate-marquee-scroll gap-4">
-                {duplicatedTestimonials.map((testimonial, index) => (
-                  <div key={`row3-${index}`} className="w-64 flex-shrink-0">
-                    <TestimonialCard testimonial={testimonial} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
+             What our students & parents say about us
+          </h3>
         </div>
-      </div>
+        
+        <div className="container mx-auto px-4 md:px-6">
+            <Carousel
+                opts={{
+                    align: "start",
+                    loop: testimonials.length > 3,
+                }}
+                plugins={[
+                    Autoplay({
+                        delay: 5000,
+                        stopOnInteraction: true,
+                    }),
+                ]}
+                className="w-full"
+            >
+                <CarouselContent>
+                    {testimonials.map((testimonial, index) => (
+                        <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                            <div className="p-1">
+                                <TestimonialCard testimonial={testimonial} />
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden sm:flex" />
+                <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+        </div>
     </section>
   );
 }
