@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -70,7 +71,7 @@ export function SelectGoalSection() {
         <section className="w-full py-6 md:py-8 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+                    <h1 className="text-3xl md:text-4xl font-black text-blue-600">
                         Start Your Journey
                     </h1>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
