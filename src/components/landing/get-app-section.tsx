@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -85,7 +84,7 @@ export function GetAppSection() {
           </Card>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6 text-white">
+        <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-4 md:p-6 text-white">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             {/* Column 1: Mobile App Image */}
             <div className="relative h-56 md:h-64 flex items-center justify-center">
