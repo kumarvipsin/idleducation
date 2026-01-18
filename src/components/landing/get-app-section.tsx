@@ -234,7 +234,7 @@ export function GetAppSection() {
                         />
                         <DialogFooter>
                             <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                                {form.formState.isSubmitting ? 'Requesting...' : 'Request a Call Back'}
+                                {form.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
                             </Button>
                         </DialogFooter>
                     </form>
