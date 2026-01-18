@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -72,8 +73,8 @@ export function StudyResources() {
 
   return (
     <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4 md:px-[10%] mb-12">
-        <div className="text-center">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
             <div className="flex items-center justify-center">
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Study Resources</h2>
@@ -82,7 +83,6 @@ export function StudyResources() {
             Your one-stop destination for comprehensive and effective study materials.
           </h3>
         </div>
-      </div>
        <Carousel
           setApi={setApi}
           opts={{
@@ -136,6 +136,7 @@ export function StudyResources() {
                 />
             ))}
         </div>
+      </div>
     </section>
   )
 }
