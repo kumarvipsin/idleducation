@@ -6,8 +6,9 @@ import type { TTopperTestimonial } from "@/app/actions/types";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { PlayCircle, Video } from "lucide-react";
 import { Button } from "../ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { cn } from "@/lib/utils";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -64,6 +65,27 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
 };
 
 export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopperTestimonial[] }) {
+  const [api, setApi] = React.useState<CarouselApi>()
+  const [current, setCurrent] = React.useState(0)
+ 
+  React.useEffect(() => {
+    if (!api) {
+      return
+    }
+ 
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
+
+  const scrollTo = React.useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api]
+  );
+
   if (!testimonials || testimonials.length === 0) {
     return null;
   }
@@ -82,6 +104,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         
         <div className="container mx-auto px-4 md:px-6">
             <Carousel
+                setApi={setApi}
                 opts={{
                     align: "start",
                     loop: testimonials.length > 3,
@@ -103,9 +126,19 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex" />
-                <CarouselNext className="hidden sm:flex" />
             </Carousel>
+            <div className="flex justify-center gap-2">
+                {testimonials.map((_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => scrollTo(i)}
+                        className={cn(
+                            "h-1.5 w-1.5 rounded-full transition-all duration-300",
+                            current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                        )}
+                    />
+                ))}
+            </div>
         </div>
     </section>
   );
