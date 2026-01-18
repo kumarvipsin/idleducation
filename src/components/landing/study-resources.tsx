@@ -1,10 +1,18 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React, { useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 const resources = [
   {
@@ -42,6 +50,26 @@ const resources = [
 ];
 
 export function StudyResources() {
+    const [api, setApi] = useState<CarouselApi>()
+    const [current, setCurrent] = useState(0)
+
+    useEffect(() => {
+        if (!api) {
+        return
+        }
+        setCurrent(api.selectedScrollSnap())
+        api.on("select", () => {
+        setCurrent(api.selectedScrollSnap())
+        })
+    }, [api])
+
+    const scrollTo = useCallback(
+        (index: number) => {
+        api?.scrollTo(index);
+        },
+        [api]
+    );
+
   return (
     <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-[10%] mb-12">
@@ -55,32 +83,59 @@ export function StudyResources() {
           </h3>
         </div>
       </div>
-      <div className="relative">
-        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex gap-6 px-4 md:px-[10%]">
-            {resources.map((resource, index) => (
-              <Link href={resource.href} key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                  <CardContent className="p-8 flex-grow flex flex-col">
-                    
-                    <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
-                    <p className="text-sm mt-2 text-muted-foreground flex-grow">{resource.description}</p>
-                  </CardContent>
-                  <div className="relative aspect-[4/3] w-full mt-auto">
-                    <Image
-                      src={resource.imageUrl}
-                      alt={resource.title}
-                      data-ai-hint={resource.imageHint}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </Card>
-              </Link>
+       <Carousel
+          setApi={setApi}
+          opts={{
+              align: "start",
+              loop: true,
+          }}
+          plugins={[
+              Autoplay({
+                  delay: 5000,
+                  stopOnInteraction: true,
+              }),
+          ]}
+          className="w-full"
+      >
+          <CarouselContent className="-ml-4">
+              {resources.map((resource, index) => (
+                  <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1">
+                          <Link href={resource.href} className="block h-full group">
+                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                              <CardContent className="p-8 flex-grow flex flex-col">
+                                  
+                                  <h3 className="text-2xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
+                                  <p className="text-sm mt-2 text-muted-foreground flex-grow">{resource.description}</p>
+                              </CardContent>
+                              <div className="relative aspect-[4/3] w-full mt-auto">
+                                  <Image
+                                      src={resource.imageUrl}
+                                      alt={resource.title}
+                                      data-ai-hint={resource.imageHint}
+                                      fill
+                                      className="object-cover"
+                                  />
+                              </div>
+                              </Card>
+                          </Link>
+                      </div>
+                  </CarouselItem>
+              ))}
+          </CarouselContent>
+      </Carousel>
+      <div className="flex justify-center gap-2 mt-8">
+            {resources.map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => scrollTo(i)}
+                    className={cn(
+                        "h-1.5 w-1.5 rounded-full transition-all duration-300",
+                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                    )}
+                />
             ))}
-          </div>
         </div>
-      </div>
     </section>
   )
 }
