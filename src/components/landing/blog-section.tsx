@@ -52,11 +52,6 @@ export function BlogSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold">Blogs</h2>
-          <Button variant="outline" asChild>
-            <Link href="/blog">
-              View All <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
         </div>
         <Carousel
           opts={{
@@ -95,6 +90,13 @@ export function BlogSection() {
           <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black -ml-4" />
           <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black -mr-4" />
         </Carousel>
+        <div className="text-center mt-8">
+          <Button variant="outline" asChild>
+            <Link href="/blog">
+              View All <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );
