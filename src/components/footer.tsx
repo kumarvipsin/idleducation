@@ -53,9 +53,6 @@ export function Footer() {
                         <Link href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
                           <Instagram className="h-4 w-4" />
                         </Link>
-                        <Link href="https://www.linkedin.com/company/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
-                          <Linkedin className="h-4 w-4" />
-                        </Link>
                         <Link href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-muted rounded-md text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
                           <Facebook className="h-4 w-4" />
                         </Link>
