@@ -1,10 +1,20 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React, { useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 const categories = [
   {
@@ -38,10 +48,30 @@ const categories = [
 ];
 
 export function ExamCategories() {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api]
+  );
+  
   return (
-    <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
-      <div className="container mx-auto px-4 md:px-[10%] mb-12">
-        <div className="text-center">
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
             <div className="flex items-center justify-center">
               <span className="text-blue-600 text-2xl mr-2">•</span>
               <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
@@ -49,39 +79,69 @@ export function ExamCategories() {
           <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
           </h3>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
+          </p>
         </div>
-      </div>
-       <div className="relative">
-        <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex gap-6 px-4 md:px-[10%]">
-                {categories.map((category, index) => (
-                    <div key={index} className="block flex-shrink-0 w-[300px] h-[525px] sm:w-[350px] sm:h-[612.5px] group">
-                        <Link href={category.href} className="block h-full">
-                            <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                <div className="relative w-full h-[75%]">
-                                    <Image
-                                        src={category.imageUrl}
-                                        alt={category.title}
-                                        data-ai-hint={category.imageHint}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[25%]">
-                                    <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
-                                    <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
-                                    <div className="mt-auto pt-2">
-                                        <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
-                                            Explore Category
-                                            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                        </div>
+        <Carousel
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+              stopOnInteraction: true,
+            }),
+          ]}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {categories.map((category, index) => (
+              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                <div className="p-1">
+                    <Link href={category.href} className="block h-full group">
+                        <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                            <div className="relative w-full aspect-[4/3]">
+                                <Image
+                                    src={category.imageUrl}
+                                    alt={category.title}
+                                    data-ai-hint={category.imageHint}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                            </div>
+                            <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 flex-grow">
+                                <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
+                                <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
+                                <div className="mt-auto pt-2">
+                                    <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
+                                        Explore Category
+                                        <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                     </div>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    </div>
-                ))}
-            </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="hidden sm:flex" />
+          <CarouselNext className="hidden sm:flex" />
+        </Carousel>
+        <div className="flex justify-center gap-2 mt-8">
+            {categories.map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => scrollTo(i)}
+                    className={cn(
+                        "h-1.5 w-1.5 rounded-full transition-all duration-300",
+                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                    )}
+                />
+            ))}
         </div>
       </div>
     </section>
