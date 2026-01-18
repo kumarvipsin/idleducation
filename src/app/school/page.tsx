@@ -135,6 +135,50 @@ function SchoolPageContent() {
             </Button>
         </Link>
         <div className="container mx-auto py-8 px-4 md:px-6">
+          <section className="py-8 md:py-12">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="space-y-6">
+                      <h1 className="text-4xl md:text-5xl font-extrabold text-foreground">
+                          Online Foundation courses for <span className="text-primary">class 6 to 10</span>
+                      </h1>
+                      <div className="flex items-start gap-4">
+                          <div className="bg-primary/10 text-primary p-2 rounded-full mt-1">
+                              <BookOpen className="w-6 h-6" />
+                          </div>
+                          <p className="text-muted-foreground text-lg">
+                              Explore our online courses to build a strong conceptual foundation and get a head start to a career in science.
+                          </p>
+                      </div>
+                      <div className="flex gap-4">
+                          <Button size="lg">Download App</Button>
+                          <Button size="lg" variant="outline">Talk to us</Button>
+                      </div>
+                  </div>
+                  <div>
+                      <Card className="bg-blue-50 dark:bg-blue-900/30 border-primary/20 shadow-lg rounded-2xl">
+                          <CardHeader>
+                              <div className="flex justify-between items-center">
+                                  <p className="font-bold text-lg text-primary">IDL ONLINE</p>
+                              </div>
+                          </CardHeader>
+                          <CardContent className="text-center">
+                              <Image
+                                  src="https://www.aakash.ac.in/blog/wp-content/uploads/2024/02/JEE-Main-Topper-2024-Aadish-Jain.webp"
+                                  alt="Aadish Jain"
+                                  width={150}
+                                  height={150}
+                                  className="rounded-full mx-auto mb-4 border-4 border-primary"
+                                  data-ai-hint="student headshot"
+                              />
+                              <h3 className="text-xl font-bold">Aadish Jain</h3>
+                              <p className="text-sm text-muted-foreground">
+                                  representing <span className="font-bold text-foreground">India</span> at the International Junior Science Olympiad (IJSO) 2025
+                              </p>
+                          </CardContent>
+                      </Card>
+                  </div>
+              </div>
+          </section>
           <section className="mb-8">
             <Card className="overflow-hidden shadow-lg">
               <div className="relative w-full aspect-[16/4]">
@@ -156,7 +200,7 @@ function SchoolPageContent() {
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {loading ? (
-                  [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
+                  [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
                 ) : (
                   classes.map((c) => (
                     <button
@@ -164,8 +208,8 @@ function SchoolPageContent() {
                       onClick={() => handleClassChange(c.name)}
                       className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
                         ${activeClass === c.name 
-                          ? 'border-primary text-primary bg-primary/10 rounded-full' 
-                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-full'}`}
+                          ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
                     >
                       {c.name}
                     </button>
