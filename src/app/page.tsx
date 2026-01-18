@@ -4,7 +4,6 @@ import { OurFeatures } from '@/components/landing/our-features';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
-import { ExamCategories } from '@/components/landing/exam-categories';
 import { getTopperTestimonials, getCollection } from '@/app/actions';
 import type { TTopperTestimonial, THeroSlide } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
@@ -29,7 +28,6 @@ export default async function Home() {
       <BuildSkillsSection slides={slides} />
       <TrustedPlatform />
       <SelectGoalSection />
-      <ExamCategories />
       <OurFeatures />
       <AcademicExcellence />
       <ScholarshipSection />
