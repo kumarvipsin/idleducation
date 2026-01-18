@@ -353,3 +353,29 @@ export async function createRazorpayOrder(options: { amount: number; currency: s
         return { success: false, message: "Failed to create Razorpay order." };
     }
 }
+
+const callBackSchema = z.object({
+  name: z.string().min(2, { message: "Name is required." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+});
+
+type CallBackFormValues = z.infer<typeof callBackSchema>;
+
+export async function requestCallBack(data: CallBackFormValues) {
+  const validation = callBackSchema.safeParse(data);
+  if (!validation.success) {
+    return { success: false, message: "Invalid data provided. Please check your inputs." };
+  }
+  
+  try {
+    await addDoc(collection(db, "callBackRequests"), {
+      ...validation.data,
+      createdAt: serverTimestamp(),
+    });
+    return { success: true, message: "Your request has been received. We will call you back shortly!" };
+  } catch (error) {
+    console.error("Error requesting callback:", error);
+    return { success: false, message: "Failed to submit request. Please try again later." };
+  }
+}
