@@ -29,9 +29,9 @@ export function DiscoverAdvantage() {
             </div>
             <div className="h-32 md:h-40 flex items-end justify-center">
               <Image
-                src="https://picsum.photos/seed/brochure/800/600"
-                alt="IDL Education Brochure"
-                data-ai-hint="education brochure mobile"
+                src="/idladv.png"
+                alt="IDL Advantage"
+                data-ai-hint="education advantage"
                 width={800}
                 height={600}
                 className="object-contain max-h-full w-auto"
