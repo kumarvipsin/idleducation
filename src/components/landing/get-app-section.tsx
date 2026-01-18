@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -46,7 +45,7 @@ const faqs = [
 
 export function GetAppSection() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+    <section className="w-full py-6 md:py-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog>
@@ -85,15 +84,15 @@ export function GetAppSection() {
           </Card>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-10 text-white">
+        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-3 md:p-5 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative h-64 md:h-auto md:aspect-[4/5]">
+            <div className="relative h-32 md:h-40">
                 <Image
                     src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="IDL Education App on a smartphone"
                     data-ai-hint="mobile learning"
                     fill
-                    className="object-cover"
+                    className="object-contain"
                 />
             </div>
             <div className="space-y-6">
