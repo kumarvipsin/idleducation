@@ -40,8 +40,8 @@ export function Footer() {
                     <Link href="/" className="flex flex-col items-center gap-2">
                         <Image src="/logo.png" alt="IDL Education Logo" width={72} height={72} />
                         <div className="flex flex-col leading-tight">
-                            <span className="text-lg font-bold text-primary">IDL EDUCATION</span>
-                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-bold">
+                            <span className="text-lg font-extrabold text-primary">IDL EDUCATION</span>
+                            <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-extrabold">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
                         </div>
