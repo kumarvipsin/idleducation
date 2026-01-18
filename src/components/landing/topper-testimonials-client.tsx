@@ -83,7 +83,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
               Watch Videos
             </Button>
           </div>
-          <div className="relative h-[30rem] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="relative h-[15rem] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black)]">
             <div className="flex flex-col gap-4">
               <div className="flex animate-marquee-scroll gap-4">
                 {duplicatedTestimonials.map((testimonial, index) => (
