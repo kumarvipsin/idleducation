@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense, useRef } from 'react';
@@ -25,7 +24,7 @@ import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
   { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
-  { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
+  { href: '/resources/previous-year-questions', label: 'Previous YQP', icon: <FileText /> },
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
@@ -284,7 +283,7 @@ function SchoolPageContent() {
                                             <TableRow key={item.sno}>
                                                 <TableCell className="font-medium">{item.sno}</TableCell>
                                                 <TableCell>
-                                                  <span className={cn("font-medium", item.pdfUrl && "hover:underline cursor-pointer")} onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
+                                                  <span className="font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
                                                     {item.name}
                                                   </span>
                                                 </TableCell>

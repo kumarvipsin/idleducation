@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -34,7 +33,7 @@ const resources = [
   },
   {
     category: "PRACTICE",
-    title: "Previous Year Questions",
+    title: "Previous YQP",
     description: "Practice with past exam papers to understand the pattern and types of questions.",
     href: "/resources/previous-year-questions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",

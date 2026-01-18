@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
 import Image from "next/image";
@@ -16,7 +15,7 @@ const quickLinks = [
 const resourceLinks = [
   { href: "/resources/notes", label: "Notes" },
   { href: "/resources/ncert-solutions", label: "NCERT Solutions" },
-  { href: "/resources/previous-year-questions", label: "Previous Year Questions" },
+  { href: "/resources/previous-year-questions", label: "Previous YQP" },
   { href: "/resources/reference-books", label: "Reference Books" },
   { href: "/store", label: "IDL Store", target: "_blank" },
 ];
