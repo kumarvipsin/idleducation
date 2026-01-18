@@ -54,6 +54,7 @@ export function ExamCategories() {
     if (!api) {
       return
     }
+ 
     setCurrent(api.selectedScrollSnap())
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap())
@@ -68,12 +69,12 @@ export function ExamCategories() {
   );
   
   return (
-    <section className="w-full pt-12 bg-white dark:bg-gray-900">
+    <section className="w-full py-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
             <div className="flex items-center justify-center">
               <span className="text-blue-600 text-2xl mr-2">•</span>
-              <h2 className="text-lg font-semibold text-blue-600">Exam Categories</h2>
+              <h2 className="text-lg font-semibold text-blue-600">Start Your Journey</h2>
             </div>
           <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
