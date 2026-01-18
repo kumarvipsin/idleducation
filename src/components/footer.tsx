@@ -95,30 +95,6 @@ export function Footer() {
                     </ul>
                 </div>
 
-                {/* Column 4: Get our App */}
-                <div>
-                    <h3 className="text-md font-semibold mb-4 text-foreground">Get Our App</h3>
-                    <p className="text-sm text-muted-foreground mb-4">IDL Learning App - Learn Smart</p>
-                    <div className="flex flex-col items-start gap-2">
-                        <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
-                            <Image 
-                                src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
-                                alt="Get it on Google Play"
-                                width={135}
-                                height={40}
-                            />
-                        </Link>
-                        <div className="cursor-not-allowed">
-                            <Image 
-                                src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
-                                alt="Download on the App Store"
-                                width={135}
-                                height={40}
-                            />
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
         <div className="bg-slate-200 dark:bg-slate-800 border-t border-slate-300 dark:border-slate-700">
