@@ -68,7 +68,7 @@ export function ExamCategories() {
   );
   
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+    <section className="w-full pb-12 md:pb-24 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
             <div className="flex items-center justify-center">
@@ -102,7 +102,7 @@ export function ExamCategories() {
                 <div className="p-1 h-full">
                     <Link href={category.href} className="block h-full group">
                         <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                            <div className="relative w-full aspect-[4/3]">
+                            <div className="relative w-full h-[75%]">
                                 <Image
                                     src={category.imageUrl}
                                     alt={category.title}
@@ -111,9 +111,9 @@ export function ExamCategories() {
                                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
                             </div>
-                            <CardContent className="p-8 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 flex-grow">
-                                <h3 className="text-2xl font-black text-foreground text-left">{category.title}</h3>
-                                <p className="text-sm mt-2 text-muted-foreground min-h-[5rem]">{category.subtitle}</p>
+                            <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[25%]">
+                                <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
+                                <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
                                 <div className="mt-auto pt-2">
                                     <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
                                         Explore Category
