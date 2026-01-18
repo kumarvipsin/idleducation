@@ -29,9 +29,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { requestCallBack, submitSupportTicket } from "@/app/actions/forms";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { allPrograms } from "@/lib/courses";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 
 const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -361,21 +361,21 @@ export function GetAppSection() {
                         height={100}
                     />
                 </div>
-                <div className="space-y-3 flex flex-col items-center">
+                <div className="flex items-center gap-2">
                     <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                         <Image 
                             src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                             alt="Get it on Google Play"
-                            width={135}
-                            height={40}
+                            width={110}
+                            height={32}
                         />
                     </Link>
                      <Link href="https://apps.apple.com" target="_blank" rel="noopener noreferrer">
                         <Image 
                             src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                             alt="Download on the App Store"
-                            width={135}
-                            height={40}
+                            width={110}
+                            height={32}
                         />
                     </Link>
                 </div>
