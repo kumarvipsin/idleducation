@@ -4,16 +4,6 @@ import Link from "next/link";
 import React from 'react';
 import Image from "next/image";
 
-const ExploreIcon = () => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="64" height="64" rx="12" fill="#E0F2F1"/>
-        <circle cx="32" cy="32" r="18" fill="#4DB6AC"/>
-        <path d="M46.5858 21.5858L26 42.1716" stroke="white" strokeWidth="3" strokeLinecap="round"/>
-        <path d="M46.5858 21.5858L36 18" stroke="white" strokeWidth="3" strokeLinecap="round"/>
-        <path d="M46.5858 21.5858L50.1716 31.1716" stroke="white" strokeWidth="3" strokeLinecap="round"/>
-    </svg>
-);
-
 const goals = [
   {
     name: "Doctor",
@@ -32,7 +22,7 @@ const goals = [
   },
   {
     name: "Explore",
-    icon: <ExploreIcon />,
+    icon: <Image src="/others.png" alt="Explore other programs" width={64} height={64} />,
     href: "/examcat",
   },
 ];
