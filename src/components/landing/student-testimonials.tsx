@@ -27,7 +27,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
       >
           <CardContent className="p-4 flex flex-col text-center items-center">
-              <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
+              <div className="relative w-full aspect-[4/3] mb-4 rounded-lg overflow-hidden group cursor-pointer">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
@@ -121,7 +121,7 @@ export function StudentTestimonials() {
           <span className="text-blue-600 text-2xl mr-2">•</span>
           <h2 className="text-lg font-semibold text-blue-600">What Our Students & Parents Say</h2>
         </div>
-        <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
+        <h3 className="text-3xl md:text-4xl font-black text-muted-foreground tracking-tight mt-2">
           Discover the real impact of our education
           <br />
           through their voices.
