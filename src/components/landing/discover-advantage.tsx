@@ -33,7 +33,7 @@ export function DiscoverAdvantage() {
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure mobile"
                 fill
-                className="object-contain"
+                className="object-contain object-bottom"
               />
             </div>
           </div>
