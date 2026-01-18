@@ -29,7 +29,7 @@ const scholarshipSchema = z.object({
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 
-const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+const scholarshipClasses = ["Class 4", "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"];
 
 const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -143,7 +143,7 @@ export default function ScholarshipPage() {
                             IDL Scholarship & Admission Test
                         </h1>
                         <p className="mt-2 text-lg text-muted-foreground font-semibold">
-                            For Class V to X
+                            For Class IV - XII
                         </p>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
@@ -285,7 +285,7 @@ export default function ScholarshipPage() {
                                                     <div className="relative">
                                                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                     <SelectTrigger className="pl-9">
-                                                        <SelectValue placeholder="Select a state *" />
+                                                        <SelectValue placeholder="Select a state" />
                                                     </SelectTrigger>
                                                     </div>
                                                 </FormControl>
