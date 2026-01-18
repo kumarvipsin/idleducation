@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -86,13 +87,13 @@ export function GetAppSection() {
 
         <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 md:p-10 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative h-60 md:h-auto md:aspect-[4/5]">
+            <div className="relative h-64 md:h-auto md:aspect-[4/5]">
                 <Image
-                    src="https://picsum.photos/seed/app-section-new/800/400"
+                    src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxOXx8bW9iaWxlJTIwfGVufDB8fHx8MTc2ODY3MTQ5OXww&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="IDL Education App on a smartphone"
                     data-ai-hint="mobile learning"
                     fill
-                    className="object-contain object-bottom"
+                    className="object-cover"
                 />
             </div>
             <div className="space-y-6">
