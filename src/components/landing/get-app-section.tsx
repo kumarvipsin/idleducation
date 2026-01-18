@@ -323,7 +323,7 @@ export function GetAppSection() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden">
                 <Image
-                    src="https://www.aakash.ac.in/_next/image?url=%2Fimages%2FpromotionalBanner%2FmobileApp.webp&w=750&q=90"
+                    src="/mobileApp.webp"
                     alt="IDL Education App Features"
                     data-ai-hint="education brochure mobile"
                     fill
