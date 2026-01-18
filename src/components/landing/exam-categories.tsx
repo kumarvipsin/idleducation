@@ -68,7 +68,7 @@ export function ExamCategories() {
   );
   
   return (
-    <section className="w-full pb-12 md:pb-24 bg-white dark:bg-gray-900">
+    <section className="w-full pt-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
             <div className="flex items-center justify-center">
@@ -78,57 +78,54 @@ export function ExamCategories() {
           <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
             Find the perfect program to help you achieve your academic and career goals.
           </h3>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            Explore a wide range of courses designed to provide comprehensive knowledge and skills, ensuring you are well-prepared for any challenge ahead.
-          </p>
         </div>
-        <Carousel
+       <Carousel
           setApi={setApi}
           opts={{
-            align: "start",
-            loop: true,
+              align: "start",
+              loop: true,
           }}
           plugins={[
-            Autoplay({
-              delay: 5000,
-              stopOnInteraction: true,
-            }),
+              Autoplay({
+                  delay: 5000,
+                  stopOnInteraction: true,
+              }),
           ]}
           className="w-full"
-        >
+      >
           <CarouselContent className="-ml-4">
-            {categories.map((category, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                <div className="p-1 h-full">
-                    <Link href={category.href} className="block h-full group">
-                        <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                            <div className="relative w-full h-[75%]">
-                                <Image
-                                    src={category.imageUrl}
-                                    alt={category.title}
-                                    data-ai-hint={category.imageHint}
-                                    fill
-                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                />
-                            </div>
-                            <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[25%]">
-                                <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
-                                <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
-                                <div className="mt-auto pt-2">
-                                    <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
-                                        Explore Category
-                                        <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                </div>
-              </CarouselItem>
-            ))}
+              {categories.map((category, index) => (
+                  <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                      <div className="p-1 h-full">
+                          <Link href={category.href} className="block h-full group">
+                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
+                                  <div className="relative w-full h-[60%]">
+                                      <Image
+                                          src={category.imageUrl}
+                                          alt={category.title}
+                                          data-ai-hint={category.imageHint}
+                                          fill
+                                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                      />
+                                  </div>
+                                  <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 h-[40%]">
+                                      <h3 className="text-base font-bold text-foreground text-left">{category.title}</h3>
+                                      <p className="text-xs mt-1 text-muted-foreground">{category.subtitle}</p>
+                                      <div className="mt-auto pt-2">
+                                          <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
+                                              Explore Category
+                                              <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                          </div>
+                                      </div>
+                                  </CardContent>
+                              </Card>
+                          </Link>
+                      </div>
+                  </CarouselItem>
+              ))}
           </CarouselContent>
-        </Carousel>
-        <div className="flex justify-center gap-2 mt-8">
+      </Carousel>
+      <div className="flex justify-center gap-2 mt-8">
             {categories.map((_, i) => (
                 <button
                     key={i}
