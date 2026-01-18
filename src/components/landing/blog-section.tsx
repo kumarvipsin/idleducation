@@ -5,8 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
+import React, { useState, useEffect, useCallback } from 'react';
+import { cn } from "@/lib/utils";
 
 const blogPosts = [
   {
@@ -47,6 +49,27 @@ const blogPosts = [
 ];
 
 export function BlogSection() {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+ 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+ 
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api]
+  );
+  
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
@@ -60,6 +83,7 @@ export function BlogSection() {
           </h3>
         </div>
         <Carousel
+          setApi={setApi}
           opts={{
             align: "start",
             loop: true,
@@ -93,9 +117,19 @@ export function BlogSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black -ml-4" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black -mr-4" />
         </Carousel>
+        <div className="flex justify-center gap-2 mt-4">
+            {blogPosts.map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => scrollTo(i)}
+                    className={cn(
+                        "h-1.5 w-1.5 rounded-full transition-all duration-300",
+                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                    )}
+                />
+            ))}
+        </div>
         <div className="text-center mt-8">
           <Button variant="outline" asChild>
             <Link href="/blog">
