@@ -210,7 +210,7 @@ export function GetAppSection() {
 
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors cursor-pointer border">
+              <Card className="bg-white dark:bg-card hover:bg-muted transition-colors cursor-pointer border">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <MessageCircle className="w-6 h-6" />
@@ -362,22 +362,22 @@ export function GetAppSection() {
                     />
                 </div>
                 <div className="flex items-center gap-2">
-                    <Link href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="relative h-12 w-36">
+                    <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="relative h-10 w-32">
                         <Image 
                             src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                             alt="Get it on Google Play"
                             fill
                             className="object-contain"
                         />
-                    </Link>
-                     <Link href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="relative h-12 w-36">
+                    </a>
+                     <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="relative h-10 w-32">
                         <Image 
                             src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                             alt="Download on the App Store"
                             fill
                             className="object-contain"
                         />
-                    </Link>
+                    </a>
                 </div>
               </div>
           </div>
