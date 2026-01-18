@@ -33,9 +33,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-7 -right-32 w-36 bg-primary text-primary-foreground p-2 rounded-lg shadow-lg">
+                 <div className="absolute bottom-7 -right-32 w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg">
                     <p className="text-[10px] leading-tight">IDL is where student learn with love and can grow with guidance</p>
-                    <div className="absolute left-0 bottom-[-8px] w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-primary"></div>
+                    <div className="absolute left-0 bottom-[-8px] w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-white"></div>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@ export function TrustedPlatform() {
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-6 -left-36 w-36 bg-white p-2 rounded-lg shadow-lg">
-                    <p className="text-[10px] leading-tight text-gray-800">Amod Sir, What is IDL?</p>
+                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
                     <div className="absolute right-[-8px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[8px] border-l-white"></div>
                 </div>
             </div>
