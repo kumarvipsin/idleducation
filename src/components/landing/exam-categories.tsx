@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -110,9 +111,9 @@ export function ExamCategories() {
                                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
                             </div>
-                            <CardContent className="p-4 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 flex-grow">
-                                <h3 className="text-lg font-bold text-foreground text-left">{category.title}</h3>
-                                <p className="text-xs mt-1 text-muted-foreground min-h-[3rem]">{category.subtitle}</p>
+                            <CardContent className="p-8 flex flex-col items-start bg-gradient-to-t from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 flex-grow">
+                                <h3 className="text-2xl font-black text-foreground text-left">{category.title}</h3>
+                                <p className="text-sm mt-2 text-muted-foreground min-h-[5rem]">{category.subtitle}</p>
                                 <div className="mt-auto pt-2">
                                     <div className="text-primary font-semibold flex items-center group-hover:underline text-sm">
                                         Explore Category
