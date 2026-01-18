@@ -81,6 +81,26 @@ export function StudentTestimonials() {
   const { t } = useLanguage();
   const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+ 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+ 
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api]
+  );
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -107,23 +127,52 @@ export function StudentTestimonials() {
           through their voices.
         </h3>
       </div>
-      <div className="relative">
+      <div className="container mx-auto px-4 md:px-6">
           {loading ? (
-             <div className="flex justify-center gap-6 px-4 md:px-[10%]">
+             <div className="flex justify-center gap-6">
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden md:block" />
                 <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden lg:block" />
              </div>
           ) : testimonials && testimonials.length > 0 ? (
-            <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex gap-6 px-4 md:pl-[10%]">
-                    {testimonials.map((testimonial) => (
-                    <div key={testimonial.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                        <TestimonialCard testimonial={testimonial} />
-                    </div>
-                    ))}
-                </div>
-            </div>
+            <>
+              <Carousel
+                  setApi={setApi}
+                  opts={{
+                      align: "start",
+                      loop: testimonials.length > 3,
+                  }}
+                  plugins={[
+                      Autoplay({
+                          delay: 5000,
+                          stopOnInteraction: true,
+                      }),
+                  ]}
+                  className="w-full"
+              >
+                  <CarouselContent>
+                      {testimonials.map((testimonial, index) => (
+                          <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                              <div className="p-1">
+                                  <TestimonialCard testimonial={testimonial} />
+                              </div>
+                          </CarouselItem>
+                      ))}
+                  </CarouselContent>
+              </Carousel>
+              <div className="flex justify-center gap-2 mt-4">
+                  {testimonials.map((_, i) => (
+                      <button
+                          key={i}
+                          onClick={() => scrollTo(i)}
+                          className={cn(
+                              "h-1.5 w-1.5 rounded-full transition-all duration-300",
+                              current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                          )}
+                      />
+                  ))}
+              </div>
+            </>
           ) : (
             <p className="text-center text-muted-foreground">No testimonials available at the moment.</p>
           )}
