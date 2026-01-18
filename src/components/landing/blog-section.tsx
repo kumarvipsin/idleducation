@@ -74,13 +74,10 @@ export function BlogSection() {
     <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-            <div className="flex items-center justify-center">
-              <span className="text-blue-600 text-2xl mr-2">•</span>
-              <h2 className="text-lg font-semibold text-blue-600">IDL Blogs</h2>
-            </div>
-          <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
+          <h1 className="text-3xl md:text-4xl font-black text-primary">IDL Blogs</h1>
+          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Stay updated with the latest trends and insights in education.
-          </h3>
+          </p>
         </div>
         <Carousel
           setApi={setApi}
