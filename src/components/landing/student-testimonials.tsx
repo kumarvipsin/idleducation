@@ -99,12 +99,12 @@ export function StudentTestimonials() {
       <div className="text-center mb-12 px-4 md:px-6">
         <div className="flex items-center justify-center">
           <span className="text-blue-600 text-2xl mr-2">•</span>
-          <h2 className="text-lg font-semibold text-blue-600">What Our Students Say</h2>
+          <h2 className="text-lg font-semibold text-blue-600">What Our Students & Parents Say</h2>
         </div>
         <h3 className="text-2xl md:text-3xl font-black text-muted-foreground tracking-tight mt-2">
           Discover the real impact of our education
           <br />
-          through the voices of our students.
+          through their voices.
         </h3>
       </div>
       <div className="relative">
