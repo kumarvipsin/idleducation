@@ -11,6 +11,7 @@ import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 import { TrustedPlatform } from '@/components/landing/trusted-platform';
 import { DiscoverAdvantage } from '@/components/landing/discover-advantage';
 import { GetAppSection } from '@/components/landing/get-app-section';
+import { ScholarshipSection } from '@/components/landing/scholarship-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +29,7 @@ export default async function Home() {
       <ExamCategories />
       <OurFeatures />
       <AcademicExcellence />
+      <ScholarshipSection />
       <StudentTestimonials />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials as TTopperTestimonial[]} />
