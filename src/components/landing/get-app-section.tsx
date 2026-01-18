@@ -319,7 +319,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-4 md:p-6 text-white border">
+        <div className="rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 p-4 md:p-6 text-white border">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden">
                 <Image
