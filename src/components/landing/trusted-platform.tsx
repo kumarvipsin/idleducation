@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,7 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-left">
@@ -14,7 +15,7 @@ export function TrustedPlatform() {
               Bharat's <span className="text-purple-600">Trusted & Affordable</span><br />Educational Platform
             </h2>
             <p className="text-muted-foreground text-base max-w-lg lg:mx-0">
-              Unlock your potential by signing up with IDL Education - The most affordable learning solution
+              IDL is where student learn with love and can grow with guidance
             </p>
             <Button asChild size="lg" className="rounded-md bg-accent text-accent-foreground hover:bg-accent/90">
               <Link href="/signup">Get Started</Link>
@@ -34,7 +35,7 @@ export function TrustedPlatform() {
                     <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
-                    <p className="text-xs leading-tight">IDL is where student learn with love and can grow with guidance</p>
+                    <p className="text-xs">IDL is where student learn with love and can grow with guidance</p>
                     <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
                 </div>
             </div>
