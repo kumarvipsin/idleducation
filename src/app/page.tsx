@@ -31,9 +31,9 @@ export default async function Home() {
       <AcademicExcellence />
       <ScholarshipSection />
       <StudentTestimonials />
+      <DiscoverAdvantage />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials as TTopperTestimonial[]} />
-      <DiscoverAdvantage />
       <GetAppSection />
     </div>
   );
