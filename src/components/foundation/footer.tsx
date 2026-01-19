@@ -7,8 +7,8 @@ import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Linkedin, Youtube, H
 import { Button } from "@/components/ui/button";
 
 const quickLinks = [
-    { href: "#about", label: "About Us" },
-    { href: "#donate", label: "Donate" },
+    { href: "#about", label: "About Us", isDialog: false },
+    { href: "#donate", label: "Donate", isDialog: true },
     { href: "/volunteer", label: "Become a Volunteer" },
 ];
 
@@ -60,10 +60,6 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
                         <h3 className="text-lg font-semibold text-white mb-4">Reach Us</h3>
                         <div className="w-full h-0.5 mb-4 bg-gradient-to-r from-red-500 to-50% to-white" style={{width: 'calc(20% + 80px)'}}></div>
                         <ul className="space-y-2 text-sm text-white/80">
-                            <li className="flex items-start gap-2">
-                                <MapPin className="w-4 h-4 mt-1 shrink-0" />
-                                <span>E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086</span>
-                            </li>
                         </ul>
                     </div>
 
