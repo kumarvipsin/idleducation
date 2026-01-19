@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Lightbulb, Users, Smartphone, GraduationCap } from "lucide-react";
+import { Lightbulb, UserCheck, Smartphone, GraduationCap } from "lucide-react";
 
 const features = [
   {
@@ -17,7 +17,7 @@ const features = [
     description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
-    icon: <Users className="w-6 h-6 text-primary" />,
+    icon: <UserCheck className="w-6 h-6 text-primary" />,
   },
   {
     title: "All-in-One Learning App",
