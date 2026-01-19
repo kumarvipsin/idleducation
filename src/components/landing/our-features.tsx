@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,7 +7,7 @@ import { Lightbulb, UserCheck, Smartphone, GraduationCap } from "lucide-react";
 const features = [
   {
     title: "Modern Learning Approach",
-    description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
+    description: "Our modern approach makes learning enjoyable and effective with real-world examples.",
     imageUrl: "https://www.webelight.com/_next/static/media/e-learning_hero.fa5a4e2c.webp",
     imageHint: "online learning illustration",
     icon: (
