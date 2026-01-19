@@ -19,5 +19,20 @@
     "src": "https://picsum.photos/seed/4/1200/300",
     "alt": "A scenic mountain range",
     "hint": "mountain landscape"
+  },
+  "topper1": {
+    "src": "https://picsum.photos/seed/topper1/200/200",
+    "alt": "Topper Damanpreet Singh",
+    "hint": "student portrait"
+  },
+  "topper2": {
+    "src": "https://picsum.photos/seed/topper2/200/200",
+    "alt": "Topper Vedant Sakre",
+    "hint": "student portrait"
+  },
+  "topper3": {
+    "src": "https://picsum.photos/seed/topper3/200/200",
+    "alt": "Topper Shravani P Pore",
+    "hint": "student portrait"
   }
 }
