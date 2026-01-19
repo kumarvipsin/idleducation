@@ -7,7 +7,7 @@ const features = [
   {
     title: "Modern Learning Approach",
     description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
-    imageUrl: "https://www.pw.live/version14/assets/img/group-20356.svg",
+    imageUrl: "https://www.webelight.com/_next/static/media/e-learning_hero.fa5a4e2c.webp",
     imageHint: "online learning illustration",
   },
   {
