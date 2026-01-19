@@ -7,47 +7,27 @@ import { Lightbulb, UserCheck, Smartphone, GraduationCap } from "lucide-react";
 const features = [
   {
     title: "Modern Learning Approach",
-    description: "Our modern approach makes learning enjoyable and effective with real-world examples.",
+    description: "Our modern approach makes learning enjoyable and effective.",
     imageUrl: "https://www.webelight.com/_next/static/media/e-learning_hero.fa5a4e2c.webp",
     imageHint: "online learning illustration",
-    icon: (
-      <div className="bg-primary/10 p-3 rounded-full">
-        <Lightbulb className="w-6 h-6 text-primary" />
-      </div>
-    ),
   },
   {
     title: "Personal Mentorship",
     description: "Our unique two-teacher model ensures instant doubt clarification.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
-    icon: (
-      <div className="bg-primary/10 p-3 rounded-full">
-        <UserCheck className="w-6 h-6 text-primary" />
-      </div>
-    ),
   },
   {
     title: "All-in-One Learning App",
     description: "Learn anytime, anywhere with our vast library of study materials.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
-    icon: (
-      <div className="bg-primary/10 p-3 rounded-full">
-        <Smartphone className="w-6 h-6 text-primary" />
-      </div>
-    ),
   },
   {
     title: "100+ Expert Faculty",
     description: "Learn from experienced educators dedicated to your success.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
-    icon: (
-      <div className="bg-primary/10 p-3 rounded-full">
-        <GraduationCap className="w-6 h-6 text-primary" />
-      </div>
-    ),
   },
 ];
 
@@ -66,7 +46,6 @@ export function OurFeatures() {
             <Card key={index} className="bg-background/80 dark:bg-card rounded-2xl shadow-lg overflow-hidden border-primary/10">
               <CardContent className="p-8 space-y-4 text-center">
                 <div className="flex flex-col items-center gap-4">
-                  {feature.icon}
                   <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
                 </div>
                 <p className="text-sm text-muted-foreground">{feature.description}</p>
