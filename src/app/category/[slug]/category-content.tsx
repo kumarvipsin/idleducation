@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -73,9 +72,16 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     { imageUrl: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png", alt: "Dhruv Advani", title: "Dhruv Advani - AIR 5" },
   ];
 
+  const jeeTopperSlides = [
+    { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-2.png", alt: "Dhrumil Chauhan", title: "Dhrumil Chauhan - AIR 5" },
+    { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png", alt: "Ipsit Mittal", title: "Ipsit Mittal - AIR 1" },
+    { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png", alt: "Aditya Neeraje", title: "Aditya Neeraje - AIR 27" },
+  ];
+
   return (
     <div>
       {isNeetPage ? (
+        <>
         <section className="bg-[#F0F8FF] dark:bg-gray-900 pt-12">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -106,7 +112,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                                 {neetTopperSlides.map((slide, index) => (
                                     <CarouselItem key={index}>
                                         <Card className="overflow-hidden rounded-2xl shadow-2xl">
-                                            <div className="relative aspect-[16/9] w-full">
+                                            <div className="relative aspect-[16/7] w-full">
                                                 <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                                 <div className="absolute bottom-4 left-4 text-white">
@@ -122,6 +128,45 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 </div>
             </div>
         </section>
+        <section className="bg-gray-100 dark:bg-gray-800 py-12">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div className="order-2 md:order-1 space-y-8">
+                        <h2 className="text-4xl font-bold text-gray-800 dark:text-white">Explore our <span className="text-orange-500">JEE</span> courses</h2>
+                        <p className="text-gray-600 dark:text-gray-300">Prepare for JEE Main and Advanced with our comprehensive courses, designed by expert faculty to help you achieve top ranks.</p>
+                        <div className="flex gap-4">
+                            <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600">
+                                <Link href="/category/iit-jee">Explore JEE</Link>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="order-1 md:order-2">
+                        <Carousel
+                            plugins={[ Autoplay({ delay: 3500, stopOnInteraction: true }) ]}
+                            className="w-full max-w-lg mx-auto"
+                            opts={{ loop: true }}
+                        >
+                            <CarouselContent>
+                                {jeeTopperSlides.map((slide, index) => (
+                                    <CarouselItem key={index}>
+                                        <Card className="overflow-hidden rounded-2xl shadow-2xl">
+                                            <div className="relative aspect-[16/7] w-full">
+                                                <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                                <div className="absolute bottom-4 left-4 text-white">
+                                                    <h3 className="text-xl font-bold">{slide.title}</h3>
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                    </div>
+                </div>
+            </div>
+          </section>
+        </>
       ) : (
         <>
             {['cuet', 'govt-job-exams', 'iit-jee', 'defence', 'gate', 'ssc', 'delhi-police'].includes(slug) && (
