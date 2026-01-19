@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -13,6 +14,8 @@ import { getSignedUrlForPdf } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -63,6 +66,12 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
   };
 
   const isNeetPage = slug === 'neet';
+  
+  const neetTopperSlides = [
+    { imageUrl: "https://www.aakash.ac.in/blog/wp-content/uploads/2023/06/Post-Blog-Banner-1.jpg", alt: "Aritro Ray", title: "Aritro Ray - AIR 50" },
+    { imageUrl: "https://www.pw.live/version14/assets/img/neet-toppers-2023/pranjal-agarwal.png", alt: "Pranjal Aggarwal", title: "Pranjal Aggarwal - AIR 4" },
+    { imageUrl: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png", alt: "Dhruv Advani", title: "Dhruv Advani - AIR 5" },
+  ];
 
   return (
     <div>
@@ -91,22 +100,27 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                         </div>
                     </div>
                     <div>
-                        <Card className="bg-blue-500 text-white rounded-2xl shadow-2xl p-6">
-                            <CardContent className="flex flex-col items-center text-center">
-                                <h2 className="text-2xl font-bold">NEET 2025</h2>
-                                <p className="font-semibold">Asli prep. Asli results.</p>
-                                <div className="relative mt-4">
-                                    <Image src="https://www.aakash.ac.in/blog/wp-content/uploads/2023/06/Post-Blog-Banner-1.jpg" alt="Aritro Ray" data-ai-hint="student headshot" width={150} height={150} className="rounded-full border-4 border-white" />
-                                    <div className="absolute top-0 right-0 bg-yellow-400 text-black font-bold px-2 py-1 rounded-md text-sm">AIR 50</div>
-                                </div>
-                                <h3 className="text-xl font-bold mt-2">Aritro Ray</h3>
-                                <p className="text-sm">Online Classroom Course</p>
-                                <p className="text-sm">West Bengal</p>
-                                <div className="mt-2 bg-white text-blue-600 font-semibold px-3 py-1 rounded-full text-sm">
-                                    AIIMS Delhi
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <Carousel
+                            plugins={[ Autoplay({ delay: 3000, stopOnInteraction: true }) ]}
+                            className="w-full max-w-lg mx-auto"
+                            opts={{ loop: true }}
+                        >
+                            <CarouselContent>
+                                {neetTopperSlides.map((slide, index) => (
+                                    <CarouselItem key={index}>
+                                        <Card className="overflow-hidden rounded-2xl shadow-2xl">
+                                            <div className="relative aspect-[4/3] w-full">
+                                                <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                                <div className="absolute bottom-4 left-4 text-white">
+                                                    <h3 className="text-xl font-bold">{slide.title}</h3>
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
                     </div>
                 </div>
             </div>
