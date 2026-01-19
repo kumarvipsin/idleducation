@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,13 +31,6 @@ export function OurFeatures() {
   return (
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-sky-500">Why IDL is Different</h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-            See how our approach to learning sets us apart from traditional institutes.
-          </p>
-        </div>
-
         <Card className="max-w-4xl mx-auto shadow-2xl rounded-2xl border-primary/10">
             <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-primary mb-6 text-center">Why think IDL?</h3>
