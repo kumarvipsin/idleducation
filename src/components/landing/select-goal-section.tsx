@@ -8,22 +8,22 @@ import Image from "next/image";
 const goals = [
   {
     name: "Doctor",
-    icon: <Image src="/doctor.png" alt="Doctor" width={64} height={64} />,
+    icon: <Image src="/doctor.png" alt="Doctor" width={77} height={77} />,
     href: "/category/neet",
   },
   {
     name: "Engineer",
-    icon: <Image src="/engineers.png" alt="Engineer" width={64} height={64} />,
+    icon: <Image src="/engineers.png" alt="Engineer" width={77} height={77} />,
     href: "/category/iit-jee",
   },
   {
     name: "Govt. Exams",
-    icon: <Image src="/govt.png" alt="Government Exams" width={64} height={64} />,
+    icon: <Image src="/govt.png" alt="Government Exams" width={77} height={77} />,
     href: "/examcat",
   },
   {
     name: "CBSE",
-    icon: <Image src="/shuttle.png" alt="School Prep" width={64} height={64} />,
+    icon: <Image src="/shuttle.png" alt="School Prep" width={77} height={77} />,
     href: "/school",
   },
 ];
