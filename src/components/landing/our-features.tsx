@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const features = [
   {
-    title: "Interactive and Engaging Classes",
+    title: "Modern Learning Approach",
     description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20356.svg",
     imageHint: "online learning illustration",
