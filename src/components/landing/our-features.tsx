@@ -28,12 +28,6 @@ const features = [
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
   },
-  {
-    title: "Complete Syllabus Coverage",
-    description: "We ensure thorough coverage of all subjects and topics as per the latest academic syllabus, leaving no stone unturned.",
-    imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
-    imageHint: "syllabus books",
-  },
 ];
 
 export function OurFeatures() {
