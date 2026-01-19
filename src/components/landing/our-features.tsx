@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import { Lightbulb, Users, Smartphone, GraduationCap } from "lucide-react";
 
 const features = [
   {
@@ -9,24 +10,28 @@ const features = [
     description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
     imageUrl: "https://www.webelight.com/_next/static/media/e-learning_hero.fa5a4e2c.webp",
     imageHint: "online learning illustration",
+    icon: <Lightbulb className="w-6 h-6 text-primary" />,
   },
   {
     title: "Personal Mentorship",
     description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
+    icon: <Users className="w-6 h-6 text-primary" />,
   },
   {
     title: "All-in-One Learning App",
     description: "Access a vast library of study materials, tests, and notes to learn at your own pace, anytime, anywhere.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
+    icon: <Smartphone className="w-6 h-6 text-primary" />,
   },
   {
     title: "100+ Expert Faculty",
     description: "Learn from highly qualified and experienced educators from top institutions who are dedicated to nurturing your potential.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
+    icon: <GraduationCap className="w-6 h-6 text-primary" />,
   },
 ];
 
@@ -44,8 +49,11 @@ export function OurFeatures() {
           {features.map((feature, index) => (
             <Card key={index} className="bg-background/80 dark:bg-card rounded-2xl shadow-lg overflow-hidden border-primary/10">
               <CardContent className="p-8 space-y-4 text-center">
-                <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <div className="flex items-center justify-center gap-2">
+                  {feature.icon}
+                  <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{feature.description}</p>
                 <div className="relative h-56 w-full mt-4">
                   <Image
                     src={feature.imageUrl}
