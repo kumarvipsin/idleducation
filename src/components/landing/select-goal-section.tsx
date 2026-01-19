@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -17,7 +18,7 @@ const goals = [
   },
   {
     name: "Govt. Exams",
-    icon: <Image src="/others.png" alt="Government Exams" width={64} height={64} />,
+    icon: <Image src="/govt.png" alt="Government Exams" width={64} height={64} />,
     href: "/examcat",
   },
   {
