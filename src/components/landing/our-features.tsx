@@ -11,7 +11,7 @@ const features = [
     imageHint: "online learning illustration",
   },
   {
-    title: "Unique Two-Teacher Model",
+    title: "Personal Mentorship",
     description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
@@ -38,7 +38,7 @@ const features = [
 
 export function OurFeatures() {
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900/50">
+    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-black text-primary">Why think IDL?</h2>
