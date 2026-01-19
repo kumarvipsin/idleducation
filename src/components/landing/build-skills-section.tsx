@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Zap, Check } from "lucide-react";
-import placeholderImages from '@/app/lib/placeholder-images.json';
 import { Badge } from "../ui/badge";
 
 const toppers = [
@@ -12,22 +11,22 @@ const toppers = [
     air: "293",
     name: "Damanpreet Singh",
     details: "General",
-    image: placeholderImages.topper1.src,
-    imageHint: placeholderImages.topper1.hint,
+    image: "https://picsum.photos/seed/topper-damanpreet/200/200",
+    imageHint: "student portrait",
   },
   {
     air: "234",
     name: "Vedant Sakre",
     details: "99.99%ile in Physics",
-    image: placeholderImages.topper2.src,
-    imageHint: placeholderImages.topper2.hint,
+    image: "https://picsum.photos/seed/topper-vedant/200/200",
+    imageHint: "student portrait",
   },
   {
     air: "413",
     name: "Shravani P Pore",
     details: "General",
-    image: placeholderImages.topper3.src,
-    imageHint: placeholderImages.topper3.hint,
+    image: "https://picsum.photos/seed/topper-shravani/200/200",
+    imageHint: "student portrait",
   },
 ];
 
@@ -90,7 +89,7 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
             <div className="md:col-span-2 flex items-center justify-center gap-2 md:gap-4 lg:gap-6 pt-8 md:pt-0">
               {toppers.map((topper) => (
                 <div key={topper.name} className="flex flex-col items-center text-center space-y-2">
-                  <div className="relative w-14 h-14 md:w-20 md:h-20">
+                  <div className="relative w-[54px] h-[54px] md:w-[72px] md:h-[72px]">
                     <Image src={topper.image} alt={topper.name} data-ai-hint={topper.imageHint} fill className="rounded-full object-cover border-4 border-white/50" />
                   </div>
                   {topper.details.startsWith('99') && <Badge variant="destructive" className="bg-red-600 text-white font-bold text-xs">{topper.details}</Badge>}
