@@ -109,7 +109,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                                 {neetTopperSlides.map((slide, index) => (
                                     <CarouselItem key={index}>
                                         <Card className="overflow-hidden rounded-2xl shadow-2xl">
-                                            <div className="relative aspect-[4/3] w-full">
+                                            <div className="relative aspect-[16/6] w-full">
                                                 <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                                 <div className="absolute bottom-4 left-4 text-white">
@@ -290,3 +290,5 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     </div>
   );
 }
+
+    
