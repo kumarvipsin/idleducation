@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,6 +15,18 @@ const features = [
     description: "Dynamic smart classrooms blending offline and online for a richer experience.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
+  },
+  {
+    title: "Personalized Mentorship",
+    description: "One-on-one guidance and doubt-solving sessions to cater to individual student needs.",
+    imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
+    imageHint: "mentor student illustration",
+  },
+  {
+    title: "Comprehensive Study Material",
+    description: "Access to a vast library of notes, practice questions, and mock tests.",
+    imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
+    imageHint: "books resources illustration",
   },
 ];
 
