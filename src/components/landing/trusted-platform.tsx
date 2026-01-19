@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -34,9 +33,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-10 -right-40 w-48 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg">
+                 <div className="absolute bottom-10 -right-40 w-48 bg-white text-gray-800 p-3 rounded-lg shadow-lg border">
                     <p className="text-xs">IDL builds futures through inspired learning.</p>
-                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-primary"></div>
+                    <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-white"></div>
                 </div>
             </div>
 
