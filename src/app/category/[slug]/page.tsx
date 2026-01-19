@@ -1,6 +1,6 @@
 
 import { CategoryContent } from "./category-content";
-import { getExamCategories, getTeachers } from "@/app/actions/data";
+import { getExamCategories, getTeachers } from "@/app/actions";
 import type { TExamCategory } from "@/app/actions/types";
 import { notFound } from 'next/navigation';
 
