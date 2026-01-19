@@ -14,7 +14,7 @@ import useEmblaCarousel from "embla-carousel-react"
 const defaultSlides = [
   { 
     id: "default-1",
-    imageUrl: "https://picsum.photos/seed/build-skills/1920/1080", 
+    imageUrl: "", 
     alt: "Students with backpacks looking towards the sky", 
     hint: "students future skills",
     title: "",
@@ -64,13 +64,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
         <CarouselContent className="h-full">
           {slides.map((slide, index) => (
             <CarouselItem key={slide.id || index} className="h-full">
-              <div className="relative w-full h-full flex flex-col items-center justify-center">
-                 <GcsImage 
-                  filePath={slide.imageUrl}
-                  alt={slide.title || 'Hero Image'}
-                  fill
-                  className="object-cover"
-                />
+              <div className="relative w-full h-full flex flex-col items-center justify-center bg-primary">
                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4">
                      <div className="text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
                         {slide.description && <p className="mt-2 text-sm md:text-lg max-w-2xl drop-shadow-md">{slide.description}</p>}
