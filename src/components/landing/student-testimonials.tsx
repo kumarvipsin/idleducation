@@ -44,7 +44,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-bold text-lg">{testimonial.name}</h3>
+              <h3 className="font-bold text-xl">{testimonial.name}</h3>
               <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
               <div className="relative h-20">
                   <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
