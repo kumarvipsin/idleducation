@@ -36,7 +36,7 @@ const resources = [
     title: "Previous YQP",
     description: "Practice with past exam papers to understand the pattern and types of questions.",
     href: "/resources/previous-year-questions",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
+    imageUrl: "/notes.png",
     imageHint: "exam paper test",
   },
   {
@@ -44,7 +44,7 @@ const resources = [
     title: "Reference Books",
     description: "Explore a curated collection of reference books to supplement your learning.",
     href: "/resources/reference-books",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
+    imageUrl: "/notes.png",
     imageHint: "library books",
   },
 ];
