@@ -103,7 +103,7 @@ export function BlogSection() {
                         />
                       </div>
                       <CardHeader>
-                        <CardTitle className="text-base font-semibold h-12">{post.title}</CardTitle>
+                        <CardTitle className="text-xl font-bold h-16">{post.title}</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-sm text-muted-foreground line-clamp-2 h-10">{post.excerpt}</p>
