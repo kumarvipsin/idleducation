@@ -74,7 +74,7 @@ export function StudyResources() {
     <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Study Material</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-accent tracking-tight">Study Material</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Your one-stop destination for comprehensive and effective study materials.
           </p>
@@ -101,7 +101,7 @@ export function StudyResources() {
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
                               <CardContent className="p-8 flex-grow flex flex-col">
                                   
-                                  <h3 className="text-xl font-black mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
+                                  <h3 className="text-xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
                                   <p className="text-sm mt-2 text-muted-foreground flex-grow min-h-[5rem]">{resource.description}</p>
                               </CardContent>
                               <div className="relative aspect-[4/3] w-full mt-auto">
