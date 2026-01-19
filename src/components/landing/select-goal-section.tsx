@@ -34,8 +34,8 @@ export function SelectGoalSection() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-10">
                     <div className="flex items-center justify-center gap-2">
-                        <span className="text-primary font-bold text-sm">•</span>
-                        <h2 className="text-sm font-bold text-primary">
+                        <span className="text-primary font-bold text-lg">•</span>
+                        <h2 className="text-lg font-bold text-primary">
                             Start Your Journey
                         </h2>
                     </div>
