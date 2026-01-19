@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,7 +37,7 @@ export function OurFeatures() {
         <div className="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
           <Card className="rounded-2xl shadow-lg border-primary/20 bg-primary/5 dark:bg-primary/10">
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-primary mb-6">IDL EDUCATION</h3>
+              <h3 className="text-2xl font-bold text-primary mb-6">Why think IDL?</h3>
               <ul className="space-y-6">
                 {idlEducationFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-4">
