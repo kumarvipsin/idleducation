@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -27,14 +28,13 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
       >
           <CardContent className="p-4 flex flex-col text-center items-center">
-              <div className="relative w-full aspect-[4/3] mb-4 rounded-lg overflow-hidden group cursor-pointer">
+              <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity" />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
                        <button className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 hover:scale-110">
@@ -45,7 +45,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </div>
               <h3 className="font-bold text-lg">{testimonial.name}</h3>
               <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
-              <div className="relative h-20">
+              <div className="relative h-24">
                   <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
                   <ScrollArea className="h-full w-full px-2">
                       <blockquote className="text-sm text-muted-foreground italic">
@@ -145,9 +145,9 @@ export function StudentTestimonials() {
                   ]}
                   className="w-full"
               >
-                  <CarouselContent className="-ml-6">
+                  <CarouselContent className="-ml-4">
                       {testimonials.map((testimonial, index) => (
-                          <CarouselItem key={index} className="pl-6 sm:basis-1/2 lg:basis-1/3">
+                          <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                               <div className="p-1 h-full">
                                   <TestimonialCard testimonial={testimonial} />
                               </div>
