@@ -10,7 +10,7 @@ export function TrustedPlatform() {
     <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div className="space-y-6 text-center lg:text-left">
+          <div className="space-y-6 text-left">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
             </h2>
@@ -34,7 +34,7 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={150} height={150} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-10 -right-40 w-48 bg-white text-gray-800 p-3 rounded-lg shadow-lg border">
+                 <div className="absolute bottom-10 -right-40 w-48 bg-white p-3 rounded-lg shadow-lg border">
                     <p className="text-xs">IDL builds futures through inspired learning.</p>
                     <div className="absolute left-0 bottom-[-10px] w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-white"></div>
                 </div>
