@@ -5,22 +5,22 @@ import { Zap, Users, ClipboardList, BookOpen } from "lucide-react";
 
 const idlEducationFeatures = [
   {
-    icon: <Zap className="w-8 h-8 text-primary" />,
+    icon: <Zap className="w-6 h-6 text-primary" />,
     title: "Modern Learning Approach",
     description: "Updated curriculum, smart learning methods, and exam focused strategies built for today's students.",
   },
   {
-    icon: <Users className="w-8 h-8 text-primary" />,
+    icon: <Users className="w-6 h-6 text-primary" />,
     title: "Personal Mentorship",
     description: "Small batches, instant doubt resolution, and dedicated mentor support at every step.",
   },
   {
-    icon: <ClipboardList className="w-8 h-8 text-primary" />,
+    icon: <ClipboardList className="w-6 h-6 text-primary" />,
     title: "Structured & Transparent",
     description: "Clear learning paths, organized study plans, and upfront pricing with no hidden charges.",
   },
   {
-    icon: <BookOpen className="w-8 h-8 text-primary" />,
+    icon: <BookOpen className="w-6 h-6 text-primary" />,
     title: "Rich Content Library",
     description: "Extensive library of video lectures, notes, and practice quizzes for all topics.",
   },
@@ -37,17 +37,23 @@ export function OurFeatures() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {idlEducationFeatures.map((feature, index) => (
-            <Card key={index} className="rounded-2xl shadow-lg border-primary/20 bg-primary/5 dark:bg-primary/10 text-center p-6">
-              <div className="flex justify-center mb-4">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-bold text-primary mb-2">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
-            </Card>
-          ))}
-        </div>
+        <Card className="max-w-4xl mx-auto shadow-2xl rounded-2xl border-primary/10">
+            <CardContent className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    {idlEducationFeatures.map((feature, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                            <div className="bg-primary/10 p-3 rounded-full mt-1">
+                                {feature.icon}
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-foreground mb-1">{feature.title}</h3>
+                                <p className="text-sm text-muted-foreground">{feature.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
       </div>
     </section>
   );
