@@ -19,7 +19,7 @@ const features = [
   },
   {
     title: "Personal Mentorship",
-    description: "Our unique two-teacher model ensures instant doubt clarification and personalized attention.",
+    description: "Our unique two-teacher model ensures instant doubt clarification.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
     icon: (
@@ -30,7 +30,7 @@ const features = [
   },
   {
     title: "All-in-One Learning App",
-    description: "Learn anytime, anywhere with our vast library of study materials, tests, and notes.",
+    description: "Learn anytime, anywhere with our vast library of study materials.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
     icon: (
@@ -41,7 +41,7 @@ const features = [
   },
   {
     title: "100+ Expert Faculty",
-    description: "Learn from highly qualified and experienced educators from top institutions who are dedicated to nurturing your potential.",
+    description: "Learn from experienced educators dedicated to your success.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
     icon: (
