@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -55,9 +54,9 @@ const indianStates = [
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email." }),
-  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
+  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   country: z.string().optional(),
+  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
@@ -67,6 +66,7 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email." }),
+    mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
 
@@ -82,8 +82,8 @@ export default function ContactPage() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
       country: 'India',
+      phone: '',
       state: '',
       message: '',
     },
@@ -94,6 +94,7 @@ export default function ContactPage() {
     defaultValues: {
       studentName: '',
       email: '',
+      mobile: '',
       problem: '',
     },
   });
@@ -131,6 +132,7 @@ export default function ContactPage() {
   
   const contactDetails = [
     { icon: Phone, label: "For Admission Enquiry", value: "+91 7011117585", href: "tel:+917011117585" },
+    { icon: Phone, label: "Landline", value: "011 45035713", href: "tel:01145035713" },
     { icon: Headset, label: "For Enrolled Students", value: "011 45035713", href: "tel:01145035713" },
     { icon: Mail, label: "Email Address", value: "info@idleducation.in", href: "mailto:info@idleducation.in" },
   ];
