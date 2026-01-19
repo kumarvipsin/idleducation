@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -16,14 +17,14 @@ const goals = [
     href: "/category/iit-jee",
   },
   {
-    name: "CBSE",
-    icon: <Image src="/shuttle.png" alt="School Prep" width={64} height={64} />,
-    href: "/school",
-  },
-  {
     name: "Govt. Exams",
     icon: <Image src="/others.png" alt="Government Exams" width={64} height={64} />,
     href: "/examcat",
+  },
+  {
+    name: "CBSE",
+    icon: <Image src="/shuttle.png" alt="School Prep" width={64} height={64} />,
+    href: "/school",
   },
 ];
 
