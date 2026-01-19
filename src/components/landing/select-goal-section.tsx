@@ -16,7 +16,7 @@ const goals = [
     href: "/category/iit-jee",
   },
   {
-    name: "6-10th",
+    name: "CBSE",
     icon: <Image src="/shuttle.png" alt="School Prep" width={64} height={64} />,
     href: "/school",
   },
