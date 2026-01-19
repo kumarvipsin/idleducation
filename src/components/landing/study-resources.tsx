@@ -28,7 +28,7 @@ const resources = [
     title: "NCERT Solutions",
     description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
     href: "/resources/ncert-solutions",
-    imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
+    imageUrl: "/notes.png",
     imageHint: "textbooks pile",
   },
   {
