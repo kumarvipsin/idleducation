@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -74,7 +73,7 @@ export function BlogSection() {
     <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h1 className="text-2xl md:text-3xl font-black text-accent">IDL Blogs</h1>
+          <h1 className="text-xl md:text-2xl font-black text-accent">IDL Blogs</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Stay updated with the latest trends and insights in education.
           </p>
@@ -103,7 +102,7 @@ export function BlogSection() {
                         />
                       </div>
                       <CardHeader>
-                        <CardTitle className="text-xl font-bold h-16">{post.title}</CardTitle>
+                        <CardTitle className="text-base font-bold h-16">{post.title}</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <p className="text-sm text-muted-foreground line-clamp-2 h-10">{post.excerpt}</p>
