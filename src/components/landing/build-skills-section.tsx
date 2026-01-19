@@ -90,7 +90,7 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
             <div className="md:col-span-2 flex items-center justify-center gap-2 md:gap-4 lg:gap-6 pt-8 md:pt-0">
               {toppers.map((topper) => (
                 <div key={topper.name} className="flex flex-col items-center text-center space-y-2">
-                  <div className="relative w-24 h-24 md:w-32 md:h-32">
+                  <div className="relative w-14 h-14 md:w-20 md:h-20">
                     <Image src={topper.image} alt={topper.name} data-ai-hint={topper.imageHint} fill className="rounded-full object-cover border-4 border-white/50" />
                   </div>
                   {topper.details.startsWith('99') && <Badge variant="destructive" className="bg-red-600 text-white font-bold text-xs">{topper.details}</Badge>}
