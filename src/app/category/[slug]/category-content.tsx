@@ -3,20 +3,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit } from "lucide-react";
+import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, PlayCircle, Eye } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { useLanguage } from "@/context/language-context";
 import { TeacherCard } from "@/components/landing/teacher-card";
-import { useEffect, useRef, useState } from "react";
-import Autoplay from "embla-carousel-autoplay";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import type { TExamCategory } from "@/app/actions/types";
+import { useState } from "react";
+import type { TExamCategory, VideoLesson, SyllabusItem } from "@/app/actions/types";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getSignedUrlForPdf } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
 
 const resourceLinks = [
   { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
@@ -25,72 +22,48 @@ const resourceLinks = [
   { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
 ];
 
-export function CategoryContent({ data, slug, subCategories, competitiveExams, foundationExams }: { data: any, slug: string, subCategories: string[], competitiveExams: TExamCategory[], foundationExams: TExamCategory[] }) {
-  const { t } = useLanguage();
-  const [activeSubCategory, setActiveSubCategory] = useState(subCategories && subCategories.length > 0 ? subCategories[0] : '');
-  const [animationKey, setAnimationKey] = useState(0);
-  const isMobile = useIsMobile();
-  const router = useRouter();
-  
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
+interface Teacher {
+  id: string;
+  name: string;
+  designation: string;
+  experience: string;
+  photoURL?: string;
+  biography?: string;
+  socialLinks?: {
+      instagram?: string;
+      facebook?: string;
+      twitter?: string;
+  };
+}
 
-  useEffect(() => {
-    setAnimationKey(prev => prev + 1);
-  }, [activeSubCategory]);
+export function CategoryContent({ data, slug, competitiveExams, foundationExams, teachers }: { data: TExamCategory, slug: string, competitiveExams: TExamCategory[], foundationExams: TExamCategory[], teachers: Teacher[] }) {
+  const { toast } = useToast();
+  const [isLoadingPdf, setIsLoadingPdf] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("PDF Viewer");
   
-  const teamMembers = [
-    {
-        name: t('team.member5.name'),
-        designation: t('team.member5.designation'),
-        experience: t('team.member5.experience'),
-        avatar: "/vijay.jpg",
-        avatarHint: "Vijay Verma"
-    },
-    {
-        name: t('team.member2.name'),
-        designation: t('team.member2.designation'),
-        experience: t('team.member2.experience'),
-        avatar: "/manish.jpg",
-        avatarHint: "Manish Sharma"
-    },
-    {
-        name: t('team.member4.name'),
-        designation: t('team.member4.designation'),
-        experience: t('team.member4.experience'),
-        avatar: "/vidhi.jpg",
-        avatarHint: "Vidhi Sharma"
-    },
-    {
-        name: t('team.member3.name'),
-        designation: t('team.member3.designation'),
-        experience: t('team.member3.experience'),
-        avatar: "/chandu.jpg",
-        avatarHint: "CHANDRA PRAKASH"
-    },
-    {
-        name: t('team.member1.name'),
-        designation: t('team.member1.designation'),
-        experience: t('team.member1.experience'),
-        avatar: "/amod.jpg",
-        avatarHint: "Amod Sharma"
-    },
-    {
-        name: t('team.member6.name'),
-        designation: t('team.member6.designation'),
-        experience: t('team.member6.experience'),
-        avatar: "/vikash.jpg",
-        avatarHint: "male teacher"
+  const handleViewPdf = async (pdfUrl: string, title?: string) => {
+    if (!pdfUrl) {
+        toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+        return;
     }
-  ];
+    setIsLoadingPdf(true);
+    setIsPdfDialogOpen(true);
+    if (title) setDialogTitle(title);
+    
+    const result = await getSignedUrlForPdf(pdfUrl);
+    if (result.success && result.url) {
+        setPdfSrc(result.url);
+    } else {
+        toast({ variant: "destructive", title: "Error", description: result.message });
+        setIsPdfDialogOpen(false);
+    }
+    setIsLoadingPdf(false);
+  };
 
-  const competitiveExamSlugs = (competitiveExams || []).map(e => e.href.split('/').pop()?.split('?')[0]);
-  const isCompetitiveExamPage = competitiveExamSlugs.includes(slug);
-
-  const foundationExamSlugs = (foundationExams || []).map(e => e.href.split('/').pop()?.split('?')[0]);
-  const isFoundationExamPage = foundationExamSlugs.includes(slug) || slug === 'iit-jee' || slug === 'neet';
-
+  const isCompetitiveExamPage = competitiveExams.some(e => e.name.toLowerCase().replace(/\s+/g, '-') === slug);
+  const isFoundationExamPage = foundationExams.some(e => e.name.toLowerCase().replace(/\s+/g, '-') === slug);
 
   return (
     <div>
@@ -116,7 +89,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams, f
             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                 {(competitiveExams || []).map((exam) => {
-                  const currentSlug = exam.href.split('/').pop()?.split('?')[0];
+                  const currentSlug = exam.href.split('/').pop()?.split('?')[0]?.replace('category=','');
                   return (
                     <Link href={exam.href} key={exam.name}>
                       <button
@@ -140,7 +113,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams, f
                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                     {(foundationExams || []).map((exam) => {
-                    const currentSlug = exam.href.split('/').pop()?.split('?')[0];
+                    const currentSlug = exam.href.split('/').pop()?.split('?')[0]?.replace('category=','');
                     return (
                         <Link href={exam.href} key={exam.name}>
                         <button
@@ -171,10 +144,110 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams, f
             </div>
             <Card className="shadow-lg">
                 <CardContent className="p-6 space-y-8">
-                    <div>
-                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Exam Pattern & Key Dates</h3>
-                        <p className="text-muted-foreground">Information about the exam pattern, marking scheme, and important dates for {data.name} will be made available here. Stay tuned for updates on registration deadlines, admit card availability, and exam schedules.</p>
-                    </div>
+                    {data.syllabus && data.syllabus.length > 0 && (
+                      <div>
+                        <h3 className="font-bold text-xl mb-2 text-primary border-b pb-2">Syllabus</h3>
+                          <Table>
+                              <TableHeader>
+                                  <TableRow>
+                                      <TableHead className="w-[100px]">S.No.</TableHead>
+                                      <TableHead>Subject</TableHead>
+                                      <TableHead className="text-right">Action</TableHead>
+                                  </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                  {data.syllabus.map((item, index) => (
+                                      <TableRow key={index}>
+                                          <TableCell className="font-medium">{item.sno}</TableCell>
+                                          <TableCell>{item.name}</TableCell>
+                                          <TableCell className="text-right">
+                                              {item.pdfUrl ? (
+                                                  <Button variant="ghost" size="sm" onClick={() => handleViewPdf(item.pdfUrl!, item.name)}>
+                                                      <Eye className="mr-2 h-4 w-4" /> View PDF
+                                                  </Button>
+                                              ) : (
+                                                <span className="text-xs text-muted-foreground">Not Available</span>
+                                              )}
+                                          </TableCell>
+                                      </TableRow>
+                                  ))}
+                              </TableBody>
+                          </Table>
+                      </div>
+                    )}
+                    {teachers && teachers.length > 0 && (
+                      <div>
+                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Our Expert Teachers</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {teachers.map((teacher: any) => (
+                              <TeacherCard 
+                                key={teacher.id} 
+                                name={teacher.name}
+                                designation={teacher.designation}
+                                experience={teacher.experience}
+                                biography={teacher.biography}
+                                avatar={teacher.photoURL}
+                                avatarHint={`${teacher.name} photo`}
+                                socialLinks={teacher.socialLinks}
+                              />
+                            ))}
+                        </div>
+                      </div>
+                    )}
+                     {data.videoLessons && data.videoLessons.length > 0 && (
+                      <div>
+                        <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Free Video Lessons</h3>
+                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                           {data.videoLessons.map((lesson, index) => {
+                              const videoId = lesson.youtubeLink.split('v=')[1]?.split('&')[0];
+                              return (
+                                  <Dialog key={index}>
+                                      <DialogTrigger asChild>
+                                          <div className="block cursor-pointer">
+                                              <Card className="group overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                                  <CardContent className="p-0">
+                                                      <div className="relative aspect-video">
+                                                          <Image
+                                                              src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                                                              alt={`${lesson.subject} video lesson`}
+                                                              data-ai-hint={`${lesson.subject} lesson poster`}
+                                                              fill
+                                                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                          />
+                                                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
+                                                              <div className="absolute inset-0 flex items-center justify-center">
+                                                                  <button className="bg-white/80 backdrop-blur-sm rounded-full h-12 w-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                                      <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                                  </button>
+                                                              </div>
+                                                              <h3 className="text-white text-lg font-bold">{lesson.subject}</h3>
+                                                              <p className="text-xs text-white/80 mt-1">By {lesson.teacher}</p>
+                                                          </div>
+                                                      </div>
+                                                  </CardContent>
+                                              </Card>
+                                          </div>
+                                      </DialogTrigger>
+                                      <DialogContent className="max-w-3xl p-0">
+                                          <DialogHeader className="p-4">
+                                              <DialogTitle>{lesson.subject} by {lesson.teacher}</DialogTitle>
+                                          </DialogHeader>
+                                          <div className="aspect-video">
+                                              <iframe
+                                                  className="w-full h-full"
+                                                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                                                  title={`YouTube video player for ${lesson.subject}`}
+                                                  frameBorder="0"
+                                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                  allowFullScreen
+                                              ></iframe>
+                                          </div>
+                                      </DialogContent>
+                                  </Dialog>
+                          )})}
+                        </div>
+                      </div>
+                    )}
                     <div>
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -192,8 +265,14 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams, f
             </Card>
             </div>
         </section>
-
       </div>
+      <PdfViewerDialog
+        isOpen={isPdfDialogOpen}
+        onOpenChange={setIsPdfDialogOpen}
+        pdfSrc={pdfSrc}
+        isLoading={isLoadingPdf}
+        title={dialogTitle}
+      />
   </div>
   );
 }
