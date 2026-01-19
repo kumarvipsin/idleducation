@@ -369,7 +369,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-14",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-20",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -457,8 +457,8 @@ export function Header() {
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                                        <div className="grid grid-cols-1 gap-1 p-2">
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-1 gap-1">
                                             {navLinks.map(({ href, label, icon, description, target }) => (
                                                 <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
@@ -477,8 +477,8 @@ export function Header() {
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                                        <div className="grid grid-cols-1 gap-1 p-2">
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-1 gap-1">
                                             {applyForLinks.map(({ href, label, icon, description }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
@@ -516,7 +516,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-20 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
