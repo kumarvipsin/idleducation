@@ -76,11 +76,8 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
   return (
     <div>
       {isNeetPage ? (
-        <section className="bg-[#F0F8FF] dark:bg-gray-900 py-12">
-            <div className="bg-green-600 text-white text-center py-2 text-sm font-semibold">
-                <p>10% OFF ENDS 20TH JAN ✨ Win up to 90% scholarship via ASAT (Online) &gt;</p>
-            </div>
-            <div className="container mx-auto px-4 md:px-6 mt-12">
+        <section className="bg-[#F0F8FF] dark:bg-gray-900 pt-12">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-8">
                         <h1 className="text-4xl font-bold text-gray-800 dark:text-white">Online Coaching for <span className="text-blue-600">NEET</span></h1>
@@ -109,7 +106,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                                 {neetTopperSlides.map((slide, index) => (
                                     <CarouselItem key={index}>
                                         <Card className="overflow-hidden rounded-2xl shadow-2xl">
-                                            <div className="relative aspect-[16/6] w-full">
+                                            <div className="relative aspect-[16/9] w-full">
                                                 <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                                 <div className="absolute bottom-4 left-4 text-white">
@@ -290,5 +287,3 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     </div>
   );
 }
-
-    
