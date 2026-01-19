@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,28 +11,44 @@ const features = [
     description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
     imageUrl: "https://www.webelight.com/_next/static/media/e-learning_hero.fa5a4e2c.webp",
     imageHint: "online learning illustration",
-    icon: <Lightbulb className="w-6 h-6 text-primary" />,
+    icon: (
+      <div className="bg-primary/10 p-3 rounded-full">
+        <Lightbulb className="w-6 h-6 text-primary" />
+      </div>
+    ),
   },
   {
     title: "Personal Mentorship",
     description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
-    icon: <UserCheck className="w-6 h-6 text-primary" />,
+    icon: (
+      <div className="bg-primary/10 p-3 rounded-full">
+        <UserCheck className="w-6 h-6 text-primary" />
+      </div>
+    ),
   },
   {
     title: "All-in-One Learning App",
     description: "Access a vast library of study materials, tests, and notes to learn at your own pace, anytime, anywhere.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
-    icon: <Smartphone className="w-6 h-6 text-primary" />,
+    icon: (
+      <div className="bg-primary/10 p-3 rounded-full">
+        <Smartphone className="w-6 h-6 text-primary" />
+      </div>
+    ),
   },
   {
     title: "100+ Expert Faculty",
     description: "Learn from highly qualified and experienced educators from top institutions who are dedicated to nurturing your potential.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
-    icon: <GraduationCap className="w-6 h-6 text-primary" />,
+    icon: (
+      <div className="bg-primary/10 p-3 rounded-full">
+        <GraduationCap className="w-6 h-6 text-primary" />
+      </div>
+    ),
   },
 ];
 
@@ -49,7 +66,7 @@ export function OurFeatures() {
           {features.map((feature, index) => (
             <Card key={index} className="bg-background/80 dark:bg-card rounded-2xl shadow-lg overflow-hidden border-primary/10">
               <CardContent className="p-8 space-y-4 text-center">
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center justify-center gap-4">
                   {feature.icon}
                   <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
                 </div>
