@@ -21,8 +21,8 @@ const goals = [
     href: "/school",
   },
   {
-    name: "Explore",
-    icon: <Image src="/others.png" alt="Explore other programs" width={64} height={64} />,
+    name: "Govt. Exams",
+    icon: <Image src="/others.png" alt="Government Exams" width={64} height={64} />,
     href: "/examcat",
   },
 ];
