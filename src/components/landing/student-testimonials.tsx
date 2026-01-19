@@ -145,9 +145,9 @@ export function StudentTestimonials() {
                   ]}
                   className="w-full"
               >
-                  <CarouselContent>
+                  <CarouselContent className="-ml-6">
                       {testimonials.map((testimonial, index) => (
-                          <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                          <CarouselItem key={index} className="pl-6 sm:basis-1/2 lg:basis-1/3">
                               <div className="p-1 h-full">
                                   <TestimonialCard testimonial={testimonial} />
                               </div>
