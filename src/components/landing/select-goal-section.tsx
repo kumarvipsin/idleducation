@@ -47,7 +47,7 @@ const goals = [
 
 export function SelectGoalSection() {
     return (
-        <section className="w-full pb-12 md:pb-24 -mt-16 relative z-20">
+        <section className="w-full pb-12 md:pb-24 relative z-20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="bg-white dark:bg-card p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
