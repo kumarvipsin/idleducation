@@ -123,7 +123,7 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
   );
 
   return (
-    <section className="w-full bg-[#f8f9fa] dark:bg-black py-2">
+    <section className="w-full bg-white dark:bg-black py-2">
       <div className="container mx-auto px-4 md:px-6">
         <Carousel 
           setApi={setApi}
@@ -189,7 +189,7 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
                     <div className="md:col-span-2 flex items-center justify-center gap-2 md:gap-4 lg:gap-6 pt-8 md:pt-0">
                       {slide.toppers.map((topper) => (
                         <div key={topper.name} className="flex flex-col items-center text-center space-y-2">
-                          <div className="relative w-[38px] h-[38px] md:w-[50px] md:h-[50px]">
+                          <div className="relative w-[30px] h-[30px] md:w-[30px] md:h-[30px]">
                             <Image src={topper.image} alt={topper.name} data-ai-hint={topper.imageHint} fill className="rounded-full object-cover border-4 border-white/50" />
                           </div>
                           {topper.details.startsWith('99') && <Badge variant="destructive" className="bg-red-600 text-white font-bold text-xs">{topper.details}</Badge>}
