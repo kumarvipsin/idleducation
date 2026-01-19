@@ -124,7 +124,7 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
-                <Card className="bg-white dark:bg-card hover:bg-muted transition-colors cursor-pointer border">
+                <Card className="bg-blue-50 dark:bg-blue-900/20 transition-colors cursor-pointer">
                     <div className="flex items-center gap-4 p-6">
                     <div className="bg-primary/10 text-primary p-3 rounded-full">
                         <Headset className="w-6 h-6" />
@@ -210,7 +210,7 @@ export function GetAppSection() {
 
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-white dark:bg-card hover:bg-muted transition-colors cursor-pointer border">
+              <Card className="bg-blue-50 dark:bg-blue-900/20 transition-colors cursor-pointer">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <MessageCircle className="w-6 h-6" />
@@ -319,7 +319,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 p-4 md:p-6 text-white border">
+        <div className="rounded-2xl bg-blue-50 dark:bg-blue-900/20 p-4 md:p-6 text-foreground">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden">
                 <Image
@@ -327,7 +327,7 @@ export function GetAppSection() {
                     alt="IDL Education App Features"
                     data-ai-hint="education brochure mobile"
                     fill
-                    className="object-contain transform scale-x-125"
+                    className="object-contain"
                 />
             </div>
             
@@ -335,17 +335,17 @@ export function GetAppSection() {
               <h2 className="text-2xl font-bold">
                 IDL Learning App - Learn Smart
               </h2>
-              <ul className="space-y-3 text-left">
+              <ul className="space-y-3 text-left text-muted-foreground">
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-green-500" />
                   <span>Access <strong>free</strong> videos worth ₹5000</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-green-500" />
                   <span>Explore core concept videos</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <CheckCircle className="w-5 h-5 text-green-500" />
                   <span>Clear all your doubts</span>
                 </li>
               </ul>
