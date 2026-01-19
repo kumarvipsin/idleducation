@@ -1,26 +1,7 @@
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, BookUp, FileStack, Users, CheckCircle, Zap, XCircle } from "lucide-react";
-
-const otherInstituteFeatures = [
-  {
-    title: "Outdated Teaching",
-    description: "Traditional methods that fail to adapt to changing exam patterns and student needs.",
-  },
-  {
-    title: "Minimal Attention",
-    description: "Large batches where students struggle to get personal guidance or doubt support.",
-  },
-  {
-    title: "Unclear Process",
-    description: "Confusing fee structures and no clear roadmap for learning or improvement.",
-  },
-  {
-    title: "Limited Resources",
-    description: "Access to only basic study materials, with few practice opportunities.",
-  },
-];
+import { CheckCircle } from "lucide-react";
 
 const idlEducationFeatures = [
   {
@@ -46,32 +27,13 @@ export function OurFeatures() {
     <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-accent">Why IDL is Different</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-sky-500">Why IDL is Different</h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             See how our approach to learning sets us apart from traditional institutes.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="rounded-2xl shadow-lg border-destructive/20 bg-destructive/5 dark:bg-destructive/10">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-destructive mb-6">Other Institutes</h3>
-              <ul className="space-y-6">
-                {otherInstituteFeatures.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-4">
-                    <div className="bg-destructive/10 text-destructive p-2 rounded-full mt-1">
-                      <XCircle className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground">{feature.title}</h4>
-                      <p className="text-sm text-muted-foreground">{feature.description}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          
+        <div className="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
           <Card className="rounded-2xl shadow-lg border-primary/20 bg-primary/5 dark:bg-primary/10">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-primary mb-6">IDL EDUCATION</h3>
