@@ -33,7 +33,7 @@ const toppers = [
 
 export function BuildSkillsSection({ slides }: { slides: any[] }) {
   return (
-    <section className="w-full py-8 md:py-12 bg-[#f8f9fa] dark:bg-black">
+    <section className="w-full bg-[#f8f9fa] dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
         <div className="bg-[#211612] text-white rounded-2xl p-6 md:p-10" style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgba(255,255,255,0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")` }}>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 w-full relative z-10">
