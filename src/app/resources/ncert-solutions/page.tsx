@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from 'next/image';
+import Image from "next/image";
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -115,8 +115,8 @@ function NcertSolutionsPageContent() {
   return (
     <div className="py-12">
         <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">NCERT Solutions for {selectedClass === 'All Ncert' ? 'All Classes' : selectedClass}</h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mb-2">NCERT Solutions for {selectedClass}</h1>
+            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Explore our detailed, step-by-step solutions for your NCERT textbooks.
             </p>
         </div>
