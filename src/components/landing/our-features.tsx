@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -66,7 +65,7 @@ export function OurFeatures() {
           {features.map((feature, index) => (
             <Card key={index} className="bg-background/80 dark:bg-card rounded-2xl shadow-lg overflow-hidden border-primary/10">
               <CardContent className="p-8 space-y-4 text-center">
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex flex-col items-center gap-4">
                   {feature.icon}
                   <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
                 </div>
