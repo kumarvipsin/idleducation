@@ -18,7 +18,7 @@ const features = [
   },
   {
     title: "Personal Mentorship",
-    description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
+    description: "Our unique two-teacher model ensures instant doubt clarification and personalized attention.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
     icon: (
