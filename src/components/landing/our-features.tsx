@@ -6,26 +6,26 @@ import Image from "next/image";
 
 const features = [
   {
-    title: "Smarter Learning With Smart Tech",
-    description: "Immersive AV modules and QR-powered videos that make tough concepts easy.",
+    title: "Interactive and Engaging Classes",
+    description: "Our teaching methodology is designed to make learning enjoyable and effective, utilizing modern teaching aids and real-world examples.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20356.svg",
     imageHint: "online learning illustration",
   },
   {
-    title: "Next-Gen Hybrid Classrooms",
-    description: "Dynamic smart classrooms blending offline and online for a richer experience.",
+    title: "Unique Two-Teacher Model",
+    description: "Ensuring your doubts are cleared instantly with one teacher leading the class and a second dedicated to doubt-solving.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
     imageHint: "hybrid classroom illustration",
   },
   {
-    title: "Personalized Mentorship",
-    description: "One-on-one guidance and doubt-solving sessions to cater to individual student needs.",
+    title: "All-in-One Learning App",
+    description: "Access a vast library of study materials, tests, and notes to learn at your own pace, anytime, anywhere.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
   },
   {
-    title: "Comprehensive Study Material",
-    description: "Access to a vast library of notes, practice questions, and mock tests.",
+    title: "100+ Expert Faculty",
+    description: "Learn from highly qualified and experienced educators from top institutions who are dedicated to nurturing your potential.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
     imageHint: "books resources illustration",
   },
