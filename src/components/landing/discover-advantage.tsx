@@ -1,7 +1,8 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,15 +27,8 @@ export function DiscoverAdvantage() {
                 </Link>
               </Button>
             </div>
-            <div className="h-32 md:h-40 flex items-end justify-center">
-              <Image
-                src="/idladv.png"
-                alt="IDL Advantage"
-                data-ai-hint="education advantage"
-                width={800}
-                height={600}
-                className="object-contain max-h-full w-auto"
-              />
+            <div className="h-32 md:h-40 flex items-center justify-center">
+              <Zap className="h-24 w-24 text-primary opacity-20" />
             </div>
           </div>
         </div>
