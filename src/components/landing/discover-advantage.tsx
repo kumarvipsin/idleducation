@@ -12,7 +12,7 @@ export function DiscoverAdvantage() {
         <div className="bg-blue-50 dark:bg-blue-900/20 border rounded-2xl p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-primary">
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-primary">
                 Discover the IDL Advantage
               </h2>
               <p className="text-muted-foreground">
