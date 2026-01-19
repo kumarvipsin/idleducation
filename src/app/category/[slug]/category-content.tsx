@@ -102,29 +102,6 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                             <Button className="rounded-full bg-blue-600 hover:bg-blue-700">Talk to us</Button>
                         </div>
                     </div>
-                    <div>
-                        <Carousel
-                            plugins={[ Autoplay({ delay: 3000, stopOnInteraction: true }) ]}
-                            className="w-full max-w-lg mx-auto"
-                            opts={{ loop: true }}
-                        >
-                            <CarouselContent>
-                                {neetTopperSlides.map((slide, index) => (
-                                    <CarouselItem key={index}>
-                                        <Card className="overflow-hidden rounded-2xl shadow-2xl">
-                                            <div className="relative aspect-[16/7] w-full">
-                                                <Image src={slide.imageUrl} alt={slide.alt} fill className="object-cover" data-ai-hint="student headshot"/>
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                                <div className="absolute bottom-4 left-4 text-white">
-                                                    <h3 className="text-xl font-bold">{slide.title}</h3>
-                                                </div>
-                                            </div>
-                                        </Card>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                        </Carousel>
-                    </div>
                 </div>
             </div>
         </section>
