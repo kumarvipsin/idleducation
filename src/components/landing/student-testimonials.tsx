@@ -43,7 +43,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-bold text-xl">{testimonial.name}</h3>
+              <h3 className="font-bold text-lg">{testimonial.name}</h3>
               <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
               <div className="relative h-20">
                   <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
@@ -115,7 +115,7 @@ export function StudentTestimonials() {
   }, []);
 
   return (
-    <section id="testimonials" className="w-full py-12 md:py-24 bg-white dark:bg-background">
+    <section id="testimonials" className="w-full py-8 md:py-16 bg-white dark:bg-background">
       <div className="text-center mb-12 px-4 md:px-6">
         <h2 className="text-xl md:text-2xl font-black text-accent">IDL Stars</h2>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -148,7 +148,7 @@ export function StudentTestimonials() {
                   <CarouselContent>
                       {testimonials.map((testimonial, index) => (
                           <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
-                              <div className="p-1">
+                              <div className="p-1 h-full">
                                   <TestimonialCard testimonial={testimonial} />
                               </div>
                           </CarouselItem>
