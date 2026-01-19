@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -56,7 +57,7 @@ export function AcademicExcellence() {
     >
       <div className="w-full">
         <div className="text-center mb-12 px-4">
-          <h2 className="text-3xl md:text-4xl font-black text-accent">Excellence Results</h2>
+          <h2 className="text-2xl md:text-3xl font-black text-accent">Excellence Results</h2>
           <p className="text-muted-foreground mt-2 max-w-3xl mx-auto">
             Our students' success stories are a testament to our commitment to excellence.
           </p>
