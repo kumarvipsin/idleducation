@@ -39,6 +39,7 @@ export function OurFeatures() {
 
         <Card className="max-w-4xl mx-auto shadow-2xl rounded-2xl border-primary/10">
             <CardContent className="p-8">
+                <h3 className="text-2xl font-bold text-primary mb-6 text-center">Why think IDL?</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     {idlEducationFeatures.map((feature, index) => (
                         <div key={index} className="flex items-start gap-4">
