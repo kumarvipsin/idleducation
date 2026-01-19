@@ -15,7 +15,7 @@ const features = [
   {
     title: "Personal Mentorship",
     description: "Our unique two-teacher model ensures instant doubt clarification.",
-    imageUrl: "https://www.pw.live/version14/assets/img/group-20355.svg",
+    imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "hybrid classroom illustration",
   },
   {
@@ -27,7 +27,7 @@ const features = [
   {
     title: "100+ Expert Faculty",
     description: "Learn from experienced educators dedicated to your success.",
-    imageUrl: "https://www.pw.live/version14/assets/img/group-20357.svg",
+    imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "books resources illustration",
   },
 ];
