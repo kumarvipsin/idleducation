@@ -66,7 +66,6 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
             <CarouselItem key={slide.id || index} className="h-full">
               <div className="relative w-full h-full flex flex-col items-center justify-center">
                  <Image src="/banner.jpg" alt={slide.alt || "IDL Education Banner"} fill className="object-cover" />
-                 <div className="absolute inset-0 bg-black/40 z-10"></div>
                  <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-4">
                      <div className="text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
                         {slide.description && <p className="mt-2 text-sm md:text-lg max-w-2xl drop-shadow-md">{slide.description}</p>}
