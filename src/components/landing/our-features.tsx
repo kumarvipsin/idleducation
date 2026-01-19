@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,7 +30,7 @@ const features = [
   },
   {
     title: "All-in-One Learning App",
-    description: "Access a vast library of study materials, tests, and notes to learn at your own pace, anytime, anywhere.",
+    description: "Learn anytime, anywhere with our vast library of study materials, tests, and notes.",
     imageUrl: "https://www.pw.live/version14/assets/img/group-20358.svg",
     imageHint: "mentor student illustration",
     icon: (
