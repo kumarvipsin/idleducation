@@ -1,46 +1,113 @@
-import { IndiaMap } from "@/components/india-map";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
+'use client';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ArrowRight, Building, Sparkles } from "lucide-react";
+import Image from "next/image";
+import Link from 'next/link';
+import { Badge } from "@/components/ui/badge";
 
-const branches = [
-    { name: "Local Head Office, Krishan Vihar", address: "E-18 Krishan Vihar, Main Kanjhawala Road Delhi-110086" },
-    { name: "Mukherjee Nagar", address: "Delhi-110009" },
-    { name: "Mangol Puri", address: "Delhi-110083" },
-    { name: "Budh Vihar", address: "Delhi-110086" },
-    { name: "Burari", address: "Delhi-110084" },
+const toppers = [
+    { name: "Prakhar Singh", percentile: "99.98", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/dhrumil-chauhan.png" },
+    { name: "Tanmay Gupta", percentile: "99.95", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/ipsit-mittal.png" },
+    { name: "Vedant Saxena", percentile: "99.94", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/aditya-neeraje.png" },
+    { name: "Ketan S nagda", percentile: "99.94", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-4.png" },
 ];
+
+const cities = [
+    "Lucknow", "Patna", "Muzaffarpur", "Patiala", "Nagpur", "Indore", "Adilabad", "Buldana",
+    "Ahmedabad", "Bengaluru", "Bhopal", "Chennai", "Coimbatore", "Delhi", "Hyderabad", "Jaipur",
+    "Kolkata", "Mumbai", "Pune", "Surat", "Visakhapatnam", "Guwahati", "Ranchi", "Bhubaneswar",
+];
+
 
 export default function OfflineCentersPage() {
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl md:text-5xl font-bold text-primary">Our Offline Centers</h1>
-                <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
-                    Find an IDL EDUCATION center near you. We are ready to welcome you for an exceptional offline learning experience.
-                </p>
-            </div>
+        <div className="bg-white dark:bg-background">
+            <div className="bg-orange-500 text-white rounded-b-3xl">
+                <div className="container mx-auto px-4 md:px-6 py-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-6">
+                             <div className="flex items-center gap-2">
+                                <Sparkles className="w-8 h-8 text-yellow-300" />
+                                <h1 className="text-3xl md:text-5xl font-bold">
+                                    IDL Learning Centres <br/> Now in <span className="underline decoration-yellow-300 decoration-4">Your City</span>
+                                </h1>
+                            </div>
+                            <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
+                                <p className="skew-x-12">Offline Courses for JEE | NEET | 8-10 Foundation</p>
+                            </div>
+                            <div className="flex gap-4">
+                                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
+                                    Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
+                                </Button>
+                                <Button variant="outline" className="bg-white text-orange-500 hover:bg-orange-50 border-orange-500 rounded-lg">
+                                    Download brochure
+                                </Button>
+                            </div>
+                        </div>
 
-            <Card className="shadow-lg overflow-hidden">
-                <CardContent className="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                    <div className="lg:col-span-2 relative w-full aspect-square lg:aspect-auto lg:h-full min-h-[400px]">
-                        <IndiaMap />
-                    </div>
-                    <div className="lg:col-span-1">
-                        <h2 className="text-2xl font-bold mb-4 text-primary border-b pb-2">Our Branches in Delhi</h2>
-                        <div className="space-y-4">
-                            {branches.map((branch, index) => (
-                                <div key={index} className="flex items-start gap-3">
-                                    <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h3 className="font-semibold">{branch.name}</h3>
-                                        <p className="text-sm text-muted-foreground">{branch.address}</p>
-                                    </div>
+                        <div className="relative">
+                            <Card className="bg-slate-900 border-none p-6 rounded-2xl shadow-2xl">
+                                <p className="text-sm text-center text-gray-300">Historic First-Year Results from</p>
+                                <h3 className="text-lg font-bold text-center text-white mb-4">Our Offline Centres in JEE Main 2025 Session 1</h3>
+                                
+                                <div className="grid grid-cols-3 gap-4 text-center mb-4">
+                                    <div><p className="text-3xl font-extrabold text-white">9</p><p className="text-xs text-orange-400">99.9%ile</p></div>
+                                    <div><p className="text-3xl font-extrabold text-white">75+</p><p className="text-xs text-orange-400">99%ile</p></div>
+                                    <div><p className="text-3xl font-extrabold text-white">600+</p><p className="text-xs text-orange-400">90%ile</p></div>
                                 </div>
-                            ))}
+                                
+                                <div className="flex justify-center gap-2 mb-4">
+                                    {toppers.map(topper => (
+                                        <div key={topper.name} className="flex flex-col items-center">
+                                            <Avatar className="w-14 h-14 border-2 border-orange-400">
+                                                <AvatarImage src={topper.image} />
+                                                <AvatarFallback>{topper.name.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <Badge className="bg-orange-500 text-white text-[0.6rem] -mt-2 z-10">{topper.percentile}</Badge>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="text-center">
+                                    <p className="font-semibold text-white">Be the Next Topper</p>
+                                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg mt-2">Enrol Now</Button>
+                                </div>
+                            </Card>
+                             <div className="absolute -right-16 -bottom-10 hidden lg:block">
+                                <Image src="https://www.pw.live/version14/assets/img/alakh-pandey-sir-photo.png" alt="Daksh Tayalia" width={200} height={300} className="object-contain" />
+                                <div className="bg-white text-black p-1 px-2 rounded-md shadow-lg absolute bottom-12 right-12 text-center">
+                                    <p className="font-extrabold text-2xl text-orange-500">99.99</p>
+                                    <p className="text-xs font-semibold">Percentile</p>
+                                    <p className="text-sm font-bold">Daksh Tayalia</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </CardContent>
-            </Card>
+                     <div className="flex justify-center gap-2 mt-6">
+                        <div className="w-3 h-3 bg-white/50 rounded-full"></div>
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
+                        <div className="w-3 h-3 bg-white/50 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 md:px-6 py-12">
+                <div className="text-center mb-8">
+                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-orange-500 underline decoration-yellow-300 decoration-4">37 Cities</span></h2>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {cities.map(city => (
+                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-orange-500 transition-all cursor-pointer">
+                            <div className="bg-orange-100 p-2 rounded-lg">
+                                <Building className="w-6 h-6 text-orange-500" />
+                            </div>
+                            <p className="font-semibold">{city}</p>
+                        </Card>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
