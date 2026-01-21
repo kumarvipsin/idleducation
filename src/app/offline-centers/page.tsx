@@ -200,17 +200,17 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 h-auto md:h-auto">
+                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-500" />
                                 <h1 className="text-3xl md:text-5xl font-bold text-foreground">
-                                    IDL Learning Centres Now in Delhi
+                                    IDL Learning Centres
                                 </h1>
                             </div>
-                            <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
-                                <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
+                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
+                                <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
@@ -221,7 +221,7 @@ export default function OfflineCentersPage() {
 
                         <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
                              <Image
-                                src="https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.1.0&q=80&w=1080"
+                                src="https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080"
                                 alt="IDL Offline Center"
                                 data-ai-hint="classroom students"
                                 fill
