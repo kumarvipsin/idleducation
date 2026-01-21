@@ -1,19 +1,11 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Building, Sparkles } from "lucide-react";
+import { ArrowRight, Building, Sparkles, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
-
-const toppers = [
-    { name: "Prakhar Singh", percentile: "99.98", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/dhrumil-chauhan.png" },
-    { name: "Tanmay Gupta", percentile: "99.95", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/ipsit-mittal.png" },
-    { name: "Vedant Saxena", percentile: "99.94", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/aditya-neeraje.png" },
-    { name: "Ketan S nagda", percentile: "99.94", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-4.png" },
-];
 
 const cities = [
     "Mukherjee Nagar",
@@ -22,12 +14,36 @@ const cities = [
     "Krishan Vihar",
 ];
 
+const centers = [
+    {
+      name: "Mukherjee Nagar, Delhi",
+      address: "Plot No 123, Batra Cinema Complex, Dr Mukherjee Nagar, Delhi - 110009",
+      imageUrl: "https://picsum.photos/seed/center1/400/300",
+      imageHint: "classroom students",
+      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+    },
+    {
+      name: "Mangol Puri, Delhi",
+      address: "Block B, Mangolpuri, New Delhi, Delhi 110083",
+      imageUrl: "https://picsum.photos/seed/center2/400/300",
+      imageHint: "modern classroom",
+      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+    },
+    {
+      name: "Budh Vihar, Delhi",
+      address: "Phase 1, Budh Vihar, New Delhi, Delhi 110086",
+      imageUrl: "https://picsum.photos/seed/center3/400/300",
+      imageHint: "students learning",
+      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+    }
+];
+
 
 export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-600 text-white rounded-2xl p-8">
+                <div className="bg-purple-600 text-white rounded-2xl p-4 scale-95">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
@@ -73,6 +89,37 @@ export default function OfflineCentersPage() {
                                 <Building className="w-6 h-6 text-purple-600" />
                             </div>
                             <p className="font-semibold">{city}</p>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 md:px-6 py-12">
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl md:text-4xl font-bold">Popular <span className="text-purple-600">IDL Learning Centres</span> Near You</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {centers.map((center) => (
+                        <Card key={center.name} className="overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                            <div className="relative h-48 w-full">
+                                <Image
+                                    src={center.imageUrl}
+                                    alt={center.name}
+                                    data-ai-hint={center.imageHint}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <CardContent className="p-6">
+                                <h3 className="text-xl font-bold mb-2">{center.name}</h3>
+                                <div className="flex items-start gap-2 text-muted-foreground mb-4">
+                                    <MapPin className="w-4 h-4 mt-1 shrink-0" />
+                                    <p className="text-sm">{center.address}</p>
+                                </div>
+                                <Button asChild className="w-full bg-orange-500 hover:bg-orange-600">
+                                    <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
+                                </Button>
+                            </CardContent>
                         </Card>
                     ))}
                 </div>
