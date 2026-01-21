@@ -47,13 +47,14 @@ export default function OfflineCentersPage() {
                             </div>
                         </div>
 
-                        <div className="relative">
-                            <Card className="bg-slate-900 border-none p-6 rounded-2xl shadow-2xl">
-                                
-                            </Card>
-                             <div className="absolute -right-16 -bottom-10 hidden lg:block">
-                                <Image src="https://www.pw.live/version14/assets/img/alakh-pandey-sir-photo.png" alt="Daksh Tayalia" width={200} height={300} className="object-contain" />
-                            </div>
+                        <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                            <Image 
+                                src="https://picsum.photos/seed/offline-center/800/600"
+                                alt="IDL Offline Center"
+                                data-ai-hint="classroom students"
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                     </div>
                      <div className="flex justify-center gap-2 mt-6">
