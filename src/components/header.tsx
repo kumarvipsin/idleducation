@@ -212,7 +212,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-9 w-9 rounded-full" />;
+      return <Skeleton className="h-9 w-20 rounded-md" />;
     }
 
     if (user) {
@@ -263,29 +263,11 @@ export function Header() {
     }
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
-                    <UserCircle />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40" align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" />
-                        <span>Login</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/signup">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        <span>Sign Up</span>
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Button asChild size="sm">
+            <Link href="/login">
+                Sign In
+            </Link>
+        </Button>
     );
   };
   
@@ -368,7 +350,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-[3.3rem]",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -388,7 +370,7 @@ export function Header() {
                         </Button>
                     </CollapsibleTrigger>
                     <Link href={logoHref} className="flex items-center justify-center">
-                      <Image src="/logo.png" alt="IDL Education Logo" width={55} height={55} className="h-[3.3rem] w-auto" />
+                      <Image src="/logo.png" alt="IDL Education Logo" width={55} height={55} className="h-12 w-auto" />
                     </Link>
                 </div>
                 
@@ -516,7 +498,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
