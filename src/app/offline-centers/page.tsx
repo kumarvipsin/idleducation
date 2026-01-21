@@ -35,6 +35,13 @@ const centers = [
       imageUrl: "https://picsum.photos/seed/center3/400/300",
       imageHint: "students learning",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+    },
+    {
+      name: "Krishan Vihar, Delhi",
+      address: "Near Krishan Vihar Metro, Delhi 110086",
+      imageUrl: "https://picsum.photos/seed/center4/400/300",
+      imageHint: "library books",
+      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     }
 ];
 
