@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -74,7 +75,13 @@ export function StudyResources() {
     <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-xl md:text-2xl font-black text-accent tracking-tight">Study Resources</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Study{' '}
+            <span className="relative inline-block">
+              <span className="relative z-10">Resources</span>
+              <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+            </span>
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
             Your one-stop destination for comprehensive and effective study materials.
           </p>
