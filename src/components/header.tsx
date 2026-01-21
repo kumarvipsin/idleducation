@@ -364,7 +364,7 @@ export function Header() {
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <div className="flex items-center gap-0">
                     <CollapsibleTrigger asChild className="md:hidden -ml-2">
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                        <Button variant="ghost" size="icon" className="text-foreground h-9 w-9">
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
                         </Button>
@@ -379,17 +379,17 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     Explore
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL Store
                                   </Link>
@@ -406,12 +406,12 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-2">
-                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                    <div className="flex items-center gap-2">
+                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                 <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <div>
+                            <div className="hidden md:block">
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
                                 <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                             </div>
