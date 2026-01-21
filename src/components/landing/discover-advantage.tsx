@@ -20,7 +20,7 @@ export function DiscoverAdvantage() {
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
-              <Button asChild>
+              <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-12 px-8 text-lg font-bold shadow-lg hover:shadow-xl transition-all">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
                   Download Brochure
