@@ -1,6 +1,5 @@
 
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
-import { OurFeatures } from '@/components/landing/our-features';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
@@ -13,6 +12,7 @@ import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
 import { BlogSection } from '@/components/landing/blog-section';
 import { SelectGoalSection } from '@/components/landing/select-goal-section';
+import { BookDemoSection } from '@/components/landing/book-demo-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +25,7 @@ export default async function Home() {
       <BuildSkillsSection />
       <TrustedPlatform />
       <SelectGoalSection />
-      <OurFeatures />
+      <BookDemoSection />
       <AcademicExcellence />
       <ScholarshipSection />
       <StudentTestimonials />
