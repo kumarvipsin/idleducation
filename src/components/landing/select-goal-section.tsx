@@ -1,9 +1,8 @@
-
 'use client';
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users, GraduationCap } from "lucide-react";
+import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark } from "lucide-react";
 
 const goals = [
   {
@@ -55,6 +54,12 @@ const goals = [
     href: "/new-work",
     color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
   },
+  {
+    name: "GOVT. EXAMS",
+    icon: <Landmark className="w-8 h-8" />,
+    href: "/examcat?category=govt-job-exams",
+    color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
+  },
 ];
 
 export function SelectGoalSection() {
@@ -67,7 +72,7 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                         {goals.map((goal) => (
                             <Link key={goal.name} href={goal.href} className="group">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
