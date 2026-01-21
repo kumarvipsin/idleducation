@@ -94,7 +94,7 @@ export default function OfflineCentersPage() {
                                 <CarouselItem key={index}>
                                     <Card className="bg-orange-500 text-white p-6 rounded-2xl shadow-2xl">
                                         <h3 className="text-center text-xl font-bold mb-4">{slide.title}</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
                                             {slide.students.map(student => (
                                                 <div key={student.name} className="flex flex-col items-center">
                                                     <Image src={student.image} alt={student.name} width={100} height={100} className="rounded-full border-4 border-white" />
@@ -125,7 +125,7 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-200 rounded-2xl p-4 scale-95">
+                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 scale-95">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
