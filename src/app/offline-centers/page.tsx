@@ -120,9 +120,6 @@ const FixedBottomBar = () => {
                 <p className="text-lg text-center sm:text-left text-foreground">
                     Reach out to us : <a href="tel:08860040010" className="font-bold underline hover:text-primary">08860040010</a>
                 </p>
-                <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
-                    <Link href="/book-demo">Book a Visit</Link>
-                </Button>
             </div>
         </section>
     )
@@ -203,7 +200,7 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 scale-95 h-auto md:h-auto">
+                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 h-auto md:h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
@@ -216,11 +213,8 @@ export default function OfflineCentersPage() {
                                 <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg font-bold shadow-lg hover:shadow-xl transition-all">
+                                <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
                                     <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                                </Button>
-                                <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg font-bold shadow-lg hover:shadow-xl transition-all">
-                                    <Link href="/brochure.pdf" target="_blank">Download brochure</Link>
                                 </Button>
                             </div>
                         </div>
