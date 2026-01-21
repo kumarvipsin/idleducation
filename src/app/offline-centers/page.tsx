@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,7 +35,7 @@ export default function OfflineCentersPage() {
                                 </h1>
                             </div>
                             <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
-                                <p className="skew-x-12">Offline Courses for JEE | NEET | 8-10 Foundation</p>
+                                <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex gap-4">
                                 <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
