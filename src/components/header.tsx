@@ -213,15 +213,15 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-8 w-8 rounded-full" />;
+      return <Skeleton className="h-9 w-9 rounded-full" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
+             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+              <Avatar className="h-9 w-9">
                  <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
@@ -266,7 +266,7 @@ export function Header() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
                     <UserCircle />
                 </Button>
             </DropdownMenuTrigger>
@@ -332,7 +332,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
                 <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
@@ -369,7 +369,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -383,13 +383,13 @@ export function Header() {
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <div className="flex items-center gap-0">
                     <CollapsibleTrigger asChild className="md:hidden -ml-2">
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
                         </Button>
                     </CollapsibleTrigger>
                     <Link href={logoHref} className="flex items-center justify-center">
-                      <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+                      <Image src="/logo.png" alt="IDL Education Logo" width={44} height={44} className="h-11 w-auto" />
                     </Link>
                 </div>
                 
@@ -427,12 +427,12 @@ export function Header() {
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                                <p className="text-xs text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-sm font-semibold text-foreground leading-tight">70-1111-7585</p>
                             </div>
                         </a>
                     </div>
@@ -441,6 +441,13 @@ export function Header() {
                       {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
+                    
+                    <CollapsibleTrigger asChild className="md:hidden">
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </CollapsibleTrigger>
                 </div>
             </div>
              <CollapsibleContent asChild>
