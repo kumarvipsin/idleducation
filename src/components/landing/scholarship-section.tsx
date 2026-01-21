@@ -59,7 +59,7 @@ export function ScholarshipSection() {
                             </div>
                         </div>
                         <div className="flex items-center justify-center">
-                            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg h-14 px-8 text-lg font-bold shadow-lg transform hover:scale-105 transition-transform">
+                            <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-12 px-8 text-lg font-bold shadow-lg hover:shadow-xl transition-all">
                                 <Link href="/scholarship">Register Now</Link>
                             </Button>
                         </div>
