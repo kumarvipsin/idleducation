@@ -56,7 +56,13 @@ export function AcademicExcellence() {
     >
       <div className="w-full">
         <div className="text-center mb-12 px-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-primary">Excellence Results</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Excellence{' '}
+            <span className="relative inline-block">
+              <span className="relative z-10">Results</span>
+              <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+            </span>
+          </h2>
           <p className="text-muted-foreground mt-2 max-w-3xl mx-auto">
             Our students' success stories are a testament to our commitment to excellence.
           </p>
