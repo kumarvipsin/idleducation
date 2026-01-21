@@ -161,6 +161,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'myexam.allen.in',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

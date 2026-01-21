@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,35 +15,35 @@ const blogPosts = [
     slug: "jee-main-2026-admit-cards",
     title: "JEE Main 2026 Session 1 Admit Cards Released",
     excerpt: "Aspirants can Download the Admit Cards from jeemain.nta.nic.in...",
-    imageUrl: "https://picsum.photos/seed/blog-jee1/800/600",
+    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student exam preparation"
   },
   {
     slug: "know-which-college-forms-to-fill-after-jee-main-2026",
     title: "Know Which College Forms to Fill After JEE Main 2026",
     excerpt: "Here's a Complete Guide About India's Premium Private, Researc...",
-    imageUrl: "https://picsum.photos/seed/blog-jee2/800/600",
+    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student thinking future"
   },
   {
     slug: "shepherds-son-from-rajasthan-to-become-villages-first-doctor",
     title: "A Shepherd's Son from ALLEN Kota to Become Village's First...",
     excerpt: "Gordhanram from Barmer's Beriwala Tala village gets...",
-    imageUrl: "https://picsum.photos/seed/blog-doctor/800/600",
+    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "father son"
   },
   {
     slug: "nta-revises-jee-main-2026-session-1-exam-schedule",
     title: "NTA Revises JEE Main 2026 Session 1 Exam Schedule",
     excerpt: "Check the Revised Exam Dates Here The National Testing Agenc...",
-    imageUrl: "https://picsum.photos/seed/blog-jee3/800/600",
+    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student exam schedule"
   },
   {
     slug: "power-of-personalized-learning",
     title: "The Power of Personalized Learning in Today's Education",
     excerpt: "Discover how tailoring education to individual student needs can unlock potential.",
-    imageUrl: "https://picsum.photos/seed/blog-learning/800/600",
+    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "personalized learning"
   }
 ];
