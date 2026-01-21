@@ -24,41 +24,43 @@ const cities = [
 export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
-            <div className="bg-blue-600 text-white rounded-2xl w-3/4 mx-auto my-8">
-                <div className="container mx-auto px-4 md:px-6 py-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-6">
-                             <div className="flex items-center gap-2">
-                                <Sparkles className="w-8 h-8 text-yellow-300" />
-                                <h1 className="text-3xl md:text-5xl font-bold">
-                                    IDL Learning Centres Now in Delhi
-                                </h1>
+            <section className="py-12 md:py-24">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="bg-blue-600 text-white rounded-2xl p-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                            <div className="space-y-6">
+                                 <div className="flex items-center gap-2">
+                                    <Sparkles className="w-8 h-8 text-yellow-300" />
+                                    <h1 className="text-3xl md:text-5xl font-bold">
+                                        IDL Learning Centres Now in Delhi
+                                    </h1>
+                                </div>
+                                <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
+                                    <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
+                                </div>
+                                <div className="flex gap-4">
+                                    <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
+                                        Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Button>
+                                    <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50 border-blue-600 rounded-lg">
+                                        Download brochure
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
-                                <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
-                            </div>
-                            <div className="flex gap-4">
-                                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
-                                    Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
-                                </Button>
-                                <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50 border-blue-600 rounded-lg">
-                                    Download brochure
-                                </Button>
-                            </div>
-                        </div>
 
-                        <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
-                             <Image
-                                src="https://www.pw.live/version14/assets/img/pathshala/pathshala-top-banner-new.png"
-                                alt="IDL Offline Center"
-                                data-ai-hint="classroom students"
-                                fill
-                                className="object-cover"
-                            />
+                            <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                                 <Image
+                                    src="https://www.pw.live/version14/assets/img/pathshala/pathshala-top-banner-new.png"
+                                    alt="IDL Offline Center"
+                                    data-ai-hint="classroom students"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
