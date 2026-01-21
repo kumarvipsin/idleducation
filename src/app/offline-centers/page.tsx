@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,23 +18,15 @@ const cities = [
     "Mukherjee Nagar",
     "Mangol Puri",
     "Budh Vihar",
-    "Burari",
-    "Sangam Vihar",
-    "Najafgarh",
-    "Uttam Nagar",
-    "Laxmi Nagar",
-    "Rohini",
-    "Dwarka",
-    "Saket",
-    "Janakpuri",
+    "Krishan Vihar",
 ];
 
 
 export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
-            <div className="container mx-auto px-4 md:px-6 py-8">
-                <div className="bg-blue-600 text-white rounded-2xl p-8">
+            <div className="container mx-auto px-4 md:px-6 py-2">
+                <div className="bg-purple-600 text-white rounded-2xl p-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
@@ -51,7 +42,7 @@ export default function OfflineCentersPage() {
                                 <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
                                     Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
-                                <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50 border-blue-600 rounded-lg">
+                                <Button variant="outline" className="bg-white text-purple-600 hover:bg-purple-50 border-purple-600 rounded-lg">
                                     Download brochure
                                 </Button>
                             </div>
@@ -72,13 +63,13 @@ export default function OfflineCentersPage() {
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
-                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-blue-600 underline decoration-yellow-300 decoration-4">Delhi</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-purple-600 underline decoration-yellow-400 decoration-4">Delhi</span></h2>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
-                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-blue-600 transition-all cursor-pointer">
-                            <div className="bg-blue-100 p-2 rounded-lg">
-                                <Building className="w-6 h-6 text-blue-600" />
+                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-purple-600 transition-all cursor-pointer">
+                            <div className="bg-purple-100 p-2 rounded-lg">
+                                <Building className="w-6 h-6 text-purple-600" />
                             </div>
                             <p className="font-semibold">{city}</p>
                         </Card>
