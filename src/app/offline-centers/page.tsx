@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -264,7 +265,7 @@ export default function OfflineCentersPage() {
             <section className="fixed bottom-0 left-0 right-0 z-50 w-full py-3 bg-white dark:bg-gray-800 border-t">
                 <div className="container mx-auto px-4 md:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <p className="text-lg text-center sm:text-left text-foreground">
-                        Reach out to us : <a href="tel:08065196582" className="font-bold underline hover:text-primary">08065196582</a>
+                        Reach out to us : <a href="tel:08860040010" className="font-bold underline hover:text-primary">08860040010</a>
                     </p>
                     <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600">
                         <Link href="/book-demo">Book a Visit</Link>
