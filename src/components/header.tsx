@@ -368,7 +368,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-[3.92rem]",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-[3.3rem]",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -388,7 +388,7 @@ export function Header() {
                         </Button>
                     </CollapsibleTrigger>
                     <Link href={logoHref} className="flex items-center justify-center">
-                      <Image src="/logo.png" alt="IDL Education Logo" width={49} height={49} className="h-12 w-auto" />
+                      <Image src="/logo.png" alt="IDL Education Logo" width={55} height={55} className="h-[3.3rem] w-auto" />
                     </Link>
                 </div>
                 
