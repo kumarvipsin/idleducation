@@ -31,7 +31,7 @@ export default function OfflineCentersPage() {
                              <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-300" />
                                 <h1 className="text-3xl md:text-5xl font-bold">
-                                    IDL Learning Centres <br/> Now in <span className="underline decoration-yellow-300 decoration-4">Delhi</span>
+                                    IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
                             <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
@@ -49,31 +49,7 @@ export default function OfflineCentersPage() {
 
                         <div className="relative">
                             <Card className="bg-slate-900 border-none p-6 rounded-2xl shadow-2xl">
-                                <p className="text-sm text-center text-gray-300">Historic First-Year Results from</p>
-                                <h3 className="text-lg font-bold text-center text-white mb-4">Our Offline Centres in JEE Main 2025 Session 1</h3>
                                 
-                                <div className="grid grid-cols-3 gap-4 text-center mb-4">
-                                    <div><p className="text-3xl font-extrabold text-white">9</p><p className="text-xs text-orange-400">99.9%ile</p></div>
-                                    <div><p className="text-3xl font-extrabold text-white">75+</p><p className="text-xs text-orange-400">99%ile</p></div>
-                                    <div><p className="text-3xl font-extrabold text-white">600+</p><p className="text-xs text-orange-400">90%ile</p></div>
-                                </div>
-                                
-                                <div className="flex justify-center gap-2 mb-4">
-                                    {toppers.map(topper => (
-                                        <div key={topper.name} className="flex flex-col items-center">
-                                            <Avatar className="w-14 h-14 border-2 border-orange-400">
-                                                <AvatarImage src={topper.image} />
-                                                <AvatarFallback>{topper.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            <Badge className="bg-orange-500 text-white text-[0.6rem] -mt-2 z-10">{topper.percentile}</Badge>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="text-center">
-                                    <p className="font-semibold text-white">Be the Next Topper</p>
-                                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg mt-2">Enrol Now</Button>
-                                </div>
                             </Card>
                              <div className="absolute -right-16 -bottom-10 hidden lg:block">
                                 <Image src="https://www.pw.live/version14/assets/img/alakh-pandey-sir-photo.png" alt="Daksh Tayalia" width={200} height={300} className="object-contain" />
