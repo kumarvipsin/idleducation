@@ -48,19 +48,14 @@ export default function OfflineCentersPage() {
                         </div>
 
                         <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
-                            <Image 
-                                src="https://picsum.photos/seed/offline-center/800/600"
+                             <Image
+                                src="https://www.pw.live/version14/assets/img/pathshala/pathshala-top-banner-new.png"
                                 alt="IDL Offline Center"
                                 data-ai-hint="classroom students"
                                 fill
                                 className="object-cover"
                             />
                         </div>
-                    </div>
-                     <div className="flex justify-center gap-2 mt-6">
-                        <div className="w-3 h-3 bg-white/50 rounded-full"></div>
-                        <div className="w-3 h-3 bg-white rounded-full"></div>
-                        <div className="w-3 h-3 bg-white/50 rounded-full"></div>
                     </div>
                 </div>
             </div>
