@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -7,16 +6,10 @@ import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users } from "lucid
 
 const goals = [
   {
-    name: "2-Year JEE",
+    name: "IIT-JEE/NEET",
     icon: <Atom className="w-8 h-8" />,
     href: "/category/iit-jee",
     color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
-  },
-  {
-    name: "2-Year NEET",
-    icon: <Dna className="w-8 h-8" />,
-    href: "/category/neet",
-    color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400",
   },
   {
     name: "Offline Centres",
@@ -55,7 +48,7 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         {goals.map((goal) => (
                             <Link key={goal.name} href={goal.href} className="group">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
