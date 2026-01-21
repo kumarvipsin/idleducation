@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -131,6 +132,29 @@ export default function OfflineCentersPage() {
                     ))}
                 </div>
             </div>
+            <section className="bg-white dark:bg-background py-12">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-4">
+                            <h3 className="text-orange-500 font-bold text-lg">Why IDL?</h3>
+                            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Unlock True Potential Through<br />Highest Personal Attention</h2>
+                            <p className="text-muted-foreground">
+                                At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
+                            </p>
+                        </div>
+                        <div>
+                            <Image
+                                src="https://picsum.photos/seed/why-idl/600/400"
+                                alt="Teacher helping students"
+                                data-ai-hint="teacher students"
+                                width={600}
+                                height={400}
+                                className="rounded-lg shadow-lg"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
