@@ -29,6 +29,11 @@ export default function LoginPage() {
   const { toast } = useToast();
   const { login } = useAuth();
   const [captcha, setCaptcha] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const generateCaptcha = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -40,8 +45,10 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    setCaptcha(generateCaptcha());
-  }, []);
+    if (isClient) {
+      setCaptcha(generateCaptcha());
+    }
+  }, [isClient]);
 
   const refreshCaptcha = () => {
     setCaptcha(generateCaptcha());
@@ -167,7 +174,7 @@ export default function LoginPage() {
                             />
                              <div className="flex items-center gap-2">
                                 <div className="flex-1 bg-muted rounded-md p-2 text-center font-bold text-lg tracking-widest select-none bg-cover" style={{backgroundImage: "url('https://www.publicdomainpictures.net/pictures/20000/nahled/plain-white-background.jpg')"}}>
-                                    {captcha}
+                                    {isClient ? captcha : '...'}
                                 </div>
                                 <Button type="button" variant="ghost" size="icon" onClick={refreshCaptcha}>
                                     <RefreshCw className="h-5 w-5" />
@@ -242,7 +249,7 @@ export default function LoginPage() {
                             />
                              <div className="flex items-center gap-2">
                                 <div className="flex-1 bg-muted rounded-md p-2 text-center font-bold text-lg tracking-widest select-none bg-cover" style={{backgroundImage: "url('https://www.publicdomainpictures.net/pictures/20000/nahled/plain-white-background.jpg')"}}>
-                                    {captcha}
+                                    {isClient ? captcha : '...'}
                                 </div>
                                 <Button type="button" variant="ghost" size="icon" onClick={refreshCaptcha}>
                                     <RefreshCw className="h-5 w-5" />
