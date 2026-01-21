@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -28,7 +27,7 @@ export function BookDemoSection() {
           </div>
           <div className="relative h-80 flex items-center justify-center">
             <Image
-              src="https://www.pw.live/version14/assets/img/group-20358.svg"
+              src="/idladv.png"
               alt="Students with a tablet"
               data-ai-hint="student teacher tablet"
               width={450}
