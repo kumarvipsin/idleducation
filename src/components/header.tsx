@@ -263,7 +263,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild size="sm">
+        <Button asChild size="sm" variant="outline">
             <Link href="/login">
                 Sign In
             </Link>
@@ -362,30 +362,9 @@ export function Header() {
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                <div className="flex items-center gap-2">
-                    <CollapsibleTrigger asChild className="md:hidden -ml-2">
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
-                            {isMobileMenuOpen ? <X className="h-6 w-6" /> : (
-                                <svg
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6"
-                                >
-                                    <rect x="3" y="6" width="18" height="2.5" rx="1.25" />
-                                    <rect x="3" y="11" width="18" height="2.5" rx="1.25" />
-                                    <rect x="3" y="16" width="18" height="2.5" rx="1.25" />
-                                </svg>
-                            )}
-                            <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
-                    </CollapsibleTrigger>
-                    <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                      <Image src="/logo.png" alt="IDL Education Logo" width={55} height={55} className="h-12 w-auto" />
-                    </Link>
-                </div>
+                <Link href={logoHref} className="flex items-center justify-center -ml-2">
+                  <Image src="/logo.png" alt="IDL Education Logo" width={55} height={55} className="h-12 w-auto" />
+                </Link>
                 
                  <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
@@ -432,10 +411,28 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      
                       {isClient && renderAuthSection()}
                     </div>
                     
+                    <CollapsibleTrigger asChild className="md:hidden">
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                            {isMobileMenuOpen ? <X className="h-6 w-6" /> : (
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                >
+                                    <rect x="3" y="6" width="18" height="2.5" rx="1.25" />
+                                    <rect x="3" y="11" width="18" height="2.5" rx="1.25" />
+                                    <rect x="3" y="16" width="18" height="2.5" rx="1.25" />
+                                </svg>
+                            )}
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </CollapsibleTrigger>
                 </div>
             </div>
              <CollapsibleContent asChild>
@@ -512,7 +509,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
