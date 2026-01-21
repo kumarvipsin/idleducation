@@ -20,12 +20,9 @@ export default async function Home() {
   const testimonialsResult = await getTopperTestimonials();
   const testimonials = testimonialsResult.success ? testimonialsResult.data : [];
 
-  const slidesResult = await getCollection('heroSlides');
-  const slides = slidesResult.success ? (slidesResult.data as THeroSlide[]).sort((a,b) => a.order - b.order) : [];
-
   return (
     <div className="flex flex-col bg-white dark:bg-black">
-      <BuildSkillsSection slides={slides} />
+      <BuildSkillsSection />
       <TrustedPlatform />
       <SelectGoalSection />
       <OurFeatures />
