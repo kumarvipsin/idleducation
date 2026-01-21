@@ -24,13 +24,6 @@ const goals = [
     color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
   },
   {
-    name: "Early Learning",
-    description: "(LKG - Class 8)",
-    icon: <BookHeart className="w-8 h-8" />,
-    href: "/school",
-    color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
-  },
-  {
     name: "One to One Classes",
     icon: <Users className="w-8 h-8" />,
     href: "#",
