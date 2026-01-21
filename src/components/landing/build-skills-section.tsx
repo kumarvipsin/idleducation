@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from "next/image";
@@ -9,7 +8,7 @@ export function BuildSkillsSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="relative w-full aspect-video md:aspect-[16/6] rounded-2xl overflow-hidden">
             <Image 
-                src="https://picsum.photos/seed/banner/1920/640"
+                src="/banner.jpg"
                 alt="IDL Education Banner"
                 data-ai-hint="education banner"
                 fill
