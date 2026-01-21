@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,9 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full py-4 md:py-8 bg-[#F5F5F7] dark:bg-gray-900">
+    <section className="w-full py-4 md:py-8 bg-white dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-center lg:text-left">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
@@ -47,8 +48,8 @@ export function TrustedPlatform() {
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-6 -left-32 w-36 bg-white p-2 rounded-lg shadow-lg">
-                    <p className="text-[0.6rem] leading-tight text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-7px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[7px] border-l-white"></div>
+                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[10px] border-l-white"></div>
                 </div>
             </div>
 
