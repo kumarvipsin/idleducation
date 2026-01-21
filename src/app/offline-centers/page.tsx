@@ -1,8 +1,9 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Building, Sparkles, MapPin } from "lucide-react";
+import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
@@ -50,12 +51,12 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-600 text-white rounded-2xl p-4 scale-95">
+                <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-900 dark:text-blue-200 rounded-2xl p-4 scale-95">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
-                                <Sparkles className="w-8 h-8 text-yellow-300" />
-                                <h1 className="text-3xl md:text-5xl font-bold">
+                                <Sparkles className="w-8 h-8 text-yellow-500" />
+                                <h1 className="text-3xl md:text-5xl font-bold text-foreground">
                                     IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
@@ -63,11 +64,11 @@ export default function OfflineCentersPage() {
                                 <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex gap-4">
-                                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
-                                    Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
+                                <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
+                                    <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
                                 </Button>
-                                <Button variant="outline" className="bg-white text-purple-600 hover:bg-purple-50 border-purple-600 rounded-lg">
-                                    Download brochure
+                                <Button asChild variant="outline" className="bg-white text-primary hover:bg-primary/5 border-primary rounded-lg">
+                                    <Link href="/brochure.pdf" target="_blank">Download brochure</Link>
                                 </Button>
                             </div>
                         </div>
@@ -87,13 +88,13 @@ export default function OfflineCentersPage() {
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
-                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-purple-600 underline decoration-yellow-400 decoration-4">Delhi</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-primary underline decoration-yellow-400 decoration-4">Delhi</span></h2>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
-                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-purple-600 transition-all cursor-pointer">
-                            <div className="bg-purple-100 p-2 rounded-lg">
-                                <Building className="w-6 h-6 text-purple-600" />
+                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-primary transition-all cursor-pointer">
+                            <div className="bg-primary/10 p-2 rounded-lg">
+                                <Building className="w-6 h-6 text-primary" />
                             </div>
                             <p className="font-semibold">{city}</p>
                         </Card>
@@ -105,7 +106,7 @@ export default function OfflineCentersPage() {
                 <div className="text-center mb-8">
                     <h2 className="text-3xl md:text-4xl font-bold">IDL Learning Centres Near You</h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {centers.map((center) => (
                         <Card key={center.name} className="overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
                             <div className="relative h-48 w-full">
@@ -131,7 +132,7 @@ export default function OfflineCentersPage() {
                     ))}
                 </div>
             </div>
-            <section className="bg-blue-50 dark:bg-background py-12">
+            <section className="bg-blue-50 dark:bg-blue-900/20 py-12">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-4">
@@ -149,6 +150,39 @@ export default function OfflineCentersPage() {
                                 width={600}
                                 height={400}
                                 className="rounded-lg shadow-lg"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <section className="bg-orange-50 dark:bg-orange-900/20 py-12 mt-12">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-6">
+                            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-orange-500">70% scholarship</span> with the Instant IDL Scholarship Admission Test (ISAT)</h2>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4">
+                                    <Trophy className="h-8 w-8 text-orange-500" />
+                                    <p className="text-gray-600 dark:text-gray-300">Upto 70% Scholarship on IDL Course Admissions</p>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <Award className="h-8 w-8 text-orange-500" />
+                                    <p className="text-gray-600 dark:text-gray-300">Get 2X Scholarship by taking the Test at Our Centre</p>
+                                </div>
+                            </div>
+                            <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold">
+                                <Link href="/scholarship">Register For FREE</Link>
+                            </Button>
+                            <p className="text-xs text-muted-foreground">Hurry, limited seats are left</p>
+                        </div>
+                        <div className="relative h-80">
+                            <Image
+                                src="https://img.freepik.com/free-photo/portrait-young-indian-woman-gesturing_23-2149363632.jpg?t=st=1720780287~exp=1720783887~hmac=e209865c697843399081e804f54d1a58c067d021f1d10e051c5f3554b7f83350&w=996"
+                                alt="Student with trophy"
+                                data-ai-hint="student trophy"
+                                fill
+                                className="object-contain"
                             />
                         </div>
                     </div>
