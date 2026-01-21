@@ -1,7 +1,6 @@
-
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -264,7 +263,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild size="sm" variant="ghost">
+        <Button asChild size="sm">
             <Link href="/login">
                 Sign In
             </Link>
@@ -364,7 +363,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <div className="flex items-center gap-2">
-                    <CollapsibleTrigger asChild className="md:hidden">
+                    <CollapsibleTrigger asChild className="md:hidden -ml-2">
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
                             {isMobileMenuOpen ? <X className="h-6 w-6" /> : (
                                 <svg
@@ -420,12 +419,12 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                 <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <div className="hidden md:block">
+                            <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
                                 <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                             </div>
@@ -433,9 +432,10 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
+                      
                       {isClient && renderAuthSection()}
                     </div>
+                    
                 </div>
             </div>
              <CollapsibleContent asChild>
