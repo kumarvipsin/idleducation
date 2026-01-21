@@ -92,23 +92,23 @@ export default function OfflineCentersPage() {
                         <CarouselContent>
                             {resultSlides.map((slide, index) => (
                                 <CarouselItem key={index}>
-                                    <Card className="bg-orange-500 text-white p-6 rounded-2xl shadow-2xl">
-                                        <h3 className="text-center text-xl font-bold mb-4">{slide.title}</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                    <Card className="bg-orange-500 text-white p-2 md:p-4 rounded-2xl shadow-2xl">
+                                        <h3 className="text-center text-md md:text-lg font-bold mb-2">{slide.title}</h3>
+                                        <div className="grid grid-cols-4 gap-2 items-center">
                                             {slide.students.map(student => (
-                                                <div key={student.name} className="flex flex-col items-center">
-                                                    <Image src={student.image} alt={student.name} width={100} height={100} className="rounded-full border-4 border-white" />
-                                                    <p className="font-bold mt-2">{student.name}</p>
-                                                    <div className="text-sm bg-gray-800 px-3 py-1 rounded-md mt-1">
+                                                <div key={student.name} className="flex flex-col items-center text-center">
+                                                    <Image src={student.image} alt={student.name} width={64} height={64} className="w-14 h-14 rounded-full border-2 border-white" />
+                                                    <p className="font-bold mt-1 text-[0.6rem] md:text-xs">{student.name}</p>
+                                                    <div className="text-[0.5rem] bg-gray-800 px-2 py-0.5 rounded-md mt-1">
                                                       {student.air}
                                                     </div>
                                                 </div>
                                             ))}
                                             <div className="flex items-center justify-center">
-                                                <div className="text-center bg-yellow-400 text-black p-4 rounded-full w-48 h-48 flex flex-col justify-center items-center">
-                                                    <p className="text-lg font-semibold">EVERY</p>
-                                                    <p className="text-5xl font-extrabold leading-none">{slide.stat.main}</p>
-                                                    <p className="text-xs font-semibold mt-1 text-center">{slide.stat.sub}</p>
+                                                <div className="text-center bg-yellow-400 text-black p-1 rounded-full w-24 h-24 md:w-32 md:h-32 flex flex-col justify-center items-center">
+                                                    <p className="text-xs md:text-sm font-semibold">EVERY</p>
+                                                    <p className="text-2xl md:text-3xl font-extrabold leading-none">{slide.stat.main}</p>
+                                                    <p className="text-[0.5rem] font-semibold mt-1 text-center px-1">{slide.stat.sub}</p>
                                                 </div>
                                             </div>
                                         </div>
