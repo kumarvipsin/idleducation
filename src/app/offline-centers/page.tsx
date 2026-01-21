@@ -147,7 +147,7 @@ export default function OfflineCentersPage() {
                             </div>
                         </div>
 
-                        <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                        <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
                              <Image
                                 src="https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.1.0&q=80&w=1080"
                                 alt="IDL Offline Center"
