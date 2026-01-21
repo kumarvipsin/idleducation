@@ -24,7 +24,7 @@ const cities = [
 export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
-            <div className="bg-blue-600 text-white rounded-b-3xl">
+            <div className="bg-blue-600 text-white rounded-2xl w-3/4 mx-auto my-8">
                 <div className="container mx-auto px-4 md:px-6 py-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
