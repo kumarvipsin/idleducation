@@ -7,6 +7,9 @@ import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award } from "lucide-re
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import React from 'react';
 
 const cities = [
     "Mukherjee Nagar",
@@ -48,6 +51,77 @@ const centers = [
 
 
 export default function OfflineCentersPage() {
+    const OutstandingResults = () => {
+        const resultSlides = [
+            {
+                title: "IDL Students Shine Bright in JEE ADVANCED 2025",
+                students: [
+                    { name: "Daksh Tayalia", air: "AIR 15", image: "https://picsum.photos/seed/student1/100" },
+                    { name: "Prakhar Singh", air: "AIR 92", image: "https://picsum.photos/seed/student2/100" },
+                    { name: "Panini", air: "AIR 273", image: "https://picsum.photos/seed/student3/100" }
+                ],
+                stat: {
+                    main: "1 IN 3",
+                    sub: "IDL Students Cleared JEE Advanced 2025"
+                }
+            },
+            {
+                title: "IDL Students Dominate NEET 2025",
+                students: [
+                    { name: "Student A", air: "AIR 5", image: "https://picsum.photos/seed/student4/100" },
+                    { name: "Student B", air: "AIR 22", image: "https://picsum.photos/seed/student5/100" },
+                    { name: "Student C", air: "AIR 50", image: "https://picsum.photos/seed/student6/100" }
+                ],
+                stat: {
+                    main: "3 IN 100",
+                    sub: "Students in Top 100 All India Ranks"
+                }
+            }
+        ];
+    
+        return (
+            <section className="w-full py-12">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="text-center mb-8">
+                        <h2 className="text-3xl md:text-4xl font-bold">Our outstanding <span className="text-orange-500">results</span></h2>
+                    </div>
+                    <Carousel
+                        plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
+                        opts={{ loop: true }}
+                    >
+                        <CarouselContent>
+                            {resultSlides.map((slide, index) => (
+                                <CarouselItem key={index}>
+                                    <Card className="bg-orange-500 text-white p-6 rounded-2xl shadow-2xl">
+                                        <h3 className="text-center text-xl font-bold mb-4">{slide.title}</h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                                            {slide.students.map(student => (
+                                                <div key={student.name} className="flex flex-col items-center">
+                                                    <Image src={student.image} alt={student.name} width={100} height={100} className="rounded-full border-4 border-white" />
+                                                    <p className="font-bold mt-2">{student.name}</p>
+                                                    <div className="text-sm bg-gray-800 px-3 py-1 rounded-md mt-1">
+                                                      {student.air}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="flex items-center justify-center">
+                                                <div className="text-center bg-yellow-400 text-black p-4 rounded-full w-48 h-48 flex flex-col justify-center items-center">
+                                                    <p className="text-lg font-semibold">EVERY</p>
+                                                    <p className="text-5xl font-extrabold leading-none">{slide.stat.main}</p>
+                                                    <p className="text-xs font-semibold mt-1 text-center">{slide.stat.sub}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
+                </div>
+            </section>
+        )
+    };
+
     return (
         <div className="bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
@@ -155,6 +229,8 @@ export default function OfflineCentersPage() {
                     </div>
                 </div>
             </section>
+            
+            <OutstandingResults />
 
              <section className="bg-orange-50 dark:bg-orange-900/20 py-12 mt-12">
                 <div className="container mx-auto px-4 md:px-6">
