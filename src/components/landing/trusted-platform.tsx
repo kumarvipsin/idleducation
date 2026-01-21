@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -6,14 +7,14 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-black">
+    <section className="w-full py-6 md:py-12 bg-white dark:bg-black">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
           </div>
@@ -46,9 +47,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-6 -left-32 w-36 bg-white p-2 rounded-lg shadow-lg">
+                 <div className="absolute top-6 -left-32 w-36 bg-green-100 p-2 rounded-lg shadow-lg">
                     <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[10px] border-l-white"></div>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[10px] border-l-green-100"></div>
                 </div>
             </div>
 
@@ -63,3 +64,14 @@ export function TrustedPlatform() {
     </section>
   );
 }
+
+const DotPattern = () => (
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <pattern id="dot-pattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1" fill="currentColor" />
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dot-pattern)" />
+    </svg>
+);
