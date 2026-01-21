@@ -47,8 +47,8 @@ export function TrustedPlatform() {
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-6 -left-32 w-36 bg-green-100 p-2 rounded-lg shadow-lg">
-                    <p className="text-xs text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[10px] border-l-green-100"></div>
+                    <p className="text-[0.6rem] leading-tight text-gray-800">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-green-100"></div>
                 </div>
             </div>
 
