@@ -53,11 +53,6 @@ export default function OfflineCentersPage() {
                             </Card>
                              <div className="absolute -right-16 -bottom-10 hidden lg:block">
                                 <Image src="https://www.pw.live/version14/assets/img/alakh-pandey-sir-photo.png" alt="Daksh Tayalia" width={200} height={300} className="object-contain" />
-                                <div className="bg-white text-black p-1 px-2 rounded-md shadow-lg absolute bottom-12 right-12 text-center">
-                                    <p className="font-extrabold text-2xl text-orange-500">99.99</p>
-                                    <p className="text-xs font-semibold">Percentile</p>
-                                    <p className="text-sm font-bold">Daksh Tayalia</p>
-                                </div>
                             </div>
                         </div>
                     </div>
