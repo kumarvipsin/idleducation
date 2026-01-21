@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +32,7 @@ export default function OfflineCentersPage() {
                              <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-300" />
                                 <h1 className="text-3xl md:text-5xl font-bold">
-                                    IDL Learning Centres <br/> Now in <span className="underline decoration-yellow-300 decoration-4">Your City</span>
+                                    IDL Learning Centres <br/> Now in <span className="underline decoration-yellow-300 decoration-4">Delhi</span>
                                 </h1>
                             </div>
                             <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
