@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,56 +16,63 @@ const toppers = [
 ];
 
 const cities = [
-    "Lucknow", "Patna", "Muzaffarpur", "Patiala", "Nagpur", "Indore", "Adilabad", "Buldana",
-    "Ahmedabad", "Bengaluru", "Bhopal", "Chennai", "Coimbatore", "Delhi", "Hyderabad", "Jaipur",
-    "Kolkata", "Mumbai", "Pune", "Surat", "Visakhapatnam", "Guwahati", "Ranchi", "Bhubaneswar",
+    "Mukherjee Nagar",
+    "Mangol Puri",
+    "Budh Vihar",
+    "Burari",
+    "Sangam Vihar",
+    "Najafgarh",
+    "Uttam Nagar",
+    "Laxmi Nagar",
+    "Rohini",
+    "Dwarka",
+    "Saket",
+    "Janakpuri",
 ];
 
 
 export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background">
-            <section className="py-12 md:py-24">
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="bg-blue-600 text-white rounded-2xl p-8">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                            <div className="space-y-6">
-                                 <div className="flex items-center gap-2">
-                                    <Sparkles className="w-8 h-8 text-yellow-300" />
-                                    <h1 className="text-3xl md:text-5xl font-bold">
-                                        IDL Learning Centres Now in Delhi
-                                    </h1>
-                                </div>
-                                <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
-                                    <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
-                                </div>
-                                <div className="flex gap-4">
-                                    <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
-                                        Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
-                                    <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50 border-blue-600 rounded-lg">
-                                        Download brochure
-                                    </Button>
-                                </div>
+            <div className="container mx-auto px-4 md:px-6 py-8">
+                <div className="bg-blue-600 text-white rounded-2xl p-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-6">
+                             <div className="flex items-center gap-2">
+                                <Sparkles className="w-8 h-8 text-yellow-300" />
+                                <h1 className="text-3xl md:text-5xl font-bold">
+                                    IDL Learning Centres Now in Delhi
+                                </h1>
                             </div>
+                            <div className="bg-yellow-400 text-black font-semibold py-2 px-4 inline-block -skew-x-12">
+                                <p className="skew-x-12">Offline Courses for CUET | 6-10 Foundation</p>
+                            </div>
+                            <div className="flex gap-4">
+                                <Button className="bg-slate-900 text-white hover:bg-slate-800 rounded-lg">
+                                    Book a Visit <ArrowRight className="ml-2 h-4 w-4" />
+                                </Button>
+                                <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50 border-blue-600 rounded-lg">
+                                    Download brochure
+                                </Button>
+                            </div>
+                        </div>
 
-                            <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
-                                 <Image
-                                    src="https://www.pw.live/version14/assets/img/pathshala/pathshala-top-banner-new.png"
-                                    alt="IDL Offline Center"
-                                    data-ai-hint="classroom students"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
+                        <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                             <Image
+                                src="https://www.pw.live/version14/assets/img/pathshala/pathshala-top-banner-new.png"
+                                alt="IDL Offline Center"
+                                data-ai-hint="classroom students"
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
-                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-blue-600 underline decoration-yellow-300 decoration-4">37 Cities</span></h2>
+                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-blue-600 underline decoration-yellow-300 decoration-4">Delhi</span></h2>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     {cities.map(city => (
