@@ -23,7 +23,7 @@ const goals = [
     href: "/school",
     color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
   },
-  {
+    {
     name: "NIOS BOARD",
     icon: <GraduationCap className="w-8 h-8" />,
     href: "/new-work",
@@ -65,19 +65,23 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-4 gap-4">
-                        {goals.map((goal) => (
-                            <Link key={goal.name} href={goal.href} className="group">
-                                <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
-                                    <div className="mb-2">
-                                        {goal.icon}
-                                    </div>
-                                    <p className="text-sm font-semibold text-center text-foreground">{goal.name}</p>
-                                    
-                                    <ArrowRight className="w-4 h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </Link>
-                        ))}
+                    <div className="relative">
+                        <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                            <div className="flex gap-4">
+                                {goals.map((goal) => (
+                                    <Link key={goal.name} href={goal.href} className="group flex-shrink-0 w-36">
+                                        <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
+                                            <div className="mb-2">
+                                                {goal.icon}
+                                            </div>
+                                            <p className="text-sm font-semibold text-center text-foreground">{goal.name}</p>
+                                            
+                                            <ArrowRight className="w-4 h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
