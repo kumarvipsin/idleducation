@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users } from "lucide-react";
+import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users, GraduationCap } from "lucide-react";
 
 const goals = [
   {
@@ -36,6 +36,12 @@ const goals = [
     href: "#",
     color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
   },
+  {
+    name: "CUET UG/PG",
+    icon: <GraduationCap className="w-8 h-8" />,
+    href: "/category/cuet",
+    color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
+  },
 ];
 
 export function SelectGoalSection() {
@@ -48,7 +54,7 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                         {goals.map((goal) => (
                             <Link key={goal.name} href={goal.href} className="group">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
