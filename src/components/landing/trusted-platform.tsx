@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import Link from "next/link";
 
 export function TrustedPlatform() {
   return (
-    <section className="w-full py-6 md:py-12 bg-white dark:bg-black">
+    <section className="w-full pt-6 md:pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
@@ -31,9 +30,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-8 -right-28 w-36 bg-primary text-primary-foreground p-2 rounded-lg shadow-lg">
+                 <div className="absolute bottom-8 -right-28 w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg">
                     <p className="text-[0.6rem] leading-tight">IDL is where student learn with love and can grow with guidance</p>
-                    <div className="absolute left-0 bottom-[-7px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-primary"></div>
+                    <div className="absolute left-0 bottom-[-7px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-white"></div>
                 </div>
             </div>
 
