@@ -9,6 +9,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/com
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import useEmblaCarousel from 'embla-carousel-react';
 
 
 const slideData = [
@@ -128,16 +129,16 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
         <Carousel 
           setApi={setApi}
           opts={{ loop: true }}
-          plugins={[autoplayPlugin.current]}
+          plugins={[autoplayPlugin.current]} 
           className="w-full"
         >
           <CarouselContent>
             {slideData.map((slide, index) => (
               <CarouselItem key={index}>
                 <div className="bg-[#211612] text-white rounded-2xl p-4 md:p-8" style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgba(255,255,255,0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e")` }}>
-                  <div className="grid grid-cols-1 md:grid-cols-5 gap-6 w-full relative z-10">
+                  <div className="grid grid-cols-5 gap-4 w-full relative z-10">
                     {/* Left side content */}
-                    <div className="md:col-span-3 flex flex-col justify-center space-y-4">
+                    <div className="col-span-3 flex flex-col justify-center space-y-4">
                       <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight flex items-center gap-2">
                         <ArrowRight className="w-8 h-8" />
                         {slide.title}
@@ -186,7 +187,7 @@ export function BuildSkillsSection({ slides }: { slides: any[] }) {
                     </div>
 
                     {/* Right side content (Toppers) */}
-                    <div className="md:col-span-2 flex items-center justify-center gap-2 md:gap-4 lg:gap-6 pt-8 md:pt-0">
+                    <div className="col-span-2 flex items-center justify-center gap-2">
                       {slide.toppers.map((topper) => (
                         <div key={topper.name} className="flex flex-col items-center text-center space-y-2">
                           <div className="relative w-[30px] h-[30px] md:w-[30px] md:h-[30px]">
