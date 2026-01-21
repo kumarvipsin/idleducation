@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Download, Zap } from "lucide-react";
+import { Download, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ export function DiscoverAdvantage() {
               </Button>
             </div>
             <div className="h-32 md:h-40 flex items-center justify-center">
-              <Zap className="h-24 w-24 text-primary opacity-20" />
+              <BookOpen className="h-24 w-24 text-primary opacity-20" />
             </div>
           </div>
         </div>
