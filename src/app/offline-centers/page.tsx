@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -94,7 +93,7 @@ export default function OfflineCentersPage() {
                                 <CarouselItem key={index}>
                                     <Card className="bg-orange-500 text-white p-6 rounded-2xl shadow-2xl">
                                         <h3 className="text-center text-xl font-bold mb-4">{slide.title}</h3>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center">
+                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
                                             {slide.students.map(student => (
                                                 <div key={student.name} className="flex flex-col items-center">
                                                     <Image src={student.image} alt={student.name} width={100} height={100} className="rounded-full border-4 border-white" />
@@ -161,9 +160,6 @@ export default function OfflineCentersPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
-                <div className="text-center mb-8">
-                     <h2 className="text-3xl md:text-4xl font-bold">Now Available in <span className="text-primary underline decoration-yellow-400 decoration-4">Delhi</span></h2>
-                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
                         <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-primary transition-all cursor-pointer">
