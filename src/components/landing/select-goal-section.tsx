@@ -42,6 +42,12 @@ const goals = [
     href: "/category/cuet",
     color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
   },
+  {
+    name: "CBSE BOARD",
+    icon: <GraduationCap className="w-8 h-8" />,
+    href: "/school",
+    color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
+  },
 ];
 
 export function SelectGoalSection() {
@@ -54,7 +60,7 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {goals.map((goal) => (
                             <Link key={goal.name} href={goal.href} className="group">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
