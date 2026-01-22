@@ -13,7 +13,7 @@ export function DiscoverAdvantage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-                Discover the IDL Advantage
+                Discover the <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">IDL Advantage</span>
               </h2>
               <p className="text-white/80">
                 Download the brochure to explore our programs, academic approach, and student
