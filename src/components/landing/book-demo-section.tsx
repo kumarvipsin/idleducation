@@ -26,7 +26,7 @@ export function BookDemoSection() {
             </div>
             <div className="relative h-40 md:h-48 flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-40 h-40 md:w-48 md:h-48 bg-blue-100 dark:bg-blue-900/30 animate-morph"></div>
+                    <div className="w-40 h-40 md:w-48 md:h-48 bg-orange-100 dark:bg-orange-900/30 animate-morph"></div>
                 </div>
               <Image
                 src="/idladv.png"
