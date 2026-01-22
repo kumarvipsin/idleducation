@@ -188,31 +188,33 @@ const faqs = [
 
 const FAQSection = () => {
     return (
-        <section className="w-full py-16 md:py-24 bg-white dark:bg-gray-900 text-foreground">
+        <section className="w-full py-12 bg-muted/20 dark:bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="max-w-3xl mx-auto text-center">
-                    <div className="flex items-center justify-center">
-                        <span className="text-blue-600 text-2xl mr-2">•</span>
-                        <h2 className="text-lg font-semibold text-blue-600">FAQ</h2>
+                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
+                    <div className="max-w-3xl mx-auto text-center">
+                        <div className="flex items-center justify-center">
+                            <span className="text-blue-600 text-2xl mr-2">•</span>
+                            <h2 className="text-lg font-semibold text-blue-600">FAQ</h2>
+                        </div>
+                        <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
+                            Frequently Asked Questions
+                        </h3>
                     </div>
-                    <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-                        Frequently Asked Questions
-                    </h3>
-                </div>
 
-                <div className="max-w-3xl mx-auto mt-12">
-                    <Accordion type="single" collapsible className="w-full space-y-4">
-                        {faqs.map((faq, index) => (
-                            <AccordionItem value={`item-${index}`} key={index} className="border rounded-lg bg-background/50">
-                                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline p-4">
-                                    {faq.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="p-4 pt-0">
-                                    <p className="text-muted-foreground">{faq.answer}</p>
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
+                    <div className="max-w-3xl mx-auto mt-12">
+                        <Accordion type="single" collapsible className="w-full space-y-4">
+                            {faqs.map((faq, index) => (
+                                <AccordionItem value={`item-${index}`} key={index} className="border rounded-lg bg-background/50">
+                                    <AccordionTrigger className="text-left text-base font-semibold hover:no-underline p-4">
+                                        {faq.question}
+                                    </AccordionTrigger>
+                                    <AccordionContent className="p-4 pt-0">
+                                        <p className="text-muted-foreground">{faq.answer}</p>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </div>
                 </div>
             </div>
         </section>
