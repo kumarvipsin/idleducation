@@ -85,13 +85,13 @@ const ScholarshipSection = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the IDL Scholarship Admission Test</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4">
                                 <Trophy className="h-8 w-8 text-primary" />
                                 <p className="text-gray-600 dark:text-gray-300">Upto 70% Scholarship on IDL Course Admissions</p>
                             </div>
-                            <div className="flex items-center gap-4">
+                             <div className="flex items-center gap-4">
                                 <Award className="h-8 w-8 text-primary" />
                                 <p className="text-gray-600 dark:text-gray-300">Get 2X Scholarship by taking the Test at Our Centre</p>
                             </div>
