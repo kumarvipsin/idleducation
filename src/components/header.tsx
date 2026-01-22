@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
@@ -390,11 +391,6 @@ export function Header() {
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    Explore
-                                </Button>
-                              </div>
                               <div className="h-full flex items-center">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
@@ -412,6 +408,11 @@ export function Header() {
                                         </ScrollArea>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
+                              </div>
+                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                    Explore
+                                </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
