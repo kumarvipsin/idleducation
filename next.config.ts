@@ -172,7 +172,13 @@ const nextConfig: NextConfig = {
         hostname: 'www.lamission.edu',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.template.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
