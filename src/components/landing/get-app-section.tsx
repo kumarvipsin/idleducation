@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -209,7 +210,7 @@ export function GetAppSection() {
 
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-blue-50 dark:bg-blue-900/20 transition-colors cursor-pointer">
+              <Card className="bg-white dark:bg-card transition-colors cursor-pointer">
                 <div className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary p-3 rounded-full">
                     <MessageCircle className="w-6 h-6" />
@@ -326,7 +327,7 @@ export function GetAppSection() {
                     alt="IDL Education App Features"
                     data-ai-hint="education brochure mobile"
                     fill
-                    className="object-contain"
+                    className="object-cover"
                 />
             </div>
             
