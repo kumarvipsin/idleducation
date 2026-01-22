@@ -56,7 +56,7 @@ export function AcademicExcellence() {
     >
       <div className="w-full">
         <div className="text-center mb-12 px-4">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
             Excellence{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Results</span>
