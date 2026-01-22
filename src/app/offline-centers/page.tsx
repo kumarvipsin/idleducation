@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,7 +58,9 @@ const WhyIDL = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div className="space-y-4">
                         <h2 className="text-3xl md:text-4xl font-bold text-orange-500">Why IDL?</h2>
-                        <h3 className="text-xl font-semibold text-foreground">Unlock True Potential Through Highest Personal Attention</h3>
+                        <h3 className="text-xl font-semibold text-foreground">
+                            Unlock True Potential Through <span className="text-orange-500">Highest Personal Attention</span>
+                        </h3>
                         <p className="text-muted-foreground">
                             At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
                         </p>
@@ -255,12 +258,6 @@ export default function OfflineCentersPage() {
                                         <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center p-4">
                                             <div className="flex items-center gap-2 mb-2">
                                                 <Sparkles className="w-8 h-8 text-yellow-500" />
-                                                <h1 className="text-3xl md:text-5xl font-bold">
-                                                    IDL Learning Centres Now in Delhi
-                                                </h1>
-                                            </div>
-                                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold py-2 px-4 inline-block rounded-full mb-4">
-                                                <p>Offline Courses for CUET | 6-10 Foundation</p>
                                             </div>
                                             <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
                                                 <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -287,7 +284,7 @@ export default function OfflineCentersPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
-                 <div className="text-center mb-8">
+                <div className="text-center mb-8">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
                         IDL Learning Centres Now in{' '}
                         <span className="relative inline-block">
