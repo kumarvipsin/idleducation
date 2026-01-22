@@ -16,7 +16,7 @@ export const competitivePrograms = [
   { name: "GATE", href: "/category/gate" },
   { name: "CUET", href: "/category/cuet" },
   { name: "CBSE", href: "/school" },
-  { name: "NIOS", href: "/school" },
+  { name: "NIOS", href: "/new-work" },
   { name: "CLAT", href: "/category/cuet" },
   { name: "SSC", href: "/category/ssc" },
   { name: "DELHI POLICE", href: "/category/delhi-police" },

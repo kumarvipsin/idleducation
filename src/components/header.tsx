@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
-import { allPrograms } from "@/lib/courses";
+import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 
 interface Update {
@@ -72,6 +72,35 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         </div>
     </div>
   );
+
+const CoursesMegaMenu = () => {
+    return (
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3 px-3">School Programs</h3>
+                    <div className="grid grid-cols-2 gap-1">
+                        {schoolPrograms.map((program) => (
+                            <Link key={program.href} href={program.href} className="block p-3 rounded-md hover:bg-muted">
+                                <p className="font-medium text-sm text-foreground">{program.name}</p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+                <div>
+                     <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3 px-3">Competitive Exams</h3>
+                     <div className="grid grid-cols-2 gap-1">
+                         {competitivePrograms.map((program) => (
+                            <Link key={program.href} href={program.href} className="block p-3 rounded-md hover:bg-muted">
+                                <p className="font-medium text-sm text-foreground">{program.name}</p>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+};
 
 export function Header() {
   const { t } = useLanguage();
@@ -391,23 +420,10 @@ export function Header() {
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                              <div className="h-full flex items-center">
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="outline" className="h-9 px-4 text-sm font-semibold border-orange-500 text-orange-500 hover:bg-orange-50 hover:text-orange-600 rounded-lg flex items-center gap-1">
-                                            Courses <ChevronDown className="h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56">
-                                        <ScrollArea className="h-72">
-                                            {allPrograms.map((program) => (
-                                                <DropdownMenuItem key={program.name} asChild>
-                                                    <Link href={program.href}>{program.name}</Link>
-                                                </DropdownMenuItem>
-                                            ))}
-                                        </ScrollArea>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                              <div onMouseEnter={() => handleMouseEnter('courses')} className="h-full flex items-center">
+                                <Button variant="outline" data-active={activeMenu === 'courses'} className="h-9 px-4 text-sm font-semibold border-orange-500 text-orange-500 hover:bg-orange-50 hover:text-orange-600 rounded-lg flex items-center gap-1 data-[active=true]:bg-primary/5 data-[active=true]:text-primary">
+                                  Courses <ChevronDown className="h-4 w-4" />
+                                </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
@@ -471,6 +487,22 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
+                                <Collapsible open={openMobileAccordion === 'courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'courses' : null)}>
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                            <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> Courses</span>
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-2 gap-1">
+                                            {allPrograms.map(({ href, name }) => (
+                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <p className="font-semibold text-sm">{name}</p>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
@@ -542,6 +574,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
+            {activeMenu === 'courses' && <CoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
           </div>
