@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -57,7 +56,9 @@ type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 const CoursesMegaMenu = () => {
-    const findByTarget = [
+    const { t } = useLanguage();
+
+      const findByTarget = [
         { name: "School tuition", description: "For Class 3-12", href: "/school" },
       ];
 
@@ -66,6 +67,13 @@ const CoursesMegaMenu = () => {
         { label: "Book Free Demo", href: "/book-demo" },
         { label: "Student Enquiry", href: "/student-enquiry" },
         { label: "Feedback Form", href: "/feedback" },
+      ];
+
+      const exploreLinks = [
+        { label: "IDL Foundation", href: "/idl-foundation", target: "_blank" },
+        { label: "Volunteer", href: "/volunteer" },
+        { label: "Gallery", href: "/gallery" },
+        { label: "IDL Blog", href: "/blog" },
       ];
 
       const leftColumnLinks = [
@@ -159,22 +167,6 @@ const CoursesMegaMenu = () => {
                 {/* Column 2 */}
                 <div className="border-x px-4">
                     <div className="flex items-center gap-2 mb-4">
-                        <GraduationCap className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-base">Apply Now</h3>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        {applicationLinks.map((item) => (
-                            <Link key={item.href} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                <span>{item.label}</span>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Column 3 */}
-                <div className="px-4">
-                    <div className="flex items-center gap-2 mb-4">
                         <Search className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold text-base">Find courses by target</h3>
                     </div>
@@ -188,6 +180,36 @@ const CoursesMegaMenu = () => {
                                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                             </Link>
                         ))}
+                    </div>
+                </div>
+
+                {/* Column 3 */}
+                <div className="px-4">
+                    <div className="flex items-center gap-2 mb-4">
+                        <GraduationCap className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold text-base">Apply Now</h3>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        {applicationLinks.map((item) => (
+                            <Link key={item.label} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
+                                <span>{item.label}</span>
+                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            </Link>
+                        ))}
+                    </div>
+                    <div className="mt-4 pt-4 border-t">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Search className="h-5 w-5 text-primary" />
+                            <h3 className="font-semibold text-base">Explore</h3>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            {exploreLinks.map((item) => (
+                                <Link key={item.label} href={item.href} target={item.target} rel={item.target === '_blank' ? 'noopener noreferrer' : undefined} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
+                                    <span>{item.label}</span>
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
