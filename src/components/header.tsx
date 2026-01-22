@@ -58,16 +58,6 @@ const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9
 const CoursesMegaMenu = () => {
     const findByClass = [
         { name: "Repeater", subject: "Science PCM", href: "#" },
-        { name: "Repeater", subject: "Science PCB", href: "#" },
-        { name: "Class 12", subject: "Science PCM", href: "/school?class=Class 12" },
-        { name: "Class 12", subject: "Science PCB", href: "/school?class=Class 12" },
-        { name: "Class 12", subject: "Commerce", href: "/school?class=Class 12" },
-        { name: "Class 11", subject: "Science PCM", href: "/school?class=Class 11" },
-        { name: "Class 11", subject: "Science PCB", href: "/school?class=Class 11" },
-        { name: "Class 11", subject: "Commerce", href: "/school?class=Class 11" },
-        { name: "Class 10", subject: "", href: "/school?class=Class 10" },
-        { name: "Class 9", subject: "", href: "/school?class=Class 9" },
-        { name: "Class 8", subject: "", href: "/school?class=Class 8" },
       ];
     
       const findByTarget = [
@@ -252,12 +242,12 @@ const ExploreMegaMenu = () => {
 
 const ApplyForMegaMenu = () => {
     const applyForLinks = [
-        { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-        { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-        { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
-        { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-        { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
-    ];
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
+  ];
     
     const renderLink = (link: typeof applyForLinks[0]) => (
         <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
@@ -685,9 +675,9 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-2 gap-1">
-                                            {allPrograms.map(({ href, name }) => (
-                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <p className="font-semibold text-sm">{name}</p>
+                                            {allPrograms.map((program) => (
+                                                <Link key={program.name} href={program.href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <p className="font-semibold text-sm">{program.name}</p>
                                                 </Link>
                                             ))}
                                         </div>
@@ -774,3 +764,5 @@ export function Header() {
     </>
   );
 }
+
+    
