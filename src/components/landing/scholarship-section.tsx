@@ -1,71 +1,44 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Award, Calendar, IndianRupee } from "lucide-react";
-import { useEffect, useState } from "react";
-import { format, lastDayOfMonth } from "date-fns";
+import { Award, Trophy } from "lucide-react";
 import Link from 'next/link';
+import Image from "next/image";
 
 export function ScholarshipSection() {
-    const [examDates, setExamDates] = useState({ sat: '', sun: '', monthYear: '' });
-
-    useEffect(() => {
-        const today = new Date();
-        const lastDay = lastDayOfMonth(today);
-        let lastSunday = new Date(lastDay);
-        let lastSaturday = new Date(lastDay);
-
-        while (lastSunday.getDay() !== 0) {
-            lastSunday.setDate(lastSunday.getDate() - 1);
-        }
-        
-        lastSaturday.setDate(lastSunday.getDate() - 1);
-        
-        if (lastDay.getDay() === 6) {
-            lastSaturday = lastDay;
-            lastSunday = new Date(lastDay);
-            lastSunday.setDate(lastDay.getDate() - 1);
-        }
-
-        setExamDates({
-            sat: format(lastSaturday, 'do'),
-            sun: format(lastSunday, 'do'),
-            monthYear: format(today, 'MMMM yyyy')
-        });
-    }, []);
-
     return (
-        <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+         <section className="bg-blue-50 dark:bg-blue-900/20 py-12 mt-12">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="p-8 md:p-12 border rounded-2xl bg-sky-50 dark:bg-sky-900/20">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-6 text-center lg:text-left">
-                            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-primary">IDL Scholarship & Admission Test</h2>
-                            <p className="text-lg text-muted-foreground">For Class IV - XII</p>
-                            <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-lg text-foreground">
-                                <div className="flex items-center gap-2">
-                                    <Award className="w-6 h-6 text-yellow-500" />
-                                    <span>Cash Prize: <span className="font-bold">₹10K</span></span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <IndianRupee className="w-6 h-6 text-blue-500" />
-                                    <span>Scholarships: <span className="font-bold">₹75K</span></span>
-                                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div className="space-y-6">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4">
+                                <Trophy className="h-8 w-8 text-primary" />
+                                <p className="text-gray-600 dark:text-gray-300">Upto 70% Scholarship on IDL Course Admissions</p>
                             </div>
-                            <div className="mt-4 flex items-center justify-center lg:justify-start gap-2 bg-muted/50 p-3 rounded-lg">
-                                <Calendar className="w-5 h-5 text-green-500" />
-                                <p className="font-semibold text-foreground">Exam Dates: {examDates.sat} & {examDates.sun} {examDates.monthYear}</p>
+                             <div className="flex items-center gap-4">
+                                <Award className="h-8 w-8 text-primary" />
+                                <p className="text-gray-600 dark:text-gray-300">Get 2X Scholarship by taking the Test at Our Centre</p>
                             </div>
                         </div>
-                        <div className="flex items-center justify-center">
-                            <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-12 px-8 text-lg font-bold shadow-lg hover:shadow-xl transition-all">
-                                <Link href="/scholarship">Register Now</Link>
-                            </Button>
-                        </div>
+                        <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold">
+                            <Link href="/scholarship">Register For FREE</Link>
+                        </Button>
+                        <p className="text-xs text-muted-foreground">Hurry, limited seats are left</p>
+                    </div>
+                    <div className="relative h-80">
+                        <Image
+                            src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwNTUyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                            alt="Student with trophy"
+                            data-ai-hint="student trophy"
+                            fill
+                            className="object-contain"
+                        />
                     </div>
                 </div>
             </div>
         </section>
-    );
+    )
 }
