@@ -1,5 +1,4 @@
 
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
@@ -30,6 +29,8 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
+import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface Update {
   id: string;
@@ -452,10 +453,28 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
+                                <Collapsible open={openMobileAccordion === 'courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'courses' : null)}>
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                            <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> Courses</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-2 gap-1">
+                                            {allPrograms.map(({ href, name }) => (
+                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <p className="font-semibold text-sm">{name}</p>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
