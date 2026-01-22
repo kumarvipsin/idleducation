@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Atom, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark } from "lucide-react";
+import { ArrowRight, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark } from "lucide-react";
 
 const goals = [
   {
     name: "IIT-JEE/NEET",
-    icon: <Atom className="w-8 h-8" />,
+    icon: <GraduationCap className="w-8 h-8" />,
     href: "/category/iit-jee",
     color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
   },
