@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -200,16 +201,16 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
                             <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-500" />
-                                <h1 className="text-3xl md:text-5xl font-bold text-foreground">
+                                <h1 className="text-3xl md:text-5xl font-bold text-white">
                                     IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
-                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
+                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-full">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
