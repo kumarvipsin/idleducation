@@ -21,7 +21,7 @@ export function BookDemoSection() {
             <p className="text-muted-foreground text-lg">
               Get a free academic counselling session
             </p>
-            <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg h-12 px-8 text-lg font-bold shadow-lg hover:shadow-xl transition-all">
+            <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold">
               <Link href="/book-demo">Book a free demo</Link>
             </Button>
           </div>
