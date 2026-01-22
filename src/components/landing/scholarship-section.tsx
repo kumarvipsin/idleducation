@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ export function ScholarshipSection() {
     return (
         <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6">
+                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white text-center md:text-left">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
