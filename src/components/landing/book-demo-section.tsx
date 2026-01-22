@@ -10,13 +10,8 @@ export function BookDemoSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div className="space-y-6 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-              Book your{' '}
-              <span className="relative inline-block">
-                <span className="relative z-10">Free Demo</span>
-                <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
-              </span>{' '}
-              session
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+              Book your <span className="text-orange-500">Free Demo</span> session
             </h2>
             <p className="text-muted-foreground text-lg">
               Get a free academic counselling session
