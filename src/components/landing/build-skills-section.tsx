@@ -8,6 +8,11 @@ import { cn } from "@/lib/utils";
 
 const localSlides = [
   {
+    id: "local-1",
+    imageUrl: "/bannerr.jpg",
+    alt: "IDL Education Banner",
+  },
+  {
     id: "local-2",
     imageUrl: "/bannerr.jpg",
     alt: "IDL Education Banner Alternate",
