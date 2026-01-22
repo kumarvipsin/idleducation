@@ -200,7 +200,7 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:h-auto">
+                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:p-6 lg:p-12 h-auto md:h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
@@ -209,7 +209,7 @@ export default function OfflineCentersPage() {
                                     IDL Learning Centres
                                 </h1>
                             </div>
-                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
+                            <div className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold py-2 px-4 inline-block rounded-full shadow-lg">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
