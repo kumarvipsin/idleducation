@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,9 +6,11 @@ import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award } from "lucide-re
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { cn } from "@/lib/utils";
+
 
 const cities = [
     "Mukherjee Nagar",
@@ -127,6 +128,33 @@ const FixedBottomBar = () => {
 }
 
 export default function OfflineCentersPage() {
+    const [api, setApi] = useState<CarouselApi>();
+    const [current, setCurrent] = useState(0);
+
+    useEffect(() => {
+        if (!api) {
+        return;
+        }
+    
+        setCurrent(api.selectedScrollSnap());
+        api.on("select", () => {
+        setCurrent(api.selectedScrollSnap());
+        });
+    }, [api]);
+
+    const scrollTo = useCallback(
+        (index: number) => {
+        api?.scrollTo(index);
+        },
+        [api]
+    );
+    
+    const slides = [
+      { src: "https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080", alt: "IDL Offline Center", hint: "classroom students" },
+      { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students learning", hint: "students learning" },
+      { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students collaborating", hint: "students collaborating" },
+    ];
+    
     const OutstandingResults = () => {
         const resultSlides = [
             {
@@ -201,34 +229,54 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-2">
-                                <Sparkles className="w-8 h-8 text-yellow-500" />
-                                <h1 className="text-3xl md:text-5xl font-bold text-white">
-                                    IDL Learning Centres Now in Delhi
-                                </h1>
-                            </div>
-                             <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-lg">
-                                <p>Offline Courses for CUET | 6-10 Foundation</p>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
-                                    <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
-                            <Image
-                                src="https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080"
-                                alt="IDL Offline Center"
-                                data-ai-hint="classroom students"
-                                fill
-                                className="object-cover"
+                 <div className="relative rounded-2xl overflow-hidden">
+                    <Carousel
+                      setApi={setApi}
+                      plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
+                      className="w-full"
+                      opts={{ loop: true }}
+                    >
+                        <CarouselContent>
+                            {slides.map((slide, index) => (
+                                <CarouselItem key={index}>
+                                    <div className="relative w-full aspect-video md:aspect-[16/6]">
+                                        <Image
+                                            src={slide.src}
+                                            alt={slide.alt}
+                                            data-ai-hint={slide.hint}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center p-4">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <Sparkles className="w-8 h-8 text-yellow-500" />
+                                                <h1 className="text-3xl md:text-5xl font-bold">
+                                                    IDL Learning Centres Now in Delhi
+                                                </h1>
+                                            </div>
+                                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
+                                                <p>Offline Courses for CUET | 6-10 Foundation</p>
+                                            </div>
+                                            <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
+                                                <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex justify-center gap-2">
+                        {slides.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => scrollTo(i)}
+                                className={cn(
+                                    "h-2 w-2 rounded-full transition-all duration-300",
+                                    current === i ? "w-6 bg-white" : "bg-white/50"
+                                )}
                             />
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
