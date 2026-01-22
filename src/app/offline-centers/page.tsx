@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -75,7 +74,7 @@ const WhyIDL = () => {
                         </div>
                         <div>
                             <Image
-                                src="https://picsum.photos/seed/why-idl/600/400"
+                                src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzY2hvb2wlMjBzdHVkZW50fGVufDB8fHx8MTc2OTEwMzcwNnww&ixlib=rb-4.1.0&q=80&w=1080"
                                 alt="Teacher helping students"
                                 data-ai-hint="teacher students"
                                 width={600}
@@ -391,5 +390,3 @@ export default function OfflineCentersPage() {
         </div>
     );
 }
-
-    
