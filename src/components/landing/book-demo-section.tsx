@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 
 export function BookDemoSection() {
   return (
-    <section className="w-full py-4 md:py-7 bg-white dark:bg-gray-900">
+    <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -24,12 +24,13 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-64 flex items-center justify-center">
+            <div className="h-32 md:h-40 flex items-center justify-center">
               <Image
                 src="/idladv.png"
                 alt="Students with a tablet"
                 data-ai-hint="student teacher tablet"
-                fill
+                width={200}
+                height={180}
                 className="object-contain"
               />
             </div>
