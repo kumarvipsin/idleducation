@@ -57,10 +57,10 @@ const WhyIDL = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div className="space-y-4">
-                        <h2 className="text-3xl md:text-4xl font-bold text-orange-500">Why IDL?</h2>
-                        <h3 className="text-xl font-semibold text-foreground">
+                        <h3 className="text-xl font-semibold text-orange-500">Why IDL?</h3>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                             Unlock True Potential Through <span className="text-orange-500">Highest Personal Attention</span>
-                        </h3>
+                        </h2>
                         <p className="text-muted-foreground">
                             At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
                         </p>
@@ -285,8 +285,7 @@ export default function OfflineCentersPage() {
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-                        IDL Learning Centres Now in{' '}
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">IDL Learning Centres Now in{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10">Delhi</span>
                             <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
