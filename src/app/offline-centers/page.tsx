@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -79,7 +80,7 @@ const WhyIDL = () => {
                                 data-ai-hint="teacher students"
                                 width={600}
                                 height={400}
-                                className="rounded-lg shadow-lg w-full h-auto"
+                                className="rounded-lg shadow-lg w-full h-auto object-cover"
                             />
                         </div>
                     </div>
@@ -121,7 +122,7 @@ const ScholarshipSection = () => {
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill
-                                    className="object-contain"
+                                    className="object-cover"
                                 />
                            </div>
                         </div>
