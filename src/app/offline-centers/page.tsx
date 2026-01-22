@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,27 +53,29 @@ const centers = [
 
 const WhyIDL = () => {
     return (
-        <section className="bg-blue-50 dark:bg-blue-900/20 py-12">
+        <section className="w-full py-12 bg-muted/20 dark:bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-4">
-                        <h2 className="text-3xl md:text-4xl font-bold text-orange-500">Why IDL?</h2>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                            Unlock True Potential Through <span className="text-orange-500">Highest Personal Attention</span>
-                        </h2>
-                        <p className="text-muted-foreground">
-                            At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
-                        </p>
-                    </div>
-                    <div>
-                        <Image
-                            src="https://images.unsplash.com/photo-1764720572930-eb63afd14b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8c3R1ZGVudCUyMHNjaG9vbHxlbnwwfHx8fDE3NjkwNTUzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                            alt="Teacher helping students"
-                            data-ai-hint="teacher students"
-                            width={600}
-                            height={400}
-                            className="rounded-lg shadow-lg"
-                        />
+                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-4">
+                            <h2 className="text-3xl md:text-4xl font-bold text-orange-500">Why IDL?</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                                Unlock True Potential Through <span className="text-orange-500">Highest Personal Attention</span>
+                            </h2>
+                            <p className="text-muted-foreground">
+                                At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
+                            </p>
+                        </div>
+                        <div>
+                            <Image
+                                src="https://images.unsplash.com/photo-1764720572930-eb63afd14b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8c3R1ZGVudCUyMHNjaG9vbHxlbnwwfHx8fDE3NjkwNTUzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                                alt="Teacher helping students"
+                                data-ai-hint="teacher students"
+                                width={600}
+                                height={400}
+                                className="rounded-lg shadow-lg"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,7 +91,7 @@ const ScholarshipSection = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="space-y-6 text-center md:text-left">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
-                            <div className="space-y-2 flex flex-col items-center md:items-start">
+                            <div className="space-y-2 flex flex-col items-start">
                                 <div className="flex items-center gap-2 justify-start">
                                     <Trophy className="h-6 w-6 text-primary flex-shrink-0" />
                                     <p className="text-muted-foreground">Upto 70% Scholarship on IDL Course Admissions</p>
