@@ -75,7 +75,7 @@ const WhyIDL = () => {
                         </div>
                         <div>
                             <Image
-                                src="https://images.unsplash.com/photo-1764720572930-eb63afd14b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8c3R1ZGVudCUyMHNjaG9vbHxlbnwwfHx8fDE3NjkwNTUzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                                src="https://picsum.photos/seed/why-idl/600/400"
                                 alt="Teacher helping students"
                                 data-ai-hint="teacher students"
                                 width={600}
@@ -118,7 +118,7 @@ const ScholarshipSection = () => {
                         <div className="h-64 md:h-80 flex items-center justify-center">
                            <div className="relative w-full h-full">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxTY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwNTUyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                                    src="https://picsum.photos/seed/scholarship/800/600"
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill
@@ -135,10 +135,10 @@ const ScholarshipSection = () => {
 
 const FixedBottomBar = () => {
     return (
-        <section className="fixed bottom-0 left-0 right-0 z-50 w-full py-3 bg-white dark:bg-gray-800 border-t">
+        <section className="fixed bottom-0 left-0 right-0 z-50 w-full py-4 bg-white dark:bg-gray-800 border-t">
             <div className="container mx-auto px-4 md:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <p className="text-lg text-center sm:text-left text-foreground">
-                    Reach out to us : <a href="tel:08860040010" className="font-bold underline hover:text-primary">08860040010</a>
+                    Reach out to us : <a href="tel:08860040010" className="text-xl font-extrabold underline hover:text-primary">08860040010</a>
                 </p>
             </div>
         </section>
