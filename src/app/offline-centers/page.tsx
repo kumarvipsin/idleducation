@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -84,7 +85,7 @@ const ScholarshipSection = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-orange-500">70% scholarship</span> with the Instant IDL Scholarship Admission Test (ISAT)</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-orange-500">70% scholarship</span> with the IDL Scholarship Admission Test</h2>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4">
                                 <Trophy className="h-8 w-8 text-orange-500" />
@@ -259,7 +260,7 @@ export default function OfflineCentersPage() {
                                                     IDL Learning Centres Now in Delhi
                                                 </h1>
                                             </div>
-                                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
+                                            <div className="bg-orange-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
                                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                                             </div>
                                             <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
