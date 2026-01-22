@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +37,7 @@ export function ScholarshipSection() {
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill
-                                    className="object-contain"
+                                    className="object-cover"
                                 />
                            </div>
                         </div>
