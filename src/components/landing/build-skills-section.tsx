@@ -8,11 +8,6 @@ import { cn } from "@/lib/utils";
 
 const localSlides = [
   {
-    id: "local-1",
-    imageUrl: "/banner.jpg",
-    alt: "IDL Education Banner",
-  },
-  {
     id: "local-2",
     imageUrl: "/bannerr.jpg",
     alt: "IDL Education Banner Alternate",
@@ -45,10 +40,10 @@ export function BuildSkillsSection() {
     <section className="py-2 container mx-auto px-4 md:px-6">
         <div className="relative rounded-2xl overflow-hidden">
             <Carousel
-                setApi={setApi}
-                plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
-                className="w-full"
-                opts={{ loop: true }}
+              setApi={setApi}
+              plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
+              className="w-full"
+              opts={{ loop: true }}
             >
                 <CarouselContent>
                     {localSlides.map((slide, index) => (
