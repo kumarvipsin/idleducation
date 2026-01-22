@@ -58,7 +58,7 @@ const WhyIDL = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div className="space-y-4">
                         <h3 className="text-orange-500 font-bold text-lg">Why IDL?</h3>
-                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Unlock True Potential Through<br />Highest Personal Attention</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground">Unlock True Potential Through<br /><span className="text-orange-500">Highest Personal Attention</span></h2>
                         <p className="text-muted-foreground">
                             At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
                         </p>
