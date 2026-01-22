@@ -26,7 +26,7 @@ export function BookDemoSection() {
             </div>
             <div className="relative h-40 md:h-48 flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-4/5 bg-pink-100 dark:bg-pink-900/20 rounded-[50%]"></div>
+                    <div className="w-full h-4/5 bg-blue-100 dark:bg-blue-900/30 rounded-[50%]"></div>
                 </div>
               <Image
                 src="/idladv.png"
