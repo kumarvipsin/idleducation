@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -132,9 +131,9 @@ export default function OfflineCentersPage() {
             {
                 title: "IDL Students Shine Bright in JEE ADVANCED 2025",
                 students: [
-                    { name: "Daksh Tayalia", air: "AIR 15", image: "https://picsum.photos/seed/student1/100" },
-                    { name: "Prakhar Singh", air: "AIR 92", image: "https://picsum.photos/seed/student2/100" },
-                    { name: "Panini", air: "AIR 273", image: "https://picsum.photos/seed/student3/100" }
+                    { name: "Ipsit Mittal", air: "AIR 1", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png" },
+                    { name: "Dhrumil Chauhan", air: "AIR 5", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-2.png" },
+                    { name: "Aditya Neeraje", air: "AIR 27", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png" }
                 ],
                 stat: {
                     main: "1 IN 3",
@@ -144,9 +143,9 @@ export default function OfflineCentersPage() {
             {
                 title: "IDL Students Dominate NEET 2025",
                 students: [
-                    { name: "Student A", air: "AIR 5", image: "https://picsum.photos/seed/student4/100" },
-                    { name: "Student B", air: "AIR 22", image: "https://picsum.photos/seed/student5/100" },
-                    { name: "Student C", air: "AIR 50", image: "https://picsum.photos/seed/student6/100" }
+                    { name: "Pranjal Aggarwal", air: "AIR 4", image: "https://www.pw.live/version14/assets/img/neet-toppers-2023/pranjal-agarwal.png" },
+                    { name: "Dhruv Advani", air: "AIR 5", image: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png" },
+                    { name: "Aritro Ray", air: "AIR 50", image: "https://www.aakash.ac.in/blog/wp-content/uploads/2023/06/Post-Blog-Banner-1.jpg" },
                 ],
                 stat: {
                     main: "3 IN 100",
@@ -173,7 +172,7 @@ export default function OfflineCentersPage() {
                                         <div className="grid grid-cols-4 gap-2 items-center">
                                             {slide.students.map(student => (
                                                 <div key={student.name} className="flex flex-col items-center text-center">
-                                                    <Image src={student.image} alt={student.name} width={64} height={64} className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white" />
+                                                    <Image src={student.image} alt={student.name} width={64} height={64} className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white object-cover" />
                                                     <p className="font-bold mt-1 text-[0.6rem] md:text-xs">{student.name}</p>
                                                     <div className="text-[0.5rem] bg-gray-800 px-2 py-0.5 rounded-md mt-1">
                                                       {student.air}
@@ -201,16 +200,16 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
+                <div className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
-                             <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-500" />
                                 <h1 className="text-3xl md:text-5xl font-bold text-foreground">
                                     IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
-                            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold py-2 px-4 inline-block rounded-full">
+                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
@@ -221,7 +220,7 @@ export default function OfflineCentersPage() {
                         </div>
 
                         <div className="relative h-64 lg:h-80 rounded-2xl overflow-hidden shadow-2xl">
-                             <Image
+                            <Image
                                 src="https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080"
                                 alt="IDL Offline Center"
                                 data-ai-hint="classroom students"
