@@ -63,7 +63,7 @@ const WhyIDL = () => {
                     </div>
                     <div>
                         <Image
-                            src="https://picsum.photos/seed/why-idl/600/400"
+                            src="https://images.unsplash.com/photo-1764720572930-eb63afd14b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c3R1ZGVudCUyMHNjaG9vbHxlbnwwfHx8fDE3NjkwNTUzNzB8MA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Teacher helping students"
                             data-ai-hint="teacher students"
                             width={600}
@@ -79,7 +79,7 @@ const WhyIDL = () => {
 
 const ScholarshipSection = () => {
     return (
-         <section className="bg-orange-50 dark:bg-orange-900/20 py-12 mt-12">
+         <section className="bg-blue-50 dark:bg-blue-900/20 py-12 mt-12">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
@@ -201,16 +201,16 @@ export default function OfflineCentersPage() {
     return (
         <div className="bg-white dark:bg-background pb-20">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:p-6 lg:p-12 h-auto md:h-auto">
+                <div className="bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 rounded-2xl p-4 md:p-6 lg:p-12 h-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
                         <div className="space-y-6">
                              <div className="flex items-center gap-2">
                                 <Sparkles className="w-8 h-8 text-yellow-500" />
                                 <h1 className="text-3xl md:text-5xl font-bold text-foreground">
-                                    IDL Learning Centres
+                                    IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
-                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
+                            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold py-2 px-4 inline-block rounded-full">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
