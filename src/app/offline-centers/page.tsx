@@ -73,14 +73,13 @@ const WhyIDL = () => {
                                 At IDL we provide highest personal attention through our Student Obsessed Heroes and our Tech-integrated Systems.
                             </p>
                         </div>
-                        <div>
+                        <div className="relative h-64 md:h-80">
                             <Image
                                 src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxzY2hvb2wlMjBzdHVkZW50fGVufDB8fHx8MTc2OTEwMzcwNnww&ixlib=rb-4.1.0&q=80&w=1080"
                                 alt="Teacher helping students"
                                 data-ai-hint="teacher students"
-                                width={600}
-                                height={400}
-                                className="rounded-lg shadow-lg w-full h-auto object-cover"
+                                fill
+                                className="rounded-lg shadow-lg object-cover"
                             />
                         </div>
                     </div>
