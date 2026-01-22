@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -166,33 +165,33 @@ export default function OfflineCentersPage() {
       { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students collaborating", hint: "students collaborating" },
     ];
     
-    const OutstandingResults = () => {
-        const resultSlides = [
-            {
-                title: "IDL Students Shine Bright in JEE ADVANCED 2025",
-                students: [
-                    { name: "Ipsit Mittal", air: "AIR 1", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png" },
-                    { name: "Dhrumil Chauhan", air: "AIR 5", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-2.png" },
-                    { name: "Aditya Neeraje", air: "AIR 27", image: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png" }
-                ],
-                stat: {
-                    main: "1 IN 3",
-                    sub: "IDL Students Cleared JEE Advanced 2025"
-                }
-            },
-            {
-                title: "IDL Students Dominate NEET 2025",
-                students: [
-                    { name: "Pranjal Aggarwal", air: "AIR 4", image: "https://www.pw.live/version14/assets/img/neet-toppers-2023/pranjal-agarwal.png" },
-                    { name: "Dhruv Advani", air: "AIR 5", image: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png" },
-                    { name: "Aritro Ray", air: "AIR 50", image: "https://www.aakash.ac.in/blog/wp-content/uploads/2023/06/Post-Blog-Banner-1.jpg" },
-                ],
-                stat: {
-                    main: "3 IN 100",
-                    sub: "Students in Top 100 All India Ranks"
-                }
-            }
+    const OutstandingResultsImageSlider = () => {
+        const slides = [
+            { src: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: 'Topper Student 1', hint: 'student portrait' },
+            { src: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: 'Topper Student 2', hint: 'student happy' },
+            { src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: 'Topper Student 3', hint: 'student headshot' },
         ];
+    
+        const [sliderApi, setSliderApi] = useState<CarouselApi>();
+        const [sliderCurrent, setSliderCurrent] = useState(0);
+    
+        useEffect(() => {
+            if (!sliderApi) {
+                return;
+            }
+    
+            setSliderCurrent(sliderApi.selectedScrollSnap());
+            sliderApi.on("select", () => {
+                setSliderCurrent(sliderApi.selectedScrollSnap());
+            });
+        }, [sliderApi]);
+    
+        const sliderScrollTo = useCallback(
+            (index: number) => {
+                sliderApi?.scrollTo(index);
+            },
+            [sliderApi]
+        );
     
         return (
             <section className="w-full py-12">
@@ -205,41 +204,45 @@ export default function OfflineCentersPage() {
                             </span>
                         </h2>
                     </div>
-                    <Carousel
-                        plugins={[Autoplay({ delay: 5000, stopOnInteraction: true })]}
-                        opts={{ loop: true }}
-                    >
-                        <CarouselContent>
-                            {resultSlides.map((slide, index) => (
-                                <CarouselItem key={index}>
-                                    <Card className="bg-blue-600 text-white p-2 md:p-6 rounded-2xl shadow-2xl">
-                                        <h3 className="text-center text-sm md:text-lg font-bold mb-2">{slide.title}</h3>
-                                        <div className="grid grid-cols-4 gap-2 items-center">
-                                            {slide.students.map(student => (
-                                                <div key={student.name} className="flex flex-col items-center text-center">
-                                                    <Image src={student.image} alt={student.name} width={64} height={64} className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white object-cover" />
-                                                    <p className="font-bold mt-1 text-[0.6rem] md:text-xs">{student.name}</p>
-                                                    <div className="text-[0.5rem] bg-gray-800 px-2 py-0.5 rounded-md mt-1">
-                                                      {student.air}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            <div className="flex items-center justify-center">
-                                                <div className="text-center bg-yellow-400 text-black p-1 rounded-full w-24 h-24 md:w-32 md:h-32 flex flex-col justify-center items-center">
-                                                    <p className="text-xs md:text-sm font-semibold">EVERY</p>
-                                                    <p className="text-2xl md:text-3xl font-extrabold leading-none">{slide.stat.main}</p>
-                                                    <p className="text-[0.5rem] font-semibold mt-1 text-center px-1">{slide.stat.sub}</p>
-                                                </div>
-                                            </div>
+                     <div className="relative rounded-2xl overflow-hidden">
+                        <Carousel
+                          setApi={setSliderApi}
+                          plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
+                          className="w-full"
+                          opts={{ loop: true }}
+                        >
+                            <CarouselContent>
+                                {slides.map((slide, index) => (
+                                    <CarouselItem key={index}>
+                                        <div className="relative w-full aspect-video md:aspect-[16/7]">
+                                            <Image
+                                                src={slide.src}
+                                                alt={slide.alt}
+                                                data-ai-hint={slide.hint}
+                                                fill
+                                                className="object-cover"
+                                            />
                                         </div>
-                                    </Card>
-                                </CarouselItem>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex justify-center gap-2">
+                            {slides.map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => sliderScrollTo(i)}
+                                    className={cn(
+                                        "h-2 w-2 rounded-full transition-all duration-300",
+                                        sliderCurrent === i ? "w-6 bg-white" : "bg-white/50"
+                                    )}
+                                />
                             ))}
-                        </CarouselContent>
-                    </Carousel>
+                        </div>
+                    </div>
                 </div>
             </section>
-        )
+        );
     };
 
     return (
@@ -342,7 +345,7 @@ export default function OfflineCentersPage() {
             
             <WhyIDL />
             
-            <OutstandingResults />
+            <OutstandingResultsImageSlider />
 
             <ScholarshipSection />
 
