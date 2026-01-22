@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Sun, Book } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -74,32 +74,157 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
   );
 
 const CoursesMegaMenu = () => {
-    return (
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3 px-3">School Programs</h3>
-                    <div className="grid grid-cols-2 gap-1">
-                        {schoolPrograms.map((program) => (
-                            <Link key={program.href} href={program.href} className="block p-3 rounded-md hover:bg-muted">
-                                <p className="font-medium text-sm text-foreground">{program.name}</p>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-                <div>
-                     <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3 px-3">Competitive Exams</h3>
-                     <div className="grid grid-cols-2 gap-1">
-                         {competitivePrograms.map((program) => (
-                            <Link key={program.href} href={program.href} className="block p-3 rounded-md hover:bg-muted">
-                                <p className="font-medium text-sm text-foreground">{program.name}</p>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
+    const leftColumnLinks = [
+    {
+      icon: <CalendarClock className="h-5 w-5 text-red-500" />,
+      title: "Long Term Courses",
+      description: "Guaranteed improvement in marks or get your fees back",
+      href: "#",
+    },
+    {
+      icon: <ScreenShare className="h-5 w-5 text-blue-500" />,
+      title: "One-to-one LIVE classes",
+      description: "Learn one-to-one with a teacher for a personalised experience",
+      href: "#",
+    },
+    {
+      icon: <FileJson className="h-5 w-5 text-yellow-500" />,
+      title: "Topic specific courses",
+      description: "Master any topic at just ₹1",
+      href: "#",
+    },
+  ];
+
+  const coursesForKids = [
+    {
+      icon: <ToyBrick className="h-6 w-6 text-purple-500" />,
+      title: "English Superstar",
+      age: "Age 4-8",
+      description: "Level based holistic English program",
+      href: "#",
+    },
+    {
+      icon: <Sun className="h-6 w-6 text-orange-500" />,
+      title: "Summer Camp",
+      age: "For Lkg - Grade 10",
+      description: "Limited-time summer learning experience",
+      href: "#",
+    },
+    {
+      icon: <MessageSquare className="h-6 w-6 text-blue-500" />,
+      title: "Spoken English",
+      age: "Class 3 - 5",
+      description: "See your child speak fluently",
+      href: "#",
+    },
+    {
+      icon: <Book className="h-6 w-6 text-green-500" />,
+      title: "Learn Maths",
+      age: "Class 1 and 2",
+      description: "Build a strong foundation in mathematics",
+      href: "#",
+    },
+  ];
+
+  const findByClass = [
+    { name: "Repeater", subject: "Science PCM", href: "#" },
+    { name: "Repeater", subject: "Science PCB", href: "#" },
+    { name: "Class 12", subject: "Science PCM", href: "/school?class=Class 12" },
+    { name: "Class 12", subject: "Science PCB", href: "/school?class=Class 12" },
+    { name: "Class 12", subject: "Commerce", href: "/school?class=Class 12" },
+    { name: "Class 11", subject: "Science PCM", href: "/school?class=Class 11" },
+    { name: "Class 11", subject: "Science PCB", href: "/school?class=Class 11" },
+    { name: "Class 11", subject: "Commerce", href: "/school?class=Class 11" },
+    { name: "Class 10", subject: "", href: "/school?class=Class 10" },
+    { name: "Class 9", subject: "", href: "/school?class=Class 9" },
+    { name: "Class 8", subject: "", href: "/school?class=Class 8" },
+  ];
+
+  const findByTarget = [
+    { name: "School tuition", description: "For Class 3-12", href: "/school" },
+    { name: "Offline Centres", description: "Class 8-12", href: "/offline-centers" },
+    { name: "JEE for Grade 12th", description: "Subject Specific", href: "/category/iit-jee" },
+    { name: "NEET for Grade 12th", description: "Subject Specific", href: "/category/neet" },
+    { name: "JEE", description: "For Class 11-13", href: "/category/iit-jee" },
+    { name: "Maths Olympiad", description: "For Class 3-13", href: "#" },
+    { name: "NEET", description: "For Class 11-13", href: "/category/neet" },
+    { name: "Science Olympiad", description: "Grade 7 - 12", href: "#" },
+    { name: "Test Series", description: "Class 9-13", href: "#" },
+    { name: "JEE/NEET Foundation", description: "For Class 8-10", href: "#" },
+  ];
+
+  return (
+    <div className="container mx-auto px-4 md:px-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Column 1 */}
+        <div className="flex flex-col gap-2">
+          {leftColumnLinks.map((link) => (
+            <Link key={link.title} href={link.href} className="group flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+              <div className="bg-muted p-2 rounded-lg">{link.icon}</div>
+              <div>
+                <p className="font-semibold text-sm text-foreground">{link.title}</p>
+                <p className="text-xs text-muted-foreground">{link.description}</p>
+              </div>
+            </Link>
+          ))}
+          <div className="bg-purple-100/50 dark:bg-purple-900/20 p-3 rounded-lg mt-2">
+             <div className="flex items-center gap-2 mb-2">
+                <Star className="h-5 w-5 text-purple-500" />
+                <h3 className="font-semibold text-sm">Courses for Kids</h3>
+            </div>
+            <div className="flex flex-col gap-2">
+                {coursesForKids.map((course) => (
+                    <Link key={course.title} href={course.href} className="group bg-white dark:bg-card p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                       <div className="flex items-start gap-3">
+                            {course.icon}
+                            <div>
+                                <p className="font-bold text-sm text-foreground">{course.title}</p>
+                                <p className="text-xs font-semibold text-red-500">{course.age}</p>
+                                <p className="text-xs text-muted-foreground mt-1">{course.description}</p>
+                            </div>
+                       </div>
+                    </Link>
+                ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2 */}
+        <div className="border-x px-4">
+            <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-base">Find courses by class</h3>
+            </div>
+            <div className="flex flex-col gap-1">
+                {findByClass.map((item) => (
+                    <Link key={item.name + item.subject} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
+                        <span>{item.name} <span className="text-muted-foreground text-xs">{item.subject}</span></span>
+                    </Link>
+                ))}
             </div>
         </div>
-    )
+
+        {/* Column 3 */}
+        <div className="px-4">
+            <div className="flex items-center gap-2 mb-4">
+                <Search className="h-5 w-5 text-primary" />
+                <h3 className="font-semibold text-base">Find courses by target</h3>
+            </div>
+            <div className="flex flex-col gap-1">
+                 {findByTarget.map((item) => (
+                    <Link key={item.name} href={item.href} className="group p-2 rounded-md hover:bg-muted flex justify-between items-center">
+                        <div>
+                            <p className="text-sm font-semibold">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">{item.description}</p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </Link>
+                ))}
+            </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export function Header() {
@@ -489,8 +614,9 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible open={openMobileAccordion === 'courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'courses' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                        <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> Courses</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
@@ -507,6 +633,7 @@ export function Header() {
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
@@ -525,8 +652,9 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                        <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
