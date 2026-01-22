@@ -143,6 +143,17 @@ export default {
           '50%': { transform: 'translateY(-10px)' },
           '100%': { transform: 'translateY(0px)' },
         },
+        'morph': {
+          '0%': {
+            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+          },
+          '50%': {
+            borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%',
+          },
+          '100%': {
+            borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+          },
+        },
       },
       animation: {
         'collapsible-down': 'collapsible-down 0.2s ease-out',
@@ -156,6 +167,7 @@ export default {
         'spin-slow': 'spin-slow 20s linear infinite',
         'spin-slow-reverse': 'spin-slow-reverse 20s linear infinite',
         'float': 'float 4s ease-in-out infinite',
+        'morph': 'morph 8s ease-in-out infinite',
       },
     },
   },
