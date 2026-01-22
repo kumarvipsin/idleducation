@@ -24,14 +24,17 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="h-32 md:h-40 flex items-center justify-center">
+            <div className="relative h-40 md:h-48 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-4/5 h-3/5 bg-pink-100/50 dark:bg-pink-900/20 rounded-[50%] blur-2xl"></div>
+                </div>
               <Image
                 src="/idladv.png"
                 alt="Students with a tablet"
                 data-ai-hint="student teacher tablet"
                 width={200}
                 height={180}
-                className="object-contain"
+                className="object-contain relative z-10"
               />
             </div>
           </div>
