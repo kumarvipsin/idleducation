@@ -1,6 +1,7 @@
+
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -182,7 +183,7 @@ const CoursesMegaMenu = () => {
                         ))}
                     </div>
                 </div>
-
+                
                 {/* Column 3 */}
                 <div className="px-4">
                     <div className="flex items-center gap-2 mb-4">
@@ -198,8 +199,8 @@ const CoursesMegaMenu = () => {
                         ))}
                     </div>
                     <Separator className="my-4" />
-                    <h3 className="font-semibold text-base">Explore</h3>
-                    <div className="flex flex-col gap-1">
+                     <h3 className="font-semibold text-base">Explore</h3>
+                      <div className="flex flex-col gap-1">
                         {exploreLinks.map(item => (
                             <Link key={item.href} href={item.href} target={item.target} rel={item.target === '_blank' ? 'noopener noreferrer' : undefined} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
                                 <span>{item.label}</span>
@@ -452,9 +453,6 @@ export function Header() {
   const navLinks = [
     { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
     { href: "/contact", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applicationLinks = [
@@ -462,69 +460,13 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
-  
+
   const exploreLinks = [
     { label: "IDL Foundation", href: "/idl-foundation", target: "_blank", icon: <HandHeart className="h-4 w-4" />, description: "Support our cause and make a difference." },
     { label: "Volunteer", href: "/volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
     { label: "Gallery", href: "/gallery", icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
     { label: "IDL Blog", href: "/blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-  ];
-
-  const leftColumnLinks = [
-    {
-      icon: <CalendarClock className="h-5 w-5 text-red-500" />,
-      title: "Long Term Courses",
-      description: "Guaranteed improvement in marks or get your fees back",
-      href: "#",
-    },
-    {
-      icon: <ScreenShare className="h-5 w-5 text-blue-500" />,
-      title: "One-to-one LIVE classes",
-      description: "Learn one-to-one with a teacher for a personalised experience",
-      href: "#",
-    },
-    {
-      icon: <FileJson className="h-5 w-5 text-yellow-500" />,
-      title: "Topic specific courses",
-      description: "Master any topic at just ₹1",
-      href: "#",
-    },
-  ];
-
-  const coursesForKids = [
-    {
-      icon: <ToyBrick className="h-6 w-6 text-purple-500" />,
-      title: "English Superstar",
-      age: "Age 4-8",
-      description: "Level based holistic English program",
-      href: "#",
-    },
-    {
-      icon: <Sun className="h-6 w-6 text-orange-500" />,
-      title: "Summer Camp",
-      age: "For Lkg - Grade 10",
-      description: "Limited-time summer learning experience",
-      href: "#",
-    },
-    {
-      icon: <MessageSquare className="h-6 w-6 text-blue-500" />,
-      title: "Spoken English",
-      age: "Class 3 - 5",
-      description: "See your child speak fluently",
-      href: "#",
-    },
-    {
-      icon: <Book className="h-6 w-6 text-green-500" />,
-      title: "Learn Maths",
-      age: "Class 1 and 2",
-      description: "Build a strong foundation in mathematics",
-      href: "#",
-    },
-  ];
-  const findByTarget = [
-    { name: "School tuition", description: "For Class 3-12", href: "/school" },
   ];
 
   const loggedInNavLinks = [
@@ -684,39 +626,11 @@ export function Header() {
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2 space-y-2">
-                                        <div className="flex flex-col gap-1">
-                                            {leftColumnLinks.map((link) => (
-                                                <Link key={link.title} href={link.href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{link.icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{link.title}</p>
-                                                        <p className="text-xs text-muted-foreground">{link.description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                                 <Collapsible open={openMobileAccordion === 'kids-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'kids-courses' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><ToyBrick className="h-4 w-4" /> Courses for Kids</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="flex flex-col gap-1">
-                                            {coursesForKids.map((course) => (
-                                                <Link key={course.title} href={course.href} onClick={() => setIsMobileMenuOpen(false)} className="group bg-white dark:bg-card p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                                                    <div className="flex items-start gap-3">
-                                                        {course.icon}
-                                                        <div>
-                                                            <p className="font-bold text-sm text-foreground">{course.title}</p>
-                                                            <p className="text-xs font-semibold text-red-500">{course.age}</p>
-                                                            <p className="text-xs text-muted-foreground mt-1">{course.description}</p>
-                                                        </div>
-                                                    </div>
+                                     <CollapsibleContent className="p-2 space-y-2">
+                                        <div className="grid grid-cols-2 gap-1">
+                                            {allPrograms.map(({ href, name }) => (
+                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <p className="font-semibold text-sm">{name}</p>
                                                 </Link>
                                             ))}
                                         </div>
