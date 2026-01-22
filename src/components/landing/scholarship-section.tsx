@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -15,16 +14,16 @@ export function ScholarshipSection() {
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white text-center md:text-left">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 justify-center md:justify-start">
+                                <div className="flex items-center gap-2 justify-start">
                                     <Trophy className="h-6 w-6 text-primary flex-shrink-0" />
                                     <p className="text-muted-foreground">Upto 70% Scholarship on IDL Course Admissions</p>
                                 </div>
-                                <div className="flex items-center gap-2 justify-center md:justify-start">
+                                <div className="flex items-center gap-2 justify-start">
                                     <Award className="h-6 w-6 text-primary flex-shrink-0" />
                                     <p className="text-muted-foreground">Get 2X Scholarship by taking the Test at Our Centre</p>
                                 </div>
                             </div>
-                            <div className="md:text-left">
+                            <div className="text-left">
                                 <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
                                     <Link href="/scholarship">Register For FREE</Link>
                                 </Button>
