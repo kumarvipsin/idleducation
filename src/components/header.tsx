@@ -62,15 +62,6 @@ const CoursesMegaMenu = () => {
     
       const findByTarget = [
         { name: "School tuition", description: "For Class 3-12", href: "/school" },
-        { name: "Offline Centres", description: "Class 8-12", href: "/offline-centers" },
-        { name: "JEE for Grade 12th", description: "Subject Specific", href: "/category/iit-jee" },
-        { name: "NEET for Grade 12th", description: "Subject Specific", href: "/category/neet" },
-        { name: "JEE", description: "For Class 11-13", href: "/category/iit-jee" },
-        { name: "Maths Olympiad", description: "For Class 3-13", href: "#" },
-        { name: "NEET", description: "For Class 11-13", href: "/category/neet" },
-        { name: "Science Olympiad", description: "Grade 7 - 12", href: "#" },
-        { name: "Test Series", description: "Class 9-13", href: "#" },
-        { name: "JEE/NEET Foundation", description: "For Class 8-10", href: "#" },
       ];
 
       const leftColumnLinks = [
@@ -756,13 +747,11 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'courses' && <CoursesMegaMenu />}
-            {activeMenu === 'explore' && <ExploreMegaMenu />}
-            {activeMenu === 'apply' && <ApplyForMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
           </div>
         </div>
       </div>
     </>
   );
 }
-
-    
