@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -10,13 +9,13 @@ export function DiscoverAdvantage() {
   return (
     <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 md:p-6 text-white">
+        <div className="rounded-2xl bg-blue-100 dark:bg-blue-900/20 p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
                 Discover the <span className="text-orange-500">IDL Advantage</span>
               </h2>
-              <p className="text-white/80">
+              <p className="text-muted-foreground">
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
