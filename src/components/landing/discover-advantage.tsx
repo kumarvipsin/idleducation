@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -12,14 +13,14 @@ export function DiscoverAdvantage() {
         <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 md:p-6 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
-                Discover the <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-500">IDL Advantage</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Discover the <span className="text-orange-500">IDL Advantage</span>
               </h2>
               <p className="text-white/80">
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
-              <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all">
+              <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
                   Download Brochure
