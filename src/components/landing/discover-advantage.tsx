@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -10,13 +9,13 @@ export function DiscoverAdvantage() {
   return (
     <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="bg-blue-50 dark:bg-blue-900/20 border rounded-2xl p-4 md:p-6">
+        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 md:p-6 text-white">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-primary">
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">
                 Discover the IDL Advantage
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-white/80">
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
@@ -28,7 +27,14 @@ export function DiscoverAdvantage() {
               </Button>
             </div>
             <div className="h-32 md:h-40 flex items-center justify-center">
-              <BookOpen className="h-24 w-24 text-primary opacity-20" />
+              <Image
+                src="https://www.lamission.edu/sites/lamc.edu/files/styles/inline_image_1100w_/public/2025-05/LAMC-Catalog-Cover.jpg?itok=G6IILm53"
+                alt="IDL Education Brochure"
+                data-ai-hint="education brochure"
+                width={150}
+                height={180}
+                className="object-contain rounded-md shadow-lg"
+              />
             </div>
           </div>
         </div>
