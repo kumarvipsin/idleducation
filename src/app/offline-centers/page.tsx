@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +8,7 @@ import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -91,7 +90,7 @@ const WhyIDL = () => {
 
 const ScholarshipSection = () => {
     return (
-        <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900 mt-12">
+        <section className="w-full py-4 md:py-7 mt-12">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -245,39 +244,14 @@ export default function OfflineCentersPage() {
     );
     
     const slides = [
-      { src: "https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8fDE3NjkwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080", alt: "IDL Offline Center", hint: "classroom students" },
-      { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students learning", hint: "students learning" },
-      { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students collaborating", hint: "students collaborating" },
+      { src: "https://picsum.photos/seed/classroom1/1600/700", alt: "IDL Offline Center", hint: "classroom students" },
+      { src: "https://picsum.photos/seed/learning2/1600/700", alt: "Students learning", hint: "students learning" },
+      { src: "https://picsum.photos/seed/collaborate3/1600/700", alt: "Students collaborating", hint: "students collaborating" },
     ];
     
     const OutstandingResultsImageSlider = () => {
-        const slides = [
-            { src: 'https://picsum.photos/seed/jee-topper-2/1600/700', alt: 'Topper Student 1', hint: 'student portrait' },
-            { src: 'https://picsum.photos/seed/jee-topper-1/1600/700', alt: 'Topper Student 2', hint: 'student happy' },
-            { src: 'https://picsum.photos/seed/jee-topper-3/1600/700', alt: 'Topper Student 3', hint: 'student headshot' },
-        ];
-    
-        const [sliderApi, setSliderApi] = useState<CarouselApi>();
-        const [sliderCurrent, setSliderCurrent] = useState(0);
-    
-        useEffect(() => {
-            if (!sliderApi) {
-                return;
-            }
-    
-            setSliderCurrent(sliderApi.selectedScrollSnap());
-            sliderApi.on("select", () => {
-                setSliderCurrent(sliderApi.selectedScrollSnap());
-            });
-        }, [sliderApi]);
-    
-        const sliderScrollTo = useCallback(
-            (index: number) => {
-                sliderApi?.scrollTo(index);
-            },
-            [sliderApi]
-        );
-    
+        const slide = { src: 'https://picsum.photos/seed/jee-topper-2/1600/700', alt: 'Topper Student 1', hint: 'student portrait' };
+        
         return (
             <section className="w-full py-12">
                 <div className="container mx-auto px-4 md:px-6">
@@ -289,40 +263,15 @@ export default function OfflineCentersPage() {
                             </span>
                         </h2>
                     </div>
-                     <div className="relative rounded-2xl overflow-hidden">
-                        <Carousel
-                          setApi={setSliderApi}
-                          plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
-                          className="w-full"
-                          opts={{ loop: true }}
-                        >
-                            <CarouselContent>
-                                {slides.map((slide, index) => (
-                                    <CarouselItem key={index}>
-                                        <div className="relative w-full aspect-video md:aspect-[16/7]">
-                                            <Image
-                                                src={slide.src}
-                                                alt={slide.alt}
-                                                data-ai-hint={slide.hint}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                        </Carousel>
-                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex justify-center gap-2">
-                            {slides.map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => sliderScrollTo(i)}
-                                    className={cn(
-                                        "h-2 w-2 rounded-full transition-all duration-300",
-                                        sliderCurrent === i ? "w-6 bg-white" : "bg-white/50"
-                                    )}
-                                />
-                            ))}
+                    <div className="relative rounded-2xl overflow-hidden">
+                        <div className="relative w-full aspect-video md:aspect-[16/7]">
+                            <Image
+                                src={slide.src}
+                                alt={slide.alt}
+                                data-ai-hint={slide.hint}
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                     </div>
                 </div>
