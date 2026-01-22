@@ -28,7 +28,7 @@ export function DiscoverAdvantage() {
             </div>
             <div className="h-32 md:h-40 flex items-center justify-center">
               <Image
-                src="https://images.template.net/219079/business-coaching-flyer-template-edit-online.jpg"
+                src="https://images.unsplash.com/photo-1622223373286-4db475b3b9a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxicm9jaHVyZSUyMHxlbnwwfHx8fDE3NjkwOTgxNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="IDL Education Brochure"
                 data-ai-hint="education brochure"
                 width={150}
