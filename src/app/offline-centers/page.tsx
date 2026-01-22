@@ -85,7 +85,7 @@ const ScholarshipSection = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-primary">70% scholarship</span> with the IDL Scholarship Admission Test</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the IDL Scholarship Admission Test</h2>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4">
                                 <Trophy className="h-8 w-8 text-primary" />
@@ -260,7 +260,7 @@ export default function OfflineCentersPage() {
                                                     IDL Learning Centres Now in Delhi
                                                 </h1>
                                             </div>
-                                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
+                                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold py-2 px-4 inline-block rounded-full mb-4">
                                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                                             </div>
                                             <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
@@ -328,7 +328,7 @@ export default function OfflineCentersPage() {
                                     <MapPin className="w-4 h-4 mt-1 shrink-0" />
                                     <p className="text-sm">{center.address}</p>
                                 </div>
-                                <Button asChild variant="outline" className="w-full">
+                                <Button asChild variant="outline" className="w-full rounded-full">
                                     <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
                                 </Button>
                             </CardContent>
