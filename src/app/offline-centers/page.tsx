@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -283,7 +284,13 @@ export default function OfflineCentersPage() {
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                  <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl font-bold">IDL Learning Centres Now in Delhi</h2>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+                        IDL Learning Centres Now in{' '}
+                        <span className="relative inline-block">
+                            <span className="relative z-10">Delhi</span>
+                            <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+                        </span>
+                    </h2>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
