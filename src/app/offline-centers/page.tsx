@@ -210,7 +210,7 @@ export default function OfflineCentersPage() {
                                     IDL Learning Centres Now in Delhi
                                 </h1>
                             </div>
-                            <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-full">
+                             <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-2 px-4 inline-block rounded-lg">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
@@ -234,6 +234,9 @@ export default function OfflineCentersPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
+                 <div className="text-center mb-8">
+                    <h2 className="text-3xl md:text-4xl font-bold">IDL Learning Centres Now in Delhi</h2>
+                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
                         <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-primary transition-all cursor-pointer">
