@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -190,87 +191,22 @@ const CoursesMegaMenu = () => {
     );
 };
 
-const ExploreMegaMenu = () => {
-    const { t } = useLanguage();
-    const navLinks = [
-        { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
-        { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
-        { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-        { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-        { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
-    ];
-    
-    const renderLink = (link: typeof navLinks[0]) => (
-        <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-            <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
-            <div>
-                <p className="font-semibold text-sm text-foreground">{link.label}</p>
-                <p className="text-xs text-muted-foreground">{link.description}</p>
-            </div>
-        </Link>
-    );
-
-    return (
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col gap-1">
-                    {navLinks.slice(0, 2).map(renderLink)}
-                </div>
-                <div className="border-x px-4">
-                    <div className="flex flex-col gap-1">
-                        {navLinks.slice(2, 4).map(renderLink)}
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
+    <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-1">
+            {links && links.map((link) => (
+                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div>
+                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
+                        <p className="text-xs text-muted-foreground">{link.description}</p>
                     </div>
-                </div>
-                <div className="px-4">
-                    <div className="flex flex-col gap-1">
-                        {navLinks.slice(4, 5).map(renderLink)}
-                    </div>
-                </div>
-            </div>
+                </Link>
+            ))}
+            {children}
         </div>
-    );
-};
-
-const ApplyForMegaMenu = () => {
-    const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
-  ];
-    
-    const renderLink = (link: typeof applyForLinks[0]) => (
-        <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-            <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
-            <div>
-                <p className="font-semibold text-sm text-foreground">{link.label}</p>
-                <p className="text-xs text-muted-foreground">{link.description}</p>
-            </div>
-        </Link>
-    );
-
-    return (
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col gap-1">
-                    {applyForLinks.slice(0, 2).map(renderLink)}
-                </div>
-                <div className="border-x px-4">
-                    <div className="flex flex-col gap-1">
-                        {applyForLinks.slice(2, 4).map(renderLink)}
-                    </div>
-                </div>
-                <div className="px-4">
-                     <div className="flex flex-col gap-1">
-                        {applyForLinks.slice(4, 5).map(renderLink)}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
+    </div>
+  );
 
 export function Header() {
   const { t } = useLanguage();
@@ -755,3 +691,5 @@ export function Header() {
     </>
   );
 }
+
+    
