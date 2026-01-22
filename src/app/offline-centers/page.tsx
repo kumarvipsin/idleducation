@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -100,7 +101,7 @@ const ScholarshipSection = () => {
                     </div>
                     <div className="relative h-80">
                         <Image
-                            src="https://img.freepik.com/free-photo/portrait-young-indian-woman-gesturing_23-2149363632.jpg?t=st=1720780287~exp=1720783887~hmac=e209865c697843399081e804f54d1a58c067d021f1d10e051c5f3554b7f83350&w=996"
+                            src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwNTUyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Student with trophy"
                             data-ai-hint="student trophy"
                             fill
@@ -209,7 +210,7 @@ export default function OfflineCentersPage() {
                                     IDL Learning Centres
                                 </h1>
                             </div>
-                            <div className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold py-2 px-4 inline-block rounded-full shadow-lg">
+                            <div className="bg-primary text-primary-foreground font-semibold py-2 px-4 inline-block rounded-full">
                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-4">
