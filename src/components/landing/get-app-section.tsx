@@ -123,7 +123,7 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
-                <Card className="bg-blue-50 dark:bg-blue-900/20 transition-colors cursor-pointer">
+                <Card className="bg-white dark:bg-card transition-colors cursor-pointer">
                     <div className="flex items-center gap-4 p-6">
                     <div className="bg-primary/10 text-primary p-3 rounded-full">
                         <Headset className="w-6 h-6" />
