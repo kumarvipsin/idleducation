@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -116,7 +117,7 @@ const ScholarshipSection = () => {
                         <div className="h-64 md:h-80 flex items-center justify-center">
                            <div className="relative w-full h-full">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwNTUyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                                    src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxTY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwNTUyMzJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill
@@ -251,9 +252,9 @@ export default function OfflineCentersPage() {
     
     const OutstandingResultsImageSlider = () => {
         const slides = [
-            { src: 'https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-2.png', alt: 'Topper Student 1', hint: 'student portrait' },
-            { src: 'https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png', alt: 'Topper Student 2', hint: 'student happy' },
-            { src: 'https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png', alt: 'Topper Student 3', hint: 'student headshot' },
+            { src: 'https://picsum.photos/seed/jee-topper-2/1600/700', alt: 'Topper Student 1', hint: 'student portrait' },
+            { src: 'https://picsum.photos/seed/jee-topper-1/1600/700', alt: 'Topper Student 2', hint: 'student happy' },
+            { src: 'https://picsum.photos/seed/jee-topper-3/1600/700', alt: 'Topper Student 3', hint: 'student headshot' },
         ];
     
         const [sliderApi, setSliderApi] = useState<CarouselApi>();
