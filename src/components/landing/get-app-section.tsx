@@ -118,7 +118,7 @@ export function GetAppSection() {
     
   return (
     <>
-    <section className="w-full py-6 md:py-12 bg-white dark:bg-gray-900">
+    <section className="w-full pt-0 pb-6 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
