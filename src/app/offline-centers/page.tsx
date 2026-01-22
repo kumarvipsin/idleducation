@@ -1,4 +1,6 @@
+
 'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -256,7 +258,7 @@ export default function OfflineCentersPage() {
             <section className="w-full py-12">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">Our outstanding{' '}
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Our outstanding{' '}
                             <span className="relative inline-block">
                                 <span className="relative z-10">results</span>
                                 <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
@@ -330,7 +332,7 @@ export default function OfflineCentersPage() {
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground">IDL Learning Centres Now in{' '}
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">IDL Learning Centres Now in{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10">Delhi</span>
                             <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
