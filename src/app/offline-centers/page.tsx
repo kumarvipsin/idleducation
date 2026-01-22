@@ -85,14 +85,14 @@ const ScholarshipSection = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-6">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-orange-500">70% scholarship</span> with the IDL Scholarship Admission Test</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to <span className="text-primary">70% scholarship</span> with the IDL Scholarship Admission Test</h2>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4">
-                                <Trophy className="h-8 w-8 text-orange-500" />
+                                <Trophy className="h-8 w-8 text-primary" />
                                 <p className="text-gray-600 dark:text-gray-300">Upto 70% Scholarship on IDL Course Admissions</p>
                             </div>
                             <div className="flex items-center gap-4">
-                                <Award className="h-8 w-8 text-orange-500" />
+                                <Award className="h-8 w-8 text-primary" />
                                 <p className="text-gray-600 dark:text-gray-300">Get 2X Scholarship by taking the Test at Our Centre</p>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ export default function OfflineCentersPage() {
     );
     
     const slides = [
-      { src: "https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8MTc2OTAwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080", alt: "IDL Offline Center", hint: "classroom students" },
+      { src: "https://images.unsplash.com/photo-1510531704581-5b2870972060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxM3x8Y2xhc3Nyb29tfGVufDB8fHx8fDE3NjkwOTMzOHww&ixlib=rb-4.0.3&q=80&w=1080", alt: "IDL Offline Center", hint: "classroom students" },
       { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students learning", hint: "students learning" },
       { src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", alt: "Students collaborating", hint: "students collaborating" },
     ];
@@ -260,7 +260,7 @@ export default function OfflineCentersPage() {
                                                     IDL Learning Centres Now in Delhi
                                                 </h1>
                                             </div>
-                                            <div className="bg-orange-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
+                                            <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold py-2 px-4 inline-block rounded-lg mb-4">
                                                 <p>Offline Courses for CUET | 6-10 Foundation</p>
                                             </div>
                                             <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
