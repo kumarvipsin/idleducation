@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -187,29 +188,13 @@ const CoursesMegaMenu = () => {
                 <div className="px-4">
                     <div className="flex items-center gap-2 mb-4">
                         <GraduationCap className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-base">Apply Now</h3>
+                        <h3 className="font-semibold text-base">Find courses by class</h3>
                     </div>
                     <div className="flex flex-col gap-1">
-                        {applicationLinks.map((item) => (
-                            <Link key={item.label} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                <span>{item.label}</span>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                            </Link>
-                        ))}
-                    </div>
-                    <div className="mt-4 pt-4 border-t">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Search className="h-5 w-5 text-primary" />
-                            <h3 className="font-semibold text-base">Explore</h3>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            {exploreLinks.map((item) => (
-                                <Link key={item.label} href={item.href} target={item.target} rel={item.target === '_blank' ? 'noopener noreferrer' : undefined} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                    <span>{item.label}</span>
-                                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </Link>
-                            ))}
-                        </div>
+                        <Link href={'/school?class=Repeater%20Science%20PCM'} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
+                            <span>Repeater Science PCM</span>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -454,11 +439,10 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applyForLinks = [
@@ -466,7 +450,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
@@ -557,14 +540,19 @@ export function Header() {
                                         Courses <ChevronDown className="h-4 w-4" />
                                     </Button>
                                 </div>
+                                <div className="h-full flex items-center">
+                                    <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                      <Link href="/about">About Us</Link>
+                                    </Button>
+                                  </div>
+                                  <div className="h-full flex items-center">
+                                    <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                      <Link href="/contact">Contact Us</Link>
+                                    </Button>
+                                  </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     Explore
-                                </Button>
-                              </div>
-                              <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                  Apply For
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
