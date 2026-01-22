@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -319,7 +318,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="rounded-2xl bg-blue-50 dark:bg-blue-900/20 p-4 md:p-6 text-foreground">
+        <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 md:p-6 text-white">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="relative h-56 md:h-64 flex items-center justify-center overflow-hidden">
                 <Image
@@ -335,17 +334,17 @@ export function GetAppSection() {
               <h2 className="text-2xl font-bold">
                 IDL Learning App - Learn Smart
               </h2>
-              <ul className="space-y-3 text-left text-muted-foreground">
+              <ul className="space-y-3 text-left text-white/80">
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-green-400" />
                   <span>Access <strong>free</strong> videos worth ₹5000</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-green-400" />
                   <span>Explore core concept videos</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-green-400" />
                   <span>Clear all your doubts</span>
                 </li>
               </ul>
