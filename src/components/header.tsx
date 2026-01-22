@@ -57,12 +57,15 @@ type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 const CoursesMegaMenu = () => {
-    const findByClass = [
-        { name: "Repeater", subject: "Science PCM", href: "#" },
-      ];
-    
-      const findByTarget = [
+    const findByTarget = [
         { name: "School tuition", description: "For Class 3-12", href: "/school" },
+      ];
+
+      const applicationLinks = [
+        { label: "Admission Form", href: "/admission" },
+        { label: "Book Free Demo", href: "/book-demo" },
+        { label: "Student Enquiry", href: "/student-enquiry" },
+        { label: "Feedback Form", href: "/feedback" },
       ];
 
       const leftColumnLinks = [
@@ -156,13 +159,14 @@ const CoursesMegaMenu = () => {
                 {/* Column 2 */}
                 <div className="border-x px-4">
                     <div className="flex items-center gap-2 mb-4">
-                        <BookOpen className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-base">Find courses by class</h3>
+                        <GraduationCap className="h-5 w-5 text-primary" />
+                        <h3 className="font-semibold text-base">Apply Now</h3>
                     </div>
                     <div className="flex flex-col gap-1">
-                        {findByClass.map((item) => (
-                            <Link key={item.name + item.subject} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                <span>{item.name} <span className="text-muted-foreground text-xs">{item.subject}</span></span>
+                        {applicationLinks.map((item) => (
+                            <Link key={item.href} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
+                                <span>{item.label}</span>
+                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                             </Link>
                         ))}
                     </div>
@@ -691,5 +695,3 @@ export function Header() {
     </>
   );
 }
-
-    
