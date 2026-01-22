@@ -167,7 +167,7 @@ export default function OfflineCentersPage() {
                         <CarouselContent>
                             {resultSlides.map((slide, index) => (
                                 <CarouselItem key={index}>
-                                    <Card className="bg-orange-500 text-white p-2 md:p-6 rounded-2xl shadow-2xl">
+                                    <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-2 md:p-6 rounded-2xl shadow-2xl">
                                         <h3 className="text-center text-sm md:text-lg font-bold mb-2">{slide.title}</h3>
                                         <div className="grid grid-cols-4 gap-2 items-center">
                                             {slide.students.map(student => (
