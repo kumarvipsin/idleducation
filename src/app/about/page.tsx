@@ -103,7 +103,7 @@ export default function AboutPage() {
       </Link>
       <div className="relative z-10 container mx-auto py-12">
           <div className="w-full">
-            <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
+            <Card className="bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
                 <section>
                   <div className="flex flex-col items-center gap-12">
@@ -156,7 +156,7 @@ export default function AboutPage() {
                 </section>
               </CardContent>
             </Card>
-            <Card className="mt-8 shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <Card className="mt-8 bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <CardContent className="p-4 md:p-8">
                 <section className="py-12 md:py-20">
                   <div className="text-center mb-12">
@@ -206,7 +206,7 @@ export default function AboutPage() {
                 </section>
               </CardContent>
             </Card>
-             <Card className="mt-8 shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+             <Card className="mt-8 bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                 <CardContent className="p-4 md:p-8">
                     <section className="animate-fade-in-up" style={{ animationDelay: '1s' }}>
                         <TeamMembers />
