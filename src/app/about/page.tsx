@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -102,12 +101,12 @@ export default function AboutPage() {
                 <span className="sr-only">Close</span>
             </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+      <div className="relative z-10 container mx-auto py-12">
           <div className="w-full">
             <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
                 <section>
-                  <div className="flex flex-col items-center gap-8 lg:gap-12">
+                  <div className="flex flex-col items-center gap-12">
                       <div className="flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                           <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
                             {loading ? (
