@@ -106,9 +106,9 @@ export default function AboutPage() {
           <div className="w-full">
             <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
-                <section className="mb-12 md:mb-20">
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-                      <div className="lg:col-span-2 flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <section>
+                  <div className="flex flex-col items-center gap-8 lg:gap-12">
+                      <div className="flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                           <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
                             {loading ? (
                                 <Skeleton className="w-full h-full rounded-full" />
@@ -135,13 +135,13 @@ export default function AboutPage() {
                             )}
                           </div>
                       </div>
-                      <div className="lg:col-span-3 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                      <div className="w-full space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                           <div>
                               <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
                                   <PenSquare className="w-7 h-7" /> Director's Message
                               </h3>
                               <blockquote className="border-l-4 border-primary pl-6 italic text-lg md:text-xl text-foreground/80 leading-relaxed">
-                                "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized."
+                                "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success."
                               </blockquote>
                           </div>
                           <div>
@@ -149,7 +149,7 @@ export default function AboutPage() {
                                   <UserCircle className="w-7 h-7" /> Biography
                               </h3>
                               <div className="text-foreground/80 leading-relaxed">
-                                With over two decades in educational technology, {loading ? <Skeleton className="h-5 w-48 inline-block" /> : <span>{director?.name}</span>} is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His passion for accessible education is the driving force behind our mission.
+                                With over two decades in educational technology, {loading ? <Skeleton className="h-5 w-48 inline-block" /> : <span>{director?.name || 'AMOD KUMAR SHARMA'}</span>} is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His work has focused on creating adaptive learning systems that cater to individual student needs, making quality education accessible to all. His passion for accessible education is the driving force behind our mission, and he continues to innovate, ensuring that IDL EDUCATION remains at the forefront of educational excellence and technology. His vision extends beyond academics, aiming to build well-rounded individuals ready to contribute positively to society.
                               </div>
                           </div>
                       </div>
