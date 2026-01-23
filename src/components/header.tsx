@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -64,10 +64,10 @@ const CoursesMegaMenu = () => {
       ];
 
       const applicationLinks = [
-        { label: "Admission Form", href: "/admission", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-        { label: "Book Free Demo", href: "/book-demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-        { label: "Student Enquiry", href: "/student-enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-        { label: "Feedback Form", href: "/feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
+        { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
+        { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
+        { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
+        { href: "/feedback", label: "Feedback Form", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
       ];
 
       const exploreLinks = [
@@ -171,7 +171,7 @@ const CoursesMegaMenu = () => {
                         <Search className="h-5 w-5 text-primary" />
                         <h3 className="font-semibold text-base">Find courses by target</h3>
                     </div>
-                    <div className="flex flex-col gap-1">
+                     <div className="flex flex-col gap-1">
                         {findByTarget.map((item) => (
                             <Link key={item.name} href={item.href} className="group p-2 rounded-md hover:bg-muted flex justify-between items-center">
                                 <div>
@@ -713,6 +713,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'courses' && <CoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applicationLinks} title="" />}
+            {activeMenu === 'explore' && <MegaMenu links={exploreLinks} title="" />}
           </div>
         </div>
       </div>
