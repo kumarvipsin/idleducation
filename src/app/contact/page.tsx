@@ -66,7 +66,6 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 const supportTicketSchema = z.object({
     studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
     email: z.string().email({ message: "Please enter a valid email." }),
-    mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
     problem: z.string().min(10, { message: "Please describe your problem in at least 10 characters." }),
 });
 
@@ -94,7 +93,6 @@ export default function ContactPage() {
     defaultValues: {
       studentName: '',
       email: '',
-      mobile: '',
       problem: '',
     },
   });
@@ -148,228 +146,133 @@ export default function ContactPage() {
         </Link>
         <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
           <div className="w-full">
-              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up flex flex-col md:flex-row">
-                  <div className="p-8 md:w-1/2 m-[2.5%] border rounded-lg flex flex-col justify-start">
-                  <div className="space-y-2">
-                      <h2 className="text-3xl font-bold text-primary">Get in Touch</h2>
-                      <p className="text-muted-foreground">We're here to help and answer any question you might have. We look forward to hearing from you.</p>
-                  </div>
-                  
-                  <div className="space-y-6 flex-grow mt-8">
-                      {contactDetails.map((item, index) => (
-                          <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-muted/30">
-                              <div className="p-3 bg-primary/10 text-primary rounded-full">
-                                  <item.icon className="w-5 h-5" />
-                              </div>
-                              <div>
-                                  <a href={item.href} className="font-semibold text-foreground hover:text-primary hover:underline">{item.value}</a>
-                                  <h4 className="text-xs text-muted-foreground">{item.label}</h4>
-                              </div>
-                          </div>
-                      ))}
-                      <div className="pt-4 border-t">
-                          {showSupportForm ? (
-                          <div className="p-4 border rounded-lg bg-muted/30">
-                              <h3 className="text-sm font-semibold mb-2">Submit a Support Ticket</h3>
-                              <p className="text-xs text-muted-foreground mb-3">Please describe your issue, and our support team will get back to you shortly.</p>
-                              <Form {...supportForm}>
-                                  <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-3">
-                                      <FormField
-                                          control={supportForm.control}
-                                          name="studentName"
-                                          render={({ field }) => (
-                                              <FormItem>
-                                                  <FormControl>
-                                                      <div className="relative">
-                                                          <User className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                                                          <Input placeholder="Your full name" {...field} className="pl-7 h-9 text-xs" />
-                                                      </div>
-                                                  </FormControl>
-                                                  <FormMessage className="text-xs" />
-                                              </FormItem>
-                                          )}
-                                      />
-                                      <FormField
-                                          control={supportForm.control}
-                                          name="email"
-                                          render={({ field }) => (
-                                              <FormItem>
-                                                  <FormControl>
-                                                  <div className="relative">
-                                                      <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
-                                                      <Input type="email" placeholder="Your email address" {...field} className="pl-7 h-9 text-xs" />
-                                                  </div>
-                                                  </FormControl>
-                                                  <FormMessage className="text-xs" />
-                                              </FormItem>
-                                          )}
-                                      />
-                                      <FormField
-                                          control={supportForm.control}
-                                          name="problem"
-                                          render={({ field }) => (
-                                              <FormItem>
-                                                  <FormControl>
-                                                  <div className="relative">
-                                                      <Edit className="absolute left-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
-                                                      <Textarea placeholder="Describe your issue..." {...field} className="pl-7 text-xs" />
-                                                  </div>
-                                                  </FormControl>
-                                                  <FormMessage className="text-xs" />
-                                              </FormItem>
-                                          )}
-                                      />
-                                      <div className="flex gap-2">
-                                          <Button type="submit" size="sm" className="flex-1" disabled={supportForm.formState.isSubmitting}>
-                                              {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Ticket'}
-                                          </Button>
-                                          <Button type="button" variant="outline" size="sm" onClick={() => setShowSupportForm(false)}>Cancel</Button>
-                                      </div>
-                                  </form>
-                              </Form>
-                          </div>
-                          ) : (
-                          <div>
-                              <h3 className="text-sm font-semibold mb-1">Technical Support</h3>
-                              <p className="text-xs text-muted-foreground mb-3">Are you an enrolled student facing a technical issue? Please raise a support ticket.</p>
-                              <Button variant="outline" size="sm" onClick={() => setShowSupportForm(true)}>
-                                  <Headset className="mr-2 h-4 w-4"/>
-                                  Raise a Support Ticket
-                              </Button>
-                          </div>
-                          )}
-                      </div>
-                  </div>
-                  </div>
-
-                  <div className="md:w-1/2 m-[2.5%] flex flex-col gap-4">
-                  <div className="p-8 border rounded-lg flex flex-col justify-start">
-                      <div className="text-center mb-6">
+              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up">
+                  <div className="p-8 md:max-w-xl md:mx-auto flex flex-col gap-4">
+                  <div className="text-center mb-6">
                       <h3 className="text-2xl font-bold text-primary">Drop your message</h3>
                       <p className="text-muted-foreground text-sm">Fill out the form and we'll get back to you.</p>
-                      </div>
-                      <Form {...contactForm}>
-                      <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
-                          <FormField
+                  </div>
+                  <Form {...contactForm}>
+                  <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4 flex flex-col">
+                      <FormField
+                      control={contactForm.control}
+                      name="name"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormControl>
+                              <div className="relative">
+                                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                  <Input placeholder="Enter your name *" {...field} className="pl-9" />
+                              </div>
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <FormField
+                      control={contactForm.control}
+                      name="email"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormControl>
+                              <div className="relative">
+                                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                  <Input type="email" placeholder="Enter your email *" {...field} className="pl-9" />
+                              </div>
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <FormField
                           control={contactForm.control}
-                          name="name"
+                          name="phone"
                           render={({ field }) => (
-                              <FormItem>
+                          <FormItem>
                               <FormControl>
                                   <div className="relative">
-                                      <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <Input placeholder="Enter your name *" {...field} className="pl-9" />
+                                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                  <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                                  <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
                                   </div>
                               </FormControl>
                               <FormMessage />
-                              </FormItem>
+                          </FormItem>
                           )}
-                          />
-                          <FormField
+                      />
+                      <FormField
                           control={contactForm.control}
-                          name="email"
+                          name="country"
                           render={({ field }) => (
-                              <FormItem>
+                          <FormItem>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                   <div className="relative">
-                                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <Input type="email" placeholder="Enter your email *" {...field} className="pl-9" />
+                                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                      <SelectTrigger className="pl-9">
+                                          <SelectValue placeholder="Select your country" />
+                                      </SelectTrigger>
                                   </div>
                               </FormControl>
+                              <SelectContent>
+                                  {countries.map(country => (
+                                      <SelectItem key={country} value={country}>{country}</SelectItem>
+                                  ))}
+                              </SelectContent>
+                              </Select>
                               <FormMessage />
-                              </FormItem>
+                          </FormItem>
                           )}
-                          />
-                          <FormField
-                              control={contactForm.control}
-                              name="phone"
-                              render={({ field }) => (
-                              <FormItem>
-                                  <FormControl>
-                                      <div className="relative">
-                                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                                      <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
-                                      </div>
-                                  </FormControl>
-                                  <FormMessage />
-                              </FormItem>
-                              )}
-                          />
-                          <FormField
-                              control={contactForm.control}
-                              name="country"
-                              render={({ field }) => (
+                      />
+                      <FormField
+                          control={contactForm.control}
+                          name="state"
+                          render={({ field }) => (
                               <FormItem>
                                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
                                       <div className="relative">
-                                          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                           <SelectTrigger className="pl-9">
-                                              <SelectValue placeholder="Select your country" />
+                                              <SelectValue placeholder="Select your state *" />
                                           </SelectTrigger>
                                       </div>
                                   </FormControl>
                                   <SelectContent>
-                                      {countries.map(country => (
-                                          <SelectItem key={country} value={country}>{country}</SelectItem>
+                                      {indianStates.map(state => (
+                                          <SelectItem key={state} value={state}>{state}</SelectItem>
                                       ))}
                                   </SelectContent>
                                   </Select>
                                   <FormMessage />
                               </FormItem>
-                              )}
-                          />
-                          <FormField
-                              control={contactForm.control}
-                              name="state"
-                              render={({ field }) => (
-                                  <FormItem>
-                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                      <FormControl>
-                                          <div className="relative">
-                                              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                              <SelectTrigger className="pl-9">
-                                                  <SelectValue placeholder="Select your state *" />
-                                              </SelectTrigger>
-                                          </div>
-                                      </FormControl>
-                                      <SelectContent>
-                                          {indianStates.map(state => (
-                                              <SelectItem key={state} value={state}>{state}</SelectItem>
-                                          ))}
-                                      </SelectContent>
-                                      </Select>
-                                      <FormMessage />
-                                  </FormItem>
-                              )}
-                          />
-                          <FormField
-                          control={contactForm.control}
-                          name="message"
-                          render={({ field }) => (
-                              <FormItem>
-                              <FormControl>
-                                  <div className="relative">
-                                  <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                  <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
-                                  </div>
-                              </FormControl>
-                              <FormMessage />
-                              </FormItem>
                           )}
-                          />
-                          <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
-                          {contactForm.formState.isSubmitting ? 'Sending...' : (
-                              <>
-                              <Send className="mr-2 h-4 w-4" />
-                              Send Message
-                              </>
-                          )}
-                          </Button>
-                      </form>
-                      </Form>
-                  </div>
+                      />
+                      <FormField
+                      control={contactForm.control}
+                      name="message"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormControl>
+                              <div className="relative">
+                              <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                              <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
+                              </div>
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
+                      {contactForm.formState.isSubmitting ? 'Sending...' : (
+                          <>
+                          <Send className="mr-2 h-4 w-4" />
+                          Send Message
+                          </>
+                      )}
+                      </Button>
+                  </form>
+                  </Form>
                   </div>
               </Card>
           </div>
@@ -400,9 +303,7 @@ export default function ContactPage() {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">
-            Close
-          </Button>
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full">Close</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
