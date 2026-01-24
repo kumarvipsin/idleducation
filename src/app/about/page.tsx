@@ -94,17 +94,17 @@ export default function AboutPage() {
     }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
+    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto px-4 md:px-[10%]">
       <Link href="/" className="absolute top-4 right-4 z-20">
             <Button variant="outline" size="icon" className="rounded-full">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
             </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
+      <div className="relative z-10 container mx-auto py-12">
           <div className="w-full">
-            <Card className="bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up">
-              <CardContent className="p-4 md:p-8">
+            <Card className="bg-transparent shadow-none border-0 overflow-hidden animate-fade-in-up">
+              <CardContent className="p-0">
                 <section>
                   <div className="flex flex-col items-center gap-12">
                       <div className="flex flex-col items-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
@@ -136,15 +136,15 @@ export default function AboutPage() {
                       </div>
                       <div className="w-full space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                           <div>
-                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
+                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2 justify-center">
                                   <PenSquare className="w-7 h-7" /> Director's Message
                               </h3>
-                              <blockquote className="border-l-4 border-primary pl-6 italic text-lg md:text-xl text-foreground/80 leading-relaxed">
+                              <blockquote className="border-l-4 border-primary pl-6 italic text-lg md:text-xl text-foreground/80 leading-relaxed font-josefin-sans">
                                 "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success."
                               </blockquote>
                           </div>
                           <div>
-                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
+                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2 justify-center">
                                   <UserCircle className="w-7 h-7" /> Biography
                               </h3>
                               <div className="text-lg md:text-xl text-foreground/80 leading-relaxed">
@@ -156,8 +156,8 @@ export default function AboutPage() {
                 </section>
               </CardContent>
             </Card>
-            <Card className="mt-8 bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <CardContent className="p-4 md:p-8">
+            <Card className="mt-8 bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <CardContent className="p-0">
                 <section className="py-12 md:py-20">
                   <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Core Values</h2>
@@ -206,8 +206,8 @@ export default function AboutPage() {
                 </section>
               </CardContent>
             </Card>
-             <Card className="mt-8 bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-                <CardContent className="p-4 md:p-8">
+             <Card className="mt-8 bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+                <CardContent className="p-0">
                     <section className="animate-fade-in-up" style={{ animationDelay: '1s' }}>
                         <TeamMembers />
                     </section>
