@@ -147,7 +147,7 @@ export default function AboutPage() {
                               <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
                                   <UserCircle className="w-7 h-7" /> Biography
                               </h3>
-                              <div className="text-foreground/80 leading-relaxed">
+                              <div className="text-lg md:text-xl text-foreground/80 leading-relaxed">
                                 With over two decades in educational technology, {loading ? <Skeleton className="h-5 w-48 inline-block" /> : <span>{director?.name || 'AMOD KUMAR SHARMA'}</span>} is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His work has focused on creating adaptive learning systems that cater to individual student needs, making quality education accessible to all. His passion for accessible education is the driving force behind our mission, and he continues to innovate, ensuring that IDL EDUCATION remains at the forefront of educational excellence and technology. His vision extends beyond academics, aiming to build well-rounded individuals ready to contribute positively to society.
                               </div>
                           </div>
