@@ -101,7 +101,7 @@ export default function AboutPage() {
                 <span className="sr-only">Close</span>
             </Button>
       </Link>
-      <div className="relative z-10 container mx-auto py-12">
+      <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
           <div className="w-full">
             <Card className="bg-white dark:bg-gray-900 shadow-none rounded-2xl border-2 border-primary/10 overflow-hidden animate-fade-in-up">
               <CardContent className="p-4 md:p-8">
