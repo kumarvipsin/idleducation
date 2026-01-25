@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -159,8 +158,8 @@ export default function AboutPage() {
             </Card>
             <Card className="bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <CardContent className="p-0">
-                <section className="py-8 md:py-12">
-                    <div className="rounded-2xl bg-white dark:bg-card p-6 md:p-8 border shadow-lg">
+                <section className="py-4 md:py-7">
+                    <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border shadow-lg">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                             <div className="space-y-8">
                                 <div>
