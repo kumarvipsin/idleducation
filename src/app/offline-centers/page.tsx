@@ -1,10 +1,9 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award } from "lucide-react";
+import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award, X } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
@@ -281,7 +280,13 @@ export default function OfflineCentersPage() {
     };
 
     return (
-        <div className="bg-white dark:bg-background pb-20">
+        <div className="relative bg-white dark:bg-background pb-20">
+            <Link href="/" className="absolute top-4 right-4 z-50">
+                <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Close</span>
+                </Button>
+            </Link>
             <div className="container mx-auto px-4 md:px-6 py-2">
                  <div className="relative rounded-2xl overflow-hidden">
                     <Carousel
