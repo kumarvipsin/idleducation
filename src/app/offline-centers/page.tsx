@@ -95,9 +95,9 @@ const ScholarshipSection = () => {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div className="space-y-6 text-center md:text-left">
+                        <div className="space-y-6 text-left">
                             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Get up to 70% scholarship with the <span className="text-orange-500">IDL Scholarship Admission Test</span></h2>
-                            <div className="space-y-2 flex flex-col items-center md:items-start">
+                            <div className="space-y-2 flex flex-col items-start">
                                 <div className="flex items-center gap-2 justify-start">
                                     <Trophy className="h-6 w-6 text-primary flex-shrink-0" />
                                     <p className="text-muted-foreground">Upto 70% Scholarship on IDL Course Admissions</p>
@@ -107,7 +107,7 @@ const ScholarshipSection = () => {
                                     <p className="text-muted-foreground">Get 2X Scholarship by taking the Test at Our Centre</p>
                                 </div>
                             </div>
-                            <div className="text-center md:text-left">
+                            <div className="text-left">
                                 <Button asChild className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
                                     <Link href="/scholarship">Register For FREE</Link>
                                 </Button>
