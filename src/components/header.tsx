@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -124,7 +123,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -450,12 +449,12 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
+                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage && (
                             <>
                                <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="outline" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:border-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
@@ -600,7 +599,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="py-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
@@ -611,4 +610,3 @@ export function Header() {
     </>
   );
 }
-
