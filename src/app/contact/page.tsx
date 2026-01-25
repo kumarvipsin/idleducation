@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -54,22 +53,19 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden p-4">
-      <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-pink-400/30 rounded-full blur-[150px] animate-pulse" />
-      <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-orange-300/30 rounded-full blur-[150px] animate-pulse" style={{animationDelay: '4s'}} />
-
+    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 p-4">
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
           {/* Right Info (order changed for mobile) */}
-          <div className="space-y-8 text-white text-center lg:text-left order-1 lg:order-2">
+          <div className="space-y-8 text-center lg:text-left order-1 lg:order-2">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">Don't be a stranger just say hello!</h1>
-              <p className="text-gray-600 dark:text-white/80">
+              <p className="text-gray-600 dark:text-gray-300">
                 Thank you for your interest in our services. Please fill out the form below or e-mail us at hello@demoemail.com and we will get back to you promptly regarding your request.
               </p>
             </div>
             
-            <div className="relative p-8 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl shadow-lg mt-8 text-white">
+            <div className="relative p-8 bg-muted dark:bg-card rounded-2xl shadow-lg mt-8 text-foreground">
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <Phone className="w-5 h-5" />
@@ -85,15 +81,15 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <Separator className="my-6 bg-white/20" />
+              <Separator className="my-6 bg-border" />
 
               <div className="flex items-center gap-4">
                 <p className="font-semibold">Find us on:</p>
                 <div className="flex gap-2">
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Facebook className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Twitter className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Linkedin className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Instagram className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Twitter className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Linkedin className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-4 w-4" /></a>
                 </div>
               </div>
             </div>
@@ -101,7 +97,7 @@ export default function ContactPage() {
 
           {/* Left Form */}
           <div className="order-2 lg:order-1">
-            <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-white/30">
+            <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-gray-200 dark:border-gray-700">
               <CardContent className="p-8">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
