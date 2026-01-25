@@ -255,6 +255,23 @@ export function Header() {
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
+  const StoreIcon = () => (
+    <div className="flex items-center gap-1.5 text-current">
+        <div className="relative">
+            <ShoppingCart className="h-5 w-5" />
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3 w-3 absolute top-[5px] left-1/2 -translate-x-1/2 text-orange-500"
+            >
+                <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        </div>
+        <span className="font-semibold text-sm">Store</span>
+    </div>
+  );
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -529,7 +546,7 @@ export function Header() {
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300",
-    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-16' : 'h-12',
+    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-20' : 'h-12',
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -542,7 +559,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -565,11 +582,9 @@ export function Header() {
                                     </Button>
                                   </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                    IDL Store
-                                  </Link>
-                                </Button>
+                                <Link href="/store" target="_blank" rel="noopener noreferrer" className="group h-8 px-3 rounded-md flex items-center text-foreground hover:bg-primary/5 focus-visible:ring-0 focus-visible:ring-offset-0">
+                                    <StoreIcon />
+                                </Link>
                               </div>
                             </>
                           ) : (
@@ -589,7 +604,7 @@ export function Header() {
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                                <p className="text-sm font-bold text-foreground leading-tight tracking-wider">70-1111-7585</p>
                             </div>
                         </a>
                     </div>
@@ -676,8 +691,7 @@ export function Header() {
                                 </Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
+                                    <StoreIcon />
                                   </Link>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
