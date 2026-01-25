@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -390,7 +389,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-8 w-20 rounded-md" />;
+      return <Skeleton className="h-8 w-8 rounded-full" />;
     }
 
     if (user) {
@@ -483,16 +482,7 @@ export function Header() {
     if (user) {
       return null;
     }
-    return (
-        <div className="grid grid-cols-2 gap-2 p-2 border-t">
-            <Button asChild variant="default">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-            </Button>
-            <Button asChild variant="outline">
-                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-            </Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -541,6 +531,53 @@ export function Header() {
   );
   
   const megaMenuBg = "bg-background/95 backdrop-blur-sm";
+  
+    const AllCoursesMegaMenu = () => {
+    const allCoursesCategories = [
+        { 
+            name: "School Preparation", 
+            description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
+            href: "/school" 
+        },
+        { 
+            name: "School Boards", 
+            description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
+            href: "/school" 
+        },
+        {
+            name: "IIT-JEE/NEET",
+            description: "Prepare for engineering and medical entrance exams.",
+            href: "/category/iit-jee"
+        },
+        { 
+            name: "Govt Exam", 
+            description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
+            href: "/examcat?category=govt-job-exams" 
+        },
+        { 
+            name: "UG & PG Entrance Exams", 
+            description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
+            href: "/examcat" 
+        },
+    ];
+
+    return (
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="w-full md:w-1/3">
+                 {allCoursesCategories.map((category) => (
+                    <Link key={category.name} href={category.href} className="group flex justify-between items-center p-3 rounded-lg hover:bg-muted transition-colors">
+                        <div>
+                            <p className="font-semibold text-sm text-foreground">{category.name}</p>
+                            <p className="text-xs text-muted-foreground">{category.description}</p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}
+
 
   return (
     <>
@@ -551,10 +588,15 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                 <div className="ml-auto flex items-center gap-1">
-                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
+                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
+                                <Button variant="outline" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:border-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                    All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
+                                </Button>
+                              </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     Explore
@@ -572,7 +614,7 @@ export function Header() {
                                   </Link>
                                 </Button>
                               </div>
-                              <div className="h-full flex items-center">
+                               <div className="h-full flex items-center">
                                 {isClient && renderAuthSection()}
                               </div>
                             </>
@@ -697,6 +739,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
           </div>
