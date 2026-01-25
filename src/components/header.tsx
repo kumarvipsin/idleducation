@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight, Atom, Landmark } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -230,6 +230,59 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
     </div>
   );
 
+const AllCoursesMegaMenu = () => {
+    const allCoursesCategories = [
+        { 
+            name: "School Preparation", 
+            description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
+            href: "/school",
+            icon: <BookOpen className="h-5 w-5 text-blue-500" />
+        },
+        { 
+            name: "School Boards", 
+            description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
+            href: "/school",
+            icon: <Award className="h-5 w-5 text-green-500" />
+        },
+        {
+            name: "IIT-JEE/NEET",
+            description: "Prepare for engineering and medical entrance exams.",
+            href: "/category/iit-jee",
+            icon: <Atom className="h-5 w-5 text-red-500" />
+        },
+        { 
+            name: "Govt Exam", 
+            description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
+            href: "/examcat?category=govt-job-exams",
+            icon: <Landmark className="h-5 w-5 text-purple-500" />
+        },
+        { 
+            name: "UG & PG Entrance Exams", 
+            description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
+            href: "/examcat",
+            icon: <GraduationCap className="h-5 w-5 text-orange-500" />
+        },
+    ];
+
+    return (
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                 {allCoursesCategories.map((category) => (
+                    <Link key={category.name} href={category.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                        <div className="bg-muted p-3 rounded-lg mt-1">
+                            {category.icon}
+                        </div>
+                        <div>
+                            <p className="font-semibold text-sm text-foreground">{category.name}</p>
+                            <p className="text-xs text-muted-foreground">{category.description}</p>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading } = useAuth();
@@ -440,9 +493,9 @@ export function Header() {
     }
 
     return (
-      <Button asChild variant="outline">
-        <Link href="/login">Login</Link>
-      </Button>
+        <Button asChild variant="outline">
+          <Link href="/login">Login</Link>
+        </Button>
     );
   };
   
@@ -531,53 +584,6 @@ export function Header() {
   );
   
   const megaMenuBg = "bg-background/95 backdrop-blur-sm";
-  
-    const AllCoursesMegaMenu = () => {
-    const allCoursesCategories = [
-        { 
-            name: "School Preparation", 
-            description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
-            href: "/school" 
-        },
-        { 
-            name: "School Boards", 
-            description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
-            href: "/school" 
-        },
-        {
-            name: "IIT-JEE/NEET",
-            description: "Prepare for engineering and medical entrance exams.",
-            href: "/category/iit-jee"
-        },
-        { 
-            name: "Govt Exam", 
-            description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
-            href: "/examcat?category=govt-job-exams" 
-        },
-        { 
-            name: "UG & PG Entrance Exams", 
-            description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
-            href: "/examcat" 
-        },
-    ];
-
-    return (
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="w-full md:w-1/3">
-                 {allCoursesCategories.map((category) => (
-                    <Link key={category.name} href={category.href} className="group flex justify-between items-center p-3 rounded-lg hover:bg-muted transition-colors">
-                        <div>
-                            <p className="font-semibold text-sm text-foreground">{category.name}</p>
-                            <p className="text-xs text-muted-foreground">{category.description}</p>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
-                    </Link>
-                ))}
-            </div>
-        </div>
-    )
-}
-
 
   return (
     <>
@@ -632,7 +638,6 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
                     {notificationDropdown}
-                    {isClient && renderAuthSection()}
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
@@ -713,12 +718,6 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                   <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
-                                  </a>
                                 </Button>
                             </nav>
                         </div>
