@@ -113,7 +113,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-muted p-2 rounded-md mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -345,6 +345,39 @@ export function Header() {
     { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
   ];
 
+  const allCoursesCategories = [
+    { 
+        name: "School Preparation", 
+        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
+        href: "/school",
+        icon: <BookOpen className="h-5 w-5 text-blue-500" />
+    },
+    { 
+        name: "School Boards", 
+        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
+        href: "/school",
+        icon: <Award className="h-5 w-5 text-green-500" />
+    },
+    {
+        name: "IIT-JEE/NEET",
+        description: "Prepare for engineering and medical entrance exams.",
+        href: "/category/iit-jee",
+        icon: <Atom className="h-5 w-5 text-red-500" />
+    },
+    { 
+        name: "Govt Exam", 
+        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
+        href: "/examcat?category=govt-job-exams",
+        icon: <Landmark className="h-5 w-5 text-purple-500" />
+    },
+    { 
+        name: "UG & PG Entrance Exams", 
+        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
+        href: "/examcat",
+        icon: <GraduationCap className="h-5 w-5 text-orange-500" />
+    },
+  ];
+
   const renderMobileAuthSection = () => {
     if (loading) {
         return (
@@ -480,6 +513,27 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
+                                <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                            <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> All Courses</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-1 gap-1">
+                                            {allCoursesCategories.map(({ href, name: label, icon, description }) => (
+                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                    <div>
+                                                        <p className="font-semibold text-sm">{label}</p>
+                                                        <p className="text-xs text-muted-foreground">{description}</p>
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
@@ -503,8 +557,9 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                        <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
