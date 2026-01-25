@@ -436,9 +436,10 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+    "sticky top-0 z-50 transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-background/95 backdrop-blur-sm"
+    "bg-background/95 backdrop-blur-sm",
+    !activeMenu && "border-b"
   );
   
   const megaMenuBg = "bg-background/95 backdrop-blur-sm";
@@ -605,8 +606,8 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
-          <div className="pt-4 pb-4">
+        <div className={cn("absolute inset-x-0 top-0 border-b", megaMenuBg)}>
+          <div className="py-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
