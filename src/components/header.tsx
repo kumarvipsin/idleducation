@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -445,31 +446,31 @@ export function Header() {
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
+                <Link href={logoHref} className="flex items-center justify-center -ml-4">
+                  <Image src="/logo.png" alt="IDL Education Logo" width={96} height={96} className="h-24 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
-                          {!isIdlFoundationPage && (
+                          {!isIdlFoundationPage ? (
                             <>
-                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                              <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
+                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     <StoreIcon />
                                   </Link>
@@ -477,22 +478,40 @@ export function Header() {
                               </div>
                                <div className="h-full flex items-center">
                                 {isClient && !loading && !user && (
-                                  <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
+                                  <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                     <Link href="/login">Login</Link>
                                   </Button>
                                 )}
                               </div>
                             </>
+                          ) : (
+                            <div className="flex items-center gap-x-4 text-xs font-semibold">
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            </div>
                           )}
                     </nav>
+                </div>
+                <div className="flex items-center gap-1">
+                    <div className="hidden md:flex items-center gap-2">
+                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                            </div>
+                        </a>
+                    </div>
+                    
                     <div className="flex items-center gap-1">
                       {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
-                </div>
-                <div className="flex items-center gap-1 md:hidden">
-                    {notificationDropdown}
-                    <CollapsibleTrigger asChild>
+                    
+                    <CollapsibleTrigger asChild className="md:hidden">
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
@@ -599,7 +618,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
@@ -610,3 +629,5 @@ export function Header() {
     </>
   );
 }
+
+    
