@@ -1,43 +1,24 @@
+
 'use client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Send, Headset, Building, User, Edit, Globe, X } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { User, Phone, Mail, MessageSquare, MapPin, Linkedin, Facebook, Twitter, Instagram } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { submitContactForm } from "@/app/actions";
-import { useState } from "react";
-import Link from "next/link";
-
-const countryCodes = [
-    { code: "+91", country: "India" },
-    { code: "+1", country: "United States" },
-    { code: "+44", country: "United Kingdom" },
-    { code: "+61", country: "Australia" },
-    { code: "+1", country: "Canada" },
-].sort((a, b) => a.country.localeCompare(b.country));
-
-const indianStates = [
-    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-];
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
-  countryCode: z.string().optional(),
-  phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-  state: z.string().optional(),
-  message: z.string().optional(),
+  firstName: z.string().min(1, { message: "First name is required." }),
+  lastName: z.string().min(1, { message: "Last name is required." }),
+  phone: z.string().min(10, { message: "A valid phone number is required." }),
+  email: z.string().email({ message: "A valid email is required." }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -45,164 +26,175 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 export default function ContactPage() {
   const { toast } = useToast();
 
-  const contactForm = useForm<ContactFormValues>({
+  const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      countryCode: '+91-India',
+      firstName: '',
+      lastName: '',
       phone: '',
-      state: '',
+      email: '',
       message: '',
     },
   });
   
-  const onContactSubmit: SubmitHandler<ContactFormValues> = async (data) => {
-    const result = await submitContactForm({ ...data });
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    const result = await submitContactForm({ 
+        name: `${data.firstName} ${data.lastName}`, 
+        email: data.email, 
+        phone: data.phone, 
+        message: data.message
+    });
+
     if (result.success) {
       toast({ title: "Success", description: result.message });
-      contactForm.reset();
+      form.reset();
     } else {
       toast({ variant: "destructive", title: "Error", description: result.message });
     }
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 flex items-center justify-center p-4">
-        <div className="relative z-10 w-full max-w-2xl mx-auto">
-            <div className="text-center mb-12 animate-fade-in-up">
-                <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Contact Us</h1>
-                <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">We'd love to hear from you! Whether you have a question about our courses, need support, or anything else, our team is ready to answer all your questions.</p>
+    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-hidden p-4">
+      <div className="absolute top-0 -left-1/4 w-1/2 h-full bg-pink-400/30 rounded-full blur-[150px] animate-pulse" />
+      <div className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-orange-300/30 rounded-full blur-[150px] animate-pulse" style={{animationDelay: '4s'}} />
+
+      <div className="relative z-10 flex items-center justify-center min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
+          {/* Right Info (order changed for mobile) */}
+          <div className="space-y-8 text-white text-center lg:text-left order-1 lg:order-2">
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">Don't be a stranger just say hello!</h1>
+              <p className="text-gray-600 dark:text-white/80">
+                Thank you for your interest in our services. Please fill out the form below or e-mail us at hello@demoemail.com and we will get back to you promptly regarding your request.
+              </p>
             </div>
-            <Card className="w-full shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                <CardHeader>
-                  <CardTitle className="text-center text-2xl font-bold text-primary">Send a Message</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Form {...contactForm}>
-                    <form onSubmit={contactForm.handleSubmit(onContactSubmit)} className="space-y-4">
-                        <FormField
-                          control={contactForm.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="relative">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Enter your name *" {...field} className="pl-9" />
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={contactForm.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <div className="flex items-start gap-2">
-                            <FormField
-                                control={contactForm.control}
-                                name="countryCode"
-                                render={({ field }) => (
-                                <FormItem className="w-32">
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Code" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {countryCodes.map((country) => (
-                                        <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
-                                            {country.code}
-                                        </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={contactForm.control}
-                                name="phone"
-                                render={({ field }) => (
-                                <FormItem className="flex-1">
-                                    <FormControl>
-                                        <div className="relative">
-                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-9" />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                                )}
-                            />
-                        </div>
-                         <FormField
-                            control={contactForm.control}
-                            name="state"
-                            render={({ field }) => (
-                            <FormItem>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <div className="relative">
-                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <SelectTrigger className="pl-9">
-                                        <SelectValue placeholder="Select a state *" />
-                                    </SelectTrigger>
-                                    </div>
-                                </FormControl>
-                                <SelectContent>
-                                    {indianStates.map(state => (
-                                    <SelectItem key={state} value={state}>{state}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                          control={contactForm.control}
-                          name="message"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormControl>
-                                <div className="relative">
-                                  <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                  <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
-                        {contactForm.formState.isSubmitting ? 'Sending...' : (
-                          <>
-                            <Send className="mr-2 h-4 w-4" />
-                            Send Message
-                          </>
+            
+            <div className="relative p-8 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl shadow-lg mt-8 text-white">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <Phone className="w-5 h-5" />
+                  <span>+1-760-284-3410</span>
+                </div>
+                 <div className="flex items-center gap-4">
+                  <Mail className="w-5 h-5" />
+                  <span>hello@demoemail.com</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <MapPin className="w-5 h-5" />
+                  <span>931 Abia Martin Drive, PA-18104</span>
+                </div>
+              </div>
+
+              <Separator className="my-6 bg-white/20" />
+
+              <div className="flex items-center gap-4">
+                <p className="font-semibold">Find us on:</p>
+                <div className="flex gap-2">
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Facebook className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Twitter className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Linkedin className="h-4 w-4" /></a>
+                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-white/20 rounded-full text-white hover:bg-white/30 transition-colors"><Instagram className="h-4 w-4" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Left Form */}
+          <div className="order-2 lg:order-1">
+            <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-white/30">
+              <CardContent className="p-8">
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="First Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
                         )}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
+                      />
+                      <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="relative">
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input placeholder="Last Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input type="tel" placeholder="Phone *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input type="email" placeholder="Email *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <MessageSquare className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
+                              <Textarea placeholder="Message *" className="pl-9 min-h-[120px] bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" {...field} />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" size="lg" className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold h-12 rounded-lg" disabled={form.formState.isSubmitting}>
+                      {form.formState.isSubmitting ? 'Submitting...' : 'SUBMIT'}
+                    </Button>
+                    <p className="text-xs text-center text-muted-foreground pt-2">
+                      Company Name not sell, share, or trade customer information. Your privacy is very important to us.
+                    </p>
+                  </form>
+                </Form>
+              </CardContent>
             </Card>
+          </div>
         </div>
+      </div>
     </div>
   );
 }

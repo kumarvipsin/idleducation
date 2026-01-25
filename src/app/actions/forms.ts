@@ -72,7 +72,7 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   country: z.string().optional(),
-  state: z.string().min(1, { message: "Please select a state." }),
+  state: z.string().optional(),
   message: z.string().optional(),
 });
 type ContactFormValues = z.infer<typeof contactFormSchema>;
