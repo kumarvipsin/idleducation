@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -521,8 +522,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300",
-    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store' || pathname === '/contact') ? 'h-16' : 'h-12',
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -535,32 +535,29 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className={cn("w-auto", (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store' || pathname === '/contact') ? 'h-14' : 'h-10')} />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
-                                <div onMouseEnter={() => handleMouseEnter('courses')} className="h-full flex items-center">
-                                    <Button variant="outline" data-active={activeMenu === 'courses'} className="h-9 px-4 text-sm font-semibold border-orange-500 text-orange-500 hover:bg-orange-50 hover:text-orange-600 rounded-lg flex items-center gap-1 data-[active=true]:bg-primary/5 data-[active=true]:text-primary">
-                                        Courses <ChevronDown className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                                <div className="h-full flex items-center">
-                                    <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                      <Link href="/about">About Us</Link>
-                                    </Button>
-                                  </div>
-                                  <div className="h-full flex items-center">
-                                    <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                      <Link href="/contact">Contact Us</Link>
-                                    </Button>
-                                  </div>
+                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                    Explore
+                                </Button>
+                              </div>
+                              <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                  Apply For
+                                </Button>
+                              </div>
                                <div className="h-full flex items-center">
-                                <Link href="/store" target="_blank" rel="noopener noreferrer" className="group h-8 px-3 rounded-md flex items-center text-foreground hover:bg-primary/5 focus-visible:ring-0 focus-visible:ring-offset-0">
-                                    <StoreIcon />
-                                </Link>
+                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                  <Link href="/store" target="_blank" rel="noopener noreferrer">
+                                    IDL Store
+                                  </Link>
+                                </Button>
                               </div>
                             </>
                           ) : (
@@ -574,18 +571,10 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
-                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                            </div>
-                            <div>
-                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-sm font-bold text-foreground leading-tight tracking-wider">70-1111-7585</p>
-                            </div>
-                        </a>
                     </div>
                     
                     <div className="flex items-center gap-1">
+                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
                     
@@ -695,7 +684,6 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'courses' && <CoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applicationLinks} title="" />}
           </div>
