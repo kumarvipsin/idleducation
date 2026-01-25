@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -115,7 +114,7 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
         <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
             </Button>

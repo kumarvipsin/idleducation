@@ -363,7 +363,7 @@ export default function AdmissionPage() {
     />
     <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
       <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="outline" size="icon" className="rounded-full">
+          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
           </Button>

@@ -139,7 +139,7 @@ export default function ContactPage() {
     <>
     <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
         <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
             </Button>
@@ -168,111 +168,102 @@ export default function ContactPage() {
                           <FormMessage />
                           </FormItem>
                       )}
-                      />
-                      <FormField
+                    />
+                    <FormField
                       control={contactForm.control}
                       name="email"
                       render={({ field }) => (
-                          <FormItem>
+                        <FormItem>
                           <FormControl>
-                              <div className="relative">
-                                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <Input type="email" placeholder="Enter your email *" {...field} className="pl-9" />
-                              </div>
+                            <div className="relative">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input type="email" placeholder="Enter your email" {...field} className="pl-9" />
+                            </div>
                           </FormControl>
                           <FormMessage />
-                          </FormItem>
+                        </FormItem>
                       )}
-                      />
-                      <FormField
-                          control={contactForm.control}
-                          name="phone"
-                          render={({ field }) => (
-                          <FormItem>
-                              <FormControl>
-                                  <div className="relative">
-                                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                  <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                                  <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-16" />
-                                  </div>
-                              </FormControl>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                      <FormField
-                          control={contactForm.control}
-                          name="country"
-                          render={({ field }) => (
-                          <FormItem>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                  <div className="relative">
-                                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                      <SelectTrigger className="pl-9">
-                                          <SelectValue placeholder="Select your country" />
-                                      </SelectTrigger>
-                                  </div>
-                              </FormControl>
-                              <SelectContent>
-                                  {countries.map(country => (
-                                      <SelectItem key={country} value={country}>{country}</SelectItem>
-                                  ))}
-                              </SelectContent>
-                              </Select>
-                              <FormMessage />
-                          </FormItem>
-                          )}
-                      />
-                      <FormField
-                          control={contactForm.control}
-                          name="state"
-                          render={({ field }) => (
-                              <FormItem>
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                      <div className="relative">
-                                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                          <SelectTrigger className="pl-9">
-                                              <SelectValue placeholder="Select your state *" />
-                                          </SelectTrigger>
-                                      </div>
-                                  </FormControl>
-                                  <SelectContent>
-                                      {indianStates.map(state => (
-                                          <SelectItem key={state} value={state}>{state}</SelectItem>
-                                      ))}
-                                  </SelectContent>
-                                  </Select>
-                                  <FormMessage />
-                              </FormItem>
-                          )}
-                      />
-                      <FormField
+                    />
+                    <div className="flex items-start gap-2">
+                        <FormField
+                            control={contactForm.control}
+                            name="countryCode"
+                            render={({ field }) => (
+                            <FormItem className="w-32">
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Code" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {countryCodes.map((country) => (
+                                    <SelectItem key={`${country.country}-${country.code}`} value={`${country.code}-${country.country}`}>
+                                        {country.code}
+                                    </SelectItem>
+                                    ))}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={contactForm.control}
+                            name="phone"
+                            render={({ field }) => (
+                            <FormItem className="flex-1">
+                                <FormControl>
+                                    <div className="relative">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="Enter phone number *" {...field} maxLength={10} className="pl-9" />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
+                    <FormField
+                        control={contactForm.control}
+                        name="state"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="relative">
+                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Enter your state" {...field} className="pl-9" />
+                                </div>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
                       control={contactForm.control}
                       name="message"
                       render={({ field }) => (
-                          <FormItem>
+                        <FormItem>
                           <FormControl>
-                              <div className="relative">
+                            <div className="relative">
                               <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                               <Textarea placeholder="Enter your message" className="min-h-[100px] pl-9" {...field} />
-                              </div>
+                            </div>
                           </FormControl>
                           <FormMessage />
-                          </FormItem>
+                        </FormItem>
                       )}
-                      />
-                      <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
+                    />
+                    <Button type="submit" size="lg" className="w-full" disabled={contactForm.formState.isSubmitting}>
                       {contactForm.formState.isSubmitting ? 'Sending...' : (
-                          <>
+                        <>
                           <Send className="mr-2 h-4 w-4" />
                           Send Message
-                          </>
+                        </>
                       )}
-                      </Button>
+                    </Button>
                   </form>
-                  </Form>
+                </Form>
                   </div>
               </Card>
           </div>
