@@ -137,7 +137,7 @@ export default function AboutPage() {
                       </div>
                       <div className="w-full space-y-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                           <div>
-                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2 justify-center">
+                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
                                   <PenSquare className="w-7 h-7" /> Director's Message
                               </h3>
                               <blockquote className="border-l-4 border-primary pl-6 italic text-lg md:text-xl text-foreground/80 leading-relaxed font-josefin-sans">
@@ -145,7 +145,7 @@ export default function AboutPage() {
                               </blockquote>
                           </div>
                           <div>
-                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2 justify-center">
+                              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
                                   <UserCircle className="w-7 h-7" /> Biography
                               </h3>
                               <div className="text-lg md:text-xl text-foreground/80 leading-relaxed font-josefin-sans">
