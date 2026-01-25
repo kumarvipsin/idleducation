@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -26,7 +25,6 @@ export function AppContent({
     '/login',
     '/signup',
     '/about',
-    '/contact',
     '/gallery',
     '/feature',
     '/school',
@@ -45,7 +43,7 @@ export function AppContent({
   const isIdlFoundationPage = pathname === '/idl-foundation';
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
-  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/about') && !pathname.startsWith('/contact') && !pathname.startsWith('/gallery') && !isIdlFoundationPage;
+  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/about') && !pathname.startsWith('/gallery') && !isIdlFoundationPage;
 
 
   if (isStudentPage || isTeacherPage || isAdminPage) {
