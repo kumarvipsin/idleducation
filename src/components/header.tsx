@@ -439,31 +439,7 @@ export function Header() {
       );
     }
 
-    return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <UserCircle />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40" align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" />
-                        <span>Login</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/signup">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        <span>Sign Up</span>
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    );
+    return null;
   };
   
   const navLinks = [
@@ -546,7 +522,7 @@ export function Header() {
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300",
-    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-16' : 'h-10',
+    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store' || pathname === '/contact') ? 'h-16' : 'h-12',
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -559,7 +535,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className={cn("w-auto", (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-14' : 'h-8')} />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className={cn("w-auto", (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store' || pathname === '/contact') ? 'h-14' : 'h-10')} />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -610,7 +586,6 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
                     
