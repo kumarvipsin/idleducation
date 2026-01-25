@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight, Atom, Landmark } from "lucide-react";
@@ -56,181 +55,6 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-const CoursesMegaMenu = () => {
-    const { t } = useLanguage();
-
-      const findByTarget = [
-        { name: "School tuition", description: "For Class 3-12", href: "/school" },
-      ];
-
-      const applicationLinks = [
-        { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-        { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-        { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-        { href: "/feedback", label: "Feedback Form", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
-      ];
-
-      const exploreLinks = [
-        { label: "IDL Foundation", href: "/idl-foundation", target: "_blank", icon: <HandHeart className="h-4 w-4" />, description: "Support our cause and make a difference." },
-        { label: "Volunteer", href: "/volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
-        { label: "Gallery", href: "/gallery", icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-        { label: "IDL Blog", href: "/blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-      ];
-
-      const leftColumnLinks = [
-        {
-          icon: <CalendarClock className="h-5 w-5 text-red-500" />,
-          title: "Long Term Courses",
-          description: "Guaranteed improvement in marks or get your fees back",
-          href: "#",
-        },
-        {
-          icon: <ScreenShare className="h-5 w-5 text-blue-500" />,
-          title: "One-to-one LIVE classes",
-          description: "Learn one-to-one with a teacher for a personalised experience",
-          href: "#",
-        },
-        {
-          icon: <FileJson className="h-5 w-5 text-yellow-500" />,
-          title: "Topic specific courses",
-          description: "Master any topic at just ₹1",
-          href: "#",
-        },
-      ];
-    
-      const coursesForKids = [
-        {
-          icon: <ToyBrick className="h-6 w-6 text-purple-500" />,
-          title: "English Superstar",
-          age: "Age 4-8",
-          description: "Level based holistic English program",
-          href: "#",
-        },
-        {
-          icon: <Sun className="h-6 w-6 text-orange-500" />,
-          title: "Summer Camp",
-          age: "For Lkg - Grade 10",
-          description: "Limited-time summer learning experience",
-          href: "#",
-        },
-        {
-          icon: <MessageSquare className="h-6 w-6 text-blue-500" />,
-          title: "Spoken English",
-          age: "Class 3 - 5",
-          description: "See your child speak fluently",
-          href: "#",
-        },
-        {
-          icon: <Book className="h-6 w-6 text-green-500" />,
-          title: "Learn Maths",
-          age: "Class 1 and 2",
-          description: "Build a strong foundation in mathematics",
-          href: "#",
-        },
-      ];
-
-    return (
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Column 1 */}
-                <div className="flex flex-col gap-2">
-                {leftColumnLinks.map((link) => (
-                    <Link key={link.title} href={link.href} className="group flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted p-2 rounded-lg">{link.icon}</div>
-                    <div>
-                        <p className="font-semibold text-sm text-foreground">{link.title}</p>
-                        <p className="text-xs text-muted-foreground">{link.description}</p>
-                    </div>
-                    </Link>
-                ))}
-                <div className="bg-purple-100/50 dark:bg-purple-900/20 p-3 rounded-lg mt-2">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Star className="h-5 w-5 text-purple-500" />
-                        <h3 className="font-semibold text-sm">Courses for Kids</h3>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        {coursesForKids.map((course) => (
-                            <Link key={course.title} href={course.href} className="group bg-white dark:bg-card p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-start gap-3">
-                                    {course.icon}
-                                    <div>
-                                        <p className="font-bold text-sm text-foreground">{course.title}</p>
-                                        <p className="text-xs font-semibold text-red-500">{course.age}</p>
-                                        <p className="text-xs text-muted-foreground mt-1">{course.description}</p>
-                                    </div>
-                            </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-                </div>
-
-                {/* Column 2 */}
-                <div className="border-x px-4">
-                    <div className="flex items-center gap-2 mb-4">
-                        <Search className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-base">Find courses by target</h3>
-                    </div>
-                     <div className="flex flex-col gap-1">
-                        {findByTarget.map((item) => (
-                            <Link key={item.name} href={item.href} className="group p-2 rounded-md hover:bg-muted flex justify-between items-center">
-                                <div>
-                                    <p className="text-sm font-semibold">{item.name}</p>
-                                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                                </div>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-                
-                {/* Column 3 */}
-                <div className="px-4">
-                    <div className="flex items-center gap-2 mb-4">
-                        <GraduationCap className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-base">Apply Now</h3>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        {applicationLinks.map(item => (
-                            <Link key={item.href} href={item.href} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                <span>{item.label}</span>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                            </Link>
-                        ))}
-                    </div>
-                    <Separator className="my-4" />
-                     <h3 className="font-semibold text-base">Explore</h3>
-                      <div className="flex flex-col gap-1">
-                        {exploreLinks.map(item => (
-                            <Link key={item.href} href={item.href} target={item.target} rel={item.target === '_blank' ? 'noopener noreferrer' : undefined} className="group p-2 rounded-md hover:bg-muted text-sm text-foreground flex justify-between items-center">
-                                <span>{item.label}</span>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
-    <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-            {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
-                    <div>
-                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
-                        <p className="text-xs text-muted-foreground">{link.description}</p>
-                    </div>
-                </Link>
-            ))}
-            {children}
-        </div>
-    </div>
-  );
-
 const AllCoursesMegaMenu = () => {
     const allCoursesCategories = [
         { 
@@ -284,6 +108,23 @@ const AllCoursesMegaMenu = () => {
     )
 }
 
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
+    <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+            {links && links.map((link) => (
+                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div>
+                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
+                        <p className="text-xs text-muted-foreground">{link.description}</p>
+                    </div>
+                </Link>
+            ))}
+            {children}
+        </div>
+    </div>
+  );
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading } = useAuth();
@@ -309,23 +150,6 @@ export function Header() {
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
-  const StoreIcon = () => (
-    <div className="flex items-center gap-1.5 text-current">
-        <div className="relative">
-            <ShoppingCart className="h-5 w-5" />
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3 absolute top-[5px] left-1/2 -translate-x-1/2 text-orange-500"
-            >
-                <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-        </div>
-        <span className="font-semibold text-sm">Store</span>
-    </div>
-  );
-
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -494,7 +318,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" size="sm">
           <Link href="/login">Login</Link>
         </Button>
     );
@@ -656,23 +480,6 @@ export function Header() {
                         {!isIdlFoundationPage && (
                         <div className="p-2">
                             <nav className="grid gap-1">
-                                <Collapsible open={openMobileAccordion === 'courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'courses' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> Courses</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                     <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-2 gap-1">
-                                            {allPrograms.map(({ href, name }) => (
-                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <p className="font-semibold text-sm">{name}</p>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
