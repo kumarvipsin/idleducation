@@ -160,50 +160,59 @@ export default function AboutPage() {
             <Card className="mt-8 bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <CardContent className="p-0">
                 <section className="py-12 md:py-20">
-                  <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary">Our Core Values</h2>
-                    <p className="text-lg md:text-xl max-w-3xl mx-auto text-foreground/80 mt-4">
-                      We are driven by a set of core values that define our mission and guide our approach to education.
-                    </p>
-                  </div>
-                  <div className="max-w-5xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-0 bg-transparent p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
-                        <div className="space-y-8 p-4">
-                            <h4 className="text-2xl font-bold text-foreground">Our Vision</h4>
-                            <div className="flex items-start gap-4">
-                                <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                    <div className="rounded-2xl bg-white dark:bg-card p-6 md:p-8 border shadow-lg">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                            <div className="space-y-8">
                                 <div>
-                                    <h5 className="font-semibold text-lg">Empowerment</h5>
-                                    <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
+                                    <h2 className="text-3xl font-bold text-primary mb-4">Our Vision</h2>
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                                            <div>
+                                                <h5 className="font-semibold text-lg">Empowerment</h5>
+                                                <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+                                            <div>
+                                                <h5 className="font-semibold text-lg">Global Citizens</h5>
+                                                <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
+                                    <div className="space-y-4">
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                                            <div>
+                                                <h5 className="font-semibold text-lg">Holistic Development</h5>
+                                                <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                                            <div>
+                                                <h5 className="font-semibold text-lg">Service to Humanity</h5>
+                                                <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-4">
-                                <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Global Citizens</h5>
-                                    <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="space-y-8 bg-blue-50 dark:bg-blue-900/20 p-8 rounded-2xl">
-                             <h4 className="text-2xl font-bold text-primary">Our Mission</h4>
-                            <div className="flex items-start gap-4">
-                                <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Holistic Development</h5>
-                                    <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
-                                </div>
-                            </div>
-                             <div className="flex items-start gap-4">
-                                <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Service to Humanity</h5>
-                                    <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
-                                </div>
+                            <div className="relative h-96 rounded-lg overflow-hidden">
+                                <Image
+                                    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop"
+                                    alt="Our Core Values"
+                                    data-ai-hint="team collaboration"
+                                    fill
+                                    className="object-cover"
+                                />
                             </div>
                         </div>
                     </div>
-                </div>
                 </section>
               </CardContent>
             </Card>
