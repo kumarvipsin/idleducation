@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight, Atom, Landmark } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -55,40 +55,40 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-const AllCoursesMegaMenu = () => {
-    const allCoursesCategories = [
-        { 
-            name: "School Preparation", 
-            description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
-            href: "/school",
-            icon: <BookOpen className="h-5 w-5 text-blue-500" />
-        },
-        { 
-            name: "School Boards", 
-            description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
-            href: "/school",
-            icon: <Award className="h-5 w-5 text-green-500" />
-        },
-        {
-            name: "IIT-JEE/NEET",
-            description: "Prepare for engineering and medical entrance exams.",
-            href: "/category/iit-jee",
-            icon: <Atom className="h-5 w-5 text-red-500" />
-        },
-        { 
-            name: "Govt Exam", 
-            description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
-            href: "/examcat?category=govt-job-exams",
-            icon: <Landmark className="h-5 w-5 text-purple-500" />
-        },
-        { 
-            name: "UG & PG Entrance Exams", 
-            description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
-            href: "/examcat",
-            icon: <GraduationCap className="h-5 w-5 text-orange-500" />
-        },
-    ];
+const allCoursesCategories = [
+    { 
+        name: "School Preparation", 
+        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
+        href: "/school",
+        icon: <BookOpen className="h-5 w-5 text-blue-500" />
+    },
+    { 
+        name: "School Boards", 
+        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
+        href: "/school",
+        icon: <Award className="h-5 w-5 text-green-500" />
+    },
+    {
+        name: "IIT-JEE/NEET",
+        description: "Prepare for engineering and medical entrance exams.",
+        href: "/category/iit-jee",
+        icon: <Atom className="h-5 w-5 text-red-500" />
+    },
+    { 
+        name: "Govt Exam", 
+        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
+        href: "/examcat?category=govt-job-exams",
+        icon: <Landmark className="h-5 w-5 text-purple-500" />
+    },
+    { 
+        name: "UG & PG Entrance Exams", 
+        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
+        href: "/examcat",
+        icon: <GraduationCap className="h-5 w-5 text-orange-500" />
+    },
+];
 
+const AllCoursesMegaMenu = () => {
     return (
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -113,7 +113,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted p-2 rounded-md mt-1">{link.icon}</div>
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -317,65 +317,28 @@ export function Header() {
       );
     }
 
-    return (
-        <Button asChild variant="outline" size="sm">
-          <Link href="/login">Login</Link>
-        </Button>
-    );
+    return null;
   };
   
   const navLinks = [
-    { href: "/about", label: t('about'), icon: <Info className="h-5 w-5 text-blue-500" />, description: "Learn more about our mission and vision." },
-    { href: "/contact", label: t('contact'), icon: <MessageSquare className="h-5 w-5 text-green-500" />, description: "Get in touch with us for any queries." },
-    { href: "/gallery", label: t('gallery'), icon: <ImageIcon className="h-5 w-5 text-purple-500" />, description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-5 w-5 text-orange-500" />, description: "Read articles and updates from our team." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-5 w-5 text-red-500" />, target: "_blank", description: "Support our cause and make a difference." },
+    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-5 w-5 text-blue-500" />, description: "Start your journey with us by filling out the admission form." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-5 w-5 text-green-500" />, description: "Experience our teaching style with a free demo class." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-5 w-5 text-purple-500" />, description: "Share your valuable feedback to help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-5 w-5 text-orange-500" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-5 w-5 text-red-500" />, description: "Join our team of volunteers and contribute to our mission." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
     { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
     { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
-  ];
-
-  const allCoursesCategories = [
-    { 
-        name: "School Preparation", 
-        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
-        href: "/school",
-        icon: <BookOpen className="h-5 w-5 text-blue-500" />
-    },
-    { 
-        name: "School Boards", 
-        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
-        href: "/school",
-        icon: <Award className="h-5 w-5 text-green-500" />
-    },
-    {
-        name: "IIT-JEE/NEET",
-        description: "Prepare for engineering and medical entrance exams.",
-        href: "/category/iit-jee",
-        icon: <Atom className="h-5 w-5 text-red-500" />
-    },
-    { 
-        name: "Govt Exam", 
-        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
-        href: "/examcat?category=govt-job-exams",
-        icon: <Landmark className="h-5 w-5 text-purple-500" />
-    },
-    { 
-        name: "UG & PG Entrance Exams", 
-        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
-        href: "/examcat",
-        icon: <GraduationCap className="h-5 w-5 text-orange-500" />
-    },
   ];
 
   const renderMobileAuthSection = () => {
@@ -436,10 +399,9 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-12",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
-    "bg-background/95 backdrop-blur-sm",
-    !activeMenu && "border-b"
+    "bg-background/95 backdrop-blur-sm"
   );
   
   const megaMenuBg = "bg-background/95 backdrop-blur-sm";
@@ -453,9 +415,9 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
-                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
-                          {!isIdlFoundationPage ? (
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                          {!isIdlFoundationPage && (
                             <>
                                <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
                                 <Button variant="outline" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:border-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:border-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
@@ -480,19 +442,18 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                {isClient && renderAuthSection()}
+                                {isClient && !loading && !user && (
+                                  <Button asChild size="sm">
+                                    <Link href="/login">Login</Link>
+                                  </Button>
+                                )}
                               </div>
                             </>
-                          ) : (
-                            <div className="flex items-center gap-x-4 text-xs font-semibold">
-                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                            </div>
                           )}
                     </nav>
-                    <div className="hidden md:flex items-center gap-1">
+                    <div className="flex items-center gap-1">
                       {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && renderAuthSection()}
                     </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
@@ -538,7 +499,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
+                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
@@ -558,9 +519,8 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="outline" className="w-full justify-start text-sm">
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
@@ -583,12 +543,6 @@ export function Header() {
                                     IDL Store
                                   </Link>
                                 </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
-                                   <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
-                                  </a>
-                                </Button>
                             </nav>
                         </div>
                         )}
@@ -602,11 +556,11 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 border-b", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="py-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
