@@ -88,6 +88,16 @@ const allCoursesCategories = [
     },
 ];
 
+const StoreIcon = () => (
+    <Image 
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCA4MCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGc+CjxwYXRoIGQ9Ik01LjgzMzk4IDguMDAwMzNIMjEuMTY3M0wxOS44MzQgMTQuNjY3SDcuMTY3MzJNNS44MzM5OCA4LjAwMDMzTDQuNTAwNjUgNC42NjY5OUgyLjUwMDY1TTUuODMzOTggOC4wMDAzM0w3LjE2NzMyIDE0LjY2N003LjE2NzMyIDE0LjY2N0w3LjgzMzk4IDE4LjAwMDNIMTkuMTY3MyIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxjaXJjbGUgY3g9IjguNTAwNjUiIGN5PSIyMS42NjciIHI9IjEuMzMzMzMiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8Y2lyY2xlIGN4PSIxNy44MzQiIGN5PSIyMS42NjciIHI9IjEuMzMzMzMiIGZpbGw9ImN1cnJlbnRDb2xvciIvPgo8cGF0aCBkPSJNMTEuMTY3MyAxMS4zMzM3TDEzLjE2NzMgMTMuMzMzN0wxNy4xNjczIDkuMzMzNjYiIHN0cm9rZT0iI2Y5NzMxNiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L2c+Cjx0ZXh0IHg9IjI4IiB5PSIxOSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJjdXJyZW50Q29sb3IiPlN0b3JlPC90ZXh0Pgo8L3N2Zz4="
+        alt="IDL Store"
+        width={68}
+        height={24}
+        className="h-6 w-auto"
+    />
+);
+
 const AllCoursesMegaMenu = () => {
     return (
         <div className="container mx-auto px-4 md:px-6">
@@ -113,7 +123,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted/50 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -317,7 +327,31 @@ export function Header() {
       );
     }
 
-    return null;
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
+                    <UserCircle />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href="/login">
+                        <LogIn className="mr-2 h-4 w-4" />
+                        <span>Login</span>
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/signup">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        <span>Sign Up</span>
+                    </Link>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
   };
   
   const navLinks = [
@@ -399,7 +433,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-20",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -412,7 +446,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
@@ -435,9 +469,9 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                    IDL Store
+                                    <StoreIcon />
                                   </Link>
                                 </Button>
                               </div>
@@ -539,8 +573,7 @@ export function Header() {
                                 </Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
+                                    <StoreIcon />
                                   </Link>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
@@ -562,7 +595,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-20 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
