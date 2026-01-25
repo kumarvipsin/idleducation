@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight } from "lucide-react";
@@ -453,6 +452,9 @@ export function Header() {
   const navLinks = [
     { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
     { href: "/contact", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
+    { href: "/gallery", label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applicationLinks = [
@@ -460,13 +462,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-  ];
-
-  const exploreLinks = [
-    { label: "IDL Foundation", href: "/idl-foundation", target: "_blank", icon: <HandHeart className="h-4 w-4" />, description: "Support our cause and make a difference." },
-    { label: "Volunteer", href: "/volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
-    { label: "Gallery", href: "/gallery", icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-    { label: "IDL Blog", href: "/blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
@@ -532,7 +528,8 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
+    "sticky top-0 z-50 border-b transition-transform duration-300",
+    pathname === '/' ? 'h-16' : 'h-12',
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -626,7 +623,7 @@ export function Header() {
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
-                                     <CollapsibleContent className="p-2 space-y-2">
+                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-2 gap-1">
                                             {allPrograms.map(({ href, name }) => (
                                                 <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start p-3 rounded-lg hover:bg-muted transition-colors">
@@ -636,11 +633,31 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
+                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply Now</span>
+                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-1 gap-1">
+                                            {navLinks.map(({ href, label, icon, description, target }) => (
+                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                    <div>
+                                                        <p className="font-semibold text-sm">{label}</p>
+                                                        <p className="text-xs text-muted-foreground">{description}</p>
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
+                                <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                            <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
@@ -657,29 +674,6 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                
-                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> Explore</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
-                                            {exploreLinks.map(({ href, label, icon, description, target }) => (
-                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
-                                                        <p className="text-xs text-muted-foreground">{description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                                
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
                                     <ShoppingCart className="h-4 w-4" />
@@ -712,8 +706,8 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'courses' && <CoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applicationLinks} title="" />}
-            {activeMenu === 'explore' && <MegaMenu links={exploreLinks} title="" />}
           </div>
         </div>
       </div>
