@@ -394,50 +394,7 @@ export function Header() {
     }
 
     if (user) {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                 <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
-                <AvatarFallback>
-                  {user.name ? user.name.charAt(0).toUpperCase() : <User />}
-                </AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-                <Link href={getProfilePath(user)}>
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{user.name}</p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                        {user.email}
-                        </p>
-                    </div>
-                </Link>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-               <Link href={getDashboardPath(user)}>
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href={getProfilePath(user)}>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return null;
     }
 
     return null;
@@ -451,7 +408,7 @@ export function Header() {
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
-  const applicationLinks = [
+  const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
@@ -486,13 +443,6 @@ export function Header() {
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
-                <Bell className="h-4 w-4" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                )}
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-80">
@@ -538,7 +488,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
@@ -570,13 +520,6 @@ export function Header() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-2">
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
-                      {isClient && renderAuthSection()}
-                    </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
@@ -641,7 +584,7 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {applicationLinks.map(({ href, label, icon, description }) => (
+                                            {applyForLinks.map(({ href, label, icon, description }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
                                                     <div>
@@ -685,7 +628,7 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
-            {activeMenu === 'apply' && <MegaMenu links={applicationLinks} title="" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
           </div>
         </div>
       </div>
