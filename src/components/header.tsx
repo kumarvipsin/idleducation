@@ -56,15 +56,15 @@ type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 const allCoursesCategories = [
-    { 
-        name: "School Preparation", 
-        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)", 
+    {
+        name: "School Preparation",
+        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)",
         href: "/school",
         icon: <BookOpen className="h-5 w-5 text-blue-500" />
     },
-    { 
-        name: "School Boards", 
-        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...", 
+    {
+        name: "School Boards",
+        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...",
         href: "/school",
         icon: <Award className="h-5 w-5 text-green-500" />
     },
@@ -74,15 +74,15 @@ const allCoursesCategories = [
         href: "/category/iit-jee",
         icon: <Atom className="h-5 w-5 text-red-500" />
     },
-    { 
-        name: "Govt Exam", 
-        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...", 
+    {
+        name: "Govt Exam",
+        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5 text-purple-500" />
     },
-    { 
-        name: "UG & PG Entrance Exams", 
-        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...", 
+    {
+        name: "UG & PG Entrance Exams",
+        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
         href: "/examcat",
         icon: <GraduationCap className="h-5 w-5 text-orange-500" />
     },
@@ -113,7 +113,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-muted/50 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -412,7 +412,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
@@ -426,7 +426,7 @@ export function Header() {
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    Explore
+                                    More
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
@@ -542,6 +542,12 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
+                                </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                   <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now (70-1111-7585)
+                                  </a>
                                 </Button>
                             </nav>
                         </div>
