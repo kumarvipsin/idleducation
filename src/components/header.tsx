@@ -546,7 +546,7 @@ export function Header() {
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300",
-    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-20' : 'h-12',
+    (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-16' : 'h-10',
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -559,7 +559,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className={cn("w-auto", (pathname === '/' || pathname === '/idl-foundation' || pathname === '/store') ? 'h-14' : 'h-8')} />
                 </Link>
                 
                  <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -691,7 +691,8 @@ export function Header() {
                                 </Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                    <StoreIcon />
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
                                   </Link>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">

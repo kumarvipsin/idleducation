@@ -70,10 +70,10 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-16", show ? "translate-y-0" : "-translate-y-full")}>
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-full items-center justify-between mx-auto px-4 md:px-6">
                 <Link href="/store" className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={56} height={56} className="h-14 w-auto" />
+                    <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                     <span className="text-xl font-bold text-primary">IDL Store</span>
                 </Link>
                 <div className="flex items-center gap-2 md:gap-4">
