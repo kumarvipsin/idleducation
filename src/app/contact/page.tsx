@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -59,9 +60,9 @@ export default function ContactPage() {
           {/* Right Info (order changed for mobile) */}
           <div className="space-y-8 text-center lg:text-left order-1 lg:order-2">
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">Don't be a stranger just say hello!</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">Contact Us</h1>
               <p className="text-gray-600 dark:text-gray-300">
-                Thank you for your interest in our services. Please fill out the form below or e-mail us at hello@demoemail.com and we will get back to you promptly regarding your request.
+                We'd love to hear from you! Whether you have a question about our courses, need support, or anything else, our team is ready to answer all your questions.
               </p>
             </div>
             
