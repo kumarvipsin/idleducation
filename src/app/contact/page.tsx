@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white">Contact Us</h1>
               <p className="text-gray-600 dark:text-gray-300">
-                We'd love to hear from you! Whether you have a question about our courses, need support, or anything else, our team is ready to answer all your questions.
+                We are here to help! Whether you have a question about our courses, need support, or just want to say hello, our team is ready to answer all your questions.
               </p>
             </div>
             
@@ -179,7 +179,7 @@ export default function ContactPage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" size="lg" className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold h-12 rounded-lg" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-lg" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? 'Submitting...' : 'SUBMIT'}
                     </Button>
                     <p className="text-xs text-center text-muted-foreground pt-2">
