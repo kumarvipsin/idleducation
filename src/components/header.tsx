@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, CalendarClock, ScreenShare, FileJson, Star, Search, ToyBrick, Book, Sun, ChevronRight, Atom, Landmark } from "lucide-react";
@@ -218,7 +219,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -500,19 +501,19 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
-    { href: "/contact", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
-    { href: "/gallery", label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
+    { href: "/about", label: t('about'), icon: <Info className="h-5 w-5 text-blue-500" />, description: "Learn more about our mission and vision." },
+    { href: "/contact", label: t('contact'), icon: <MessageSquare className="h-5 w-5 text-green-500" />, description: "Get in touch with us for any queries." },
+    { href: "/gallery", label: t('gallery'), icon: <ImageIcon className="h-5 w-5 text-purple-500" />, description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-5 w-5 text-orange-500" />, description: "Read articles and updates from our team." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-5 w-5 text-red-500" />, target: "_blank", description: "Support our cause and make a difference." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-5 w-5 text-blue-500" />, description: "Start your journey with us by filling out the admission form." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-5 w-5 text-green-500" />, description: "Experience our teaching style with a free demo class." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-5 w-5 text-purple-500" />, description: "Share your valuable feedback to help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-5 w-5 text-orange-500" />, description: "Have questions? Send us an enquiry." },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-5 w-5 text-red-500" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
@@ -594,8 +595,8 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
+                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                                <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -718,6 +719,12 @@ export function Header() {
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
+                                </Button>
+                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                   <a href="tel:7011117585" className="flex items-center gap-3">
+                                      <Phone className="h-4 w-4" />
+                                      Call Now (70-1111-7585)
+                                  </a>
                                 </Button>
                             </nav>
                         </div>
