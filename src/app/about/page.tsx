@@ -95,7 +95,7 @@ export default function AboutPage() {
     }, []);
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto px-4 md:px-[10%]">
+    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto px-4 md:px-6">
       <Link href="/" className="absolute top-4 right-4 z-20">
             <Button variant="outline" size="icon" className="rounded-full">
                 <X className="h-4 w-4" />
@@ -157,9 +157,9 @@ export default function AboutPage() {
                 </section>
               </CardContent>
             </Card>
-            <Card className="mt-8 bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <Card className="bg-transparent shadow-none border-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <CardContent className="p-0">
-                <section className="py-12 md:py-20">
+                <section className="py-8 md:py-12">
                     <div className="rounded-2xl bg-white dark:bg-card p-6 md:p-8 border shadow-lg">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                             <div className="space-y-8">
