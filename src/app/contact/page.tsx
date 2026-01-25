@@ -69,12 +69,6 @@ export default function ContactPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 flex items-center justify-center p-4">
-        <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-            </Button>
-        </Link>
         <div className="relative z-10 w-full max-w-2xl mx-auto">
             <div className="text-center mb-12 animate-fade-in-up">
                 <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">Contact Us</h1>
