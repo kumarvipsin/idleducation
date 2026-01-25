@@ -449,27 +449,27 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
-                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage && (
                             <>
                                <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
+                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     <StoreIcon />
                                   </Link>
@@ -477,7 +477,7 @@ export function Header() {
                               </div>
                                <div className="h-full flex items-center">
                                 {isClient && !loading && !user && (
-                                  <Button asChild size="sm">
+                                  <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                     <Link href="/login">Login</Link>
                                   </Button>
                                 )}
@@ -599,8 +599,8 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
-          <div className="py-4">
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
+          <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
