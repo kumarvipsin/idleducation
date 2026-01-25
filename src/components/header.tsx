@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -446,7 +447,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
@@ -458,14 +459,14 @@ export function Header() {
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
-                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    More
-                                </Button>
-                              </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
+                                </Button>
+                              </div>
+                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                    More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
@@ -599,7 +600,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="py-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
@@ -610,3 +611,4 @@ export function Header() {
     </>
   );
 }
+
