@@ -529,7 +529,7 @@ export function Header() {
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300",
-    pathname === '/' ? 'h-16' : 'h-12',
+    (pathname === '/' || pathname === '/idl-foundation') ? 'h-16' : 'h-12',
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
