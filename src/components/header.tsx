@@ -390,14 +390,61 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-8 w-8 rounded-full" />;
+      return <Skeleton className="h-8 w-20 rounded-md" />;
     }
 
     if (user) {
-      return null;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
+                 <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
+                <AvatarFallback>
+                  {user.name ? user.name.charAt(0).toUpperCase() : <User />}
+                </AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+                <Link href={getProfilePath(user)}>
+                    <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                        {user.email}
+                        </p>
+                    </div>
+                </Link>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+               <Link href={getDashboardPath(user)}>
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href={getProfilePath(user)}>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Logout</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     }
 
-    return null;
+    return (
+      <Button asChild variant="outline">
+        <Link href="/login">Login</Link>
+      </Button>
+    );
   };
   
   const navLinks = [
@@ -436,13 +483,29 @@ export function Header() {
     if (user) {
       return null;
     }
-    return null;
+    return (
+        <div className="grid grid-cols-2 gap-2 p-2 border-t">
+            <Button asChild variant="default">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+            </Button>
+            <Button asChild variant="outline">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+                <Bell className="h-4 w-4" />
+                {hasNewUpdates && (
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                )}
             </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-80">
@@ -488,8 +551,8 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="ml-auto flex items-center gap-1">
+                    <nav className="items-center hidden md:flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
@@ -509,6 +572,9 @@ export function Header() {
                                   </Link>
                                 </Button>
                               </div>
+                              <div className="h-full flex items-center">
+                                {isClient && renderAuthSection()}
+                              </div>
                             </>
                           ) : (
                             <div className="flex items-center gap-x-4 text-xs font-semibold">
@@ -518,10 +584,14 @@ export function Header() {
                             </div>
                           )}
                     </nav>
+                    <div className="hidden md:flex items-center gap-1">
+                      {!isIdlFoundationPage && notificationDropdown}
+                    </div>
                 </div>
-                <div className="flex items-center gap-1">
-                    
-                    <CollapsibleTrigger asChild className="md:hidden">
+                <div className="flex items-center gap-1 md:hidden">
+                    {notificationDropdown}
+                    {isClient && renderAuthSection()}
+                    <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
