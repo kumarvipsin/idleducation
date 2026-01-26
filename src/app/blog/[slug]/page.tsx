@@ -88,7 +88,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-[10%]">
+    <div className="container mx-auto py-12 px-4 md:px-6">
       <article>
         <header className="mb-8">
           <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden">

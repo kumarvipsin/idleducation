@@ -83,7 +83,7 @@ const blogPosts = [
 
 export default function BlogPage() {
   return (
-    <div className="container mx-auto py-12 px-4 md:px-[10%]">
+    <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="text-center mb-12 animate-fade-in-up">
             <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
                 IDL Blog
