@@ -508,7 +508,12 @@ export function Header() {
                         {isClient && renderAuthSection()}
                      </div>
                 </div>
-                <div className="flex items-center gap-1 md:hidden">
+                <div className="flex items-center gap-2 md:hidden">
+                    {isClient && !user && !loading && (
+                        <Button asChild variant="outline" size="sm" className="rounded-lg">
+                            <Link href="/login">Login</Link>
+                        </Button>
+                    )}
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
