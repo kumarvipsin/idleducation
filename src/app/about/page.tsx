@@ -1,8 +1,8 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, Users, PenSquare, UserCircle, Home, X } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Target, Eye, Users, PenSquare, UserCircle } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { getDirectorProfile, getTeamMembers } from "@/app/actions";
@@ -10,8 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import type { TTeamMember } from "@/app/actions/types";
 import { TeacherCard } from "@/components/landing/teacher-card";
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 
 const TeamMembers = () => {
     const [teamMembers, setTeamMembers] = useState<TTeamMember[]>([]);
@@ -31,19 +29,18 @@ const TeamMembers = () => {
 
     return (
         <section className="w-full py-8 md:py-16">
-        <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Expert</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                The power of an organisation is its team. We believe that great teams build great organisations.
-            </p>
+                <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Expert</h2>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    The power of an organisation is its team. We believe that great teams build great organisations.
+                </p>
             </div>
             {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {teamMembers.map((member) => (
                     <TeacherCard 
                         key={member.id} 
@@ -58,7 +55,6 @@ const TeamMembers = () => {
                     ))}
                 </div>
             )}
-        </div>
         </section>
     );
 };
@@ -81,7 +77,7 @@ export default function AboutPage() {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <Card className="w-full max-w-5xl mx-auto shadow-xl rounded-2xl border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden">
+      <Card className="w-full max-w-6xl mx-auto shadow-xl rounded-2xl border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden">
         <CardContent className="p-6 md:p-10">
           <section className="mb-12">
             <div className="grid md:grid-cols-3 gap-8 items-center">
@@ -147,60 +143,49 @@ export default function AboutPage() {
 
           <Separator className="my-12" />
 
-          <section className="py-4 md:py-7">
-            <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border shadow-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-8">
-                  <div>
-                    <h2 className="text-3xl font-bold text-primary mb-4">Our Vision</h2>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-4">
-                        <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
+          <section className="py-4 md:py-7 grid md:grid-cols-2 gap-8">
+            <Card className="shadow-md">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-primary"><Eye className="h-6 w-6"/>Our Vision</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-start gap-4">
+                        <div className="w-3 h-3 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
                         <div>
-                          <h5 className="font-semibold text-lg">Empowerment</h5>
-                          <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
+                            <h5 className="font-semibold text-lg">Empowerment</h5>
+                            <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-5 h-5 rounded-full bg-orange-500 mt-1 flex-shrink-0" />
-                        <div>
-                          <h5 className="font-semibold text-lg">Global Citizens</h5>
-                          <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-bold text-primary mb-4">Our Mission</h2>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-4">
-                        <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
+                    <div className="flex items-start gap-4">
+                        <div className="w-3 h-3 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
                         <div>
-                          <h5 className="font-semibold text-lg">Holistic Development</h5>
-                          <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
+                            <h5 className="font-semibold text-lg">Global Citizens</h5>
+                            <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-5 h-5 rounded-full bg-blue-500 mt-1 flex-shrink-0" />
-                        <div>
-                          <h5 className="font-semibold text-lg">Service to Humanity</h5>
-                          <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="relative h-96 rounded-lg overflow-hidden">
-                  <Image
-                    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop"
-                    alt="Our Core Values"
-                    data-ai-hint="team collaboration"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </div>
+                </CardContent>
+            </Card>
+            <Card className="shadow-md">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-primary"><Target className="h-6 w-6"/>Our Mission</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-start gap-4">
+                        <div className="w-3 h-3 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
+                        <div>
+                            <h5 className="font-semibold text-lg">Holistic Development</h5>
+                            <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
+                        </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                        <div className="w-3 h-3 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
+                        <div>
+                            <h5 className="font-semibold text-lg">Service to Humanity</h5>
+                            <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
           </section>
 
           <Separator className="my-12" />
