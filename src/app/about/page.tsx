@@ -124,7 +124,7 @@ export default function AboutPage() {
                                     Our Educational Philosophy
                                 </h2>
                                 <p className="text-muted-foreground">
-                                    We believe in a holistic, student-centric approach that goes beyond textbooks, focusing on conceptual clarity and real-world application to nurture lifelong learners.
+                                    To provide the best education in the most cultivable environment so as to empower everyone. To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world. A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.
                                 </p>
                                 <Button asChild className="rounded-full">
                                     <Link href="/contact">
