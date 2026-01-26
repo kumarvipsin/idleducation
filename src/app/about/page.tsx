@@ -117,25 +117,6 @@ export default function AboutPage() {
                 </Card>
             </div>
         </section>
-
-        <section className="w-full py-12 bg-muted/30 dark:bg-card/50">
-            <div className="container mx-auto px-4 md:px-6">
-                <Card className="rounded-2xl shadow-lg border">
-                    <CardContent className="p-8 md:p-12">
-                        <div className="grid grid-cols-1 gap-8 items-center">
-                            <div className="space-y-4 text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                                    Our Core <span className="text-orange-500">Values</span>
-                                </h2>
-                                <p className="text-muted-foreground text-lg leading-relaxed">
-                                    To provide the best education in the most cultivable environment so as to empower everyone. To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world. A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.
-                                </p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-        </section>
         
         <section className="w-full py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
