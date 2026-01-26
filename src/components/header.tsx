@@ -36,31 +36,36 @@ const allCoursesCategories = [
         name: "School Preparation",
         description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)",
         href: "/school",
-        icon: <BookOpen className="h-5 w-5 text-blue-500" />
+        icon: <BookOpen className="h-5 w-5" />,
+        colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
     },
     {
         name: "School Boards",
         description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...",
         href: "/school",
-        icon: <Award className="h-5 w-5 text-green-500" />
+        icon: <Award className="h-5 w-5" />,
+        colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
     },
     {
         name: "IIT-JEE/NEET",
         description: "Prepare for engineering and medical entrance exams.",
         href: "/category/iit-jee",
-        icon: <Atom className="h-5 w-5 text-red-500" />
+        icon: <Atom className="h-5 w-5" />,
+        colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
     },
     {
         name: "Govt Exam",
         description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...",
         href: "/examcat?category=govt-job-exams",
-        icon: <Landmark className="h-5 w-5 text-purple-500" />
+        icon: <Landmark className="h-5 w-5" />,
+        colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
     },
     {
         name: "UG & PG Entrance Exams",
         description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
         href: "/examcat",
-        icon: <GraduationCap className="h-5 w-5 text-orange-500" />
+        icon: <GraduationCap className="h-5 w-5" />,
+        colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
     },
 ];
 
@@ -104,9 +109,7 @@ const AllCoursesMegaMenu = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                  {allCoursesCategories.map((category) => (
                     <Link key={category.name} href={category.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                        <div className="bg-muted p-3 rounded-lg mt-1">
-                            {category.icon}
-                        </div>
+                        <div className={cn("p-3 rounded-lg mt-1", category.colorClasses)}>{category.icon}</div>
                         <div>
                             <p className="font-semibold text-sm text-foreground">{category.name}</p>
                             <p className="text-xs text-muted-foreground">{category.description}</p>
@@ -118,19 +121,18 @@ const AllCoursesMegaMenu = () => {
     )
 }
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string }[], title: string, children?: React.ReactNode }) => (
+const MegaMenu = ({ links }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string }[] }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-primary/10 text-primary')}>{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
                     </div>
                 </Link>
             ))}
-            {children}
         </div>
     </div>
   );
@@ -335,19 +337,19 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision." },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries." },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference." },
+    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form.", colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
   ];
 
   const loggedInNavLinks = [
@@ -370,7 +372,15 @@ export function Header() {
     if (user) {
       return null;
     }
-    return null;
+    return (
+        <div className="p-2 border-t">
+            <Button asChild className="w-full justify-start text-sm">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <LogIn className="mr-2 h-4 w-4" /> Login
+                </Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -505,9 +515,9 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name: label, icon, description }) => (
+                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
                                                 <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -526,9 +536,9 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {applyForLinks.map(({ href, label, icon, description }) => (
+                                            {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -538,7 +548,7 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
+                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
@@ -547,9 +557,9 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {navLinks.map(({ href, label, icon, description, target }) => (
+                                            {navLinks.map(({ href, label, icon, description, target, colorClasses }) => (
                                                 <Link key={label} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -588,11 +598,11 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
           </div>
         </div>
       </div>
