@@ -24,7 +24,6 @@ export function AppContent({
     '/feedback',
     '/login',
     '/signup',
-    '/gallery',
     '/feature',
     '/school',
     '/examcat',
@@ -41,7 +40,7 @@ export function AppContent({
   const isIdlFoundationPage = pathname === '/idl-foundation';
 
   const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
-  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !pathname.startsWith('/gallery') && !isIdlFoundationPage;
+  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isIdlFoundationPage;
 
 
   if (isStudentPage || isTeacherPage || isAdminPage) {
