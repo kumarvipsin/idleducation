@@ -124,7 +124,7 @@ const MegaMenu = ({ links, title, children }: { links?: { href: string; label: s
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className="bg-muted p-3 rounded-lg mt-1">{link.icon}</div>
+                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -431,9 +431,9 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
-                            <>
+                            <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
@@ -456,7 +456,7 @@ export function Header() {
                                   </Link>
                                 </Button>
                               </div>
-                            </>
+                            </div>
                           ) : (
                             <div className="flex items-center gap-x-4 text-xs font-semibold">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
@@ -465,20 +465,20 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-                     <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                        <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                            <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        <div>
-                            <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                            <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
-                        </div>
-                    </a>
-                    {isClient && renderAuthSection()}
+                     <div className="flex items-center gap-4">
+                        <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-xs font-bold text-foreground leading-tight">70 - 1111 - 7585</p>
+                            </div>
+                        </a>
+                        {isClient && renderAuthSection()}
+                     </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
-                    {!isIdlFoundationPage && notificationDropdown}
-                    {isClient && renderAuthSection()}
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
@@ -517,27 +517,6 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
-                                            {navLinks.map(({ href, label, icon, description, target }) => (
-                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
-                                                        <p className="text-xs text-muted-foreground">{description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-start text-sm">
@@ -548,6 +527,27 @@ export function Header() {
                                         <div className="grid grid-cols-1 gap-1">
                                             {applyForLinks.map(({ href, label, icon, description }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                    <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                    <div>
+                                                        <p className="font-semibold text-sm">{label}</p>
+                                                        <p className="text-xs text-muted-foreground">{description}</p>
+                                                    </div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </CollapsibleContent>
+                                </Collapsible>
+                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
+                                    <CollapsibleTrigger asChild>
+                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                            <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="p-2">
+                                        <div className="grid grid-cols-1 gap-1">
+                                            {navLinks.map(({ href, label, icon, description, target }) => (
+                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
