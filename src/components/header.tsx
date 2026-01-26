@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -279,7 +280,12 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-10 w-24" />;
+      return (
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-10 w-24" />
+          <Skeleton className="h-10 w-10 rounded-full" />
+        </div>
+      );
     }
 
     if (user) {
@@ -370,7 +376,21 @@ export function Header() {
         );
     }
     if (user) {
-      return null;
+      return (
+        <div className="p-2 border-t">
+          {loggedInNavLinks.map(link => (
+            <Button asChild variant="ghost" className="w-full justify-start text-sm" key={link.href}>
+              <Link href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+                {link.icon}
+                <span className="ml-3">{link.label}</span>
+              </Link>
+            </Button>
+          ))}
+          <Button variant="ghost" className="w-full justify-start text-sm" onClick={handleLogout}>
+              <LogOut className="mr-3 h-4 w-4" /> Logout
+          </Button>
+        </div>
+      );
     }
     return (
         <div className="p-2 border-t">
@@ -423,7 +443,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-16",
+    "sticky top-0 z-50 transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -436,7 +456,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
@@ -481,7 +501,7 @@ export function Header() {
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="font-bold text-foreground leading-tight text-lg">7011 117 585</p>
+                                <p className="font-bold text-foreground text-lg">7011 117 585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
@@ -594,15 +614,16 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
