@@ -494,7 +494,7 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-sm font-black text-foreground leading-tight">7011 117 585</p>
+                                    <p className="text-sm font-semibold text-foreground leading-tight">7011 117 585</p>
                                 </div>
                             </a>
                             {renderAuthSection()}
@@ -597,7 +597,7 @@ export function Header() {
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                    <a href="tel:7011117585" className="flex items-center gap-3">
                                       <Phone className="h-4 w-4" />
-                                      Call Now (7011 117 585)
+                                      Call Now (70-1111-7585)
                                   </a>
                                 </Button>
                             </nav>
@@ -619,9 +619,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
           </div>
         </div>
       </div>
