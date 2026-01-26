@@ -53,8 +53,8 @@ export function AppContent({
 
   // For special public pages that shouldn't have a header or footer
   if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
-    // A special case for book-demo
-    if (pathname === '/book-demo') {
+    // A special case for book-demo and student-enquiry
+    if (pathname === '/book-demo' || pathname === '/student-enquiry') {
        return (
         <>
           <Header />
