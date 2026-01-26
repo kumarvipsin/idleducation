@@ -29,7 +29,7 @@ export default function AboutPage() {
     const team = [
       {
         name: "Vijay Verma",
-        title: "Co-Founder, CEO",
+        title: "Co-Founder, Head Academics",
         imageUrl: placeholderImages.founder1.src,
         imageAlt: placeholderImages.founder1.alt,
         imageHint: placeholderImages.founder1.hint,
@@ -45,7 +45,7 @@ export default function AboutPage() {
       },
       {
         name: "Chandra Prakesh",
-        title: "Co-Founder, Head Academics",
+        title: "Graphic Media Head",
         imageUrl: placeholderImages.founder3.src,
         imageAlt: placeholderImages.founder3.alt,
         imageHint: placeholderImages.founder3.hint,
@@ -53,7 +53,7 @@ export default function AboutPage() {
       },
       {
         name: "Vidhi Sharma",
-        title: "Co-Founder",
+        title: "Content Media Head",
         imageUrl: placeholderImages.founder4.src,
         imageAlt: placeholderImages.founder4.alt,
         imageHint: placeholderImages.founder4.hint,
