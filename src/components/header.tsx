@@ -278,7 +278,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-9 w-24" />;
+      return <Skeleton className="h-8 w-8 rounded-full" />;
     }
 
     if (user) {
@@ -329,7 +329,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="outline">
+        <Button asChild variant="outline" size="sm">
             <Link href="/login">Login</Link>
         </Button>
     );
@@ -414,7 +414,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-20",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -427,7 +427,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
@@ -435,17 +435,17 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
                                 </Button>
                               </div>
@@ -472,7 +472,7 @@ export function Header() {
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-xs font-bold text-foreground leading-tight">70 - 1111 - 7585</p>
+                                <p className="font-bold text-foreground leading-tight text-sm">70 - 1111 - 7585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
@@ -583,7 +583,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-20 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
@@ -598,3 +598,5 @@ export function Header() {
     </>
   );
 }
+
+    
