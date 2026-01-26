@@ -31,7 +31,6 @@ export function AppContent({
     '/offline-centers',
     '/achievements',
     '/store',
-    '/student-enquiry',
     '/admission',
     '/volunteer',
   ];
@@ -53,8 +52,8 @@ export function AppContent({
 
   // For special public pages that shouldn't have a header or footer
   if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
-    // A special case for book-demo and student-enquiry
-    if (pathname === '/book-demo' || pathname === '/student-enquiry') {
+    // A special case for book-demo
+    if (pathname === '/book-demo') {
        return (
         <>
           <Header />
