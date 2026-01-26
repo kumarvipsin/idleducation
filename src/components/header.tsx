@@ -279,7 +279,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-8 w-20" />;
+      return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
     if (user) {
@@ -330,7 +330,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex rounded-full">
             <Link href="/login">Login</Link>
         </Button>
     );
@@ -429,7 +429,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-14",
+    "sticky top-0 z-50 transition-transform duration-300 h-[52px]",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -482,11 +482,11 @@ export function Header() {
                     </nav>
                      <div className="flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                                <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-xs text-muted-foreground leading-tight">Call now</p>
                                 <p className="font-bold text-foreground text-base">7011 117 585</p>
                             </div>
                         </a>
@@ -495,7 +495,7 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
                     {isClient && !user && (
-                         <Button asChild variant="ghost" size="sm">
+                         <Button asChild variant="outline" size="sm" className="rounded-full h-10 px-4">
                             <Link href="/login">Login</Link>
                         </Button>
                     )}
@@ -525,11 +525,11 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name, icon, description, colorClasses }) => (
-                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
+                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                      <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
-                                                        <p className="font-semibold text-sm">{name}</p>
+                                                        <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
                                                     </div>
                                                 </Link>
@@ -548,7 +548,7 @@ export function Header() {
                                         <div className="grid grid-cols-1 gap-1">
                                             {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
+                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -604,13 +604,13 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-[52px] left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
           </div>
