@@ -18,6 +18,12 @@ export function AppContent({
   const isStudentPage = pathname.startsWith('/student');
   const isTeacherPage = pathname.startsWith('/teacher');
   
+  const specialLayoutPages = [
+    '/book-demo',
+    '/student-enquiry',
+    '/volunteer',
+  ];
+  
   const noHeaderFooterPages = [
     '/scholarship',
     '/login',
@@ -32,16 +38,12 @@ export function AppContent({
     '/achievements',
     '/store',
     '/admission',
-    '/volunteer',
   ];
   
   const isIdlFoundationPage = pathname === '/idl-foundation';
 
-  const showHeader = !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isStudentPage && !isTeacherPage && !isAdminPage;
-  const showFooter = !isAdminPage && !isStudentPage && !isTeacherPage && !noHeaderFooterPages.some(path => pathname.startsWith(path)) && !isIdlFoundationPage;
-
-
-  if (isStudentPage || isTeacherPage || isAdminPage) {
+  // 1. Protected routes with their own layouts
+  if (isAdminPage || isStudentPage || isTeacherPage) {
      return (
         <>
             {children}
@@ -49,11 +51,9 @@ export function AppContent({
         </>
     );
   }
-
-  // For special public pages that shouldn't have a header or footer
-  if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
-    // A special case for book-demo
-    if (pathname === '/book-demo' || pathname === '/student-enquiry' || pathname === '/volunteer') {
+  
+  // 2. Special public pages that need header/footer
+  if (specialLayoutPages.includes(pathname)) {
        return (
         <>
           <Header />
@@ -65,7 +65,10 @@ export function AppContent({
           <Toaster />
         </>
       );
-    }
+  }
+
+  // 3. Pages that should NOT have a header or footer
+  if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
     return (
         <>
             <main className="flex-grow">
@@ -75,14 +78,15 @@ export function AppContent({
         </>
     );
   }
-
+  
+  // 4. Default: all other pages get header and footer
   return (
     <>
-      {showHeader && <Header />}
+      <Header />
       <main className="flex-grow">
         {children}
       </main>
-      {showFooter && <Footer />}
+      <Footer />
       <ChatBotWrapper />
       <Toaster />
     </>
