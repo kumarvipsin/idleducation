@@ -330,11 +330,7 @@ export function Header() {
       );
     }
 
-    return (
-        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex rounded-lg">
-            <Link href="/login">Login</Link>
-        </Button>
-    );
+    return null;
   };
   
   const navLinks = [
@@ -360,15 +356,7 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+        return null;
     }
     if (user) {
       return (
@@ -387,26 +375,13 @@ export function Header() {
         </div>
       );
     }
-    return (
-      <div className="p-2 border-t grid grid-cols-2 gap-2">
-        <Button asChild variant="default" className="w-full justify-start text-sm">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <LogIn className="mr-3 h-4 w-4" /> Login
-            </Link>
-        </Button>
-        <Button asChild variant="secondary" className="w-full justify-start text-sm">
-            <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                <UserPlus className="mr-3 h-4 w-4" /> Signup
-            </Link>
-        </Button>
-      </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
                 <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
@@ -460,8 +435,8 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
+                    <nav className="items-center hidden md:flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -495,10 +470,10 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-                     <div className="flex items-center gap-2">
+                     <div className="hidden md:flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-xs text-muted-foreground leading-tight">Call now</p>
@@ -508,7 +483,7 @@ export function Header() {
                         {isClient && renderAuthSection()}
                      </div>
                 </div>
-                <div className="flex items-center gap-2 md:hidden">
+                <div className="flex items-center gap-1 md:hidden">
                     {isClient && !user && !loading && (
                         <Button asChild variant="outline" size="sm" className="rounded-lg">
                             <Link href="/login">Login</Link>
@@ -541,7 +516,7 @@ export function Header() {
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
                                             {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                      <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
