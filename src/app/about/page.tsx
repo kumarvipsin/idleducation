@@ -130,19 +130,6 @@ export default function AboutPage() {
 
           <Separator className="my-12" />
 
-          <section className="mb-12">
-            <div className="max-w-3xl mx-auto">
-              <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2 justify-center">
-                <UserCircle className="w-7 h-7" /> Biography
-              </h3>
-              <div className="text-lg text-center text-foreground/80 leading-relaxed">
-                With over two decades in educational technology, {loading ? <Skeleton className="h-5 w-48 inline-block" /> : <span>{director?.name || 'AMOD KUMAR SHARMA'}</span>} is a celebrated professor and visionary leader. Before founding IDL EDUCATION, he led successful ed-tech initiatives and published extensive research on digital pedagogy. His work has focused on creating adaptive learning systems that cater to individual student needs, making quality education accessible to all. His passion for accessible education is the driving force behind our mission, and he continues to innovate, ensuring that IDL EDUCATION remains at the forefront of educational excellence and technology. His vision extends beyond academics, aiming to build well-rounded individuals ready to contribute positively to society.
-              </div>
-            </div>
-          </section>
-
-          <Separator className="my-12" />
-
           <section className="py-4 md:py-7 grid md:grid-cols-2 gap-8">
             <Card className="shadow-md">
                 <CardHeader>
