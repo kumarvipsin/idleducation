@@ -118,28 +118,14 @@ export default function AboutPage() {
             <div className="container mx-auto px-4 md:px-6">
                 <Card className="rounded-2xl shadow-lg border">
                     <CardContent className="p-8 md:p-12">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                            <div className="space-y-4 text-center md:text-left">
+                        <div className="grid grid-cols-1 gap-8 items-center">
+                            <div className="space-y-4 text-center">
                                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                                     Our Educational Philosophy
                                 </h2>
                                 <p className="text-muted-foreground">
                                     To provide the best education in the most cultivable environment so as to empower everyone. To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world. A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.
                                 </p>
-                                <Button asChild className="rounded-full">
-                                    <Link href="/contact">
-                                        Contact Us <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Link>
-                                </Button>
-                            </div>
-                            <div className="relative h-64 w-64 mx-auto">
-                                <Image
-                                    src={placeholderImages.educational_philosophy.src}
-                                    alt={placeholderImages.educational_philosophy.alt}
-                                    data-ai-hint={placeholderImages.educational_philosophy.hint}
-                                    fill
-                                    className="object-cover rounded-full shadow-lg"
-                                />
                             </div>
                         </div>
                     </CardContent>
