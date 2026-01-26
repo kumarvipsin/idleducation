@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -84,59 +83,51 @@ const blogPosts = [
 
 export default function BlogPage() {
   return (
-    <div className="relative min-h-screen w-full p-4 bg-white dark:bg-gray-900 overflow-y-auto">
-      <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-          </Button>
-      </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
-          <div className="text-center mb-12 animate-fade-in-up">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
-                  IDL Blog
-              </h1>
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Insights, tips, and stories from the world of education.
-              </p>
-          </div>
+    <div className="container mx-auto py-12 px-4 md:px-[10%]">
+        <div className="text-center mb-12 animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-primary tracking-tight">
+                IDL Blog
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                Insights, tips, and stories from the world of education.
+            </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post, index) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group">
-                  <div className="relative w-full aspect-video">
-                    <Image 
-                      src={post.imageUrl}
-                      alt={post.title}
-                      data-ai-hint={post.imageHint}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="text-xl h-16">{post.title}</CardTitle>
-                     <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
-                        <div className="flex items-center gap-1.5">
-                          <User className="h-3 w-3" />
-                          <span>{post.author}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="h-3 w-3" />
-                          <span>{post.date}</span>
-                        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogPosts.map((post, index) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
+              <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group">
+                <div className="relative w-full aspect-video">
+                  <Image 
+                    src={post.imageUrl}
+                    alt={post.title}
+                    data-ai-hint={post.imageHint}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-xl h-16">{post.title}</CardTitle>
+                   <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
+                      <div className="flex items-center gap-1.5">
+                        <User className="h-3 w-3" />
+                        <span>{post.author}</span>
                       </div>
-                  </CardHeader>
-                  <CardContent className="flex-grow h-32 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <p className="text-sm text-muted-foreground">
-                        {post.excerpt}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="h-3 w-3" />
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="flex-grow h-32 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <p className="text-sm text-muted-foreground">
+                      {post.excerpt}
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
     </div>
   );
 }

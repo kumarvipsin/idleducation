@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, User, Calendar, ArrowRight, X } from "lucide-react";
@@ -89,47 +88,39 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
-      <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-          </Button>
-      </Link>
-      <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
-        <article>
-          <header className="mb-8">
-            <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden">
-                <Image 
-                    src={post.imageUrl}
-                    alt={post.title}
-                    data-ai-hint={post.imageHint}
-                    fill
-                    className="object-cover"
-                />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                 <div className="absolute bottom-0 left-0 p-6 text-white">
-                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight [text-shadow:0_2px_4px_rgba(0,0,0,0.7)]">
-                      {post.title}
-                    </h1>
-                 </div>
-            </div>
-             <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1.5">
-                <User className="h-4 w-4" />
-                <span>{post.author}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Calendar className="h-4 w-4" />
-                <span>{post.date}</span>
-              </div>
-            </div>
-          </header>
-          <div className="prose dark:prose-invert max-w-none">
-            <p>{post.excerpt}</p>
+    <div className="container mx-auto py-12 px-4 md:px-[10%]">
+      <article>
+        <header className="mb-8">
+          <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden">
+              <Image 
+                  src={post.imageUrl}
+                  alt={post.title}
+                  data-ai-hint={post.imageHint}
+                  fill
+                  className="object-cover"
+              />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+               <div className="absolute bottom-0 left-0 p-6 text-white">
+                  <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight [text-shadow:0_2px_4px_rgba(0,0,0,0.7)]">
+                    {post.title}
+                  </h1>
+               </div>
           </div>
-        </article>
-      </div>
+           <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <User className="h-4 w-4" />
+              <span>{post.author}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" />
+              <span>{post.date}</span>
+            </div>
+          </div>
+        </header>
+        <div className="prose dark:prose-invert max-w-none">
+          <p>{post.excerpt}</p>
+        </div>
+      </article>
     </div>
   );
 }
