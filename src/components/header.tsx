@@ -279,11 +279,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return (
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-8 w-16" />
-        </div>
-      );
+      return <Skeleton className="h-8 w-20" />;
     }
 
     if (user) {
@@ -334,7 +330,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="outline" size="sm">
+        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
             <Link href="/login">Login</Link>
         </Button>
     );
@@ -396,8 +392,8 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-                <Bell className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+                <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -433,12 +429,12 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-12",
+    "sticky top-0 z-50 transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm border-b";
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   return (
     <>
@@ -450,7 +446,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
-                    <nav className="items-center flex h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -486,19 +482,23 @@ export function Header() {
                     </nav>
                      <div className="flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
-                                <Phone className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="font-extrabold text-foreground text-lg">7011 117 585</p>
+                                <p className="font-bold text-foreground text-base">7011 117 585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
                      </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
-                    {isClient && renderAuthSection()}
+                    {isClient && !user && (
+                         <Button asChild variant="ghost" size="sm">
+                            <Link href="/login">Login</Link>
+                        </Button>
+                    )}
                     <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
                             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <AlignJustify className="h-5 w-5" />}
@@ -604,15 +604,15 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
           </div>
         </div>
       </div>
