@@ -1,4 +1,3 @@
-
 'use client';
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -362,12 +361,6 @@ export default function AdmissionPage() {
         src="https://checkout.razorpay.com/v1/checkout.js"
     />
     <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
-      <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-          </Button>
-      </Link>
       <div className="relative z-10 container mx-auto py-12 px-4 md:px-[10%]">
         <div className="w-full">
           <div className="text-center mb-8 animate-fade-in-up">

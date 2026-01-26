@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -123,12 +122,6 @@ export default function BookDemoPage() {
 
   return (
     <div key={studentId} className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
-      <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-          </Button>
-      </Link>
       <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
           <div className="space-y-6 mb-8 animate-fade-in-up text-center">
               <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
