@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -14,9 +13,9 @@ export function AppContent({
 }) {
   const pathname = usePathname();
   
-  const isAdminPage = pathname.startsWith('/admin');
-  const isStudentPage = pathname.startsWith('/student');
-  const isTeacherPage = pathname.startsWith('/teacher');
+  const isAdminPage = pathname.startsWith('/admin/');
+  const isStudentPage = pathname.startsWith('/student/');
+  const isTeacherPage = pathname.startsWith('/teacher/');
   
   const specialLayoutPages = [
     '/book-demo',
