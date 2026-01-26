@@ -3,27 +3,44 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PenSquare, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getDirectorProfile } from "@/app/actions";
+import { getDirectorProfile } from "@/app/actions/admin";
+import { getTestimonials, getTeamMembers } from "@/app/actions/data";
+import type { TTestimonial, TTeamMember } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import placeholderImages from '@/app/lib/placeholder-images.json';
+import { StudentTestimonials } from "@/components/landing/student-testimonials";
+import { TeacherCard } from "@/components/landing/teacher-card";
 
 export default function AboutPage() {
     const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
+    const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
+    const [team, setTeam] = useState<TTeamMember[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchDirector = async () => {
+        const fetchData = async () => {
             setLoading(true);
-            const result = await getDirectorProfile();
-            if (result.success && result.data) {
-                setDirector(result.data as {name: string; photoUrl: string});
+            const directorResult = await getDirectorProfile();
+            if (directorResult.success && directorResult.data) {
+                setDirector(directorResult.data as {name: string; photoUrl: string});
             }
+
+            const testimonialsResult = await getTestimonials();
+            if (testimonialsResult.success && testimonialsResult.data) {
+                setTestimonials(testimonialsResult.data as TTestimonial[]);
+            }
+
+            const teamResult = await getTeamMembers();
+            if (teamResult.success && teamResult.data) {
+                setTeam(teamResult.data as TTeamMember[]);
+            }
+
             setLoading(false);
         };
-        fetchDirector();
+        fetchData();
     }, []);
 
   return (
@@ -111,6 +128,39 @@ export default function AboutPage() {
                 </Card>
             </div>
         </section>
+
+        <section className="py-16 md:py-24 bg-background">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Team</h2>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        The dedicated individuals leading our mission forward.
+                    </p>
+                </div>
+                {loading ? (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {team.map((member) => (
+                        <TeacherCard 
+                            key={member.id} 
+                            name={member.name}
+                            designation={member.designation}
+                            experience={member.experience}
+                            biography={member.biography}
+                            avatar={member.avatarUrl}
+                            avatarHint={`${member.name} photo`}
+                            socialLinks={member.socialLinks}
+                        />
+                        ))}
+                    </div>
+                )}
+            </div>
+        </section>
+        
+        <StudentTestimonials testimonials={testimonials} />
     </div>
   );
 }
