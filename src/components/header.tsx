@@ -459,14 +459,14 @@ export function Header() {
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
-                              <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                  Apply For
-                                </Button>
-                              </div>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
+                                </Button>
+                              </div>
+                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                  Apply For
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
@@ -504,11 +504,6 @@ export function Header() {
                                 <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                             </div>
                         </a>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
-                      {isClient && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -549,7 +544,7 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
+                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
@@ -592,7 +587,8 @@ export function Header() {
                                 </Collapsible>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                    <StoreIcon />
+                                    <ShoppingCart className="h-4 w-4" />
+                                    IDL Store
                                   </Link>
                                 </Button>
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
@@ -630,4 +626,3 @@ export function Header() {
   );
 }
 
-    
