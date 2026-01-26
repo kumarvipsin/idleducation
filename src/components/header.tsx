@@ -280,7 +280,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (!isClient || loading) {
+    if (loading) {
       return <Skeleton className="h-9 w-9 rounded-full" />;
     }
 
@@ -332,9 +332,11 @@ export function Header() {
     }
 
     return (
-      <Button asChild variant="outline" size="sm" className="rounded-lg">
-        <Link href="/login">Login</Link>
-      </Button>
+        isClient && (
+            <Button asChild variant="ghost" size="sm" className="rounded-lg text-primary hover:bg-primary/5 hover:text-primary border border-primary/20">
+                <Link href="/login">Login</Link>
+            </Button>
+        )
     );
   };
   
@@ -388,20 +390,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t">
-            <Button asChild variant="ghost" className="w-full justify-start text-sm">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <LogIn className="mr-3 h-4 w-4" /> Login
-                </Link>
-            </Button>
-            <Button asChild variant="ghost" className="w-full justify-start text-sm">
-                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                    <UserPlus className="mr-3 h-4 w-4" /> Sign Up
-                </Link>
-            </Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -497,7 +486,7 @@ export function Header() {
                           )}
                     </nav>
                      <div className="items-center gap-2 hidden md:flex">
-                        {isClient ? (
+                        {isClient && (
                           <>
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -505,16 +494,11 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                                    <p className="text-sm font-black text-foreground leading-tight">7011 117 585</p>
                                 </div>
                             </a>
                             {renderAuthSection()}
                           </>
-                        ) : (
-                            <>
-                               <Skeleton className="h-9 w-40" />
-                               <Skeleton className="h-9 w-9 rounded-full" />
-                            </>
                         )}
                      </div>
                 </div>
@@ -613,7 +597,7 @@ export function Header() {
                                 <Button asChild variant="outline" className="w-full justify-start text-sm">
                                    <a href="tel:7011117585" className="flex items-center gap-3">
                                       <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
+                                      Call Now (7011 117 585)
                                   </a>
                                 </Button>
                             </nav>
