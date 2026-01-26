@@ -21,6 +21,7 @@ export function AppContent({
     '/book-demo',
     '/student-enquiry',
     '/volunteer',
+    '/admission',
   ];
   
   const noHeaderFooterPages = [
@@ -36,7 +37,6 @@ export function AppContent({
     '/offline-centers',
     '/achievements',
     '/store',
-    '/admission',
   ];
   
   const isIdlFoundationPage = pathname === '/idl-foundation';
