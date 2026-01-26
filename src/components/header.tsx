@@ -448,8 +448,8 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 flex justify-end items-center gap-1 ml-4">
-                    <nav className="items-center hidden md:flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -483,8 +483,9 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-                     <div className="hidden md:flex items-center gap-2">
+                     <div className="items-center gap-2 hidden md:flex">
                         {isClient && (
+                          <>
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
@@ -494,8 +495,9 @@ export function Header() {
                                     <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
+                            {renderAuthSection()}
+                          </>
                         )}
-                        {isClient && renderAuthSection()}
                      </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
@@ -531,7 +533,7 @@ export function Header() {
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
                                             {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
-                                                <Link key={index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                      <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
@@ -615,8 +617,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
