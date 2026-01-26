@@ -121,7 +121,12 @@ export default function AboutPage() {
         <section className="w-full py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Meet Our Team</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Meet Our{' '}
+                        <span className="relative inline-block">
+                            <span className="relative z-10">Team</span>
+                            <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+                        </span>
+                    </h2>
                     <p className="text-muted-foreground mt-2">The people behind our success.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
