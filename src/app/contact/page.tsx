@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,13 +48,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-4">
-       <Link href="/" className="absolute top-4 right-4 z-20">
-          <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-          </Button>
-      </Link>
+    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 p-4">
       <div className="relative z-10 flex items-center justify-center min-h-screen">
         <div className="w-full max-w-lg mx-auto">
           <div className="animate-fade-in-up">
