@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -30,6 +31,9 @@ export function AppContent({
     '/offline-centers',
     '/achievements',
     '/store',
+    '/student-enquiry',
+    '/admission',
+    '/volunteer',
   ];
   
   const isIdlFoundationPage = pathname === '/idl-foundation';
@@ -49,6 +53,20 @@ export function AppContent({
 
   // For special public pages that shouldn't have a header or footer
   if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
+    // A special case for book-demo
+    if (pathname === '/book-demo') {
+       return (
+        <>
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+          <ChatBotWrapper />
+          <Toaster />
+        </>
+      );
+    }
     return (
         <>
             <main className="flex-grow">
