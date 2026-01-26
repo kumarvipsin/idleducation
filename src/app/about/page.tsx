@@ -45,7 +45,7 @@ export default function AboutPage() {
       },
       {
         name: "Chandra Prakesh",
-        title: "Graphic Media Head",
+        title: "Head Graphic Media",
         imageUrl: placeholderImages.founder3.src,
         imageAlt: placeholderImages.founder3.alt,
         imageHint: placeholderImages.founder3.hint,
