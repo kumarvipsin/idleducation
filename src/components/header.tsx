@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -126,7 +127,7 @@ const MegaMenu = ({ links }: { links?: { href: string; label: string; icon: Reac
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-primary/10 text-primary')}>{link.icon}</div>
+                    <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-muted')}>{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
                         <p className="text-xs text-muted-foreground">{link.description}</p>
@@ -279,15 +280,15 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-10 w-10 rounded-full" />;
+      return <Skeleton className="h-9 w-20 rounded-md" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              <Avatar className="h-10 w-10">
+             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+              <Avatar className="h-9 w-9">
                  <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
@@ -330,7 +331,7 @@ export function Header() {
     }
 
     return (
-        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex rounded-full">
+        <Button asChild variant="outline" size="sm" className="hidden md:inline-flex rounded-md">
             <Link href="/login">Login</Link>
         </Button>
     );
@@ -429,7 +430,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-[52px]",
+    "sticky top-0 z-50 transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -482,12 +483,12 @@ export function Header() {
                     </nav>
                      <div className="flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
                                 <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-xs text-muted-foreground leading-tight">Call now</p>
-                                <p className="font-bold text-foreground text-base">7011 117 585</p>
+                                <p className="font-bold text-foreground text-sm">7011 117 585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
@@ -495,13 +496,13 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
                     {isClient && !user && (
-                         <Button asChild variant="outline" size="sm" className="rounded-full h-10 px-4">
+                         <Button asChild variant="outline" size="sm" className="rounded-md h-9 px-4">
                             <Link href="/login">Login</Link>
                         </Button>
                     )}
                     <CollapsibleTrigger asChild>
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
-                            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <AlignJustify className="h-5 w-5" />}
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
                         </Button>
                     </CollapsibleTrigger>
@@ -525,7 +526,7 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
+                                            {allCoursesCategories.map(({ href, label, icon, description, colorClasses }) => (
                                                 <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                      <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
@@ -604,18 +605,20 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-[52px] left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out shadow-lg",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 border-t", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
     </>
   );
 }
+
+    
