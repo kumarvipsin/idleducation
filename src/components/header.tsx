@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -494,7 +493,7 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-sm font-semibold text-foreground leading-tight">7011 117 585</p>
+                                    <p className="text-sm font-bold text-foreground leading-none">7011 117 585</p>
                                 </div>
                             </a>
                             {renderAuthSection()}
@@ -619,9 +618,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
