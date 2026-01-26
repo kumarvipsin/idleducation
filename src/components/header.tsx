@@ -345,6 +345,7 @@ export function Header() {
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
   ];
   
   const applyForLinks = [
@@ -493,7 +494,7 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-sm font-bold text-foreground leading-none">7011 117 585</p>
+                                    <p className="text-sm font-bold text-foreground leading-none">70-1111-7585</p>
                                 </div>
                             </a>
                             {renderAuthSection()}
