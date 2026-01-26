@@ -120,6 +120,10 @@ export default function AboutPage() {
         
         <section className="w-full py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Meet Our Team</h2>
+                    <p className="text-muted-foreground mt-2">The people behind our success.</p>
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     {team.map((member) => (
                         <div key={member.name} className="flex flex-col items-center text-center">
