@@ -1,64 +1,11 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { Target, Eye, PenSquare } from "lucide-react";
-import { Avatar } from "@/components/ui/avatar";
+import { PenSquare } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getDirectorProfile, getTeamMembers } from "@/app/actions";
+import { getDirectorProfile } from "@/app/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
-import type { TTeamMember } from "@/app/actions/types";
-import { TeacherCard } from "@/components/landing/teacher-card";
-
-const TeamMembers = () => {
-    const [teamMembers, setTeamMembers] = useState<TTeamMember[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchTeam = async () => {
-        setLoading(true);
-        const result = await getTeamMembers();
-        if (result.success && result.data) {
-            setTeamMembers(result.data as TTeamMember[]);
-        }
-        setLoading(false);
-        };
-        fetchTeam();
-    }, []);
-
-    return (
-        <section className="w-full py-16 md:py-24">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-primary">Meet Our Expert</h2>
-                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-                        The power of an organisation is its team. We believe that great teams build great organisations.
-                    </p>
-                </div>
-                {loading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-lg" />)}
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {teamMembers.map((member) => (
-                        <TeacherCard 
-                            key={member.id} 
-                            name={member.name}
-                            designation={member.designation}
-                            experience={member.experience}
-                            biography={member.biography}
-                            avatar={member.avatarUrl}
-                            avatarHint={`${member.name} photo`}
-                            socialLinks={member.socialLinks}
-                        />
-                        ))}
-                    </div>
-                )}
-            </div>
-        </section>
-    );
-};
 
 export default function AboutPage() {
     const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
@@ -128,8 +75,6 @@ export default function AboutPage() {
                 </div>
             </div>
         </section>
-        
-        <TeamMembers />
     </div>
   );
 }
