@@ -280,7 +280,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (loading) {
+    if (!isClient || loading) {
       return <Skeleton className="h-9 w-9 rounded-full" />;
     }
 
@@ -388,7 +388,20 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+        <div className="p-2 border-t">
+            <Button asChild variant="ghost" className="w-full justify-start text-sm">
+                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <LogIn className="mr-3 h-4 w-4" /> Login
+                </Link>
+            </Button>
+            <Button asChild variant="ghost" className="w-full justify-start text-sm">
+                <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                    <UserPlus className="mr-3 h-4 w-4" /> Sign Up
+                </Link>
+            </Button>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -484,7 +497,7 @@ export function Header() {
                           )}
                     </nav>
                      <div className="items-center gap-2 hidden md:flex">
-                        {isClient && (
+                        {isClient ? (
                           <>
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -497,6 +510,11 @@ export function Header() {
                             </a>
                             {renderAuthSection()}
                           </>
+                        ) : (
+                            <>
+                               <Skeleton className="h-9 w-40" />
+                               <Skeleton className="h-9 w-9 rounded-full" />
+                            </>
                         )}
                      </div>
                 </div>
