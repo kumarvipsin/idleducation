@@ -31,30 +31,6 @@ import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
-
-type CartItem = {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    image: string;
-};
-
-const scholarshipSchema = z.object({
-  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  class: z.string().min(1, { message: "Please select a class." }),
-  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-});
-
-type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
-const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
-
 const allCoursesCategories = [
     {
         name: "School Preparation",
@@ -97,6 +73,30 @@ const StoreIcon = () => (
         className="h-6 w-auto"
     />
 );
+
+interface Update {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+}
+
+type CartItem = {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+};
+
+const scholarshipSchema = z.object({
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
+type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
 const AllCoursesMegaMenu = () => {
     return (
@@ -277,7 +277,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-10 w-10 rounded-full" />;
+      return <Skeleton className="h-10 w-24" />;
     }
 
     if (user) {
@@ -373,8 +373,47 @@ export function Header() {
     return null;
   };
   
+  const notificationDropdown = (
+    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
+        <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
+                <Bell className="h-5 w-5" />
+                {hasNewUpdates && (
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                )}
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {updates.length > 0 ? (
+            updates.map(update => (
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
+                    <p className="font-semibold">{update.title}</p>
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
+                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                    </p>
+                </DropdownMenuItem>
+            ))
+            ) : (
+            <DropdownMenuItem>No new updates.</DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+            <Link href="/notifications" className="text-center justify-center">
+                View all notifications
+            </Link>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
+    "sticky top-0 z-50 transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -387,7 +426,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
@@ -404,8 +443,8 @@ export function Header() {
                                   Apply For
                                 </Button>
                               </div>
-                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                               <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
                                 </Button>
                               </div>
@@ -428,7 +467,7 @@ export function Header() {
                      <div className="flex items-center gap-4">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
-                                <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                                <Phone className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
@@ -466,11 +505,11 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name, icon, description }) => (
-                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                            {allCoursesCategories.map(({ href, name: label, icon, description }) => (
+                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
                                                     <div>
-                                                        <p className="font-semibold text-sm">{name}</p>
+                                                        <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
                                                     </div>
                                                 </Link>
@@ -480,8 +519,9 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-start text-sm">
+                                        <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
+                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
@@ -548,11 +588,11 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
