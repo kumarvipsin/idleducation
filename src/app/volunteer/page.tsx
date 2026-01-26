@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,133 +62,131 @@ export default function VolunteerPage() {
 
     return (
         <>
-            <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
-                <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
-                    <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-                        <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
-                            Become a Volunteer
-                        </h1>
-                        <p className="mt-2 text-lg text-muted-foreground font-semibold">
-                            Join us in making a difference. Your time and skills can change lives.
-                        </p>
-                    </div>
+            <div className="container mx-auto py-12 md:px-[10%]">
+                <div className="space-y-6 mb-8 animate-fade-in-up text-center">
+                    <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
+                        Become a Volunteer
+                    </h1>
+                    <p className="mt-2 text-lg text-muted-foreground font-semibold">
+                        Join us in making a difference. Your time and skills can change lives.
+                    </p>
+                </div>
 
-                    <div className="w-full max-w-2xl mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
-                            <CardContent className="space-y-6 p-8">
-                               <Form {...form}>
-                                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                        <div className="grid sm:grid-cols-2 gap-4">
-                                            <FormField
-                                                control={form.control}
-                                                name="name"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <div className="relative">
-                                                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                                <Input placeholder="Your Name *" {...field} className="pl-9" />
-                                                            </div>
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="email"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <div className="relative">
-                                                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                                <Input type="email" placeholder="Your Email *" {...field} className="pl-9" />
-                                                            </div>
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-                                        <div className="grid sm:grid-cols-2 gap-4">
-                                             <FormField
-                                                control={form.control}
-                                                name="phone"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <div className="relative">
-                                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                                <Input type="tel" placeholder="Phone Number *" {...field} className="pl-9" />
-                                                            </div>
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="address"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormControl>
-                                                            <div className="relative">
-                                                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                                <Input placeholder="Your Address *" {...field} className="pl-9" />
-                                                            </div>
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-                                         <FormField
-                                            control={form.control}
-                                            name="availability"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <Select onValueChange={field.onChange} value={field.value}>
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Select Your Availability *" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {availabilityOptions.map(opt => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                <div className="w-full max-w-2xl mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+                        <CardContent className="space-y-6 p-8">
+                           <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                    <div className="grid sm:grid-cols-2 gap-4">
                                         <FormField
                                             control={form.control}
-                                            name="reason"
+                                            name="name"
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormControl>
                                                         <div className="relative">
-                                                            <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                                            <Textarea 
-                                                                placeholder="Why do you want to volunteer with us? *" 
-                                                                className="min-h-[120px] pl-9"
-                                                                {...field}
-                                                            />
+                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                            <Input placeholder="Your Name *" {...field} className="pl-9" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
-                                        <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
-                                            {form.formState.isSubmitting ? 'Submitting...' : 'Submit Application'}
-                                            <HandHeart className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </form>
-                               </Form>
-                            </CardContent>
-                        </Card>
-                    </div>
+                                        <FormField
+                                            control={form.control}
+                                            name="email"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                            <Input type="email" placeholder="Your Email *" {...field} className="pl-9" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                         <FormField
+                                            control={form.control}
+                                            name="phone"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                            <Input type="tel" placeholder="Phone Number *" {...field} className="pl-9" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="address"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormControl>
+                                                        <div className="relative">
+                                                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                            <Input placeholder="Your Address *" {...field} className="pl-9" />
+                                                        </div>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
+                                     <FormField
+                                        control={form.control}
+                                        name="availability"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select Your Availability *" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {availabilityOptions.map(opt => <SelectItem key={opt} value={opt}>{opt}</SelectItem>)}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="reason"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <div className="relative">
+                                                        <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                        <Textarea 
+                                                            placeholder="Why do you want to volunteer with us? *" 
+                                                            className="min-h-[120px] pl-9"
+                                                            {...field}
+                                                        />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
+                                        {form.formState.isSubmitting ? 'Submitting...' : 'Submit Application'}
+                                        <HandHeart className="ml-2 h-4 w-4" />
+                                    </Button>
+                                </form>
+                           </Form>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
             <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
