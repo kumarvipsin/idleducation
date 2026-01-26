@@ -63,7 +63,7 @@ export default function AboutPage() {
 
   return (
     <div className="bg-background">
-        <section className="py-16 md:py-24 bg-muted/30 dark:bg-card/50">
+        <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <Card className="rounded-2xl shadow-lg border">
                     <CardContent className="p-8 md:p-12">
