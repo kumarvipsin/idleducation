@@ -1002,6 +1002,7 @@ export default function AdmissionPage() {
                 <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
             </DialogFooter>
         </DialogContent>
+    </Dialog>
     </>
   );
 }
