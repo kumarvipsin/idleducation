@@ -21,7 +21,6 @@ export function AppContent({
     '/scholarship',
     '/book-demo',
     '/admission',
-    '/feedback',
     '/login',
     '/signup',
     '/feature',
