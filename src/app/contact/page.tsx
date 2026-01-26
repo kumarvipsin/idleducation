@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,8 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 const contactFormSchema = z.object({
-  firstName: z.string().min(1, { message: "First name is required." }),
-  lastName: z.string().min(1, { message: "Last name is required." }),
+  name: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   phone: z.string().min(10, { message: "A valid phone number is required." }),
   email: z.string().email({ message: "A valid email is required." }),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
@@ -29,8 +27,7 @@ export default function ContactPage() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      name: '',
       phone: '',
       email: '',
       message: '',
@@ -39,7 +36,7 @@ export default function ContactPage() {
   
   const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
     const result = await submitContactForm({ 
-        name: `${data.firstName} ${data.lastName}`, 
+        name: data.name, 
         email: data.email, 
         phone: data.phone, 
         message: data.message
@@ -102,38 +99,21 @@ export default function ContactPage() {
               <CardContent className="p-8">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="firstName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="First Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="lastName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input placeholder="Last Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input placeholder="Full Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       control={form.control}
                       name="phone"
