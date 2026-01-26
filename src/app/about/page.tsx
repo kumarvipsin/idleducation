@@ -82,25 +82,25 @@ export default function AboutPage() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
                 <div className="md:col-span-1 flex flex-col items-center text-center animate-fade-in-up">
-                    <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
-                    {loading ? (
-                        <Skeleton className="w-full h-full rounded-full" />
-                    ) : director?.photoUrl ? (
-                        <GcsImage
-                        filePath={director.photoUrl}
-                        alt={director.name || "Director's Photo"}
-                        fill
-                        className="rounded-full object-cover"
-                        />
-                    ) : (
-                        <Image
-                        src="/teacher.png"
-                        alt="Director's Photo"
-                        fill
-                        className="rounded-full object-cover"
-                        />
-                    )}
-                    </Avatar>
+                    <div className="relative w-full max-w-xs aspect-[4/5] rounded-lg overflow-hidden shadow-lg border-4 border-primary/20">
+                        {loading ? (
+                            <Skeleton className="w-full h-full" />
+                        ) : director?.photoUrl ? (
+                            <GcsImage
+                            filePath={director.photoUrl}
+                            alt={director.name || "Director's Photo"}
+                            fill
+                            className="object-cover"
+                            />
+                        ) : (
+                            <Image
+                            src="/teacher.png"
+                            alt="Director's Photo"
+                            fill
+                            className="object-cover"
+                            />
+                        )}
+                    </div>
                     <div className="text-center mt-4">
                     {loading ? (
                         <>
