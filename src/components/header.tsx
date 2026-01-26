@@ -162,6 +162,7 @@ export function Header() {
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
+  const isHomePage = pathname === '/';
   
   useEffect(() => {
     setIsClient(true);
@@ -181,7 +182,6 @@ export function Header() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
-
       return () => {
         window.removeEventListener('scroll', controlNavbar);
       };
@@ -280,7 +280,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-9 w-20 rounded-md" />;
+      return <Skeleton className="h-9 w-9 rounded-full" />;
     }
 
     if (user) {
@@ -387,13 +387,26 @@ export function Header() {
         </div>
       );
     }
-    return null;
+    return (
+      <div className="p-2 border-t grid grid-cols-2 gap-2">
+        <Button asChild variant="default" className="w-full justify-start text-sm">
+            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <LogIn className="mr-3 h-4 w-4" /> Login
+            </Link>
+        </Button>
+        <Button asChild variant="secondary" className="w-full justify-start text-sm">
+            <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                <UserPlus className="mr-3 h-4 w-4" /> Signup
+            </Link>
+        </Button>
+      </div>
+    );
   };
   
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
                 <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
@@ -430,12 +443,13 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-14 border-b",
+    "sticky top-0 z-50 transition-transform duration-300 h-14",
     show ? "translate-y-0" : "-translate-y-full",
+    (pathname !== '/' && !isIdlFoundationPage) && "border-b",
     "bg-background/95 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm shadow-none border-0";
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   return (
     <>
@@ -483,7 +497,7 @@ export function Header() {
                     </nav>
                      <div className="flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                 <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
@@ -522,8 +536,8 @@ export function Header() {
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
                                             {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
+                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -544,7 +558,7 @@ export function Header() {
                                         <div className="grid grid-cols-1 gap-1">
                                             {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                                 <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
+                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -565,7 +579,7 @@ export function Header() {
                                         <div className="grid grid-cols-1 gap-1">
                                             {navLinks.map(({ href, label, icon, description, target, colorClasses }) => (
                                                 <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
+                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
@@ -604,7 +618,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 border-t", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
