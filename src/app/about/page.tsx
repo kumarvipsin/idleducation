@@ -1,11 +1,14 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { PenSquare } from "lucide-react";
+import { PenSquare, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getDirectorProfile } from "@/app/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
+import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function AboutPage() {
     const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
@@ -73,6 +76,39 @@ export default function AboutPage() {
                     </div>
                 </div>
                 </div>
+            </div>
+        </section>
+
+        <section className="w-full py-12 bg-muted/30 dark:bg-card/50">
+            <div className="container mx-auto px-4 md:px-6">
+                <Card className="rounded-2xl shadow-lg border">
+                    <CardContent className="p-8 md:p-12">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                            <div className="space-y-4 text-center md:text-left">
+                                <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                                    Our Educational Philosophy
+                                </h2>
+                                <p className="text-muted-foreground">
+                                    We believe in a holistic, student-centric approach that goes beyond textbooks, focusing on conceptual clarity and real-world application to nurture lifelong learners.
+                                </p>
+                                <Button asChild className="rounded-full">
+                                    <Link href="/contact">
+                                        Contact Us <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </div>
+                            <div className="relative h-64 w-64 mx-auto">
+                                <Image
+                                    src={placeholderImages.educational_philosophy.src}
+                                    alt={placeholderImages.educational_philosophy.alt}
+                                    data-ai-hint={placeholderImages.educational_philosophy.hint}
+                                    fill
+                                    className="object-cover rounded-full shadow-lg"
+                                />
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </section>
     </div>
