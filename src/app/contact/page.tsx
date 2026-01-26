@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { User, Phone, Mail, MessageSquare, MapPin, Linkedin, Facebook, Twitter, Instagram } from "lucide-react";
+import { User, Phone, Mail, MessageSquare, MapPin, Linkedin, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -84,10 +84,10 @@ export default function ContactPage() {
               <div className="flex items-center gap-4">
                 <p className="font-semibold">Find us on:</p>
                 <div className="flex gap-2">
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Twitter className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Linkedin className="h-4 w-4" /></a>
-                    <a href="#" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-4 w-4" /></a>
+                    <a href="https://www.instagram.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-4 w-4" /></a>
+                    <a href="https://www.facebook.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-4 w-4" /></a>
+                    <a href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Twitter className="h-4 w-4" /></a>
+                    <a href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-background rounded-full text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"><Youtube className="h-4 w-4" /></a>
                 </div>
               </div>
             </div>
