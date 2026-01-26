@@ -1,21 +1,17 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { PenSquare, ArrowRight } from "lucide-react";
+import { PenSquare, ArrowRight, Linkedin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getDirectorProfile } from "@/app/actions/admin";
-import { getTestimonials } from "@/app/actions/data";
-import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import placeholderImages from '@/app/lib/placeholder-images.json';
-import { StudentTestimonials } from "@/components/landing/student-testimonials";
 
 export default function AboutPage() {
     const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
-    const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,16 +21,37 @@ export default function AboutPage() {
             if (directorResult.success && directorResult.data) {
                 setDirector(directorResult.data as {name: string; photoUrl: string});
             }
-
-            const testimonialsResult = await getTestimonials();
-            if (testimonialsResult.success && testimonialsResult.data) {
-                setTestimonials(testimonialsResult.data as TTestimonial[]);
-            }
-
             setLoading(false);
         };
         fetchData();
     }, []);
+
+    const team = [
+      {
+        name: "Vamsi Krishna",
+        title: "Co-Founder, CEO",
+        imageUrl: placeholderImages.founder1.src,
+        imageAlt: placeholderImages.founder1.alt,
+        imageHint: placeholderImages.founder1.hint,
+        linkedinUrl: "#",
+      },
+      {
+        name: "Pulkit Jain",
+        title: "Co-Founder, Head Product",
+        imageUrl: placeholderImages.founder2.src,
+        imageAlt: placeholderImages.founder2.alt,
+        imageHint: placeholderImages.founder2.hint,
+        linkedinUrl: "#",
+      },
+      {
+        name: "Anand Prakash",
+        title: "Co-Founder, Head Academics",
+        imageUrl: placeholderImages.founder3.src,
+        imageAlt: placeholderImages.founder3.alt,
+        imageHint: placeholderImages.founder3.hint,
+        linkedinUrl: "#",
+      },
+    ];
 
   return (
     <div className="bg-background">
@@ -122,7 +139,35 @@ export default function AboutPage() {
             </div>
         </section>
         
-        <StudentTestimonials testimonials={testimonials} />
+        <section className="w-full py-16 md:py-24 bg-muted/30 dark:bg-card/50">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground">Meet Our Founders</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    {team.map((member) => (
+                        <div key={member.name} className="flex flex-col items-center text-center">
+                            <div className="relative w-48 h-56 mb-4">
+                                <Image
+                                    src={member.imageUrl}
+                                    alt={member.imageAlt}
+                                    data-ai-hint={member.imageHint}
+                                    fill
+                                    className="object-contain filter grayscale"
+                                />
+                            </div>
+                            <h3 className="text-xl font-bold">{member.name}</h3>
+                            <p className="text-muted-foreground">{member.title}</p>
+                            <Link href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="mt-2">
+                                <Button variant="outline" size="icon" className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500/10">
+                                    <Linkedin className="h-5 w-5" />
+                                </Button>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
     </div>
   );
 }

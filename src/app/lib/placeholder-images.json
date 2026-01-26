@@ -38,5 +38,20 @@
     "src": "https://picsum.photos/seed/topper3/200/200",
     "alt": "Topper Shravani P Pore",
     "hint": "student portrait"
+  },
+  "founder1": {
+    "src": "https://picsum.photos/seed/vamsi/400/500",
+    "alt": "Vamsi Krishna, Co-Founder, CEO",
+    "hint": "man smiling"
+  },
+  "founder2": {
+    "src": "https://picsum.photos/seed/pulkit/400/500",
+    "alt": "Pulkit Jain, Co-Founder, Head Product",
+    "hint": "man professional"
+  },
+  "founder3": {
+    "src": "https://picsum.photos/seed/anand/400/500",
+    "alt": "Anand Prakash, Co-Founder, Head Academics",
+    "hint": "man glasses"
   }
 }
