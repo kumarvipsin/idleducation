@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -124,7 +123,7 @@ export default function AboutPage() {
                                 <h2 className="text-3xl md:text-4xl font-bold text-primary">
                                     Our Core Values
                                 </h2>
-                                <p className="text-muted-foreground">
+                                <p className="text-muted-foreground text-lg leading-relaxed">
                                     To provide the best education in the most cultivable environment so as to empower everyone. To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world. A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness. We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.
                                 </p>
                             </div>
