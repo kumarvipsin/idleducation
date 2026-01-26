@@ -67,15 +67,15 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <Phone className="w-5 h-5" />
-                  <span>+1-760-284-3410</span>
+                  <span>011 45035713</span>
                 </div>
                  <div className="flex items-center gap-4">
                   <Mail className="w-5 h-5" />
-                  <span>hello@demoemail.com</span>
+                  <span>info@idleducation.in</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <MapPin className="w-5 h-5" />
-                  <span>931 Abia Martin Drive, PA-18104</span>
+                  <span>Krishan Vihar, Delhi-110086</span>
                 </div>
               </div>
 
