@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -7,7 +8,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/componen
 import { useLanguage } from "@/context/language-context";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Autoplay from "embla-carousel-autoplay";
-import { getTestimonials, getSignedUrlForPdf } from "@/app/actions";
 import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
@@ -76,10 +76,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   );
 };
 
-export function StudentTestimonials() {
+export function StudentTestimonials({ testimonials }: { testimonials: TTestimonial[] }) {
   const { t } = useLanguage();
-  const [testimonials, setTestimonials] = useState<TTestimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!testimonials);
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
  
@@ -100,18 +99,13 @@ export function StudentTestimonials() {
     },
     [api]
   );
-
+  
   useEffect(() => {
-    const fetchTestimonials = async () => {
-      setLoading(true);
-      const result = await getTestimonials();
-      if (result.success && result.data) {
-        setTestimonials(result.data as TTestimonial[]);
-      }
+    if (testimonials) {
       setLoading(false);
-    };
-    fetchTestimonials();
-  }, []);
+    }
+  }, [testimonials]);
+
 
   return (
     <section id="testimonials" className="w-full py-8 md:py-16 bg-white dark:bg-background">

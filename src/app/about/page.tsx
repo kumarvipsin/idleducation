@@ -128,55 +128,6 @@ export default function AboutPage() {
                 </div>
             </div>
         </section>
-
-        <section className="py-16 md:py-24 bg-muted/30">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-                    <Card className="shadow-md">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-primary"><Eye className="h-6 w-6"/>Our Vision</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-start gap-4">
-                                <div className="w-3 h-3 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Empowerment</h5>
-                                    <p className="text-muted-foreground text-sm">To provide the best education in the most cultivable environment so as to empower everyone.</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-4">
-                                <div className="w-3 h-3 rounded-full bg-orange-500 mt-2 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Global Citizens</h5>
-                                    <p className="text-muted-foreground text-sm">To prepare global citizens who will become confident, determined and disciplined leaders for tomorrow's challenging world.</p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    <Card className="shadow-md">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-primary"><Target className="h-6 w-6"/>Our Mission</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-start gap-4">
-                                <div className="w-3 h-3 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Holistic Development</h5>
-                                    <p className="text-muted-foreground text-sm">A sustainable, innovative, aspiring learning environment with focus on Physical, Mental and Spiritual fitness.</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-4">
-                                <div className="w-3 h-3 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-                                <div>
-                                    <h5 className="font-semibold text-lg">Service to Humanity</h5>
-                                    <p className="text-muted-foreground text-sm">We aim to create an equitable world for all and live upto our motto of “Learn to Serve”.... serve for humanity.</p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
-        </section>
         
         <TeamMembers />
     </div>
