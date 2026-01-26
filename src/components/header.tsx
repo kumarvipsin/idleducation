@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -330,7 +331,11 @@ export function Header() {
       );
     }
 
-    return null;
+    return (
+      <Button asChild variant="outline" size="sm" className="rounded-lg">
+        <Link href="/login">Login</Link>
+      </Button>
+    );
   };
   
   const navLinks = [
@@ -356,7 +361,15 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return null;
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
     }
     if (user) {
       return (
@@ -476,8 +489,8 @@ export function Header() {
                                 <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
-                                <p className="text-xs text-muted-foreground leading-tight">Call now</p>
-                                <p className="font-bold text-foreground text-sm">7011-117-585</p>
+                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
@@ -515,8 +528,8 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
+                                                <Link key={index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                      <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
