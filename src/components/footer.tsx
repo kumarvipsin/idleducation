@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Linkedin, Send, Youtube } from "lucide-react";
+import { BookOpen, Facebook, Twitter, Instagram, MapPin, Phone, Mail, Youtube } from "lucide-react";
 import Image from "next/image";
 import { allPrograms } from "@/lib/courses";
 import { Separator } from "./ui/separator";
@@ -56,9 +56,6 @@ export function Footer() {
                         </Link>
                         <Link href="https://x.com/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-800 rounded-md text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
                           <Twitter className="h-4 w-4" />
-                        </Link>
-                         <Link href="https://t.me/idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-800 rounded-md text-gray-400 hover:text-white transition-colors" aria-label="Telegram">
-                          <Send className="h-4 w-4" />
                         </Link>
                         <Link href="https://www.youtube.com/@idleducation" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center bg-gray-800 rounded-md text-gray-400 hover:text-white transition-colors" aria-label="YouTube">
                           <Youtube className="h-4 w-4" />
