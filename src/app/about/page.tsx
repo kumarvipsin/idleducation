@@ -53,7 +53,7 @@ export default function AboutPage() {
       },
       {
         name: "Vidhi Sharma",
-        title: "Content Media Head",
+        title: "Head Content Media",
         imageUrl: placeholderImages.founder4.src,
         imageAlt: placeholderImages.founder4.alt,
         imageHint: placeholderImages.founder4.hint,
