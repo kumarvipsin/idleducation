@@ -5,10 +5,9 @@ import { Target, Eye, Users, PenSquare, UserCircle, Home, X } from "lucide-react
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
-import { getDirectorProfile } from "@/app/actions/admin";
+import { getDirectorProfile, getTeamMembers } from "@/app/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
-import { getTeamMembers } from "@/app/actions/data";
 import type { TTeamMember } from "@/app/actions/types";
 import { TeacherCard } from "@/components/landing/teacher-card";
 import Link from 'next/link';
@@ -90,6 +89,13 @@ export default function AboutPage() {
                 <Avatar className="w-40 h-40 border-4 border-primary/20 shadow-lg bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20">
                   {loading ? (
                     <Skeleton className="w-full h-full rounded-full" />
+                  ) : director?.photoUrl ? (
+                    <GcsImage
+                      filePath={director.photoUrl}
+                      alt={director.name || "Director's Photo"}
+                      fill
+                      className="rounded-full object-cover"
+                    />
                   ) : (
                     <Image
                       src="/teacher.png"
