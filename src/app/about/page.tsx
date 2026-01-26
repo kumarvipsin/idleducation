@@ -28,7 +28,7 @@ export default function AboutPage() {
 
     const team = [
       {
-        name: "Vamsi Krishna",
+        name: "Vijay Verma",
         title: "Co-Founder, CEO",
         imageUrl: placeholderImages.founder1.src,
         imageAlt: placeholderImages.founder1.alt,
@@ -36,7 +36,7 @@ export default function AboutPage() {
         linkedinUrl: "#",
       },
       {
-        name: "Pulkit Jain",
+        name: "Manish Kumar",
         title: "Co-Founder, Head Product",
         imageUrl: placeholderImages.founder2.src,
         imageAlt: placeholderImages.founder2.alt,
@@ -44,7 +44,7 @@ export default function AboutPage() {
         linkedinUrl: "#",
       },
       {
-        name: "Anand Prakash",
+        name: "Chandra Prakesh",
         title: "Co-Founder, Head Academics",
         imageUrl: placeholderImages.founder3.src,
         imageAlt: placeholderImages.founder3.alt,
@@ -52,7 +52,7 @@ export default function AboutPage() {
         linkedinUrl: "#",
       },
       {
-        name: "Gaurav Munjal",
+        name: "Vidhi Sharma",
         title: "Co-Founder",
         imageUrl: placeholderImages.founder4.src,
         imageAlt: placeholderImages.founder4.alt,
