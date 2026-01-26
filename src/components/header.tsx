@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark } from "lucide-react";
@@ -38,7 +37,7 @@ const allCoursesCategories = [
         description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)",
         href: "/school",
         icon: <BookOpen className="h-5 w-5" />,
-        colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+        colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
     },
     {
         name: "School Boards",
@@ -282,8 +281,7 @@ export function Header() {
     if (loading) {
       return (
         <div className="flex items-center gap-2">
-          <Skeleton className="h-10 w-24" />
-          <Skeleton className="h-10 w-10 rounded-full" />
+          <Skeleton className="h-8 w-16" />
         </div>
       );
     }
@@ -343,19 +341,19 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
+    { href: '/about', label: t('about'), icon: <Info className="h-5 w-5" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
+    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-5 w-5" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-5 w-5" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-5 w-5" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-5 w-5" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form.", colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-5 w-5" />, description: "Start your journey with us by filling out the admission form.", colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-5 w-5" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-5 w-5" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-5 w-5" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-5 w-5" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
   ];
 
   const loggedInNavLinks = [
@@ -392,15 +390,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 border-t">
-            <Button asChild className="w-full justify-start text-sm">
-                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <LogIn className="mr-2 h-4 w-4" /> Login
-                </Link>
-            </Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -443,12 +433,12 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-14",
+    "sticky top-0 z-50 transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
   
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm border-b";
 
   return (
     <>
@@ -456,7 +446,7 @@ export function Header() {
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="h-16 w-auto" />
+                  <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
@@ -494,14 +484,14 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-                     <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-2">
                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
                                 <Phone className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="font-bold text-foreground text-lg">7011 117 585</p>
+                                <p className="font-extrabold text-foreground text-lg">7011 117 585</p>
                             </div>
                         </a>
                         {isClient && renderAuthSection()}
@@ -535,11 +525,11 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
+                                            {allCoursesCategories.map(({ href, name, icon, description, colorClasses }) => (
+                                                <Link key={name} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses || 'bg-muted')}>{icon}</div>
                                                     <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
+                                                        <p className="font-semibold text-sm">{name}</p>
                                                         <p className="text-xs text-muted-foreground">{description}</p>
                                                     </div>
                                                 </Link>
@@ -614,16 +604,15 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
           </div>
         </div>
       </div>
