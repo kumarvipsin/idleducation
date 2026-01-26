@@ -53,5 +53,10 @@
     "src": "https://picsum.photos/seed/anand/400/500",
     "alt": "Anand Prakash, Co-Founder, Head Academics",
     "hint": "man glasses"
+  },
+  "founder4": {
+    "src": "https://picsum.photos/seed/gaurav/400/500",
+    "alt": "Gaurav Munjal, Co-Founder",
+    "hint": "man formal"
   }
 }

@@ -51,6 +51,14 @@ export default function AboutPage() {
         imageHint: placeholderImages.founder3.hint,
         linkedinUrl: "#",
       },
+      {
+        name: "Gaurav Munjal",
+        title: "Co-Founder",
+        imageUrl: placeholderImages.founder4.src,
+        imageAlt: placeholderImages.founder4.alt,
+        imageHint: placeholderImages.founder4.hint,
+        linkedinUrl: "#",
+      },
     ];
 
   return (
@@ -144,7 +152,7 @@ export default function AboutPage() {
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground">Meet Our Founders</h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     {team.map((member) => (
                         <div key={member.name} className="flex flex-col items-center text-center">
                             <div className="relative w-48 h-56 mb-4">
