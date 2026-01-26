@@ -278,7 +278,7 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading) {
-      return <Skeleton className="h-8 w-8 rounded-full" />;
+      return <Skeleton className="h-9 w-24" />;
     }
 
     if (user) {
@@ -329,29 +329,9 @@ export function Header() {
     }
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <UserCircle />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40" align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" />
-                        <span>Login</span>
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                    <Link href="/signup">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        <span>Sign Up</span>
-                    </Link>
-                </DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Button asChild variant="outline">
+            <Link href="/login">Login</Link>
+        </Button>
     );
   };
   
@@ -446,27 +426,27 @@ export function Header() {
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                <Link href={logoHref} className="flex items-center justify-center -ml-4">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={96} height={96} className="h-24 w-auto" />
+                <Link href={logoHref} className="flex items-center justify-center -ml-2">
+                  <Image src="/logo.png" alt="IDL Education Logo" width={80} height={80} className="h-20 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-end items-center gap-2 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
-                              <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    More
+                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
+                                  Apply For
                                 </Button>
                               </div>
-                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                  Apply For
+                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-9 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize">
+                                    More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
@@ -475,13 +455,6 @@ export function Header() {
                                     <StoreIcon />
                                   </Link>
                                 </Button>
-                              </div>
-                               <div className="h-full flex items-center">
-                                {isClient && !loading && !user && (
-                                  <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
-                                    <Link href="/login">Login</Link>
-                                  </Button>
-                                )}
                               </div>
                             </>
                           ) : (
@@ -492,21 +465,21 @@ export function Header() {
                             </div>
                           )}
                     </nav>
+                     <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                        <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                            <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                            <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                            <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
+                        </div>
+                    </a>
+                    {isClient && renderAuthSection()}
                 </div>
-                <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-2">
-                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                            </div>
-                            <div>
-                                <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <CollapsibleTrigger asChild className="md:hidden">
+                <div className="flex items-center gap-1 md:hidden">
+                    {!isIdlFoundationPage && notificationDropdown}
+                    {isClient && renderAuthSection()}
+                    <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-8 w-8")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
@@ -544,7 +517,7 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                 <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
+                                <Collapsible open={openMobileAccordion === 'explore'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'explore' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <Button variant="outline" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><Menu className="h-4 w-4" /> More</span>
@@ -614,7 +587,7 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0", megaMenuBg)}>
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
@@ -625,4 +598,3 @@ export function Header() {
     </>
   );
 }
-
