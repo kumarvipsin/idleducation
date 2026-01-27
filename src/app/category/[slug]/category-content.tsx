@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -77,6 +78,19 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
     { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
     { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
+  ];
+
+  const feeStructure = [
+    { category: "General (UR)", uptoThree: "₹1000", additional: "₹400 each" },
+    { category: "OBC-NCL / EWS", uptoThree: "₹900", additional: "₹375 each" },
+    { category: "SC / ST / PwBD / Third Gender", uptoThree: "₹800", additional: "₹350 each" },
+    { category: "Centres Outside India", uptoThree: "₹4500", additional: "₹1800 each" },
+  ];
+
+  const eligibilityCriteria = [
+      { parameter: "Educational Qualification", details: "Class 12 or equivalent from any recognized board with at least 45% marks" },
+      { parameter: "Age Limit", details: "No age limit" },
+      { parameter: "Nationality", details: "Must be Indian; NRI and OCI candidates can also apply" },
   ];
 
 
@@ -254,6 +268,69 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
           <p className="text-center text-muted-foreground">
             CUET UG 2026 exam date is tentatively scheduled to be conducted <span className="font-bold text-foreground">Between 11 - 31 May 2026 (tentative)</span>. The exact dates will be announced by the National Testing Agency (NTA) in March 2026.
           </p>
+        </section>
+        <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+          <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Fee</h2>
+          <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+            CUET UG 2026 application fee must be paid online before the deadline, which is <strong className="text-foreground">31 January 2026</strong>. The fee structure varies based on the candidate's category and the number of subjects chosen. Below is the detailed fee structure for CUET 2026:
+          </p>
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>CUET UG 2026 Fee</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Upto Three Subjects</TableHead>
+                    <TableHead>For Each Additional Subject</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {feeStructure.map((row) => (
+                    <TableRow key={row.category}>
+                      <TableCell>{row.category}</TableCell>
+                      <TableCell>{row.uptoThree}</TableCell>
+                      <TableCell>{row.additional}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </section>
+         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Eligibility Criteria</h2>
+            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+                The National Testing Agency (NTA) sets the eligibility criteria for students who wish to appear in the CUET UG 2026 exam. It is important for candidates to meet these basic requirements in order to register and appear for the test. However, meeting the CUET eligibility criteria does not guarantee admission, as individual universities may have their own course-specific requirements. The table below outlines the general eligibility criteria for CUET UG 2026:
+            </p>
+            <Card className="mt-6">
+                <CardHeader>
+                    <CardTitle>CUET UG 2026 Eligibility Criteria</CardTitle>
+                </CardHeader>
+                <CardContent>
+                     <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Parameters</TableHead>
+                                <TableHead>Details</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                           {eligibilityCriteria.map((row) => (
+                                <TableRow key={row.parameter}>
+                                    <TableCell>{row.parameter}</TableCell>
+                                    <TableCell>{row.details}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <p className="text-xs text-muted-foreground mt-4">
+                        <strong>Note:</strong> These criteria are only for appearing in CUET UG 2026. Each university will release its own course-wise eligibility (including subject combinations and Class 12 marks) separately. Students must visit the official websites of the respective universities for detailed admission requirements.
+                    </p>
+                </CardContent>
+            </Card>
         </section>
       </div>
     );
