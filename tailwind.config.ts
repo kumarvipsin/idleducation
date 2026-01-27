@@ -13,8 +13,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
-        'dancing-script': ['var(--font-dancing-script)'],
-        'josefin-sans': ['var(--font-josefin-sans)'],
       },
       colors: {
         background: 'hsl(var(--background))',
