@@ -65,11 +65,11 @@ export default function AboutPage() {
     <div className="bg-background">
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
-                <Card className="rounded-2xl shadow-lg">
-                    <CardHeader className="text-center">
-                        <CardTitle className="text-3xl font-bold text-primary">About IDL EDUCATION</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-8 md:p-12 space-y-6 text-lg text-foreground/80 leading-relaxed">
+                <div>
+                    <div className="text-center mb-6">
+                        <h2 className="text-3xl font-bold text-primary">About IDL EDUCATION</h2>
+                    </div>
+                    <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
                         <p>
                             IDL Educational Services Limited is a leading educational institution in India that provides comprehensive test preparatory services to students preparing for medical and engineering entrance exams, school/board exams, NTSE, Olympiads and other foundation level exams. IDL has been committed to the success of students since 1988. It has been recognized nationally as one of the most trusted brands in the education sector. With 300+ branches across India, 5000+ expert faculty, comprehensive study material, regular tests & assessments and an efficient doubt clearing system, backed by robust technology for an omni channel experience, IDL provides one of the best coaching experiences for students aspiring to become a doctor or an engineer. IDL is well known for its comprehensive, result-oriented JEE, NEET and Foundation programs.
                         </p>
@@ -97,8 +97,8 @@ export default function AboutPage() {
                                 To nurture the aspirations of junior class students for various competitive and scholarship examinations such as NTSE, Olympiads, etc. and prepare them for school/board examinations, IDL Foundation became functional in the year 2009. It is also the youngest division of IDL. Thanks to its innovative teaching methodologies, it has been constantly bearing the fruits of success and steering its students to the top echelons in School/Board as well as Foundation Level Competitive and Scholarship Exams. In addition, it lays a strong foundation for medical, engineering and other competitive examinations.
                             </p>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             </div>
         </section>
         <section className="py-16 md:py-24 bg-white">
