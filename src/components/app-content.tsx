@@ -29,7 +29,6 @@ export function AppContent({
     '/scholarship',
     '/feature',
     '/examcat',
-    '/resources',
     '/notifications',
     '/new-work',
     '/store',
