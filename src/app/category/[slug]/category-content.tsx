@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -319,15 +318,15 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
             <CardContent className="pt-6">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-primary/10 hover:bg-primary/10">
-                    <TableHead className="text-primary font-bold">Category</TableHead>
-                    <TableHead className="text-primary font-bold">Upto Three Subjects</TableHead>
-                    <TableHead className="text-primary font-bold">For Each Additional Subject</TableHead>
+                  <TableRow className="bg-orange-500 hover:bg-orange-600">
+                    <TableHead className="text-white font-bold">Category</TableHead>
+                    <TableHead className="text-white font-bold">Upto Three Subjects</TableHead>
+                    <TableHead className="text-white font-bold">For Each Additional Subject</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {feeStructure.map((row, index) => (
-                    <TableRow key={row.category} className={index % 2 === 0 ? 'bg-muted/50' : ''}>
+                    <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                       <TableCell className="font-medium">{row.category}</TableCell>
                       <TableCell className="font-semibold text-foreground">{row.uptoThree}</TableCell>
                       <TableCell className="font-semibold text-foreground">{row.additional}</TableCell>
