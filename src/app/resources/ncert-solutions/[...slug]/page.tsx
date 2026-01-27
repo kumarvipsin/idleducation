@@ -112,7 +112,7 @@ function NcertSolutionsDetailsContent() {
 
 export default function NcertSolutionsDetailsPage() {
     return (
-        <div className="w-full">
+        <div className="container mx-auto py-12 px-4 md:px-6">
             <Suspense fallback={<Skeleton className="h-screen w-full" />}>
                 <NcertSolutionsDetailsContent />
             </Suspense>
