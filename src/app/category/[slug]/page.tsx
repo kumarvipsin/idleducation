@@ -7,6 +7,10 @@ import { notFound } from 'next/navigation';
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
 
+  if (slug === 'iit-jee') {
+    notFound();
+  }
+
   const categoriesResult = await getExamCategories();
   const allCategories = categoriesResult.success ? (categoriesResult.data as TExamCategory[]) : [];
   
