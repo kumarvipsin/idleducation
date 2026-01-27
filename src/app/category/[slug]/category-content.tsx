@@ -249,6 +249,12 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
               </Button>
           </div>
         </section>
+        <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          <h2 className="text-3xl font-bold text-center mb-4">CUET 2026 Exam date</h2>
+          <p className="text-center text-muted-foreground">
+            CUET UG 2026 exam date is tentatively scheduled to be conducted <span className="font-bold text-foreground">Between 11 - 31 May 2026 (tentative)</span>. The exact dates will be announced by the National Testing Agency (NTA) in March 2026.
+          </p>
+        </section>
       </div>
     );
   }
