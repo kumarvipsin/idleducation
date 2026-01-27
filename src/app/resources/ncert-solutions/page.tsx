@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -102,7 +103,7 @@ function NcertSolutionsPageContent() {
   const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
         {[...Array(10)].map((_, i) => (
             <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />
         ))}
@@ -110,13 +111,13 @@ function NcertSolutionsPageContent() {
   );
 
   return (
-    <div className="py-12">
-        <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mb-2">NCERT Solutions for {selectedClass}</h1>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+    <div className="py-12 bg-white">
+      <div className="text-center mb-12 animate-fade-in-up">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight mb-2">NCERT Solutions for {selectedClass}</h1>
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                 Explore our detailed, step-by-step solutions for your NCERT textbooks.
-            </p>
-        </div>
+        </p>
+      </div>
 
       <div className="mb-8">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -145,7 +146,7 @@ function NcertSolutionsPageContent() {
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 animate-fade-in-up">
+              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 animate-fade-in-up justify-center">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
                       <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
@@ -201,7 +202,7 @@ export default function NcertSolutionsPage() {
                 <div className="mb-8 flex justify-center gap-2">
                     {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
                   {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />)}
                 </div>
               </div>
