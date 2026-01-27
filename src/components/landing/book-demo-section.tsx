@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,7 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-56 md:h-48 flex items-center justify-center">
+            <div className="relative h-56 md:h-48 flex items-end justify-center">
                 <Image
                     src="/idladv.png"
                     alt="Students with a tablet"
