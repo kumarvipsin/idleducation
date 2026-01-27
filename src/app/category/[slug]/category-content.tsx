@@ -346,15 +346,15 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 <CardContent className="pt-6">
                      <Table>
                         <TableHeader>
-                            <TableRow>
-                                <TableHead>Parameters</TableHead>
-                                <TableHead>Details</TableHead>
+                            <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                <TableHead className="text-white font-bold">Parameters</TableHead>
+                                <TableHead className="text-white font-bold">Details</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                           {eligibilityCriteria.map((row) => (
-                                <TableRow key={row.parameter}>
-                                    <TableCell>{row.parameter}</TableCell>
+                           {eligibilityCriteria.map((row, index) => (
+                                <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
+                                    <TableCell className="font-medium">{row.parameter}</TableCell>
                                     <TableCell>{row.details}</TableCell>
                                 </TableRow>
                             ))}
@@ -375,16 +375,16 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 <CardContent className="pt-6">
                     <Table>
                         <TableHeader>
-                            <TableRow>
-                                <TableHead>Section</TableHead>
-                                <TableHead>Number of Questions (All Compulsory)</TableHead>
-                                <TableHead>Duration of Exam</TableHead>
+                            <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                <TableHead className="text-white font-bold">Section</TableHead>
+                                <TableHead className="text-white font-bold">Number of Questions (All Compulsory)</TableHead>
+                                <TableHead className="text-white font-bold">Duration of Exam</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {examPatternData.map((row) => (
-                                <TableRow key={row.section}>
-                                    <TableCell>{row.section}</TableCell>
+                            {examPatternData.map((row, index) => (
+                                <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
+                                    <TableCell className="font-medium">{row.section}</TableCell>
                                     <TableCell>{row.questions}</TableCell>
                                     <TableCell>{row.duration}</TableCell>
                                 </TableRow>
@@ -404,15 +404,15 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 <CardContent className="p-6">
                     <Table>
                         <TableHeader>
-                            <TableRow>
-                                <TableHead>Section</TableHead>
-                                <TableHead>CUET 2026 Syllabus / Question Types</TableHead>
+                            <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                <TableHead className="text-white font-bold">Section</TableHead>
+                                <TableHead className="text-white font-bold">CUET 2026 Syllabus / Question Types</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {syllabusData.map((row) => (
-                                <TableRow key={row.section}>
-                                    <TableCell>{row.section}</TableCell>
+                            {syllabusData.map((row, index) => (
+                                <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
+                                    <TableCell className="font-medium">{row.section}</TableCell>
                                     <TableCell>{row.types}</TableCell>
                                 </TableRow>
                             ))}
@@ -423,13 +423,13 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
         </section>
 
          <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
-          <h2 className="text-3xl font-bold text-center mb-8">CUET 2026 Exam FAQs</h2>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8">CUET 2026 Exam FAQs</h2>
             <Accordion type="single" collapsible className="w-full space-y-4">
               {cuetFaqs.map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
                   <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="p-4 pt-0">
+                  <AccordionContent className="p-4 pt-0 text-left">
                    {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
