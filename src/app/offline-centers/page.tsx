@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -190,7 +191,7 @@ const FAQSection = () => {
     return (
         <section className="w-full py-12 bg-muted/20 dark:bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
+                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6">
                     <div className="max-w-3xl mx-auto text-center">
                         <div className="flex items-center justify-center">
                             <span className="text-blue-600 text-2xl mr-2">•</span>
