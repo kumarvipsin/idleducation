@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -15,6 +16,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface Teacher {
   id: string;
@@ -104,6 +111,29 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
       { section: 'General Test', types: 'General Knowledge, Current Affairs, General Mental Ability, Numerical Ability, Quantitative Reasoning (up to Class 8 level), Logical and Analytical Reasoning' },
     ];
 
+    const cuetFaqs = [
+        {
+          question: "What is the syllabus for CUET UG 2026?",
+          answer: "The syllabus for CUET UG 2026 is based on the Class 12 curriculum. It is divided into three sections: Language, Domain-specific subjects, and a General Test."
+        },
+        {
+          question: "When will CUET UG 2026 notification be released?",
+          answer: "The official notification for CUET UG 2026 is expected to be released by the National Testing Agency (NTA) in March 2026."
+        },
+        {
+          question: "Who conducts CUET UG?",
+          answer: "The Common University Entrance Test (CUET) for undergraduate admissions is conducted by the National Testing Agency (NTA)."
+        },
+        {
+          question: "How many subjects can I choose in CUET UG?",
+          answer: "Candidates can choose up to 6 subjects from all three sections. It is advisable to visit the official websites of the respective universities for detailed subject combination requirements for specific courses."
+        },
+        {
+          question: "Is it mandatory to appear for the General Test in CUET UG?",
+          answer: "It depends on the university and the course you are applying for. Some universities may require the General Test score for admission to certain programs, while others may not. Always check the eligibility criteria of the specific university."
+        }
+    ]
+
 
   if (isCuetPage) {
     const resourceCards = [
@@ -131,7 +161,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
           borderColor: "border-sky-100 dark:border-sky-800",
           href: "/resources/reference-books"
         },
-        {
+         {
           title: "Blogs",
           description: "Read Our Latest Blogs",
           icon: <Monitor className="w-6 h-6 text-blue-600" />,
@@ -391,6 +421,22 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                     </Table>
                 </CardContent>
             </Card>
+        </section>
+
+         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
+          <h2 className="text-3xl font-bold text-center mb-8">CUET 2026 Exam FAQs</h2>
+          <div className="max-w-4xl mx-auto">
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {cuetFaqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
+                  <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
+                  <AccordionContent className="p-4 pt-0">
+                   {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </section>
       </div>
     );
