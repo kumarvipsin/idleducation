@@ -71,17 +71,17 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png", alt: "Ipsit Mittal", title: "Ipsit Mittal - AIR 1" },
     { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png", alt: "Aditya Neeraje", title: "Aditya Neeraje - AIR 27" },
   ];
+  
+  const resourceLinks = [
+    { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
+    { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
+    { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
+    { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
+  ];
+
 
   if (isCuetPage) {
     const resourceCards = [
-      {
-        title: "Blogs",
-        description: "Read Our Latest Blogs",
-        icon: <Monitor className="w-6 h-6 text-blue-600" />,
-        bgColor: "bg-blue-50 dark:bg-blue-900/20",
-        borderColor: "border-blue-100 dark:border-blue-800",
-        href: "/blog"
-      },
       {
         title: "PDF Bank",
         description: "Access Our PDF Bank",
@@ -105,6 +105,14 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
         bgColor: "bg-sky-50 dark:bg-sky-900/20",
         borderColor: "border-sky-100 dark:border-sky-800",
         href: "/resources/reference-books"
+      },
+      {
+        title: "Blogs",
+        description: "Read Our Latest Blogs",
+        icon: <Monitor className="w-6 h-6 text-blue-600" />,
+        bgColor: "bg-blue-50 dark:bg-blue-900/20",
+        borderColor: "border-blue-100 dark:border-blue-800",
+        href: "/blog"
       },
     ];
 
