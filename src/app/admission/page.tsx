@@ -363,11 +363,11 @@ export default function AdmissionPage() {
     <div className="container mx-auto py-12 px-4 md:px-[10%]">
       <div className="w-full">
         <div className="text-center mb-8 animate-fade-in-up">
-            <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
                 Admission Form
                 <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
             </h1>
-            <p className="mt-2 text-base text-muted-foreground font-semibold">
+            <p className="mt-2 text-sm text-muted-foreground font-semibold">
                 Fill out the form below to start your journey with IDL Education.
             </p>
         </div>
@@ -377,7 +377,7 @@ export default function AdmissionPage() {
               <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
               <div>
                   <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                  <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold" style={{ letterSpacing: '0.2em' }}>
+                  <p className="text-[0.4rem] text-primary-foreground/80 tracking-[0.4em] -mt-1 font-extrabold">
                     (Institute of Distance Learning Pvt. Ltd.)
                   </p>
               </div>
@@ -903,7 +903,7 @@ export default function AdmissionPage() {
                       <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                       <div>
                           <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                          <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold" style={{ letterSpacing: '0.2em' }}>
+                          <p className="text-[0.4rem] text-primary-foreground/80 tracking-[0.4em] -mt-1 font-extrabold">
                             (Institute of Distance Learning Pvt. Ltd.)
                           </p>
                       </div>
