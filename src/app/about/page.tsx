@@ -65,8 +65,17 @@ export default function AboutPage() {
     <div className="bg-background">
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
-                <div>
-                    <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
+                 <div className="relative">
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <Image
+                            src="/logo.png"
+                            alt="IDL Education Watermark"
+                            width={400}
+                            height={400}
+                            className="opacity-5"
+                        />
+                    </div>
+                    <div className="relative z-10 space-y-6 text-lg text-foreground/80 leading-relaxed">
                         <p>IDL Education is a reputed and result-driven educational institute founded in 2016 by Amod Sharma with the vision of providing quality education through strong academic foundations and expert guidance. Over the years, IDL Education has grown into a trusted name in education, operating four successful offline branches across Delhi. The institute offers comprehensive coaching for Classes 6 to 12 (CBSE Board), covering Science, Commerce, and Humanities streams, and focuses on developing conceptual clarity, confidence, and academic excellence among students.</p>
                         <p>At IDL Education, learning goes beyond textbooks. The institute follows a structured, student-centric teaching approach that emphasizes concept-based learning, regular assessments, personalized mentoring, and continuous performance tracking. In addition to school academics, IDL Education provides dedicated preparation for CBSE Board Examinations (Class 10 & 12), CUET, NIOS, and other government and entrance examinations, ensuring that students are well-prepared for both academic and competitive challenges.</p>
                         <p>IDL Education is widely recognized for its consistent outstanding results. Students from all streams—Science, Commerce, and Humanities—have achieved excellent scores in CBSE Class 10 and 12 examinations, while many others have secured impressive success in CUET and government entrance exams, earning admissions to reputed colleges and universities. Backed by experienced faculty, small batch sizes, updated study material, and a disciplined yet supportive learning environment, IDL Education remains committed to shaping confident learners and building successful futures.</p>
