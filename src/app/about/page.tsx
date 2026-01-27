@@ -65,6 +65,15 @@ export default function AboutPage() {
     <div className="bg-background">
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12 animate-fade-in-up">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+                        About Us
+                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+                    </h1>
+                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
+                        Get to know the story and people behind IDL Education.
+                    </p>
+                </div>
                  <div className="relative">
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <Image

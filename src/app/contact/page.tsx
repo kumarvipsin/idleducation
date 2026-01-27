@@ -52,8 +52,11 @@ export default function ContactPage() {
             <Card className="w-full bg-background/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-primary/10">
               <CardContent className="p-8">
                  <div className="text-center mb-6">
-                    <h1 className="text-2xl font-bold text-primary">Contact Us</h1>
-                    <p className="text-muted-foreground text-sm mt-2">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+                        Contact Us
+                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+                    </h1>
+                    <p className="text-muted-foreground text-sm mt-2 font-semibold">
                         We are here to help! Fill out the form and our team will get back to you.
                     </p>
                 </div>
