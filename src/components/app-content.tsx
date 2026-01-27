@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -22,11 +23,11 @@ export function AppContent({
     '/student-enquiry',
     '/volunteer',
     '/admission',
+    '/login'
   ];
   
   const noHeaderFooterPages = [
     '/scholarship',
-    '/signup',
     '/feature',
     '/school',
     '/examcat',
