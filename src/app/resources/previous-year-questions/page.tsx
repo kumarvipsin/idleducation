@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -86,14 +86,14 @@ export default function PreviousYearQuestionsPage() {
     const renderSkeleton = () => (
       <div className="space-y-4">
         {[...Array(3)].map((_, index) => (
-          <Skeleton key={index} className="h-16 w-full rounded-lg" />
+          <Skeleton key={index} className="h-48 w-full rounded-lg" />
         ))}
       </div>
     );
 
     return (
         <div className="relative min-h-screen w-full bg-white dark:bg-background overflow-y-auto">
-            <div className="relative z-10 container mx-auto py-12">
+            <div className="relative z-10 container mx-auto py-12 px-4 md:px-6">
                 <div className="text-center mb-12 animate-fade-in-up">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
                     <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -142,40 +142,41 @@ export default function PreviousYearQuestionsPage() {
                     {loading ? (
                         renderSkeleton()
                     ) : Object.keys(groupedByYear).length > 0 ? (
-                         <Accordion type="multiple" className="w-full space-y-4">
+                        <div className="space-y-6">
                            {Object.entries(groupedByYear).sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA)).map(([year, questionsInYear]) => (
-                                <AccordionItem value={year} key={year} className="border-b-0">
-                                    <Card className="rounded-xl shadow-md bg-muted/30">
-                                        <AccordionTrigger className="p-4 font-bold text-lg text-primary hover:no-underline">
-                                            {questionsInYear[0]?.title || `${selectedClass} - ${year}`}
-                                        </AccordionTrigger>
-                                        <AccordionContent className="p-4 pt-0">
-                                            <div className="space-y-3">
-                                            {questionsInYear.flatMap(q => 
+                                <Card key={year} className="overflow-hidden shadow-md">
+                                    <CardHeader className="bg-muted/50">
+                                        <CardTitle>{questionsInYear[0]?.title || `${selectedClass} - ${year}`}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="p-4 md:p-6">
+                                         <Accordion type="multiple" className="w-full space-y-4">
+                                           {questionsInYear.flatMap(q => 
                                                 (Array.isArray(q.subjects) ? q.subjects : [])
-                                                .filter(subject => selectedSubject === 'All' || subject.name === subject)
+                                                .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
                                                 .map(subject => (
-                                                    <Card key={subject.name} className="bg-background">
-                                                        <CardContent className="p-3">
-                                                            <h4 className="font-semibold mb-2">{subject.name}</h4>
-                                                            <div className="flex flex-col gap-2">
+                                                    <AccordionItem value={subject.name} key={subject.name}>
+                                                        <AccordionTrigger className="font-semibold text-lg hover:no-underline">{subject.name}</AccordionTrigger>
+                                                        <AccordionContent className="pt-2 pl-2">
+                                                            <div className="space-y-2">
                                                                 {(Array.isArray(subject.papers) ? subject.papers : []).map((paper, pIdx) => (
-                                                                    <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
-                                                                        <span>{paper.title}</span>
-                                                                        <Download className="h-4 w-4"/>
-                                                                    </Button>
+                                                                     <div key={pIdx} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50">
+                                                                        <span className="text-sm font-medium">{paper.title}</span>
+                                                                        <Button variant="outline" size="sm" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
+                                                                            <Download className="h-4 w-4 mr-2"/>
+                                                                            Download
+                                                                        </Button>
+                                                                    </div>
                                                                 ))}
                                                             </div>
-                                                        </CardContent>
-                                                    </Card>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
                                                 ))
                                             )}
-                                            </div>
-                                        </AccordionContent>
-                                    </Card>
-                                </AccordionItem>
+                                        </Accordion>
+                                    </CardContent>
+                                </Card>
                             ))}
-                        </Accordion>
+                        </div>
                     ) : (
                         <div className="col-span-full text-center py-16 w-full">
                             <Card className="inline-block p-8 bg-background/50">
