@@ -63,6 +63,44 @@ export default function AboutPage() {
 
   return (
     <div className="bg-background">
+        <section className="py-16 md:py-24 bg-muted/30">
+            <div className="container mx-auto px-4 md:px-6">
+                <Card className="rounded-2xl shadow-lg border">
+                    <CardHeader className="text-center">
+                        <CardTitle className="text-3xl font-bold text-primary">About IDL EDUCATION</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-8 md:p-12 space-y-6 text-lg text-foreground/80 leading-relaxed">
+                        <p>
+                            IDL Educational Services Limited is a leading educational institution in India that provides comprehensive test preparatory services to students preparing for medical and engineering entrance exams, school/board exams, NTSE, Olympiads and other foundation level exams. IDL has been committed to the success of students since 1988. It has been recognized nationally as one of the most trusted brands in the education sector. With 300+ branches across India, 5000+ expert faculty, comprehensive study material, regular tests & assessments and an efficient doubt clearing system, backed by robust technology for an omni channel experience, IDL provides one of the best coaching experiences for students aspiring to become a doctor or an engineer. IDL is well known for its comprehensive, result-oriented JEE, NEET and Foundation programs.
+                        </p>
+                        <p>
+                            Our mission is to create an environment of academic excellence enabled by modern pedagogy & technology to impart quality education. Our aim is to become one of the most admired brands in the education sector and to help young aspirants make their dreams come true through quality teaching, technology enabled systems and a commitment to their success.
+                        </p>
+                        <p>
+                            The first centre under 'IDL' was started in 1988, offering coaching services for medical entrance examinations. Today, we are highly acknowledged for offering niche test preparatory services for medical as well as engineering entrance exams and foundation level exams through our distinct verticals namely, IDL Medical, IDL Engineering and IDL Foundation.
+                        </p>
+                        <div className="space-y-4 pt-4">
+                            <h3 className="text-2xl font-bold text-primary">IDL Medical</h3>
+                            <p>
+                                For more than 36 years, IDL Medical has been nurturing the aspirations of students who dream about a career in medicine. Every year our students achieve top ranks and display excellent results in the National Eligibility Cum Entrance Test - NEET (Previously AIPMT). For the past many years, our students have been securing top ranks in various medical entrance exams (NEET/AIPMT, AIIMS, JIPMER). Started as a single centre with just 12 students, IDL Institute has been ranked as the No. 1 Coaching Institute among Top 25 Best Coaching Institutes in the country for preparation of medical entrance exams by India Today Magazine.
+                            </p>
+                        </div>
+                        <div className="space-y-4 pt-4">
+                            <h3 className="text-2xl font-bold text-primary">IDL Engineering</h3>
+                            <p>
+                                Started in 2007, IDL Engineering prepares students for JEE (Main & Advanced) and other engineering entrance examinations. Through its integrated teaching methodology, focused learning environment and technology enabled-education, IDL Engineering provides cutting-edge educational solutions that help students to excel in their goals. Every year our students achieve top ranks and display excellent results in the engineering entrance exams. Students aspiring to succeed in engineering entrance exams can trust IDL Engineering for quality and result-oriented test preparation.
+                            </p>
+                        </div>
+                        <div className="space-y-4 pt-4">
+                            <h3 className="text-2xl font-bold text-primary">IDL Foundation</h3>
+                            <p>
+                                To nurture the aspirations of junior class students for various competitive and scholarship examinations such as NTSE, Olympiads, etc. and prepare them for school/board examinations, IDL Foundation became functional in the year 2009. It is also the youngest division of IDL. Thanks to its innovative teaching methodologies, it has been constantly bearing the fruits of success and steering its students to the top echelons in School/Board as well as Foundation Level Competitive and Scholarship Exams. In addition, it lays a strong foundation for medical, engineering and other competitive examinations.
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </section>
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <Card className="rounded-2xl shadow-lg border">
