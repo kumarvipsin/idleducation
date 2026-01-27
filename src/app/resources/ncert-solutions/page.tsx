@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -103,12 +102,10 @@ function NcertSolutionsPageContent() {
   const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
-    <div className="flex gap-6 px-4 md:px-[10%]">
-      {[...Array(4)].map((_, i) => (
-        <div key={i} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-            <Skeleton key={i} className="h-[450px] w-full rounded-2xl" />
-        </div>
-      ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {[...Array(10)].map((_, i) => (
+            <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />
+        ))}
     </div>
   );
 
@@ -144,28 +141,25 @@ function NcertSolutionsPageContent() {
         </div>
       </div>
 
-      <main className="flex-1">
-        <div className="relative">
-          <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <main className="flex-1 px-4 md:px-6">
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="flex gap-6 px-4 md:pl-[10%] animate-fade-in-up">
+              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
-                    <div key={`${subject.href}-${index}`} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                      <Link href={subject.href} className="block h-full">
+                      <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
                         <Card
-                          className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-card h-full"
+                          className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card h-full"
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
-                          <CardContent className="p-6 flex-grow flex flex-col">
+                          <CardContent className="p-4 flex-grow flex flex-col">
                             <div className="flex justify-between items-start">
-                              <h3 className="text-2xl font-bold text-primary mb-1">{subject.name}</h3>
-                              <Badge variant="secondary">{subject.className}</Badge>
+                              <h3 className="text-xl font-bold text-primary mb-1">{subject.name}</h3>
+                              <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-4">Solutions for {subject.name}.</p>
-                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">English / हिन्दी</Button>
+                            <p className="text-xs text-muted-foreground mb-3">Solutions for {subject.name}.</p>
+                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">English / हिन्दी</Button>
                           </CardContent>
                            <div className="relative aspect-[4/3] w-full mt-auto">
                                <Image
@@ -178,10 +172,9 @@ function NcertSolutionsPageContent() {
                             </div>
                         </Card>
                       </Link>
-                    </div>
                   ))
                 ) : (
-                    <div className="w-full text-center py-12">
+                    <div className="col-span-full text-center py-12">
                         <Card className="p-8 inline-block bg-background/50">
                             <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                             <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
@@ -191,8 +184,6 @@ function NcertSolutionsPageContent() {
                 )}
               </div>
             )}
-          </div>
-        </div>
       </main>
     </div>
   );
@@ -201,7 +192,7 @@ function NcertSolutionsPageContent() {
 export default function NcertSolutionsPage() {
     return (
         <Suspense fallback={
-            <div className="relative min-h-screen w-full p-4">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
               <div className="relative z-10 container mx-auto py-12">
                 <div className="mb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
@@ -210,8 +201,8 @@ export default function NcertSolutionsPage() {
                 <div className="mb-8 flex justify-center gap-2">
                     {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
-                <div className="flex gap-6 overflow-hidden">
-                    {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[450px] w-[350px] flex-shrink-0 rounded-2xl" />)}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                  {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />)}
                 </div>
               </div>
             </div>
