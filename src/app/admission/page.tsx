@@ -1,4 +1,3 @@
-
 'use client';
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -378,7 +377,7 @@ export default function AdmissionPage() {
               <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
               <div>
                   <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                  <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold">
+                  <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold" style={{ letterSpacing: '0.2em' }}>
                     (Institute of Distance Learning Pvt. Ltd.)
                   </p>
               </div>
@@ -891,7 +890,7 @@ export default function AdmissionPage() {
     </div>
     
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-      <DialogContent className="sm:max-w-4xl">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Admission Form Preview</DialogTitle>
           <DialogDescription>Please review the details below before submitting.</DialogDescription>
@@ -904,7 +903,7 @@ export default function AdmissionPage() {
                       <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                       <div>
                           <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                          <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold">
+                          <p className="text-[0.4rem] text-primary-foreground/80 tracking-wider -mt-1 font-extrabold" style={{ letterSpacing: '0.2em' }}>
                             (Institute of Distance Learning Pvt. Ltd.)
                           </p>
                       </div>
@@ -1009,8 +1008,7 @@ export default function AdmissionPage() {
                 <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
             </DialogFooter>
         </DialogContent>
+    </Dialog>
     </>
   );
 }
-
-    
