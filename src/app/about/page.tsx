@@ -70,21 +70,9 @@ export default function AboutPage() {
                         <h2 className="text-3xl font-bold text-primary">About IDL</h2>
                     </div>
                     <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
-                        <p>
-                            IDL Educational Services Limited is a leading educational institution in India that provides comprehensive test preparatory services to students preparing for medical and engineering entrance exams, school/board exams, NTSE, Olympiads and other foundation level exams. IDL has been committed to the success of students since 1988. It has been recognized nationally as one of the most trusted brands in the education sector. With 300+ branches across India, 5000+ expert faculty, comprehensive study material, regular tests & assessments and an efficient doubt clearing system, backed by robust technology for an omni channel experience, IDL provides one of the best coaching experiences for students aspiring to become a doctor or an engineer. IDL is well known for its comprehensive, result-oriented JEE, NEET and Foundation programs.
-                        </p>
-                        <p>
-                            Our mission is to create an environment of academic excellence enabled by modern pedagogy & technology to impart quality education. Our aim is to become one of the most admired brands in the education sector and to help young aspirants make their dreams come true through quality teaching, technology enabled systems and a commitment to their success.
-                        </p>
-                        <p>
-                            The first centre under 'IDL' was started in 1988, offering coaching services for medical entrance examinations. Today, we are highly acknowledged for offering niche test preparatory services for medical as well as engineering entrance exams and foundation level exams through our distinct verticals namely, IDL Medical, IDL Engineering and IDL Foundation.
-                        </p>
-                        <div className="space-y-4 pt-4">
-                            <h3 className="text-2xl font-bold text-primary">IDL Foundation</h3>
-                            <p>
-                                To nurture the aspirations of junior class students for various competitive and scholarship examinations such as NTSE, Olympiads, etc. and prepare them for school/board examinations, IDL Foundation became functional in the year 2009. It is also the youngest division of IDL. Thanks to its innovative teaching methodologies, it has been constantly bearing the fruits of success and steering its students to the top echelons in School/Board as well as Foundation Level Competitive and Scholarship Exams. In addition, it lays a strong foundation for medical, engineering and other competitive examinations.
-                            </p>
-                        </div>
+                        <p>IDL Education is a reputed and result-driven educational institute founded in 2016 by Amod Sharma with the vision of providing quality education through strong academic foundations and expert guidance. Over the years, IDL Education has grown into a trusted name in education, operating four successful offline branches across Delhi. The institute offers comprehensive coaching for Classes 6 to 12 (CBSE Board), covering Science, Commerce, and Humanities streams, and focuses on developing conceptual clarity, confidence, and academic excellence among students.</p>
+                        <p>At IDL Education, learning goes beyond textbooks. The institute follows a structured, student-centric teaching approach that emphasizes concept-based learning, regular assessments, personalized mentoring, and continuous performance tracking. In addition to school academics, IDL Education provides dedicated preparation for CBSE Board Examinations (Class 10 & 12), CUET, NIOS, and other government and entrance examinations, ensuring that students are well-prepared for both academic and competitive challenges.</p>
+                        <p>IDL Education is widely recognized for its consistent outstanding results. Students from all streams—Science, Commerce, and Humanities—have achieved excellent scores in CBSE Class 10 and 12 examinations, while many others have secured impressive success in CUET and government entrance exams, earning admissions to reputed colleges and universities. Backed by experienced faculty, small batch sizes, updated study material, and a disciplined yet supportive learning environment, IDL Education remains committed to shaping confident learners and building successful futures.</p>
                     </div>
                 </div>
             </div>
