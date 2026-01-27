@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, PlayCircle, Eye, Download, Trophy, Award } from "lucide-react";
+import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, PlayCircle, Eye, Download, Trophy, Award, Monitor, ClipboardList } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { TeacherCard } from "@/components/landing/teacher-card";
@@ -15,13 +15,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { PdfViewerDialog } from '@/components/pdf-viewer-dialog';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-
-const resourceLinks = [
-  { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit /> },
-  { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon /> },
-  { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText /> },
-  { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
-];
 
 interface Teacher {
   id: string;
@@ -65,6 +58,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
   };
 
   const isNeetPage = slug === 'neet';
+  const isCuetPage = slug === 'cuet';
   
   const neetTopperSlides = [
     { imageUrl: "https://www.aakash.ac.in/blog/wp-content/uploads/2023/06/Post-Blog-Banner-1.jpg", alt: "Aritro Ray", title: "Aritro Ray - AIR 50" },
@@ -77,6 +71,79 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-1.png", alt: "Ipsit Mittal", title: "Ipsit Mittal - AIR 1" },
     { imageUrl: "https://www.pw.live/version14/assets/img/jee-toppers-2023/pw-jee-topper-3.png", alt: "Aditya Neeraje", title: "Aditya Neeraje - AIR 27" },
   ];
+
+  if (isCuetPage) {
+    const resourceCards = [
+      {
+        title: "Blogs",
+        description: "Read Our Latest Blogs",
+        icon: <Monitor className="w-6 h-6 text-blue-600" />,
+        bgColor: "bg-blue-50 dark:bg-blue-900/20",
+        borderColor: "border-blue-100 dark:border-blue-800",
+        href: "/blog"
+      },
+      {
+        title: "PDF Bank",
+        description: "Access Our PDF Bank",
+        icon: <FileText className="w-6 h-6 text-pink-600" />,
+        bgColor: "bg-pink-50 dark:bg-pink-900/20",
+        borderColor: "border-pink-100 dark:border-pink-800",
+        href: "#"
+      },
+      {
+        title: "Test Series",
+        description: "Explore Our Test Series",
+        icon: <ClipboardList className="w-6 h-6 text-green-600" />,
+        bgColor: "bg-green-50 dark:bg-green-900/20",
+        borderColor: "border-green-100 dark:border-green-800",
+        href: "#"
+      },
+      {
+        title: "Books",
+        description: "Find Preparation Books",
+        icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
+        bgColor: "bg-sky-50 dark:bg-sky-900/20",
+        borderColor: "border-sky-100 dark:border-sky-800",
+        href: "/resources/reference-books"
+      },
+    ];
+
+    return (
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <section className="text-center mb-20 animate-fade-in-up">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight">
+            CUET UG 2026: Application Form (Ongoing), Exam Date, Syllabus, Pattern, Colleges, Cutoff
+          </h1>
+          <p className="mt-6 max-w-4xl mx-auto text-muted-foreground text-lg">
+            CUET UG 2026 is the Common University Entrance Test for undergraduate admissions in various Central, State, Private, and Deemed universities across India. 
+            <br />
+            <strong className="text-foreground">The official notification has been released & the registration started from 3 January to 30 January 2026.</strong> 
+            <br />
+            Get complete details including exam date, syllabus, eligibility, pattern, participating universities.
+          </p>
+        </section>
+
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+          {resourceCards.map((card, index) => (
+             <Link key={index} href={card.href} className="block mt-6">
+                <Card className={`group pt-8 relative hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${card.bgColor} ${card.borderColor} rounded-xl`}>
+                    <div className="absolute -top-6 left-6 bg-white p-3 rounded-full shadow-lg border">
+                        {card.icon}
+                    </div>
+                    <CardContent className="p-6 flex items-end justify-between">
+                    <div>
+                        <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
+                        <p className="text-sm text-muted-foreground">{card.description}</p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
+                    </CardContent>
+                </Card>
+            </Link>
+          ))}
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div>
