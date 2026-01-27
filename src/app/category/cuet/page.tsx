@@ -247,22 +247,22 @@ export default function CuetPage() {
                 <CardContent className="pt-6">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                        <TableHead className="font-bold text-orange-800 dark:text-orange-300">Category</TableHead>
-                        <TableHead className="font-bold text-orange-800 dark:text-orange-300">Upto Three Subjects</TableHead>
-                        <TableHead className="font-bold text-orange-800 dark:text-orange-300">For Each Additional Subject</TableHead>
-                      </TableRow>
+                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                        <TableHead className="font-bold text-white">Category</TableHead>
+                        <TableHead className="font-bold text-white">Upto Three Subjects</TableHead>
+                        <TableHead className="font-bold text-white">For Each Additional Subject</TableHead>
+                        </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {feeStructure.map((row, index) => (
-                        <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
-                          <TableCell className="font-medium">{row.category}</TableCell>
-                          <TableCell className="font-semibold text-foreground">{row.uptoThree}</TableCell>
-                          <TableCell className="font-semibold text-foreground">{row.additional}</TableCell>
+                        {feeStructure.map((row, index) => (
+                        <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
+                            <TableCell className="font-medium">{row.category}</TableCell>
+                            <TableCell className="font-semibold text-foreground">{row.uptoThree}</TableCell>
+                            <TableCell className="font-semibold text-foreground">{row.additional}</TableCell>
                         </TableRow>
-                      ))}
+                        ))}
                     </TableBody>
-                  </Table>
+                    </Table>
                 </CardContent>
               </Card>
             </section>
@@ -275,14 +275,14 @@ export default function CuetPage() {
                     <CardContent className="pt-6">
                          <Table>
                             <TableHeader>
-                                <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Parameters</TableHead>
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Details</TableHead>
+                                <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                    <TableHead className="font-bold text-white">Parameters</TableHead>
+                                    <TableHead className="font-bold text-white">Details</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                {eligibilityCriteria.map((row, index) => (
-                                    <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                    <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                         <TableCell className="font-medium">{row.parameter}</TableCell>
                                         <TableCell>{row.details}</TableCell>
                                     </TableRow>
@@ -304,15 +304,15 @@ export default function CuetPage() {
                     <CardContent className="pt-6">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Number of Questions (All Compulsory)</TableHead>
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Duration of Exam</TableHead>
+                                <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                    <TableHead className="font-bold text-white">Section</TableHead>
+                                    <TableHead className="font-bold text-white">Number of Questions (All Compulsory)</TableHead>
+                                    <TableHead className="font-bold text-white">Duration of Exam</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {examPatternData.map((row, index) => (
-                                    <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                    <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                         <TableCell className="font-medium">{row.section}</TableCell>
                                         <TableCell>{row.questions}</TableCell>
                                         <TableCell>{row.duration}</TableCell>
@@ -333,14 +333,14 @@ export default function CuetPage() {
                     <CardContent className="p-6">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                    <TableHead className="font-bold text-orange-800 dark:text-orange-300">CUET 2026 Syllabus / Question Types</TableHead>
+                                <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                    <TableHead className="font-bold text-white">Section</TableHead>
+                                    <TableHead className="font-bold text-white">CUET 2026 Syllabus / Question Types</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {syllabusData.map((row, index) => (
-                                    <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                    <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                         <TableCell className="font-medium">{row.section}</TableCell>
                                         <TableCell>{row.types}</TableCell>
                                     </TableRow>
