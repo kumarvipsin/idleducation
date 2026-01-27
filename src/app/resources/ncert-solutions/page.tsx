@@ -5,13 +5,13 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, HelpCircle, ArrowRight } from 'lucide-react';
+import { BookCheck, ArrowRight, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from "next/image";
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from 'next/navigation';
 
 type Subject = {
@@ -105,7 +105,7 @@ function NcertSolutionsPageContent() {
   const renderSkeleton = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
         {[...Array(10)].map((_, i) => (
-            <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />
+            <Skeleton key={i} className="h-[250px] w-full rounded-lg" />
         ))}
     </div>
   );
@@ -129,10 +129,10 @@ function NcertSolutionsPageContent() {
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
-                    className={`py-2 px-6 text-sm font-medium transition-colors border rounded-full
+                    className={`py-2 px-6 text-sm font-medium transition-colors
                     ${selectedClass === className 
-                        ? 'border-primary text-primary bg-primary/10 shadow' 
-                        : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'}`}
+                        ? 'border-b-2 border-primary text-primary' 
+                        : 'text-muted-foreground hover:text-foreground'}`}
                 >
                     {className}
                 </button>
@@ -142,42 +142,42 @@ function NcertSolutionsPageContent() {
         </div>
       </div>
 
-      <main className="flex-1 px-4 md:px-6">
+      <div className="px-4 md:px-6">
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 animate-fade-in-up justify-center">
+              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 animate-fade-in-up w-fit mx-auto">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
                       <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
                         <Card
-                          className="flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card h-full"
+                          className="flex flex-col rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card h-full"
                           style={{ animationDelay: `${index * 50}ms` }}
                         >
-                          <CardContent className="p-4 flex-grow flex flex-col">
-                            <div className="flex justify-between items-start">
-                              <h3 className="text-xl font-bold text-primary mb-1">{subject.name}</h3>
-                              <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
-                            </div>
-                            <p className="text-xs text-muted-foreground mb-3">Solutions for {subject.name}.</p>
-                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">English / हिन्दी</Button>
-                          </CardContent>
-                           <div className="relative aspect-[4/3] w-full mt-auto">
+                          <div className="relative aspect-[4/3] w-full">
                                <Image
                                     src={subject.imageUrl}
                                     alt={subject.name}
                                     data-ai-hint={subject.imageHint}
                                     fill
-                                    className="object-cover rounded-b-xl"
+                                    className="object-cover"
                                 />
                             </div>
+                          <CardContent className="p-4 flex-grow flex flex-col">
+                            <div className="flex justify-between items-start">
+                              <h3 className="font-semibold text-base text-primary mb-1">{subject.name}</h3>
+                              <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3">Solutions for {subject.name}.</p>
+                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">English / हिन्दी</Button>
+                          </CardContent>
                         </Card>
                       </Link>
                   ))
                 ) : (
                     <div className="col-span-full text-center py-12">
                         <Card className="p-8 inline-block bg-background/50">
-                            <BookCheck className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                            <HelpCircle className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                             <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
                             <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
                         </Card>
@@ -185,7 +185,7 @@ function NcertSolutionsPageContent() {
                 )}
               </div>
             )}
-      </main>
+      </div>
     </div>
   );
 }
@@ -203,7 +203,7 @@ export default function NcertSolutionsPage() {
                     {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
-                  {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[320px] w-full rounded-2xl" />)}
+                  {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[250px] w-full rounded-lg" />)}
                 </div>
               </div>
             </div>
