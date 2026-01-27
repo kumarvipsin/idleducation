@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, PlayCircle, Eye, Download, Trophy, Award, Monitor, ClipboardList } from "lucide-react";
+import { ArrowRight, BookOpen, BookCopy, FileText, BookCheck as BookCheckIcon, ClipboardEdit, PlayCircle, Eye, Download, Trophy, Award, Monitor, ClipboardList, MessageSquare, Users, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { TeacherCard } from "@/components/landing/teacher-card";
@@ -116,6 +116,46 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
       },
     ];
 
+    const cuetCourses = [
+      {
+        title: "Project 45 Class 12th Commerce 2026 + Pravesh CUET Commerce 3.0 2026",
+        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-commerce-3.png",
+        imageHint: "Alakh Pandey",
+        language: "Hinglish",
+        startDate: "18 Nov, 2025",
+        endDate: "31 May, 2026",
+        features: "Premium Features Included",
+        price: 1499,
+        originalPrice: 11000,
+        discount: 86,
+        target: "For CUET UG 2026 Aspirants"
+      },
+      {
+        title: "Pravesh CUET General Aptitude Test (GAT) 2026",
+        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-ug-gat.png",
+        imageHint: "Two teachers",
+        language: "Hinglish",
+        startDate: "19 Jan, 2026",
+        endDate: "30 Jun, 2026",
+        price: 449,
+        originalPrice: 999,
+        discount: 55,
+        target: "For CUET UG 2026 Aspirants"
+      },
+      {
+        title: "Pravesh CUET Commerce 2.0 2026",
+        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-commerce-2.png",
+        imageHint: "Group of teachers",
+        language: "Hinglish",
+        startDate: "17 Nov, 2025",
+        endDate: "31 May, 2026",
+        price: 1499,
+        originalPrice: 8000,
+        discount: 81,
+        target: "Targeted Batch for CUET UG Commerce 2026"
+      }
+    ];
+
     return (
       <div className="container mx-auto py-12 px-4 md:px-6">
         <section className="text-center mb-20 animate-fade-in-up">
@@ -148,6 +188,66 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 </Card>
             </Link>
           ))}
+        </section>
+
+        <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <h2 className="text-3xl font-bold text-center mb-8">CUET Courses</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cuetCourses.map((course, index) => (
+              <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
+                <div className="relative">
+                  <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
+                  <div className="relative w-full aspect-[16/9]">
+                    <Image
+                      src={course.imageUrl}
+                      alt={course.title}
+                      data-ai-hint={course.imageHint}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+                <CardContent className="p-4 flex flex-col flex-grow">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
+                      <span>{course.language}</span>
+                      <MessageSquare className="w-4 h-4" />
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
+                  <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
+                  
+                  {course.features && (
+                     <div className="bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md flex justify-between items-center mb-4">
+                        <span>{course.features}</span>
+                        <span className="font-extrabold tracking-widest">INFINITY</span>
+                     </div>
+                  )}
+
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-2xl font-bold">₹{course.price}</p>
+                    <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
+                  </div>
+                   <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
+                    Discount of {course.discount}% applied
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
+                </CardContent>
+                <div className="p-4 pt-0 mt-auto">
+                    <div className="flex gap-2">
+                        <Button variant="outline" className="w-full">EXPLORE</Button>
+                        <Button className="w-full">BUY NOW</Button>
+                    </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+              <Button variant="ghost" className="text-primary hover:text-primary">
+                  View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
+              </Button>
+          </div>
         </section>
       </div>
     );
