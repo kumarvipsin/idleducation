@@ -32,7 +32,6 @@ export function AppContent({
     '/resources',
     '/notifications',
     '/new-work',
-    '/achievements',
     '/store',
   ];
   
