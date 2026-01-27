@@ -372,11 +372,12 @@ export default function AdmissionPage() {
             </p>
         </div>
         <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up md:rounded-2xl" style={{ animationDelay: '0.2s' }}>
-          <header className="bg-primary text-white p-4">
+          <header className="bg-primary text-primary-foreground p-4">
               <div className="flex flex-col items-center justify-center gap-2 text-center">
+              <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
               <div>
                   <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                  <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+                  <p className="text-sm text-primary-foreground/80">(Institute of Distance Learning Pvt. Ltd.)</p>
               </div>
               </div>
           </header>
@@ -895,11 +896,12 @@ export default function AdmissionPage() {
         <ScrollArea className="max-h-[70vh] p-1 border rounded-md">
           <div ref={previewRef} className="bg-white text-black p-4">
              <Card className="shadow-none border-0">
-                  <header className="bg-primary text-white p-4">
+                  <header className="bg-primary text-primary-foreground p-4">
                       <div className="flex flex-col items-center justify-center gap-2 text-center">
+                      <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                       <div>
                           <h1 className="text-2xl font-extrabold tracking-wider">IDL EDUCATION</h1>
-                          <p className="text-sm text-gray-300">(Institute of Distance Learning Pvt. Ltd.)</p>
+                          <p className="text-sm text-primary-foreground/80">(Institute of Distance Learning Pvt. Ltd.)</p>
                       </div>
                       </div>
                   </header>
@@ -1006,3 +1008,5 @@ export default function AdmissionPage() {
     </>
   );
 }
+
+    
