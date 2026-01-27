@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -66,8 +67,8 @@ export default function AboutPage() {
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div>
-                    <div className="text-center mb-6">
-                        <h2 className="text-3xl font-bold text-primary">About IDL EDUCATION</h2>
+                    <div className="mb-6">
+                        <h2 className="text-3xl font-bold text-primary">About IDL</h2>
                     </div>
                     <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
                         <p>
