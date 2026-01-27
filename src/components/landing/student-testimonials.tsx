@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -16,8 +17,7 @@ import { GcsImage } from "../gcs-image";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { PlayCircle } from "lucide-react";
 
-const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
-  const { language } = useLanguage();
+const TestimonialCard = ({ testimonial, language }: { testimonial: TTestimonial, language: 'en' | 'hi' }) => {
   const fullText = language === 'hi' && testimonial.testimonial_hi ? testimonial.testimonial_hi : testimonial.testimonial;
 
   return (
@@ -79,6 +79,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   const [loading, setLoading] = useState(!testimonials);
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+  const { language } = useLanguage();
  
   useEffect(() => {
     if (!api) {
@@ -146,7 +147,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       {testimonials.map((testimonial, index) => (
                           <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                               <div className="p-1 h-full">
-                                  <TestimonialCard testimonial={testimonial} />
+                                  <TestimonialCard testimonial={testimonial} language={language} />
                               </div>
                           </CarouselItem>
                       ))}
