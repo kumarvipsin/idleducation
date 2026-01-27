@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark } from "lucide-react";
+import { ArrowRight, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark, MoreHorizontal } from "lucide-react";
 
 const goals = [
   {
@@ -36,9 +36,9 @@ const goals = [
     color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
   },
   {
-    name: "Olympiad",
+    name: "Achievement",
     icon: <Trophy className="w-8 h-8" />,
-    href: "#",
+    href: "/achievements",
     color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
   },
   {
