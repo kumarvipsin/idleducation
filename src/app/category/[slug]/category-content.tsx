@@ -383,10 +383,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 CUET UG 2026 syllabus has been officially released by the National Testing Agency (NTA) for the CUET Aspirants. It will follow the NCERT Class 12 curriculum, making it easier for students already preparing for their board exams. The syllabus is divided into three major sections: Language, Domain Subjects, and General Test. Here's a simplified breakdown of each section:
             </p>
             <Card className="mt-6">
-                <CardHeader>
-                    <CardTitle>CUET UG 2026 Syllabus</CardTitle>
-                </CardHeader>
-                <CardContent>
+                <CardContent className="p-6">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -642,4 +639,3 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
   );
 }
 
-    
