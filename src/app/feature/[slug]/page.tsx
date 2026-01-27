@@ -40,7 +40,7 @@ const featureData: { [key: string]: any } = {
 };
 
 export default function FeatureDetailPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+  const slug = params.slug;
   const feature = featureData[slug];
 
   if (!feature) {
