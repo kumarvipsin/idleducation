@@ -1,10 +1,10 @@
 
 import type { Metadata, Viewport } from 'next';
-import { Montserrat } from 'next/font/google';
+import { Josefin_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const montserrat = Montserrat({
+const josefin_sans = Josefin_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
 });
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${montserrat.variable} font-sans font-bold antialiased flex flex-col min-h-screen bg-background`}>
+      <body className={`${josefin_sans.variable} font-sans font-bold antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
