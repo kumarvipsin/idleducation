@@ -112,13 +112,7 @@ export default function LoginPage() {
   const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
 
   return (
-    <div className="relative min-h-screen w-full p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-        <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon" className="rounded-full bg-background/30 backdrop-blur-sm border shadow-lg hover:bg-background/50">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-            </Button>
-        </Link>
+    <div className="relative w-full p-4 bg-white dark:bg-background overflow-y-auto">
         <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
             <div className="w-full max-w-lg mx-auto animate-fade-in-up">
               <Tabs defaultValue="student">

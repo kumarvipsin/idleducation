@@ -26,7 +26,6 @@ export function AppContent({
   
   const noHeaderFooterPages = [
     '/scholarship',
-    '/login',
     '/signup',
     '/feature',
     '/school',
