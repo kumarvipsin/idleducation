@@ -24,7 +24,7 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-52 md:h-64 flex items-end justify-center">
+            <div className="relative h-56 md:h-64 flex items-end justify-center -mb-4 md:-mb-6">
                 <Image
                     src="/idladv.png"
                     alt="Students with a tablet"
