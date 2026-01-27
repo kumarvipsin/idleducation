@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -80,18 +79,6 @@ export default function AboutPage() {
                         <p>
                             The first centre under 'IDL' was started in 1988, offering coaching services for medical entrance examinations. Today, we are highly acknowledged for offering niche test preparatory services for medical as well as engineering entrance exams and foundation level exams through our distinct verticals namely, IDL Medical, IDL Engineering and IDL Foundation.
                         </p>
-                        <div className="space-y-4 pt-4">
-                            <h3 className="text-2xl font-bold text-primary">IDL Medical</h3>
-                            <p>
-                                For more than 36 years, IDL Medical has been nurturing the aspirations of students who dream about a career in medicine. Every year our students achieve top ranks and display excellent results in the National Eligibility Cum Entrance Test - NEET (Previously AIPMT). For the past many years, our students have been securing top ranks in various medical entrance exams (NEET/AIPMT, AIIMS, JIPMER). Started as a single centre with just 12 students, IDL Institute has been ranked as the No. 1 Coaching Institute among Top 25 Best Coaching Institutes in the country for preparation of medical entrance exams by India Today Magazine.
-                            </p>
-                        </div>
-                        <div className="space-y-4 pt-4">
-                            <h3 className="text-2xl font-bold text-primary">IDL Engineering</h3>
-                            <p>
-                                Started in 2007, IDL Engineering prepares students for JEE (Main & Advanced) and other engineering entrance examinations. Through its integrated teaching methodology, focused learning environment and technology enabled-education, IDL Engineering provides cutting-edge educational solutions that help students to excel in their goals. Every year our students achieve top ranks and display excellent results in the engineering entrance exams. Students aspiring to succeed in engineering entrance exams can trust IDL Engineering for quality and result-oriented test preparation.
-                            </p>
-                        </div>
                         <div className="space-y-4 pt-4">
                             <h3 className="text-2xl font-bold text-primary">IDL Foundation</h3>
                             <p>
