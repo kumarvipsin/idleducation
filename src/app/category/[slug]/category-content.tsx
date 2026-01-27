@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -92,42 +93,54 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
       { parameter: "Age Limit", details: "No age limit" },
       { parameter: "Nationality", details: "Must be Indian; NRI and OCI candidates can also apply" },
   ];
+  
+    const examPatternData = [
+      { section: 'Language', questions: 50, duration: '60 minutes' },
+      { section: 'Domain Subject', questions: 50, duration: '60 minutes' },
+      { section: 'General Aptitude Test', questions: 50, duration: '60 minutes' },
+    ];
+
+    const syllabusData = [
+      { section: 'Language Test', types: 'Reading Comprehension (Factual, Literary, Narrative), Literary Aptitude, and Vocabulary' },
+      { section: 'Domain Subjects', types: 'Based on the Class 12 syllabus of selected subjects like Accountancy, Biology, Business Studies, Chemistry, Economics, History, Maths, Physics, Political Science, and more' },
+      { section: 'General Test', types: 'General Knowledge, Current Affairs, General Mental Ability, Numerical Ability, Quantitative Reasoning (up to Class 8 level), Logical and Analytical Reasoning' },
+    ];
 
 
   if (isCuetPage) {
     const resourceCards = [
-      {
-        title: "PDF Bank",
-        description: "Access Our PDF Bank",
-        icon: <FileText className="w-6 h-6 text-pink-600" />,
-        bgColor: "bg-pink-50 dark:bg-pink-900/20",
-        borderColor: "border-pink-100 dark:border-pink-800",
-        href: "#"
-      },
-      {
-        title: "Test Series",
-        description: "Explore Our Test Series",
-        icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-        bgColor: "bg-green-50 dark:bg-green-900/20",
-        borderColor: "border-green-100 dark:border-green-800",
-        href: "#"
-      },
-      {
-        title: "Books",
-        description: "Find Preparation Books",
-        icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
-        bgColor: "bg-sky-50 dark:bg-sky-900/20",
-        borderColor: "border-sky-100 dark:border-sky-800",
-        href: "/resources/reference-books"
-      },
-      {
-        title: "Blogs",
-        description: "Read Our Latest Blogs",
-        icon: <Monitor className="w-6 h-6 text-blue-600" />,
-        bgColor: "bg-blue-50 dark:bg-blue-900/20",
-        borderColor: "border-blue-100 dark:border-blue-800",
-        href: "/blog"
-      },
+        {
+          title: "PDF Bank",
+          description: "Access Our PDF Bank",
+          icon: <FileText className="w-6 h-6 text-pink-600" />,
+          bgColor: "bg-pink-50 dark:bg-pink-900/20",
+          borderColor: "border-pink-100 dark:border-pink-800",
+          href: "#"
+        },
+        {
+          title: "Test Series",
+          description: "Explore Our Test Series",
+          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
+          bgColor: "bg-green-50 dark:bg-green-900/20",
+          borderColor: "border-green-100 dark:border-green-800",
+          href: "#"
+        },
+        {
+          title: "Books",
+          description: "Find Preparation Books",
+          icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
+          bgColor: "bg-sky-50 dark:bg-sky-900/20",
+          borderColor: "border-sky-100 dark:border-sky-800",
+          href: "/resources/reference-books"
+        },
+        {
+          title: "Blogs",
+          description: "Read Our Latest Blogs",
+          icon: <Monitor className="w-6 h-6 text-blue-600" />,
+          bgColor: "bg-blue-50 dark:bg-blue-900/20",
+          borderColor: "border-blue-100 dark:border-blue-800",
+          href: "/blog"
+        },
     ];
 
     const cuetCourses = [
@@ -329,6 +342,67 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                     <p className="text-xs text-muted-foreground mt-4">
                         <strong>Note:</strong> These criteria are only for appearing in CUET UG 2026. Each university will release its own course-wise eligibility (including subject combinations and Class 12 marks) separately. Students must visit the official websites of the respective universities for detailed admission requirements.
                     </p>
+                </CardContent>
+            </Card>
+        </section>
+        <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
+            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Exam Pattern</h2>
+            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+                Candidates appearing for CUET UG 2026 must understand the cuet exam pattern to strategize their preparation effectively. The exam consists of three main sections: Language, Domain Subject, and General Aptitude Test, each with a specific number of questions and duration.
+            </p>
+            <Card className="mt-6">
+                <CardHeader>
+                    <CardTitle>CUET UG 2026 Exam Pattern</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Section</TableHead>
+                                <TableHead>Number of Questions (All Compulsory)</TableHead>
+                                <TableHead>Duration of Exam</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {examPatternData.map((row) => (
+                                <TableRow key={row.section}>
+                                    <TableCell>{row.section}</TableCell>
+                                    <TableCell>{row.questions}</TableCell>
+                                    <TableCell>{row.duration}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </section>
+
+        <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
+            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Syllabus</h2>
+            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+                CUET UG 2026 syllabus has been officially released by the National Testing Agency (NTA) for the CUET Aspirants. It will follow the NCERT Class 12 curriculum, making it easier for students already preparing for their board exams. The syllabus is divided into three major sections: Language, Domain Subjects, and General Test. Here's a simplified breakdown of each section:
+            </p>
+            <Card className="mt-6">
+                <CardHeader>
+                    <CardTitle>CUET UG 2026 Syllabus</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Section</TableHead>
+                                <TableHead>CUET 2026 Syllabus / Question Types</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {syllabusData.map((row) => (
+                                <TableRow key={row.section}>
+                                    <TableCell>{row.section}</TableCell>
+                                    <TableCell>{row.types}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </CardContent>
             </Card>
         </section>
@@ -567,3 +641,5 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     </div>
   );
 }
+
+    
