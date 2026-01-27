@@ -63,11 +63,12 @@ export default function VolunteerPage() {
     return (
         <>
             <div className="container mx-auto py-12 md:px-[10%]">
-                <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-                    <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
+                 <div className="text-center mb-8 animate-fade-in-up">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
                         Become a Volunteer
+                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
                     </h1>
-                    <p className="mt-2 text-lg text-muted-foreground font-semibold">
+                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
                         Join us in making a difference. Your time and skills can change lives.
                     </p>
                 </div>

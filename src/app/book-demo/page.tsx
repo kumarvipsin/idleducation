@@ -124,12 +124,12 @@ export default function BookDemoPage() {
   return (
     <div key={studentId} className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
       <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
-          <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-              <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
+          <div className="text-center mb-8 animate-fade-in-up">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
                   Book a Free Demo Class
                   <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
               </h1>
-              <p className="mt-2 text-base text-muted-foreground font-semibold">
+              <p className="mt-2 text-sm text-muted-foreground font-semibold">
                 Learn from India's best teachers
               </p>
           </div>
