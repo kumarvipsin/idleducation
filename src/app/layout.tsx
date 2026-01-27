@@ -7,6 +7,7 @@ import { Providers } from '@/components/providers';
 const josefin_sans = Josefin_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: ['400', '700'],
 });
 
 export const metadata: Metadata = {

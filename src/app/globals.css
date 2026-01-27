@@ -85,9 +85,6 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
-  .font-bold {
-    font-weight: 700;
-  }
 }
 
 @layer components {
