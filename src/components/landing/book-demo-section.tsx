@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -24,17 +25,14 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-40 md:h-48 flex items-center justify-center">
-                 <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-[189px] h-[189px] bg-orange-200/80 dark:bg-orange-800/30 rounded-[60%_40%_30%_70%_/_60%_30%_70%_40%] animate-morph" style={{ transform: 'scale(1.05)' }} />
-                </div>
+            <div className="relative h-56 md:h-48 flex items-center justify-center">
                 <Image
                     src="/idladv.png"
                     alt="Students with a tablet"
                     data-ai-hint="student teacher tablet"
                     width={180}
                     height={160}
-                    className="object-contain relative z-10"
+                    className="object-contain"
                 />
             </div>
           </div>
