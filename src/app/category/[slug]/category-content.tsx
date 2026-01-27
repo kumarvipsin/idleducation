@@ -246,7 +246,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
         </section>
 
         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <h2 className="text-3xl font-bold text-center mb-8">CUET Courses</h2>
+          <h2 className="text-3xl font-bold text-left mb-8">CUET Courses</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {cuetCourses.map((course, index) => (
               <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
@@ -305,32 +305,32 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
           </div>
         </section>
         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-          <h2 className="text-3xl font-bold text-center mb-4">CUET 2026 Exam date</h2>
-          <p className="text-center text-muted-foreground">
+          <h2 className="text-3xl font-bold text-left mb-4">CUET 2026 Exam date</h2>
+          <p className="text-left text-muted-foreground">
             CUET UG 2026 exam date is tentatively scheduled to be conducted <span className="font-bold text-foreground">Between 11 - 31 May 2026 (tentative)</span>. The exact dates will be announced by the National Testing Agency (NTA) in March 2026.
           </p>
         </section>
         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-          <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Fee</h2>
-          <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-left mb-4">CUET UG 2026 Fee</h2>
+          <p className="text-left text-muted-foreground max-w-4xl">
             CUET UG 2026 application fee must be paid online before the deadline, which is <strong className="text-foreground">31 January 2026</strong>. The fee structure varies based on the candidate's category and the number of subjects chosen. Below is the detailed fee structure for CUET 2026:
           </p>
           <Card className="mt-6">
             <CardContent className="pt-6">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Upto Three Subjects</TableHead>
-                    <TableHead>For Each Additional Subject</TableHead>
+                  <TableRow className="bg-primary/10 hover:bg-primary/10">
+                    <TableHead className="text-primary font-bold">Category</TableHead>
+                    <TableHead className="text-primary font-bold">Upto Three Subjects</TableHead>
+                    <TableHead className="text-primary font-bold">For Each Additional Subject</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {feeStructure.map((row) => (
-                    <TableRow key={row.category}>
-                      <TableCell>{row.category}</TableCell>
-                      <TableCell>{row.uptoThree}</TableCell>
-                      <TableCell>{row.additional}</TableCell>
+                  {feeStructure.map((row, index) => (
+                    <TableRow key={row.category} className={index % 2 === 0 ? 'bg-muted/50' : ''}>
+                      <TableCell className="font-medium">{row.category}</TableCell>
+                      <TableCell className="font-semibold text-foreground">{row.uptoThree}</TableCell>
+                      <TableCell className="font-semibold text-foreground">{row.additional}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -339,8 +339,8 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
           </Card>
         </section>
          <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1s' }}>
-            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Eligibility Criteria</h2>
-            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-left mb-4">CUET UG 2026 Eligibility Criteria</h2>
+            <p className="text-left text-muted-foreground max-w-4xl">
                 The National Testing Agency (NTA) sets the eligibility criteria for students who wish to appear in the CUET UG 2026 exam. It is important for candidates to meet these basic requirements in order to register and appear for the test. However, meeting the CUET eligibility criteria does not guarantee admission, as individual universities may have their own course-specific requirements. The table below outlines the general eligibility criteria for CUET UG 2026:
             </p>
             <Card className="mt-6">
@@ -368,8 +368,8 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
             </Card>
         </section>
         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Exam Pattern</h2>
-            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-left mb-4">CUET UG 2026 Exam Pattern</h2>
+            <p className="text-left text-muted-foreground max-w-4xl">
                 Candidates appearing for CUET UG 2026 must understand the cuet exam pattern to strategize their preparation effectively. The exam consists of three main sections: Language, Domain Subject, and General Aptitude Test, each with a specific number of questions and duration.
             </p>
             <Card className="mt-6">
@@ -397,8 +397,8 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
         </section>
 
         <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
-            <h2 className="text-3xl font-bold text-center mb-4">CUET UG 2026 Syllabus</h2>
-            <p className="text-center text-muted-foreground max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-left mb-4">CUET UG 2026 Syllabus</h2>
+            <p className="text-left text-muted-foreground max-w-4xl">
                 CUET UG 2026 syllabus has been officially released by the National Testing Agency (NTA) for the CUET Aspirants. It will follow the NCERT Class 12 curriculum, making it easier for students already preparing for their board exams. The syllabus is divided into three major sections: Language, Domain Subjects, and General Test. Here's a simplified breakdown of each section:
             </p>
             <Card className="mt-6">
@@ -442,6 +442,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     );
   }
 
+  // Fallback for other categories
   return (
     <div>
       {isNeetPage ? (
