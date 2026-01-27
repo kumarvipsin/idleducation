@@ -66,9 +66,6 @@ export default function AboutPage() {
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div>
-                    <div className="mb-6">
-                        <h2 className="text-3xl font-bold text-primary">About IDL</h2>
-                    </div>
                     <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
                         <p>IDL Education is a reputed and result-driven educational institute founded in 2016 by Amod Sharma with the vision of providing quality education through strong academic foundations and expert guidance. Over the years, IDL Education has grown into a trusted name in education, operating four successful offline branches across Delhi. The institute offers comprehensive coaching for Classes 6 to 12 (CBSE Board), covering Science, Commerce, and Humanities streams, and focuses on developing conceptual clarity, confidence, and academic excellence among students.</p>
                         <p>At IDL Education, learning goes beyond textbooks. The institute follows a structured, student-centric teaching approach that emphasizes concept-based learning, regular assessments, personalized mentoring, and continuous performance tracking. In addition to school academics, IDL Education provides dedicated preparation for CBSE Board Examinations (Class 10 & 12), CUET, NIOS, and other government and entrance examinations, ensuring that students are well-prepared for both academic and competitive challenges.</p>
