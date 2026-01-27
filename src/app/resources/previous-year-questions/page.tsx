@@ -59,6 +59,17 @@ export default function PreviousYearQuestionsPage() {
         );
     }, [questions, selectedClass, selectedSubject]);
 
+    const groupedByYear = useMemo(() => {
+        return filteredQuestions.reduce((acc, q) => {
+            const year = q.year.toString();
+            if (!acc[year]) {
+                acc[year] = [];
+            }
+            acc[year].push(q);
+            return acc;
+        }, {} as Record<string, TPreviousYearQuestion[]>);
+    }, [filteredQuestions]);
+
     const handleDownload = async (pdfUrl: string | undefined) => {
         if (!pdfUrl) {
             toast({ variant: "destructive", title: "Error", description: "No PDF file available for download." });
@@ -73,11 +84,9 @@ export default function PreviousYearQuestionsPage() {
     };
     
     const renderSkeleton = () => (
-      <div className="flex gap-6 px-4 md:px-[10%]">
+      <div className="space-y-4">
         {[...Array(3)].map((_, index) => (
-          <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-            <Skeleton className="h-[400px] w-full rounded-2xl" />
-          </div>
+          <Skeleton key={index} className="h-16 w-full rounded-lg" />
         ))}
       </div>
     );
@@ -129,63 +138,55 @@ export default function PreviousYearQuestionsPage() {
                     </div>
                 </div>
                  
-                <div className="relative">
-                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4 md:px-[10%]">
-                            {loading ? (
-                                renderSkeleton()
-                            ) : filteredQuestions.length > 0 ? (
-                                filteredQuestions.map((question, index) => (
-                                    <div key={question.id} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                      <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                                          <CardContent className="p-4 flex flex-col flex-1">
-                                              <div className="flex items-start gap-3">
-                                                  <div className="p-2 bg-primary/10 text-primary rounded-md">
-                                                      <FileText className="h-5 w-5" />
-                                                  </div>
-                                                  <div className="flex-1">
-                                                      <h3 className="font-semibold text-base leading-tight">{question.title}</h3>
-                                                      <p className="text-xs text-muted-foreground">{question.exam} - {question.year}</p>
-                                                  </div>
-                                              </div>
-                                              <div className="mt-4 flex-grow">
-                                                  <Accordion type="multiple" className="w-full space-y-2">
-                                                      {(Array.isArray(question.subjects) ? question.subjects : [])
-                                                          .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
-                                                          .map((subject, idx) => (
-                                                          <AccordionItem value={`subject-${idx}`} key={idx} className="border bg-background/50 rounded-md px-3">
-                                                              <AccordionTrigger className="py-2 text-sm font-semibold">{subject.name}</AccordionTrigger>
-                                                              <AccordionContent className="pb-2">
-                                                                  <div className="flex flex-col gap-2 pt-2 border-t">
-                                                                      {Array.isArray(subject.papers) && subject.papers.map((paper, pIdx) => (
-                                                                          <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
-                                                                              <span>{paper.title}</span>
-                                                                              <Download className="h-4 w-4"/>
-                                                                          </Button>
-                                                                      ))}
-                                                                  </div>
-                                                              </AccordionContent>
-                                                          </AccordionItem>
-                                                      ))}
-                                                  </Accordion>
-                                              </div>
-                                          </CardContent>
-                                      </Card>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="col-span-full text-center py-16 w-full">
-                                    <Card className="inline-block p-8 bg-background/50">
-                                        <FileText className="mx-auto h-16 w-16 text-muted-foreground" />
-                                        <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
-                                        <p className="mt-2 text-sm text-muted-foreground">
-                                            Question papers for the selected filters will be available soon.
-                                        </p>
+                <div className="max-w-4xl mx-auto">
+                    {loading ? (
+                        renderSkeleton()
+                    ) : Object.keys(groupedByYear).length > 0 ? (
+                         <Accordion type="multiple" className="w-full space-y-4">
+                           {Object.entries(groupedByYear).sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA)).map(([year, questionsInYear]) => (
+                                <AccordionItem value={year} key={year} className="border-b-0">
+                                    <Card className="rounded-xl shadow-md bg-muted/30">
+                                        <AccordionTrigger className="p-4 font-bold text-lg text-primary hover:no-underline">
+                                            {questionsInYear[0]?.title || `${selectedClass} - ${year}`}
+                                        </AccordionTrigger>
+                                        <AccordionContent className="p-4 pt-0">
+                                            <div className="space-y-3">
+                                            {questionsInYear.flatMap(q => 
+                                                (Array.isArray(q.subjects) ? q.subjects : [])
+                                                .filter(subject => selectedSubject === 'All' || subject.name === subject)
+                                                .map(subject => (
+                                                    <Card key={subject.name} className="bg-background">
+                                                        <CardContent className="p-3">
+                                                            <h4 className="font-semibold mb-2">{subject.name}</h4>
+                                                            <div className="flex flex-col gap-2">
+                                                                {(Array.isArray(subject.papers) ? subject.papers : []).map((paper, pIdx) => (
+                                                                    <Button key={pIdx} className="w-full justify-between" variant="ghost" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
+                                                                        <span>{paper.title}</span>
+                                                                        <Download className="h-4 w-4"/>
+                                                                    </Button>
+                                                                ))}
+                                                            </div>
+                                                        </CardContent>
+                                                    </Card>
+                                                ))
+                                            )}
+                                            </div>
+                                        </AccordionContent>
                                     </Card>
-                                </div>
-                            )}
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    ) : (
+                        <div className="col-span-full text-center py-16 w-full">
+                            <Card className="inline-block p-8 bg-background/50">
+                                <FileText className="mx-auto h-16 w-16 text-muted-foreground" />
+                                <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
+                                <p className="mt-2 text-sm text-muted-foreground">
+                                    Question papers for the selected filters will be available soon.
+                                </p>
+                            </Card>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
