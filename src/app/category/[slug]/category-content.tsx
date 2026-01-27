@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -287,10 +286,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
             CUET UG 2026 application fee must be paid online before the deadline, which is <strong className="text-foreground">31 January 2026</strong>. The fee structure varies based on the candidate's category and the number of subjects chosen. Below is the detailed fee structure for CUET 2026:
           </p>
           <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>CUET UG 2026 Fee</CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <Table>
                 <TableHeader>
                   <TableRow>
