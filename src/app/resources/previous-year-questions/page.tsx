@@ -83,7 +83,7 @@ export default function PreviousYearQuestionsPage() {
     );
 
     return (
-        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <div className="relative min-h-screen w-full bg-white dark:bg-background overflow-y-auto">
             <div className="relative z-10 container mx-auto py-12">
                 <div className="text-center mb-12 animate-fade-in-up">
                     <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
