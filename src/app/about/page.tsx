@@ -65,7 +65,7 @@ export default function AboutPage() {
     <div className="bg-background">
         <section className="py-16 md:py-24 bg-muted/30">
             <div className="container mx-auto px-4 md:px-6">
-                <Card className="rounded-2xl shadow-lg border">
+                <Card className="rounded-2xl shadow-lg">
                     <CardHeader className="text-center">
                         <CardTitle className="text-3xl font-bold text-primary">About IDL EDUCATION</CardTitle>
                     </CardHeader>
