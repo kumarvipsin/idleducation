@@ -26,7 +26,7 @@ export function BookDemoSection() {
             </div>
             <div className="relative h-56 md:h-64 flex items-end justify-center">
                 <div className="relative w-[320px] h-[300px] transform translate-y-[10%]">
-                    <div className="absolute inset-x-10 top-10 bottom-0 bg-primary/10 rounded-t-full blur-2xl"></div>
+                    <div className="absolute inset-0 bg-primary/10 rounded-full"></div>
                     <Image
                         src="/idladv.png"
                         alt="Students with a tablet"
