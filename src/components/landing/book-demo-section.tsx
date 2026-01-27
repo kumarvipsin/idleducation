@@ -9,7 +9,7 @@ export function BookDemoSection() {
   return (
     <section className="w-full py-4 md:py-7 bg-muted/20 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
+        <div className="relative rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-center md:text-left">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
@@ -37,6 +37,26 @@ export function BookDemoSection() {
                 </div>
             </div>
           </div>
+          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" viewBox="0 0 800 400">
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="orange">
+                <polygon points="0 0, 10 3.5, 0 7" />
+              </marker>
+            </defs>
+            <circle cx="600" cy="200" r="10" fill="orange" fillOpacity="0.3">
+                <animate attributeName="r" from="10" to="20" dur="1.5s" begin="0s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="0.3" to="0" dur="1.5s" begin="0s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="600" cy="200" r="6" fill="orange" />
+            <path
+              d="M 590 200 Q 400 280 270 240"
+              stroke="orange"
+              strokeWidth="3"
+              fill="none"
+              strokeDasharray="8, 8"
+              markerEnd="url(#arrowhead)"
+            />
+          </svg>
         </div>
       </div>
     </section>
