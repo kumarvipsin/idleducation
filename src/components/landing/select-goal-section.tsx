@@ -36,16 +36,16 @@ const goals = [
     color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
   },
   {
-    name: "Achievement",
-    icon: <Trophy className="w-8 h-8" />,
-    href: "/achievements",
-    color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
-  },
-  {
     name: "Offline Centres",
     icon: <Building className="w-8 h-8" />,
     href: "/offline-centers",
     color: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
+  },
+  {
+    name: "Achievement",
+    icon: <Trophy className="w-8 h-8" />,
+    href: "/achievements",
+    color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
   },
   {
     name: "One to One Classes",
