@@ -128,7 +128,7 @@ function SchoolPageContent() {
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-background overflow-y-auto">
-        <div className="container mx-auto py-8 px-4 md:px-6">
+        <div className="py-8 px-4 md:px-6">
           <section className="mb-8">
             <Card className="overflow-hidden shadow-lg">
               <div className="relative w-full aspect-[16/4]">
@@ -173,7 +173,7 @@ function SchoolPageContent() {
         <div className="w-full">
           {activeTeachers.length > 0 && (
             <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
-              <div className="container mx-auto px-4 md:px-[10%]">
+              <div className="px-4 md:px-[10%]">
                 <div className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold">
                     <span className="text-primary">Know Your </span>
@@ -248,7 +248,7 @@ function SchoolPageContent() {
           )}
 
           <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="container mx-auto px-4 md:px-[10%]">
+              <div className="px-4 md:px-[10%]">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-primary">
                       {`${activeClass} Online Coaching 2025-2026`}
