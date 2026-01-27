@@ -72,7 +72,7 @@ export default function AboutPage() {
                             alt="IDL Education Watermark"
                             width={400}
                             height={400}
-                            className="opacity-5"
+                            className="opacity-10"
                         />
                     </div>
                     <div className="relative z-10 space-y-6 text-lg text-foreground/80 leading-relaxed">
