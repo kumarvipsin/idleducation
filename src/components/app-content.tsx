@@ -1,4 +1,3 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -29,7 +28,6 @@ export function AppContent({
   const noHeaderFooterPages = [
     '/scholarship',
     '/feature',
-    '/school',
     '/examcat',
     '/resources',
     '/notifications',

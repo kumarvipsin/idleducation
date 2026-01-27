@@ -127,13 +127,7 @@ function SchoolPageContent() {
   const syllabusItems: SyllabusItem[] = activeCategory?.syllabus || [];
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
-        <Link href="/" className="absolute top-4 right-4 z-20">
-            <Button variant="ghost" size="icon">
-                <Home className="h-6 w-6 text-primary" />
-                <span className="sr-only">Home</span>
-            </Button>
-        </Link>
+    <div className="relative min-h-screen w-full bg-white dark:bg-background overflow-y-auto">
         <div className="container mx-auto py-8 px-4 md:px-6">
           <section className="mb-8">
             <Card className="overflow-hidden shadow-lg">
