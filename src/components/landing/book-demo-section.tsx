@@ -25,7 +25,7 @@ export function BookDemoSection() {
               </Button>
             </div>
             <div className="relative h-56 md:h-64 flex items-end justify-center">
-                <div className="relative w-[400px] h-[350px] transform translate-y-[10%]">
+                <div className="relative w-[300px] h-[300px] transform translate-y-[10%]">
                     <div className="absolute inset-0 bg-dot-pattern opacity-30 rounded-lg"></div>
                     <Image
                         src="/idladv.png"
@@ -37,7 +37,7 @@ export function BookDemoSection() {
                 </div>
             </div>
           </div>
-          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" viewBox="0 0 800 400">
+          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none hidden md:block" viewBox="0 0 800 400">
             <defs>
               <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" fill="orange">
                 <polygon points="0 0, 10 3.5, 0 7" />
