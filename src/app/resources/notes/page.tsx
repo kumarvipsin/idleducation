@@ -19,6 +19,7 @@ type Subject = {
   href: string;
   icon: React.ReactNode;
   gradient: string;
+  className: string;
 };
 
 const subjectIconMap: { [key: string]: React.ReactNode } = {
@@ -93,11 +94,15 @@ function NotesPageContent({ initialData }: { initialData: any }) {
   };
   
   const renderSkeleton = () => (
-    <div className="flex gap-6 px-4 md:pl-[10%]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {[...Array(4)].map((_, i) => (
-        <div key={i} className="block flex-shrink-0 w-[300px] sm:w-[350px]">
-            <Skeleton key={i} className="h-[450px] w-full rounded-2xl" />
-        </div>
+        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
+          <CardContent className="p-6 flex flex-col flex-grow items-start">
+            <Skeleton className="h-10 w-10 rounded-full mb-4" />
+            <Skeleton className="h-6 w-3/4 mb-2" />
+            <Skeleton className="h-10 w-full" />
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
@@ -149,7 +154,7 @@ function NotesPageContent({ initialData }: { initialData: any }) {
                                     className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${subject.gradient} h-full`}
                                     style={{ animationDelay: `${index * 50}ms` }}
                                 >
-                                <CardContent className="p-6 flex-grow flex flex-col items-start text-foreground">
+                                <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
                                     <div className="flex justify-between items-start w-full mb-4">
                                         {subject.icon}
                                         <Badge variant="secondary">{subject.className}</Badge>
@@ -217,7 +222,7 @@ export default function NotesNewPage() {
 
     if (loading) {
         return (
-            <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div className="relative min-h-screen w-full bg-white dark:bg-background">
               <div className="relative z-10 container mx-auto py-12">
                 <div className="mb-6 text-center">
                     <Skeleton className="h-9 w-64 mx-auto mb-2" />
@@ -235,13 +240,7 @@ export default function NotesNewPage() {
     }
     
     return (
-        <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
-            <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon">
-                    <Home className="h-6 w-6 text-primary" />
-                    <span className="sr-only">Home</span>
-                </Button>
-            </Link>
+        <div className="relative min-h-screen w-full bg-white dark:bg-background">
             <div className="relative z-10 container mx-auto py-12">
                 <Suspense fallback={<div>Loading content...</div>}>
                     <NotesPageContent initialData={initialData} />
