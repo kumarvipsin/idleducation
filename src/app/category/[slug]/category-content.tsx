@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -319,10 +318,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 The National Testing Agency (NTA) sets the eligibility criteria for students who wish to appear in the CUET UG 2026 exam. It is important for candidates to meet these basic requirements in order to register and appear for the test. However, meeting the CUET eligibility criteria does not guarantee admission, as individual universities may have their own course-specific requirements. The table below outlines the general eligibility criteria for CUET UG 2026:
             </p>
             <Card className="mt-6">
-                <CardHeader>
-                    <CardTitle>CUET UG 2026 Eligibility Criteria</CardTitle>
-                </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                      <Table>
                         <TableHeader>
                             <TableRow>
@@ -635,4 +631,3 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     </div>
   );
 }
-
