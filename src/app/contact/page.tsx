@@ -45,92 +45,88 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-white dark:bg-gray-900 p-4">
-      <div className="relative z-10 flex items-center justify-center min-h-screen">
-        <div className="w-full max-w-lg mx-auto">
-          <div className="animate-fade-in-up">
-            <Card className="w-full bg-background/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-primary/10">
-              <CardContent className="p-8">
-                 <div className="text-center mb-6">
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-                        Contact Us
-                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
-                    </h1>
-                    <p className="text-muted-foreground text-sm mt-2 font-semibold">
-                        We are here to help! Fill out the form and our team will get back to you.
-                    </p>
-                </div>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                     <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative">
-                              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input placeholder="Full Name *" {...field} className="pl-9" />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative">
-                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input type="tel" placeholder="Phone *" {...field} className="pl-9" />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative">
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input type="email" placeholder="Email *" {...field} className="pl-9" />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative">
-                              <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Textarea placeholder="Message *" className="pl-9" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                      {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
-                    </Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+    <div className="container mx-auto py-12 md:px-[10%]">
+      <div className="text-center mb-8 animate-fade-in-up">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
+            Contact Us
+            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground font-semibold">
+            We are here to help! Fill out the form and our team will get back to you.
+        </p>
+      </div>
+      <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+          <CardContent className="space-y-6 p-8">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                 <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input placeholder="Full Name *" {...field} className="pl-9" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input type="tel" placeholder="Phone *" {...field} className="pl-9" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input type="email" placeholder="Email *" {...field} className="pl-9" />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <Textarea placeholder="Message *" className="pl-9" {...field} />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
