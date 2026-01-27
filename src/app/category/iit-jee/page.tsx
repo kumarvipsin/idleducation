@@ -340,24 +340,24 @@ export default function IitJeePage() {
                       <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Fee</h2>
                       <Card className="mt-6">
                         <CardContent className="pt-6">
-                          <Table>
+                           <Table>
                             <TableHeader>
-                              <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                <TableHead className="font-bold text-orange-800 dark:text-orange-300">Category</TableHead>
-                                <TableHead className="font-bold text-orange-800 dark:text-orange-300">Paper 1 (B.E./B.Tech)</TableHead>
-                                <TableHead className="font-bold text-orange-800 dark:text-orange-300">Paper 1 & 2 (Both)</TableHead>
-                              </TableRow>
+                                <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                <TableHead className="font-bold text-white">Category</TableHead>
+                                <TableHead className="font-bold text-white">Paper 1 (B.E./B.Tech)</TableHead>
+                                <TableHead className="font-bold text-white">Paper 1 & 2 (Both)</TableHead>
+                                </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {jeeFeeStructure.map((row, index) => (
-                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
-                                  <TableCell className="font-medium">{row.category}</TableCell>
-                                  <TableCell className="font-semibold text-foreground">{row.paper1}</TableCell>
-                                  <TableCell className="font-semibold text-foreground">{row.bothPapers}</TableCell>
+                                {jeeFeeStructure.map((row, index) => (
+                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
+                                    <TableCell className="font-medium">{row.category}</TableCell>
+                                    <TableCell className="font-semibold text-foreground">{row.paper1}</TableCell>
+                                    <TableCell className="font-semibold text-foreground">{row.bothPapers}</TableCell>
                                 </TableRow>
-                              ))}
+                                ))}
                             </TableBody>
-                          </Table>
+                            </Table>
                         </CardContent>
                       </Card>
                     </section>
@@ -368,14 +368,14 @@ export default function IitJeePage() {
                             <CardContent className="pt-6">
                                  <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Parameters</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Details</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Parameters</TableHead>
+                                            <TableHead className="font-bold text-white">Details</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                        {jeeEligibilityCriteria.map((row, index) => (
-                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.parameter}</TableCell>
                                                 <TableCell>{row.details}</TableCell>
                                             </TableRow>
@@ -392,15 +392,15 @@ export default function IitJeePage() {
                             <CardContent className="pt-6">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Number of Questions</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Total Marks</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Section</TableHead>
+                                            <TableHead className="font-bold text-white">Number of Questions</TableHead>
+                                            <TableHead className="font-bold text-white">Total Marks</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {jeeExamPatternData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.section}</TableCell>
                                                 <TableCell>{row.questions}</TableCell>
                                                 <TableCell>{row.marks}</TableCell>
@@ -418,14 +418,14 @@ export default function IitJeePage() {
                             <CardContent className="p-6">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Syllabus Topics</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Section</TableHead>
+                                            <TableHead className="font-bold text-white">Syllabus Topics</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {jeeSyllabusData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.section}</TableCell>
                                                 <TableCell>{row.types}</TableCell>
                                             </TableRow>
@@ -526,14 +526,14 @@ export default function IitJeePage() {
                         <CardContent className="pt-6">
                           <Table>
                             <TableHeader>
-                              <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                <TableHead className="font-bold text-orange-800 dark:text-orange-300">Category</TableHead>
-                                <TableHead className="font-bold text-orange-800 dark:text-orange-300">Application Fee</TableHead>
+                              <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                <TableHead className="font-bold text-white">Category</TableHead>
+                                <TableHead className="font-bold text-white">Application Fee</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
                               {neetFeeStructure.map((row, index) => (
-                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                   <TableCell className="font-medium">{row.category}</TableCell>
                                   <TableCell className="font-semibold text-foreground">{row.fee}</TableCell>
                                 </TableRow>
@@ -550,14 +550,14 @@ export default function IitJeePage() {
                             <CardContent className="pt-6">
                                  <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Parameters</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Details</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Parameters</TableHead>
+                                            <TableHead className="font-bold text-white">Details</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                        {neetEligibilityCriteria.map((row, index) => (
-                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.parameter}</TableCell>
                                                 <TableCell>{row.details}</TableCell>
                                             </TableRow>
@@ -574,15 +574,15 @@ export default function IitJeePage() {
                             <CardContent className="pt-6">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Number of Questions</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Total Marks</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Section</TableHead>
+                                            <TableHead className="font-bold text-white">Number of Questions</TableHead>
+                                            <TableHead className="font-bold text-white">Total Marks</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {neetExamPatternData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.section}</TableCell>
                                                 <TableCell>{row.questions}</TableCell>
                                                 <TableCell>{row.marks}</TableCell>
@@ -600,14 +600,14 @@ export default function IitJeePage() {
                             <CardContent className="p-6">
                                 <Table>
                                     <TableHeader>
-                                        <TableRow className="bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-100/80 dark:hover:bg-orange-900/40">
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Section</TableHead>
-                                            <TableHead className="font-bold text-orange-800 dark:text-orange-300">Syllabus Topics</TableHead>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="font-bold text-white">Section</TableHead>
+                                            <TableHead className="font-bold text-white">Syllabus Topics</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {neetSyllabusData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50/50 dark:bg-orange-900/10' : 'bg-white dark:bg-card'}>
+                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
                                                 <TableCell className="font-medium">{row.section}</TableCell>
                                                 <TableCell>{row.types}</TableCell>
                                             </TableRow>
