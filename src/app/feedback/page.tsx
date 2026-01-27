@@ -73,7 +73,7 @@ export default function FeedbackPage() {
                     </p>
                 </div>
 
-                <div className="w-full max-w-2xl mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                     <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
                         <CardContent className="space-y-6 p-8">
                            <Form {...form}>
