@@ -351,10 +351,7 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                 Candidates appearing for CUET UG 2026 must understand the cuet exam pattern to strategize their preparation effectively. The exam consists of three main sections: Language, Domain Subject, and General Aptitude Test, each with a specific number of questions and duration.
             </p>
             <Card className="mt-6">
-                <CardHeader>
-                    <CardTitle>CUET UG 2026 Exam Pattern</CardTitle>
-                </CardHeader>
-                <CardContent>
+                <CardContent className="pt-6">
                     <Table>
                         <TableHeader>
                             <TableRow>
