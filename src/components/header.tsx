@@ -33,20 +33,6 @@ import { ScrollArea } from "./ui/scroll-area";
 
 const allCoursesCategories = [
     {
-        name: "School Preparation",
-        description: "Foundation (Class 6-10), CuriousJr (3rd - 8th)",
-        href: "/school",
-        icon: <BookOpen className="h-5 w-5" />,
-        colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
-    },
-    {
-        name: "School Boards",
-        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...",
-        href: "/school",
-        icon: <Award className="h-5 w-5" />,
-        colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
-    },
-    {
         name: "IIT-JEE/NEET",
         description: "Prepare for engineering and medical entrance exams.",
         href: "/category/iit-jee",
@@ -54,18 +40,32 @@ const allCoursesCategories = [
         colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
     },
     {
-        name: "Govt Exam",
+        name: "CUET UG/PG",
+        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
+        href: "/examcat?category=cuet",
+        icon: <GraduationCap className="h-5 w-5" />,
+        colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
+    },
+    {
+        name: "CBSE BOARD",
+        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...",
+        href: "/school",
+        icon: <Award className="h-5 w-5" />,
+        colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        name: "NIOS BOARD",
+        description: "Flexible learning with the National Institute of Open Schooling.",
+        href: "/new-work",
+        icon: <BookOpen className="h-5 w-5" />,
+        colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
+    },
+    {
+        name: "GOVT EXAM",
         description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5" />,
         colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
-    },
-    {
-        name: "UG & PG Entrance Exams",
-        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
-        href: "/examcat",
-        icon: <GraduationCap className="h-5 w-5" />,
-        colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
     },
 ];
 
@@ -182,6 +182,7 @@ export function Header() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
+
       return () => {
         window.removeEventListener('scroll', controlNavbar);
       };
@@ -613,7 +614,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-14 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
