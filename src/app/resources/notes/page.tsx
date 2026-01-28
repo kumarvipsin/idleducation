@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -13,46 +12,41 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
+
+const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
+  maths: { url: newImageUrl, hint: "math abstract" },
+  science: { url: newImageUrl, hint: "science abstract" },
+  social: { url: newImageUrl, hint: "social studies" },
+  english: { url: newImageUrl, hint: "english literature" },
+  physics: { url: newImageUrl, hint: "physics abstract" },
+  chemistry: { url: newImageUrl, hint: "chemistry abstract" },
+  biology: { url: newImageUrl, hint: "biology abstract" },
+  history: { url: newImageUrl, hint: "history abstract" },
+  geography: { url: newImageUrl, hint: "geography abstract" },
+  'political-science': { url: newImageUrl, hint: "political science" },
+  economics: { url: newImageUrl, hint: "economics abstract" },
+  default: { url: newImageUrl, hint: "books stack" },
+};
+
+const getImage = (key: string) => {
+    const lowerKey = key.toLowerCase();
+    for (const subjectKey in subjectImageMap) {
+        if (lowerKey.includes(subjectKey)) {
+            return subjectImageMap[subjectKey];
+        }
+    }
+    return subjectImageMap.default;
+};
+
+
 type Subject = {
   name: string;
   href: string;
-  icon: React.ReactNode;
-  gradient: string;
+  imageUrl: string;
+  imageHint: string;
   className: string;
 };
-
-const subjectIconMap: { [key: string]: React.ReactNode } = {
-  maths: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
-  science: <TestTube2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />,
-  social: <Landmark className="w-8 h-8 text-amber-600 dark:text-amber-400" />,
-  english: <BookText className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
-  physics: <Atom className="w-8 h-8 text-sky-600 dark:text-sky-400" />,
-  chemistry: <FlaskConical className="w-8 h-8 text-purple-600 dark:text-purple-400" />,
-  biology: <Dna className="w-8 h-8 text-lime-600 dark:text-lime-400" />,
-  history: <Landmark className="w-8 h-8 text-red-600 dark:text-red-400" />,
-  geography: <Globe className="w-8 h-8 text-orange-600 dark:text-orange-400" />,
-  'political-science': <Scale className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
-  economics: <TrendingUp className="w-8 h-8 text-pink-600 dark:text-pink-400" />,
-  default: <BookText className="w-8 h-8 text-gray-600 dark:text-gray-400" />,
-};
-
-const subjectGradientMap: { [key: string]: string } = {
-  maths: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30',
-  science: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30',
-  social: 'from-amber-50 to-amber-100 dark:from-amber-900/30 dark:to-amber-800/30',
-  english: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30',
-  physics: 'from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30',
-  chemistry: 'from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30',
-  biology: 'from-lime-50 to-lime-100 dark:from-lime-900/30 dark:to-lime-800/30',
-  history: 'from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30',
-  geography: 'from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30',
-  'political-science': 'from-indigo-50 to-indigo-100 dark:from-indigo-900/30 dark:to-indigo-800/30',
-  economics: 'from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30',
-  default: 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-800/30',
-};
-
-const getIcon = (key: string) => subjectIconMap[key.toLowerCase()] || subjectIconMap.default;
-const getGradient = (key: string) => subjectGradientMap[key.toLowerCase()] || subjectGradientMap.default;
 
 function NotesPageContent() {
   const [notesByClass, setNotesByClass] = useState<any>({});
@@ -71,8 +65,8 @@ function NotesPageContent() {
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
             href: `/resources/notes/${classDoc.id}/${subjectKey}`,
-            icon: getIcon(subjectKey),
-            gradient: getGradient(subjectKey),
+            imageUrl: getImage(subjectKey).url,
+            imageHint: getImage(subjectKey).hint,
             className: className,
           }));
           return acc;
@@ -96,7 +90,7 @@ function NotesPageContent() {
     fetchNotesData();
   }, []);
 
-  const subjects = selectedClass === 'All Notes' 
+  const subjects = selectedClass === 'All Notes'
     ? Object.values(notesByClass).flat() as Subject[]
     : notesByClass[selectedClass] || [];
   
@@ -108,16 +102,10 @@ function NotesPageContent() {
   const allClassButtons = ['All Notes', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {[...Array(4)].map((_, i) => (
-        <Card key={i} className="flex flex-col rounded-xl shadow-lg">
-          <CardContent className="p-6 flex flex-col flex-grow items-start">
-            <Skeleton className="h-10 w-10 rounded-full mb-4" />
-            <Skeleton className="h-6 w-3/4 mb-2" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-      ))}
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 justify-center">
+        {[...Array(10)].map((_, i) => (
+            <Skeleton key={i} className="h-[250px] w-full rounded-lg" />
+        ))}
     </div>
   );
 
@@ -158,27 +146,33 @@ function NotesPageContent() {
 
       <main className="flex-1 px-4 md:px-6">
         {loading ? renderSkeleton() : (
-            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
+            <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 animate-fade-in-up w-fit mx-auto">
             {subjects && subjects.length > 0 ? (
                 subjects.map((subject: Subject, index: number) => (
-                <Card 
-                    key={index} 
-                    className={`flex flex-col rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${subject.gradient}`}
-                    style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                    <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                        <div className="flex justify-between items-start w-full mb-4">
-                            <div className="p-2 bg-white/30 rounded-full">{subject.icon}</div>
-                            <Badge variant="secondary">{subject.className}</Badge>
-                        </div>
-                        <h3 className="text-xl font-bold mb-1 flex-grow">{subject.name}</h3>
-                        <Button asChild variant="default" className="mt-auto w-full">
-                            <Link href={subject.href}>
-                                VIEW MORE <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
+                        <Card
+                          className="flex flex-col rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card h-full"
+                          style={{ animationDelay: `${index * 50}ms` }}
+                        >
+                          <div className="relative aspect-[4/3] w-full">
+                               <Image
+                                    src={subject.imageUrl}
+                                    alt={subject.name}
+                                    data-ai-hint={subject.imageHint}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                          <CardContent className="p-4 flex-grow flex flex-col">
+                            <div className="flex justify-between items-start">
+                              <h3 className="font-semibold text-base text-primary mb-1">{subject.name}</h3>
+                              <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3 flex-grow">Notes for {subject.name}.</p>
+                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">VIEW MORE</Button>
+                          </CardContent>
+                        </Card>
+                      </Link>
                 ))
             ) : (
                 <div className="col-span-full text-center py-12">

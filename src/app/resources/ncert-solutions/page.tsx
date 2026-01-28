@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -171,14 +170,14 @@ function NcertSolutionsPageContent() {
                               <h3 className="font-semibold text-base text-primary mb-1">{subject.name}</h3>
                               <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
                             </div>
-                            <p className="text-xs text-muted-foreground mb-3">Solutions for {subject.name}.</p>
-                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">English / हिन्दी</Button>
+                            <p className="text-xs text-muted-foreground mb-3 flex-grow">Solutions for {subject.name}.</p>
+                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">VIEW MORE</Button>
                           </CardContent>
                         </Card>
                       </Link>
                   ))
                 ) : (
-                    <div className="col-span-full text-center py-12">
+                  <div className="col-span-full text-center py-12">
                         <Card className="p-8 inline-block bg-background/50">
                             <HelpCircle className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                             <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
