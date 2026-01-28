@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -96,17 +97,17 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <>
+        <main className="flex-grow">
             <div className="container mx-auto py-12 md:px-[10%]">
                 
                 {/* Header Information */}
-                <div className="space-y-6 mb-8 animate-fade-in-up text-center">
+                <div className="text-center mb-8 animate-fade-in-up">
                     <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
                         IDL Scholarship & Admission Test
                         <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
                     </h1>
-                    <p className="mt-2 text-lg text-muted-foreground font-semibold">
-                        For Class IV - XII
+                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
+                        Take the first step towards a bright future. Register for our scholarship and admission test.
                     </p>
                 </div>
 
@@ -263,6 +264,6 @@ export default function ScholarshipPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </>
+        </main>
     );
 }
