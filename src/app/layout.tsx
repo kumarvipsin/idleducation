@@ -1,13 +1,13 @@
 
 import type { Metadata, Viewport } from 'next';
-import { Josefin_Sans } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const josefin_sans = Josefin_Sans({
+const poppins = Poppins({
   subsets: ['latin'],
   variable: '--font-sans',
-  weight: ['400', '700'],
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${josefin_sans.variable} font-sans font-bold antialiased flex flex-col min-h-screen bg-background`}>
+      <body className={`${poppins.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
