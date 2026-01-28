@@ -25,8 +25,8 @@ export function BookDemoSection() {
               </Button>
             </div>
             <div className="relative h-56 md:h-64 flex items-end justify-center">
-                <div className="relative w-[300px] h-[300px] transform md:translate-y-[10%]">
-                    <div className="absolute inset-1/4 bg-orange-200/50 dark:bg-orange-500/30 rounded-full blur-2xl animate-pulse"></div>
+                <div className="relative w-[309px] h-[309px] transform md:translate-y-[10%]">
+                    <div className="absolute inset-1/4 bg-blue-200/50 dark:bg-blue-500/30 rounded-full blur-2xl animate-pulse"></div>
                     <Image
                         src="/idladv.png"
                         alt="Students with a tablet"
