@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { usePathname, useParams } from 'next/navigation';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
-function NcertSolutionsDetailsContent() {
+function NotesDetailsContent() {
     const params = useParams();
     const slug = params.slug as string[] || [];
     const [classId, subjectKey] = slug;
@@ -40,7 +40,7 @@ function NcertSolutionsDetailsContent() {
             setLoading(true);
             setError(null);
             
-            const notesResult = await getCollection('ncertSolutions');
+            const notesResult = await getCollection('notes');
 
             if (notesResult.success && notesResult.data) {
                 const classDoc = (notesResult.data as any[]).find(doc => doc.id === classId);
@@ -48,10 +48,10 @@ function NcertSolutionsDetailsContent() {
                     setClassData(classDoc);
                     setNotesData(classDoc.subjects[subjectKey]);
                 } else {
-                    setError("NCERT Notes content not found.");
+                    setError("Notes content not found.");
                 }
             } else {
-                setError(notesResult.message || "Failed to fetch NCERT Notes.");
+                setError(notesResult.message || "Failed to fetch Notes.");
             }
 
             setLoading(false);
@@ -110,11 +110,11 @@ function NcertSolutionsDetailsContent() {
 }
 
 
-export default function NcertSolutionsDetailsPage() {
+export default function NotesDetailsPage() {
     return (
-        <div className="container mx-auto px-4 md:px-[10%] py-8">
+        <div className="container mx-auto py-12 px-4 md:px-6">
             <Suspense fallback={<Skeleton className="h-screen w-full" />}>
-                <NcertSolutionsDetailsContent />
+                <NotesDetailsContent />
             </Suspense>
         </div>
     )
