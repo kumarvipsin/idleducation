@@ -50,7 +50,7 @@ const goals = [
   {
     name: "Workshop",
     icon: <Users className="w-8 h-8" />,
-    href: "#",
+    href: "/workshop",
     color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
   },
 ];
