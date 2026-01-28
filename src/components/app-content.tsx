@@ -26,7 +26,6 @@ export function AppContent({
   ];
   
   const noHeaderFooterPages = [
-    '/scholarship',
     '/feature',
     '/examcat',
     '/notifications',
@@ -47,7 +46,7 @@ export function AppContent({
   }
   
   // 2. Special public pages that need header/footer
-  if (specialLayoutPages.includes(pathname)) {
+  if (specialLayoutPages.includes(pathname) || pathname === '/scholarship') {
        return (
         <>
           <Header />
