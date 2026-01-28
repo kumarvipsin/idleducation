@@ -125,199 +125,173 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <>
-            <div className="relative w-full bg-white dark:bg-background">
-                {/* Content */}
-                <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
-                    
-                    {/* Header Information */}
-                    <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-                        <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
-                            IDL Scholarship & Admission Test
-                        </h1>
-                        <p className="mt-2 text-lg text-muted-foreground font-semibold">
-                            For Class IV - XII
-                        </p>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-                            <Card className="bg-background/50 backdrop-blur-sm">
-                                <CardContent className="p-4">
-                                    <Award className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-                                    <span className="text-sm font-semibold text-muted-foreground">Cash Prize</span>
-                                    <p className="text-2xl font-bold text-primary">₹ 10K</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="bg-background/50 backdrop-blur-sm">
-                                <CardContent className="p-4">
-                                    <IndianRupee className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-                                    <span className="text-sm font-semibold text-muted-foreground">Scholarships</span>
-                                    <p className="text-2xl font-bold text-primary">₹ 75K</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="bg-background/50 backdrop-blur-sm">
-                                <CardContent className="p-4">
-                                    <Calendar className="w-8 h-8 text-green-500 mx-auto mb-2" />
-                                    <span className="text-sm font-semibold text-muted-foreground">Exam Dates</span>
-                                    <p className="text-lg font-bold text-primary">{examDates.sat} & {examDates.sun}<br/>{examDates.monthYear}</p>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
+        <div className="relative w-full bg-white dark:bg-background">
+            {/* Content */}
+            <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+                
+                {/* Header Information */}
+                <div className="space-y-6 mb-8 animate-fade-in-up text-center">
+                    <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
+                        IDL Scholarship & Admission Test
+                    </h1>
+                    <p className="mt-2 text-lg text-muted-foreground font-semibold">
+                        For Class IV - XII
+                    </p>
+                </div>
 
-                    {/* Registration Form */}
-                    <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
-                            <CardContent className="p-8 space-y-6">
-                                <div className="text-center">
-                                    <h2 className="text-2xl font-bold text-primary">Register Here</h2>
-                                </div>
+                {/* Registration Form */}
+                <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+                        <CardContent className="p-8 space-y-6">
+                            <div className="text-center">
+                                <h2 className="text-2xl font-bold text-primary">Register Here</h2>
+                            </div>
 
-                                <Form {...form}>
-                                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                                        <FormField
-                                            control={form.control}
-                                            name="studentName"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Enter student's name *" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="guardianName"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Enter guardian's name *" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="class"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                        <FormControl>
-                                                        <div className="relative">
-                                                            <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <SelectTrigger className="pl-9">
-                                                                <SelectValue placeholder="Select a class *" />
-                                                            </SelectTrigger>
-                                                        </div>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            {scholarshipClasses.map(c => (
-                                                                <SelectItem key={c} value={c}>{c}</SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="mobile"
-                                            render={({ field }) => (
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="studentName"
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative">
-                                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                    <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                                                    <Input type="tel" placeholder="Enter Mobile Number *" className="pl-16" {...field}/>
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <Input placeholder="Enter student's name *" {...field} className="pl-9" />
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="country"
-                                            render={({ field }) => (
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="guardianName"
+                                        render={({ field }) => (
                                             <FormItem>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                                                 <FormControl>
                                                     <div className="relative">
-                                                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                        <SelectTrigger className="pl-9">
-                                                            <SelectValue placeholder="Select your country *" />
-                                                        </SelectTrigger>
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <Input placeholder="Enter guardian's name *" {...field} className="pl-9" />
                                                     </div>
                                                 </FormControl>
-                                                <SelectContent>
-                                                    {countries.map(country => (
-                                                        <SelectItem key={country} value={country}>{country}</SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
                                                 <FormMessage />
                                             </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="state"
-                                            render={({ field }) => (
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="class"
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
+                                                    <FormControl>
                                                     <div className="relative">
-                                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                    <SelectTrigger className="pl-9">
-                                                        <SelectValue placeholder="Select a state" />
-                                                    </SelectTrigger>
+                                                        <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                        <SelectTrigger className="pl-9">
+                                                            <SelectValue placeholder="Select a class *" />
+                                                        </SelectTrigger>
                                                     </div>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    {indianStates.map(state => (
-                                                    <SelectItem key={state} value={state}>{state}</SelectItem>
-                                                    ))}
-                                                </SelectContent>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {scholarshipClasses.map(c => (
+                                                            <SelectItem key={c} value={c}>{c}</SelectItem>
+                                                        ))}
+                                                    </SelectContent>
                                                 </Select>
                                                 <FormMessage />
                                             </FormItem>
-                                            )}
-                                        />
-                                        <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
-                                            {form.formState.isSubmitting ? 'Registering...' : 'Submit'}
-                                        </Button>
-                                    </form>
-                                </Form>
-                            </CardContent>
-                        </Card>
-                    </div>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="mobile"
+                                        render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <div className="relative">
+                                                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
+                                                <Input type="tel" placeholder="Enter Mobile Number *" className="pl-16" {...field}/>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="country"
+                                        render={({ field }) => (
+                                        <FormItem>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                    <SelectTrigger className="pl-9">
+                                                        <SelectValue placeholder="Select your country *" />
+                                                    </SelectTrigger>
+                                                </div>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {countries.map(country => (
+                                                    <SelectItem key={country} value={country}>{country}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="state"
+                                        render={({ field }) => (
+                                        <FormItem>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <div className="relative">
+                                                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                <SelectTrigger className="pl-9">
+                                                    <SelectValue placeholder="Select a state" />
+                                                </SelectTrigger>
+                                                </div>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {indianStates.map(state => (
+                                                <SelectItem key={state} value={state}>{state}</SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
+                                        {form.formState.isSubmitting ? 'Registering...' : 'Submit'}
+                                    </Button>
+                                </form>
+                            </Form>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
-            <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-                <DialogContent>
-                    <DialogHeader>
-                        <div className="flex justify-center mb-4">
-                            <CheckCircle className="w-16 h-16 text-green-500" />
-                        </div>
-                        <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
-                        <DialogDescription className="text-center">
-                            You have successfully registered for the scholarship. We will contact you soon with further details.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </>
+        <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <div className="flex justify-center mb-4">
+                        <CheckCircle className="w-16 h-16 text-green-500" />
+                    </div>
+                    <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
+                    <DialogDescription className="text-center">
+                        You have successfully registered for the scholarship. We will contact you soon with further details.
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    </div>
     );
 }
