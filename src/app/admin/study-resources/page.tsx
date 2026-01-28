@@ -1,4 +1,3 @@
-
 'use client';
 import { useEffect, useState } from 'react';
 import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
@@ -58,7 +57,7 @@ const ViewPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     );
 };
 
-const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolutions' | 'importantQuestions', title: string }) => {
+const ContentManager = ({ collectionType, title }: { collectionType: 'notes' | 'ncertSolutions' | 'importantQuestions', title: string }) => {
   const [content, setContent] = useState<ContentDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalState, setModalState] = useState<ModalState>(null);
@@ -107,7 +106,7 @@ const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolut
           const pdfFile = formData.get('pdf') as File | null;
           const shortNotePdfFile = formData.get('shortNotePdf') as File | null;
           const primumNotePdfFile = formData.get('primumNotePdf') as File | null;
-          result = action === 'add' ? await addSubTopic('notes', path.classId!, path.subjectKey!, path.chapterIndex!, path.topicIndex!, path.partKey, name, order, pdfFile, shortNotePdfFile, primumNotePdfFile) : await editSubTopic('notes', path.classId!, path.subjectKey!, path.partKey, path.chapterIndex!, path.topicIndex!, path.subTopicIndex!, name, order, pdfFile, shortNotePdfFile, primumNotePdfFile);
+          result = action === 'add' ? await addSubTopic(collectionType, path.classId!, path.subjectKey!, path.chapterIndex!, path.topicIndex!, path.partKey, name, order, pdfFile, shortNotePdfFile, primumNotePdfFile) : await editSubTopic(collectionType, path.classId!, path.subjectKey!, path.partKey, path.chapterIndex!, path.topicIndex!, path.subTopicIndex!, name, order, pdfFile, shortNotePdfFile, primumNotePdfFile);
       }
         
         if (result && result.success) {
@@ -133,7 +132,7 @@ const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolut
             case 'part': result = await deletePart(collectionType, deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey); break;
             case 'chapter': result = await deleteChapter(collectionType, deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.name); break;
             case 'topic': result = await deleteTopic(collectionType, deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.path.chapterIndex, deleteState.name); break;
-            case 'sub-topic': result = await deleteSubTopic('notes', deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.path.chapterIndex, deleteState.path.topicIndex, deleteState.name); break;
+            case 'sub-topic': result = await deleteSubTopic(collectionType, deleteState.path.classId, deleteState.path.subjectKey, deleteState.path.partKey, deleteState.path.chapterIndex, deleteState.path.topicIndex, deleteState.name); break;
         }
 
         if (result && result.success) {
@@ -297,6 +296,17 @@ const ContentManager = ({ collectionType, title }: { collectionType: 'ncertSolut
 
 export default function StudyResourcesPage() {
   return (
-    <ContentManager collectionType="ncertSolutions" title="Manage Study Resources" />
+    <Tabs defaultValue="notes" className="w-full">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="notes">Manage Notes</TabsTrigger>
+        <TabsTrigger value="ncertSolutions">Manage NCERT Solutions</TabsTrigger>
+      </TabsList>
+      <TabsContent value="notes">
+        <ContentManager collectionType="notes" title="Manage Notes" />
+      </TabsContent>
+      <TabsContent value="ncertSolutions">
+        <ContentManager collectionType="ncertSolutions" title="Manage NCERT Solutions" />
+      </TabsContent>
+    </Tabs>
   );
 }
