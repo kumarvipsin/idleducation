@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -318,6 +317,7 @@ export default function ScholarshipPage() {
                         <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
                     </DialogFooter>
                 </DialogContent>
-            </>
+            </Dialog>
+        </>
     );
 }
