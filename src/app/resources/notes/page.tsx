@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -17,8 +18,6 @@ type Subject = {
   icon: React.ReactNode;
   gradient: string;
 };
-
-const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
 
 const subjectIconMap: { [key: string]: React.ReactNode } = {
   maths: <Sigma className="w-8 h-8 text-green-600 dark:text-green-400" />,
@@ -104,7 +103,7 @@ function NotesPageContent() {
   const allClassButtons = ['All Notes', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {[...Array(4)].map((_, i) => (
         <Card key={i} className="flex flex-col rounded-xl shadow-lg">
           <CardContent className="p-6 flex flex-col flex-grow items-start">
@@ -120,7 +119,7 @@ function NotesPageContent() {
   return (
     <div className="py-12 bg-white">
       <div className="text-center mb-12 animate-fade-in-up">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
             Notes for {selectedClass}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
@@ -154,7 +153,7 @@ function NotesPageContent() {
 
       <main className="flex-1">
         {loading ? renderSkeleton() : (
-            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
+            <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
             {subjects && subjects.length > 0 ? (
                 subjects.map((subject: Subject, index: number) => (
                 <Card 
@@ -206,7 +205,7 @@ export default function NotesPage() {
                         <div className="mb-8 flex justify-center gap-2">
                             {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[250px] w-full rounded-lg" />)}
                         </div>
                     </div>
