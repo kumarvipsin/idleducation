@@ -48,7 +48,7 @@ const goals = [
     color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
   },
   {
-    name: "One to One Classes",
+    name: "Workshop",
     icon: <Users className="w-8 h-8" />,
     href: "#",
     color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
