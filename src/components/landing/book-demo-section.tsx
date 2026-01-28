@@ -11,7 +11,7 @@ export function BookDemoSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="relative rounded-2xl bg-white dark:bg-card p-4 md:p-6 border">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-4 text-left md:text-left">
+            <div className="space-y-4 text-left relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
                 Book your <span className="text-orange-500">Free Demo</span>
               </h2>

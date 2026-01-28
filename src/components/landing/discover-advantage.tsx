@@ -11,7 +11,7 @@ export function DiscoverAdvantage() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="rounded-2xl bg-white dark:bg-card border p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-4 text-left md:text-left">
+            <div className="space-y-4 text-left relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
                 Discover the <span className="text-orange-500">IDL Advantage</span>
               </h2>
