@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -17,6 +16,7 @@ export default function PreviousYearQuestionsPage() {
     const [loading, setLoading] = useState(true);
     const [selectedClass, setSelectedClass] = useState<string>('');
     const [selectedSubject, setSelectedSubject] = useState<string>('All');
+    const [selectedYear, setSelectedYear] = useState<string>('All');
     const { toast } = useToast();
 
     useEffect(() => {
@@ -40,6 +40,17 @@ export default function PreviousYearQuestionsPage() {
         if (questions.length === 0) return [];
         return [...Array.from(new Set(questions.map(q => q.exam)))].sort();
     }, [questions]);
+    
+    const years = useMemo(() => {
+        if (questions.length === 0 || !selectedClass) return [];
+        const yearsForClass = questions
+            .filter(q => q.exam === selectedClass)
+            .map(q => q.year.toString());
+        const uniqueYears = Array.from(new Set(yearsForClass));
+        uniqueYears.sort((a, b) => parseInt(b, 10) - parseInt(a, 10));
+        return ['All', ...uniqueYears];
+    }, [questions, selectedClass]);
+
 
     const subjects = useMemo(() => {
         const subjectsForClass = questions
@@ -50,14 +61,16 @@ export default function PreviousYearQuestionsPage() {
     
     useEffect(() => {
       setSelectedSubject('All');
+      setSelectedYear('All');
     }, [selectedClass]);
 
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => 
             (selectedClass === '' || q.exam === selectedClass) &&
-            (selectedSubject === 'All' || (Array.isArray(q.subjects) && q.subjects.some(s => s.name === selectedSubject)))
+            (selectedSubject === 'All' || (Array.isArray(q.subjects) && q.subjects.some(s => s.name === selectedSubject))) &&
+            (selectedYear === 'All' || q.year.toString() === selectedYear)
         );
-    }, [questions, selectedClass, selectedSubject]);
+    }, [questions, selectedClass, selectedSubject, selectedYear]);
 
     const groupedByYear = useMemo(() => {
         return filteredQuestions.reduce((acc, q) => {
@@ -217,6 +230,28 @@ export default function PreviousYearQuestionsPage() {
                                                         className="rounded-full"
                                                     >
                                                         {s}
+                                                    </Button>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                                {selectedClass && (
+                                    <div className="space-y-3">
+                                        <h4 className="font-semibold text-foreground">Year</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {loading ? (
+                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
+                                            ) : (
+                                                years.map(y => (
+                                                    <Button
+                                                        key={y}
+                                                        onClick={() => setSelectedYear(y)}
+                                                        variant={selectedYear === y ? 'default' : 'outline'}
+                                                        size="sm"
+                                                        className="rounded-full"
+                                                    >
+                                                        {y}
                                                     </Button>
                                                 ))
                                             )}
