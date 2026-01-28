@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -102,9 +103,9 @@ function NcertSolutionsPageContent() {
   const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 justify-center">
-        {[...Array(10)].map((_, i) => (
-            <Skeleton key={i} className="h-[250px] w-full rounded-lg" />
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {[...Array(8)].map((_, i) => (
+            <Skeleton key={i} className="h-[280px] w-full rounded-lg" />
         ))}
     </div>
   );
@@ -148,7 +149,7 @@ function NcertSolutionsPageContent() {
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 animate-fade-in-up w-fit mx-auto">
+              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
                       <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
@@ -204,7 +205,7 @@ export default function NcertSolutionsPage() {
                 <div className="mb-8 flex justify-center gap-2">
                     {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 justify-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[250px] w-full rounded-lg" />)}
                 </div>
               </div>
