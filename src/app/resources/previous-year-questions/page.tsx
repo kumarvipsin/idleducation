@@ -9,7 +9,6 @@ import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion, SubjectWithPapers, Paper } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function PreviousYearQuestionsPage() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
@@ -97,9 +96,16 @@ export default function PreviousYearQuestionsPage() {
     };
     
     const renderSkeleton = () => (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, index) => (
-          <Skeleton key={index} className="h-48 w-full rounded-lg" />
+      <div className="space-y-6">
+        {[...Array(2)].map((_, index) => (
+          <Card key={index} className="overflow-hidden">
+            <CardHeader><Skeleton className="h-6 w-1/2" /></CardHeader>
+            <CardContent className="p-6 space-y-4">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+            </CardContent>
+          </Card>
         ))}
       </div>
     );
@@ -127,34 +133,30 @@ export default function PreviousYearQuestionsPage() {
                         }, {} as Record<string, Paper[]>);
 
                         return (
-                            <Card key={year} className="overflow-hidden shadow-md">
-                                <CardHeader className="bg-muted/30">
-                                    <CardTitle>{questionsInYear[0]?.title || `${selectedClass} - ${year}`}</CardTitle>
+                            <Card key={year} className="overflow-hidden shadow-lg border-primary/10 bg-gradient-to-br from-card to-muted/20">
+                                <CardHeader className="bg-primary/5">
+                                    <CardTitle className="text-xl text-primary">{questionsInYear[0]?.title || `${selectedClass} - ${year}`}</CardTitle>
                                 </CardHeader>
-                                <CardContent className="p-0">
-                                    <Accordion type="multiple" className="w-full">
-                                        {Object.entries(groupedSubjects).map(([subjectName, papers]) => (
-                                            <AccordionItem value={subjectName} key={subjectName}>
-                                                <AccordionTrigger className="px-6 font-semibold text-base hover:no-underline">{subjectName}</AccordionTrigger>
-                                                <AccordionContent className="pt-2 px-6 pb-4">
-                                                    <div className="space-y-2">
-                                                        {papers.map((paper, pIdx) => (
-                                                            <div key={pIdx} className="flex items-center justify-between p-2 rounded-md hover:bg-muted/50 border">
-                                                                <span className="text-sm font-medium flex items-center gap-2">
-                                                                    <FileText className="w-4 h-4 text-primary" />
-                                                                    {paper.title}
-                                                                </span>
-                                                                <Button variant="outline" size="sm" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
-                                                                    <Download className="h-4 w-4 mr-2"/>
-                                                                    Download
-                                                                </Button>
-                                                            </div>
-                                                        ))}
+                                <CardContent className="p-4 md:p-6 space-y-4">
+                                    {Object.entries(groupedSubjects).map(([subjectName, papers]) => (
+                                        <div key={subjectName}>
+                                            <h3 className="font-semibold text-lg mb-2 border-b pb-1">{subjectName}</h3>
+                                            <div className="space-y-2">
+                                                {papers.map((paper, pIdx) => (
+                                                    <div key={pIdx} className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 border transition-all">
+                                                        <span className="text-sm font-medium flex items-center gap-2">
+                                                            <FileText className="w-4 h-4 text-primary/80" />
+                                                            {paper.title}
+                                                        </span>
+                                                        <Button variant="outline" size="sm" onClick={() => handleDownload(paper.pdfUrl)} disabled={!paper.pdfUrl}>
+                                                            <Download className="h-4 w-4 mr-2"/>
+                                                            Download
+                                                        </Button>
                                                     </div>
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        ))}
-                                    </Accordion>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
                                 </CardContent>
                             </Card>
                         );
@@ -164,7 +166,7 @@ export default function PreviousYearQuestionsPage() {
         }
         return (
             <div className="col-span-full text-center py-16 w-full">
-                <Card className="inline-block p-8 bg-background/50">
+                <Card className="inline-block p-8 bg-background/50 shadow-lg border-dashed">
                     <FileText className="mx-auto h-16 w-16 text-muted-foreground" />
                     <h3 className="mt-4 text-lg font-semibold">No Papers Available</h3>
                     <p className="mt-2 text-sm text-muted-foreground">
@@ -186,7 +188,6 @@ export default function PreviousYearQuestionsPage() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    {/* Filters Sidebar */}
                     <aside className="lg:col-span-1">
                         <Card className="sticky top-20 bg-muted/20 border-border shadow-sm">
                             <CardHeader>
@@ -261,8 +262,6 @@ export default function PreviousYearQuestionsPage() {
                             </CardContent>
                         </Card>
                     </aside>
-
-                    {/* Main Content */}
                     <main className="lg:col-span-3">
                        {renderContent()}
                     </main>
