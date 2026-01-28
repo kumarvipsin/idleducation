@@ -68,7 +68,6 @@ const countries = [
 
 export default function ScholarshipPage() {
     const { toast } = useToast();
-    const [examDates, setExamDates] = useState({ sat: '', sun: '', monthYear: '' });
     const [isThankYouOpen, setIsThankYouOpen] = useState(false);
     const form = useForm<ScholarshipFormValues>({
         resolver: zodResolver(scholarshipSchema),
@@ -81,34 +80,6 @@ export default function ScholarshipPage() {
             state: '',
         },
     });
-
-    useEffect(() => {
-      const today = new Date();
-      const lastDay = lastDayOfMonth(today);
-      let lastSunday = new Date(lastDay);
-      let lastSaturday = new Date(lastDay);
-
-      // Find last Sunday
-      while (lastSunday.getDay() !== 0) {
-        lastSunday.setDate(lastSunday.getDate() - 1);
-      }
-      
-      // Find last Saturday
-      lastSaturday.setDate(lastSunday.getDate() - 1);
-      // If last day of month is a saturday, saturday should be last day of month and sunday should be the one before
-      if (lastDay.getDay() === 6) {
-        lastSaturday = lastDay;
-        lastSunday = new Date(lastDay);
-        lastSunday.setDate(lastDay.getDate() - 1);
-      }
-
-
-      setExamDates({
-        sat: format(lastSaturday, 'do'),
-        sun: format(lastSunday, 'do'),
-        monthYear: format(today, 'MMMM yyyy')
-      });
-    }, []);
 
     const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
         const result = await registerForScholarship(data);
@@ -125,14 +96,14 @@ export default function ScholarshipPage() {
     };
     
     return (
-        <div className="relative w-full bg-white dark:bg-background">
-            {/* Content */}
-            <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
+        <>
+            <div className="container mx-auto py-12 md:px-[10%]">
                 
                 {/* Header Information */}
                 <div className="space-y-6 mb-8 animate-fade-in-up text-center">
-                    <h1 className="text-2xl md:text-4xl font-extrabold text-primary tracking-tight">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
                         IDL Scholarship & Admission Test
+                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
                     </h1>
                     <p className="mt-2 text-lg text-muted-foreground font-semibold">
                         For Class IV - XII
@@ -276,22 +247,22 @@ export default function ScholarshipPage() {
                     </Card>
                 </div>
             </div>
-        <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-            <DialogContent>
-                <DialogHeader>
-                    <div className="flex justify-center mb-4">
-                        <CheckCircle className="w-16 h-16 text-green-500" />
-                    </div>
-                    <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
-                    <DialogDescription className="text-center">
-                        You have successfully registered for the scholarship. We will contact you soon with further details.
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                    <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    </div>
+            <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <div className="flex justify-center mb-4">
+                            <CheckCircle className="w-16 h-16 text-green-500" />
+                        </div>
+                        <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
+                        <DialogDescription className="text-center">
+                            You have successfully registered for the scholarship. We will contact you soon with further details.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }
