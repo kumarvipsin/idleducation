@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -181,8 +182,11 @@ export default function PreviousYearQuestionsPage() {
         <div className="relative min-h-screen w-full bg-white dark:bg-background">
             <div className="container mx-auto py-12 px-4 md:px-6">
                 <div className="text-center mb-12 animate-fade-in-up">
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Previous Year Question Papers</h1>
-                    <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+                        Previous Year Question Papers
+                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+                    </h1>
+                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
                         Practice with past exam papers to ace your upcoming exams.
                     </p>
                 </div>
