@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -174,17 +175,17 @@ export default function PreviousYearQuestionsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     {/* Filters Sidebar */}
                     <aside className="lg:col-span-1">
-                        <Card className="sticky top-20">
+                        <Card className="sticky top-20 bg-muted/20 border-border shadow-sm">
                             <CardHeader>
                                 <CardTitle>Filters</CardTitle>
                                 <CardDescription>Select class and subject</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                <div>
-                                    <h4 className="font-semibold mb-3">Class</h4>
+                                <div className="space-y-3">
+                                    <h4 className="font-semibold text-foreground">Class</h4>
                                     <div className="flex flex-wrap gap-2">
                                         {loading ? (
-                                            [...Array(4)].map((_, i) => <Skeleton key={i} className="h-8 w-20 rounded-md" />)
+                                            [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
                                         ) : (
                                             classes.map(c => (
                                                 <Button
@@ -192,6 +193,7 @@ export default function PreviousYearQuestionsPage() {
                                                     onClick={() => setSelectedClass(c)}
                                                     variant={selectedClass === c ? 'default' : 'outline'}
                                                     size="sm"
+                                                    className="rounded-full"
                                                 >
                                                     {c}
                                                 </Button>
@@ -200,11 +202,11 @@ export default function PreviousYearQuestionsPage() {
                                     </div>
                                 </div>
                                 {selectedClass && (
-                                    <div>
-                                        <h4 className="font-semibold mb-3">Subject</h4>
+                                    <div className="space-y-3">
+                                        <h4 className="font-semibold text-foreground">Subject</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {loading ? (
-                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-8 w-20 rounded-md" />)
+                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
                                             ) : (
                                                 subjects.map(s => (
                                                     <Button
@@ -212,6 +214,7 @@ export default function PreviousYearQuestionsPage() {
                                                         onClick={() => setSelectedSubject(s)}
                                                         variant={selectedSubject === s ? 'default' : 'outline'}
                                                         size="sm"
+                                                        className="rounded-full"
                                                     >
                                                         {s}
                                                     </Button>
