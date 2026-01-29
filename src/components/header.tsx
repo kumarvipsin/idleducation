@@ -32,7 +32,6 @@ import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
-import { VolunteerDialog } from "@/components/foundation/volunteer-dialog";
 
 const allCoursesCategories = [
     {
@@ -335,7 +334,11 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return null;
+        return (
+            <div className="flex items-center gap-2">
+                 <VolunteerDialog />
+            </div>
+        );
     }
 
     return (
@@ -357,7 +360,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
 
   const loggedInNavLinks = [
@@ -394,7 +396,25 @@ export function Header() {
         </div>
       );
     }
-    return null;
+
+    return (
+        <div className="p-2 border-t">
+            <div className="grid grid-cols-2 gap-2">
+                <Button asChild className="w-full justify-center text-sm">
+                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>Login</span>
+                  </Link>
+                </Button>
+                 <Button asChild variant="outline" className="w-full justify-center text-sm">
+                  <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    <span>Sign Up</span>
+                  </Link>
+                </Button>
+            </div>
+        </div>
+    );
   };
   
   const notificationDropdown = (
@@ -454,7 +474,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-center items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -501,7 +521,7 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-none">Call now</p>
-                                    <p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p>
+                                    <p className="text-xs font-bold text-foreground leading-none">70-1111-7585</p>
                                 </div>
                             </a>
                         )}
@@ -641,3 +661,5 @@ export function Header() {
     </>
   );
 }
+
+    
