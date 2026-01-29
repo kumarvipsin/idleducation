@@ -34,7 +34,7 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-white dark:bg-background overflow-y-auto">
             <Header />
-            <FoundationHero />
+            <FoundationHero slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 

@@ -1,11 +1,7 @@
 
 'use client';
 
-import { Button } from "@/components/ui/button";
-import { CheckCircle, Smartphone } from "lucide-react";
-import Link from 'next/link';
-import { Separator } from "../ui/separator";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -19,7 +15,7 @@ interface Slide {
   description: string;
 }
 
-export function FoundationHero({ slides }: { slides: Slide[] }) {
+export function FoundationHero({ slides = [] }: { slides: Slide[] }) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
 
@@ -45,7 +41,7 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
   );
   
   return (
-    <section className="py-2 container mx-auto px-4 md:px-6">
+    <section className="py-2 container mx-auto px-4 md:px-6 bg-white">
       <div className="relative rounded-2xl overflow-hidden">
         <Carousel 
           setApi={setApi}
