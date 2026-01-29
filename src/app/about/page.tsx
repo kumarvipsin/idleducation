@@ -1,3 +1,4 @@
+
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -30,33 +31,33 @@ export default function AboutPage() {
       {
         name: "Vijay Verma",
         title: "Co-Founder, Head Academics",
-        imageUrl: placeholderImages.founder1.src,
-        imageAlt: placeholderImages.founder1.alt,
-        imageHint: placeholderImages.founder1.hint,
+        imageUrl: "/vijay.png",
+        imageAlt: "Vijay Verma",
+        imageHint: "man smiling",
         linkedinUrl: "#",
       },
       {
         name: "Manish Kumar",
         title: "Co-Founder, Head Product",
-        imageUrl: placeholderImages.founder2.src,
-        imageAlt: placeholderImages.founder2.alt,
-        imageHint: placeholderImages.founder2.hint,
+        imageUrl: "/manish.png",
+        imageAlt: "Manish Kumar",
+        imageHint: "man professional",
         linkedinUrl: "#",
       },
       {
         name: "Chandra Prakesh",
         title: "Head Graphic Media",
-        imageUrl: placeholderImages.founder3.src,
-        imageAlt: placeholderImages.founder3.alt,
-        imageHint: placeholderImages.founder3.hint,
+        imageUrl: "/chandu.png",
+        imageAlt: "Chandra Prakesh",
+        imageHint: "man glasses",
         linkedinUrl: "#",
       },
       {
         name: "Vidhi Sharma",
         title: "Head Content Media",
-        imageUrl: placeholderImages.founder4.src,
-        imageAlt: placeholderImages.founder4.alt,
-        imageHint: placeholderImages.founder4.hint,
+        imageUrl: "/vidhi.png",
+        imageAlt: "Vidhi Sharma",
+        imageHint: "woman smiling",
         linkedinUrl: "#",
       },
     ];
