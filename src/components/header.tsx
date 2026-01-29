@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
@@ -334,11 +333,7 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return (
-            <div className="flex items-center gap-2">
-                 <VolunteerDialog />
-            </div>
-        );
+        return null;
     }
 
     return (
@@ -353,6 +348,7 @@ export function Header() {
     { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
@@ -474,7 +470,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-center items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -521,7 +517,7 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-none">Call now</p>
-                                    <p className="text-xs font-bold text-foreground leading-none">70-1111-7585</p>
+                                    <p className="text-xs font-semibold text-foreground leading-none">70-1111-7585</p>
                                 </div>
                             </a>
                         )}
