@@ -1,14 +1,15 @@
-
 'use client';
 
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from "embla-carousel-autoplay";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ArrowRight } from "lucide-react";
 
 const team = [
     { name: "Amod Kumar Sharma", role: "Founder & Managing Director", image: "https://picsum.photos/seed/1/400/400", description: "Visionary leader with a passion for education and social change." },
@@ -21,47 +22,57 @@ const team = [
     { name: "Suresh Kumar", role: "Environmental Projects Manager", image: "https://picsum.photos/seed/8/400/400", description: "Spearheading our green initiatives and plantation drives." },
 ];
 
-const TeamMemberCard = ({ member, isActive }: { member: typeof team[0], isActive: boolean }) => (
-     <Card className={cn(
-        "h-full shadow-xl rounded-2xl border-0 overflow-hidden transition-all duration-300 relative aspect-[4/5]",
-        isActive ? "scale-105" : "scale-95 opacity-80"
-    )}>
-        <Image
-            src={member.image}
-            alt={member.name}
-            data-ai-hint="person headshot"
-            fill
-            className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
-        <CardContent className="p-4 absolute bottom-0 left-0 right-0 text-white">
-             <h3 className="text-lg font-bold">{member.name}</h3>
-             <p className="text-sm text-white/90">{member.role}</p>
-        </CardContent>
-    </Card>
+const TeamMemberCard = ({ member }: { member: typeof team[0] }) => (
+    <Dialog>
+        <Card className="text-center overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 group bg-card rounded-lg h-full flex flex-col">
+            <div className="relative w-full aspect-[1/1]">
+                <Image
+                    src={member.image}
+                    alt={member.name}
+                    data-ai-hint="person headshot"
+                    fill
+                    className="object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                />
+            </div>
+            <CardContent className="p-4 flex-1 flex flex-col">
+                <h3 className="text-base md:text-lg font-bold text-foreground">{member.name}</h3>
+                <p className="text-xs text-muted-foreground">{member.role}</p>
+                <div className="mt-4 text-center flex-grow flex items-end justify-center">
+                    <DialogTrigger asChild>
+                        <button className="text-xs font-semibold text-primary hover:underline underline-offset-4 group/link flex items-center justify-center mx-auto">
+                            MORE <ArrowRight className="ml-1 h-3 w-3 transition-transform duration-300 group-hover/link:translate-x-1" />
+                        </button>
+                    </DialogTrigger>
+                </div>
+            </CardContent>
+        </Card>
+        <DialogContent className="sm:max-w-md bg-white text-foreground">
+            <div className="p-4 pt-8">
+                <div className="relative flex flex-col items-center text-center">
+                    <div className="w-32 h-32 rounded-full border-4 border-white/80 shadow-lg flex items-center justify-center overflow-hidden -mt-24 mb-4 bg-primary">
+                        <div className="relative w-full h-full">
+                            <Image
+                                src={member.image}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                    </div>
+                    <DialogTitle className="text-2xl font-bold tracking-tight text-primary">{member.name}</DialogTitle>
+                    <DialogDescription className="text-sm uppercase tracking-widest text-muted-foreground">{member.role}</DialogDescription>
+                    
+                    <p className="text-sm text-muted-foreground mt-4 text-center">
+                        {member.description}
+                    </p>
+                </div>
+            </div>
+        </DialogContent>
+    </Dialog>
 );
 
+
 export function Team() {
-    const autoplayPlugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true, stopOnMouseEnter: true }));
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', slidesToScroll: 1 }, [autoplayPlugin.current]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
-    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-    const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
-
-    const onSelect = useCallback(() => {
-        if (!emblaApi) return;
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-    }, [emblaApi, setSelectedIndex]);
-
-    useEffect(() => {
-        if (!emblaApi) return;
-        onSelect();
-        emblaApi.on('select', onSelect);
-        emblaApi.on('reInit', onSelect);
-    }, [emblaApi, onSelect]);
-
     return (
         <section className="w-full py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4 md:px-6">
@@ -71,38 +82,10 @@ export function Team() {
                         The dedicated individuals leading our mission forward.
                     </p>
                 </div>
-                
-                <div className="relative">
-                    <div className="overflow-hidden" ref={emblaRef}>
-                        <div className="flex -ml-4">
-                            {team.map((member, index) => (
-                                <div 
-                                    key={member.name} 
-                                    className="flex-shrink-0 flex-grow-0 basis-full md:basis-1/3 lg:basis-1/4 min-w-0 pl-4"
-                                >
-                                    <TeamMemberCard member={member} isActive={selectedIndex === index} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                 <div className="flex justify-center items-center gap-2 mt-8">
-                     <Button variant="outline" size="icon" onClick={scrollPrev} className="rounded-full h-8 w-8">
-                        <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                    {team.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => scrollTo(index)}
-                            className={cn(
-                                "h-2 w-2 rounded-full transition-all duration-300",
-                                selectedIndex === index ? "w-6 bg-primary" : "bg-muted-foreground/50"
-                            )}
-                        />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {team.map((member, index) => (
+                        <TeamMemberCard key={index} member={member} />
                     ))}
-                    <Button variant="outline" size="icon" onClick={scrollNext} className="rounded-full h-8 w-8">
-                        <ArrowRight className="h-4 w-4" />
-                    </Button>
                 </div>
             </div>
         </section>
