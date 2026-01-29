@@ -139,7 +139,7 @@ export default function AboutPage() {
                                     alt={member.imageAlt}
                                     data-ai-hint={member.imageHint}
                                     fill
-                                    className="object-contain filter grayscale"
+                                    className="object-cover filter grayscale"
                                 />
                             </div>
                             <h3 className="text-xl font-bold">{member.name}</h3>
