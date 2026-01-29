@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Header } from "@/components/header";
@@ -15,8 +14,7 @@ import { FAQ } from "@/components/foundation/faq";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
-import { ImageSlider } from "@/components/foundation/image-slider";
-import { Footer } from "@/components/footer";
+import { FoundationHero } from "@/components/foundation/foundation-hero";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -33,6 +31,7 @@ export default function IDLFoundationPage() {
     return (
         <div className="relative w-full bg-blue-950 dark:bg-gray-900 overflow-y-auto">
             <Header />
+            <FoundationHero slides={donationCategories} />
             <DonationCategories 
                 donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 
@@ -46,7 +45,7 @@ export default function IDLFoundationPage() {
             <Team />
             <FAQ />
             <FoundationContactForm />
-            <Footer />
+            <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} />
         </div>
     );
 }
