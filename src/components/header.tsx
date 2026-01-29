@@ -31,6 +31,7 @@ import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
+import { ContactForm } from "./contact-form";
 
 const allCoursesCategories = [
     {
@@ -161,6 +162,7 @@ export function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
@@ -342,7 +344,7 @@ export function Header() {
   
   const navLinks = [
     { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
-    { href: '/contact', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400" },
+    { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
@@ -353,7 +355,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission." },
   ];
 
   const loggedInNavLinks = [
@@ -433,7 +434,7 @@ export function Header() {
   );
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-14",
+    "sticky top-0 z-50 transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
     (pathname !== '/' && !isIdlFoundationPage) && "border-b",
     "bg-background/95 backdrop-blur-sm"
@@ -613,7 +614,7 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
@@ -621,10 +622,21 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => l.href !== '/contact')} title="" />}
           </div>
         </div>
       </div>
+      <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+        <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+                <DialogTitle>Contact Us</DialogTitle>
+                <DialogDescription>
+                    Fill out the form below and we'll get back to you as soon as possible.
+                </DialogDescription>
+            </DialogHeader>
+            <ContactForm onSuccess={() => setIsContactOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
