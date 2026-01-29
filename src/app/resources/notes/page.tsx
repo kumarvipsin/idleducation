@@ -52,7 +52,7 @@ function NotesPageContent() {
   const [notesByClass, setNotesByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState('All Notes');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function NotesPageContent() {
       const result = await getCollection('notes');
       if (result.success && result.data) {
         const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
-          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
+          const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l:string) => l.toUpperCase());
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
             href: `/resources/notes/${classDoc.id}/${subjectKey}`,
@@ -79,10 +79,6 @@ function NotesPageContent() {
 
         setNotesByClass(formattedData);
         setClasses(sortedClasses);
-        if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
-            setSelectedClass(defaultClass);
-        }
       }
       setLoading(false);
     };
@@ -90,7 +86,9 @@ function NotesPageContent() {
     fetchNotesData();
   }, []);
 
-  const subjects = notesByClass[selectedClass] || [];
+  const subjects = selectedClass === 'All Notes'
+    ? Object.values(notesByClass).flat() as Subject[]
+    : notesByClass[selectedClass] || [];
   
   const handleClassChange = (className: string) => {
     setSelectedClass(className);

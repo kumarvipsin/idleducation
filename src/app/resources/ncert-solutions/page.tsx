@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -53,7 +52,7 @@ function NcertSolutionsPageContent() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState('All Ncert');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -80,10 +79,6 @@ function NcertSolutionsPageContent() {
 
         setSolutionsByClass(formattedData);
         setClasses(sortedClasses);
-        if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('6')) || sortedClasses[0];
-            setSelectedClass(defaultClass);
-        }
       }
       setLoading(false);
     };
