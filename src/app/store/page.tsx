@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -70,7 +71,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
 
 
     return (
-        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-12", show ? "translate-y-0" : "-translate-y-full")}>
+        <header className={cn("sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm transition-transform duration-300 h-14", show ? "translate-y-0" : "-translate-y-full")}>
             <div className="container flex h-full items-center justify-between mx-auto px-4 md:px-6">
                 <Link href="/store" className="flex items-center gap-2">
                     <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
@@ -80,9 +81,9 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                      <div className="flex items-center gap-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                                     {storeUser ? (
-                                        <Avatar className="h-8 w-8">
+                                        <Avatar className="h-10 w-10">
                                             <AvatarFallback>{storeUser.name?.charAt(0).toUpperCase()}</AvatarFallback>
                                         </Avatar>
                                     ) : (
@@ -134,7 +135,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                         <Button asChild variant="outline" size="icon" className="h-8 w-8 rounded-full">
+                         <Button asChild variant="outline" size="icon" className="h-10 w-10 rounded-full">
                             <Link href="/"><X className="h-4 w-4" /></Link>
                         </Button>
                     </div>
