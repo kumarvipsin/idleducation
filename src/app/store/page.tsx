@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -135,7 +134,7 @@ export const StoreHeader = ({ searchTerm, setSearchTerm }: { searchTerm: string,
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                         <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-secondary hover:bg-muted">
+                         <Button asChild variant="ghost" size="icon" className="h-10 w-10 rounded-full">
                             <Link href="/"><X className="h-4 w-4" /></Link>
                         </Button>
                     </div>
