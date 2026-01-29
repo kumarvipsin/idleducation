@@ -30,7 +30,7 @@ import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
-import { ContactForm } from "./contact-form";
+import { ContactForm } from "@/components/contact-form";
 
 const allCoursesCategories = [
     {
@@ -154,7 +154,7 @@ export function Header() {
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -166,7 +166,7 @@ export function Header() {
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
   
   const controlNavbar = useCallback(() => {
@@ -281,7 +281,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (loading) {
+    if (loading || !mounted) {
       return <Skeleton className="h-9 w-9 rounded-full" />;
     }
 
@@ -337,11 +337,9 @@ export function Header() {
     }
 
     return (
-        isClient && (
-            <Button asChild variant="ghost" size="sm" className="rounded-lg text-primary hover:bg-primary/5 hover:text-primary border border-primary/20">
-                <Link href="/login">Login</Link>
-            </Button>
-        )
+      <Button asChild variant="ghost" size="sm" className="rounded-lg text-primary hover:bg-primary/5 hover:text-primary border border-primary/20">
+          <Link href="/login">Login</Link>
+      </Button>
     );
   };
   
@@ -366,7 +364,7 @@ export function Header() {
   ];
 
   const renderMobileAuthSection = () => {
-    if (loading) {
+    if (loading || !mounted) {
         return (
             <div className="flex items-center gap-3 p-2 border-t">
                 <Skeleton className="h-10 w-10 rounded-full" />
@@ -454,7 +452,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="items-center gap-2 hidden md:flex ml-auto">
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -489,7 +487,9 @@ export function Header() {
                             </div>
                           )}
                     </nav>
-                     <div className="items-center gap-2 hidden md:flex">
+                 </div>
+                <div className="flex items-center gap-1">
+                    <div className="items-center gap-2 hidden md:flex">
                         {!isIdlFoundationPage && (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -497,20 +497,14 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-xs font-bold text-foreground leading-none">70-1111-7585</p>
+                                    <p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
                         )}
-                        {isClient && renderAuthSection()}
-                     </div>
-                </div>
-                <div className="flex items-center gap-1 md:hidden">
-                    {isClient && !user && !loading && !isIdlFoundationPage && (
-                        <Button asChild variant="outline" size="sm" className="rounded-lg">
-                            <Link href="/login">Login</Link>
-                        </Button>
-                    )}
-                    <CollapsibleTrigger asChild>
+                        {mounted && renderAuthSection()}
+                    </div>
+                    
+                    <CollapsibleTrigger asChild className="md:hidden">
                         <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
                             {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                             <span className="sr-only">Toggle navigation menu</span>
