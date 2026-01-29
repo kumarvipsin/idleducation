@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -91,9 +90,7 @@ function NotesPageContent() {
     fetchNotesData();
   }, []);
 
-  const subjects = selectedClass === 'All Notes'
-    ? Object.values(notesByClass).flat() as Subject[]
-    : notesByClass[selectedClass] || [];
+  const subjects = notesByClass[selectedClass] || [];
   
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
@@ -103,8 +100,8 @@ function NotesPageContent() {
   const allClassButtons = ['All Notes', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {[...Array(8)].map((_, i) => (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {[...Array(12)].map((_, i) => (
             <Skeleton key={i} className="h-[280px] w-full rounded-lg" />
         ))}
     </div>
@@ -147,7 +144,7 @@ function NotesPageContent() {
 
       <main className="flex-1 px-4 md:px-6">
         {loading ? renderSkeleton() : (
-            <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
+            <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 animate-fade-in-up">
             {subjects && subjects.length > 0 ? (
                 subjects.map((subject: Subject, index: number) => (
                     <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
