@@ -103,15 +103,15 @@ function NcertSolutionsPageContent() {
   const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {[...Array(8)].map((_, i) => (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {[...Array(12)].map((_, i) => (
             <Skeleton key={i} className="h-[280px] w-full rounded-lg" />
         ))}
     </div>
   );
 
   return (
-    <div className="py-12 bg-white">
+    <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="text-center mb-12 animate-fade-in-up">
         <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
             NCERT Solutions for {selectedClass}
@@ -145,11 +145,11 @@ function NcertSolutionsPageContent() {
         </div>
       </div>
 
-      <div className="px-4 md:px-6">
+      <main>
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
+              <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => (
                       <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
@@ -188,7 +188,7 @@ function NcertSolutionsPageContent() {
                 )}
               </div>
             )}
-      </div>
+      </main>
     </div>
   );
 }
