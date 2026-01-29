@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
@@ -10,6 +9,7 @@ import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion, SubjectWithPapers, Paper } from '@/app/actions/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
 
 export default function PreviousYearQuestionsPage() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
@@ -196,22 +196,22 @@ export default function PreviousYearQuestionsPage() {
                         <Card className="sticky top-20 bg-muted/20 border-border shadow-sm">
                             <CardHeader>
                                 <CardTitle>Filters</CardTitle>
-                                <CardDescription>Select class and subject</CardDescription>
+                                <CardDescription>Select class, subject, and year</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-3">
-                                    <h4 className="font-semibold text-foreground">Class</h4>
+                                    <Label className="font-semibold text-foreground">Class</Label>
                                     <div className="flex flex-wrap gap-2">
                                         {loading ? (
-                                            [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
+                                            [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-md" />)
                                         ) : (
                                             classes.map(c => (
                                                 <Button
                                                     key={c}
                                                     onClick={() => setSelectedClass(c)}
-                                                    variant={selectedClass === c ? 'default' : 'outline'}
+                                                    variant={selectedClass === c ? 'default' : 'ghost'}
                                                     size="sm"
-                                                    className="rounded-full"
+                                                    className="rounded-md"
                                                 >
                                                     {c}
                                                 </Button>
@@ -221,18 +221,18 @@ export default function PreviousYearQuestionsPage() {
                                 </div>
                                 {selectedClass && (
                                     <div className="space-y-3">
-                                        <h4 className="font-semibold text-foreground">Subject</h4>
+                                        <Label className="font-semibold text-foreground">Subject</Label>
                                         <div className="flex flex-wrap gap-2">
                                             {loading ? (
-                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
+                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-md" />)
                                             ) : (
                                                 subjects.map(s => (
                                                     <Button
                                                         key={s}
                                                         onClick={() => setSelectedSubject(s)}
-                                                        variant={selectedSubject === s ? 'default' : 'outline'}
+                                                        variant={selectedSubject === s ? 'default' : 'ghost'}
                                                         size="sm"
-                                                        className="rounded-full"
+                                                        className="rounded-md"
                                                     >
                                                         {s}
                                                     </Button>
@@ -243,18 +243,18 @@ export default function PreviousYearQuestionsPage() {
                                 )}
                                 {selectedClass && (
                                     <div className="space-y-3">
-                                        <h4 className="font-semibold text-foreground">Year</h4>
+                                        <Label className="font-semibold text-foreground">Year</Label>
                                         <div className="flex flex-wrap gap-2">
                                             {loading ? (
-                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-full" />)
+                                                [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-20 rounded-md" />)
                                             ) : (
                                                 years.map(y => (
                                                     <Button
                                                         key={y}
                                                         onClick={() => setSelectedYear(y)}
-                                                        variant={selectedYear === y ? 'default' : 'outline'}
+                                                        variant={selectedYear === y ? 'default' : 'ghost'}
                                                         size="sm"
-                                                        className="rounded-full"
+                                                        className="rounded-md"
                                                     >
                                                         {y}
                                                     </Button>
