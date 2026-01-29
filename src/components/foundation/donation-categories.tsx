@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -106,8 +105,8 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                 id="razorpay-checkout-js"
                 src="https://checkout.razorpay.com/v1/checkout.js"
             />
-            <section id="donate" className="w-full relative py-8 bg-white dark:bg-gray-800/20">
-                <div className="container mx-auto px-4 md:px-[10%] mb-8">
+            <section id="donate" className="w-full relative py-16 bg-white dark:bg-gray-800/20">
+                <div className="container mx-auto px-4 md:px-6 mb-12">
                     <div className="text-center">
                         <div className="flex justify-center mb-4">
                                 <div className="bg-primary/10 p-4 rounded-full">
@@ -180,47 +179,42 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                         </div>
                     </div>
                 </div>
-                <div className="relative">
-                    <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-6 px-4 md:px-[10%]">
-                            {donationCategories.map((category, index) => {
-                                const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
-                                return (
-                                    <div key={index} className="block flex-shrink-0 w-[300px] sm:w-[350px] group">
-                                        <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                                            <div className="relative aspect-[4/3] w-full">
-                                                <Image
-                                                    src={category.imageUrl}
-                                                    alt={category.title}
-                                                    data-ai-hint={category.imageHint}
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            </div>
-                                            <CardContent className="p-6 flex-grow flex flex-col">
-                                                <h3 className="text-xl text-left font-black" style={{ color: '#FF6347' }}>{category.title}</h3>
-                                                <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
-
-                                                <div className="mt-4 space-y-2">
-                                                    <div className="flex justify-between items-center text-sm font-semibold">
-                                                        <span className="text-muted-foreground">Goal:</span>
-                                                        <span className="text-primary">₹{category.goal.toLocaleString('en-IN')}</span>
-                                                    </div>
-                                                     <div className="flex justify-between items-center text-sm font-semibold">
-                                                        <span className="text-muted-foreground">Raised:</span>
-                                                        <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
-                                                    </div>
-                                                    <div className="space-y-1">
-                                                        <Progress value={percentage} className="h-2 [&>div]:bg-green-500 mt-2" />
-                                                        <p className="text-xs text-right text-muted-foreground">{Math.round(percentage)}%</p>
-                                                    </div>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {donationCategories.map((category, index) => {
+                            const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
+                            return (
+                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border">
+                                    <div className="relative aspect-video w-full">
+                                        <Image
+                                            src={category.imageUrl}
+                                            alt={category.title}
+                                            data-ai-hint={category.imageHint}
+                                            fill
+                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        />
                                     </div>
-                                )
-                            })}
-                        </div>
+                                    <CardContent className="p-6 flex-grow flex flex-col">
+                                        <h3 className="text-xl text-left font-bold text-foreground">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                        <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
+
+                                        <div className="mt-6 space-y-3">
+                                            <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
+                                            <div className="flex justify-between items-center text-sm font-semibold">
+                                                <div>
+                                                    <span className="text-muted-foreground text-xs block">Raised</span>
+                                                    <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
+                                                </div>
+                                                <div className="text-right">
+                                                    <span className="text-muted-foreground text-xs block">Goal</span>
+                                                    <span className="text-primary">₹{category.goal.toLocaleString('en-IN')}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )
+                        })}
                     </div>
                 </div>
             </section>
