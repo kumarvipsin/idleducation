@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { FoundationHero } from "@/components/foundation/foundation-hero";
+import { VolunteerDialog } from "@/components/foundation/volunteer-dialog";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -28,11 +29,12 @@ const donationCategories = [
 
 export default function IDLFoundationPage() {
     const [isDonateOpen, setIsDonateOpen] = useState(false);
+    const [isVolunteerDialogOpen, setIsVolunteerDialogOpen] = useState(false);
 
     return (
         <div className="relative w-full bg-white dark:bg-background overflow-y-auto">
             <Header />
-            <FoundationHero slides={donationCategories} />
+            <FoundationHero />
             <DonationCategories 
                 donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 
@@ -46,7 +48,8 @@ export default function IDLFoundationPage() {
             <Team />
             <FAQ />
             <FoundationContactForm />
-            <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} />
+            <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} openVolunteerDialog={() => setIsVolunteerDialogOpen(true)} />
+            <VolunteerDialog isOpen={isVolunteerDialogOpen} onOpenChange={setIsVolunteerDialogOpen} />
         </div>
     );
 }

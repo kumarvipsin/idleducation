@@ -32,6 +32,7 @@ import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
+import { VolunteerDialog } from "@/components/foundation/volunteer-dialog";
 
 const allCoursesCategories = [
     {
@@ -334,7 +335,7 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return <Button asChild variant="outline" size="sm" className="rounded-full"><Link href="/volunteer">Volunteer</Link></Button>;
+        return null;
     }
 
     return (
@@ -480,12 +481,20 @@ export function Header() {
                                 </Button>
                               </div>
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="flex items-center gap-x-4 text-sm font-semibold">
+                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            </div>
+                          )}
                     </nav>
                  </div>
                 <div className="flex items-center gap-1">
                     <div className="items-center gap-2 hidden md:flex ml-auto">
-                        {!isIdlFoundationPage && (
+                        {isIdlFoundationPage ? (
+                            <VolunteerDialog />
+                        ) : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
@@ -496,22 +505,18 @@ export function Header() {
                                 </div>
                             </a>
                         )}
-                        {isIdlFoundationPage && (
-                            <div className="flex items-center gap-x-4 text-sm font-semibold">
-                                <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                                <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                                <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                            </div>
-                        )}
                         {mounted && renderAuthSection()}
                     </div>
                     
-                    <CollapsibleTrigger asChild className="md:hidden">
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
-                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                            <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
-                    </CollapsibleTrigger>
+                    <div className="flex items-center md:hidden">
+                      {isIdlFoundationPage && <VolunteerDialog />}
+                      <CollapsibleTrigger asChild>
+                          <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                              {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                              <span className="sr-only">Toggle navigation menu</span>
+                          </Button>
+                      </CollapsibleTrigger>
+                    </div>
                 </div>
             </div>
              <CollapsibleContent asChild>

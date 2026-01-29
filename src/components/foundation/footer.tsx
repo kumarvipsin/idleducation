@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -20,9 +21,16 @@ const socialLinks = [
 
 interface FoundationFooterProps {
   openDonateDialog: () => void;
+  openVolunteerDialog: () => void;
 }
 
-export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
+export function FoundationFooter({ openDonateDialog, openVolunteerDialog }: FoundationFooterProps) {
+    const quickLinks = [
+        { href: "#about", label: "About Us", isDialog: false },
+        { href: "#donate", label: "Donate", isDialog: true, action: openDonateDialog },
+        { href: "#", label: "Become a Volunteer", isDialog: true, action: openVolunteerDialog },
+    ];
+    
     return (
         <footer className="bg-blue-950 text-gray-300">
             <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -44,9 +52,9 @@ export function FoundationFooter({ openDonateDialog }: FoundationFooterProps) {
                          <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
                            {quickLinks.map(link => (
-                                <li key={link.href}>
-                                  {link.href === '#donate' ? (
-                                      <button onClick={openDonateDialog} className="text-white/80 hover:text-white hover:underline underline-offset-4 transition-colors">{link.label}</button>
+                                <li key={link.label}>
+                                  {link.isDialog ? (
+                                      <button onClick={link.action} className="text-white/80 hover:text-white hover:underline underline-offset-4 transition-colors">{link.label}</button>
                                   ) : (
                                     <Link href={link.href} className="text-white/80 hover:text-white hover:underline underline-offset-4 transition-colors">{link.label}</Link>
                                   )}
