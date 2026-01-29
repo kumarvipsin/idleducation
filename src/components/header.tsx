@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
@@ -30,7 +31,7 @@ import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "./contact-form";
 
 const allCoursesCategories = [
     {
@@ -333,7 +334,7 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return null;
+        return <Button asChild variant="outline" size="sm" className="rounded-full"><Link href="/volunteer">Volunteer</Link></Button>;
     }
 
     return (
@@ -452,7 +453,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -479,17 +480,11 @@ export function Header() {
                                 </Button>
                               </div>
                             </div>
-                          ) : (
-                            <div className="flex items-center gap-x-4 text-xs font-semibold">
-                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                            </div>
-                          )}
+                          ) : null}
                     </nav>
                  </div>
                 <div className="flex items-center gap-1">
-                    <div className="items-center gap-2 hidden md:flex">
+                    <div className="items-center gap-2 hidden md:flex ml-auto">
                         {!isIdlFoundationPage && (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -500,6 +495,13 @@ export function Header() {
                                     <p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
+                        )}
+                        {isIdlFoundationPage && (
+                            <div className="flex items-center gap-x-4 text-sm font-semibold">
+                                <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                                <Separator orientation="vertical" className="h-4 bg-foreground/20" />
+                                <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            </div>
                         )}
                         {mounted && renderAuthSection()}
                     </div>
