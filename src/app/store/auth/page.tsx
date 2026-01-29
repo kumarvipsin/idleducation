@@ -86,7 +86,7 @@ function StoreAuthPageContent() {
   return (
     <div className="relative min-h-screen w-full p-4 bg-white dark:bg-background overflow-y-auto">
         <Link href="/store" className="absolute top-4 right-4 z-20">
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button variant="ghost" size="icon" className="rounded-full bg-secondary hover:bg-muted">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
             </Button>
