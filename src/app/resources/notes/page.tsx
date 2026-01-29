@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -109,7 +110,7 @@ function NotesPageContent() {
     <div className="py-12 bg-white">
       <div className="text-center mb-12 animate-fade-in-up">
         <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-            Notes for {selectedClass}
+            {selectedClass === 'All Notes' ? 'All Notes' : `Notes for ${selectedClass}`}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-semibold">
