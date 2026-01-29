@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -57,84 +56,6 @@ const centers = [
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     }
 ];
-
-const faqs = [
-    {
-      question: "What are the benefits of joining an IDL offline center?",
-      answer: "Our offline centers provide a structured learning environment with direct interaction with expert faculty. Students get personalized attention, instant doubt clarification, and peer learning opportunities, which are crucial for comprehensive understanding and growth."
-    },
-    {
-      question: "What are the timings for the offline centers?",
-      answer: "Our centers generally operate from morning till evening. Specific batch timings vary depending on the course and class. Please contact your nearest center for detailed information on batch schedules."
-    },
-    {
-      question: "Are there any demo classes available before enrolling?",
-      answer: "Yes, we offer free demo classes for students to experience our teaching methodology and interact with our faculty before making a decision. You can book a free demo class through our website or by visiting one of our centers."
-    },
-    {
-      question: "What is the student-teacher ratio in the classes?",
-      answer: "We maintain a low student-teacher ratio to ensure personalized attention for every student. This allows our teachers to focus on individual learning needs and provide tailored guidance."
-    },
-    {
-      question: "How is the progress of students tracked?",
-      answer: "We have a comprehensive progress tracking system that includes regular assessments, mock tests, and performance analysis. Parents are kept informed about their child's progress through regular parent-teacher meetings and progress reports."
-    },
-    {
-      question: "Are study materials provided at the offline centers?",
-      answer: "Yes, we provide well-researched and comprehensive study materials, including textbooks, practice papers, and notes, which are curated by our expert faculty to align with the latest syllabus and exam patterns."
-    },
-    {
-      question: "What courses are offered at the offline centers?",
-      answer: "Our offline centers offer a wide range of courses for school students (Class 6-12) and for competitive exams like JEE, NEET, and other government job exams. Please visit our centers or contact us for course-specific details."
-    },
-    {
-      question: "How can I enroll my child in an IDL offline center?",
-      answer: "You can visit any of our offline centers to complete the admission formalities. You can also start the process online by filling out the admission form on our website and then visiting the center for final verification."
-    },
-    {
-      question: "What is the fee structure for the courses?",
-      answer: "The fee structure varies depending on the course and its duration. We offer flexible payment options and EMI facilities. For detailed fee information, please contact the specific center you are interested in."
-    },
-    {
-      question: "Is there any scholarship available for students?",
-      answer: "Yes, we offer scholarships up to 70% based on the performance in our IDL Scholarship Admission Test (ISAT). We encourage all students to take the test and avail the benefits."
-    }
-];
-
-const FAQSection = () => {
-    return (
-        <section className="w-full py-12 bg-muted/20 dark:bg-gray-900">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="rounded-2xl bg-white dark:bg-card p-4 md:p-6">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <div className="flex items-center justify-center">
-                            <span className="text-blue-600 text-2xl mr-2">•</span>
-                            <h2 className="text-lg font-semibold text-blue-600">FAQ</h2>
-                        </div>
-                        <h3 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mt-2">
-                            Frequently Asked Questions
-                        </h3>
-                    </div>
-
-                    <div className="max-w-3xl mx-auto mt-12">
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                            {faqs.map((faq, index) => (
-                                <AccordionItem value={`item-${index}`} key={index} className="border rounded-lg bg-background/50">
-                                    <AccordionTrigger className="text-left text-base font-semibold hover:no-underline p-4">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="p-4 pt-0">
-                                        <p className="text-muted-foreground">{faq.answer}</p>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            ))}
-                        </Accordion>
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
 
 export default function OfflineCentersPage() {
     const [api, setApi] = useState<CarouselApi>();
@@ -261,8 +182,6 @@ export default function OfflineCentersPage() {
                     ))}
                 </div>
             </div>
-            
-            <FAQSection />
 
         </div>
     );
