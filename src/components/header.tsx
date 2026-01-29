@@ -43,7 +43,7 @@ const allCoursesCategories = [
     {
         name: "CUET UG/PG",
         description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
-        href: "/examcat?category=cuet",
+        href: "/category/cuet",
         icon: <GraduationCap className="h-5 w-5" />,
         colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
     },
@@ -348,7 +348,6 @@ export function Header() {
     { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
@@ -471,7 +470,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full ml-auto" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -644,10 +643,10 @@ export function Header() {
         </div>
       </div>
       <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-        <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-                <DialogTitle>Contact Us</DialogTitle>
-                <DialogDescription>
+        <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
+            <DialogHeader className="text-center mb-6">
+                <DialogTitle className="text-2xl font-bold text-primary">Contact Us</DialogTitle>
+                <DialogDescription className="text-muted-foreground text-sm">
                     Fill out the form below and we'll get back to you as soon as possible.
                 </DialogDescription>
             </DialogHeader>
@@ -657,5 +656,3 @@ export function Header() {
     </>
   );
 }
-
-    
