@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
@@ -123,11 +122,11 @@ const AllCoursesMegaMenu = () => {
     )
 }
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string, onClick?: () => void }[], title: string, children?: React.ReactNode }) => (
+const MegaMenu = ({ links, title, children, onLinkClick }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string, onClick?: () => void }[], title: string, children?: React.ReactNode, onLinkClick?: () => void }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={link.onClick} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {link.onClick?.(); onLinkClick?.();}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
                     <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-muted')}>{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
@@ -332,6 +331,10 @@ export function Header() {
         </DropdownMenu>
       );
     }
+    
+    if (isIdlFoundationPage) {
+        return null;
+    }
 
     return (
         isClient && (
@@ -451,7 +454,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                 <div className="items-center gap-2 hidden md:flex ml-auto">
                     <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -502,7 +505,7 @@ export function Header() {
                      </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
-                    {isClient && !user && !loading && (
+                    {isClient && !user && !loading && !isIdlFoundationPage && (
                         <Button asChild variant="outline" size="sm" className="rounded-lg">
                             <Link href="/login">Login</Link>
                         </Button>
@@ -575,8 +578,8 @@ export function Header() {
                                     </CollapsibleTrigger>
                                     <CollapsibleContent className="p-2">
                                         <div className="grid grid-cols-1 gap-1">
-                                            {navLinks.map(({ href, label, icon, description, target, colorClasses }) => (
-                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                            {navLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
+                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                     <div>
                                                         <p className="font-semibold text-sm">{label}</p>
@@ -619,8 +622,8 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
