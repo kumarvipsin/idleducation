@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -65,14 +66,6 @@ export function FoundationHero({ slides }: { slides: Slide[] }) {
                             className="object-cover"
                             priority={index === 0}
                         />
-                        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white text-center p-4">
-                            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-                              {slide.title}
-                            </h1>
-                            <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
-                              {slide.description}
-                            </p>
-                        </div>
                     </div>
                   </CarouselItem>
               )})}

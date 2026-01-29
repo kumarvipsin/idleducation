@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Header } from "@/components/header";
@@ -29,7 +30,7 @@ export default function IDLFoundationPage() {
     const [isDonateOpen, setIsDonateOpen] = useState(false);
 
     return (
-        <div className="relative w-full bg-blue-950 dark:bg-gray-900 overflow-y-auto">
+        <div className="relative w-full bg-white dark:bg-background overflow-y-auto">
             <Header />
             <FoundationHero slides={donationCategories} />
             <DonationCategories 
