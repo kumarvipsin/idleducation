@@ -123,11 +123,11 @@ const AllCoursesMegaMenu = () => {
     )
 }
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string }[], title: string, children?: React.ReactNode }) => (
+const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string, onClick?: () => void }[], title: string, children?: React.ReactNode }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={link.onClick} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
                     <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-muted')}>{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
@@ -487,20 +487,18 @@ export function Header() {
                           )}
                     </nav>
                      <div className="items-center gap-2 hidden md:flex">
-                        {isClient && (
-                          <>
+                        {!isIdlFoundationPage && (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-sm font-bold text-foreground leading-none">70-1111-7585</p>
+                                    <p className="text-xs font-bold text-foreground leading-none">70-1111-7585</p>
                                 </div>
                             </a>
-                            {renderAuthSection()}
-                          </>
                         )}
+                        {isClient && renderAuthSection()}
                      </div>
                 </div>
                 <div className="flex items-center gap-1 md:hidden">
@@ -622,7 +620,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => l.href !== '/contact')} title="" />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" />}
           </div>
         </div>
       </div>
