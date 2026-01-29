@@ -350,7 +350,6 @@ export function Header() {
     { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
@@ -358,6 +357,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
 
   const loggedInNavLinks = [
@@ -493,14 +493,14 @@ export function Header() {
                 <div className="flex items-center gap-1">
                     <div className="items-center gap-2 hidden md:flex ml-auto">
                         {isIdlFoundationPage ? (
-                            <VolunteerDialog />
+                            null
                         ) : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div>
-                                    <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
+                                    <p className="text-[0.6rem] text-muted-foreground leading-none">Call now</p>
                                     <p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
@@ -509,7 +509,6 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center md:hidden">
-                      {isIdlFoundationPage && <VolunteerDialog />}
                       <CollapsibleTrigger asChild>
                           <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
                               {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
