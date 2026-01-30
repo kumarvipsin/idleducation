@@ -101,31 +101,6 @@ export default function CuetPage() {
       }
     ];
 
-    const ugFeeStructure = [
-        { category: "General (UR)", uptoThree: "₹1000", additional: "₹400 each" },
-        { category: "OBC-NCL / EWS", uptoThree: "₹900", additional: "₹375 each" },
-        { category: "SC / ST / PwBD / Third Gender", uptoThree: "₹800", additional: "₹350 each" },
-        { category: "Centres Outside India", uptoThree: "₹4500", additional: "₹1800 each" },
-    ];
-
-    const ugEligibilityCriteria = [
-      { parameter: "Educational Qualification", details: "Class 12 or equivalent from any recognized board with at least 45% marks" },
-      { parameter: "Age Limit", details: "No age limit" },
-      { parameter: "Nationality", details: "Must be Indian; NRI and OCI candidates can also apply" },
-    ];
-    
-    const ugExamPatternData = [
-      { section: 'Language', questions: 50, duration: '60 minutes' },
-      { section: 'Domain Subject', questions: 50, duration: '60 minutes' },
-      { section: 'General Aptitude Test', questions: 50, duration: '60 minutes' },
-    ];
-
-    const ugSyllabusData = [
-      { section: 'Language Test', types: 'Reading Comprehension (Factual, Literary, Narrative), Literary Aptitude, and Vocabulary' },
-      { section: 'Domain Subjects', types: 'Based on the Class 12 syllabus of selected subjects like Accountancy, Biology, Business Studies, Chemistry, Economics, History, Maths, Physics, Political Science, and more' },
-      { section: 'General Test', types: 'General Knowledge, Current Affairs, General Mental Ability, Numerical Ability, Quantitative Reasoning (up to Class 8 level), Logical and Analytical Reasoning' },
-    ];
-
     const cuetUgFaqs = [
         {
           question: "What is the syllabus for CUET UG 2026?",
@@ -186,30 +161,6 @@ export default function CuetPage() {
             discount: 75,
             target: "For CUET PG M.Com 2026 Aspirants"
         }
-    ];
-
-    const pgFeeStructure = [
-        { category: "General (UR)", perPaper: "₹600", additional: "₹200 each" },
-        { category: "OBC-NCL / EWS", perPaper: "₹500", additional: "₹150 each" },
-        { category: "SC / ST / Third Gender", perPaper: "₹500", additional: "₹150 each" },
-        { category: "PwBD", perPaper: "₹500", additional: "₹150 each" },
-        { category: "Centres Outside India", perPaper: "₹4000", additional: "₹1000 each" },
-    ];
-
-    const pgEligibilityCriteria = [
-      { parameter: "Educational Qualification", details: "Candidates must have a bachelor's degree or equivalent from a recognized university." },
-      { parameter: "Age Limit", details: "No age limit for appearing in CUET (PG)." },
-      { parameter: "Appearing Candidates", details: "Candidates appearing in the final year of their bachelor's degree are also eligible to apply." },
-    ];
-    
-    const pgExamPatternData = [
-      { section: 'Part A', questions: '25', details: 'Language Comprehension/ Verbal Ability, General Awareness, Mathematical/Quantitative ability, and Analytical Skills.' },
-      { section: 'Part B', questions: '75', details: 'Domain-specific questions related to the subject of the PG course.' },
-    ];
-
-    const pgSyllabusData = [
-      { section: 'Part A', types: 'General aptitude, reasoning, language skills, and general knowledge.' },
-      { section: 'Part B', types: 'Syllabus is based on the undergraduate level of the specific domain subject chosen by the candidate.' },
     ];
 
     const cuetPgFaqs = [
@@ -392,105 +343,7 @@ export default function CuetPage() {
                             ))}
                         </div>
                     </section>
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-                      <h2 className="text-3xl font-bold text-left mb-4">CUET PG 2026 Fee</h2>
-                      <Card className="mt-6">
-                        <CardContent className="pt-6">
-                          <Table>
-                            <TableHeader>
-                                <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                <TableHead className="font-bold text-white">Category</TableHead>
-                                <TableHead className="font-bold text-white">Fee (up to 2 test papers)</TableHead>
-                                <TableHead className="font-bold text-white">For Each Additional Paper</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {pgFeeStructure.map((row, index) => (
-                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                    <TableCell className="font-medium">{row.category}</TableCell>
-                                    <TableCell className="font-semibold text-foreground">{row.perPaper}</TableCell>
-                                    <TableCell className="font-semibold text-foreground">{row.additional}</TableCell>
-                                </TableRow>
-                                ))}
-                            </TableBody>
-                            </Table>
-                        </CardContent>
-                      </Card>
-                    </section>
-                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">CUET PG 2026 Eligibility Criteria</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                 <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Parameters</TableHead>
-                                            <TableHead className="font-bold text-white">Details</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                       {pgEligibilityCriteria.map((row, index) => (
-                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.parameter}</TableCell>
-                                                <TableCell>{row.details}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.0s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">CUET PG 2026 Exam Pattern</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Number of Questions</TableHead>
-                                            <TableHead className="font-bold text-white">Details</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {pgExamPatternData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.questions}</TableCell>
-                                                <TableCell>{row.details}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">CUET PG 2026 Syllabus</h2>
-                        <Card className="mt-6">
-                            <CardContent className="p-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Syllabus / Question Types</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {pgSyllabusData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.types}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-            
-                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
+                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
                       <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-8">CUET PG 2026 Exam FAQs</h2>
                         <Accordion type="single" collapsible className="w-full space-y-4">

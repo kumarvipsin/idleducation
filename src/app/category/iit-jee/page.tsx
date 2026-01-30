@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -96,31 +95,6 @@ export default function IitJeePage() {
       }
     ];
 
-    const jeeFeeStructure = [
-        { category: "General (UR)", paper1: "₹1000", bothPapers: "₹2000" },
-        { category: "OBC-NCL / EWS", paper1: "₹900", bothPapers: "₹1800" },
-        { category: "SC / ST / PwBD / Third Gender", paper1: "₹500", bothPapers: "₹1000" },
-        { category: "Centres Outside India", paper1: "₹5000", bothPapers: "₹10000" },
-    ];
-
-    const jeeEligibilityCriteria = [
-      { parameter: "Educational Qualification", details: "Must have passed Class 12 or equivalent exam with Physics, Chemistry, and Mathematics." },
-      { parameter: "Age Limit", details: "No age limit, but candidates must have passed Class 12 in the last two years." },
-      { parameter: "Attempts", details: "A candidate can attempt JEE (Main) for three consecutive years." },
-    ];
-    
-    const jeeExamPatternData = [
-      { section: 'Physics', questions: '20 (MCQ) + 10 (Numerical)', marks: 100 },
-      { section: 'Chemistry', questions: '20 (MCQ) + 10 (Numerical)', marks: 100 },
-      { section: 'Mathematics', questions: '20 (MCQ) + 10 (Numerical)', marks: 100 },
-    ];
-
-    const jeeSyllabusData = [
-      { section: 'Physics', types: 'Mechanics, Electrodynamics, Optics, Modern Physics, Thermodynamics.' },
-      { section: 'Chemistry', types: 'Physical, Organic, and Inorganic Chemistry based on Class 11 and 12 NCERT.' },
-      { section: 'Mathematics', types: 'Algebra, Trigonometry, Analytical Geometry, Differential Calculus, Integral Calculus, Vectors.' },
-    ];
-
     const jeeFaqs = [
         {
           question: "What is the syllabus for IIT-JEE 2026?",
@@ -180,32 +154,6 @@ export default function IitJeePage() {
       }
     ];
 
-    const neetFeeStructure = [
-        { category: "General (UR)", fee: "₹1700" },
-        { category: "OBC-NCL / EWS", fee: "₹1600" },
-        { category: "SC / ST / PwBD / Third Gender", fee: "₹1000" },
-        { category: "Centres Outside India", fee: "₹9500" },
-    ];
-
-    const neetEligibilityCriteria = [
-        { parameter: "Educational Qualification", details: "Must have passed Class 12 or equivalent with Physics, Chemistry, Biology/Biotechnology, and English." },
-        { parameter: "Age Limit", details: "Must be at least 17 years old as of December 31 of the year of admission." },
-        { parameter: "Attempts", details: "There is no limit on the number of attempts for NEET." },
-    ];
-    
-    const neetExamPatternData = [
-        { section: 'Physics', questions: '50 (35+15)', marks: 180 },
-        { section: 'Chemistry', questions: '50 (35+15)', marks: 180 },
-        { section: 'Botany', questions: '50 (35+15)', marks: 180 },
-        { section: 'Zoology', questions: '50 (35+15)', marks: 180 },
-    ];
-
-    const neetSyllabusData = [
-      { section: 'Physics', types: 'Class 11 & 12 syllabus covering mechanics, electrodynamics, optics, modern physics, etc.' },
-      { section: 'Chemistry', types: 'Class 11 & 12 syllabus covering physical, organic, and inorganic chemistry.' },
-      { section: 'Biology', types: 'Class 11 & 12 syllabus covering diversity, structural organization, cell structure, plant physiology, human physiology, reproduction, genetics, and ecology.' },
-    ];
-
     const neetFaqs = [
         {
           question: "What is the syllabus for NEET 2026?",
@@ -236,7 +184,7 @@ export default function IitJeePage() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
             <section className="mb-12 animate-fade-in-up">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight text-left">
                 {activeTab === 'jee' ? 'IIT-JEE' : 'NEET'} 2026: Application Form, Exam Date, Syllabus, Pattern, and More
               </h1>
               <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
@@ -329,114 +277,7 @@ export default function IitJeePage() {
                       </div>
                     </section>
                     
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.6s' }}>
-                      <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Exam Date</h2>
-                      <p className="text-left text-muted-foreground">
-                        JEE Main 2026 exam is conducted in two sessions, January and April. JEE Advanced 2026 is expected to be held in late May or early June 2026.
-                      </p>
-                    </section>
-
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.8s' }}>
-                      <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Fee</h2>
-                      <Card className="mt-6">
-                        <CardContent className="pt-6">
-                           <Table>
-                            <TableHeader>
-                                <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                <TableHead className="font-bold text-white">Category</TableHead>
-                                <TableHead className="font-bold text-white">Paper 1 (B.E./B.Tech)</TableHead>
-                                <TableHead className="font-bold text-white">Paper 1 & 2 (Both)</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {jeeFeeStructure.map((row, index) => (
-                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                    <TableCell className="font-medium">{row.category}</TableCell>
-                                    <TableCell className="font-semibold text-foreground">{row.paper1}</TableCell>
-                                    <TableCell className="font-semibold text-foreground">{row.bothPapers}</TableCell>
-                                </TableRow>
-                                ))}
-                            </TableBody>
-                            </Table>
-                        </CardContent>
-                      </Card>
-                    </section>
-
-                     <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Eligibility Criteria</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                 <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Parameters</TableHead>
-                                            <TableHead className="font-bold text-white">Details</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                       {jeeEligibilityCriteria.map((row, index) => (
-                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.parameter}</TableCell>
-                                                <TableCell>{row.details}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1.2s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Exam Pattern</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Number of Questions</TableHead>
-                                            <TableHead className="font-bold text-white">Total Marks</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {jeeExamPatternData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.questions}</TableCell>
-                                                <TableCell>{row.marks}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">IIT-JEE 2026 Syllabus</h2>
-                        <Card className="mt-6">
-                            <CardContent className="p-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Syllabus Topics</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {jeeSyllabusData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.types}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-            
-                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
+                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
                       <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-8">IIT-JEE 2026 FAQs</h2>
                         <Accordion type="single" collapsible className="w-full space-y-4">
@@ -511,111 +352,6 @@ export default function IitJeePage() {
                               View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
                           </Button>
                       </div>
-                    </section>
-                    
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.6s' }}>
-                      <h2 className="text-3xl font-bold text-left mb-4">NEET 2026 Exam Date</h2>
-                      <p className="text-left text-muted-foreground">
-                        NEET 2026 is expected to be conducted in the first week of May 2026. The official date will be announced by NTA.
-                      </p>
-                    </section>
-
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.8s' }}>
-                      <h2 className="text-3xl font-bold text-left mb-4">NEET 2026 Fee</h2>
-                      <Card className="mt-6">
-                        <CardContent className="pt-6">
-                          <Table>
-                            <TableHeader>
-                              <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                <TableHead className="font-bold text-white">Category</TableHead>
-                                <TableHead className="font-bold text-white">Application Fee</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {neetFeeStructure.map((row, index) => (
-                                <TableRow key={row.category} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                  <TableCell className="font-medium">{row.category}</TableCell>
-                                  <TableCell className="font-semibold text-foreground">{row.fee}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </CardContent>
-                      </Card>
-                    </section>
-
-                     <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">NEET 2026 Eligibility Criteria</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                 <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Parameters</TableHead>
-                                            <TableHead className="font-bold text-white">Details</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                       {neetEligibilityCriteria.map((row, index) => (
-                                            <TableRow key={row.parameter} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.parameter}</TableCell>
-                                                <TableCell>{row.details}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1.2s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">NEET 2026 Exam Pattern</h2>
-                        <Card className="mt-6">
-                            <CardContent className="pt-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Number of Questions</TableHead>
-                                            <TableHead className="font-bold text-white">Total Marks</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {neetExamPatternData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.questions}</TableCell>
-                                                <TableCell>{row.marks}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '1.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-4">NEET 2026 Syllabus</h2>
-                        <Card className="mt-6">
-                            <CardContent className="p-6">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
-                                            <TableHead className="font-bold text-white">Section</TableHead>
-                                            <TableHead className="font-bold text-white">Syllabus Topics</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {neetSyllabusData.map((row, index) => (
-                                            <TableRow key={row.section} className={index % 2 === 0 ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-white dark:bg-card'}>
-                                                <TableCell className="font-medium">{row.section}</TableCell>
-                                                <TableCell>{row.types}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
                     </section>
             
                      <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
