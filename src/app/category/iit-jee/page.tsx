@@ -26,7 +26,7 @@ export default function IitJeePage() {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
           icon: <FileText className="w-5 h-5 text-pink-600" />,
-          bgColor: "bg-pink-50 dark:bg-pink-900/20",
+          bgColor: "bg-pink-50 dark:bg-pink-900/30",
           borderColor: "border-pink-100 dark:border-pink-800",
           href: "#"
         },
@@ -34,7 +34,7 @@ export default function IitJeePage() {
           title: "Test Series",
           description: "Explore Our Test Series",
           icon: <ClipboardList className="w-5 h-5 text-green-600" />,
-          bgColor: "bg-green-50 dark:bg-green-900/20",
+          bgColor: "bg-green-50 dark:bg-green-900/30",
           borderColor: "border-green-100 dark:border-green-800",
           href: "#"
         },
@@ -42,7 +42,7 @@ export default function IitJeePage() {
           title: "Books",
           description: "Find Preparation Books",
           icon: <BookOpen className="w-5 h-5 text-indigo-600" />,
-          bgColor: "bg-sky-50 dark:bg-sky-900/20",
+          bgColor: "bg-sky-50 dark:bg-sky-900/30",
           borderColor: "border-sky-100 dark:border-sky-800",
           href: "/resources/reference-books"
         },
@@ -182,7 +182,7 @@ export default function IitJeePage() {
         { imageUrl: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png", alt: "Dhruv Advani", title: "Dhruv Advani - AIR 5" },
       ];
 
-    const blogLinks = [
+    const jeeBlogLinks = [
         { text: "JEE Syllabus 2026", href: "#" },
         { text: "JEE Eligibility Criteria 2026", href: "#" },
         { text: "JEE Exam Pattern 2026", href: "#" },
@@ -191,6 +191,17 @@ export default function IitJeePage() {
         { text: "JEE Courses List 2026", href: "#" },
         { text: "JEE Preparation Tips 2026", href: "#" },
         { text: "JEE Cut Off 2026", href: "#" },
+    ];
+    
+    const neetBlogLinks = [
+        { text: "NEET Syllabus 2026", href: "#" },
+        { text: "NEET Eligibility Criteria 2026", href: "#" },
+        { text: "NEET Exam Pattern 2026", href: "#" },
+        { text: "NEET Previous Year Papers", href: "#" },
+        { text: "NEET Participating Colleges 2026", href: "#" },
+        { text: "NEET Courses List 2026", href: "#" },
+        { text: "NEET Preparation Tips 2026", href: "#" },
+        { text: "NEET Cut Off 2026", href: "#" },
     ];
     
     const CheckIcon = () => (
@@ -305,7 +316,7 @@ export default function IitJeePage() {
                                 <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                            {blogLinks.map((link, index) => (
+                            {jeeBlogLinks.map((link, index) => (
                                 <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
                                     <Link href={link.href}>
                                         <div className="flex items-center gap-2">
@@ -338,7 +349,7 @@ export default function IitJeePage() {
                 </div>
             ) : (
                  <div key="neet-content">
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.4s' }}>
+                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                       <h2 className="text-3xl font-bold text-left mb-8">NEET Courses</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {neetCourses.map((course, index) => (
@@ -395,6 +406,27 @@ export default function IitJeePage() {
                               View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
                           </Button>
                       </div>
+                    </section>
+
+                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
+                        <div className="container mx-auto px-4 md:px-6">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                            {neetBlogLinks.map((link, index) => (
+                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
+                                    <Link href={link.href}>
+                                        <div className="flex items-center gap-2">
+                                            <CheckIcon />
+                                            <span className="text-sm font-medium text-left">{link.text}</span>
+                                        </div>
+                                        <ArrowRight className="h-5 w-5 text-gray-400" />
+                                    </Link>
+                                </Button>
+                            ))}
+                            </div>
+                        </div>
                     </section>
             
                      <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
