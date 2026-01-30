@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -9,8 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { getUpdates, registerForScholarship } from "@/app/actions";
-import { formatDistanceToNow } from 'date-fns';
+import { registerForScholarship } from "@/app/actions";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
@@ -80,13 +79,6 @@ const StoreIcon = () => (
     />
 );
 
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
-
 type CartItem = {
     id: number;
     name: string;
@@ -147,9 +139,7 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
-  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -213,39 +203,9 @@ export function Header() {
     }
   };
 
-
-  useEffect(() => {
-    const fetchUpdates = async () => {
-      const result = await getUpdates(3);
-      if (result.success && result.data) {
-        const fetchedUpdates = result.data as Update[];
-        setUpdates(fetchedUpdates);
-
-        if (fetchedUpdates.length > 0) {
-          const lastChecked = localStorage.getItem('lastCheckedUpdate');
-          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
-          
-          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
-            setHasNewUpdates(true);
-          }
-        }
-      }
-    };
-    if (!isIdlFoundationPage) {
-        fetchUpdates();
-    }
-  }, [isIdlFoundationPage]);
-  
   const handleLogout = async () => {
     await logout();
     router.push('/');
-  };
-
-  const handleNotificationOpenChange = (open: boolean) => {
-    if (open) {
-      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
-      setHasNewUpdates(false);
-    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -282,15 +242,15 @@ export function Header() {
 
   const renderAuthSection = () => {
     if (loading || !mounted) {
-      return <Skeleton className="h-9 w-9 rounded-full" />;
+      return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
     if (user) {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-             <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-              <Avatar className="h-9 w-9">
+             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              <Avatar className="h-10 w-10">
                  <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                 <AvatarFallback>
                   {user.name ? user.name.charAt(0).toUpperCase() : <User />}
@@ -396,45 +356,6 @@ export function Header() {
 
     return null;
   };
-  
-  const notificationDropdown = (
-    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
-                <Bell className="h-4 w-4" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {updates.length > 0 ? (
-            updates.map(update => (
-                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
-                    <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
-                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                    </p>
-                </DropdownMenuItem>
-            ))
-            ) : (
-            <DropdownMenuItem>No new updates.</DropdownMenuItem>
-            )}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-            <Link href="/notifications" className="text-center justify-center">
-                View all notifications
-            </Link>
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-  );
 
   const headerClasses = cn(
     "sticky top-0 z-50 transition-transform duration-300 h-16",
@@ -454,33 +375,33 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-auto hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
-                            <div className="flex gap-x-1 h-full">
+                            <>
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
                                 </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
                                 </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-transparent data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-transparent hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
+                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     <StoreIcon />
                                   </Link>
                                 </Button>
                               </div>
-                            </div>
+                            </>
                           ) : (
                             <div className="flex items-center gap-x-4 text-sm font-semibold">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
@@ -505,14 +426,12 @@ export function Header() {
                                 </div>
                             </a>
                         )}
-                        {!isIdlFoundationPage && notificationDropdown}
                     </div>
                     
                     <div className="flex items-center gap-1 md:hidden">
-                        {!isIdlFoundationPage && notificationDropdown}
                         {mounted && renderAuthSection()}
                         <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
                                 {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
@@ -620,15 +539,15 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
