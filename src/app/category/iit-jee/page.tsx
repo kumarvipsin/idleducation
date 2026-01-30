@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Award, Trophy } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -25,7 +25,7 @@ export default function IitJeePage() {
         {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
-          icon: <FileText className="w-6 h-6 text-pink-600" />,
+          icon: <FileText className="w-5 h-5 text-pink-600" />,
           bgColor: "bg-pink-50 dark:bg-pink-900/20",
           borderColor: "border-pink-100 dark:border-pink-800",
           href: "#"
@@ -33,7 +33,7 @@ export default function IitJeePage() {
         {
           title: "Test Series",
           description: "Explore Our Test Series",
-          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
+          icon: <ClipboardList className="w-5 h-5 text-green-600" />,
           bgColor: "bg-green-50 dark:bg-green-900/20",
           borderColor: "border-green-100 dark:border-green-800",
           href: "#"
@@ -41,7 +41,7 @@ export default function IitJeePage() {
         {
           title: "Books",
           description: "Find Preparation Books",
-          icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
+          icon: <BookOpen className="w-5 h-5 text-indigo-600" />,
           bgColor: "bg-sky-50 dark:bg-sky-900/20",
           borderColor: "border-sky-100 dark:border-sky-800",
           href: "/resources/reference-books"
@@ -49,11 +49,19 @@ export default function IitJeePage() {
          {
           title: "Blogs",
           description: "Read Our Latest Blogs",
-          icon: <Monitor className="w-6 h-6 text-blue-600" />,
+          icon: <Monitor className="w-5 h-5 text-blue-600" />,
           bgColor: "bg-blue-50 dark:bg-blue-900/20",
           borderColor: "border-blue-100 dark:border-blue-800",
           href: "/blog"
         },
+        {
+            title: "Colleges",
+            description: "Explore participating universities",
+            icon: <Landmark className="w-5 h-5 text-purple-600" />,
+            bgColor: "bg-purple-50 dark:bg-purple-900/20",
+            borderColor: "border-purple-100 dark:border-purple-800",
+            href: "#"
+          }
     ];
 
     const jeeCourses = [
@@ -182,6 +190,30 @@ export default function IitJeePage() {
         { imageUrl: "https://www.pw.live/version14/assets/img/neet-toppers-2023/dhruv-advani.png", alt: "Dhruv Advani", title: "Dhruv Advani - AIR 5" },
       ];
 
+    const blogLinks = [
+        { text: "JEE Syllabus 2026", href: "#" },
+        { text: "JEE Eligibility Criteria 2026", href: "#" },
+        { text: "JEE Exam Pattern 2026", href: "#" },
+        { text: "JEE Previous Year Papers", href: "#" },
+        { text: "JEE Participating Colleges 2026", href: "#" },
+        { text: "JEE Courses List 2026", href: "#" },
+        { text: "JEE Preparation Tips 2026", href: "#" },
+        { text: "JEE Cut Off 2026", href: "#" },
+    ];
+    
+    const CheckIcon = () => (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
+            <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <defs>
+                <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#F97316"/>
+                    <stop offset="1" stopColor="#16A34A"/>
+                </linearGradient>
+            </defs>
+        </svg>
+    );
+
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
             <section className="mb-12 animate-fade-in-up">
@@ -198,22 +230,19 @@ export default function IitJeePage() {
                 <Button onClick={() => setActiveTab('neet')} variant={activeTab === 'neet' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">NEET</Button>
             </div>
 
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
-                    <Link key={index} href={card.href} className="block">
-                    <Card className={`group pt-6 relative hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 ${card.bgColor} ${card.borderColor} rounded-lg`}>
-                        <div className="absolute -top-4 left-4 bg-white p-2 rounded-full shadow-md border">
-                            {React.cloneElement(card.icon, { className: "w-5 h-5" })}
-                        </div>
-                        <CardContent className="p-4 flex items-end justify-between">
-                        <div>
-                            <h3 className="text-base font-bold text-foreground">{card.title}</h3>
-                            <p className="text-xs text-muted-foreground">{card.description}</p>
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
-                        </CardContent>
-                    </Card>
-                </Link>
+                    <Link key={index} href={card.href} className="block group h-full">
+                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
+                            <CardContent className="p-4 flex flex-col items-start text-foreground h-full">
+                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
+                                    {card.icon}
+                                </div>
+                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
+                                <p className="text-xs text-muted-foreground mb-3 flex-grow">{card.description}</p>
+                            </CardContent>
+                        </Card>
+                    </Link>
                 ))}
             </section>
     
@@ -276,6 +305,27 @@ export default function IitJeePage() {
                               View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
                           </Button>
                       </div>
+                    </section>
+
+                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
+                        <div className="container mx-auto px-4 md:px-6">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                            {blogLinks.map((link, index) => (
+                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
+                                    <Link href={link.href}>
+                                        <div className="flex items-center gap-2">
+                                            <CheckIcon />
+                                            <span className="text-sm font-medium text-left">{link.text}</span>
+                                        </div>
+                                        <ArrowRight className="h-5 w-5 text-gray-400" />
+                                    </Link>
+                                </Button>
+                            ))}
+                            </div>
+                        </div>
                     </section>
                     
                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
@@ -372,6 +422,6 @@ export default function IitJeePage() {
                     </section>
                 </div>
             )}
-          </div>
+        </div>
     );
 }
