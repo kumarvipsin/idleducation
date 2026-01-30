@@ -23,32 +23,28 @@ export default function CuetPage() {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
           icon: <FileText className="w-6 h-6 text-pink-600" />,
-          bgColor: "bg-pink-50 dark:bg-pink-900/20",
-          borderColor: "border-pink-100 dark:border-pink-800",
+          gradient: 'from-pink-50 to-pink-100 dark:from-pink-900/30 dark:to-pink-800/30',
           href: "#"
         },
         {
           title: "Test Series",
           description: "Explore Our Test Series",
           icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          bgColor: "bg-green-50 dark:bg-green-900/20",
-          borderColor: "border-green-100 dark:border-green-800",
+          gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30',
           href: "#"
         },
         {
           title: "Books",
           description: "Find Preparation Books",
           icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
-          bgColor: "bg-sky-50 dark:bg-sky-900/20",
-          borderColor: "border-sky-100 dark:border-sky-800",
+          gradient: 'from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30',
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
           description: "Read Our Latest Blogs",
           icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          bgColor: "bg-blue-50 dark:bg-blue-900/20",
-          borderColor: "border-blue-100 dark:border-blue-800",
+          gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30',
           href: "/blog"
         },
     ];
@@ -238,19 +234,20 @@ export default function CuetPage() {
                 <Button onClick={() => setActiveTab('pg')} variant={activeTab === 'pg' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">CUET PG</Button>
             </div>
     
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               {resourceCards.map((card, index) => (
-                 <Link key={index} href={card.href} className="block mt-6">
-                    <Card className={`group pt-8 relative hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${card.bgColor} ${card.borderColor} rounded-xl`}>
-                        <div className="absolute -top-6 left-6 bg-white p-3 rounded-full shadow-lg border">
-                            {card.icon}
-                        </div>
-                        <CardContent className="p-6 flex items-end justify-between">
-                        <div>
-                            <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
-                            <p className="text-sm text-muted-foreground">{card.description}</p>
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
+                 <Link key={index} href={card.href} className="block group h-full">
+                    <Card className={`flex flex-col h-full rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}>
+                        <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
+                            <div className="flex justify-between items-start w-full mb-4">
+                                <div className="p-2 bg-white/30 rounded-full">{card.icon}</div>
+                            </div>
+                            <h3 className="text-xl font-bold mb-1 flex-grow">{card.title}</h3>
+                            <p className="text-sm text-muted-foreground mb-4">{card.description}</p>
+                            <div className="text-primary font-semibold flex items-center group-hover:underline text-sm mt-auto">
+                                VIEW MORE
+                                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </div>
                         </CardContent>
                     </Card>
                 </Link>
