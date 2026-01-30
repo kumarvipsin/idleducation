@@ -53,15 +53,7 @@ export default function IitJeePage() {
           bgColor: "bg-blue-50 dark:bg-blue-900/20",
           borderColor: "border-blue-100 dark:border-blue-800",
           href: "/blog"
-        },
-        {
-            title: "Colleges",
-            description: "Explore participating universities",
-            icon: <Landmark className="w-5 h-5 text-purple-600" />,
-            bgColor: "bg-purple-50 dark:bg-purple-900/20",
-            borderColor: "border-purple-100 dark:border-purple-800",
-            href: "#"
-          }
+        }
     ];
 
     const jeeCourses = [
@@ -230,7 +222,7 @@ export default function IitJeePage() {
                 <Button onClick={() => setActiveTab('neet')} variant={activeTab === 'neet' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">NEET</Button>
             </div>
 
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
                         <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>

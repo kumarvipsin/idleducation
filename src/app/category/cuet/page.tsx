@@ -64,15 +64,7 @@ export default function CuetPage() {
           borderColor: "border-blue-500",
           bgColor: "bg-blue-100 dark:bg-blue-900/30",
           href: "/blog"
-        },
-        {
-            title: "Colleges",
-            description: "Explore participating universities",
-            icon: <Landmark className="w-6 h-6 text-purple-600" />,
-            borderColor: "border-purple-500",
-            bgColor: "bg-purple-100 dark:bg-purple-900/30",
-            href: "#"
-          }
+        }
     ];
 
     const cuetUgCourses = [
@@ -233,7 +225,7 @@ export default function CuetPage() {
                 <Button onClick={() => setActiveTab('pg')} variant={activeTab === 'pg' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">CUET PG</Button>
             </div>
     
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
                         <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
