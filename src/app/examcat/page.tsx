@@ -1,8 +1,9 @@
+
 'use client';
 
-import { useState, Suspense } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, Suspense } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { MessageSquare, Users, Calendar } from "lucide-react";
+import { useSearchParams } from 'next/navigation';
 
 const CheckIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +32,17 @@ const CheckIcon = () => (
 
 
 function ExamcatPageContent() {
-    const [activeTab, setActiveTab] = useState('ssc-mts');
+    const searchParams = useSearchParams();
+    const categoryParam = searchParams.get('category');
+    
+    // Determine initial active tab based on URL param, default to 'ssc-mts'
+    const [activeTab, setActiveTab] = useState(categoryParam || 'ssc-mts');
+    
+    useEffect(() => {
+        if(categoryParam) {
+            setActiveTab(categoryParam);
+        }
+    }, [categoryParam]);
     
     const resourceCards = [
         {
@@ -142,12 +154,17 @@ function ExamcatPageContent() {
               </p>
             </section>
             
-            <div className="flex justify-center gap-4 mb-12">
-                <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC MTS</Button>
-                <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC CHSL</Button>
-                <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC CGL</Button>
-                <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">DELHI POLICE</Button>
+            <div className="mb-12">
+                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex justify-start md:justify-center items-center gap-4 whitespace-nowrap px-4 sm:px-0">
+                        <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC MTS</Button>
+                        <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC CHSL</Button>
+                        <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC CGL</Button>
+                        <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">DELHI POLICE</Button>
+                    </div>
+                </div>
             </div>
+
     
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
