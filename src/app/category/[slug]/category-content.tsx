@@ -37,6 +37,20 @@ interface Teacher {
   };
 }
 
+const CheckIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
+        <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <defs>
+            <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#F97316"/>
+                <stop offset="1" stopColor="#16A34A"/>
+            </linearGradient>
+        </defs>
+    </svg>
+);
+
+
 export function CategoryContent({ data, slug, competitiveExams, foundationExams, teachers }: { data: TExamCategory, slug: string, competitiveExams: TExamCategory[], foundationExams: TExamCategory[], teachers: Teacher[] }) {
   const { toast } = useToast();
   const [isLoadingPdf, setIsLoadingPdf] = useState(false);
@@ -84,6 +98,18 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
     { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy /> },
   ];
 
+  const neetBlogLinks = [
+    { text: "NEET Syllabus 2026", href: "#" },
+    { text: "NEET Eligibility Criteria 2026", href: "#" },
+    { text: "NEET Exam Pattern 2026", href: "#" },
+    { text: "NEET Previous Year Papers", href: "#" },
+    { text: "NEET Participating Colleges 2026", href: "#" },
+    { text: "NEET Courses List 2026", href: "#" },
+    { text: "NEET Preparation Tips 2026", href: "#" },
+    { text: "NEET Cut Off 2026", href: "#" },
+];
+
+
   // Fallback for other categories
   return (
     <div>
@@ -109,6 +135,26 @@ export function CategoryContent({ data, slug, competitiveExams, foundationExams,
                             <Button className="rounded-full bg-blue-600 hover:bg-blue-700">Talk to us</Button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+        <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                {neetBlogLinks.map((link, index) => (
+                    <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
+                        <Link href={link.href}>
+                            <div className="flex items-center gap-2">
+                                <CheckIcon />
+                                <span className="text-sm font-medium text-left">{link.text}</span>
+                            </div>
+                            <ArrowRight className="h-5 w-5 text-gray-400" />
+                        </Link>
+                    </Button>
+                ))}
                 </div>
             </div>
         </section>
