@@ -33,7 +33,7 @@ export function ScholarshipSection() {
                         <div className="h-64 md:h-80 flex items-center justify-center">
                            <div className="relative w-full h-full">
                                 <Image
-                                    src="https://images.unsplash.com/photo-1633061273960-9c33bf7cc0c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxTY2hvbGFyc2hpcHxlbnwwfHx8fDE3NjkwOTg2ODd8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                                    src="/ssp.jpg"
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill

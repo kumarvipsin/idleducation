@@ -24,8 +24,8 @@ export function BookDemoSection() {
                 </Link>
               </Button>
             </div>
-            <div className="relative h-56 md:h-64 flex items-end justify-center">
-                <div className="relative w-[309px] h-[309px] transform md:translate-y-[10%]">
+            <div className="relative h-64 md:h-80 flex items-end justify-center">
+                <div className="relative w-[350px] h-[350px] transform md:translate-y-[10%]">
                     <div className="absolute inset-1/4 bg-blue-200/50 dark:bg-blue-500/30 rounded-full blur-2xl animate-pulse"></div>
                     <Image
                         src="/idladv.png"
