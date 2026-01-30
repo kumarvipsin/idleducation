@@ -229,15 +229,11 @@ export default function CuetPage() {
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
                         <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-6 flex flex-col items-start text-foreground h-full">
-                                <div className={`mb-4 p-3 rounded-full ${card.bgColor}`}>
+                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
+                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
                                     {card.icon}
                                 </div>
-                                <h3 className="text-lg font-bold mb-2">{card.title}</h3>
-                                <p className="text-sm text-muted-foreground mb-4 flex-grow">{card.description}</p>
-                                <div className="mt-auto text-sm font-semibold text-primary group-hover:underline flex items-center">
-                                    View More <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                </div>
+                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
                             </CardContent>
                         </Card>
                     </Link>
