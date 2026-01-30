@@ -348,6 +348,7 @@ export function Header() {
     { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
@@ -415,7 +416,7 @@ export function Header() {
   const notificationDropdown = (
     <DropdownMenu onOpenChange={handleNotificationOpenChange}>
         <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-full">
                 <Bell className="h-4 w-4" />
                 {hasNewUpdates && (
                     <span className="absolute top-1 right-1 flex h-2 w-2">
@@ -470,7 +471,7 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-auto hidden md:flex">
-                    <nav className="items-center flex gap-x-1 h-full ml-auto" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
                               <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
@@ -506,7 +507,7 @@ export function Header() {
                     </nav>
                  </div>
                 <div className="flex items-center gap-1">
-                    <div className="items-center gap-2 hidden md:flex">
+                    <div className="hidden md:flex items-center gap-2">
                         {isIdlFoundationPage ? (
                             null
                         ) : (
@@ -516,20 +517,23 @@ export function Header() {
                                 </div>
                                 <div>
                                     <p className="text-[0.6rem] text-muted-foreground leading-none">Call now</p>
-                                    <p className="text-xs font-semibold text-foreground leading-none">70-1111-7585</p>
+                                    <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
                         )}
+                        {!isIdlFoundationPage && notificationDropdown}
                         {mounted && renderAuthSection()}
                     </div>
                     
-                    <div className="flex items-center md:hidden">
-                      <CollapsibleTrigger asChild>
-                          <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
-                              {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                              <span className="sr-only">Toggle navigation menu</span>
-                          </Button>
-                      </CollapsibleTrigger>
+                    <div className="flex items-center gap-1 md:hidden">
+                        {!isIdlFoundationPage && notificationDropdown}
+                        {mounted && renderAuthSection()}
+                        <CollapsibleTrigger asChild>
+                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-9 w-9")}>
+                                {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                                <span className="sr-only">Toggle navigation menu</span>
+                            </Button>
+                        </CollapsibleTrigger>
                     </div>
                 </div>
             </div>
