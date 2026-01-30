@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   Accordion,
   AccordionContent,
@@ -29,7 +30,7 @@ const CheckIcon = () => (
 
 
 function ExamcatPageContent() {
-    const [activeTab, setActiveTab] = useState('ssc');
+    const [activeTab, setActiveTab] = useState('ssc-mts');
     
     const resourceCards = [
         {
@@ -112,38 +113,6 @@ function ExamcatPageContent() {
         { question: "What is the exam pattern for SSC exams?", answer: "Most SSC exams consist of multiple tiers. Tier-I is generally a computer-based objective test covering General Intelligence & Reasoning, General Awareness, Quantitative Aptitude, and English Comprehension. Subsequent tiers vary by exam." },
     ];
 
-    const bankingCourses = [
-        {
-            title: "IBPS PO & Clerk Foundation Batch 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-part-a.png",
-            imageHint: "bank building",
-            language: "Hinglish",
-            startDate: "25 Jan, 2026",
-            endDate: "30 Aug, 2026",
-            price: 2499,
-            originalPrice: 10000,
-            discount: 75,
-            target: "For IBPS PO & Clerk 2026"
-        },
-        {
-            title: "SBI PO Ultimate Course 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-mba.png",
-            imageHint: "professional meeting",
-            language: "English",
-            startDate: "10 Feb, 2026",
-            endDate: "30 Sep, 2026",
-            price: 2999,
-            originalPrice: 12000,
-            discount: 75,
-            target: "For SBI PO 2026 Aspirants"
-        },
-    ];
-
-    const bankingFaqs = [
-        { question: "What is the syllabus for IBPS PO?", answer: "The syllabus includes Reasoning Ability, Quantitative Aptitude, English Language, General/Economy/Banking Awareness, and Computer Aptitude. The exam has a Prelims and a Mains stage." },
-        { question: "Is there negative marking in bank exams?", answer: "Yes, in most bank exams, there is a penalty for wrong answers, typically 0.25 marks are deducted for each incorrect response in the objective tests." },
-    ];
-
     const blogLinks = [
         { text: "How to crack SSC CGL in first attempt", href: "#" },
         { text: "IBPS PO Exam Strategy 2026", href: "#" },
@@ -154,6 +123,13 @@ function ExamcatPageContent() {
         { text: "Latest Govt Job Notifications 2026", href: "#" },
         { text: "Reasoning Puzzles for Bank PO", href: "#" },
     ];
+
+    const tabTitleMapping: { [key: string]: string } = {
+        'ssc-mts': 'SSC MTS',
+        'ssc-chsl': 'SSC CHSL',
+        'ssc-cgl': 'SSC CGL',
+        'delhi-police': 'Delhi Police',
+    };
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
@@ -167,9 +143,10 @@ function ExamcatPageContent() {
             </section>
             
             <div className="flex justify-center gap-4 mb-12">
-                <Button onClick={() => setActiveTab('ssc')} variant={activeTab === 'ssc' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC</Button>
-                <Button onClick={() => setActiveTab('banking')} variant={activeTab === 'banking' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">Banking</Button>
-                <Button onClick={() => setActiveTab('railways')} variant={activeTab === 'railways' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">Railways</Button>
+                <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC MTS</Button>
+                <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC CHSL</Button>
+                <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">SSC CGL</Button>
+                <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">DELHI POLICE</Button>
             </div>
     
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
@@ -187,10 +164,10 @@ function ExamcatPageContent() {
                 ))}
             </section>
     
-            {activeTab === 'ssc' ? (
+            {['ssc-mts', 'ssc-chsl', 'ssc-cgl', 'delhi-police'].includes(activeTab) ? (
                 <div key="ssc-content">
                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">SSC Exam Courses</h2>
+                        <h2 className="text-3xl font-bold text-left mb-8">{tabTitleMapping[activeTab]} Exam Courses</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {sscCourses.map((course, index) => (
                             <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
@@ -272,7 +249,7 @@ function ExamcatPageContent() {
             
                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
                       <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">SSC Exam FAQs</h2>
+                        <h2 className="text-3xl font-bold mb-8">{tabTitleMapping[activeTab]} Exam FAQs</h2>
                         <Accordion type="single" collapsible className="w-full space-y-4">
                           {sscFaqs.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
@@ -286,97 +263,7 @@ function ExamcatPageContent() {
                       </div>
                     </section>
                 </div>
-            ) : activeTab === 'banking' ? (
-                <div key="banking-content">
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">Banking Exam Courses</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {bankingCourses.map((course, index) => (
-                               <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                                <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                                <div className="relative w-full aspect-[16/9]">
-                                    <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
-                                </div>
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                    <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                                    <span>{course.language}</span>
-                                    <MessageSquare className="w-4 h-4" />
-                                    </div>
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                                <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
-                                
-                                <div className="flex items-center gap-2 mb-1">
-                                    <p className="text-2xl font-bold">₹{course.price}</p>
-                                    <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                                </div>
-                                <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                                    Discount of {course.discount}% applied
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
-                                </CardContent>
-                                <div className="p-4 pt-0 mt-auto">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
-                                    </div>
-                                </div>
-                            </Card>
-                            ))}
-                        </div>
-                    </section>
-                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore Govt. Exam Blogs</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                            {blogLinks.map((link, index) => (
-                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
-                                    <Link href={link.href}>
-                                        <div className="flex items-center gap-2">
-                                            <CheckIcon />
-                                            <span className="text-sm font-medium text-left">{link.text}</span>
-                                        </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-400" />
-                                    </Link>
-                                </Button>
-                            ))}
-                            </div>
-                        </div>
-                    </section>
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
-                      <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">Banking Exam FAQs</h2>
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                          {bankingFaqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                              <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                              <AccordionContent className="p-4 pt-0 text-left">
-                               {faq.answer}
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-                    </section>
-                </div>
-            ) : (
-                <div key="railways-content" className="text-center py-20">
-                    <h2 className="text-2xl font-bold">Railways Exam Content Coming Soon!</h2>
-                    <p className="text-muted-foreground mt-2">Check back later for courses and resources for RRB NTPC, Group D, and other railway exams.</p>
-                </div>
-            )}
+            ) : null }
         </div>
     );
 }
