@@ -140,7 +140,6 @@ export function Header() {
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -375,7 +374,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
@@ -428,18 +427,16 @@ export function Header() {
                         )}
                     </div>
                     
-                    <div className="flex items-center gap-1 md:hidden">
-                        {mounted && renderAuthSection()}
-                        <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
-                                {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                                <span className="sr-only">Toggle navigation menu</span>
-                            </Button>
-                        </CollapsibleTrigger>
+                    <div className="flex items-center gap-1">
+                      {mounted && renderAuthSection()}
                     </div>
-                     <div className="hidden md:flex">
-                        {mounted && renderAuthSection()}
-                    </div>
+                    
+                    <CollapsibleTrigger asChild className="md:hidden">
+                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
+                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </CollapsibleTrigger>
                 </div>
             </div>
              <CollapsibleContent asChild>
