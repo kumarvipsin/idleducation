@@ -27,7 +27,6 @@ export function AppContent({
   
   const noHeaderFooterPages = [
     '/feature',
-    '/examcat',
     '/notifications',
     '/store',
   ];
