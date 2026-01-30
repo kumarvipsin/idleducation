@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -23,30 +23,37 @@ export default function CuetPage() {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
           icon: <FileText className="w-6 h-6 text-pink-600" />,
-          gradient: 'from-pink-50 to-pink-100 dark:from-pink-900/30 dark:to-pink-800/30',
+          gradient: 'bg-pink-100 dark:bg-pink-900/30',
           href: "#"
         },
         {
           title: "Test Series",
           description: "Explore Our Test Series",
           icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          gradient: 'from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30',
+          gradient: 'bg-green-100 dark:bg-green-900/30',
           href: "#"
         },
         {
           title: "Books",
           description: "Find Preparation Books",
           icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
-          gradient: 'from-sky-50 to-sky-100 dark:from-sky-900/30 dark:to-sky-800/30',
+          gradient: 'bg-sky-100 dark:bg-sky-900/30',
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
           description: "Read Our Latest Blogs",
           icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          gradient: 'from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30',
+          gradient: 'bg-blue-100 dark:bg-blue-900/30',
           href: "/blog"
         },
+        {
+            title: "Colleges",
+            description: "Explore participating universities",
+            icon: <Landmark className="w-6 h-6 text-purple-600" />,
+            gradient: 'bg-purple-100 dark:bg-purple-900/30',
+            href: "#"
+          }
     ];
 
     const cuetUgCourses = [
@@ -234,20 +241,17 @@ export default function CuetPage() {
                 <Button onClick={() => setActiveTab('pg')} variant={activeTab === 'pg' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">CUET PG</Button>
             </div>
     
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               {resourceCards.map((card, index) => (
                  <Link key={index} href={card.href} className="block group h-full">
-                    <Card className={`flex flex-col h-full rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}>
+                    <Card className={`relative flex flex-col h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30 border-2 border-transparent bg-card`}>
                         <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                            <div className="flex justify-between items-start w-full mb-4">
-                                <div className="p-2 bg-white/30 rounded-full">{card.icon}</div>
+                            <div className="mb-4">
+                                <div className={`p-3 rounded-lg ${card.gradient}`}>{card.icon}</div>
                             </div>
-                            <h3 className="text-xl font-bold mb-1 flex-grow">{card.title}</h3>
-                            <p className="text-sm text-muted-foreground mb-4">{card.description}</p>
-                            <div className="text-primary font-semibold flex items-center group-hover:underline text-sm mt-auto">
-                                VIEW MORE
-                                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </div>
+                            <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+                            <p className="text-sm text-muted-foreground mb-4 flex-grow">{card.description}</p>
+                            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary mt-auto" />
                         </CardContent>
                     </Card>
                 </Link>
