@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from "react";
@@ -25,7 +26,7 @@ export default function IitJeePage() {
         {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
-          icon: <FileText className="w-5 h-5 text-pink-600" />,
+          icon: <FileText className="w-4 h-4 text-pink-600" />,
           bgColor: "bg-pink-50 dark:bg-pink-900/30",
           borderColor: "border-pink-100 dark:border-pink-800",
           href: "#"
@@ -33,7 +34,7 @@ export default function IitJeePage() {
         {
           title: "Test Series",
           description: "Explore Our Test Series",
-          icon: <ClipboardList className="w-5 h-5 text-green-600" />,
+          icon: <ClipboardList className="w-4 h-4 text-green-600" />,
           bgColor: "bg-green-50 dark:bg-green-900/30",
           borderColor: "border-green-100 dark:border-green-800",
           href: "#"
@@ -41,7 +42,7 @@ export default function IitJeePage() {
         {
           title: "Books",
           description: "Find Preparation Books",
-          icon: <BookOpen className="w-5 h-5 text-indigo-600" />,
+          icon: <BookOpen className="w-4 h-4 text-indigo-600" />,
           bgColor: "bg-sky-50 dark:bg-sky-900/30",
           borderColor: "border-sky-100 dark:border-sky-800",
           href: "/resources/reference-books"
@@ -49,7 +50,7 @@ export default function IitJeePage() {
          {
           title: "Blogs",
           description: "Read Our Latest Blogs",
-          icon: <Monitor className="w-5 h-5 text-blue-600" />,
+          icon: <Monitor className="w-4 h-4 text-blue-600" />,
           bgColor: "bg-blue-50 dark:bg-blue-900/20",
           borderColor: "border-blue-100 dark:border-blue-800",
           href: "/blog"
@@ -220,7 +221,7 @@ export default function IitJeePage() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
             <section className="mb-12 animate-fade-in-up">
-              <h1 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight text-left">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
                 {activeTab === 'jee' ? 'IIT-JEE' : 'NEET'} 2026: Application Form, Exam Date, Syllabus, Pattern, and More
               </h1>
               <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
@@ -233,16 +234,15 @@ export default function IitJeePage() {
                 <Button onClick={() => setActiveTab('neet')} variant={activeTab === 'neet' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">NEET</Button>
             </div>
 
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
                         <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-4 flex flex-col items-start text-foreground h-full">
+                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
                                 <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
                                     {card.icon}
                                 </div>
                                 <h3 className="text-md font-bold mb-1">{card.title}</h3>
-                                <p className="text-xs text-muted-foreground mb-3 flex-grow">{card.description}</p>
                             </CardContent>
                         </Card>
                     </Link>
@@ -251,7 +251,7 @@ export default function IitJeePage() {
     
             {activeTab === 'jee' ? (
                 <div key="jee-content">
-                    <section className="mt-16 animate-fade-in-up" style={{animationDelay: '0.4s' }}>
+                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                       <h2 className="text-3xl font-bold text-left mb-8">IIT-JEE Courses</h2>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {jeeCourses.map((course, index) => (
