@@ -469,7 +469,7 @@ export function Header() {
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-end items-center gap-1 ml-auto hidden md:flex">
                     <nav className="items-center flex gap-x-1 h-full ml-auto" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <div className="flex gap-x-1 h-full">
@@ -506,7 +506,7 @@ export function Header() {
                     </nav>
                  </div>
                 <div className="flex items-center gap-1">
-                    <div className="items-center gap-2 hidden md:flex ml-auto">
+                    <div className="items-center gap-2 hidden md:flex">
                         {isIdlFoundationPage ? (
                             null
                         ) : (
@@ -544,7 +544,7 @@ export function Header() {
                             <nav className="grid gap-1">
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="ghost" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> All Courses</span>
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
@@ -565,7 +565,7 @@ export function Header() {
                                 </Collapsible>
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="ghost" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
@@ -586,7 +586,7 @@ export function Header() {
                                 </Collapsible>
                                  <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <Button variant="outline" className="w-full justify-between text-sm">
+                                        <Button variant="ghost" className="w-full justify-between text-sm">
                                             <span className="flex items-center gap-3"><MoreHorizontal className="h-4 w-4" /> More</span>
                                             <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
                                         </Button>
@@ -605,13 +605,13 @@ export function Header() {
                                         </div>
                                     </CollapsibleContent>
                                 </Collapsible>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                <Button asChild variant="ghost" className="w-full justify-start text-sm">
                                   <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
                                     <ShoppingCart className="h-4 w-4" />
                                     IDL Store
                                   </Link>
                                 </Button>
-                                <Button asChild variant="outline" className="w-full justify-start text-sm">
+                                <Button asChild variant="ghost" className="w-full justify-start text-sm">
                                    <a href="tel:7011117585" className="flex items-center gap-3">
                                       <Phone className="h-4 w-4" />
                                       Call Now (70-1111-7585)
