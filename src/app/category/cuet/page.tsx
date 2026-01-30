@@ -23,35 +23,40 @@ export default function CuetPage() {
           title: "PDF Bank",
           description: "Access Our PDF Bank",
           icon: <FileText className="w-6 h-6 text-pink-600" />,
-          gradient: 'bg-pink-100 dark:bg-pink-900/30',
+          borderColor: "border-pink-500",
+          bgColor: "bg-pink-100 dark:bg-pink-900/30",
           href: "#"
         },
         {
           title: "Test Series",
           description: "Explore Our Test Series",
           icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          gradient: 'bg-green-100 dark:bg-green-900/30',
+          borderColor: "border-green-500",
+          bgColor: "bg-green-100 dark:bg-green-900/30",
           href: "#"
         },
         {
           title: "Books",
           description: "Find Preparation Books",
-          icon: <BookOpen className="w-6 h-6 text-indigo-600" />,
-          gradient: 'bg-sky-100 dark:bg-sky-900/30',
+          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
+          borderColor: "border-sky-500",
+          bgColor: "bg-sky-100 dark:bg-sky-900/30",
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
           description: "Read Our Latest Blogs",
           icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          gradient: 'bg-blue-100 dark:bg-blue-900/30',
+          borderColor: "border-blue-500",
+          bgColor: "bg-blue-100 dark:bg-blue-900/30",
           href: "/blog"
         },
         {
             title: "Colleges",
             description: "Explore participating universities",
             icon: <Landmark className="w-6 h-6 text-purple-600" />,
-            gradient: 'bg-purple-100 dark:bg-purple-900/30',
+            borderColor: "border-purple-500",
+            bgColor: "bg-purple-100 dark:bg-purple-900/30",
             href: "#"
           }
     ];
@@ -242,20 +247,22 @@ export default function CuetPage() {
             </div>
     
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              {resourceCards.map((card, index) => (
-                 <Link key={index} href={card.href} className="block group h-full">
-                    <Card className={`relative flex flex-col h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/30 border-2 border-transparent bg-card`}>
-                        <CardContent className="p-6 flex flex-col flex-grow items-start text-foreground">
-                            <div className="mb-4">
-                                <div className={`p-3 rounded-lg ${card.gradient}`}>{card.icon}</div>
-                            </div>
-                            <h3 className="text-lg font-bold mb-2">{card.title}</h3>
-                            <p className="text-sm text-muted-foreground mb-4 flex-grow">{card.description}</p>
-                            <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary mt-auto" />
-                        </CardContent>
-                    </Card>
-                </Link>
-              ))}
+                {resourceCards.map((card, index) => (
+                    <Link key={index} href={card.href} className="block group h-full">
+                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
+                            <CardContent className="p-6 flex flex-col items-start text-foreground h-full">
+                                <div className={`mb-4 p-3 rounded-full ${card.bgColor}`}>
+                                    {card.icon}
+                                </div>
+                                <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+                                <p className="text-sm text-muted-foreground mb-4 flex-grow">{card.description}</p>
+                                <div className="mt-auto text-sm font-semibold text-primary group-hover:underline flex items-center">
+                                    View More <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))}
             </section>
     
             {activeTab === 'ug' ? (
