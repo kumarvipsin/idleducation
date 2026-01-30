@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -33,7 +34,7 @@ export function ScholarshipSection() {
                         <div className="h-64 md:h-80 flex items-center justify-center">
                            <div className="relative w-full h-full">
                                 <Image
-                                    src="/ssp.jpg"
+                                    src="https://picsum.photos/seed/trophy/800/600"
                                     alt="Student with trophy"
                                     data-ai-hint="student trophy"
                                     fill
