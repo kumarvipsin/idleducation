@@ -29,7 +29,6 @@ export function AppContent({
     '/feature',
     '/examcat',
     '/notifications',
-    '/new-work',
     '/store',
   ];
   
