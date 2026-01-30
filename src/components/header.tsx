@@ -356,6 +356,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
+      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
 
   const loggedInNavLinks = [
@@ -393,24 +394,7 @@ export function Header() {
       );
     }
 
-    return (
-        <div className="p-2 border-t">
-            <div className="grid grid-cols-2 gap-2">
-                <Button asChild className="w-full justify-center text-sm">
-                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <LogIn className="mr-2 h-4 w-4" />
-                    <span>Login</span>
-                  </Link>
-                </Button>
-                 <Button asChild variant="outline" className="w-full justify-center text-sm">
-                  <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    <span>Sign Up</span>
-                  </Link>
-                </Button>
-            </div>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -522,7 +506,6 @@ export function Header() {
                             </a>
                         )}
                         {!isIdlFoundationPage && notificationDropdown}
-                        {mounted && renderAuthSection()}
                     </div>
                     
                     <div className="flex items-center gap-1 md:hidden">
@@ -534,6 +517,9 @@ export function Header() {
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
                         </CollapsibleTrigger>
+                    </div>
+                     <div className="hidden md:flex">
+                        {mounted && renderAuthSection()}
                     </div>
                 </div>
             </div>
@@ -634,15 +620,15 @@ export function Header() {
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
           </div>
         </div>
       </div>
