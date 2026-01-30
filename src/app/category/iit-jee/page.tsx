@@ -1,5 +1,6 @@
 'use client';
 
+import React from "react";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 export default function IitJeePage() {
     const [activeTab, setActiveTab] = useState('jee');
-
+    
     const resourceCards = [
         {
           title: "PDF Bank",
@@ -191,29 +192,29 @@ export default function IitJeePage() {
                 The {activeTab === 'jee' ? 'Joint Entrance Examination (JEE)' : 'National Eligibility cum Entrance Test (NEET)'} is a national-level examination for admission to premier engineering and medical colleges in India.
               </p>
             </section>
-
+            
             <div className="flex justify-center gap-4 mb-12">
                 <Button onClick={() => setActiveTab('jee')} variant={activeTab === 'jee' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">IIT-JEE</Button>
                 <Button onClick={() => setActiveTab('neet')} variant={activeTab === 'neet' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">NEET</Button>
             </div>
-    
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              {resourceCards.map((card, index) => (
-                 <Link key={index} href={card.href} className="block mt-6">
-                    <Card className={`group pt-8 relative hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${card.bgColor} ${card.borderColor} rounded-xl`}>
-                        <div className="absolute -top-6 left-6 bg-white p-3 rounded-full shadow-lg border">
-                            {card.icon}
+
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                {resourceCards.map((card, index) => (
+                    <Link key={index} href={card.href} className="block">
+                    <Card className={`group pt-6 relative hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 ${card.bgColor} ${card.borderColor} rounded-lg`}>
+                        <div className="absolute -top-4 left-4 bg-white p-2 rounded-full shadow-md border">
+                            {React.cloneElement(card.icon, { className: "w-5 h-5" })}
                         </div>
-                        <CardContent className="p-6 flex items-end justify-between">
+                        <CardContent className="p-4 flex items-end justify-between">
                         <div>
-                            <h3 className="text-xl font-bold text-foreground">{card.title}</h3>
-                            <p className="text-sm text-muted-foreground">{card.description}</p>
+                            <h3 className="text-base font-bold text-foreground">{card.title}</h3>
+                            <p className="text-xs text-muted-foreground">{card.description}</p>
                         </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
+                        <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
                         </CardContent>
                     </Card>
                 </Link>
-              ))}
+                ))}
             </section>
     
             {activeTab === 'jee' ? (
