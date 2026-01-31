@@ -62,8 +62,8 @@ export default function AboutPage() {
     ];
 
   return (
-    <div className="bg-background">
-        <section className="py-16 md:py-24 bg-white">
+    <div className="bg-white dark:bg-background">
+        <section className="py-16 md:py-24 bg-white dark:bg-card">
             <div className="container mx-auto px-4 md:px-6">
                 <Card className="rounded-2xl shadow-lg border">
                     <CardContent className="p-8 md:p-12">
@@ -118,7 +118,7 @@ export default function AboutPage() {
             </div>
         </section>
         
-        <section className="w-full py-16 md:py-24 bg-white">
+        <section className="w-full py-16 md:py-24 bg-white dark:bg-card">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Meet Our{' '}
