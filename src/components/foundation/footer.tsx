@@ -32,7 +32,7 @@ export function FoundationFooter({ openDonateDialog, openVolunteerDialog }: Foun
     ];
     
     return (
-        <footer className="bg-blue-950 text-gray-300">
+        <footer className="bg-black text-gray-300">
             <Separator className="w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -44,7 +44,7 @@ export function FoundationFooter({ openDonateDialog, openVolunteerDialog }: Foun
                                 <span className="text-lg font-black text-white">IDL FOUNDATION</span>
                             </div>
                         </Link>
-                        <p className="text-lg text-white/80 font-dancing-script font-extrabold">A non-profit organization dedicated to empowering communities through education and skill development.</p>
+                        <p className="text-lg text-white/80 font-bold">A non-profit organization dedicated to empowering communities through education and skill development.</p>
                     </div>
 
                     {/* Column 2: Quick Links */}
@@ -85,7 +85,7 @@ export function FoundationFooter({ openDonateDialog, openVolunteerDialog }: Foun
                     </div>
                 </div>
             </div>
-            <div className="bg-blue-900 border-t border-blue-800 py-2 text-center text-xs text-white/60">
+            <div className="bg-gray-900 border-t border-gray-800 py-2 text-center text-xs text-white/60">
                 <p>&copy; {new Date().getFullYear()} IDL Foundation. All Rights Reserved.</p>
             </div>
         </footer>
