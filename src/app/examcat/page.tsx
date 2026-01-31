@@ -123,18 +123,7 @@ function ExamcatPageContent() {
         { question: "What is the eligibility for SSC CHSL?", answer: "Candidates must have passed the 12th Standard or equivalent examination from a recognized Board or University. The age limit is typically 18-27 years, with relaxations for reserved categories." },
         { question: "What is the exam pattern for SSC exams?", answer: "Most SSC exams consist of multiple tiers. Tier-I is generally a computer-based objective test covering General Intelligence & Reasoning, General Awareness, Quantitative Aptitude, and English Comprehension. Subsequent tiers vary by exam." },
     ];
-
-    const blogLinks = [
-        { text: "How to crack SSC CGL in first attempt", href: "#" },
-        { text: "IBPS PO Exam Strategy 2026", href: "#" },
-        { text: "Best Books for Railway RRB NTPC", href: "#" },
-        { text: "Daily Current Affairs for Govt Exams", href: "#" },
-        { text: "Quantitative Aptitude Shortcut Tricks", href: "#" },
-        { text: "English Vocabulary for SSC & Banking", href: "#" },
-        { text: "Latest Govt Job Notifications 2026", href: "#" },
-        { text: "Reasoning Puzzles for Bank PO", href: "#" },
-    ];
-
+    
     const tabTitleMapping: { [key: string]: string } = {
         'ssc-mts': 'SSC MTS',
         'ssc-chsl': 'SSC CHSL',
@@ -142,6 +131,62 @@ function ExamcatPageContent() {
         'delhi-police': 'Delhi Police',
         'govt-job-exams': 'Govt Job'
     };
+    
+    const blogLinksData: { [key: string]: { text: string; href: string }[] } = {
+        'ssc-cgl': [
+            { text: "SSC CGL Syllabus 2026", href: "#" },
+            { text: "SSC CGL Eligibility Criteria 2026", href: "#" },
+            { text: "SSC CGL Exam Pattern 2026", href: "#" },
+            { text: "SSC CGL Previous Year Papers", href: "#" },
+            { text: "SSC CGL Participating Posts 2026", href: "#" },
+            { text: "SSC CGL Salary & Job Profile 2026", href: "#" },
+            { text: "SSC CGL Preparation Tips 2026", href: "#" },
+            { text: "SSC CGL Cut Off 2026", href: "#" },
+        ],
+        'ssc-chsl': [
+            { text: "SSC CHSL Syllabus 2026", href: "#" },
+            { text: "SSC CHSL Eligibility Criteria 2026", href: "#" },
+            { text: "SSC CHSL Exam Pattern 2026", href: "#" },
+            { text: "SSC CHSL Previous Year Papers", href: "#" },
+            { text: "SSC CHSL Participating Posts 2026", href: "#" },
+            { text: "SSC CHSL Salary & Job Profile 2026", href: "#" },
+            { text: "SSC CHSL Preparation Tips 2026", href: "#" },
+            { text: "SSC CHSL Cut Off 2026", href: "#" },
+        ],
+        'ssc-mts': [
+            { text: "SSC MTS Syllabus 2026", href: "#" },
+            { text: "SSC MTS Eligibility Criteria 2026", href: "#" },
+            { text: "SSC MTS Exam Pattern 2026", href: "#" },
+            { text: "SSC MTS Previous Year Papers", href: "#" },
+            { text: "SSC MTS Job Profile 2026", href: "#" },
+            { text: "SSC MTS Salary 2026", href: "#" },
+            { text: "SSC MTS Preparation Tips 2026", href: "#" },
+            { text: "SSC MTS Cut Off 2026", href: "#" },
+        ],
+        'delhi-police': [
+            { text: "Delhi Police Syllabus 2026", href: "#" },
+            { text: "Delhi Police Eligibility Criteria 2026", href: "#" },
+            { text: "Delhi Police Exam Pattern 2026", href: "#" },
+            { text: "Delhi Police Previous Year Papers", href: "#" },
+            { text: "Delhi Police Physical Test Details 2026", href: "#" },
+            { text: "Delhi Police Salary & Promotion 2026", href: "#" },
+            { text: "Delhi Police Preparation Tips 2026", href: "#" },
+            { text: "Delhi Police Cut Off 2026", href: "#" },
+        ],
+        'govt-job-exams': [
+            { text: "How to crack SSC CGL in first attempt", href: "#" },
+            { text: "IBPS PO Exam Strategy 2026", href: "#" },
+            { text: "Best Books for Railway RRB NTPC", href: "#" },
+            { text: "Daily Current Affairs for Govt Exams", href: "#" },
+            { text: "Quantitative Aptitude Shortcut Tricks", href: "#" },
+            { text: "English Vocabulary for SSC & Banking", href: "#" },
+            { text: "Latest Govt Job Notifications 2026", href: "#" },
+            { text: "Reasoning Puzzles for Bank PO", href: "#" },
+        ]
+    };
+    
+    const blogLinks = blogLinksData[activeTab] || blogLinksData['govt-job-exams'];
+    const blogSectionTitle = `Explore ${tabTitleMapping[activeTab] || 'Govt Job'} Exam Blogs`;
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
@@ -246,7 +291,7 @@ function ExamcatPageContent() {
                     <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
                         <div className="container mx-auto px-4 md:px-6">
                             <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore Govt. Exam Blogs</h2>
+                                <h2 className="text-3xl font-bold">{blogSectionTitle}</h2>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
                             {blogLinks.map((link, index) => (
