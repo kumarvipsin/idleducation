@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card } from "@/components/ui/card";
@@ -21,10 +20,10 @@ const people = [
 
 export function Donors() {
     return (
-        <section className="w-full py-8 bg-background">
+        <section className="w-full py-8 bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Our Donors</h2>
+                    <h2 className="text-3xl md:text-4xl font-black text-foreground">Our <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Donors</span></h2>
                 </div>
                 <div className="space-y-8">
                     <div>
