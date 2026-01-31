@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Header } from "@/components/header";
@@ -195,7 +196,6 @@ export default function IDLFoundationPage() {
             <Glimpses />
             <Events />
             <Team />
-            <FAQ />
             <FoundationContactForm />
             <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} openVolunteerDialog={() => setIsVolunteerDialogOpen(true)} />
             <VolunteerDialog isOpen={isVolunteerDialogOpen} onOpenChange={setIsVolunteerDialogOpen} />
