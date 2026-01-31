@@ -21,7 +21,7 @@ export const TeamCarousel = ({ members }: { members: TTeamMember[] }) => {
     }
 
     return (
-        <div className="relative px-12">
+        <div className="relative px-12 group">
             <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex -ml-4">
                     {members.map((member) => (
@@ -40,12 +40,12 @@ export const TeamCarousel = ({ members }: { members: TTeamMember[] }) => {
                 </div>
             </div>
              <div className="absolute top-1/2 -translate-y-1/2 left-0 hidden md:block">
-                <Button variant="outline" size="icon" onClick={scrollPrev} className="rounded-full h-10 w-10 shadow-md">
+                <Button variant="ghost" size="icon" onClick={scrollPrev} className="rounded-full h-10 w-10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 hover:bg-black/40 text-white">
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
             </div>
              <div className="absolute top-1/2 -translate-y-1/2 right-0 hidden md:block">
-                <Button variant="outline" size="icon" onClick={scrollNext} className="rounded-full h-10 w-10 shadow-md">
+                <Button variant="ghost" size="icon" onClick={scrollNext} className="rounded-full h-10 w-10 opacity-0 group-hover:opacity-100 transition-opacity bg-black/20 hover:bg-black/40 text-white">
                     <ArrowRight className="h-5 w-5" />
                 </Button>
             </div>
