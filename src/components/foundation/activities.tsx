@@ -56,25 +56,14 @@ export function Activities() {
     );
 
   return (
-    <section className="w-full py-16 md:py-24 bg-slate-100 dark:bg-gray-900/50">
+    <section className="w-full py-16 md:py-24 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
             IDL FOUNDATION ACTIVITIES
           </p>
           <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight mt-2">
-            <span className="relative inline-block pb-3">
-              Our Activities
-              <svg
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-3 text-yellow-400"
-                viewBox="0 0 100 12"
-                preserveAspectRatio="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ strokeWidth: 5 }}
-              >
-                <path d="M0,6 C30,0 70,12 100,6" stroke="currentColor" fill="none" />
-              </svg>
-            </span>
+            Our <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Activities</span>
           </h2>
         </div>
         <Carousel setApi={setApi} opts={{ align: "center", loop: true }} className="w-full">
