@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal, Bell, Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -9,7 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { registerForScholarship } from "@/app/actions";
+import { getUpdates, registerForScholarship } from "@/app/actions";
+import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
@@ -139,8 +140,13 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
+  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
+  const [isDonateOpen, setIsDonateOpen] = useState(false);
+  const [isVolunteerDialogOpen, setIsVolunteerDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);
@@ -202,9 +208,39 @@ export function Header() {
     }
   };
 
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      const result = await getUpdates(3);
+      if (result.success && result.data) {
+        const fetchedUpdates = result.data as Update[];
+        setUpdates(fetchedUpdates);
+
+        if (fetchedUpdates.length > 0) {
+          const lastChecked = localStorage.getItem('lastCheckedUpdate');
+          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
+          
+          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
+            setHasNewUpdates(true);
+          }
+        }
+      }
+    };
+    if (!isIdlFoundationPage) {
+        fetchUpdates();
+    }
+  }, [isIdlFoundationPage]);
+  
   const handleLogout = async () => {
     await logout();
     router.push('/');
+  };
+
+  const handleNotificationOpenChange = (open: boolean) => {
+    if (open) {
+      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
+      setHasNewUpdates(false);
+    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -217,7 +253,7 @@ export function Header() {
     return `/${user.role}/profile`;
   }
 
-  const logoHref = "/";
+  const logoHref = isIdlFoundationPage ? "/idl-foundation" : "/";
 
   const handleMouseEnter = (menu: string) => {
     if (menuTimeoutRef.current) {
@@ -324,7 +360,7 @@ export function Header() {
   ];
 
   const renderMobileAuthSection = () => {
-    if (loading || !mounted) {
+    if (loading) {
         return (
             <div className="flex items-center gap-3 p-2 border-t">
                 <Skeleton className="h-10 w-10 rounded-full" />
@@ -336,30 +372,53 @@ export function Header() {
         );
     }
     if (user) {
-      return (
-        <div className="p-2 border-t">
-          {loggedInNavLinks.map(link => (
-            <Button asChild variant="ghost" className="w-full justify-start text-sm" key={link.href}>
-              <Link href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
-                {link.icon}
-                <span className="ml-3">{link.label}</span>
-              </Link>
-            </Button>
-          ))}
-          <Button variant="ghost" className="w-full justify-start text-sm" onClick={handleLogout}>
-              <LogOut className="mr-3 h-4 w-4" /> Logout
-          </Button>
-        </div>
-      );
+      return null;
     }
-
     return null;
   };
+  
+  const notificationDropdown = (
+    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
+        <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
+                <Bell className="h-5 w-5" />
+                {hasNewUpdates && (
+                    <span className="absolute top-1 right-1 flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                    </span>
+                )}
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {updates.length > 0 ? (
+            updates.map(update => (
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
+                    <p className="font-semibold">{update.title}</p>
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
+                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                    </p>
+                </DropdownMenuItem>
+            ))
+            ) : (
+            <DropdownMenuItem>No new updates.</DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+            <Link href="/notifications" className="text-center justify-center">
+                View all notifications
+            </Link>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   const headerClasses = cn(
     "sticky top-0 z-50 transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
-    (pathname !== '/' && !isIdlFoundationPage) && "border-b",
     "bg-background/95 backdrop-blur-sm"
   );
   
@@ -370,11 +429,14 @@ export function Header() {
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                <Link href={logoHref} className="flex items-center justify-center -ml-2">
-                  <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                <Link href={logoHref} className="flex items-center gap-2">
+                    <Image src="/logo.png" alt="IDL Education Logo" width={isIdlFoundationPage ? 40 : 48} height={isIdlFoundationPage ? 40 : 48} className={cn("h-auto", isIdlFoundationPage ? "w-10" : "w-12")} />
+                    {isIdlFoundationPage && (
+                        <span className="text-xl font-bold text-primary">IDL Foundation</span>
+                    )}
                 </Link>
                 
-                 <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
+                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
                     <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
@@ -413,7 +475,14 @@ export function Header() {
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
                         {isIdlFoundationPage ? (
-                            null
+                            <>
+                             <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
+                                DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
+                            </Button>
+                             <Button onClick={() => setIsVolunteerDialogOpen(true)} variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
+                                Volunteer
+                            </Button>
+                            </>
                         ) : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -428,6 +497,7 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
+                      {!isIdlFoundationPage && notificationDropdown}
                       {mounted && renderAuthSection()}
                     </div>
                     
@@ -542,9 +612,8 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
