@@ -184,33 +184,34 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                         {donationCategories.map((category, index) => {
                             const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                             return (
-                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border">
-                                    <div className="relative aspect-video w-full">
-                                        <Image
-                                            src={category.imageUrl}
-                                            alt={category.title}
-                                            data-ai-hint={category.imageHint}
-                                            fill
-                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                        />
-                                    </div>
+                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-gradient-to-br from-red-500 via-pink-500 to-purple-600 text-white border-0">
                                     <CardContent className="p-6 flex-grow flex flex-col">
-                                        <h3 className="text-xl text-left font-bold text-foreground">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
-                                        <p className="text-sm text-muted-foreground mt-2 text-left flex-grow">{category.description}</p>
-
+                                        <h3 className="text-xl text-left font-bold">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                        <p className="text-sm text-white/80 mt-2 text-left flex-grow">{category.description}</p>
+                                
                                         <div className="mt-6 space-y-3">
-                                            <Progress value={percentage} className="h-2 [&>div]:bg-green-500" />
+                                            <Progress value={percentage} className="h-2 bg-white/30 [&>div]:bg-white" />
                                             <div className="flex justify-between items-center text-sm font-semibold">
                                                 <div>
-                                                    <span className="text-muted-foreground text-xs block">Raised</span>
-                                                    <span className="text-green-600">₹{category.raised.toLocaleString('en-IN')}</span>
+                                                    <span className="text-white/80 text-xs block">Raised</span>
+                                                    <span className="text-white">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
                                                 <div className="text-right">
-                                                    <span className="text-muted-foreground text-xs block">Goal</span>
-                                                    <span className="text-primary">₹{category.goal.toLocaleString('en-IN')}</span>
+                                                    <span className="text-white/80 text-xs block">Goal</span>
+                                                    <span className="text-white">₹{category.goal.toLocaleString('en-IN')}</span>
                                                 </div>
                                             </div>
                                         </div>
+                                        <Button 
+                                            onClick={() => {
+                                                setDonationCategory(category.title);
+                                                onDonateDialogChange(true);
+                                            }} 
+                                            variant="secondary" 
+                                            className="w-full mt-4 bg-white/20 hover:bg-white/30 text-white"
+                                        >
+                                            Donate Now <Heart className="ml-2 w-4 h-4 fill-current"/>
+                                        </Button>
                                     </CardContent>
                                 </Card>
                             )
@@ -221,3 +222,4 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
         </>
     );
 }
+    
