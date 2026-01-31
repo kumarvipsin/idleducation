@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react";
@@ -184,7 +185,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                         {donationCategories.map((category, index) => {
                             const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
                             return (
-                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-gradient-to-br from-red-500 via-pink-500 to-purple-600 text-white border-0">
+                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-gradient-to-br from-blue-500 to-cyan-500 dark:from-blue-800/70 dark:to-cyan-800/70 text-white border-0">
                                     <CardContent className="p-6 flex-grow flex flex-col">
                                         <h3 className="text-xl text-left font-bold">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
                                         <p className="text-sm text-white/80 mt-2 text-left flex-grow">{category.description}</p>
@@ -222,4 +223,3 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
         </>
     );
 }
-    
