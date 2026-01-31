@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from "react";
@@ -121,7 +122,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                     </svg>
                                 </div>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">Make World Happier</h1>
+                        <h1 className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">Make World Happier</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
@@ -177,45 +178,6 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                 </DialogContent>
                             </Dialog>
                         </div>
-                    </div>
-                </div>
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {donationCategories.map((category, index) => {
-                            const percentage = category.goal > 0 ? (category.raised / category.goal) * 100 : 0;
-                            return (
-                                <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-gradient-to-br from-blue-500 to-cyan-500 dark:from-blue-800/70 dark:to-cyan-800/70 text-white border-0">
-                                    <CardContent className="p-6 flex-grow flex flex-col">
-                                        <h3 className="text-2xl text-left font-extrabold tracking-tight">{category.title.includes('Environment') ? <span className="font-extrabold">Environment / Tree Plantation</span>: category.title}</h3>
-                                        <p className="text-sm text-white/80 mt-2 text-left flex-grow">{category.description}</p>
-                                
-                                        <div className="mt-6 space-y-3">
-                                            <Progress value={percentage} className="h-2 bg-white/30 [&>div]:bg-white" />
-                                            <div className="flex justify-between items-center text-sm font-semibold">
-                                                <div>
-                                                    <span className="text-white/80 text-xs block">Raised</span>
-                                                    <span className="text-white text-lg font-bold">₹{category.raised.toLocaleString('en-IN')}</span>
-                                                </div>
-                                                <div className="text-right">
-                                                    <span className="text-white/80 text-xs block">Goal</span>
-                                                    <span className="text-white text-lg font-bold">₹{category.goal.toLocaleString('en-IN')}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <Button 
-                                            onClick={() => {
-                                                setDonationCategory(category.title);
-                                                onDonateDialogChange(true);
-                                            }} 
-                                            variant="secondary" 
-                                            className="w-full mt-4 bg-white/20 hover:bg-white/30 text-white"
-                                        >
-                                            Donate Now <Heart className="ml-2 w-4 h-4 fill-current"/>
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            )
-                        })}
                     </div>
                 </div>
             </section>
