@@ -49,7 +49,9 @@ export function VisionMission() {
                                 </svg>
                             </span>
                         </h2>
-                        
+                        <p className="text-muted-foreground leading-relaxed max-w-prose">
+                            Our mission is to extend our reach and positively impact the lives of one lakh individuals by providing essential resources, quality education, and opportunities for sustainable growth.
+                        </p>
                         <div className="flex items-center gap-8 pt-4">
                              <SunIcon className="w-16 h-16 text-yellow-500 animate-spin-slow" />
                              <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
