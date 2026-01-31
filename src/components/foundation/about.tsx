@@ -15,11 +15,8 @@ export function About() {
                         <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
                             Empowering Communities,
                             <br/>
-                            <span className="relative inline-block pb-3">
+                            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                                 Transforming Lives
-                                <svg className="absolute bottom-0 left-0 w-full h-3 text-yellow-400" viewBox="0 0 120 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style={{ strokeWidth: 5 }}>
-                                    <path d="M0,6 C40,0 80,0 120,6" stroke="currentColor" fill="none"/>
-                                </svg>
                             </span>
                         </h2>
                         <p className="text-muted-foreground leading-relaxed max-w-prose">
