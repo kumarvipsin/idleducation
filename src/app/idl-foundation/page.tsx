@@ -9,8 +9,7 @@ import { About } from "@/components/foundation/about";
 import { Team } from "@/components/foundation/team";
 import { FoundationFooter } from "@/components/foundation/footer";
 import { useState } from "react";
-import { FoundationContactForm } from "@/components/foundation/contact-form";
-import { FAQ } from "@/components/foundation/faq";
+import { FoundationTestimonials } from "@/components/foundation/testimonials";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { X, Heart, IndianRupee, Banknote, CheckCircle } from 'lucide-react';
@@ -193,10 +192,10 @@ export default function IDLFoundationPage() {
             <VisionMission />
             <Activities />
             <Donors />
+            <FoundationTestimonials />
             <Glimpses />
             <Events />
             <Team />
-            <FoundationContactForm />
             <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} openVolunteerDialog={() => setIsVolunteerDialogOpen(true)} />
             <VolunteerDialog isOpen={isVolunteerDialogOpen} onOpenChange={setIsVolunteerDialogOpen} />
         </div>
