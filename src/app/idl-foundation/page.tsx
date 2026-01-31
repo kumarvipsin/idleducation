@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Header } from "@/components/header";
@@ -41,10 +40,10 @@ export default function IDLFoundationPage() {
                 isDonateDialogOpen={isDonateOpen}
                 onDonateDialogChange={setIsDonateOpen}
             />
+            <About />
             <Donors />
             <Glimpses />
             <Events />
-            <About />
             <Team />
             <FAQ />
             <FoundationContactForm />
