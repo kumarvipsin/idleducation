@@ -1,9 +1,8 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -141,13 +140,14 @@ function ExamcatPageContent() {
         'ssc-chsl': 'SSC CHSL',
         'ssc-cgl': 'SSC CGL',
         'delhi-police': 'Delhi Police',
+        'govt-job-exams': 'Govt Job'
     };
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
             <section className="mb-20 animate-fade-in-up">
               <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
-                Govt Job Exams 2026: Application Form, Exam Date, Syllabus, Pattern
+                {(tabTitleMapping[activeTab] || 'Govt Job')} Exams 2026: Application Form, Exam Date, Syllabus, Pattern
               </h1>
               <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
                 Your one-stop destination for all government job exam preparations. Get complete details for SSC, Banking, Railways, and other government exams, including dates, syllabus, and preparation strategies.
@@ -184,7 +184,7 @@ function ExamcatPageContent() {
             {['ssc-mts', 'ssc-chsl', 'ssc-cgl', 'delhi-police'].includes(activeTab) ? (
                 <div key="ssc-content">
                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">{tabTitleMapping[activeTab]} Exam Courses</h2>
+                        <h2 className="text-3xl font-bold text-left mb-8">{(tabTitleMapping[activeTab] || 'Govt Job')} Exam Courses</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {sscCourses.map((course, index) => (
                             <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
@@ -266,7 +266,7 @@ function ExamcatPageContent() {
             
                     <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
                       <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">{tabTitleMapping[activeTab]} Exam FAQs</h2>
+                        <h2 className="text-3xl font-bold mb-8">{(tabTitleMapping[activeTab] || 'Govt Job')} Exam FAQs</h2>
                         <Accordion type="single" collapsible className="w-full space-y-4">
                           {sscFaqs.map((faq, index) => (
                             <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from "react";
@@ -79,7 +78,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   const [loading, setLoading] = useState(!testimonials);
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-  const { language } = useLanguage();
+  const language = 'en';
  
   useEffect(() => {
     if (!api) {
