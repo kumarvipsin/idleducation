@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Script from "next/script";
+import { Activities } from "@/components/foundation/activities";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -189,6 +190,7 @@ export default function IDLFoundationPage() {
             </section>
             <About />
             <VisionMission />
+            <Activities />
             <Donors />
             <Glimpses />
             <Events />
