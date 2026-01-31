@@ -115,7 +115,7 @@ const AllCoursesMegaMenu = () => {
     )
 }
 
-const MegaMenu = ({ links, title, children, onLinkClick }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, colorClasses?: string, onClick?: () => void }[], title: string, children?: React.ReactNode, onLinkClick?: () => void }) => (
+const MegaMenu = ({ links, title, children, onLinkClick }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string, onClick?: () => void, colorClasses?: string }[], title: string, children?: React.ReactNode, onLinkClick?: () => void }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
@@ -275,7 +275,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (loading || !mounted) {
+    if (!mounted || loading) {
       return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
@@ -324,6 +324,10 @@ export function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
       );
+    }
+    
+    if (isIdlFoundationPage) {
+        return null;
     }
 
     return (
@@ -470,14 +474,17 @@ export function Header() {
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
                         {isIdlFoundationPage ? (
-                            <Dialog open={isDonateOpen} onOpenChange={setIsDonateOpen}>
+                            <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
+                                    <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
                                         DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent>
-                                  {/* ... Dialog Content Here ... */}
+                                    <DialogHeader>
+                                        <DialogTitle>Donate</DialogTitle>
+                                    </DialogHeader>
+                                    <p>Donation form goes here.</p>
                                 </DialogContent>
                             </Dialog>
                         ) : (
@@ -495,7 +502,7 @@ export function Header() {
                     
                     <div className="flex items-center gap-1">
                       {!isIdlFoundationPage && notificationDropdown}
-                      {mounted && !isIdlFoundationPage && renderAuthSection()}
+                      {mounted && renderAuthSection()}
                     </div>
                     
                     <CollapsibleTrigger asChild className="md:hidden">
@@ -609,8 +616,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
