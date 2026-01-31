@@ -145,7 +145,6 @@ export function Header() {
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
-  const [isDonateOpen, setIsDonateOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);
@@ -275,7 +274,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (!mounted || loading) {
+    if (loading) {
       return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
@@ -462,31 +461,13 @@ export function Header() {
                                 </Button>
                               </div>
                             </>
-                          ) : (
-                            <div className="flex items-center gap-x-4 text-sm font-semibold">
-                              <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
-                              <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                              <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
-                            </div>
-                          )}
+                          ) : null}
                     </nav>
                  </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
                         {isIdlFoundationPage ? (
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
-                                        DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Donate</DialogTitle>
-                                    </DialogHeader>
-                                    <p>Donation form goes here.</p>
-                                </DialogContent>
-                            </Dialog>
+                             null
                         ) : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
