@@ -129,7 +129,7 @@ export default function IDLFoundationPage() {
                                     </svg>
                                 </div>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black tracking-tighter bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">Make World Happier</h1>
+                        <h1 className="text-4xl md:text-5xl font-black text-foreground">Make World <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Happier</span></h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
