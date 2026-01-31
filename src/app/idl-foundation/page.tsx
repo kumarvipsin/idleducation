@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { FoundationHero } from "@/components/foundation/foundation-hero";
 import { VolunteerDialog } from "@/components/foundation/volunteer-dialog";
+import { VisionMission } from "@/components/foundation/vision-mission";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
@@ -34,13 +35,14 @@ export default function IDLFoundationPage() {
         <div className="relative w-full bg-white dark:bg-background overflow-y-auto">
             <Header />
             <FoundationHero slides={donationCategories} />
+            <About />
+            <VisionMission />
             <DonationCategories 
                 donationCategories={donationCategories} 
                 openDonateDialog={() => setIsDonateOpen(true)} 
                 isDonateDialogOpen={isDonateOpen}
                 onDonateDialogChange={setIsDonateOpen}
             />
-            <About />
             <Donors />
             <Glimpses />
             <Events />
