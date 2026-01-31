@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal, Bell, Heart } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Atom, Landmark, MoreHorizontal, Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -146,7 +146,6 @@ export function Header() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const [isDonateOpen, setIsDonateOpen] = useState(false);
-  const [isVolunteerDialogOpen, setIsVolunteerDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);
@@ -328,7 +327,13 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return null;
+        return (
+            <div className="flex items-center gap-2">
+                <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
+                    DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
+                </Button>
+            </div>
+        );
     }
 
     return (
@@ -475,14 +480,9 @@ export function Header() {
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
                         {isIdlFoundationPage ? (
-                            <>
-                             <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
+                            <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
                                 DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
                             </Button>
-                             <Button onClick={() => setIsVolunteerDialogOpen(true)} variant="outline" className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out">
-                                Volunteer
-                            </Button>
-                            </>
                         ) : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
@@ -612,8 +612,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
