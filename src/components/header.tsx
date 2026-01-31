@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { getUpdates, registerForScholarship } from "@/app/actions";
+import { getUpdates, registerForScholarship, createRazorpayOrder, recordDonation } from "@/app/actions";
 import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
@@ -31,6 +31,10 @@ import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
+import Script from "next/script";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Label } from "./ui/label";
+
 
 const allCoursesCategories = [
     {
@@ -132,6 +136,15 @@ const MegaMenu = ({ links, title, children, onLinkClick }: { links?: { href: str
     </div>
   );
 
+const donationCategories = [
+    { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
+    { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/1600/450", imageHint: "children studying", goal: 100000, raised: 2200 },
+    { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/1600/450", imageHint: "planting tree", goal: 100000, raised: 1800 },
+    { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
+];
+
 export function Header() {
   const { t } = useLanguage();
   const { user, loading } = useAuth();
@@ -155,8 +168,76 @@ export function Header() {
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  
+  const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
+  const [donationCategory, setDonationCategory] = useState<string>("");
+  const [donationStep, setDonationStep] = useState(1);
+  const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '', place: '' });
+  const [donationAmount, setDonationAmount] = useState('');
 
   const isIdlFoundationPage = pathname === '/idl-foundation';
+  
+  const handleDonateClick = () => {
+    setDonationStep(2);
+  }
+
+  const handleDetailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDonorDetails({ ...donorDetails, [e.target.name]: e.target.value });
+  }
+
+  const handlePayment = async () => {
+    const amount = parseInt(donationAmount);
+    if (isNaN(amount) || amount <= 0) {
+        toast({ variant: 'destructive', title: 'Invalid Amount', description: 'Please enter a valid donation amount.' });
+        return;
+    }
+
+    const result = await createRazorpayOrder({ amount: amount * 100, currency: 'INR' });
+    if (!result.success || !result.order) {
+        toast({ variant: 'destructive', title: 'Payment Error', description: 'Could not create payment order.' });
+        return;
+    }
+    const order = result.order;
+    const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'IDL Foundation Donation',
+        description: `Donation for ${donationCategory}`,
+        order_id: order.id,
+        handler: async function (response: any) {
+            const donationData = {
+                ...donorDetails,
+                amount: amount,
+                category: donationCategory,
+                paymentId: response.razorpay_payment_id,
+            };
+            await recordDonation(donationData);
+            toast({ title: 'Payment Successful', description: `Thank you for your donation of ₹${amount}!` });
+            setDonationStep(1);
+            setDonationCategory('');
+            setDonationAmount('');
+            setDonorDetails({ name: '', contact: '', email: '', place: '' });
+            setIsDonateDialogOpen(false);
+        },
+        prefill: {
+            name: donorDetails.name,
+            email: donorDetails.email,
+            contact: donorDetails.contact,
+        },
+        notes: {
+            category: donationCategory,
+            place: donorDetails.place,
+        },
+        theme: {
+            color: '#0d47a1',
+        },
+    };
+    // @ts-ignore
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  }
+
   
   useEffect(() => {
     setMounted(true);
@@ -274,7 +355,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (loading) {
+    if (!mounted || loading) {
       return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
@@ -326,7 +407,57 @@ export function Header() {
     }
     
     if (isIdlFoundationPage) {
-        return null;
+        return (
+            <Dialog open={isDonateDialogOpen} onOpenChange={(open) => { setIsDonateDialogOpen(open); if (!open) setDonationStep(1); }}>
+                <DialogTrigger asChild>
+                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
+                        DONATE <Heart className="w-4 h-4 ml-2 fill-white text-white" />
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
+                        <DialogDescription className="text-center">
+                            Your generosity helps us create a better world. Please choose where you'd like to make an impact.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {donationStep === 1 ? (
+                        <div className="py-4 space-y-4">
+                            <RadioGroup onValueChange={setDonationCategory} value={donationCategory}>
+                                {donationCategories.map(category => (
+                                    <div key={category.title} className="flex items-center space-x-2">
+                                        <RadioGroupItem value={category.title} id={`header-${category.title}`} />
+                                        <Label htmlFor={`header-${category.title}`}>{category.title}</Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full">
+                                Donate to {donationCategory || "..."}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="pt-4 space-y-3">
+                            <p className="text-center font-semibold text-sm">You are donating to "{donationCategory}".</p>
+                            <div className="relative">
+                                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input id="header-amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
+                            </div>
+                            <Input id="header-name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="header-contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="header-email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="header-place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
+                                <Banknote className="mr-2 h-4 w-4" />
+                                Proceed to Final Payment
+                            </Button>
+                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1">
+                                Change Category
+                            </Button>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
+        );
     }
 
     return (
@@ -424,6 +555,10 @@ export function Header() {
 
   return (
     <>
+      <Script
+        id="razorpay-checkout-js"
+        src="https://checkout.razorpay.com/v1/checkout.js"
+      />
       <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <header className={cn(headerClasses, 'z-50')}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
@@ -466,9 +601,7 @@ export function Header() {
                  </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
-                        {isIdlFoundationPage ? (
-                             null
-                        ) : (
+                         {isIdlFoundationPage ? null : (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
@@ -599,7 +732,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
