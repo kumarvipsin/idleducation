@@ -325,16 +325,6 @@ export function Header() {
         </DropdownMenu>
       );
     }
-    
-    if (isIdlFoundationPage) {
-        return (
-            <div className="flex items-center gap-2">
-                <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
-                    DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
-                </Button>
-            </div>
-        );
-    }
 
     return (
       <Button asChild variant="ghost" size="sm" className="rounded-lg text-primary hover:bg-primary/5 hover:text-primary border border-primary/20">
@@ -479,17 +469,13 @@ export function Header() {
                  </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
-                        {isIdlFoundationPage ? (
-                            <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-yellow-400 text-black hover:bg-yellow-500 h-10 px-6">
-                                DONATE <Heart className="w-4 h-4 ml-2 fill-red-500 text-red-500" />
-                            </Button>
-                        ) : (
+                        {!isIdlFoundationPage && (
                             <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                                 <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
                                     <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div>
-                                    <p className="text-[0.6rem] text-muted-foreground leading-none">Call now</p>
+                                    <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
                                     <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
                                 </div>
                             </a>
