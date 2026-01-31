@@ -19,8 +19,8 @@ export function About() {
                             <br/>
                             <span className="relative inline-block pb-3">
                                 'Service to Humanity'
-                                <svg className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-3 text-yellow-400" viewBox="0 0 120 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0,6 C30,0 40,12 60,6 S90,0 120,6" stroke="currentColor" strokeWidth="3" fill="none"/>
+                                <svg className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/4 h-3 text-yellow-400" viewBox="0 0 120 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0,6 C30,0 40,12 60,6 S90,0 120,6" stroke="currentColor" strokeWidth="5" fill="none"/>
                                 </svg>
                             </span>
                         </h2>
@@ -35,9 +35,9 @@ export function About() {
                     </div>
                     <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
                         <Image
-                            src="https://images.unsplash.com/photo-1594283182613-2503a03c239b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="A visually impaired child reading braille in a classroom"
-                            data-ai-hint="visually impaired child classroom"
+                            src="https://images.unsplash.com/photo-1652858672796-960164bd632b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxuZ298ZW58MHx8fHwxNzY5ODY5NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                            alt="Children in a classroom at an NGO"
+                            data-ai-hint="ngo children"
                             fill
                             className="object-cover"
                         />
