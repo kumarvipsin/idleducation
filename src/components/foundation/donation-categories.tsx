@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from "react";
@@ -122,7 +121,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                     </svg>
                                 </div>
                         </div>
-                        <h1 className="text-3xl md:text-4xl font-black text-black dark:text-white">Make World Happier</h1>
+                        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">Make World Happier</h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
@@ -187,7 +186,7 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                             return (
                                 <Card key={index} className="group rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col bg-gradient-to-br from-blue-500 to-cyan-500 dark:from-blue-800/70 dark:to-cyan-800/70 text-white border-0">
                                     <CardContent className="p-6 flex-grow flex flex-col">
-                                        <h3 className="text-xl text-left font-bold">{category.title.includes('Environment') ? <span className="font-bold">Environment / Tree Plantation</span>: category.title}</h3>
+                                        <h3 className="text-2xl text-left font-extrabold tracking-tight">{category.title.includes('Environment') ? <span className="font-extrabold">Environment / Tree Plantation</span>: category.title}</h3>
                                         <p className="text-sm text-white/80 mt-2 text-left flex-grow">{category.description}</p>
                                 
                                         <div className="mt-6 space-y-3">
@@ -195,11 +194,11 @@ export function DonationCategories({ donationCategories, openDonateDialog, isDon
                                             <div className="flex justify-between items-center text-sm font-semibold">
                                                 <div>
                                                     <span className="text-white/80 text-xs block">Raised</span>
-                                                    <span className="text-white">₹{category.raised.toLocaleString('en-IN')}</span>
+                                                    <span className="text-white text-lg font-bold">₹{category.raised.toLocaleString('en-IN')}</span>
                                                 </div>
                                                 <div className="text-right">
                                                     <span className="text-white/80 text-xs block">Goal</span>
-                                                    <span className="text-white">₹{category.goal.toLocaleString('en-IN')}</span>
+                                                    <span className="text-white text-lg font-bold">₹{category.goal.toLocaleString('en-IN')}</span>
                                                 </div>
                                             </div>
                                         </div>
