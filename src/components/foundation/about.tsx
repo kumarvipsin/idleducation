@@ -10,9 +10,9 @@ export function About() {
         <section id="about" className="w-full py-16 md:py-24 bg-white dark:bg-background scroll-mt-20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-6">
+                    <div className="space-y-6 flex flex-col items-center lg:items-start">
                         <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">ABOUT</p>
-                        <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+                        <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight text-center lg:text-left">
                             A charitable trust 
                             <br/>
                             with motto 
@@ -24,7 +24,7 @@ export function About() {
                                 </svg>
                             </span>
                         </h2>
-                        <p className="text-muted-foreground leading-relaxed">
+                        <p className="text-muted-foreground leading-relaxed text-center lg:text-left">
                             IDL Foundation, inaugurated in 2003 by Indian Cricket Legends, Saurav Ganguly, Sachin Tendulkar along with their teammates, is a non-profit, registered charitable trust working for the holistic development of specially abled people.
                         </p>
                         <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
