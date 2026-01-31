@@ -38,19 +38,14 @@ export function VisionMission() {
                     <div className="space-y-6 flex flex-col items-center lg:items-start text-center lg:text-left">
                         <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">VISION & MISSION</p>
                         <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
-                            Helping 
+                            Our Vision for a
                             <br/>
-                            One Lakh People at
-                            <br/>
-                            <span className="relative inline-block pb-3">
-                                the earliest
-                                <svg className="absolute bottom-0 left-0 w-full h-3 text-yellow-400" viewBox="0 0 120 12" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style={{ strokeWidth: 5 }}>
-                                    <path d="M0,6 C40,0 80,0 120,6" stroke="currentColor" fill="none"/>
-                                </svg>
+                            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                                Brighter Future
                             </span>
                         </h2>
                         <p className="text-muted-foreground leading-relaxed max-w-prose">
-                            Our mission is to extend our reach and positively impact the lives of one lakh individuals by providing essential resources, quality education, and opportunities for sustainable growth.
+                            We envision a world where every individual has access to the resources and opportunities they need to thrive. Our mission is to empower communities through education, healthcare, and sustainable development, creating a ripple effect of positive change for generations to come.
                         </p>
                         <div className="flex items-center gap-8 pt-4">
                              <SunIcon className="w-16 h-16 text-yellow-500 animate-spin-slow" />
