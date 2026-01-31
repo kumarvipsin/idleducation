@@ -28,7 +28,7 @@ export function VisionMission() {
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
                         <Image
-                            src="https://s3.ap-south-1.amazonaws.com/s3.idleducation.com/idl-foundation/food-donation.jpg"
+                            src="https://images.unsplash.com/photo-1644726270363-e746b37b482b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuZ298ZW58MHx8fHwxNzY5ODY5NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Volunteers packing food supplies"
                             data-ai-hint="food donation"
                             fill
