@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Target } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function OurApproach() {
     return (
@@ -33,7 +33,6 @@ export function OurApproach() {
                                 Our approach is rooted in creating sustainable and scalable solutions. We work closely with local communities to understand their unique challenges and co-create programs that address their needs effectively. By focusing on long-term impact, we ensure that our interventions lead to lasting positive change.
                             </p>
                             <div className="flex items-center gap-8 pt-4">
-                                <Target className="w-16 h-16 text-teal-500" />
                                  <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
                                     <Link href="#">
                                         Our Programs <ArrowRight className="ml-2 h-4 w-4" />
